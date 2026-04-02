@@ -367,6 +367,12 @@ body {
   z-index: 9999;
 }
 
+/* Regions — neighbor cards (CSS var hover, server-safe) */
+.neighbor-region-link:hover {
+  border-color: var(--hover-accent, var(--bordeaux)) !important;
+  color: var(--hover-accent, var(--bordeaux)) !important;
+}
+
 /* ── Responsive container ── */
 .container {
   max-width: var(--container);
