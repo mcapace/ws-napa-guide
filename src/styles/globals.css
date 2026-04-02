@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap');
+
+@import 'tailwindcss';
+
+:root {
+  --ink: #1A1612;
+  --ink-light: #2C2520;
+  --cream: #F7F3EC;
+  --cream-dark: #EDE7DB;
+  --bordeaux: #6B1C2A;
+  --bordeaux-light: #8B2E3E;
+  --bordeaux-dark: #4A1219;
+  --gold: #C4943A;
+  --gold-light: #D4A94F;
+  --gold-dark: #A07828;
+  --sage: #5C6B52;
+  --sage-light: #7A8B6E;
+  --dust: #E8E0D0;
+  --mist: #9B9283;
+  --mist-light: #B5ADA0;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* ── Typography ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.body-lg {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* ── Decorative rule ── */
+.rule-gold {
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin: 1.5rem 0;
+}
+
+.rule-gold-center {
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin: 1.5rem auto;
+}
+
+/* ── Grain overlay ── */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Sponsor tiers ── */
+.sponsor-standard {
+  border-top: 1px solid rgba(196, 148, 58, 0.3);
+  padding-top: 0.5rem;
+}
+
+.sponsor-featured {
+  border: 1px solid rgba(196, 148, 58, 0.4);
+  background: rgba(196, 148, 58, 0.04);
+  border-radius: 2px;
+}
+
+.sponsor-presenting {
+  position: relative;
+}
+
+.sponsor-presenting::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(107, 28, 42, 0.15), transparent);
+  pointer-events: none;
+}
+
+/* ── Mapbox overrides ── */
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib {
+  opacity: 0.4 !important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bordeaux);
+  border-radius: 3px;
+}
+
+/* ── Selection ── */
+::selection {
+  background: var(--bordeaux);
+  color: var(--cream);
+}
+
+/* ── Utilities ── */
+.text-cream { color: var(--cream); }
+.text-gold { color: var(--gold); }
+.text-bordeaux { color: var(--bordeaux); }
+.text-mist { color: var(--mist); }
+.text-sage { color: var(--sage); }
+.bg-ink { background-color: var(--ink); }
+.bg-ink-light { background-color: var(--ink-light); }
+.bg-bordeaux { background-color: var(--bordeaux); }
+.bg-cream { background-color: var(--cream); }
+
+.italic-display {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* Home — region grid cards (hover without client JS) */
+.region-card {
+  background: var(--ink-light);
+  transition: background 0.3s;
+}
+
+.region-card:hover {
+  background: rgba(107, 28, 42, 0.2);
+}

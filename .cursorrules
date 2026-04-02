@@ -1,0 +1,74 @@
+# Wine Spectator — Napa Valley Ultimate Guide
+# Stack: Next.js 14 App Router, TypeScript, Tailwind CSS, Framer Motion, Mapbox GL
+
+## Project purpose
+Evergreen digital companion to Wine Spectator's annual Napa Valley print guide.
+Extends editorial reach and supports pluggable sponsor/advertiser integrations.
+Companion to the June 2026 print issue of Wine Spectator magazine.
+
+## Brand & design
+- Typography: Cormorant Garamond (display/headlines) + DM Sans (body/UI)
+- Palette:
+    --ink: #1A1612
+    --cream: #F7F3EC
+    --bordeaux: #6B1C2A
+    --gold: #C4943A
+    --sage: #5C6B52
+    --dust: #E8E0D0
+    --mist: #9B9283
+- Tone: Editorial authority. Elevated but warm. Wine Spectator credibility meets modern travel UX.
+- Motion: Framer Motion for page transitions and scroll reveals. Subtle, never showy.
+- Reference aesthetic: Condé Nast Traveler meets wine authority. Think NYT Cooking meets Robb Report.
+- NO purple gradients. NO generic SaaS aesthetics. NO Inter font. NO cookie-cutter layouts.
+
+## Architecture rules
+- App Router ONLY. Never use pages/ directory.
+- All data lives in /src/data/ as typed TypeScript files.
+- Sponsor slots driven entirely by /src/data/sponsors.ts — enable/disable per section without touching component code.
+- Mapbox GL via react-map-gl. Use custom dark/terrain map style for Napa Valley.
+- All winery/restaurant/hotel entries have:
+    slug, name, coords [lng, lat], region, rating?, description, excerpt,
+    sponsorTier (null | 'standard' | 'featured' | 'presenting'), images[]
+
+## Sponsor integration model
+- null        = organic editorial, no sponsor treatment
+- 'standard'  = subtle badge + outbound link only
+- 'featured'  = elevated card, custom content block, logo
+- 'presenting' = full section takeover — hero banner, custom palette override, logo lockup
+- sponsors.ts is the SINGLE SOURCE OF TRUTH for all monetization. Never hardcode sponsor names in page/component files.
+
+## Editorial sections (from June 2026 print issue)
+- napaLede       → Opening feature / introduction
+- napaLandmarks  → Landmark wineries of Napa
+- napaJudgment   → Judgment of Paris legacy feature
+- napaOakville   → Oakville AVA regional guide
+- napaRutherford → Rutherford AVA regional guide
+- napaCalistoga  → Calistoga AVA regional guide
+- napaYountville → Yountville town guide
+- napaPritchard  → Pritchard Hill AVA guide
+- napaDT         → Downtown Napa guide
+- napaTaco       → Dining / restaurant feature
+- napaSTH        → Stay / hotels guide
+- napaCalendar   → Events calendar
+
+## Component conventions
+- 'use client' ONLY when needed: maps, animations, interactive filters, forms
+- Prefer server components for all editorial content pages
+- Placeholder images: use /public/placeholders/ with aspect ratio wrapper divs
+- Coords always [longitude, latitude] for Mapbox
+- All article/winery/hotel data imported from /src/data/ — never inline in components
+- Use Framer Motion variants for staggered list reveals and page transitions
+- Section headings always use Cormorant Garamond italic for the decorative word
+
+## File naming
+- Components: PascalCase.tsx
+- Data files: camelCase.ts
+- Page routes: kebab-case directories
+
+## Do not
+- Do NOT use pages/ router
+- Do NOT hardcode sponsor names or logos in components
+- Do NOT use Tailwind default blue as any primary color — use CSS variables
+- Do NOT use lorem ipsum — use contextual Napa Valley placeholder copy
+- Do NOT use default Mapbox streets style — use terrain or custom dark style
+- Do NOT fetch data client-side if it can be static/server-side

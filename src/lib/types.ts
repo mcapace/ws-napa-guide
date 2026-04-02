@@ -1,0 +1,119 @@
+export type SponsorTier = null | 'standard' | 'featured' | 'presenting'
+
+export type Region =
+  | 'oakville'
+  | 'rutherford'
+  | 'calistoga'
+  | 'yountville'
+  | 'pritchard-hill'
+  | 'downtown-napa'
+  | 'stags-leap'
+  | 'spring-mountain'
+  | 'napa-valley'
+
+export interface Winery {
+  slug: string
+  name: string
+  coords: [number, number] // [lng, lat]
+  region: Region
+  rating?: number
+  description: string
+  excerpt: string
+  tastingNotes?: string
+  highlights?: string[]
+  visitInfo?: {
+    hours?: string
+    appointment?: boolean
+    price?: string
+    phone?: string
+    website?: string
+  }
+  sponsorTier: SponsorTier
+  images: string[]
+  featured?: boolean
+}
+
+export interface Restaurant {
+  slug: string
+  name: string
+  coords: [number, number]
+  region: Region
+  cuisine: string
+  priceRange: '$' | '$$' | '$$$' | '$$$$'
+  description: string
+  excerpt: string
+  highlights?: string[]
+  reservations?: string
+  chefName?: string
+  sponsorTier: SponsorTier
+  images: string[]
+  featured?: boolean
+}
+
+export interface Hotel {
+  slug: string
+  name: string
+  coords: [number, number]
+  region: Region
+  category: 'resort' | 'boutique' | 'inn' | 'villa'
+  priceRange: string
+  description: string
+  excerpt: string
+  highlights?: string[]
+  amenities?: string[]
+  rooms?: number
+  website?: string
+  sponsorTier: SponsorTier
+  images: string[]
+  featured?: boolean
+}
+
+export interface Article {
+  slug: string
+  title: string
+  subtitle?: string
+  section: string
+  region?: Region
+  author?: string
+  excerpt: string
+  body?: string
+  relatedWineries?: string[]
+  relatedRestaurants?: string[]
+  relatedHotels?: string[]
+  sponsorTier: SponsorTier
+  images: string[]
+  featured?: boolean
+  publishedAt: string
+}
+
+export interface Event {
+  slug: string
+  name: string
+  description: string
+  date: string
+  endDate?: string
+  location: string
+  coords?: [number, number]
+  category: 'harvest' | 'tasting' | 'festival' | 'dinner' | 'auction' | 'tour'
+  price?: string
+  website?: string
+  sponsorTier: SponsorTier
+}
+
+export interface Sponsor {
+  id: string
+  name: string
+  logo: string
+  website: string
+  tier: Exclude<SponsorTier, null>
+  sections: string[] // which sections this sponsor appears in
+  customContent?: {
+    headline?: string
+    body?: string
+    cta?: string
+    ctaUrl?: string
+    backgroundColor?: string
+    textColor?: string
+  }
+  active: boolean
+}
