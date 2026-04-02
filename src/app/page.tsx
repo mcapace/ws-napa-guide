@@ -1,424 +1,358 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Nav from '@/components/ui/Nav'
-import JWVideo from '@/components/video/JWVideo'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import styles from './home.module.css'
 
-// ── JW Media IDs ──────────────────────────────────────────────
-const JW = {
-  hero:         'FvwrhNa4',
-  oakville:     '40AxzG0G',
-  rutherford:   'tWL1fGgj',
-  calistoga:    'xS5p1TZF',
-  yountville:   'ixRk7Rxw',
-  pritchard:    'wLOq4CgZ',
-  downtown:     '6PuhlRIs',
-  dining:       'Yt32URjQ',
-  stay:         '4RTGrZfr',
+/** Hero 720p MP4 — same CDN asset as JW `FvwrhNa4` (no embed / license). */
+const HERO_MP4 = 'https://cdn.jwplayer.com/videos/FvwrhNa4-WBFwZoOE.mp4'
+
+const NAV_LINKS = [
+  { label: 'Wineries', href: '/wineries' },
+  { label: 'Regions', href: '/regions' },
+  { label: 'Dining', href: '/dining' },
+  { label: 'Stay', href: '/stay' },
+  { label: 'Map', href: '/map' },
+  { label: 'Plan Your Visit', href: '/plan' },
+]
+
+const AVA_ITEMS = [
+  { slug: 'oakville', sticker: ['OAK', 'VILLE'], classBg: styles.oakville },
+  { slug: 'rutherford', sticker: ['RUTH', 'ERFORD'], classBg: styles.rutherford },
+  { slug: 'calistoga', sticker: ['CALIS', 'TOGA'], classBg: styles.calistoga },
+  { slug: 'yountville', sticker: ['YOUNT', 'VILLE'], classBg: styles.yountville },
+  { slug: 'pritchard-hill', sticker: ['PRIT', 'CHARD'], classBg: styles.pritchard },
+  { slug: 'downtown-napa', sticker: ['DT', 'NAPA'], classBg: styles.downtown },
+] as const
+
+const MOSAIC_PANELS = [
+  { className: `${styles.panel} ${styles.panel1} ${styles.heroAnim}`, speed: 0.06, base: 'rotate(-1.5deg)', placeholder: styles.vineyard, label: 'Vineyard' },
+  { className: `${styles.panel} ${styles.panel2} ${styles.heroAnim}`, speed: 0.09, base: 'rotate(1deg)', placeholder: styles.landscape, label: 'Valley' },
+  { className: `${styles.panel} ${styles.panel3} ${styles.heroAnim}`, speed: 0.04, base: 'translateX(-50%) rotate(0.5deg)', placeholder: styles.winery, label: 'Winery' },
+  { className: `${styles.panel} ${styles.panel4} ${styles.heroAnim}`, speed: 0.07, base: 'rotate(-0.8deg)', placeholder: styles.dining, label: 'Dining' },
+  { className: `${styles.panel} ${styles.panel5} ${styles.heroAnim}`, speed: 0.05, base: 'rotate(1.2deg)', placeholder: styles.landscape, label: 'Cellar' },
+] as const
+
+function regionTitle(slug: string): string {
+  return slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 }
 
-// ── Data ──────────────────────────────────────────────────────
-const regions = [
-  { slug: 'oakville',       name: 'Oakville',       note: 'The Cabernet heartland',        mediaId: JW.oakville   },
-  { slug: 'rutherford',     name: 'Rutherford',     note: 'Dust & destiny',                mediaId: JW.rutherford },
-  { slug: 'calistoga',      name: 'Calistoga',      note: 'Heat, spas & bold reds',        mediaId: JW.calistoga  },
-  { slug: 'yountville',     name: 'Yountville',     note: 'The culinary capital',          mediaId: JW.yountville },
-  { slug: 'pritchard-hill', name: 'Pritchard Hill', note: 'Cult wines above the valley',   mediaId: JW.pritchard  },
-  { slug: 'downtown-napa',  name: 'Downtown Napa',  note: 'The city reinvented',           mediaId: JW.downtown   },
-]
-
-const wineries = [
-  { slug: 'opus-one',        name: 'Opus One',        region: 'Oakville',       rating: 98  },
-  { slug: 'screaming-eagle', name: 'Screaming Eagle', region: 'Oakville',       rating: 100 },
-  { slug: 'harlan-estate',   name: 'Harlan Estate',   region: 'Oakville',       rating: 99  },
-  { slug: 'colgin-cellars',  name: 'Colgin Cellars',  region: 'Pritchard Hill', rating: 99  },
-  { slug: 'inglenook',       name: 'Inglenook',       region: 'Rutherford',     rating: 96  },
-  { slug: 'schramsberg',     name: 'Schramsberg',     region: 'Calistoga',      rating: 95  },
-]
-
-const hotels = [
-  { slug: 'meadowood',         name: 'Meadowood Napa Valley', category: 'Resort',   price: 'From $1,200' },
-  { slug: 'auberge-du-soleil', name: 'Auberge du Soleil',     category: 'Resort',   price: 'From $900'   },
-  { slug: 'poetry-inn',        name: 'Poetry Inn',             category: 'Boutique', price: 'From $900'   },
-  { slug: 'bardessono',        name: 'Bardessono',             category: 'Boutique', price: 'From $600'   },
-]
+function MapPreviewSvg() {
+  return (
+    <svg width={320} height={220} viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path
+        d="M160 30 C140 40 120 60 110 85 C100 110 105 140 108 160 C111 180 118 195 125 200 C135 185 145 175 155 165 C160 155 163 148 165 140 C168 130 170 118 172 108 C175 95 178 80 175 65 C172 50 165 38 160 30Z"
+        stroke="rgba(247,243,236,0.2)"
+        strokeWidth={1.5}
+        fill="rgba(247,243,236,0.03)"
+      />
+      <path
+        d="M160 45 C158 65 156 85 155 105 C154 125 154 145 155 165"
+        stroke="rgba(196,148,58,0.4)"
+        strokeWidth={1}
+        strokeDasharray="4 4"
+      />
+      <circle cx={155} cy={70} r={3} fill="rgba(196,148,58,0.8)" />
+      <circle cx={154} cy={100} r={3} fill="rgba(196,148,58,0.8)" />
+      <circle cx={153} cy={130} r={3} fill="rgba(247,243,236,0.5)" />
+      <circle cx={156} cy={155} r={3} fill="rgba(247,243,236,0.5)" />
+      <text x={162} y={73} fontFamily="var(--font-body),sans-serif" fontSize={7} fill="rgba(247,243,236,0.4)" letterSpacing={1}>
+        CALISTOGA
+      </text>
+      <text x={162} y={103} fontFamily="var(--font-body),sans-serif" fontSize={7} fill="rgba(247,243,236,0.4)" letterSpacing={1}>
+        RUTHERFORD
+      </text>
+      <text x={162} y={133} fontFamily="var(--font-body),sans-serif" fontSize={7} fill="rgba(247,243,236,0.4)" letterSpacing={1}>
+        OAKVILLE
+      </text>
+      <text x={162} y={158} fontFamily="var(--font-body),sans-serif" fontSize={7} fill="rgba(247,243,236,0.4)" letterSpacing={1}>
+        YOUNTVILLE
+      </text>
+    </svg>
+  )
+}
 
 export default function HomePage() {
-  const [activeRegion, setActiveRegion] = useState(0)
-  const [heroReady, setHeroReady] = useState(false)
-  const [scrollY, setScrollY] = useState(0)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [cursorExpanded, setCursorExpanded] = useState(false)
+  const [panelTransforms, setPanelTransforms] = useState<Record<number, string>>(() => {
+    const o: Record<number, string> = {}
+    MOSAIC_PANELS.forEach((p, i) => {
+      o[i] = `${p.base} translateY(0px)`
+    })
+    return o
+  })
+  const [heroExpand, setHeroExpand] = useState({
+    w: 200,
+    h: 140,
+    br: 3,
+    z: 10,
+    panelOpacity: 1,
+    expanded: false,
+    overlay: false,
+    fadeMosaic: 0,
+  })
+
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const heroRef = useRef<HTMLElement>(null)
+
+  const onMouseMove = useCallback((e: MouseEvent) => {
+    const el = cursorRef.current
+    if (!el) return
+    el.style.left = `${e.clientX}px`
+    el.style.top = `${e.clientY}px`
+  }, [])
 
   useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY)
+    window.addEventListener('mousemove', onMouseMove)
+    return () => window.removeEventListener('mousemove', onMouseMove)
+  }, [onMouseMove])
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const onScroll = () => {
+      const scrollY = window.scrollY
+      const heroEl = heroRef.current
+      if (!heroEl) return
+
+      const triggerStart = heroEl.offsetHeight * 0.3
+      const triggerEnd = heroEl.offsetHeight * 0.85
+
+      const next: Record<number, string> = {}
+      MOSAIC_PANELS.forEach((p, i) => {
+        const y = reduceMotion ? 0 : scrollY * p.speed
+        next[i] = `${p.base} translateY(${-y}px)`
+      })
+      setPanelTransforms(next)
+
+      if (scrollY > triggerStart && scrollY < triggerEnd) {
+        const progress = Math.min(1, (scrollY - triggerStart) / (triggerEnd - triggerStart))
+        const startW = 200
+        const startH = 140
+        const endW = window.innerWidth
+        const endH = window.innerHeight
+        const w = startW + (endW - startW) * progress
+        const h = startH + (endH - startH) * progress
+        const br = 3 * (1 - progress)
+        const fadeOut = Math.min(1, progress * 2)
+        const expanded = progress >= 0.98
+
+        setHeroExpand({
+          w,
+          h,
+          br,
+          z: progress > 0.5 ? 200 : 10,
+          panelOpacity: expanded ? 0 : 1,
+          expanded,
+          overlay: expanded,
+          fadeMosaic: fadeOut,
+        })
+      } else if (scrollY >= triggerEnd) {
+        const endW = window.innerWidth
+        const endH = window.innerHeight
+        setHeroExpand({
+          w: endW,
+          h: endH,
+          br: 0,
+          z: 200,
+          panelOpacity: 0,
+          expanded: true,
+          overlay: true,
+          fadeMosaic: 1,
+        })
+      } else if (scrollY <= triggerStart) {
+        setHeroExpand({
+          w: 200,
+          h: 140,
+          br: 3,
+          z: 10,
+          panelOpacity: 1,
+          expanded: false,
+          overlay: false,
+          fadeMosaic: 0,
+        })
+      }
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const parallax = scrollY * 0.28
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(`[data-cursor-expand="true"]`)
+    const enter = () => setCursorExpanded(true)
+    const leave = () => setCursorExpanded(false)
+    els.forEach((el) => {
+      el.addEventListener('mouseenter', enter)
+      el.addEventListener('mouseleave', leave)
+    })
+    return () => {
+      els.forEach((el) => {
+        el.removeEventListener('mouseenter', enter)
+        el.removeEventListener('mouseleave', leave)
+      })
+    }
+  })
+
+  useEffect(() => {
+    const nodes = document.querySelectorAll<HTMLElement>(`.${styles.reveal}`)
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add(styles.visible)
+        })
+      },
+      { threshold: 0.1 },
+    )
+    nodes.forEach((n) => obs.observe(n))
+    return () => obs.disconnect()
+  }, [])
+
+  const closeExpand = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
-    <div style={{ background: 'var(--ivory)', overflowX: 'hidden' }}>
-      <Nav />
+    <div className={styles.home}>
+      <div ref={cursorRef} className={`${styles.cursor} ${cursorExpanded ? styles.expand : ''}`} aria-hidden />
 
-      {/* ══════════════════════════════════════════════════
-          HERO — JW VIDEO FULL VIEWPORT
-      ══════════════════════════════════════════════════ */}
-      <section style={{
-        position: 'relative',
-        height: '100vh', minHeight: '700px',
-        overflow: 'hidden',
-      }}>
-        {/* Video container with parallax */}
-        <div style={{
-          position: 'absolute', inset: '-12% 0',
-          transform: `translateY(${parallax}px)`,
-          willChange: 'transform',
-        }}>
-          <JWVideo
-            mediaId={JW.hero}
-            onReady={() => setHeroReady(true)}
-            style={{
-              opacity: heroReady ? 1 : 0,
-              transition: 'opacity 1.4s ease',
-            }}
-          />
-          {/* Dark poster while loading */}
-          {!heroReady && (
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(160deg, #2a1a10, #1C1612)',
-            }} />
-          )}
-        </div>
-
-        {/* Gradient fades */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to bottom, rgba(28,22,18,0.3) 0%, rgba(28,22,18,0.05) 28%, rgba(250,247,242,0.55) 68%, var(--ivory) 100%)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(100deg, rgba(250,247,242,0.42) 0%, transparent 52%)',
-          pointerEvents: 'none',
-        }} />
-
-        {/* ── MASSIVE HEADLINE ── */}
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2,
-        }}>
-          {/* Giant NAPA — intentionally bleeds right */}
-          <div style={{ overflow: 'hidden', lineHeight: 0.82, paddingLeft: '2.5rem' }}>
-            <h1 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(24vw, 28vw, 32vw)',
-              fontWeight: 300, fontStyle: 'italic',
-              color: 'var(--bordeaux)',
-              lineHeight: 0.82,
-              letterSpacing: '-0.03em',
-              margin: 0, whiteSpace: 'nowrap',
-              transform: `translateY(${scrollY * 0.07}px)`,
-              opacity: Math.max(0, 1 - scrollY / 380),
-              willChange: 'transform',
-            }}>Napa</h1>
-          </div>
-
-          {/* VALLEY + editorial detail */}
-          <div style={{
-            display: 'flex', alignItems: 'flex-end',
-            justifyContent: 'space-between', padding: '0 2.5rem',
-          }}>
-            <span style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(14vw, 18vw, 22vw)',
-              fontWeight: 300, color: 'var(--ink)',
-              letterSpacing: '-0.025em', lineHeight: 0.88,
-              transform: `translateY(${scrollY * 0.035}px)`,
-              opacity: Math.max(0, 1 - scrollY / 380),
-              willChange: 'transform',
-            }}>Valley</span>
-
-            {/* Right-side editorial tag */}
-            <div style={{
-              display: 'flex', flexDirection: 'column',
-              alignItems: 'flex-end', gap: '4px',
-              paddingBottom: '0.75rem', flexShrink: 0,
-              opacity: Math.max(0, 1 - scrollY / 280),
-            }}>
-              <span style={{
-                fontFamily: 'var(--font-body)', fontSize: '0.58rem',
-                letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--bordeaux)',
-              }}>Wine Spectator</span>
-              <span style={{
-                fontFamily: 'var(--font-display)', fontSize: '1.05rem',
-                fontStyle: 'italic', color: 'var(--ink-mid)',
-              }}>The Ultimate Guide</span>
-              <span style={{
-                fontFamily: 'var(--font-body)', fontSize: '0.58rem',
-                letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--ink-light)',
-              }}>June 2026</span>
-            </div>
-          </div>
-
-          {/* Bottom strip */}
-          <div style={{
-            display: 'flex', alignItems: 'flex-end',
-            justifyContent: 'space-between',
-            padding: '1.5rem 2.5rem 3rem',
-            borderTop: '1px solid rgba(28,22,18,0.08)',
-            marginTop: '1.25rem', gap: '2rem',
-            opacity: Math.max(0, 1 - scrollY / 220),
-          }}>
-            <p style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.95rem',
-              fontWeight: 300, color: 'var(--ink-mid)',
-              lineHeight: 1.75, maxWidth: '48ch', margin: 0,
-            }}>
-              No wine region on earth compresses so much ambition, history,
-              and sheer sensory pleasure into so small a space.
-            </p>
-            <div style={{ display: 'flex', gap: '1rem', flexShrink: 0 }}>
-              <Link href="/wineries" className="btn-primary">Explore Wineries</Link>
-              <Link href="/map" className="btn-secondary">Open the Map</Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll cue */}
-        <div style={{
-          position: 'absolute', bottom: '2.5rem', right: '2.5rem', zIndex: 3,
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
-          opacity: Math.max(0, 1 - scrollY / 180),
-        }}>
-          <div style={{
-            width: '1px', height: '52px',
-            background: 'linear-gradient(to bottom, transparent, var(--bordeaux))',
-            animation: 'scrollDrop 2s ease-in-out infinite',
-          }} />
-          <span style={{
-            fontFamily: 'var(--font-body)', fontSize: '0.52rem',
-            letterSpacing: '0.22em', textTransform: 'uppercase',
-            color: 'var(--ink-light)', writingMode: 'vertical-rl',
-          }}>Scroll</span>
-        </div>
-
-        <style>{`
-          @keyframes scrollDrop {
-            0%,100%{transform:scaleY(0.4);transform-origin:top;opacity:0.3}
-            50%{transform:scaleY(1);opacity:1}
-          }
-        `}</style>
-      </section>
-
-      {/* ══════════════════════════════════════════════════
-          JUDGMENT OF PARIS — DARK TYPOGRAPHIC BLOCK
-      ══════════════════════════════════════════════════ */}
-      <section style={{
-        background: 'var(--ink)', position: 'relative',
-        overflow: 'hidden',
-        padding: 'clamp(6rem, 12vw, 11rem) 0',
-      }}>
-        <span style={{
-          position: 'absolute',
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(28vw, 36vw, 44vw)',
-          fontWeight: 300, color: 'rgba(250,247,242,0.028)',
-          lineHeight: 1, top: '-8%', right: '-4%',
-          pointerEvents: 'none', userSelect: 'none',
-          letterSpacing: '-0.04em',
-        }}>1976</span>
-
-        <div style={{
-          maxWidth: 'var(--container)', margin: '0 auto',
-          padding: '0 2.5rem',
-          display: 'grid', gridTemplateColumns: '1fr 1fr',
-          gap: '6rem', alignItems: 'center',
-          position: 'relative', zIndex: 1,
-        }}>
-          <div>
-            <span style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.58rem',
-              letterSpacing: '0.28em', textTransform: 'uppercase',
-              color: 'var(--gold)', display: 'block', marginBottom: '2rem',
-            }}>Feature — June 2026</span>
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.8rem, 5.5vw, 5.5rem)',
-              fontWeight: 300, fontStyle: 'italic',
-              color: 'var(--ivory)', lineHeight: 1.0,
-              letterSpacing: '-0.015em', marginBottom: '2.5rem',
-            }}>
-              Fifty years after<br />Paris changed<br />everything
-            </h2>
-            <div style={{ width: '40px', height: '1px', background: 'var(--gold)', marginBottom: '2rem', opacity: 0.5 }} />
-            <p style={{
-              fontFamily: 'var(--font-body)', fontSize: '1rem',
-              color: 'rgba(250,247,242,0.5)', lineHeight: 1.85,
-              marginBottom: '3rem', maxWidth: '44ch',
-            }}>
-              In 1976, a blind tasting in Paris shocked the wine world. Napa Valley
-              Cabernets bested the finest wines of France. Half a century later —
-              what did it really mean, and what has it wrought?
-            </p>
-            <Link href="/features/napa-judgment" style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.68rem',
-              letterSpacing: '0.18em', textTransform: 'uppercase',
-              color: 'var(--gold)', textDecoration: 'none',
-              borderBottom: '1px solid rgba(184,135,46,0.35)', paddingBottom: '3px',
-            }}>Read the feature →</Link>
-          </div>
-
-          <div style={{ borderLeft: '1px solid rgba(250,247,242,0.08)', paddingLeft: '4rem' }}>
-            <span style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(5rem, 9vw, 9rem)',
-              fontWeight: 300, color: 'rgba(250,247,242,0.06)',
-              lineHeight: 1, display: 'block', marginBottom: '-1.5rem',
-            }}>{'\u201C'}</span>
-            <blockquote style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.3rem, 2.2vw, 2rem)',
-              fontWeight: 300, fontStyle: 'italic',
-              color: 'rgba(250,247,242,0.7)',
-              lineHeight: 1.45, margin: 0, letterSpacing: '-0.01em',
-            }}>
-              The tasting that put California on the world wine map — and never let it leave.
-            </blockquote>
-            <div style={{ marginTop: '2.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <div style={{ width: '24px', height: '1px', background: 'rgba(250,247,242,0.15)' }} />
-              <span style={{
-                fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-                letterSpacing: '0.15em', textTransform: 'uppercase',
-                color: 'rgba(250,247,242,0.25)',
-              }}>Wine Spectator, June 2026</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════
-          REGIONS — JW VIDEO ACCORDION FILMSTRIP
-      ══════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--ink)', paddingBottom: 'clamp(5rem, 8vw, 8rem)' }}>
-        <div style={{
-          maxWidth: 'var(--container)', margin: '0 auto',
-          padding: 'clamp(4rem, 6vw, 6rem) 2.5rem 3rem',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
-        }}>
-          <div>
-            <span style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.58rem',
-              letterSpacing: '0.28em', textTransform: 'uppercase',
-              color: 'rgba(250,247,242,0.35)', display: 'block', marginBottom: '1rem',
-            }}>Six Appellations</span>
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-              fontWeight: 300, color: 'var(--ivory)',
-              lineHeight: 1.0, letterSpacing: '-0.015em',
-            }}>
-              Explore the <em style={{ color: 'var(--gold)' }}>valley</em>
-            </h2>
-          </div>
-          <Link href="/regions" style={{
-            fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-            letterSpacing: '0.15em', textTransform: 'uppercase',
-            color: 'rgba(250,247,242,0.35)', textDecoration: 'none',
-          }}>All regions →</Link>
-        </div>
-
-        {/* Filmstrip */}
-        <div
-          style={{
-            display: 'flex', gap: '2px',
-            paddingLeft: '2.5rem',
-            height: 'clamp(420px, 55vw, 640px)',
-            overflow: 'hidden',
-          }}
-          onMouseLeave={() => setActiveRegion(0)}
+      <nav className={styles.heroNav} aria-label="Primary">
+        <Link href="/" className={styles.navLabel} style={{ textDecoration: 'none' }} data-cursor-expand="true">
+          Wine Spectator
+          <br />
+          Napa Valley Guide
+        </Link>
+        <button
+          type="button"
+          className={styles.navHamburger}
+          aria-label="Open menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(true)}
+          data-cursor-expand="true"
         >
-          {regions.map((region, i) => (
-            <Link
-              key={region.slug}
-              href={`/regions/${region.slug}`}
-              style={{ textDecoration: 'none', flexShrink: 0, display: 'block' }}
-              onMouseEnter={() => setActiveRegion(i)}
+          <span />
+          <span />
+        </button>
+      </nav>
+
+      {menuOpen && (
+        <div className={styles.mobileMenu}>
+          <button type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu">
+            ×
+          </button>
+          {NAV_LINKS.map((l) => (
+            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} data-cursor-expand="true">
+              {l.label}
+            </Link>
+          ))}
+          <a
+            href="https://www.winespectator.com/subscribe"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMenuOpen(false)}
+            data-cursor-expand="true"
+          >
+            Subscribe
+          </a>
+        </div>
+      )}
+
+      <section className={styles.hero} id="hero" ref={heroRef}>
+        <div className={styles.mosaic}>
+          {MOSAIC_PANELS.map((p, i) => (
+            <div
+              key={p.label}
+              className={p.className}
+              style={panelTransforms[i] ? { transform: panelTransforms[i] } : undefined}
             >
-              <div style={{
-                width: activeRegion === i
-                  ? 'clamp(300px, 38vw, 480px)'
-                  : 'clamp(58px, 8vw, 95px)',
-                height: '100%',
-                transition: 'width 0.65s cubic-bezier(0.4,0,0.2,1)',
-                position: 'relative', overflow: 'hidden', cursor: 'pointer',
-              }}>
-                {/* JW Video background — always mounted, brightness controlled */}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  transition: 'filter 0.65s ease, transform 0.65s ease',
-                  filter: activeRegion === i
-                    ? 'brightness(0.72)'
-                    : 'brightness(0.32) saturate(0.5)',
-                  transform: activeRegion === i ? 'scale(1)' : 'scale(1.06)',
-                }}>
-                  <JWVideo mediaId={region.mediaId} />
+              <div className={`${styles.imgPlaceholder} ${p.placeholder}`}>{p.label}</div>
+            </div>
+          ))}
+
+          <div
+            className={`${styles.panelHero} ${styles.heroAnim}`}
+            style={{
+              width: heroExpand.w,
+              height: heroExpand.h,
+              borderRadius: heroExpand.br,
+              zIndex: heroExpand.z,
+              opacity: heroExpand.panelOpacity,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            <video autoPlay muted loop playsInline preload="auto">
+              <source src={HERO_MP4} type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <div
+          className={`${styles['hero-copy']} ${styles.heroAnim}`}
+          style={{ opacity: 1 - heroExpand.fadeMosaic }}
+        >
+          <p className={styles['hero-headline']}>
+            The valley that changed
+            <br />
+            American wine forever.
+          </p>
+          <p className={styles['hero-descriptor']}>
+            Wine Spectator&apos;s definitive guide to Napa — wineries, restaurants,
+            <br />
+            hotels, and the roads less traveled.
+          </p>
+        </div>
+
+        <div className={`${styles['hero-display']} ${styles.heroAnim}`} style={{ opacity: 1 - heroExpand.fadeMosaic }}>
+          <span className={styles['hero-display-text']}>Napa Valley</span>
+        </div>
+      </section>
+
+      <div className={styles.scrollTrigger} id="scrollTrigger" aria-hidden />
+
+      <div className={`${styles.expandOverlay} ${heroExpand.overlay ? styles.visible : ''}`}>
+        <video className={styles.expandVideo} autoPlay muted loop playsInline preload="auto">
+          <source src={HERO_MP4} type="video/mp4" />
+        </video>
+        <div className={styles.expandContent}>
+          <div className={styles.expandTitle}>
+            Explore
+            <br />
+            Napa Valley
+          </div>
+          <Link href="/regions" className={styles.expandCta} data-cursor-expand="true">
+            Browse the guide ↗
+          </Link>
+        </div>
+        <button type="button" className={styles.expandClose} id="expandClose" onClick={closeExpand} aria-label="Close fullscreen">
+          ✕
+        </button>
+      </div>
+
+      <section className={`${styles.sectionAva} ${styles.reveal}`}>
+        <p className={styles.sectionLabel}>Browse by appellation</p>
+        <div className={styles.avaGrid}>
+          {AVA_ITEMS.map((ava) => (
+            <Link key={ava.slug} href={`/regions/${ava.slug}`} className={styles.avaLink} data-cursor-expand="true">
+              <div className={styles.avaItem}>
+                <div className={`${styles.avaBg} ${ava.classBg}`} />
+                <div className={styles.avaOverlay} />
+                <div className={styles.avaSticker}>
+                  {ava.sticker[0]}
+                  <br />
+                  {ava.sticker[1]}
                 </div>
-
-                {/* Gradient */}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  background: 'linear-gradient(to top, rgba(28,22,18,0.95) 0%, rgba(28,22,18,0.1) 55%, transparent 100%)',
-                  pointerEvents: 'none',
-                }} />
-
-                {/* Collapsed label */}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  opacity: activeRegion === i ? 0 : 1,
-                  transition: 'opacity 0.3s',
-                  pointerEvents: 'none',
-                }}>
-                  <span style={{
-                    fontFamily: 'var(--font-display)', fontSize: '0.78rem',
-                    fontWeight: 300, color: 'rgba(250,247,242,0.55)',
-                    writingMode: 'vertical-rl', letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                  }}>{region.name}</span>
-                </div>
-
-                {/* Expanded content */}
-                <div style={{
-                  position: 'absolute', bottom: 0, left: 0, right: 0,
-                  padding: '2rem 2rem 2.5rem',
-                  opacity: activeRegion === i ? 1 : 0,
-                  transform: activeRegion === i ? 'translateY(0)' : 'translateY(16px)',
-                  transition: 'opacity 0.4s 0.2s, transform 0.4s 0.2s',
-                  pointerEvents: 'none',
-                }}>
-                  <span style={{
-                    fontFamily: 'var(--font-body)', fontSize: '0.58rem',
-                    letterSpacing: '0.22em', textTransform: 'uppercase',
-                    color: 'var(--gold)', display: 'block', marginBottom: '0.5rem',
-                  }}>{String(i + 1).padStart(2, '0')} / 06</span>
-                  <h3 style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: 'clamp(1.6rem, 3vw, 2.5rem)',
-                    fontWeight: 300, color: 'var(--ivory)',
-                    lineHeight: 1.05, marginBottom: '0.5rem',
-                  }}>{region.name}</h3>
-                  <p style={{
-                    fontFamily: 'var(--font-body)', fontSize: '0.85rem',
-                    color: 'rgba(250,247,242,0.55)', fontStyle: 'italic',
-                    marginBottom: '1.5rem',
-                  }}>{region.note}</p>
-                  <span style={{
-                    fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-                    letterSpacing: '0.15em', textTransform: 'uppercase',
-                    color: 'rgba(250,247,242,0.4)',
-                    borderBottom: '1px solid rgba(250,247,242,0.2)', paddingBottom: '2px',
-                  }}>Explore →</span>
+                <div className={styles.avaContent}>
+                  <span className={styles.avaName}>{regionTitle(ava.slug)}</span>
+                  <span className={styles.avaCount}>
+                    {ava.slug === 'oakville' && '12 wineries · 3 restaurants'}
+                    {ava.slug === 'rutherford' && '9 wineries · 2 restaurants'}
+                    {ava.slug === 'calistoga' && '8 wineries · 5 restaurants'}
+                    {ava.slug === 'yountville' && '6 wineries · 8 restaurants'}
+                    {ava.slug === 'pritchard-hill' && '5 wineries · 1 restaurant'}
+                    {ava.slug === 'downtown-napa' && '4 wineries · 12 restaurants'}
+                  </span>
                 </div>
               </div>
             </Link>
@@ -426,488 +360,144 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Ink → Ivory transition ── */}
-      <div style={{
-        height: '10rem',
-        background: 'linear-gradient(to bottom, var(--ink) 0%, var(--ivory) 100%)',
-      }} />
-
-      {/* ══════════════════════════════════════════════════
-          LANDMARK WINERIES — TYPE-LED GRID
-      ══════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--ivory)', paddingBottom: 'clamp(5rem, 8vw, 8rem)' }}>
-        <div style={{
-          maxWidth: 'var(--container)', margin: '0 auto',
-          padding: '0 2.5rem 3.5rem',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
-        }}>
-          <div>
-            <span className="eyebrow" style={{ display: 'block', marginBottom: '1rem' }}>Landmark Estates</span>
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-              fontWeight: 300, color: 'var(--ink)',
-              lineHeight: 1.0, letterSpacing: '-0.015em',
-            }}>
-              The wines that <em style={{ color: 'var(--bordeaux)' }}>defined</em> a valley
-            </h2>
-          </div>
-          <Link href="/wineries" style={{
-            fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-            letterSpacing: '0.15em', textTransform: 'uppercase',
-            color: 'var(--ink-light)', textDecoration: 'none',
-          }}>All wineries →</Link>
-        </div>
-
-        <div style={{
-          maxWidth: 'var(--container)', margin: '0 auto', padding: '0 2.5rem',
-          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '1px', background: 'var(--ivory-deep)',
-        }}>
-          {wineries.map((w) => (
-            <Link key={w.slug} href={`/wineries/${w.slug}`} style={{ textDecoration: 'none' }}>
-              <div
-                className="winery-card"
-                style={{
-                  background: 'var(--ivory)', padding: '2.5rem 2rem',
-                  display: 'flex', flexDirection: 'column', gap: '0.6rem',
-                  transition: 'background 0.25s', cursor: 'pointer',
-                  minHeight: '180px', justifyContent: 'flex-end', position: 'relative',
-                }}
-              >
-                <span
-                  className="winery-score"
-                  style={{
-                    position: 'absolute', top: '1.5rem', right: '1.75rem',
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '3.5rem', fontWeight: 300,
-                    color: 'var(--ivory-deep)', lineHeight: 1,
-                    letterSpacing: '-0.03em', transition: 'color 0.25s',
-                  }}
-                >{w.rating}</span>
-                <span style={{
-                  fontFamily: 'var(--font-body)', fontSize: '0.6rem',
-                  letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--gold)',
-                }}>{w.region}</span>
-                <h3 style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
-                  fontWeight: 400, color: 'var(--ink)', lineHeight: 1.15,
-                }}>{w.name}</h3>
-                <span
-                  className="winery-cta"
-                  style={{
-                    fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-                    letterSpacing: '0.12em', textTransform: 'uppercase',
-                    color: 'var(--bordeaux)', opacity: 0, transition: 'opacity 0.25s',
-                  }}
-                >View profile →</span>
-              </div>
+      <section className={styles.sectionFeatured}>
+        <div className={`${styles.featuredCard} ${styles.reveal}`} data-cursor-expand="true">
+          <div className={styles.featuredMeta}>
+            <div className={styles.featuredEyebrow}>Landmark Wineries</div>
+            <h2 className={styles.featuredTitle}>The Names That Defined Napa</h2>
+            <p className={styles.featuredExcerpt}>
+              Before Napa was a destination, it was a dream. These are the estates — Mondavi, Opus One, Heitz — that proved
+              California could stand beside Bordeaux, and changed how the world drinks.
+            </p>
+            <Link href="/wineries" className={styles.featuredLink} data-cursor-expand="true">
+              Read the story <span className={styles.featuredLinkArrow}>→</span>
             </Link>
-          ))}
-        </div>
-        <style>{`
-          .winery-card:hover { background: var(--bordeaux-pale) !important; }
-          .winery-card:hover .winery-score { color: rgba(92,26,40,0.12) !important; }
-          .winery-card:hover .winery-cta { opacity: 1 !important; }
-        `}</style>
-      </section>
-
-      {/* ══════════════════════════════════════════════════
-          DINING — JW VIDEO FULL BLEED
-      ══════════════════════════════════════════════════ */}
-      <section style={{
-        position: 'relative',
-        height: 'clamp(520px, 65vw, 780px)',
-        overflow: 'hidden',
-      }}>
-        <JWVideo mediaId={JW.dining} />
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to right, rgba(28,22,18,0.9) 0%, rgba(28,22,18,0.5) 50%, rgba(28,22,18,0.15) 100%)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', inset: 0,
-          display: 'flex', alignItems: 'flex-end',
-          padding: 'clamp(3rem, 5vw, 5rem)',
-          maxWidth: 'var(--container)',
-        }}>
-          <div style={{ maxWidth: '50ch' }}>
-            <span style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.58rem',
-              letterSpacing: '0.28em', textTransform: 'uppercase',
-              color: 'var(--gold)', display: 'block', marginBottom: '1.25rem',
-            }}>Where to Eat</span>
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.5rem, 5vw, 5rem)',
-              fontWeight: 300, color: 'var(--ivory)',
-              lineHeight: 1.0, letterSpacing: '-0.02em', marginBottom: '1.5rem',
-            }}>
-              Tables worth<br /><em style={{ color: 'var(--gold)' }}>the journey</em>
-            </h2>
-            <p style={{
-              fontFamily: 'var(--font-body)', fontSize: '1rem',
-              color: 'rgba(250,247,242,0.6)', lineHeight: 1.8,
-              marginBottom: '2.5rem', maxWidth: '44ch',
-            }}>
-              From Thomas Keller&apos;s legendary French Laundry to a wood-fired
-              dinner at The Charter Oak — Napa&apos;s dining rivals any city on earth.
-            </p>
-            <Link href="/dining" style={{
-              display: 'inline-block',
-              fontFamily: 'var(--font-body)', fontSize: '0.7rem', fontWeight: 500,
-              letterSpacing: '0.18em', textTransform: 'uppercase',
-              color: 'var(--ink)', background: 'var(--ivory)',
-              padding: '0.9rem 2.25rem', textDecoration: 'none',
-            }}>Explore Dining</Link>
           </div>
-        </div>
-      </section>
-
-      {/* ── Dark → Warm transition ── */}
-      <div style={{
-        height: '8rem',
-        background: 'linear-gradient(to bottom, rgba(28,22,18,1) 0%, var(--ivory-warm) 100%)',
-      }} />
-
-      {/* ══════════════════════════════════════════════════
-          STAY — JW VIDEO + HOTEL GRID
-      ══════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--ivory-warm)', padding: 'clamp(5rem, 8vw, 8rem) 0' }}>
-        <div style={{ maxWidth: 'var(--container)', margin: '0 auto', padding: '0 2.5rem' }}>
-          <div style={{
-            display: 'flex', justifyContent: 'space-between',
-            alignItems: 'flex-end', marginBottom: '3.5rem',
-          }}>
-            <div>
-              <span className="eyebrow" style={{ display: 'block', marginBottom: '1rem' }}>Where to Stay</span>
-              <h2 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-                fontWeight: 300, color: 'var(--ink)',
-                lineHeight: 1.0, letterSpacing: '-0.015em',
-              }}>
-                Rooms worth<br /><em style={{ color: 'var(--gold)' }}>lingering in</em>
-              </h2>
-            </div>
-            <Link href="/stay" style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-              letterSpacing: '0.15em', textTransform: 'uppercase',
-              color: 'var(--ink-light)', textDecoration: 'none',
-            }}>All hotels →</Link>
-          </div>
-
-          {/* Split: video left + 2×2 grid right */}
-          <div style={{
-            display: 'grid', gridTemplateColumns: '1.2fr 1fr',
-            gap: '2px', background: 'var(--ivory-deep)',
-          }}>
-            {/* Video panel */}
-            <div style={{ position: 'relative', minHeight: '520px', overflow: 'hidden' }}>
-              <JWVideo mediaId={JW.stay} />
-              <div style={{
-                position: 'absolute', inset: 0,
-                background: 'linear-gradient(to top, rgba(28,22,18,0.65) 0%, transparent 50%)',
-                pointerEvents: 'none',
-              }} />
-              <div style={{ position: 'absolute', bottom: '2rem', left: '2rem' }}>
-                <span style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '1.35rem', fontStyle: 'italic',
-                  color: 'rgba(250,247,242,0.75)',
-                }}>Napa Valley&apos;s finest retreats</span>
+          <div className={styles.featuredImage}>
+            <div className={styles.featuredImageInner}>
+              <div className={styles.featImgPlaceholder} style={{ background: 'linear-gradient(170deg,#1C2E12,#3A5224,#1C2E12)' }}>
+                <span>Winery · Oakville</span>
               </div>
             </div>
-
-            {/* Hotel cards */}
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr',
-              gridTemplateRows: '1fr 1fr', gap: '2px',
-              background: 'var(--ivory-deep)',
-            }}>
-              {hotels.map((hotel) => (
-                <Link key={hotel.slug} href={`/stay/${hotel.slug}`} style={{ textDecoration: 'none' }}>
-                  <div
-                    className="hotel-card"
-                    style={{
-                      background: 'var(--ivory-warm)',
-                      padding: '2rem 1.75rem',
-                      display: 'flex', flexDirection: 'column',
-                      justifyContent: 'flex-end', height: '100%',
-                      transition: 'background 0.25s', cursor: 'pointer', minHeight: '190px',
-                    }}
-                  >
-                    <span style={{
-                      fontFamily: 'var(--font-body)', fontSize: '0.58rem',
-                      letterSpacing: '0.15em', textTransform: 'uppercase',
-                      color: 'var(--gold)', display: 'block', marginBottom: '0.35rem',
-                    }}>{hotel.category}</span>
-                    <h3 style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: '1.15rem', fontWeight: 400,
-                      color: 'var(--ink)', lineHeight: 1.2, marginBottom: '0.4rem',
-                    }}>{hotel.name}</h3>
-                    <span style={{
-                      fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: 'var(--ink-light)',
-                    }}>{hotel.price}/night</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
           </div>
-          <style>{`.hotel-card:hover { background: var(--gold-pale) !important; }`}</style>
         </div>
-      </section>
 
-      {/* ══════════════════════════════════════════════════
-          MAP CTA — DARK BAND
-      ══════════════════════════════════════════════════ */}
-      <section style={{
-        background: 'var(--ink)', padding: 'clamp(5rem, 8vw, 8rem) 0',
-        position: 'relative', overflow: 'hidden',
-      }}>
-        {[...Array(6)].map((_, i) => (
-          <div key={i} style={{
-            position: 'absolute', left: `${i * 18}%`,
-            top: 0, bottom: 0, width: '1px',
-            background: 'rgba(250,247,242,0.025)',
-          }} />
-        ))}
-        <div style={{
-          maxWidth: 'var(--container)', margin: '0 auto', padding: '0 2.5rem',
-          display: 'grid', gridTemplateColumns: '1fr 1fr',
-          gap: '6rem', alignItems: 'center', position: 'relative', zIndex: 1,
-        }}>
-          <div>
-            <span style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.58rem',
-              letterSpacing: '0.28em', textTransform: 'uppercase',
-              color: 'var(--gold)', display: 'block', marginBottom: '1.5rem',
-            }}>Interactive Map</span>
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-              fontWeight: 300, fontStyle: 'italic', color: 'var(--ivory)',
-              lineHeight: 1.0, letterSpacing: '-0.015em', marginBottom: '1.75rem',
-            }}>
-              Every estate,<br />every table,<br />every room
-            </h2>
-            <p style={{
-              fontFamily: 'var(--font-body)', fontSize: '1rem',
-              color: 'rgba(250,247,242,0.45)', lineHeight: 1.85,
-              marginBottom: '2.5rem', maxWidth: '44ch',
-            }}>
-              Thirty-plus locations mapped across six Napa Valley appellations.
-              Satellite terrain, AVA boundaries, full profiles on every pin.
+        <div className={`${styles.featuredCard} ${styles.reveal}`} data-cursor-expand="true">
+          <div className={styles.featuredMeta}>
+            <div className={styles.featuredEyebrow}>Where to Stay</div>
+            <h2 className={styles.featuredTitle}>Sleep Well in Wine Country</h2>
+            <p className={styles.featuredExcerpt}>
+              From Meadowood&apos;s private valley cottages to Bardessono&apos;s platinum-certified rooms steps from The French Laundry,
+              these are the stays that complete the trip.
             </p>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <Link href="/map" style={{
-                display: 'inline-block',
-                fontFamily: 'var(--font-body)', fontSize: '0.7rem', fontWeight: 500,
-                letterSpacing: '0.18em', textTransform: 'uppercase',
-                color: 'var(--ink)', background: 'var(--ivory)',
-                padding: '0.9rem 2.25rem', textDecoration: 'none',
-              }}>Open the Map</Link>
-              <Link href="/plan" style={{
-                display: 'inline-block',
-                fontFamily: 'var(--font-body)', fontSize: '0.7rem',
-                letterSpacing: '0.18em', textTransform: 'uppercase',
-                color: 'rgba(250,247,242,0.4)',
-                border: '1px solid rgba(250,247,242,0.12)',
-                padding: '0.9rem 2.25rem', textDecoration: 'none',
-              }}>Plan My Visit</Link>
-            </div>
+            <Link href="/stay" className={styles.featuredLink} data-cursor-expand="true">
+              Explore hotels <span className={styles.featuredLinkArrow}>→</span>
+            </Link>
           </div>
-
-          {/* Pin cluster visual */}
-          <div style={{
-            aspectRatio: '4/3',
-            background: 'rgba(250,247,242,0.03)',
-            border: '1px solid rgba(250,247,242,0.06)',
-            position: 'relative', overflow: 'hidden',
-          }}>
-            {[
-              { x: '32%', y: '48%', c: '#B8872E', s: 14 },
-              { x: '52%', y: '36%', c: '#7D2436', s: 12 },
-              { x: '22%', y: '62%', c: '#4A5E42', s: 11 },
-              { x: '68%', y: '54%', c: '#B8872E', s: 13 },
-              { x: '44%', y: '70%', c: '#4A5E42', s: 10 },
-              { x: '75%', y: '38%', c: '#7D2436', s: 11 },
-              { x: '38%', y: '28%', c: '#B8872E', s: 10 },
-            ].map((pin, i) => (
-              <div key={i} style={{
-                position: 'absolute', left: pin.x, top: pin.y,
-                transform: 'translate(-50%, -100%)',
-              }}>
-                <div style={{
-                  width: pin.s, height: pin.s,
-                  borderRadius: '50% 50% 50% 0',
-                  transform: 'rotate(-45deg)',
-                  background: pin.c,
-                  border: '1.5px solid rgba(250,247,242,0.5)',
-                  boxShadow: `0 0 12px ${pin.c}60`,
-                }} />
+          <div className={styles.featuredImage}>
+            <div className={styles.featuredImageInner}>
+              <div className={styles.featImgPlaceholder} style={{ background: 'linear-gradient(170deg,#2E1A0A,#4A2C16,#1E100A)' }}>
+                <span>Hotel · Yountville</span>
               </div>
-            ))}
-            <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem' }}>
-              <span style={{
-                fontFamily: 'var(--font-display)', fontSize: '1rem',
-                fontStyle: 'italic', color: 'rgba(250,247,242,0.3)',
-              }}>Napa Valley, California</span>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ══════════════════════════════════════════════════
-          HARVEST CLOSER — JW VIDEO FULL BLEED
-      ══════════════════════════════════════════════════ */}
-      <section style={{
-        position: 'relative',
-        minHeight: 'clamp(520px, 65vw, 720px)',
-        overflow: 'hidden', display: 'flex', alignItems: 'center',
-      }}>
-        <JWVideo mediaId={JW.hero} style={{ filter: 'brightness(0.4) saturate(1.1)' }} />
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'rgba(92,26,40,0.3)', pointerEvents: 'none',
-        }} />
-        <span style={{
-          position: 'absolute',
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(22vw, 30vw, 38vw)',
-          fontWeight: 300, fontStyle: 'italic',
-          color: 'rgba(250,247,242,0.05)',
-          lineHeight: 1, right: '-3%', bottom: '-12%',
-          pointerEvents: 'none', userSelect: 'none',
-          whiteSpace: 'nowrap', letterSpacing: '-0.03em',
-        }}>Harvest</span>
-
-        <div style={{
-          maxWidth: 'var(--container)', margin: '0 auto',
-          padding: 'clamp(5rem, 8vw, 8rem) 2.5rem',
-          position: 'relative', zIndex: 1,
-          display: 'grid', gridTemplateColumns: '1fr 1fr',
-          gap: '6rem', alignItems: 'center', width: '100%',
-        }}>
-          <div>
-            <span style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.58rem',
-              letterSpacing: '0.28em', textTransform: 'uppercase',
-              color: 'rgba(250,247,242,0.4)', display: 'block', marginBottom: '1.5rem',
-            }}>Plan Your Visit</span>
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-              fontWeight: 300, fontStyle: 'italic', color: 'var(--ivory)',
-              lineHeight: 1.0, letterSpacing: '-0.015em', marginBottom: '2rem',
-            }}>
-              When to go &amp;<br />what not to miss
-            </h2>
-            <div style={{ width: '40px', height: '1px', background: 'rgba(250,247,242,0.2)', marginBottom: '1.75rem' }} />
-            <p style={{
-              fontFamily: 'var(--font-body)', fontSize: '1rem',
-              color: 'rgba(250,247,242,0.5)', lineHeight: 1.85,
-              maxWidth: '44ch', marginBottom: '2.5rem',
-            }}>
-              From spring bloom to the drama of harvest and the quiet
-              intimacy of winter — every season in Napa has its pleasures.
+        <div className={`${styles.featuredCard} ${styles.reveal}`} data-cursor-expand="true">
+          <div className={styles.featuredMeta}>
+            <div className={styles.featuredEyebrow}>Where to Eat</div>
+            <h2 className={styles.featuredTitle}>Tables Worth the Reservation</h2>
+            <p className={styles.featuredExcerpt}>
+              The French Laundry needs no introduction. But beyond Keller&apos;s dining room, Napa&apos;s culinary scene has never been
+              richer — from Bouchon&apos;s steak frites to Evangeline&apos;s beignets in Calistoga.
             </p>
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <Link href="/plan" style={{
-                display: 'inline-block',
-                fontFamily: 'var(--font-body)', fontSize: '0.7rem', fontWeight: 500,
-                letterSpacing: '0.18em', textTransform: 'uppercase',
-                color: 'var(--bordeaux)', background: 'var(--ivory)',
-                padding: '0.9rem 2.25rem', textDecoration: 'none',
-              }}>Build My Itinerary</Link>
-              <Link href="/calendar" style={{
-                display: 'inline-block',
-                fontFamily: 'var(--font-body)', fontSize: '0.7rem',
-                letterSpacing: '0.18em', textTransform: 'uppercase',
-                color: 'rgba(250,247,242,0.55)',
-                border: '1px solid rgba(250,247,242,0.2)',
-                padding: '0.9rem 2.25rem', textDecoration: 'none',
-              }}>Events Calendar</Link>
-            </div>
+            <Link href="/dining" className={styles.featuredLink} data-cursor-expand="true">
+              See the restaurants <span className={styles.featuredLinkArrow}>→</span>
+            </Link>
           </div>
-
-          {/* Seasons */}
-          <div>
-            {[
-              { s: 'Spring',  m: 'Mar – May', n: 'Bloom, pruning, cellar tastings' },
-              { s: 'Summer',  m: 'Jun – Aug', n: 'Long days, barrel visits, outdoor dining' },
-              { s: 'Harvest', m: 'Sep – Oct', n: "The valley's most electric season", hot: true },
-              { s: 'Winter',  m: 'Nov – Feb', n: 'Quiet beauty, intimate tastings, best value' },
-            ].map(({ s, m, n, hot }) => (
-              <div key={s} style={{
-                display: 'grid', gridTemplateColumns: '1fr 1fr',
-                padding: '1.4rem 0',
-                borderBottom: '1px solid rgba(250,247,242,0.07)',
-                alignItems: 'center', gap: '1rem',
-              }}>
-                <div>
-                  <span style={{
-                    fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 400,
-                    color: hot ? 'var(--ivory)' : 'rgba(250,247,242,0.45)', display: 'block',
-                  }}>{s}</span>
-                  <span style={{
-                    fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-                    letterSpacing: '0.1em', color: 'var(--gold)',
-                  }}>{m}</span>
-                </div>
-                <p style={{
-                  fontFamily: 'var(--font-body)', fontSize: '0.82rem',
-                  color: hot ? 'rgba(250,247,242,0.6)' : 'rgba(250,247,242,0.3)',
-                  lineHeight: 1.55, margin: 0,
-                }}>{n}</p>
+          <div className={styles.featuredImage}>
+            <div className={styles.featuredImageInner}>
+              <div className={styles.featImgPlaceholder} style={{ background: 'linear-gradient(170deg,#141420,#2A2438,#0E0E18)' }}>
+                <span>Dining · Yountville</span>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════
-          FOOTER
-      ══════════════════════════════════════════════════ */}
-      <footer style={{
-        background: 'var(--ink)',
-        borderTop: '1px solid rgba(250,247,242,0.05)',
-        padding: '3rem 0',
-      }}>
-        <div style={{
-          maxWidth: 'var(--container)', margin: '0 auto', padding: '0 2.5rem',
-          display: 'grid', gridTemplateColumns: '1fr auto 1fr',
-          gap: '2rem', alignItems: 'center',
-        }}>
-          <div>
-            <span style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.52rem',
-              letterSpacing: '0.28em', textTransform: 'uppercase',
-              color: 'var(--bordeaux)', display: 'block', marginBottom: '3px',
-            }}>Wine Spectator</span>
-            <span style={{
-              fontFamily: 'var(--font-display)', fontSize: '0.95rem',
-              fontStyle: 'italic', color: 'rgba(250,247,242,0.4)',
-            }}>Napa Valley Guide — June 2026</span>
-          </div>
-          <div style={{ width: '1px', height: '32px', background: 'rgba(250,247,242,0.06)' }} />
-          <div style={{
-            display: 'flex', justifyContent: 'flex-end',
-            alignItems: 'center', gap: '2.5rem',
-          }}>
-            <span style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-              color: 'rgba(250,247,242,0.18)',
-            }}>© {new Date().getFullYear()} M. Shanken Communications, Inc.</span>
-            <a href="https://www.winespectator.com" target="_blank" rel="noopener" style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-              letterSpacing: '0.15em', textTransform: 'uppercase',
-              color: 'var(--gold)', textDecoration: 'none', opacity: 0.65,
-            }}>winespectator.com →</a>
-          </div>
+      <div className={`${styles.sectionMap} ${styles.reveal}`}>
+        <div>
+          <h2 className={styles.mapHeadline}>
+            Explore the
+            <br />
+            valley on a map
+          </h2>
+          <p className={styles.mapBody}>
+            Every winery, restaurant, and hotel in the guide — plotted across Napa&apos;s six appellations. Filter by category, plan your
+            route, and navigate the valley with confidence.
+          </p>
+          <Link href="/map" className={styles.mapBtn} data-cursor-expand="true">
+            Open the map →
+          </Link>
+        </div>
+        <div className={styles.mapPreview}>
+          <MapPreviewSvg />
+          <span className={styles.mapBgText}>Map</span>
+        </div>
+      </div>
+
+      <section className={`${styles.sectionEmail} ${styles.reveal}`}>
+        <p className={styles.emailHeadline}>
+          Stay in
+          <br />
+          the know
+        </p>
+        <form
+          className={styles.emailForm}
+          onSubmit={(e) => {
+            e.preventDefault()
+          }}
+        >
+          <input className={styles.emailInput} type="email" name="email" placeholder="Your email address" autoComplete="email" />
+          <button type="submit" className={styles.emailSubmit} data-cursor-expand="true">
+            Subscribe
+          </button>
+        </form>
+      </section>
+
+      <footer className={styles.footer}>
+        <div className={styles.footerBrand}>
+          Wine Spectator
+          <br />
+          Napa Valley Guide
+          <br />
+          <br />© {new Date().getFullYear()} M. Shanken Communications, Inc.
+          <br />
+          All rights reserved.
+        </div>
+        <nav className={styles.footerNav} aria-label="Footer">
+          <Link href="/map" data-cursor-expand="true">
+            Map
+          </Link>
+          <Link href="/wineries" data-cursor-expand="true">
+            Wineries
+          </Link>
+          <Link href="/dining" data-cursor-expand="true">
+            Dining
+          </Link>
+          <Link href="/stay" data-cursor-expand="true">
+            Stay
+          </Link>
+          <Link href="/plan" data-cursor-expand="true">
+            Plan
+          </Link>
+        </nav>
+        <div className={styles.footerLegal}>
+          This guide is a companion to the
+          <br />
+          June 2026 issue of Wine Spectator.
+          <br />
+          Sponsor placements are clearly disclosed.
         </div>
       </footer>
     </div>
