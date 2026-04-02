@@ -11,8 +11,8 @@ interface JWVideoProps {
 }
 
 // JW Player property: X65hTucY
-// Default player: 00V5rBgo
-const PLAYER_SCRIPT = 'https://cdn.jwplayer.com/libraries/00V5rBgo.js'
+// Default player: O0V5rBgo
+const PLAYER_SCRIPT = 'https://cdn.jwplayer.com/libraries/O0V5rBgo.js'
 
 // Singleton script loader
 let scriptLoaded = false
