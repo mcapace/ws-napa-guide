@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import '@/styles/globals.css'
+import { WS_LOGO_OG_STROKE_ONLY_SRC } from '@/lib/ws-logo'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
@@ -14,11 +15,13 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     siteName: 'Wine Spectator Napa Valley Guide',
-    images: ['/og-image.jpg'],
+    // Social-only asset (solid background). Never use in page components — see ws-logo.ts
+    images: [WS_LOGO_OG_STROKE_ONLY_SRC],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@WineSpectator',
+    images: [WS_LOGO_OG_STROKE_ONLY_SRC],
   },
 }
 

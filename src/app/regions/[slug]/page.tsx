@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Nav from '@/components/ui/Nav'
+import WsMark from '@/components/ui/WsMark'
+import { WS_LOGO_HEIGHT } from '@/lib/ws-logo'
 import { getRegion, getAllRegionSlugs, regions } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
@@ -52,6 +54,19 @@ export default async function RegionPage({ params }: Props) {
           overflow: 'hidden',
         }}
       >
+        <Link
+          href="/"
+          style={{
+            position: 'absolute',
+            top: '100px',
+            left: 'clamp(1.25rem, 4vw, 2.5rem)',
+            zIndex: 4,
+            lineHeight: 0,
+          }}
+          aria-label="Wine Spectator — home"
+        >
+          <WsMark height={WS_LOGO_HEIGHT.detailHero} opacity={0.6} invert />
+        </Link>
         <div
           style={{
             position: 'absolute',

@@ -8,6 +8,7 @@ const REGIONS = [
   { slug: 'rutherford',     label: 'Rutherford' },
   { slug: 'calistoga',      label: 'Calistoga' },
   { slug: 'yountville',     label: 'Yountville' },
+  { slug: 'st-helena',      label: 'St. Helena' },
   { slug: 'pritchard-hill', label: 'Pritchard Hill' },
   { slug: 'downtown-napa',  label: 'Downtown Napa' },
 ]

@@ -7,6 +7,7 @@ export type Region =
   | 'yountville'
   | 'pritchard-hill'
   | 'downtown-napa'
+  | 'st-helena'
   | 'stags-leap'
   | 'spring-mountain'
   | 'napa-valley'
@@ -16,6 +17,7 @@ export interface Winery {
   name: string
   coords: [number, number] // [lng, lat]
   region: Region
+  address?: string
   rating?: number
   description: string
   excerpt: string
@@ -38,6 +40,8 @@ export interface Restaurant {
   name: string
   coords: [number, number]
   region: Region
+  address?: string
+  website?: string | null
   cuisine: string
   priceRange: '$' | '$$' | '$$$' | '$$$$'
   description: string
@@ -55,6 +59,7 @@ export interface Hotel {
   name: string
   coords: [number, number]
   region: Region
+  address?: string
   category: 'resort' | 'boutique' | 'inn' | 'villa'
   priceRange: string
   description: string

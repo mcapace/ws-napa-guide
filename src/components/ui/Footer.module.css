@@ -1,0 +1,121 @@
+.inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 48px clamp(24px, 5vw, 60px);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .nav {
+    justify-content: center;
+  }
+
+  .legalDark,
+  .legalLight {
+    text-align: center;
+  }
+
+  .logoLink {
+    margin-inline: auto;
+  }
+}
+
+.footerDark {
+  border-top: 1px solid rgba(247, 243, 236, 0.08);
+  background: #0d0b09;
+  color: var(--ivory, #faf7f2);
+}
+
+.footerLight {
+  border-top: 1px solid var(--ivory-deep);
+  background: var(--ivory);
+  color: var(--ink);
+}
+
+.logoLink {
+  display: inline-block;
+  line-height: 0;
+  margin-bottom: 1rem;
+}
+
+.brandText {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.footerDark .brandText {
+  color: var(--ink-light, #7a6f65);
+}
+
+.footerLight .brandText {
+  color: var(--ink-mid);
+}
+
+.nav {
+  display: flex;
+  gap: clamp(16px, 3vw, 32px);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.navLinkDark {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-light, #7a6f65);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.navLinkDark:hover {
+  color: var(--ivory, #faf7f2);
+}
+
+.navLinkLight {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  text-decoration: none;
+}
+
+.navLinkLight:hover {
+  color: var(--bordeaux);
+}
+
+.legalDark {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 300;
+  color: rgba(155, 146, 131, 0.4);
+  line-height: 1.6;
+  text-align: right;
+  margin: 0;
+}
+
+.legalLight {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 300;
+  color: var(--ink-light);
+  line-height: 1.6;
+  text-align: right;
+  margin: 0;
+}

@@ -1,7 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { WS_LOGO_HEIGHT, WS_LOGO_PRIMARY_SRC } from '@/lib/ws-logo'
 
 const navLinks = [
   { label: 'Wineries', href: '/wineries' },
@@ -26,6 +28,8 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const logoInvertSolidHeader = scrolled
+
   return (
     <>
       <header
@@ -45,7 +49,6 @@ export default function Nav() {
           transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
         }}
       >
-        {/* Top bar — WS authority mark */}
         {atTop && (
           <div
             style={{
@@ -54,7 +57,7 @@ export default function Nav() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '1.5rem',
+              gap: '1.25rem',
             }}
           >
             <span
@@ -72,22 +75,24 @@ export default function Nav() {
               href="https://www.winespectator.com"
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '0.85rem',
-                fontWeight: 500,
-                letterSpacing: '0.08em',
-                color: 'var(--ivory)',
-                textDecoration: 'none',
-                transition: 'opacity 0.2s',
-              }}
+              style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}
             >
-              Wine Spectator
+              <Image
+                src={WS_LOGO_PRIMARY_SRC}
+                alt="Wine Spectator"
+                width={90}
+                height={18}
+                style={{
+                  height: 18,
+                  width: 'auto',
+                  filter: 'none',
+                  opacity: 0.95,
+                }}
+              />
             </a>
           </div>
         )}
 
-        {/* Main nav row */}
         <nav
           style={{
             maxWidth: 'var(--container)',
@@ -99,29 +104,39 @@ export default function Nav() {
             justifyContent: 'space-between',
           }}
         >
-          {/* Wordmark */}
-          <Link href="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
+          <Link
+            href="/"
+            style={{
+              textDecoration: 'none',
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+            }}
+          >
+            <Image
+              src={WS_LOGO_PRIMARY_SRC}
+              alt="Wine Spectator"
+              width={Math.round(WS_LOGO_HEIGHT.nav * 4.75)}
+              height={WS_LOGO_HEIGHT.nav}
+              priority
+              style={{
+                height: WS_LOGO_HEIGHT.nav,
+                width: 'auto',
+                filter: logoInvertSolidHeader ? 'none' : 'invert(1)',
+                transition: 'filter 0.35s ease',
+              }}
+            />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
               <span
                 style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.55rem',
                   letterSpacing: '0.28em',
                   textTransform: 'uppercase',
-                  color: 'var(--bordeaux)',
+                  color: scrolled ? 'var(--bordeaux)' : 'rgba(250,247,242,0.75)',
                   fontWeight: 500,
-                }}
-              >
-                Wine Spectator
-              </span>
-              <span
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '1.2rem',
-                  fontWeight: 400,
-                  color: 'var(--ink)',
-                  letterSpacing: '0.02em',
-                  lineHeight: 1,
+                  transition: 'color 0.35s ease',
                 }}
               >
                 Napa Valley Guide
@@ -129,7 +144,6 @@ export default function Nav() {
             </div>
           </Link>
 
-          {/* Desktop links */}
           <ul
             style={{
               display: 'flex',
@@ -159,7 +173,6 @@ export default function Nav() {
             </li>
           </ul>
 
-          {/* Mobile hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             style={{
@@ -195,7 +208,6 @@ export default function Nav() {
         </nav>
       </header>
 
-      {/* Mobile menu */}
       {menuOpen && (
         <div
           style={{
@@ -213,7 +225,6 @@ export default function Nav() {
             gap: '0',
           }}
         >
-          {/* Close */}
           <button
             onClick={() => setMenuOpen(false)}
             style={{
@@ -231,6 +242,16 @@ export default function Nav() {
             ×
           </button>
 
+          <div style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', lineHeight: 0 }}>
+            <Image
+              src={WS_LOGO_PRIMARY_SRC}
+              alt="Wine Spectator"
+              width={100}
+              height={22}
+              style={{ height: 22, width: 'auto', filter: 'none' }}
+            />
+          </div>
+
           <p
             style={{
               fontFamily: 'var(--font-body)',
@@ -239,6 +260,7 @@ export default function Nav() {
               textTransform: 'uppercase',
               color: 'var(--bordeaux)',
               marginBottom: '2rem',
+              marginTop: '3rem',
             }}
           >
             Wine Spectator — Napa Valley Guide

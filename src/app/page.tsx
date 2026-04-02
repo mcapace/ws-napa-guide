@@ -1,7 +1,10 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import Footer from '@/components/ui/Footer'
+import { WS_LOGO_HEIGHT, WS_LOGO_PRIMARY_SRC } from '@/lib/ws-logo'
 import styles from './home.module.css'
 
 /** Hero 720p MP4 — same CDN asset as JW `FvwrhNa4` (no embed / license). */
@@ -315,6 +318,24 @@ export default function HomePage() {
         <video className={styles.expandVideo} autoPlay muted loop playsInline preload="auto">
           <source src={HERO_MP4} type="video/mp4" />
         </video>
+        <Link
+          href="/"
+          className={styles.expandLogoLink}
+          aria-label="Wine Spectator — home"
+          data-cursor-expand="true"
+        >
+          <Image
+            src={WS_LOGO_PRIMARY_SRC}
+            alt="Wine Spectator"
+            width={Math.round(WS_LOGO_HEIGHT.videoOverlay * 4.75)}
+            height={WS_LOGO_HEIGHT.videoOverlay}
+            style={{
+              height: WS_LOGO_HEIGHT.videoOverlay,
+              width: 'auto',
+              filter: 'invert(1)',
+            }}
+          />
+        </Link>
         <div className={styles.expandContent}>
           <div className={styles.expandTitle}>
             Explore
@@ -465,41 +486,7 @@ export default function HomePage() {
         </form>
       </section>
 
-      <footer className={styles.footer}>
-        <div className={styles.footerBrand}>
-          Wine Spectator
-          <br />
-          Napa Valley Guide
-          <br />
-          <br />© {new Date().getFullYear()} M. Shanken Communications, Inc.
-          <br />
-          All rights reserved.
-        </div>
-        <nav className={styles.footerNav} aria-label="Footer">
-          <Link href="/map" data-cursor-expand="true">
-            Map
-          </Link>
-          <Link href="/wineries" data-cursor-expand="true">
-            Wineries
-          </Link>
-          <Link href="/dining" data-cursor-expand="true">
-            Dining
-          </Link>
-          <Link href="/stay" data-cursor-expand="true">
-            Stay
-          </Link>
-          <Link href="/plan" data-cursor-expand="true">
-            Plan
-          </Link>
-        </nav>
-        <div className={styles.footerLegal}>
-          This guide is a companion to the
-          <br />
-          June 2026 issue of Wine Spectator.
-          <br />
-          Sponsor placements are clearly disclosed.
-        </div>
-      </footer>
+      <Footer variant="dark" />
     </div>
   )
 }
