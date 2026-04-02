@@ -12,7 +12,7 @@ const JW = {
   rutherford:   'tWL1fGgj',
   calistoga:    'xS5p1TZF',
   yountville:   'ixRk7Rxw',
-  pritchard:    'wL0q4CgZ',
+  pritchard:    'wLOq4CgZ',
   downtown:     '6PuhlRIs',
   dining:       'Yt32URjQ',
   stay:         '4RTGrZfr',
