@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large draft PDFs — store outside repo / CDN
+public/PDFs/*.pdf
