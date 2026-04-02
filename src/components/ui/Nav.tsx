@@ -9,188 +9,261 @@ const navLinks = [
   { label: 'Dining', href: '/dining' },
   { label: 'Stay', href: '/stay' },
   { label: 'Map', href: '/map' },
-  { label: 'Plan', href: '/plan' },
+  { label: 'Plan Your Visit', href: '/plan' },
 ]
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [atTop, setAtTop] = useState(true)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 80)
+      setAtTop(window.scrollY < 20)
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
-    <header
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        transition: 'background 0.4s ease, backdrop-filter 0.4s ease',
-        background: scrolled ? 'rgba(26, 22, 18, 0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(196, 148, 58, 0.15)' : 'none',
-      }}
-    >
-      <nav
+    <>
+      <header
         style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          padding: '0 2rem',
-          height: '72px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          background: scrolled
+            ? 'rgba(250,247,242,0.97)'
+            : 'rgba(250,247,242,0.0)',
+          backdropFilter: scrolled ? 'blur(16px)' : 'none',
+          borderBottom: scrolled
+            ? '1px solid var(--ivory-deep)'
+            : '1px solid transparent',
+          transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
         }}
       >
-        {/* Logo */}
-        <Link href="/" style={{ textDecoration: 'none' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+        {/* Top bar — WS authority mark */}
+        {atTop && (
+          <div
+            style={{
+              background: 'var(--bordeaux)',
+              height: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '1.5rem',
+            }}
+          >
             <span
               style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: '0.6rem',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',
-                color: 'var(--gold)',
-                fontWeight: 500,
+                color: 'rgba(250,247,242,0.7)',
               }}
             >
-              Wine Spectator
+              From the June 2026 Issue of
             </span>
-            <span
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.25rem',
-                fontWeight: 300,
-                color: 'var(--cream)',
-                letterSpacing: '0.02em',
-                lineHeight: 1,
-              }}
-            >
-              Napa Valley Guide
-            </span>
-          </div>
-        </Link>
-
-        {/* Desktop nav */}
-        <ul
-          style={{
-            display: 'flex',
-            gap: '2.5rem',
-            listStyle: 'none',
-            alignItems: 'center',
-          }}
-          className="desktop-nav"
-        >
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  color: 'var(--mist)',
-                  textDecoration: 'none',
-                  transition: 'color 0.2s',
-                  fontWeight: 400,
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--cream)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--mist)')}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-          <li>
-            <Link
+            <a
               href="https://www.winespectator.com"
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.7rem',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color: 'var(--ink)',
-                background: 'var(--gold)',
-                padding: '0.5rem 1.25rem',
-                textDecoration: 'none',
-                transition: 'background 0.2s',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.85rem',
                 fontWeight: 500,
+                letterSpacing: '0.08em',
+                color: 'var(--ivory)',
+                textDecoration: 'none',
+                transition: 'opacity 0.2s',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--gold-light)')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--gold)')}
             >
               Wine Spectator
-            </Link>
-          </li>
-        </ul>
+            </a>
+          </div>
+        )}
 
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
+        {/* Main nav row */}
+        <nav
           style={{
-            display: 'none',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '8px',
-            flexDirection: 'column',
-            gap: '5px',
+            maxWidth: 'var(--container)',
+            margin: '0 auto',
+            padding: '0 2rem',
+            height: '68px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
-          className="mobile-menu-btn"
-          aria-label="Toggle menu"
         >
-          {[0, 1, 2].map((i) => (
-            <span
-              key={i}
-              style={{
-                display: 'block',
-                width: '24px',
-                height: '1px',
-                background: 'var(--cream)',
-                transition: 'transform 0.3s, opacity 0.3s',
-                transform:
-                  menuOpen && i === 0
-                    ? 'rotate(45deg) translate(4px, 4px)'
-                    : menuOpen && i === 2
-                    ? 'rotate(-45deg) translate(4px, -4px)'
+          {/* Wordmark */}
+          <Link href="/" style={{ textDecoration: 'none', flexShrink: 0 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.55rem',
+                  letterSpacing: '0.28em',
+                  textTransform: 'uppercase',
+                  color: 'var(--bordeaux)',
+                  fontWeight: 500,
+                }}
+              >
+                Wine Spectator
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '1.2rem',
+                  fontWeight: 400,
+                  color: 'var(--ink)',
+                  letterSpacing: '0.02em',
+                  lineHeight: 1,
+                }}
+              >
+                Napa Valley Guide
+              </span>
+            </div>
+          </Link>
+
+          {/* Desktop links */}
+          <ul
+            style={{
+              display: 'flex',
+              gap: '2rem',
+              listStyle: 'none',
+              alignItems: 'center',
+            }}
+            className="desktop-nav"
+          >
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="nav-link">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <a
+                href="https://www.winespectator.com/subscribe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+                style={{ padding: '0.55rem 1.25rem', fontSize: '0.62rem' }}
+              >
+                Subscribe
+              </a>
+            </li>
+          </ul>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            style={{
+              display: 'none',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+              flexDirection: 'column',
+              gap: '5px',
+            }}
+            className="mobile-btn"
+            aria-label="Toggle menu"
+          >
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                style={{
+                  display: 'block',
+                  width: '22px',
+                  height: '1.5px',
+                  background: 'var(--ink)',
+                  transition: 'transform 0.3s, opacity 0.3s',
+                  transform:
+                    menuOpen && i === 0 ? 'rotate(45deg) translate(4px, 4px)'
+                    : menuOpen && i === 2 ? 'rotate(-45deg) translate(4px, -4px)'
                     : 'none',
-                opacity: menuOpen && i === 1 ? 0 : 1,
-              }}
-            />
-          ))}
-        </button>
-      </nav>
+                  opacity: menuOpen && i === 1 ? 0 : 1,
+                }}
+              />
+            ))}
+          </button>
+        </nav>
+      </header>
 
       {/* Mobile menu */}
       {menuOpen && (
         <div
           style={{
-            background: 'rgba(26, 22, 18, 0.98)',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'var(--ivory)',
+            zIndex: 99,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
             padding: '2rem',
-            borderTop: '1px solid rgba(196, 148, 58, 0.2)',
+            gap: '0',
           }}
         >
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {/* Close */}
+          <button
+            onClick={() => setMenuOpen(false)}
+            style={{
+              position: 'absolute',
+              top: '1.5rem',
+              right: '1.5rem',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontFamily: 'var(--font-body)',
+              fontSize: '1.5rem',
+              color: 'var(--ink-light)',
+            }}
+          >
+            ×
+          </button>
+
+          <p
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '0.6rem',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'var(--bordeaux)',
+              marginBottom: '2rem',
+            }}
+          >
+            Wine Spectator — Napa Valley Guide
+          </p>
+
+          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column' }}>
             {navLinks.map((link) => (
-              <li key={link.href}>
+              <li
+                key={link.href}
+                style={{
+                  borderBottom: '1px solid var(--ivory-deep)',
+                  padding: '1.1rem 0',
+                }}
+              >
                 <Link
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
                   style={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: '1.5rem',
-                    color: 'var(--cream)',
-                    textDecoration: 'none',
+                    fontSize: '2rem',
                     fontWeight: 300,
+                    color: 'var(--ink)',
+                    textDecoration: 'none',
+                    display: 'block',
+                    transition: 'color 0.2s',
                   }}
                 >
                   {link.label}
@@ -202,11 +275,11 @@ export default function Nav() {
       )}
 
       <style>{`
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
           .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: flex !important; }
+          .mobile-btn { display: flex !important; }
         }
       `}</style>
-    </header>
+    </>
   )
 }

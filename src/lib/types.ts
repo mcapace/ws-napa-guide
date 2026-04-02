@@ -117,3 +117,10 @@ export interface Sponsor {
   }
   active: boolean
 }
+
+/** Map pins — shared with map components (single source, no circular imports). */
+export type MapPinType = 'winery' | 'restaurant' | 'hotel'
+
+export type MapPinFilterType = MapPinType | 'all'
+
+export type MapRegionFilter = string | 'all'
