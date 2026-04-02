@@ -14,7 +14,18 @@ const navLinks = [
   { label: 'Plan Your Visit', href: '/plan' },
 ]
 
-export default function Nav() {
+const INK_BG = 'rgba(13, 11, 9, 0.92)'
+const INK_BG_SOFT = 'rgba(13, 11, 9, 0.5)'
+
+export type NavTheme = 'ivory' | 'ink'
+
+type NavProps = {
+  /** `ink` = fixed dark/cinematic bar for #0D0B09 pages (therealhotels style) */
+  theme?: NavTheme
+}
+
+export default function Nav({ theme = 'ivory' }: NavProps) {
+  const isInk = theme === 'ink'
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [atTop, setAtTop] = useState(true)
@@ -28,7 +39,34 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const logoInvertSolidHeader = scrolled
+  const logoInvertSolidHeader = isInk ? true : scrolled
+
+  const headerBg =
+    isInk
+      ? scrolled
+        ? INK_BG
+        : INK_BG_SOFT
+      : scrolled
+        ? 'rgba(250,247,242,0.97)'
+        : 'rgba(250,247,242,0.0)'
+
+  const headerBorder =
+    isInk
+      ? '1px solid rgba(247, 243, 236, 0.08)'
+      : scrolled
+        ? '1px solid var(--ivory-deep)'
+        : '1px solid transparent'
+
+  const guideColor =
+    isInk
+      ? 'rgba(250,247,242,0.72)'
+      : scrolled
+        ? 'var(--bordeaux)'
+        : 'rgba(250,247,242,0.75)'
+
+  const linkColor = isInk ? 'rgba(250,247,242,0.55)' : undefined
+  const linkHover = isInk ? 'var(--gold)' : undefined
+  const hamburgerBg = isInk ? 'rgba(250,247,242,0.85)' : 'var(--ink)'
 
   return (
     <>
@@ -39,17 +77,13 @@ export default function Nav() {
           left: 0,
           right: 0,
           zIndex: 100,
-          background: scrolled
-            ? 'rgba(250,247,242,0.97)'
-            : 'rgba(250,247,242,0.0)',
-          backdropFilter: scrolled ? 'blur(16px)' : 'none',
-          borderBottom: scrolled
-            ? '1px solid var(--ivory-deep)'
-            : '1px solid transparent',
+          background: headerBg,
+          backdropFilter: isInk || scrolled ? 'blur(16px)' : 'none',
+          borderBottom: headerBorder,
           transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
         }}
       >
-        {atTop && (
+        {!isInk && atTop && (
           <div
             style={{
               background: 'var(--bordeaux)',
@@ -123,7 +157,7 @@ export default function Nav() {
               style={{
                 height: WS_LOGO_HEIGHT.nav,
                 width: 'auto',
-                filter: logoInvertSolidHeader ? 'none' : 'invert(1)',
+                filter: logoInvertSolidHeader ? 'invert(1)' : 'none',
                 transition: 'filter 0.35s ease',
               }}
             />
@@ -134,7 +168,7 @@ export default function Nav() {
                   fontSize: '0.55rem',
                   letterSpacing: '0.28em',
                   textTransform: 'uppercase',
-                  color: scrolled ? 'var(--bordeaux)' : 'rgba(250,247,242,0.75)',
+                  color: guideColor,
                   fontWeight: 500,
                   transition: 'color 0.35s ease',
                 }}
@@ -155,7 +189,24 @@ export default function Nav() {
           >
             {navLinks.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="nav-link">
+                <Link
+                  href={link.href}
+                  className={isInk ? 'nav-link-ink' : 'nav-link'}
+                  style={
+                    isInk
+                      ? {
+                          fontFamily: 'var(--font-body)',
+                          fontSize: '0.7rem',
+                          fontWeight: 400,
+                          letterSpacing: '0.14em',
+                          textTransform: 'uppercase',
+                          color: linkColor,
+                          textDecoration: 'none',
+                          transition: 'color 0.2s',
+                        }
+                      : undefined
+                  }
+                >
                   {link.label}
                 </Link>
               </li>
@@ -165,8 +216,25 @@ export default function Nav() {
                 href="https://www.winespectator.com/subscribe"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary"
-                style={{ padding: '0.55rem 1.25rem', fontSize: '0.62rem' }}
+                className={isInk ? '' : 'btn-primary'}
+                style={
+                  isInk
+                    ? {
+                        display: 'inline-block',
+                        fontFamily: 'var(--font-body)',
+                        fontSize: '0.62rem',
+                        fontWeight: 500,
+                        letterSpacing: '0.18em',
+                        textTransform: 'uppercase',
+                        color: '#0d0b09',
+                        background: 'var(--gold)',
+                        padding: '0.55rem 1.25rem',
+                        textDecoration: 'none',
+                        borderRadius: '2px',
+                        transition: 'filter 0.2s',
+                      }
+                    : { padding: '0.55rem 1.25rem', fontSize: '0.62rem' }
+                }
               >
                 Subscribe
               </a>
@@ -194,7 +262,7 @@ export default function Nav() {
                   display: 'block',
                   width: '22px',
                   height: '1.5px',
-                  background: 'var(--ink)',
+                  background: hamburgerBg,
                   transition: 'transform 0.3s, opacity 0.3s',
                   transform:
                     menuOpen && i === 0 ? 'rotate(45deg) translate(4px, 4px)'
@@ -216,7 +284,7 @@ export default function Nav() {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'var(--ivory)',
+            background: isInk ? '#0d0b09' : 'var(--ivory)',
             zIndex: 99,
             display: 'flex',
             flexDirection: 'column',
@@ -236,7 +304,7 @@ export default function Nav() {
               cursor: 'pointer',
               fontFamily: 'var(--font-body)',
               fontSize: '1.5rem',
-              color: 'var(--ink-light)',
+              color: isInk ? 'rgba(250,247,242,0.45)' : 'var(--ink-light)',
             }}
           >
             ×
@@ -248,7 +316,11 @@ export default function Nav() {
               alt="Wine Spectator"
               width={100}
               height={22}
-              style={{ height: 22, width: 'auto', filter: 'none' }}
+              style={{
+                height: 22,
+                width: 'auto',
+                filter: isInk ? 'invert(1)' : 'none',
+              }}
             />
           </div>
 
@@ -258,7 +330,7 @@ export default function Nav() {
               fontSize: '0.6rem',
               letterSpacing: '0.25em',
               textTransform: 'uppercase',
-              color: 'var(--bordeaux)',
+              color: isInk ? 'var(--gold)' : 'var(--bordeaux)',
               marginBottom: '2rem',
               marginTop: '3rem',
             }}
@@ -271,7 +343,7 @@ export default function Nav() {
               <li
                 key={link.href}
                 style={{
-                  borderBottom: '1px solid var(--ivory-deep)',
+                  borderBottom: `1px solid ${isInk ? 'rgba(247,243,236,0.1)' : 'var(--ivory-deep)'}`,
                   padding: '1.1rem 0',
                 }}
               >
@@ -282,7 +354,7 @@ export default function Nav() {
                     fontFamily: 'var(--font-display)',
                     fontSize: '2rem',
                     fontWeight: 300,
-                    color: 'var(--ink)',
+                    color: isInk ? '#f7f3ec' : 'var(--ink)',
                     textDecoration: 'none',
                     display: 'block',
                     transition: 'color 0.2s',
@@ -301,6 +373,7 @@ export default function Nav() {
           .desktop-nav { display: none !important; }
           .mobile-btn { display: flex !important; }
         }
+        .nav-link-ink:hover { color: ${linkHover ?? 'var(--bordeaux)'} !important; }
       `}</style>
     </>
   )
