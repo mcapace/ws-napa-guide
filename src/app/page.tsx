@@ -42,11 +42,11 @@ const HERO_POSTER = `https://cdn.jwplayer.com/v2/media/${HERO_MEDIA_ID}/poster.j
 
 // ── Mosaic panel positions (mirroring therealhotels) ─────────────────
 const PANELS = [
-  { id: 1, style: { width: 148, height: 190, top: '11%', left: '7%' }, imageIndex: 5 },
-  { id: 2, style: { width: 110, height: 145, top: '29%', left: '13%' }, imageIndex: 2 },
-  { id: 3, style: { width: 150, height: 100, top: '8%', left: '50%' }, imageIndex: 0 },
-  { id: 4, style: { width: 190, height: 160, top: '9%', right: '7%' }, imageIndex: 3 },
-  { id: 5, style: { width: 130, height: 170, bottom: '22%', right: '8%' }, imageIndex: 6 },
+  { id: 1, style: { width: 220, height: 280, top: '6%', left: '5%' }, imageIndex: 5 },
+  { id: 2, style: { width: 180, height: 230, top: '25%', left: '14%' }, imageIndex: 2 },
+  { id: 3, style: { width: 240, height: 160, top: '5%', left: '50%' }, imageIndex: 0 },
+  { id: 4, style: { width: 280, height: 240, top: '6%', right: '5%' }, imageIndex: 3 },
+  { id: 5, style: { width: 200, height: 260, bottom: '18%', right: '6%' }, imageIndex: 6 },
 ]
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
@@ -136,9 +136,6 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ── GLOBAL CURSOR ── */}
-      <Cursor />
-
       {/* ── NAV ── */}
       <nav
         style={{
@@ -168,7 +165,7 @@ export default function HomePage() {
           style={{
             background: 'none',
             border: 'none',
-            cursor: 'none',
+            cursor: 'pointer',
             padding: 4,
             display: 'flex',
             flexDirection: 'column',
@@ -210,7 +207,7 @@ export default function HomePage() {
                 border: 'none',
                 color: '#F7F3EC',
                 fontSize: 24,
-                cursor: 'none',
+                cursor: 'pointer',
                 opacity: 0.6,
               }}
             >
@@ -399,9 +396,9 @@ export default function HomePage() {
             ref={heroDisplayRef}
             style={{
               position: 'absolute',
-              bottom: '-0.12em',
-              left: 0,
-              right: 0,
+              bottom: '-0.08em',
+              left: '-2%',
+              right: '-2%',
               textAlign: 'center',
               zIndex: 12,
               pointerEvents: 'none',
@@ -413,10 +410,10 @@ export default function HomePage() {
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontWeight: 400,
-                fontSize: 'clamp(100px,18vw,260px)',
+                fontSize: 'clamp(140px, 22vw, 380px)',
                 color: '#F7F3EC',
-                letterSpacing: '-0.02em',
-                lineHeight: 0.85,
+                letterSpacing: '-0.03em',
+                lineHeight: 0.82,
                 whiteSpace: 'nowrap',
                 display: 'block',
               }}
@@ -838,7 +835,7 @@ export default function HomePage() {
               border: '1px solid rgba(247,243,236,0.12)',
               borderRadius: 2,
               padding: '8px 16px',
-              cursor: 'none',
+              cursor: 'pointer',
               ...styles.microLabel,
               color: 'rgba(155,146,131,0.5)',
             }}
@@ -853,40 +850,6 @@ export default function HomePage() {
 }
 
 // ── Sub-components ───────────────────────────────────────────────────
-
-function Cursor() {
-  const [pos, setPos] = useState({ x: -100, y: -100 })
-  const [big, setBig] = useState(false)
-  useEffect(() => {
-    const move = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY })
-    const over = () => setBig(true)
-    const out = () => setBig(false)
-    window.addEventListener('mousemove', move)
-    document.querySelectorAll('a,button').forEach((el) => {
-      el.addEventListener('mouseenter', over)
-      el.addEventListener('mouseleave', out)
-    })
-    return () => window.removeEventListener('mousemove', move)
-  }, [])
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        zIndex: 9999,
-        width: big ? 40 : 8,
-        height: big ? 40 : 8,
-        borderRadius: '50%',
-        background: '#F7F3EC',
-        left: pos.x,
-        top: pos.y,
-        transform: 'translate(-50%,-50%)',
-        pointerEvents: 'none',
-        mixBlendMode: 'difference',
-        transition: 'width 0.3s, height 0.3s',
-      }}
-    />
-  )
-}
 
 function RevealSection({ children }: { children: ReactNode }) {
   return (

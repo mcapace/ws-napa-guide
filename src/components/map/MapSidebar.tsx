@@ -60,7 +60,7 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            cursor: 'none',
+            cursor: 'pointer',
             fontSize: '1.1rem',
             zIndex: 1,
             transition: 'border-color 0.6s, color 0.6s',

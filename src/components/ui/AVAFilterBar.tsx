@@ -43,7 +43,7 @@ export default function AVAFilterBar({ onFilterChange, activeRegion }: AVAFilter
               background: isActive ? '#C4943A' : 'transparent',
               border: `1px solid ${isActive ? '#C4943A' : 'rgba(247,243,236,0.1)'}`,
               padding: '0.5rem 1rem',
-              cursor: 'none',
+              cursor: 'pointer',
               transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
               whiteSpace: 'nowrap',
               fontWeight: isActive ? 500 : 400,

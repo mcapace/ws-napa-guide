@@ -7,7 +7,7 @@
   font-family: var(--font-body);
   font-weight: 300;
   overflow-x: hidden;
-  cursor: none;
+  cursor: pointer;
 }
 
 .home * {
@@ -62,7 +62,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  cursor: none;
+  cursor: pointer;
   padding: 4px;
   background: none;
   border: none;
@@ -107,7 +107,7 @@
   border: none;
   color: var(--ivory, #faf7f2);
   font-size: 1.75rem;
-  cursor: none;
+  cursor: pointer;
   opacity: 0.7;
 }
 
@@ -356,7 +356,7 @@
   border: none;
   color: var(--ivory, #faf7f2);
   font-size: 24px;
-  cursor: none;
+  cursor: pointer;
   opacity: 0.6;
   transition: opacity 0.2s;
   font-family: var(--font-body);
@@ -447,7 +447,7 @@
   position: relative;
   height: 420px;
   overflow: hidden;
-  cursor: none;
+  cursor: pointer;
   background: #2a2520;
 }
 
@@ -628,7 +628,7 @@
   border-bottom: 1px solid rgba(247, 243, 236, 0.25);
   padding-bottom: 4px;
   transition: all 0.3s;
-  cursor: none;
+  cursor: pointer;
 }
 
 .featuredLink:hover {
@@ -739,7 +739,7 @@
   text-transform: uppercase;
   text-decoration: none;
   border-radius: 2px;
-  cursor: none;
+  cursor: pointer;
   transition: background 0.3s, color 0.3s;
 }
 
@@ -822,7 +822,7 @@
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  cursor: none;
+  cursor: pointer;
   padding: 12px 0 12px 24px;
   opacity: 0.6;
   transition: opacity 0.2s;

@@ -504,7 +504,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
                     position: 'relative',
                     height: 280,
                     overflow: 'hidden',
-                    cursor: 'none',
+                    cursor: 'pointer',
                     borderRadius: 2,
                   }}
                 >
@@ -817,7 +817,7 @@ function CompactCard({ href, title, meta, excerpt }: { href: string; title: stri
           alignItems: 'start',
           padding: '28px 0',
           borderTop: '1px solid rgba(247,243,236,0.07)',
-          cursor: 'none',
+          cursor: 'pointer',
           background: hovered ? 'rgba(247,243,236,0.02)' : 'transparent',
           transition: 'background 0.3s',
         }}
