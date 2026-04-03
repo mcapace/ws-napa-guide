@@ -82,15 +82,28 @@ export default function HomePage() {
     const fullscreenOverlay = fullscreenOverlayRef.current
     const panels = panelRefs.current
 
-    const onScroll = () => {
+    // Smooth interpolation target
+    let currentProgress = 0
+    let targetProgress = 0
+    let raf: number
+
+    const updateTarget = () => {
       if (!scrollContainer) return
-      const vw = window.innerWidth
       const vh = window.innerHeight
       const containerTop = scrollContainer.getBoundingClientRect().top
       const containerHeight = scrollContainer.offsetHeight
       const scrolled = -containerTop
       const total = containerHeight - vh
-      const progress = clamp(scrolled / total, 0, 1)
+      targetProgress = clamp(scrolled / total, 0, 1)
+    }
+
+    const animate = () => {
+      // Smoothly interpolate toward target (buttery feel)
+      currentProgress += (targetProgress - currentProgress) * 0.08
+
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      const progress = currentProgress
 
       const expandProgress = clamp((progress - 0.25) / 0.6, 0, 1)
       const expandEased = easeInOut(expandProgress)
@@ -116,6 +129,7 @@ export default function HomePage() {
         fullscreenOverlay.style.pointerEvents = overlayProgress > 0.5 ? 'all' : 'none'
       }
 
+      const scrolled = -((scrollContainerRef.current?.getBoundingClientRect().top ?? 0))
       panels.forEach((panel, i) => {
         if (!panel) return
         const drift = scrolled * SPEEDS[i]
@@ -123,20 +137,24 @@ export default function HomePage() {
         const tx = i === 2 ? '-50%' : '0'
         panel.style.transform = `translateY(${-drift}px) translateX(${tx}) rotate(${rot})`
       })
+
+      raf = requestAnimationFrame(animate)
     }
 
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-    onScroll()
+    window.addEventListener('scroll', updateTarget, { passive: true })
+    window.addEventListener('resize', updateTarget, { passive: true })
+    updateTarget()
+    raf = requestAnimationFrame(animate)
     return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
+      window.removeEventListener('scroll', updateTarget)
+      window.removeEventListener('resize', updateTarget)
+      cancelAnimationFrame(raf)
     }
   }, [])
 
   return (
     <>
-      {/* ── NAV ── */}
+      {/* ── NAV (therealhotels: branded label left, hamburger right) ── */}
       <nav
         style={{
           position: 'fixed',
@@ -151,14 +169,39 @@ export default function HomePage() {
           mixBlendMode: 'difference',
         }}
       >
-        <Link href="/" style={{ display: 'inline-block' }}>
-          <Image
-            src="/logos/WS_logo__1_.png"
-            alt="Wine Spectator"
-            width={160}
-            height={24}
-            style={{ filter: 'invert(1)', height: '22px', width: 'auto' }}
+        <Link
+          href="/"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            textDecoration: 'none',
+          }}
+        >
+          <span
+            style={{
+              display: 'block',
+              width: 2,
+              height: 28,
+              background: '#C4943A',
+              flexShrink: 0,
+            }}
           />
+          <span
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 9,
+              fontWeight: 500,
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: '#F7F3EC',
+              lineHeight: 1.4,
+            }}
+          >
+            Wine Spectator&apos;s Guide to
+            <br />
+            Napa Valley
+          </span>
         </Link>
         <button
           onClick={() => setMenuOpen(true)}
@@ -169,13 +212,14 @@ export default function HomePage() {
             padding: 4,
             display: 'flex',
             flexDirection: 'column',
-            gap: 5,
+            gap: 6,
           }}
           aria-label="Open menu"
           type="button"
         >
-          <span style={{ display: 'block', width: 28, height: 1, background: '#F7F3EC' }} />
-          <span style={{ display: 'block', width: 28, height: 1, background: '#F7F3EC' }} />
+          <span style={{ display: 'block', width: 28, height: 1.5, background: '#F7F3EC' }} />
+          <span style={{ display: 'block', width: 28, height: 1.5, background: '#F7F3EC' }} />
+          <span style={{ display: 'block', width: 28, height: 1.5, background: '#F7F3EC' }} />
         </button>
       </nav>
 
@@ -349,12 +393,12 @@ export default function HomePage() {
             style={{
               position: 'absolute',
               left: '50%',
-              top: '50%',
+              top: '34%',
               transform: 'translate(-50%, -50%)',
               textAlign: 'center',
               zIndex: 15,
-              marginTop: 140,
               width: '100%',
+              maxWidth: 600,
               padding: '0 20px',
               pointerEvents: 'none',
               willChange: 'opacity',
@@ -365,11 +409,11 @@ export default function HomePage() {
                 fontFamily: "'Cormorant Garamond', serif",
                 fontStyle: 'italic',
                 fontWeight: 300,
-                fontSize: 'clamp(22px,3vw,36px)',
+                fontSize: 'clamp(24px, 3vw, 40px)',
                 color: '#F7F3EC',
-                lineHeight: 1.2,
+                lineHeight: 1.25,
                 letterSpacing: '-0.01em',
-                marginBottom: 14,
+                marginBottom: 16,
               }}
             >
               The valley that changed
@@ -382,13 +426,13 @@ export default function HomePage() {
                 fontSize: 12,
                 fontWeight: 300,
                 letterSpacing: '0.08em',
-                color: 'rgba(247,243,236,0.55)',
-                lineHeight: 1.6,
+                color: 'rgba(247,243,236,0.5)',
+                lineHeight: 1.7,
               }}
             >
-              Wine Spectator&apos;s definitive guide to Napa —
+              Check in to the legendary wineries, restaurants, and hotels
               <br />
-              wineries, restaurants, hotels, and the roads less traveled.
+              from Wine Spectator&apos;s June 2026 issue.
             </p>
           </div>
 
@@ -560,13 +604,14 @@ export default function HomePage() {
         </section>
       </RevealSection>
 
-      {/* ── FEATURED REGIONS: full-viewport image sections with centered name ── */}
+      {/* ── FEATURED REGIONS: full-viewport stacking sections (therealhotels overlap scroll) ── */}
       {featuredRegions.map((region, i) => (
-        <RevealSection key={region.slug}>
+        <div key={region.slug} style={{ height: '100vh', position: 'relative', zIndex: featuredRegions.length - i }}>
           <Link href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
             <section
               style={{
-                position: 'relative',
+                position: 'sticky',
+                top: 0,
                 height: '100vh',
                 minHeight: 600,
                 overflow: 'hidden',
@@ -646,7 +691,7 @@ export default function HomePage() {
               </div>
             </section>
           </Link>
-        </RevealSection>
+        </div>
       ))}
 
       {/* ── "IN THE WILD" / FROM THE JUNE ISSUE ── */}
