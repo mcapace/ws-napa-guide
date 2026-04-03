@@ -880,7 +880,7 @@ function AVAStrip({ region, index }: { region: RegionData; index: number }) {
         }}
       >
         <Image
-          src={TEST_IMAGES[index % 7]}
+          src={region.heroImage}
           alt={region.name}
           fill
           sizes="280px"
@@ -933,7 +933,7 @@ function RegionEditorialCard({ region, index }: { region: RegionData; index: num
     >
       <div style={{ flex: '1 1 50%', position: 'relative', minHeight: 600, overflow: 'hidden' }}>
         <Image
-          src={TEST_IMAGES[index % 7]}
+          src={region.heroImage}
           alt={region.name}
           fill
           sizes="50vw"

@@ -10,31 +10,6 @@ import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
 
-const TEST_IMAGES = [
-  '/test-images/AdobeStock_39828282.jpeg',
-  '/test-images/AdobeStock_85747125.jpeg',
-  '/test-images/AdobeStock_86969265.jpeg',
-  '/test-images/AdobeStock_164779985.jpeg',
-  '/test-images/AdobeStock_286007082.jpeg',
-  '/test-images/AdobeStock_291250504.jpeg',
-  '/test-images/AdobeStock_805204520.jpeg',
-]
-
-/** Same semantics as findIndex((_, i) => i === s.length % 7) — picks image by slug length. */
-function slugToIndex(s: string) {
-  return s.length % 7
-}
-
-const REGION_SLUG_TO_IMAGE_INDEX: Record<string, number> = {
-  oakville: 3,
-  rutherford: 0,
-  yountville: 6,
-  'st-helena': 1,
-  calistoga: 5,
-  'pritchard-hill': 4,
-  'downtown-napa': 2,
-}
-
 function orderedWineries(winerySlugs: string[]) {
   return winerySlugs
     .map((s) => wineries.find((w) => w.slug === s))
@@ -74,8 +49,6 @@ export default function RegionPageClient({ slug }: { slug: string }) {
 
   const pullQuote = region.pullQuote ?? region.intro
   const heroSubtitle = region.tagline
-  const regionImageIndex = REGION_SLUG_TO_IMAGE_INDEX[slug] ?? 0
-  const featuredCardImageIndex = slugToIndex(slug)
 
   return (
     <>
@@ -125,7 +98,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
         }}
       >
         <Image
-          src={TEST_IMAGES[regionImageIndex]}
+          src={region.heroImage}
           alt={region.name}
           fill
           priority
@@ -356,7 +329,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
                 body={w.description}
                 cta="Reserve a visit →"
                 externalHref={w.visitInfo?.website}
-                imageIndex={featuredCardImageIndex}
+                imageSrc={w.images[0]}
               />
             ))}
 
@@ -397,7 +370,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
                 body={r.description}
                 cta="Make a reservation →"
                 externalHref={r.reservations ?? r.website ?? undefined}
-                imageIndex={featuredCardImageIndex}
+                imageSrc={r.images[0]}
               />
             ))}
             {regionRestaurants.slice(1).map((r) => (
@@ -536,7 +509,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
                   }}
                 >
                   <Image
-                    src={TEST_IMAGES[index % 7]}
+                    src={r.heroImage}
                     alt={r.name}
                     fill
                     sizes="33vw"
@@ -692,7 +665,7 @@ function FeaturedCard({
   body,
   cta,
   externalHref,
-  imageIndex,
+  imageSrc,
 }: {
   href: string
   eyebrow: string
@@ -700,7 +673,7 @@ function FeaturedCard({
   body: string
   cta: string
   externalHref?: string
-  imageIndex: number
+  imageSrc: string
 }) {
   return (
     <div
@@ -720,7 +693,7 @@ function FeaturedCard({
         }}
       >
         <Image
-          src={TEST_IMAGES[imageIndex % 7]}
+          src={imageSrc}
           alt={title}
           fill
           sizes="50vw"
