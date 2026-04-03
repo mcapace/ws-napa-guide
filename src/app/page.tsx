@@ -570,10 +570,6 @@ export default function HomePage() {
                 height: '100vh',
                 minHeight: 600,
                 overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
               }}
             >
               <Image
@@ -605,9 +601,33 @@ export default function HomePage() {
                 >
                   Napa Valley Appellation
                 </p>
+                <p
+                  data-text-split=""
+                  data-lines-slide-up=""
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 10,
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(247,243,236,0.5)',
+                    marginTop: 4,
+                  }}
+                >
+                  {region.tagline}
+                </p>
               </div>
-              {/* Name centered */}
-              <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
+              {/* Name anchored at bottom (therealhotels pattern) */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  textAlign: 'center',
+                  zIndex: 2,
+                  padding: '0 60px 48px',
+                }}
+              >
                 <h2
                   data-text-split=""
                   data-letters-rotate-in=""
@@ -619,24 +639,10 @@ export default function HomePage() {
                     color: '#F7F3EC',
                     lineHeight: 0.9,
                     letterSpacing: '-0.03em',
-                    marginBottom: 12,
                   }}
                 >
                   {region.name}
                 </h2>
-                <p
-                  data-text-split=""
-                  data-lines-slide-up=""
-                  style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 11,
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(247,243,236,0.6)',
-                  }}
-                >
-                  {region.tagline}
-                </p>
               </div>
             </section>
           </Link>
