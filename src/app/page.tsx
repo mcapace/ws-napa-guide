@@ -610,10 +610,11 @@ export default function HomePage() {
         </section>
       </RevealSection>
 
-      {/* ── FEATURED REGIONS: full-viewport image sections ── */}
+      {/* ── FEATURED REGIONS: full-viewport image sections with clip-path reveal ── */}
       {featuredRegions.map((region) => (
         <Link key={region.slug} href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
           <section
+            className="region-hero-section"
             style={{
               position: 'relative',
               height: '100vh',
@@ -621,6 +622,13 @@ export default function HomePage() {
               overflow: 'hidden',
             }}
           >
+            <div
+              data-image-reveal=""
+              style={{
+                position: 'absolute',
+                inset: 0,
+              }}
+            >
               <Image
                 src={region.heroImage}
                 alt={region.name}
@@ -628,6 +636,7 @@ export default function HomePage() {
                 sizes="100vw"
                 style={{ objectFit: 'cover' }}
               />
+            </div>
               {/* Metadata top center */}
               <div
                 style={{
