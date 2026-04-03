@@ -28,49 +28,97 @@ const HERO_POSTER = `https://cdn.jwplayer.com/v2/media/${HERO_MEDIA_ID}/poster.j
 
 // ── Mosaic panel positions (mirroring therealhotels) ─────────────────
 const PANELS = [
-  { id: 1, style: { width: 148, height: 190, top: '11%', left: '7%', rotate: -1.5 }, speed: 0.06, imageIndex: 5 },
-  { id: 2, style: { width: 110, height: 145, top: '29%', left: '13%', rotate: 1.0 }, speed: 0.09, imageIndex: 2 },
-  { id: 3, style: { width: 150, height: 100, top: '8%', left: '50%', rotate: 0.5, translateX: '-50%' }, speed: 0.04, imageIndex: 0 },
-  { id: 4, style: { width: 190, height: 160, top: '9%', right: '7%', rotate: -0.8 }, speed: 0.07, imageIndex: 3 },
-  { id: 5, style: { width: 130, height: 170, bottom: '22%', right: '8%', rotate: 1.2 }, speed: 0.05, imageIndex: 6 },
+  { id: 1, style: { width: 148, height: 190, top: '11%', left: '7%' }, imageIndex: 5 },
+  { id: 2, style: { width: 110, height: 145, top: '29%', left: '13%' }, imageIndex: 2 },
+  { id: 3, style: { width: 150, height: 100, top: '8%', left: '50%' }, imageIndex: 0 },
+  { id: 4, style: { width: 190, height: 160, top: '9%', right: '7%' }, imageIndex: 3 },
+  { id: 5, style: { width: 130, height: 170, bottom: '22%', right: '8%' }, imageIndex: 6 },
 ]
 
+const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
+const PANEL_ROTS = ['-1.5deg', '1deg', '0.5deg', '-0.8deg', '1.2deg'] as const
+
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t
+}
+function clamp(v: number, min: number, max: number) {
+  return Math.min(Math.max(v, min), max)
+}
+function easeInOut(t: number) {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+}
+
 export default function HomePage() {
-  const heroRef = useRef<HTMLElement>(null)
   const avaRef = useRef<HTMLElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const overlayVideoRef = useRef<HTMLVideoElement>(null)
-  const [expanded, setExpanded] = useState(false)
-  const [overlayVisible, setOverlayVisible] = useState(false)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const mosaicRef = useRef<HTMLDivElement>(null)
+  const centerPanelRef = useRef<HTMLDivElement>(null)
+  const heroCopyRef = useRef<HTMLDivElement>(null)
+  const heroDisplayRef = useRef<HTMLDivElement>(null)
+  const fullscreenOverlayRef = useRef<HTMLDivElement>(null)
+  const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
-  const [scrollY_val, setScrollY_val] = useState(0)
 
   useEffect(() => {
-    const handleScroll = () => {
-      const hero = heroRef.current
-      if (!hero) return
-      const heroH = hero.offsetHeight
-      const scrolled = window.scrollY
-      setScrollY_val(scrolled)
-      const start = heroH * 0.3
-      const end = heroH * 0.8
+    const scrollContainer = scrollContainerRef.current
+    const centerPanel = centerPanelRef.current
+    const mosaic = mosaicRef.current
+    const heroCopy = heroCopyRef.current
+    const heroDisplay = heroDisplayRef.current
+    const fullscreenOverlay = fullscreenOverlayRef.current
+    const panels = panelRefs.current
 
-      if (scrolled >= end) {
-        setOverlayVisible(true)
-        setExpanded(true)
-      } else if (scrolled <= start) {
-        setOverlayVisible(false)
-        setExpanded(false)
+    const onScroll = () => {
+      if (!scrollContainer) return
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      const containerTop = scrollContainer.getBoundingClientRect().top
+      const containerHeight = scrollContainer.offsetHeight
+      const scrolled = -containerTop
+      const total = containerHeight - vh
+      const progress = clamp(scrolled / total, 0, 1)
+
+      const expandProgress = clamp((progress - 0.35) / 0.5, 0, 1)
+      const expandEased = easeInOut(expandProgress)
+
+      const panelW = lerp(200, vw, expandEased)
+      const panelH = lerp(140, vh, expandEased)
+      const panelR = lerp(3, 0, expandEased)
+      if (centerPanel) {
+        centerPanel.style.width = `${panelW}px`
+        centerPanel.style.height = `${panelH}px`
+        centerPanel.style.borderRadius = `${panelR}px`
       }
+
+      const mosaicOpacity = clamp(1 - expandProgress * 2, 0, 1)
+      if (mosaic) mosaic.style.opacity = String(mosaicOpacity)
+
+      if (heroCopy) heroCopy.style.opacity = String(clamp(1 - expandProgress * 3, 0, 1))
+      if (heroDisplay) heroDisplay.style.opacity = String(clamp(1 - expandProgress * 2, 0, 1))
+
+      const overlayProgress = clamp((progress - 0.82) / 0.18, 0, 1)
+      if (fullscreenOverlay) {
+        fullscreenOverlay.style.opacity = String(overlayProgress)
+        fullscreenOverlay.style.pointerEvents = overlayProgress > 0.5 ? 'all' : 'none'
+      }
+
+      panels.forEach((panel, i) => {
+        if (!panel) return
+        const drift = scrolled * SPEEDS[i]
+        const rot = PANEL_ROTS[i]
+        const tx = i === 2 ? '-50%' : '0'
+        panel.style.transform = `translateY(${-drift}px) translateX(${tx}) rotate(${rot})`
+      })
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
+    onScroll()
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [])
-
-  // Parallax offset per panel
-  const panelOffset = (speed: number) => -scrollY_val * speed
 
   return (
     <>
@@ -84,7 +132,7 @@ export default function HomePage() {
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 200,
+          zIndex: 1000,
           padding: '24px 36px',
           display: 'flex',
           justifyContent: 'space-between',
@@ -193,183 +241,81 @@ export default function HomePage() {
         )}
       </AnimatePresence>
 
-      {/* ── HERO ── */}
-      <section
-        ref={heroRef}
-        style={{
-          position: 'relative',
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
-          background: '#0D0B09',
-        }}
-      >
-        {/* Scattered mosaic panels */}
-        {PANELS.map((panel) => (
+      {/* ── STICKY SCROLL HERO (400vh) — progress drives panel via JS, not React state ── */}
+      <div ref={scrollContainerRef} style={{ position: 'relative', height: '400vh' }}>
+        <div
+          style={{
+            position: 'sticky',
+            top: 0,
+            height: '100vh',
+            overflow: 'hidden',
+            background: '#0D0B09',
+            zIndex: 10,
+          }}
+        >
           <div
-            key={panel.id}
+            ref={mosaicRef}
             style={{
               position: 'absolute',
-              width: panel.style.width,
-              height: panel.style.height,
-              top: panel.style.top,
-              left: (panel.style as { left?: string; right?: string; bottom?: string; translateX?: string }).left,
-              right: (panel.style as { right?: string }).right,
-              bottom: (panel.style as { bottom?: string }).bottom,
-              transform: `translateY(${panelOffset(panel.speed)}px) translateX(${(panel.style as { translateX?: string }).translateX ?? '0'}) rotate(${panel.style.rotate}deg)`,
+              inset: 0,
+              pointerEvents: 'none',
+              willChange: 'opacity',
+            }}
+          >
+            {PANELS.map((panel, i) => (
+              <div
+                key={panel.id}
+                ref={(el) => {
+                  panelRefs.current[i] = el
+                }}
+                style={{
+                  position: 'absolute',
+                  width: panel.style.width,
+                  height: panel.style.height,
+                  top: panel.style.top,
+                  left: (panel.style as { left?: string; right?: string; bottom?: string }).left,
+                  right: (panel.style as { right?: string }).right,
+                  bottom: (panel.style as { bottom?: string }).bottom,
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                  willChange: 'transform',
+                }}
+              >
+                <Image
+                  src={TEST_IMAGES[panel.imageIndex]}
+                  alt=""
+                  fill
+                  sizes="200px"
+                  style={{ objectFit: 'cover', objectPosition: 'center' }}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div
+            ref={centerPanelRef}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              width: 200,
+              height: 140,
+              transform: 'translate(-50%, -50%)',
               borderRadius: 3,
               overflow: 'hidden',
-              opacity: expanded ? 0 : 1,
-              transition: 'opacity 0.4s ease',
-              pointerEvents: 'none',
+              zIndex: 20,
+              willChange: 'width, height, border-radius',
             }}
           >
             <Image
-              src={TEST_IMAGES[panel.imageIndex]}
+              src={TEST_IMAGES[4]}
               alt=""
               fill
-              sizes="200px"
+              priority
+              sizes="100vw"
               style={{ objectFit: 'cover', objectPosition: 'center' }}
             />
-          </div>
-        ))}
-
-        {/* Center hero video panel — expands on scroll */}
-        <div
-          style={{
-            position: 'absolute',
-            width: expanded ? '100vw' : 200,
-            height: expanded ? '100vh' : 140,
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            borderRadius: expanded ? 0 : 3,
-            overflow: 'hidden',
-            zIndex: expanded ? 50 : 10,
-            transition:
-              'width 0.7s cubic-bezier(0.77,0,0.175,1), height 0.7s cubic-bezier(0.77,0,0.175,1), border-radius 0.7s ease',
-            opacity: overlayVisible ? 0 : 1,
-          }}
-        >
-          <Image
-            src={TEST_IMAGES[4]}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            style={{ objectFit: 'cover', objectPosition: 'center', zIndex: 0 }}
-          />
-          <video
-            ref={videoRef}
-            src={HERO_MP4}
-            poster={HERO_POSTER}
-            autoPlay
-            muted
-            loop
-            playsInline
-            style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        </div>
-
-        {/* Editorial copy — centered */}
-        <div
-          style={{
-            position: 'relative',
-            zIndex: 20,
-            textAlign: 'center',
-            padding: '0 20px',
-            marginTop: 180,
-            opacity: expanded ? 0 : 1,
-            transition: 'opacity 0.3s ease',
-            pointerEvents: 'none',
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: 'italic',
-              fontWeight: 300,
-              fontSize: 'clamp(22px,3vw,36px)',
-              color: '#F7F3EC',
-              lineHeight: 1.2,
-              letterSpacing: '-0.01em',
-              marginBottom: 14,
-            }}
-          >
-            The valley that changed
-            <br />
-            American wine forever.
-          </p>
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12,
-              fontWeight: 300,
-              letterSpacing: '0.08em',
-              color: 'rgba(247,243,236,0.55)',
-              lineHeight: 1.6,
-            }}
-          >
-            Wine Spectator&apos;s definitive guide to Napa —
-            <br />
-            wineries, restaurants, hotels, and the roads less traveled.
-          </p>
-        </div>
-
-        {/* Massive display type at bottom */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-0.12em',
-            left: 0,
-            right: 0,
-            textAlign: 'center',
-            zIndex: 5,
-            pointerEvents: 'none',
-            overflow: 'hidden',
-            opacity: expanded ? 0 : 1,
-            transition: 'opacity 0.3s ease',
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 400,
-              fontSize: 'clamp(100px,18vw,260px)',
-              color: '#F7F3EC',
-              letterSpacing: '-0.02em',
-              lineHeight: 0.85,
-              whiteSpace: 'nowrap',
-              display: 'block',
-            }}
-          >
-            Napa Valley
-          </span>
-        </div>
-      </section>
-
-      {/* Scroll spacer to drive expansion */}
-      <div style={{ height: '100vh', background: '#0D0B09' }} />
-
-      {/* ── FULLSCREEN VIDEO OVERLAY ── */}
-      <AnimatePresence>
-        {overlayVisible && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 300,
-              background: '#0D0B09',
-            }}
-          >
             <video
-              ref={overlayVideoRef}
               src={HERO_MP4}
               poster={HERO_POSTER}
               autoPlay
@@ -377,14 +323,105 @@ export default function HomePage() {
               loop
               playsInline
               style={{
+                position: 'absolute',
+                inset: 0,
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                opacity: 1,
                 filter: 'brightness(1.3) contrast(1.1)',
               }}
             />
-            {/* WS logo top-left */}
+          </div>
+
+          <div
+            ref={heroCopyRef}
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              zIndex: 15,
+              marginTop: 140,
+              width: '100%',
+              padding: '0 20px',
+              pointerEvents: 'none',
+              willChange: 'opacity',
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontStyle: 'italic',
+                fontWeight: 300,
+                fontSize: 'clamp(22px,3vw,36px)',
+                color: '#F7F3EC',
+                lineHeight: 1.2,
+                letterSpacing: '-0.01em',
+                marginBottom: 14,
+              }}
+            >
+              The valley that changed
+              <br />
+              American wine forever.
+            </p>
+            <p
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 12,
+                fontWeight: 300,
+                letterSpacing: '0.08em',
+                color: 'rgba(247,243,236,0.55)',
+                lineHeight: 1.6,
+              }}
+            >
+              Wine Spectator&apos;s definitive guide to Napa —
+              <br />
+              wineries, restaurants, hotels, and the roads less traveled.
+            </p>
+          </div>
+
+          <div
+            ref={heroDisplayRef}
+            style={{
+              position: 'absolute',
+              bottom: '-0.12em',
+              left: 0,
+              right: 0,
+              textAlign: 'center',
+              zIndex: 12,
+              pointerEvents: 'none',
+              overflow: 'hidden',
+              willChange: 'opacity',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontWeight: 400,
+                fontSize: 'clamp(100px,18vw,260px)',
+                color: '#F7F3EC',
+                letterSpacing: '-0.02em',
+                lineHeight: 0.85,
+                whiteSpace: 'nowrap',
+                display: 'block',
+              }}
+            >
+              Napa Valley
+            </span>
+          </div>
+
+          <div
+            ref={fullscreenOverlayRef}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 25,
+              pointerEvents: 'none',
+              opacity: 0,
+              willChange: 'opacity',
+            }}
+          >
             <div style={{ position: 'absolute', top: 28, left: 36 }}>
               <Image
                 src="/logos/WS_logo__1_.png"
@@ -394,7 +431,6 @@ export default function HomePage() {
                 style={{ filter: 'invert(1)', height: '24px', width: 'auto' }}
               />
             </div>
-            {/* Bottom content */}
             <div
               style={{
                 position: 'absolute',
@@ -438,7 +474,7 @@ export default function HomePage() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-end' }}>
                 <Link
-                  href="/regions"
+                  href="#main-content"
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
                     fontSize: 11,
@@ -453,35 +489,29 @@ export default function HomePage() {
                 >
                   Browse the guide ↗
                 </Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOverlayVisible(false)
-                    setExpanded(false)
-                    requestAnimationFrame(() => {
-                      avaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                    })
-                  }}
+                <Link
+                  href="/regions"
                   style={{
-                    background: 'none',
-                    border: 'none',
                     fontFamily: "'DM Sans', sans-serif",
                     fontSize: 11,
+                    fontWeight: 400,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
-                    color: 'rgba(247,243,236,0.4)',
-                    cursor: 'none',
+                    color: 'rgba(247,243,236,0.55)',
+                    textDecoration: 'none',
+                    borderBottom: '1px solid rgba(247,243,236,0.2)',
+                    paddingBottom: 4,
                   }}
                 >
-                  ✕ Close
-                </button>
+                  All regions →
+                </Link>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      </div>
 
-      <div style={{ position: 'relative', zIndex: 1 }}>
+      <div id="main-content" style={{ position: 'relative', zIndex: 5, background: '#0D0B09' }}>
       {/* ── BROWSE BY AVA ── */}
       <RevealSection>
         <section
