@@ -611,18 +611,18 @@ export default function HomePage() {
       </RevealSection>
 
       {/* ── FEATURED REGIONS: stacking sticky cards (therealhotels overlap scroll) ── */}
-      {featuredRegions.map((region, i) => (
-        <Link key={region.slug} href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
-          <section
-            style={{
-              position: 'sticky',
-              top: 0,
-              height: '100vh',
-              minHeight: 600,
-              overflow: 'hidden',
-              zIndex: i + 1,
-            }}
-          >
+      <div style={{ position: 'relative' }}>
+        {featuredRegions.map((region, i) => (
+          <div key={region.slug} style={{ height: i < featuredRegions.length - 1 ? '100vh' : 0 }}>
+            <Link href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block', position: 'sticky', top: 0, zIndex: i + 1 }}>
+              <section
+                style={{
+                  height: '100vh',
+                  minHeight: 600,
+                  overflow: 'hidden',
+                  position: 'relative',
+                }}
+              >
               <Image
                 src={region.heroImage}
                 alt={region.name}
@@ -695,9 +695,11 @@ export default function HomePage() {
                   {region.name}
                 </h2>
               </div>
-          </section>
-        </Link>
-      ))}
+              </section>
+            </Link>
+          </div>
+        ))}
+      </div>
 
       {/* ── "IN THE WILD" / FROM THE JUNE ISSUE ── */}
       <RevealSection>
