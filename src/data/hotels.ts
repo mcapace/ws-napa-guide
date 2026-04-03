@@ -1,6 +1,11 @@
 import type { Hotel } from '@/lib/types'
+import { TEST_IMAGES } from '@/lib/test-images'
 
-const himg = ['/placeholders/hotel-resort.jpg', '/placeholders/hotel-hillside.jpg', '/placeholders/hotel-intimate.jpg']
+const imgs = (n: number) => [
+  TEST_IMAGES[n % TEST_IMAGES.length],
+  TEST_IMAGES[(n + 1) % TEST_IMAGES.length],
+  TEST_IMAGES[(n + 2) % TEST_IMAGES.length],
+]
 
 export const hotels: Hotel[] = [
   {
@@ -15,7 +20,7 @@ export const hotels: Hotel[] = [
     description: `Following a recent $1.8 million guestroom renovation, Bardessono further cemented itself as one of Napa's premier five-star hotels. One of only 14 LEED Platinum-certified hotels in the U.S., it brings a new meaning to eco-luxury, with 62 spacious, lavish rooms. A rooftop pool with plush cabanas and daybeds beckons. The on-site organic garden supplies many of the ingredients found at Lucy Restaurant and Bar.`,
     excerpt: 'LEED Platinum Yountville — rooftop pool, Lucy, and refreshed suites.',
     sponsorTier: null,
-    images: [himg[0]],
+    images: imgs(0),
     featured: true,
   },
   {
@@ -30,7 +35,7 @@ export const hotels: Hotel[] = [
     description: `Formerly Poetry Inn, this Howard Backen-designed boutique luxury hotel recently received a rebrand. Perched on the eastern hills in Stags Leap, its remote location promotes privacy. Each luxurious, curated room is named after renowned poets such as Emily Dickinson and Robert Louis Stevenson. Includes a wood-burning fireplace, deep soaking tub, and west-facing terraces.`,
     excerpt: 'Howard Backen hillside retreat — poet-named suites above Stags Leap.',
     sponsorTier: null,
-    images: [himg[2]],
+    images: imgs(4),
   },
   {
     slug: 'rancho-caymus-inn',
@@ -44,7 +49,7 @@ export const hotels: Hotel[] = [
     description: `Recently renovated, this inn has plenty of personality. It was originally designed by the Morton Salt heiress Mary Tilden Morton, who leaned into Spanish-hacienda architecture with 19th-century barn wood beams and wrought iron details. Today, it's the Goldilocks of Napa Valley hotels — quiet vibes in the tiny town of Rutherford, conveniently located halfway up the valley.`,
     excerpt: 'Spanish hacienda soul — barn beams and Goldilocks calm in Rutherford.',
     sponsorTier: null,
-    images: [himg[1]],
+    images: imgs(2),
   },
   {
     slug: 'auberge-du-soleil',
@@ -58,7 +63,7 @@ export const hotels: Hotel[] = [
     description: `The legendary hillside resort perched above the Rutherford Bench. The Restaurant at Auberge du Soleil offers one of the most celebrated dining experiences in Napa Valley, with sweeping vineyard views.`,
     excerpt: 'Mediterranean suites and the valley’s most famous hillside restaurant.',
     sponsorTier: null,
-    images: [himg[0]],
+    images: imgs(0),
     featured: true,
   },
   {
@@ -73,7 +78,7 @@ export const hotels: Hotel[] = [
     description: `A historic setting, Alila's main lobby is located in the property's original 1907 Georgian Revival residence. Now Hyatt's Alila, a 69-room adult-focused property. The main restaurant, Violetto, features four and eight-course tasting menus for dinner, while the Salvia Terrace offers à la carte options. A full spa and swimming pool fill out the grounds.`,
     excerpt: '1907 Georgian Revival reborn as adults-only Alila on Main Street.',
     sponsorTier: null,
-    images: [himg[1]],
+    images: imgs(2),
   },
   {
     slug: 'harvest-inn',
@@ -87,7 +92,7 @@ export const hotels: Hotel[] = [
     description: `Owner Rick Kaufman has been tweaking and improving Harvest Inn ever since purchasing it in 2013. The Tudor-style buildings that house the guest rooms feature brick work and leaded-glass windows. The 8-acre property meanders through towering redwoods that provide cool shade. It borders the Leonardini Vineyard of Whitehall Lane, affording some rooms picturesque views.`,
     excerpt: 'Tudor cottages, redwood paths, and Leonardini views at the base of Spring Mountain.',
     sponsorTier: null,
-    images: [himg[2]],
+    images: imgs(4),
   },
   {
     slug: 'wydown-hotel',
@@ -101,7 +106,7 @@ export const hotels: Hotel[] = [
     description: `This is among the smallest hotels in town, occupying the historic Kibbler building (built in 1886), a former drug store that now houses a 12-room boutique hotel. The location is perfect — catty corner from Model Bakery and steps from the main shopping and restaurant section of town. Owner Mark Hoffmeister describes it as feeling like you're in a cool apartment.`,
     excerpt: 'Twelve rooms above Main — 1886 Kibbler building opposite Model Bakery.',
     sponsorTier: null,
-    images: [himg[0]],
+    images: imgs(0),
   },
   {
     slug: 'solage',
@@ -115,7 +120,7 @@ export const hotels: Hotel[] = [
     description: `Of Auberge Resorts' three Napa Valley properties, Solage is the most relaxed and approachable, popular with both guests and locals who come enjoy the pool and spa with day passes. Guests stay in luxurious bungalows reached on winding shady paths, with glass doors that open wide into private yards. A 20,000-square-foot spa with a signature mudslide treatment.`,
     excerpt: 'Bungalows, pool day passes, and Calistoga’s mudslide spa.',
     sponsorTier: null,
-    images: [himg[1]],
+    images: imgs(2),
     featured: true,
   },
   {
@@ -130,7 +135,7 @@ export const hotels: Hotel[] = [
     description: `The oldest continuously operating spa in California, built on the site where Sam Brannan established Calistoga in 1859. The Olympic-sized mineral pool is fed by natural geothermal springs. Sam's Social Club restaurant is welcoming to resort guests and non-guests alike.`,
     excerpt: 'Geothermal Olympic pool and Sam’s Social — Calistoga since 1859.',
     sponsorTier: null,
-    images: [himg[0]],
+    images: imgs(0),
   },
   {
     slug: 'francis-house-inn',
@@ -144,7 +149,7 @@ export const hotels: Hotel[] = [
     description: `Tucked away on a side street two blocks from Lincoln Road, this is an intimate luxury hotel with just eight rooms but plenty of deluxe amenities — a sauna, salt room, heated pool and clay tennis court. Built in 1886 and on the National Register of Historic Places. Interior designer Dina Dwyer and her husband completed a four-year restoration before opening the inn.`,
     excerpt: 'Eight rooms, salt room, and tennis — 1886 National Register hideaway.',
     sponsorTier: null,
-    images: [himg[2]],
+    images: imgs(4),
   },
 ]
 

@@ -166,7 +166,7 @@ export default async function HotelDetailPage({ params }: Props) {
         {[0, 1, 2].map((i) => (
           <div key={i} style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden' }}>
             <Image
-              src={TEST_IMAGES[(slugIndex + i) % TEST_IMAGES.length]}
+              src={place.images[i % place.images.length]}
               alt=""
               fill
               sizes="33vw"

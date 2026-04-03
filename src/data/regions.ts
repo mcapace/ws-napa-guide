@@ -1,4 +1,5 @@
 import type { Region } from '@/lib/types'
+import { TEST_IMAGES } from '@/lib/test-images'
 
 export interface RegionAdventure {
   title: string
@@ -36,7 +37,7 @@ export const regions: RegionData[] = [
     tagline: 'The Spirit of Cabernet',
     author: 'MaryAnn Worobiec',
     issue: 'June 15 & 30, 2026',
-    heroImage: '/placeholders/oakville-hero.jpg',
+    heroImage: TEST_IMAGES[0],
     accentColor: '#1C2E12',
     pullQuote:
       'The Oakville AVA is sacred ground for Cabernet Sauvignon. Its vineyards are considered the filet mignon of the valley because of how the grape performs in the terroir.',
@@ -64,7 +65,7 @@ export const regions: RegionData[] = [
     tagline: 'Storied Vineyards',
     author: 'MaryAnn Worobiec',
     issue: 'June 15 & 30, 2026',
-    heroImage: '/placeholders/rutherford-hero.jpg',
+    heroImage: TEST_IMAGES[1],
     accentColor: '#2E1A0A',
     pullQuote: `Tchelistcheff coined the term "Rutherford Dust," in reference to dusty, powdery alluvial soils on the west side, and the distinct subtle grain and minerality they imbue in the AVA's Cabernets.`,
     intro: `When it comes to grapevines, Rutherford is one of Napa Valley's big names. But as far as towns go, Rutherford is a blink-and-you'll-miss-it spot along Highway 29 about halfway up the valley. As you drive past a former railroad station you might catch the smoky aromas of expertly grilled food at Rutherford Grill without realizing you've just passed through the heart of a town with a population of only about 100.`,
@@ -91,7 +92,7 @@ export const regions: RegionData[] = [
     tagline: 'World-Class Dining',
     author: 'Aaron Romano',
     issue: 'June 15 & 30, 2026',
-    heroImage: '/placeholders/yountville-hero.jpg',
+    heroImage: TEST_IMAGES[2],
     accentColor: '#1E0A2E',
     pullQuote: `Yountville makes an ideal home base for a quintessential Napa Valley vacation, offering visitors a jumping off point in the heart of the valley. Totaling just 1.5 square miles, it is an entirely walkable town.`,
     intro: `Yountville, founded in 1855 as Sebastopol, was renamed in 1867 in honor of George C. Yount, a pioneer widely credited with planting the first wine grapes in Napa Valley. Tiny and charming, the town has long counted just a modest population (3,500 today), growing slowly even with the arrival of the railroad and eventually becoming an incorporated town in 1965. Over the past few decades, Yountville has evolved into arguably Napa Valley's most celebrated culinary hub.`,
@@ -118,7 +119,7 @@ export const regions: RegionData[] = [
     tagline: 'Historic and Bustling',
     author: 'James Molesworth',
     issue: 'June 15 & 30, 2026',
-    heroImage: '/placeholders/st-helena-hero.jpg',
+    heroImage: TEST_IMAGES[3],
     accentColor: '#1A2E10',
     pullQuote: `St. Helena has become the valley's beating heart, with many prominent winemakers and vintners calling it home. Get up early enough and you may bump into some of them at the local coffee shops.`,
     intro: `St. Helena is the second to last town as you head north along the Highway 29 corridor, with the highway itself doubling as the town's main street. That can mean a bit of traffic, especially during afternoon school dismissal. It's a small price to pay, though, for what can be an ideal base camp for your Napa Valley excursion.`,
@@ -144,7 +145,7 @@ export const regions: RegionData[] = [
     tagline: 'A Wine Country Retreat',
     author: 'Mitch Frank',
     issue: 'June 15 & 30, 2026',
-    heroImage: '/placeholders/calistoga-hero.jpg',
+    heroImage: TEST_IMAGES[4],
     accentColor: '#0A1E2E',
     pullQuote: `Calistoga today still offers that rustic, relaxed feel paired with sophisticated escape. You can stroll the old downtown stretch of Lincoln Road, which feels like an 1800s California town, despite the coffee shops and art galleries.`,
     intro: `Tucked away at the northern end of Napa Valley, the town of Calistoga has long held its own, unique vibe. For those looking for a more relaxed version of wine country, Calistoga is a haven. One reason for that vibe is location: 30 miles north of downtown Napa, where the valley narrows and turns west.`,
@@ -171,7 +172,7 @@ export const regions: RegionData[] = [
     tagline: 'Above the Valley Floor',
     author: 'James Molesworth',
     issue: 'June 15 & 30, 2026',
-    heroImage: '/placeholders/pritchard-hill-hero.jpg',
+    heroImage: TEST_IMAGES[5],
     accentColor: '#2E2A0A',
     pullQuote: `To understand Pritchard Hill is to understand what elevation and volcanic soil do to Cabernet Sauvignon — something transformative, something that takes decades to reveal itself.`,
     intro: `Pritchard Hill rises above the eastern edge of Napa Valley, offering a perspective — and a wine style — that is distinctly its own. The volcanic soils and elevation produce Cabernet Sauvignons of extraordinary concentration and longevity.`,
@@ -198,7 +199,7 @@ export const regions: RegionData[] = [
     tagline: "The Valley's Urban Core",
     author: 'MaryAnn Worobiec',
     issue: 'June 15 & 30, 2026',
-    heroImage: '/placeholders/downtown-napa-hero.jpg',
+    heroImage: TEST_IMAGES[6],
     accentColor: '#0A2E20',
     pullQuote: `The best argument for spending time in downtown Napa is the sheer variety — from Michelin-starred restaurants to taco trucks, from $20 tasting flights to library pours of legendary Cabernet.`,
     intro: `Downtown Napa has transformed over the past two decades from a quiet county seat into a vibrant destination in its own right. The Oxbow Public Market anchors the culinary scene, while more than 40 tasting rooms line the riverfront and downtown streets.`,

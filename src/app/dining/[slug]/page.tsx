@@ -159,7 +159,7 @@ export default async function RestaurantDetailPage({ params }: Props) {
         {[0, 1, 2].map((i) => (
           <div key={i} style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden' }}>
             <Image
-              src={TEST_IMAGES[(slugIndex + i) % TEST_IMAGES.length]}
+              src={venue.images[i % venue.images.length]}
               alt=""
               fill
               sizes="33vw"

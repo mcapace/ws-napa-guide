@@ -26,6 +26,13 @@ function hrefFor(entry: HorizontalStripItem) {
   }
 }
 
+function imageFor(entry: HorizontalStripItem, fallbackIndex: number): string {
+  if (entry.type === 'region') {
+    return entry.item.heroImage
+  }
+  return entry.item.images[0] ?? TEST_IMAGES[fallbackIndex % TEST_IMAGES.length]
+}
+
 function eyebrowFor(entry: HorizontalStripItem) {
   switch (entry.type) {
     case 'dining':
@@ -125,7 +132,7 @@ export function HorizontalStrip({ entries }: { entries: HorizontalStripItem[] })
           }}
         >
           <Image
-            src={TEST_IMAGES[i % TEST_IMAGES.length]}
+            src={imageFor(entry, i)}
             alt={'name' in entry.item ? entry.item.name : ''}
             fill
             sizes="300px"

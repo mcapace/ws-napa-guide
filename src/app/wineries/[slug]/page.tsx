@@ -168,7 +168,7 @@ export default async function WineryDetailPage({ params }: Props) {
         {[0, 1, 2].map((i) => (
           <div key={i} style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden' }}>
             <Image
-              src={TEST_IMAGES[(slugIndex + i) % TEST_IMAGES.length]}
+              src={winery.images[i % winery.images.length]}
               alt=""
               fill
               sizes="33vw"

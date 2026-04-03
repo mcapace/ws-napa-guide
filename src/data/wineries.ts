@@ -1,6 +1,11 @@
 import type { Winery } from '@/lib/types'
+import { TEST_IMAGES } from '@/lib/test-images'
 
-const img = (n = 0) => ['/placeholders/winery-landscape.jpg', '/placeholders/winery-cellar.jpg', '/placeholders/winery-estate.jpg'][n % 3]
+const imgs = (n: number) => [
+  TEST_IMAGES[n % TEST_IMAGES.length],
+  TEST_IMAGES[(n + 1) % TEST_IMAGES.length],
+  TEST_IMAGES[(n + 2) % TEST_IMAGES.length],
+]
 
 export const wineries: Winery[] = [
   {
@@ -17,7 +22,7 @@ export const wineries: Winery[] = [
       website: 'https://farniente.com',
     },
     sponsorTier: null,
-    images: [img(0)],
+    images: imgs(0),
   },
   {
     slug: 'bella-union',
@@ -29,7 +34,7 @@ export const wineries: Winery[] = [
     excerpt: 'Regional Napa blends in a refreshed Belle Époque–inspired Rutherford tasting room.',
     visitInfo: { appointment: true, website: 'https://farniente.com' },
     sponsorTier: null,
-    images: [img(1)],
+    images: imgs(1),
   },
   {
     slug: 'nickel-and-nickel',
@@ -44,7 +49,7 @@ export const wineries: Winery[] = [
       website: 'https://farniente.com/wineries/nickel-and-nickel',
     },
     sponsorTier: null,
-    images: [img(2)],
+    images: imgs(2),
   },
   {
     slug: 'cardinale',
@@ -56,7 +61,7 @@ export const wineries: Winery[] = [
     excerpt: 'Stone tasting room above the valley floor with panoramic Oakville views.',
     visitInfo: { appointment: true, website: 'https://cardinale.com' },
     sponsorTier: null,
-    images: [img(0)],
+    images: imgs(0),
   },
   {
     slug: 'rudd-estate',
@@ -68,7 +73,7 @@ export const wineries: Winery[] = [
     excerpt: 'Garden, oaks, and Crossroads House tastings with caviar and picnic options.',
     visitInfo: { appointment: true, website: 'https://ruddwines.com' },
     sponsorTier: null,
-    images: [img(1)],
+    images: imgs(1),
   },
   {
     slug: 'opus-one',
@@ -80,7 +85,7 @@ export const wineries: Winery[] = [
     excerpt: 'Mondavi meets Rothschild — Napa’s benchmark Bordeaux blend.',
     visitInfo: { appointment: true, website: 'https://opusonewinery.com' },
     sponsorTier: null,
-    images: [img(2)],
+    images: imgs(2),
     featured: true,
   },
   {
@@ -93,7 +98,7 @@ export const wineries: Winery[] = [
     excerpt: 'Coppola’s grand Rutherford château, Rubicon, and the new Pennino House.',
     visitInfo: { appointment: false, website: 'https://inglenook.com' },
     sponsorTier: null,
-    images: [img(0)],
+    images: imgs(0),
     featured: true,
   },
   {
@@ -106,7 +111,7 @@ export const wineries: Winery[] = [
     excerpt: 'Dragon Lake views from a glass pavilion on a 300-acre Rutherford estate.',
     visitInfo: { appointment: true, website: 'https://quintessa.com' },
     sponsorTier: null,
-    images: [img(1)],
+    images: imgs(1),
   },
   {
     slug: 'staglin-family-vineyard',
@@ -118,7 +123,7 @@ export const wineries: Winery[] = [
     excerpt: 'Family-run Rutherford estate with roots back to 1864.',
     visitInfo: { appointment: true, website: 'https://staglinfamily.com' },
     sponsorTier: null,
-    images: [img(2)],
+    images: imgs(2),
   },
   {
     slug: 'cathiard-family-estate',
@@ -130,7 +135,7 @@ export const wineries: Winery[] = [
     excerpt: 'Smith-Haut-Lafitte pedigree meets Mayacamas foothills at the old Flora Springs site.',
     visitInfo: { appointment: true, website: 'https://cathiardvineyard.com' },
     sponsorTier: null,
-    images: [img(0)],
+    images: imgs(0),
   },
   {
     slug: 'stewart-cellars',
@@ -142,7 +147,7 @@ export const wineries: Winery[] = [
     excerpt: 'Ken Fulk–designed stone tasting room on Washington Street — walk-ins welcome.',
     visitInfo: { appointment: false, website: 'https://stewartscellars.com' },
     sponsorTier: null,
-    images: [img(1)],
+    images: imgs(1),
   },
   {
     slug: 'clos-du-val',
@@ -154,7 +159,7 @@ export const wineries: Winery[] = [
     excerpt: 'Judgment alumnus reborn — library verticals in the Hirondelle House.',
     visitInfo: { appointment: false, website: 'https://closduval.com' },
     sponsorTier: null,
-    images: [img(2)],
+    images: imgs(2),
   },
   {
     slug: 'lewis-cellars',
@@ -166,7 +171,7 @@ export const wineries: Winery[] = [
     excerpt: 'Turner-inspired luxury salon — new Stags Leap tasting room from Lewis Cellars.',
     visitInfo: { appointment: true, website: 'https://lewiscellars.com' },
     sponsorTier: null,
-    images: [img(0)],
+    images: imgs(0),
   },
   {
     slug: 'spottswoode',
@@ -178,7 +183,7 @@ export const wineries: Winery[] = [
     excerpt: 'West St. Helena icon — estate Cabernet by appointment, mailing list priority.',
     visitInfo: { appointment: true, website: 'https://spottswoode.com' },
     sponsorTier: null,
-    images: [img(1)],
+    images: imgs(1),
   },
   {
     slug: 'corison-winery',
@@ -190,7 +195,7 @@ export const wineries: Winery[] = [
     excerpt: 'Cathy Corison’s bright, sub-14% Cabs from a high-ceilinged St. Helena barn.',
     visitInfo: { appointment: true, website: 'https://corison.com' },
     sponsorTier: null,
-    images: [img(2)],
+    images: imgs(2),
   },
   {
     slug: 'faust-haus',
@@ -202,7 +207,7 @@ export const wineries: Winery[] = [
     excerpt: '1878 haus with vinyl speakeasy, library pours, and east-facing terrace vines.',
     visitInfo: { appointment: false, website: 'https://faustwines.com' },
     sponsorTier: null,
-    images: [img(0)],
+    images: imgs(0),
   },
   {
     slug: 'schramsberg',
@@ -214,7 +219,7 @@ export const wineries: Winery[] = [
     excerpt: 'Historic caves, méthode traditionnelle, and Davies — America’s sparkling benchmark.',
     visitInfo: { appointment: true, website: 'https://schramsberg.com' },
     sponsorTier: null,
-    images: [img(1)],
+    images: imgs(1),
     featured: true,
   },
   {
@@ -227,7 +232,7 @@ export const wineries: Winery[] = [
     excerpt: 'Vineyard tour and seated tasting at a narrow, hot Calistoga sweet spot.',
     visitInfo: { appointment: true, website: 'https://larkmead.com' },
     sponsorTier: null,
-    images: [img(2)],
+    images: imgs(2),
   },
   {
     slug: 'lola-wines',
@@ -239,7 +244,7 @@ export const wineries: Winery[] = [
     excerpt: 'Charbono, Vermentino, and $35 five-wine flights in a brick bungalow.',
     visitInfo: { appointment: false, website: 'https://lolawines.com' },
     sponsorTier: null,
-    images: [img(0)],
+    images: imgs(0),
   },
   {
     slug: 'hourglass',
@@ -251,7 +256,7 @@ export const wineries: Winery[] = [
     excerpt: 'Post–Glass Fire resilience — blends and tunnel tastings on Silverado Trail.',
     visitInfo: { appointment: true, website: 'https://hourglasswines.com' },
     sponsorTier: null,
-    images: [img(1)],
+    images: imgs(1),
   },
 ]
 

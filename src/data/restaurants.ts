@@ -1,6 +1,11 @@
 import type { Restaurant } from '@/lib/types'
+import { TEST_IMAGES } from '@/lib/test-images'
 
-const rimg = ['/placeholders/restaurant-fine.jpg', '/placeholders/restaurant-bistro.jpg', '/placeholders/restaurant-contemporary.jpg']
+const imgs = (n: number) => [
+  TEST_IMAGES[n % TEST_IMAGES.length],
+  TEST_IMAGES[(n + 1) % TEST_IMAGES.length],
+  TEST_IMAGES[(n + 2) % TEST_IMAGES.length],
+]
 
 export const restaurants: Restaurant[] = [
   {
@@ -16,7 +21,7 @@ export const restaurants: Restaurant[] = [
     excerpt: 'Grand Award since 2007 — Keller’s temple of American tasting-menu dining.',
     reservations: 'https://exploretock.com/thefrenchlaundry',
     sponsorTier: null,
-    images: [rimg[0]],
+    images: imgs(0),
     featured: true,
   },
   {
@@ -31,7 +36,7 @@ export const restaurants: Restaurant[] = [
     description: `Keller's more approachable sibling to The French Laundry delivers impeccable French bistro classics — steak frites, croque monsieur, pristine oysters — in a warm, bustling room. A Best of Award of Excellence winner.`,
     excerpt: 'Steak frites, oysters, and Parisian buzz — Keller’s Yountville bistro.',
     sponsorTier: null,
-    images: [rimg[1]],
+    images: imgs(3),
   },
   {
     slug: 'ad-hoc',
@@ -45,7 +50,7 @@ export const restaurants: Restaurant[] = [
     description: `There's rarely a lull at Ad Hoc, a mainstay on the south end of town. Locals and visitors alike have been piling in since its opening in 2006 for a three-course prix fixe ($59 lunch; $69 dinner) with a family-style menu of American comfort classics rotating daily. Addendum is a seasonal walk-up shack for fried chicken and BBQ ribs.`,
     excerpt: 'Family-style prix fixe and Addendum fried chicken — Keller’s casual staple.',
     sponsorTier: null,
-    images: [rimg[2]],
+    images: imgs(5),
   },
   {
     slug: 'clementine',
@@ -59,7 +64,7 @@ export const restaurants: Restaurant[] = [
     description: `Opened last summer, Clementine stands out with its breezy Mediterranean bistro vibe and seasonal, flavor-packed dishes. The wood-grilled lamb burger with rosemary aioli rivals any burger in the valley. One way to enjoy Clementine is to linger over an Aperol spritz on the olive-shaded patio on a warm summer night.`,
     excerpt: 'Mediterranean patio energy — lamb burger and spritzes on Washington Street.',
     sponsorTier: null,
-    images: [rimg[0]],
+    images: imgs(0),
   },
   {
     slug: 'brix',
@@ -73,7 +78,7 @@ export const restaurants: Restaurant[] = [
     description: `Brix represents farm-to-table cuisine, but in this case the restaurant is located amid the farm. Part of an exquisite 16-acre estate with raised beds of vegetables and herbs, a fruit and citrus orchard and a vineyard. Seasonal offerings might include pappardelle with bone marrow, black pepper and Parmigiano-Reggiano.`,
     excerpt: 'Dinner in the farm — Oakville institution on 16 acres of vines and beds.',
     sponsorTier: null,
-    images: [rimg[1]],
+    images: imgs(3),
     featured: true,
   },
   {
@@ -88,7 +93,7 @@ export const restaurants: Restaurant[] = [
     description: `"Sorry, everything is delicious," you'll see on the signage for Mustards Grill, a dreamy restaurant that is always buzzing with excitement and dishing up hearty American fare as imagined by chef-owner Cindy Pawlcyn. Since 1983, Pawlcyn has helped define wine country cuisine. The Mongolian pork chop with sweet-n-sour red cabbage and house-made mustard is a must.`,
     excerpt: 'Cindy Pawlcyn’s highway classic — pork chop, mustard, and Napa energy since 1983.',
     sponsorTier: null,
-    images: [rimg[2]],
+    images: imgs(5),
   },
   {
     slug: 'rutherford-grill',
@@ -102,7 +107,7 @@ export const restaurants: Restaurant[] = [
     description: `The best place to pair expertly crafted barbeque with rich Napa Cabernets — and so much more. Deviled eggs, a generous iceberg wedge salad, oak-grilled salmon and iron skillet cornbread bites. The staff is friendly and the patio seating is popular when weather permits.`,
     excerpt: 'BBQ, deviled eggs, and Oakville-adjacent Cab on the Rutherford patio.',
     sponsorTier: null,
-    images: [rimg[0]],
+    images: imgs(0),
   },
   {
     slug: 'charlies-napa-valley',
@@ -116,7 +121,7 @@ export const restaurants: Restaurant[] = [
     description: `Chef/owner Elliott Bell comes from the French Laundry family tree, where he spent a decade as executive sous chef. Its airy, whitewashed setting is both loved by locals and sought out by destination diners. One of the few places in the valley that stays open with a late-night menu (9 p.m. to 11 p.m.).`,
     excerpt: 'TFL-trained brasserie with a real late-night menu on Railroad Avenue.',
     sponsorTier: null,
-    images: [rimg[1]],
+    images: imgs(3),
     featured: true,
   },
   {
@@ -131,7 +136,7 @@ export const restaurants: Restaurant[] = [
     description: `Chef/owner Jude Wilmoth created the model of elevated comfort food and hearty portions combined with a vibe of convivial familiarity. Opened in 2004, Cook is always filled with locals. The eggplant parmesan with béchamel or cavatelli all'arrabbiata with house-made spicy sausage vies for signature dish honors.`,
     excerpt: 'St. Helena’s living room — eggplant parm, arrabbiata, and local regulars.',
     sponsorTier: null,
-    images: [rimg[2]],
+    images: imgs(5),
   },
   {
     slug: 'model-bakery',
@@ -145,7 +150,7 @@ export const restaurants: Restaurant[] = [
     description: `Originally named St. Helena Bakery before the name was changed in the 1930s, this is a St. Helena institution. Expect a line in the morning, but if you're there early enough, you never know what winemaker might pass through on their way to work. Few better places to carbo load and caffeine up for the day.`,
     excerpt: 'Morning lines, legendary bakes, and winemakers grabbing coffee on Main.',
     sponsorTier: null,
-    images: [rimg[0]],
+    images: imgs(0),
   },
   {
     slug: 'calistoga-inn-brewery',
@@ -159,7 +164,7 @@ export const restaurants: Restaurant[] = [
     description: `Located where Lincoln Road crosses the Napa River, the Calistoga Inn's restaurant epitomizes the upscale California comfort the town is characterized by. Choose between a cozy dining room or the spacious patio alongside the river. For a break from wine, try one of the excellent beers from the inn's micro-brewery.`,
     excerpt: 'River patio, inn brewery, and Calistoga comfort where Lincoln meets the Napa River.',
     sponsorTier: null,
-    images: [rimg[1]],
+    images: imgs(3),
   },
   {
     slug: 'lovina',
@@ -173,7 +178,7 @@ export const restaurants: Restaurant[] = [
     description: `Lovina feels like it's been around forever, in part due to the 120-year-old house it occupies but also the boisterous atmosphere inside thanks to the crowd of locals who dine here. The "impossible sausage" lasagna or risotto with braised Wagyu short rib. Desserts include "Sundae Funday" and "A Hot Mess."`,
     excerpt: '120-year-old house, boisterous locals, lasagna — Calistoga’s weeknight rally point.',
     sponsorTier: null,
-    images: [rimg[2]],
+    images: imgs(5),
   },
   {
     slug: 'picobar-solage',
@@ -187,7 +192,7 @@ export const restaurants: Restaurant[] = [
     description: `The Solage resort's casual poolside restaurant, helmed by executive chef Gustavo Rios, focuses on upscale Mexican cuisine. The fresh tortilla chips and salsas alone are reason to visit. The wine list is outstanding both by bottle and glass. Diners can book an eight-course "Head Tilt Tasting," diving into a delicious culinary exploration of Mexico.`,
     excerpt: 'Solage poolside — upscale Mexican, serious wine, eight-course Head Tilt.',
     sponsorTier: null,
-    images: [rimg[0]],
+    images: imgs(0),
   },
   {
     slug: 'la-luna-market-taqueria',
@@ -201,7 +206,7 @@ export const restaurants: Restaurant[] = [
     description: `Right in front of the Rancho Caymus Inn, this market and taqueria provides one-stop shopping for a taco picnic. The pastor and pollo adobado tacos shine here, with excellent seasonings and juicy meat. Conveniently, picnic tables surround the exterior.`,
     excerpt: 'Pastor and pollo adobado picnic tacos steps from Rancho Caymus.',
     sponsorTier: null,
-    images: [rimg[1]],
+    images: imgs(3),
   },
   {
     slug: 'el-taco-feliz',
@@ -215,7 +220,7 @@ export const restaurants: Restaurant[] = [
     description: `This taco truck is just past the intersection of Silverado Trail and Lake Street. The lines are long for a reason — it's among the best spots in the valley and the service is always friendly. Their carnes are tender, juicy and packed with flavor. The cabeza stands out for its generosity of seasonings and melt-in-your-mouth braised beef.`,
     excerpt: 'Lake Street truck — cabeza tacos and lines worth the wait.',
     sponsorTier: null,
-    images: [rimg[2]],
+    images: imgs(5),
   },
 ]
 
