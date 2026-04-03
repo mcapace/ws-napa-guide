@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import detailStyles from '@/app/regions/[slug]/regionDetail.module.css'
 import AVAFilterBar from '@/components/ui/AVAFilterBar'
+import ScrollReveal from '@/components/ui/ScrollReveal'
 import { getRegion } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 
@@ -25,19 +26,21 @@ export default function WineriesClient() {
       <AVAFilterBar activeRegion={activeRegion} onFilterChange={setActiveRegion} />
 
       <div className={detailStyles.grid}>
-        {filtered.map((w) => {
+        {filtered.map((w, i) => {
           const region = getRegion(w.region)
           return (
-            <Link key={w.slug} href={`/wineries/${w.slug}`} className={detailStyles.card}>
-              <div className={detailStyles.cardImg} style={{ backgroundImage: `url(${w.images[0]})` }} />
-              <div className={detailStyles.cardBody}>
-                {region ? (
-                  <p className={detailStyles.cardMeta}>{region.name}</p>
-                ) : null}
-                <h2 className={detailStyles.cardTitle}>{w.name}</h2>
-                <p className={detailStyles.cardExcerpt}>{w.excerpt}</p>
-              </div>
-            </Link>
+            <ScrollReveal key={w.slug} delay={(i % 3) * 100}>
+              <Link href={`/wineries/${w.slug}`} className={detailStyles.card}>
+                <div className={detailStyles.cardImg} style={{ backgroundImage: `url(${w.images[0]})` }} />
+                <div className={detailStyles.cardBody}>
+                  {region ? (
+                    <p className={detailStyles.cardMeta}>{region.name}</p>
+                  ) : null}
+                  <h2 className={detailStyles.cardTitle}>{w.name}</h2>
+                  <p className={detailStyles.cardExcerpt}>{w.excerpt}</p>
+                </div>
+              </Link>
+            </ScrollReveal>
           )
         })}
       </div>

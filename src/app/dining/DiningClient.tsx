@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import detailStyles from '@/app/regions/[slug]/regionDetail.module.css'
 import AVAFilterBar from '@/components/ui/AVAFilterBar'
+import ScrollReveal from '@/components/ui/ScrollReveal'
 import { getRegion } from '@/data/regions'
 import { restaurants } from '@/data/restaurants'
 
@@ -25,20 +26,22 @@ export default function DiningClient() {
       <AVAFilterBar activeRegion={activeRegion} onFilterChange={setActiveRegion} />
 
       <div className={detailStyles.grid}>
-        {filtered.map((r) => {
+        {filtered.map((r, i) => {
           const region = getRegion(r.region)
           return (
-            <Link key={r.slug} href={`/dining/${r.slug}`} className={detailStyles.card}>
-              <div className={detailStyles.cardImg} style={{ backgroundImage: `url(${r.images[0]})` }} />
-              <div className={detailStyles.cardBody}>
-                <p className={detailStyles.cardMeta}>
-                  {r.cuisine} &middot; {r.priceRange}
-                  {region ? ` · ${region.name}` : ''}
-                </p>
-                <h2 className={detailStyles.cardTitle}>{r.name}</h2>
-                <p className={detailStyles.cardExcerpt}>{r.excerpt}</p>
-              </div>
-            </Link>
+            <ScrollReveal key={r.slug} delay={(i % 3) * 100}>
+              <Link href={`/dining/${r.slug}`} className={detailStyles.card}>
+                <div className={detailStyles.cardImg} style={{ backgroundImage: `url(${r.images[0]})` }} />
+                <div className={detailStyles.cardBody}>
+                  <p className={detailStyles.cardMeta}>
+                    {r.cuisine} &middot; {r.priceRange}
+                    {region ? ` · ${region.name}` : ''}
+                  </p>
+                  <h2 className={detailStyles.cardTitle}>{r.name}</h2>
+                  <p className={detailStyles.cardExcerpt}>{r.excerpt}</p>
+                </div>
+              </Link>
+            </ScrollReveal>
           )
         })}
       </div>

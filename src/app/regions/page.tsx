@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
+import ScrollReveal from '@/components/ui/ScrollReveal'
 import { regions } from '@/data/regions'
 
 export const metadata: Metadata = {
@@ -49,8 +50,8 @@ export default function RegionsPage() {
 
       {/* Regions list — alternating layout on dark */}
       {regions.map((region, i) => (
+        <ScrollReveal key={region.slug}>
         <section
-          key={region.slug}
           style={{
             padding: 'var(--section-pad) 0',
             borderBottom: '1px solid rgba(247,243,236,0.06)',
@@ -184,6 +185,7 @@ export default function RegionsPage() {
             </div>
           </div>
         </section>
+        </ScrollReveal>
       ))}
 
       {/* Footer CTA */}

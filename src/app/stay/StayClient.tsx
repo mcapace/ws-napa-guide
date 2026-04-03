@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import detailStyles from '@/app/regions/[slug]/regionDetail.module.css'
 import AVAFilterBar from '@/components/ui/AVAFilterBar'
+import ScrollReveal from '@/components/ui/ScrollReveal'
 import { getRegion } from '@/data/regions'
 import { hotels } from '@/data/hotels'
 
@@ -32,21 +33,23 @@ export default function StayClient() {
       <AVAFilterBar activeRegion={activeRegion} onFilterChange={setActiveRegion} />
 
       <div className={detailStyles.grid}>
-        {filtered.map((h) => {
+        {filtered.map((h, i) => {
           const region = getRegion(h.region)
           const cat = categoryLabel[h.category] ?? h.category
           return (
-            <Link key={h.slug} href={`/stay/${h.slug}`} className={detailStyles.card}>
-              <div className={detailStyles.cardImg} style={{ backgroundImage: `url(${h.images[0]})` }} />
-              <div className={detailStyles.cardBody}>
-                <p className={detailStyles.cardMeta}>
-                  {cat} &middot; {h.priceRange}
-                  {region ? ` · ${region.name}` : ''}
-                </p>
-                <h2 className={detailStyles.cardTitle}>{h.name}</h2>
-                <p className={detailStyles.cardExcerpt}>{h.excerpt}</p>
-              </div>
-            </Link>
+            <ScrollReveal key={h.slug} delay={(i % 3) * 100}>
+              <Link href={`/stay/${h.slug}`} className={detailStyles.card}>
+                <div className={detailStyles.cardImg} style={{ backgroundImage: `url(${h.images[0]})` }} />
+                <div className={detailStyles.cardBody}>
+                  <p className={detailStyles.cardMeta}>
+                    {cat} &middot; {h.priceRange}
+                    {region ? ` · ${region.name}` : ''}
+                  </p>
+                  <h2 className={detailStyles.cardTitle}>{h.name}</h2>
+                  <p className={detailStyles.cardExcerpt}>{h.excerpt}</p>
+                </div>
+              </Link>
+            </ScrollReveal>
           )
         })}
       </div>
