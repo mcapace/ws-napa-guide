@@ -1,5 +1,102 @@
 # therealhotels.com - Full Technical Scrape
 # Scraped April 3, 2026 for ws-napa-guide reference
+# ALL pages, ALL sections, ALL patterns
+
+---
+
+## 0. COMPLETE SITE MAP
+
+```
+therealhotels.com/
+├── / (homepage)
+│   ├── Hero: 4 scattered images + headline + CTA
+│   ├── Browse by series: 11 series in grid
+│   ├── Featured hotels: 3 editorial rows (60/40 split)
+│   ├── Newsletter signup
+│   └── Footer
+│
+├── /map
+│   ├── Filter checkboxes by franchise (11 series)
+│   ├── Hotel cards with images, stickers, metadata
+│   ├── Embedded Mapbox map
+│   └── Pagination (50+ properties)
+│
+├── /series (index)
+│   ├── Hero images
+│   ├── h2 "browse hotels by your favorite series"
+│   ├── Grid of 11 series cards (image + sticker + label)
+│   ├── "In the Wild" section
+│   └── Footer
+│
+├── /series/[slug] (e.g. /series/potomac)
+│   ├── Hero carousel
+│   ├── Hotel cards listed chronologically by season
+│   │   ├── Hero image
+│   │   ├── Hotel name (linked)
+│   │   ├── Location
+│   │   ├── Season/episode numbers
+│   │   ├── Description snippet
+│   │   ├── "Book now" button
+│   │   └── "Read more" link
+│   ├── "Show more" pagination
+│   ├── Browse other series section (other 10 series)
+│   └── Newsletter + Footer
+│
+├── /hotels/[slug] (e.g. /hotels/the-four-seasons-denver)
+│   ├── Hero: multiple images (opacity:0 fade-in)
+│   ├── Title section: h1 name, location, series, season/ep
+│   ├── CTAs: "Book now" + "Read more"
+│   ├── Content: photos interspersed with narrative text
+│   ├── "More from this series" grid (10+ cards)
+│   └── Newsletter + Footer
+│
+├── /the-confessional (blog index)
+│   ├── Grid of article cards
+│   │   ├── Featured image
+│   │   ├── Date + Author
+│   │   ├── Title
+│   │   └── "Read More" link
+│   └── Pagination + Newsletter + Footer
+│
+├── /the-confessional/[slug] (blog article)
+│   ├── Large featured image
+│   ├── Title + date + author byline
+│   ├── Long-form body with images between sections
+│   ├── "read next" - 3 related article cards
+│   └── Newsletter + Footer
+│
+├── /in-the-wild
+│   ├── Hero sticker imagery
+│   ├── Hotel cards grid (spotted at locations)
+│   │   ├── Image + franchise sticker
+│   │   ├── Description (witty narrative)
+│   │   ├── "Book Now" + "Read More"
+│   ├── User submission form (series, details, photo upload)
+│   └── Newsletter + Footer
+│
+├── /about
+│   ├── Hero: "Who gon' check me, boo?"
+│   ├── Mission statement (conversational tone)
+│   ├── Team intro ("Bravo-loving hotel marketers")
+│   ├── CTAs: "explore the map" + "browse by series"
+│   └── Newsletter + Footer
+│
+└── /contact (get in touch form)
+```
+
+### Page type mapping: therealhotels → Napa Guide
+
+| therealhotels page | Our equivalent | Notes |
+|---|---|---|
+| `/` homepage | `/` homepage | Same: hero + browse + editorial rows |
+| `/map` | `/map` | Same: Mapbox + filters + cards |
+| `/series` (index) | `/regions` (index) | Series = Appellations |
+| `/series/[slug]` | `/regions/[slug]` | Series page = Region detail |
+| `/hotels/[slug]` | `/wineries/[slug]`, `/dining/[slug]`, `/stay/[slug]` | Hotel detail = Winery/Restaurant/Hotel detail |
+| `/the-confessional` | `/features` (planned) | Blog index = Features index |
+| `/the-confessional/[slug]` | `/features/[slug]` | Article = Feature article |
+| `/in-the-wild` | No direct equivalent | User-submitted content |
+| `/about` | Could add | About/mission page |
 
 ---
 
@@ -404,3 +501,96 @@ NEWSLETTER + FOOTER (same as homepage)
 11. **Sticker/badge rotation** - alternating 8deg/-8deg per nth-child
 12. **Button pattern** - light bg on dark, dark text (inverted on light)
 13. **Lenis smooth scrolling** on scroll behavior
+
+---
+
+## 11. DETAIL PAGE PATTERN (CONFIRMED ACROSS MULTIPLE HOTELS)
+
+Verified on both Four Seasons Denver and Andronis Arcadia:
+
+### Consistent structure:
+1. **Hero**: Multiple images (not just one), fades in from opacity:0
+2. **Title block** (below hero, NOT overlaid):
+   - h1 hotel name [data-letters-rotate-in]
+   - Location [data-lines-slide-up]
+   - Series name + season/episode metadata
+   - Two CTAs: "Book now" (primary) + "Read more" (secondary)
+3. **Content flow** (alternating text + photos):
+   - Full-width episode image
+   - Narrative paragraph [data-lines-slide-up]
+   - Another full-width image
+   - More narrative text
+   - Another image
+   - Repeated "Book now" + "Explore the map" CTAs between sections
+4. **"More from this series"**: Grid of 10+ hotel cards with "Show more" pagination
+5. Newsletter signup
+6. Footer
+
+### Key detail page observations:
+- EVERY text element has [data-text-split] for animation
+- Photos are full-width within the content container (with horizontal padding)
+- Narrative text is conversational, story-driven, not dry descriptions
+- CTAs are repeated multiple times throughout the page
+- No pull quotes, no info grids, no sidebar - just flowing text + images
+
+---
+
+## 12. BLOG/ARTICLE PATTERN (/the-confessional/[slug])
+
+Different from hotel detail pages:
+1. Large featured image (full-width)
+2. Article title (large)
+3. Date + Author byline (linked to author Instagram)
+4. Long-form body text with images between sections
+5. "read next" section with 3 related article cards
+6. Newsletter + Footer
+
+### Key blog observations:
+- More text-dense than hotel pages
+- Subheadings break up content into case studies
+- Author personality comes through in writing
+- Related posts use simple card grid (image + title + date + author)
+
+---
+
+## 13. SERIES INDEX PATTERN (/series/[slug])
+
+1. Hero carousel of images
+2. Hotel cards listed chronologically by season
+3. Each card: hero image + name + location + season/ep + description + "Book now" + "Read more"
+4. "Show more" pagination for more cards
+5. "Browse other series" section showing the other 10 franchises
+6. Newsletter + Footer
+
+### Our equivalent: /regions/[slug]
+- Region hero image
+- Winery/restaurant/hotel listings for that region
+- Related regions at bottom
+
+---
+
+## 14. MAP PAGE PATTERN (/map)
+
+1. Filter checkboxes by franchise/series (11 options + "Clear" button)
+2. Hotel cards displayed in grid alongside embedded Mapbox map
+3. Each card: property image + series sticker + show name + hotel name + location + season/ep
+4. Custom Mapbox styling (hidden attribution, custom popup colors)
+5. Hover highlights on map items
+6. Pagination for 50+ properties
+
+### Our equivalent: /map
+- Filter by type (winery/dining/stay) + region
+- Mapbox with pin markers
+- Slide-in sidebar on pin click
+
+---
+
+## 15. CROSS-CUTTING PATTERNS (appear on EVERY page)
+
+1. **Nav**: Same on all pages, dim-siblings hover, initially opacity:0
+2. **Newsletter section**: "Stay in the know" + email form on every page
+3. **Footer**: Map, Series, About, Submit, Press, Contact + socials + affiliate disclosure
+4. **Dark theme**: Every page uses dark background by default
+5. **GSAP text animations**: Applied via data-attributes on every page
+6. **No page transitions**: Pages load fresh (no AJAX/SPA transitions visible)
+7. **Consistent CTA language**: "Book now", "Read more", "Learn more", "Explore the map"
