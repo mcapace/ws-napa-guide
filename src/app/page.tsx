@@ -174,7 +174,7 @@ export default function HomePage() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 12,
+            gap: 14,
             textDecoration: 'none',
           }}
         >
@@ -182,26 +182,33 @@ export default function HomePage() {
             style={{
               display: 'block',
               width: 2,
-              height: 28,
+              height: 32,
               background: '#C4943A',
               flexShrink: 0,
             }}
           />
-          <span
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 9,
-              fontWeight: 500,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: '#F7F3EC',
-              lineHeight: 1.4,
-            }}
-          >
-            Wine Spectator&apos;s Guide to
-            <br />
-            Napa Valley
-          </span>
+          <div>
+            <Image
+              src="/logos/WS_logo__1_.png"
+              alt="Wine Spectator"
+              width={120}
+              height={20}
+              style={{ filter: 'invert(1)', height: '18px', width: 'auto', marginBottom: 4 }}
+            />
+            <span
+              style={{
+                display: 'block',
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 8,
+                fontWeight: 500,
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: 'rgba(247,243,236,0.6)',
+              }}
+            >
+              Napa Valley Guide
+            </span>
+          </div>
         </Link>
         <button
           onClick={() => setMenuOpen(true)}
@@ -423,16 +430,14 @@ export default function HomePage() {
             <p
               style={{
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: 300,
-                letterSpacing: '0.08em',
-                color: 'rgba(247,243,236,0.5)',
+                letterSpacing: '0.12em',
+                color: 'rgba(247,243,236,0.45)',
                 lineHeight: 1.7,
               }}
             >
-              Check in to the legendary wineries, restaurants, and hotels
-              <br />
-              from Wine Spectator&apos;s June 2026 issue.
+              Wine Spectator &middot; June 2026
             </p>
           </div>
 
@@ -604,19 +609,19 @@ export default function HomePage() {
         </section>
       </RevealSection>
 
-      {/* ── FEATURED REGIONS: full-viewport stacking sections (therealhotels overlap scroll) ── */}
+      {/* ── FEATURED REGIONS: stacking sticky cards (therealhotels overlap scroll) ── */}
       {featuredRegions.map((region, i) => (
-        <div key={region.slug} style={{ height: '100vh', position: 'relative', zIndex: featuredRegions.length - i }}>
-          <Link href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
-            <section
-              style={{
-                position: 'sticky',
-                top: 0,
-                height: '100vh',
-                minHeight: 600,
-                overflow: 'hidden',
-              }}
-            >
+        <Link key={region.slug} href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+          <section
+            style={{
+              position: 'sticky',
+              top: 0,
+              height: '100vh',
+              minHeight: 600,
+              overflow: 'hidden',
+              zIndex: i + 1,
+            }}
+          >
               <Image
                 src={region.heroImage}
                 alt={region.name}
@@ -689,9 +694,8 @@ export default function HomePage() {
                   {region.name}
                 </h2>
               </div>
-            </section>
-          </Link>
-        </div>
+          </section>
+        </Link>
       ))}
 
       {/* ── "IN THE WILD" / FROM THE JUNE ISSUE ── */}
