@@ -128,7 +128,7 @@ export default async function WineryDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section id="story" style={{ padding: '100px 60px 80px', maxWidth: 860, margin: '0 auto' }}>
+      <section id="story" style={{ padding: '120px 60px 100px', maxWidth: 860, margin: '0 auto' }}>
         <p
           style={{
             fontFamily: "'Cormorant Garamond', serif",
@@ -162,21 +162,33 @@ export default async function WineryDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 2 }}>
-        {[0, 1, 2].map((i) => (
-          <div key={i} style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden' }}>
-            <Image
-              src={winery.images[i % winery.images.length]}
-              alt=""
-              fill
-              sizes="33vw"
-              style={{ objectFit: 'cover' }}
-            />
-          </div>
-        ))}
+      {/* Full-width stacked photos (therealhotels pattern) */}
+      <section>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '21/9', overflow: 'hidden' }}>
+          <Image
+            src={winery.images[0]}
+            alt=""
+            fill
+            sizes="100vw"
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, marginTop: 2 }}>
+          {[1, 2].map((i) => (
+            <div key={i} style={{ position: 'relative', aspectRatio: '3/2', overflow: 'hidden' }}>
+              <Image
+                src={winery.images[i % winery.images.length]}
+                alt=""
+                fill
+                sizes="50vw"
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+          ))}
+        </div>
       </section>
 
-      <section style={{ padding: '80px 60px', maxWidth: 760, margin: '0 auto' }}>
+      <section style={{ padding: '100px 60px 120px', maxWidth: 760, margin: '0 auto' }}>
         <p
           style={{
             fontFamily: "'DM Sans', sans-serif",

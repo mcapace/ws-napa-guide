@@ -416,3 +416,15 @@ a, button, [role="button"] { cursor: none; }
   -ms-overflow-style: none;
 }
 .strip-scroll::-webkit-scrollbar { display: none; }
+
+/* ── therealhotels "dim siblings" hover pattern ── */
+/* When hovering a child, dim all other children to 0.2 */
+.dim-siblings:has(> a:hover) > a:not(:hover),
+.dim-siblings:has(> div:hover) > div:not(:hover) {
+  opacity: 0.2;
+  transition: opacity 0.6s var(--ease-out);
+}
+.dim-siblings > a,
+.dim-siblings > div {
+  transition: opacity 0.6s var(--ease-out);
+}

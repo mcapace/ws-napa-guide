@@ -101,7 +101,7 @@ export function HorizontalStrip({ entries }: { entries: HorizontalStripItem[] })
   return (
     <div
       ref={stripRef}
-      className="strip-scroll"
+      className="strip-scroll dim-siblings"
       style={{
         display: 'flex',
         gap: 2,

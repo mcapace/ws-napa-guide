@@ -570,7 +570,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div
-            className="strip-scroll"
+            className="strip-scroll dim-siblings"
             style={{
               display: 'flex',
               gap: 2,
