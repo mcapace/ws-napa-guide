@@ -144,7 +144,7 @@ export default function AnimationProvider() {
     })
 
     // ANIMATION 4: Image Reveal (therealhotels clip-path swipe)
-    // Used on: featured region images, hero visuals
+    // Used on: smaller image elements within content
     document.querySelectorAll<HTMLElement>('[data-image-reveal]').forEach((el) => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -159,12 +159,28 @@ export default function AnimationProvider() {
         { clipPath: 'inset(0% 100% 0% 0%)' },
         { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'power2.out' }
       )
-      // Scale the image inside from 1.3 to 1.0
       const img = el.querySelector('img')
       if (img) {
         tl.fromTo(img, { scale: 1.3 }, { scale: 1, duration: 1.2, ease: 'power2.out' }, '<')
       }
       if (tl.scrollTrigger) triggersRef.current.push(tl.scrollTrigger)
+    })
+
+    // ANIMATION 5: Image Scale (therealhotels 20649.js pattern)
+    // Used on: full-viewport featured sections - image zooms from 1.3 to 1.0
+    document.querySelectorAll<HTMLElement>('[data-image-scale]').forEach((el) => {
+      const trigger = ScrollTrigger.create({
+        trigger: el,
+        start: 'top bottom',
+        end: 'top 20%',
+        scrub: 1,
+      })
+      gsap.fromTo(el, { scale: 1.3 }, {
+        scale: 1,
+        ease: 'none',
+        scrollTrigger: trigger,
+      })
+      triggersRef.current.push(trigger)
     })
   }
 

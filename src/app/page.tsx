@@ -634,13 +634,15 @@ export default function HomePage() {
               boxShadow: '0 -40px 80px rgba(0,0,0,0.5)',
             }}
           >
-              <Image
-                src={region.heroImage}
-                alt={region.name}
-                fill
-                sizes="100vw"
-                style={{ objectFit: 'cover' }}
-              />
+              <div data-image-scale="" style={{ position: 'absolute', inset: 0 }}>
+                <Image
+                  src={region.heroImage}
+                  alt={region.name}
+                  fill
+                  sizes="100vw"
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
               {/* Metadata top center */}
               <div
                 style={{
