@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { ReactNode } from 'react'
-import { motion, useScroll, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { regions } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
@@ -40,41 +40,34 @@ export default function HomePage() {
   const avaRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const overlayVideoRef = useRef<HTMLVideoElement>(null)
-  const { scrollY } = useScroll()
   const [expanded, setExpanded] = useState(false)
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrollY_val, setScrollY_val] = useState(0)
-  const expandedRef = useRef(false)
 
   useEffect(() => {
-    const unsub = scrollY.on('change', (v) => {
-      setScrollY_val(v)
+    const handleScroll = () => {
       const hero = heroRef.current
       if (!hero) return
       const heroH = hero.offsetHeight
-      const start = heroH * 0.28
-      const end = heroH * 0.82
-      const scrollCorridorEnd = heroH * 2
+      const scrolled = window.scrollY
+      setScrollY_val(scrolled)
+      const start = heroH * 0.3
+      const end = heroH * 0.8
 
-      if (v > end && v < scrollCorridorEnd && !expandedRef.current) {
-        expandedRef.current = true
-        setExpanded(true)
+      if (scrolled >= end) {
         setOverlayVisible(true)
-        requestAnimationFrame(() => {
-          if (overlayVideoRef.current && videoRef.current) {
-            overlayVideoRef.current.currentTime = videoRef.current.currentTime
-            overlayVideoRef.current.play().catch(() => {})
-          }
-        })
-      } else if (v <= start && expandedRef.current) {
-        expandedRef.current = false
-        setExpanded(false)
+        setExpanded(true)
+      } else if (scrolled <= start) {
         setOverlayVisible(false)
+        setExpanded(false)
       }
-    })
-    return unsub
-  }, [scrollY])
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Parallax offset per panel
   const panelOffset = (speed: number) => -scrollY_val * speed
@@ -358,6 +351,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Scroll spacer to drive expansion */}
+      <div style={{ height: '100vh', background: '#0D0B09' }} />
+
       {/* ── FULLSCREEN VIDEO OVERLAY ── */}
       <AnimatePresence>
         {overlayVisible && (
@@ -460,7 +456,6 @@ export default function HomePage() {
                 <button
                   type="button"
                   onClick={() => {
-                    expandedRef.current = false
                     setOverlayVisible(false)
                     setExpanded(false)
                     requestAnimationFrame(() => {
@@ -485,9 +480,6 @@ export default function HomePage() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Scroll spacer to drive expansion */}
-      <div style={{ height: '100vh', background: '#0D0B09' }} />
 
       <div style={{ position: 'relative', zIndex: 1 }}>
       {/* ── BROWSE BY AVA ── */}
