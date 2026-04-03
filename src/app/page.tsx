@@ -610,8 +610,8 @@ export default function HomePage() {
         </section>
       </RevealSection>
 
-      {/* ── FEATURED REGIONS: full-viewport image sections with clip-path reveal ── */}
-      {featuredRegions.map((region) => (
+      {/* ── FEATURED REGIONS: full-viewport overlapping sections ── */}
+      {featuredRegions.map((region, i) => (
         <Link key={region.slug} href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
           <section
             className="region-hero-section"
@@ -620,6 +620,9 @@ export default function HomePage() {
               height: '100vh',
               minHeight: 600,
               overflow: 'hidden',
+              zIndex: i + 10,
+              marginTop: i === 0 ? 0 : '-10vh',
+              boxShadow: '0 -40px 80px rgba(0,0,0,0.5)',
             }}
           >
             <div
