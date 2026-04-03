@@ -387,3 +387,16 @@ body {
 /* ── Italic display accent ── */
 .italic { font-style: italic; }
 .font-display { font-family: var(--font-display); }
+
+/* Marquee CTA (therealhotels-style) */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Horizontal strips — hide scrollbar */
+.strip-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.strip-scroll::-webkit-scrollbar { display: none; }

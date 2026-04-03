@@ -5,20 +5,34 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { regions } from '@/data/regions'
+import { regions, getRegion, type RegionData } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
+import { getArticle } from '@/data/articles'
+import { MarqueeCTA } from '@/components/ui/MarqueeCTA'
+import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
+import { sectionHeading, seeAllLink } from '@/lib/editorial-styles'
+import { TEST_IMAGES } from '@/lib/test-images'
+import type { Article, Winery } from '@/lib/types'
 
-const TEST_IMAGES = [
-  '/test-images/AdobeStock_39828282.jpeg',
-  '/test-images/AdobeStock_85747125.jpeg',
-  '/test-images/AdobeStock_86969265.jpeg',
-  '/test-images/AdobeStock_164779985.jpeg',
-  '/test-images/AdobeStock_286007082.jpeg',
-  '/test-images/AdobeStock_291250504.jpeg',
-  '/test-images/AdobeStock_805204520.jpeg',
-]
+const featuredRegions = regions.slice(0, 3)
+const featuredJuneSlugs = ['judgment-of-paris', 'napa-taco-tour', 'napa-landmarks'] as const
+const featuredArticleRows: Article[] = featuredJuneSlugs
+  .map((slug) => getArticle(slug))
+  .filter((a): a is Article => Boolean(a))
+
+const articleHref: Record<string, string> = {
+  'judgment-of-paris': '/features/napa-judgment',
+  'napa-taco-tour': '/dining',
+  'napa-landmarks': '/map',
+}
+
+const spotlightWinery = wineries.find((w) => w.slug === 'opus-one') ?? wineries[0]
+const featuredRestaurants = restaurants.some((r) => r.featured)
+  ? restaurants.filter((r) => r.featured)
+  : restaurants.slice(0, 8)
+const featuredHotels = hotels.some((h) => h.featured) ? hotels.filter((h) => h.featured) : hotels.slice(0, 6)
 
 // ── JW Player (test media; swap IDs when final assets land) ───────────
 // Catalog also in src/components/video/JWVideo.tsx STATIC_MP4_720
@@ -45,7 +59,7 @@ function clamp(v: number, min: number, max: number) {
   return Math.min(Math.max(v, min), max)
 }
 function easeInOut(t: number) {
-  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 }
 
 export default function HomePage() {
@@ -78,7 +92,7 @@ export default function HomePage() {
       const total = containerHeight - vh
       const progress = clamp(scrolled / total, 0, 1)
 
-      const expandProgress = clamp((progress - 0.35) / 0.5, 0, 1)
+      const expandProgress = clamp((progress - 0.25) / 0.6, 0, 1)
       const expandEased = easeInOut(expandProgress)
 
       const panelW = lerp(200, vw, expandEased)
@@ -96,7 +110,7 @@ export default function HomePage() {
       if (heroCopy) heroCopy.style.opacity = String(clamp(1 - expandProgress * 3, 0, 1))
       if (heroDisplay) heroDisplay.style.opacity = String(clamp(1 - expandProgress * 2, 0, 1))
 
-      const overlayProgress = clamp((progress - 0.82) / 0.18, 0, 1)
+      const overlayProgress = clamp((progress - 0.85) / 0.15, 0, 1)
       if (fullscreenOverlay) {
         fullscreenOverlay.style.opacity = String(overlayProgress)
         fullscreenOverlay.style.pointerEvents = overlayProgress > 0.5 ? 'all' : 'none'
@@ -512,210 +526,142 @@ export default function HomePage() {
       </div>
 
       <div id="main-content" style={{ position: 'relative', zIndex: 5, background: '#0D0B09' }}>
-      {/* ── BROWSE BY AVA ── */}
+      {/* ── INTRO ── */}
       <RevealSection>
         <section
           ref={avaRef}
-          style={{ position: 'relative', zIndex: 1, padding: '100px 0 0', background: '#0D0B09' }}
+          style={{ padding: '120px 60px 80px', maxWidth: 800, margin: '0 auto', textAlign: 'center' }}
         >
-          <p style={styles.sectionLabel}>Browse by appellation</p>
-          <div
+          <p
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(7, 1fr)',
-              gap: 1,
-              background: 'rgba(247,243,236,0.06)',
-              borderTop: '1px solid rgba(247,243,236,0.06)',
-              borderBottom: '1px solid rgba(247,243,236,0.06)',
-            }}
-          >
-            {regions.map((region, regionIndex) => (
-              <AVACard key={region.slug} region={region} regionIndex={regionIndex} />
-            ))}
-          </div>
-        </section>
-      </RevealSection>
-
-      {/* ── FEATURED WINERIES ── */}
-      <RevealSection>
-        <section style={{ position: 'relative', zIndex: 1, padding: '100px 60px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 56 }}>
-            <p style={styles.sectionLabel}>Landmark wineries</p>
-            <Link href="/wineries" style={styles.seeAllLink}>
-              All wineries →
-            </Link>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1 }}>
-            {wineries.slice(0, 3).map((w, i) => (
-              <EditorialCard
-                key={w.slug}
-                href={`/wineries/${w.slug}`}
-                eyebrow={w.region.replace(/-/g, ' ')}
-                title={w.name}
-                excerpt={(w.excerpt ?? `${w.description.slice(0, 100)}…`)}
-                cardIndex={i}
-                tall={i === 0}
-              />
-            ))}
-          </div>
-        </section>
-      </RevealSection>
-
-      {/* ── MAP CTA ── */}
-      <RevealSection>
-        <section
-          style={{
-            margin: '0 60px 100px',
-            border: '1px solid rgba(247,243,236,0.08)',
-            borderRadius: 3,
-            padding: '80px',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 60,
-            alignItems: 'center',
-            background: '#1A1612',
-            position: 'relative',
-            zIndex: 1,
-            overflow: 'hidden',
-          }}
-        >
-          <span
-            style={{
-              position: 'absolute',
-              bottom: '-0.1em',
-              right: '-0.05em',
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 240,
-              fontWeight: 400,
-              color: 'rgba(247,243,236,0.03)',
-              lineHeight: 1,
-              pointerEvents: 'none',
-              letterSpacing: '-0.04em',
+              fontStyle: 'italic',
+              fontWeight: 300,
+              fontSize: 'clamp(22px, 2.8vw, 36px)',
+              color: 'rgba(247,243,236,0.85)',
+              lineHeight: 1.5,
+              letterSpacing: '-0.01em',
+              marginBottom: 48,
             }}
           >
-            Map
-          </span>
-          <div>
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontWeight: 300,
-                fontSize: 'clamp(40px,5vw,70px)',
-                color: '#F7F3EC',
-                lineHeight: 1.0,
-                letterSpacing: '-0.02em',
-                marginBottom: 20,
-              }}
-            >
-              Explore the
-              <br />
-              valley on a map
-            </h2>
-            <p style={{ ...styles.bodyText, marginBottom: 36 }}>
-              Every winery, restaurant, and hotel — plotted across Napa&apos;s seven appellations. Filter by category, plan your route.
-            </p>
-            <Link href="/map" style={styles.primaryBtn}>
-              Open the map →
-            </Link>
-          </div>
-          {/* Simple SVG Napa preview */}
+            No wine region on earth compresses so much ambition, beauty, and sensory pleasure into so small a space.
+            Fifty miles of valley floor and mountain slope — and yet Napa Valley has become the benchmark against
+            which the world measures itself.
+          </p>
+          <MarqueeCTA href="/regions" label="explore the guide" />
+        </section>
+      </RevealSection>
+
+      {/* ── BROWSE BY AVA (horizontal strip) ── */}
+      <RevealSection>
+        <section style={{ padding: '0 0 100px' }}>
           <div
             style={{
-              aspectRatio: '16/10',
-              background: '#0D0B09',
-              borderRadius: 3,
-              border: '1px solid rgba(247,243,236,0.06)',
+              padding: '0 60px',
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
+              alignItems: 'baseline',
+              marginBottom: 40,
             }}
           >
-            <svg width="280" height="190" viewBox="0 0 280 190" fill="none">
-              <path
-                d="M140 20 C125 32 110 52 102 76 C94 100 98 128 101 148 C104 168 112 182 118 188 C128 174 138 162 146 150 C152 140 155 130 157 118 C160 104 162 88 160 72 C158 56 150 36 140 20Z"
-                stroke="rgba(247,243,236,0.15)"
-                strokeWidth="1.5"
-                fill="rgba(247,243,236,0.03)"
-              />
-              <path
-                d="M140 36 C138 58 136 80 135 102 C134 122 134 142 135 160"
-                stroke="rgba(196,148,58,0.4)"
-                strokeWidth="1"
-                strokeDasharray="4 4"
-              />
-              {[36, 70, 102, 132, 158].map((y, i) => (
-                <circle key={i} cx={136} cy={y} r={3} fill={i < 2 ? 'rgba(196,148,58,0.8)' : 'rgba(247,243,236,0.4)'} />
-              ))}
-              {[
-                [144, 39, 'CALISTOGA'],
-                [144, 73, 'ST. HELENA'],
-                [144, 105, 'RUTHERFORD'],
-                [144, 135, 'OAKVILLE'],
-                [144, 161, 'YOUNTVILLE'],
-              ].map(([x, y, label]) => (
-                <text key={label as string} x={x as number} y={y as number} fontFamily="DM Sans" fontSize="6" fill="rgba(247,243,236,0.35)" letterSpacing="1">
-                  {label as string}
-                </text>
-              ))}
-            </svg>
+            <h2 style={sectionHeading}>Browse by appellation</h2>
+            <Link href="/regions" style={seeAllLink}>
+              View all →
+            </Link>
+          </div>
+          <div
+            className="strip-scroll"
+            style={{
+              display: 'flex',
+              gap: 2,
+              overflowX: 'auto',
+              overflowY: 'hidden',
+              paddingLeft: 60,
+              paddingRight: 60,
+              scrollSnapType: 'x mandatory',
+              WebkitOverflowScrolling: 'touch',
+              cursor: 'grab',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            {regions.map((region, i) => (
+              <AVAStrip key={region.slug} region={region} index={i} />
+            ))}
           </div>
         </section>
       </RevealSection>
 
-      {/* ── WHERE TO EAT ── */}
+      {/* ── FEATURED REGION EDITORIAL ── */}
       <RevealSection>
-        <section style={{ position: 'relative', zIndex: 1, padding: '0 60px 100px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 56 }}>
-            <p style={styles.sectionLabel}>Where to eat</p>
-            <Link href="/dining" style={styles.seeAllLink}>
+        <section style={{ padding: '0 0 80px' }}>
+          <div style={{ padding: '0 60px', marginBottom: 60 }}>
+            <h2 style={sectionHeading}>The appellations worth knowing</h2>
+          </div>
+          {featuredRegions.map((region, i) => (
+            <RegionEditorialCard key={region.slug} region={region} index={i} />
+          ))}
+        </section>
+      </RevealSection>
+
+      {/* ── FROM THE JUNE ISSUE ── */}
+      <RevealSection>
+        <section style={{ padding: '80px 0 100px' }}>
+          <div style={{ padding: '0 60px', marginBottom: 60 }}>
+            <h2 style={sectionHeading}>From the June issue</h2>
+          </div>
+          {featuredArticleRows.map((article, i) => (
+            <ArticleFeatureRow key={article.slug} article={article} index={i} href={articleHref[article.slug] ?? '/'} />
+          ))}
+        </section>
+      </RevealSection>
+
+      {/* ── WINERY SPOTLIGHT ── */}
+      <RevealSection>
+        <section style={{ padding: '0 0 100px' }}>
+          <WinerySpotlight winery={spotlightWinery} />
+        </section>
+      </RevealSection>
+
+      {/* ── DINING STRIP ── */}
+      <RevealSection>
+        <section style={{ padding: '0 0 100px' }}>
+          <div
+            style={{
+              padding: '0 60px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 40,
+            }}
+          >
+            <h2 style={sectionHeading}>Tables worth the journey</h2>
+            <Link href="/dining" style={seeAllLink}>
               All restaurants →
             </Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1 }}>
-            {restaurants
-              .filter((r) => r.featured)
-              .slice(0, 4)
-              .map((r, i) => (
-                <EditorialCard
-                  key={r.slug}
-                  href={`/dining/${r.slug}`}
-                  eyebrow={r.cuisine}
-                  title={r.name}
-                  excerpt={r.excerpt ?? `${r.description.slice(0, 90)}…`}
-                  cardIndex={i}
-                  meta={r.priceRange}
-                />
-              ))}
-          </div>
+          <HorizontalStrip
+            entries={featuredRestaurants.map((item) => ({ type: 'dining' as const, item }))}
+          />
         </section>
       </RevealSection>
 
-      {/* ── WHERE TO STAY ── */}
+      {/* ── STAY STRIP ── */}
       <RevealSection>
-        <section style={{ position: 'relative', zIndex: 1, padding: '0 60px 100px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 56 }}>
-            <p style={styles.sectionLabel}>Where to stay</p>
-            <Link href="/stay" style={styles.seeAllLink}>
+        <section style={{ padding: '0 0 100px' }}>
+          <div
+            style={{
+              padding: '0 60px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 40,
+            }}
+          >
+            <h2 style={sectionHeading}>Where to sleep in wine country</h2>
+            <Link href="/stay" style={seeAllLink}>
               All hotels →
             </Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 1 }}>
-            {hotels
-              .filter((h) => h.featured)
-              .slice(0, 4)
-              .map((h, i) => (
-                <EditorialCard
-                  key={h.slug}
-                  href={`/stay/${h.slug}`}
-                  eyebrow={h.region.replace(/-/g, ' ')}
-                  title={h.name}
-                  excerpt={`${h.description.slice(0, 110)}…`}
-                  cardIndex={i}
-                  tall={i === 0 || i === 3}
-                />
-              ))}
-          </div>
+          <HorizontalStrip entries={featuredHotels.map((item) => ({ type: 'stay' as const, item }))} />
         </section>
       </RevealSection>
 
@@ -765,7 +711,7 @@ export default function HomePage() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr',
+            gridTemplateColumns: '1.1fr 1fr 1fr 1fr',
             gap: 40,
             alignItems: 'start',
             marginBottom: 48,
@@ -788,30 +734,41 @@ export default function HomePage() {
               All rights reserved.
             </p>
           </div>
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start' }}>
             {[
-              ['Map', '/map'],
               ['Wineries', '/wineries'],
+              ['Regions', '/regions'],
               ['Dining', '/dining'],
               ['Stay', '/stay'],
-              ['Plan', '/plan'],
             ].map(([label, href]) => (
               <Link key={href} href={href} style={{ ...styles.microLabel, color: '#9B9283', textDecoration: 'none' }}>
                 {label}
               </Link>
             ))}
           </nav>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-end' }}>
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start' }}>
+            {[
+              ['Map', '/map'],
+              ['Plan', '/plan'],
+              ['Calendar', '/calendar'],
+              ['Subscribe', 'https://winespectator.com/subscribe'],
+            ].map(([label, href]) => (
+              <Link key={href} href={href} style={{ ...styles.microLabel, color: '#9B9283', textDecoration: 'none' }}>
+                {label}
+              </Link>
+            ))}
+          </nav>
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start' }}>
             {[
               ['Privacy', '/privacy'],
               ['Contact', '/contact'],
-              ['winespectator.com ↗', 'https://winespectator.com'],
+              ['WineSpectator.com', 'https://winespectator.com'],
             ].map(([label, href]) => (
               <Link key={href} href={href} style={{ ...styles.microLabel, color: 'rgba(155,146,131,0.45)', textDecoration: 'none' }}>
                 {label}
               </Link>
             ))}
-          </div>
+          </nav>
         </div>
         <div
           style={{
@@ -896,217 +853,347 @@ function RevealSection({ children }: { children: ReactNode }) {
   )
 }
 
-function AVACard({ region, regionIndex }: { region: (typeof regions)[0]; regionIndex: number }) {
+function AVAStrip({ region, index }: { region: RegionData; index: number }) {
   const [hovered, setHovered] = useState(false)
   return (
-    <Link href={`/regions/${region.slug}`} style={{ textDecoration: 'none' }}>
+    <Link
+      href={`/regions/${region.slug}`}
+      style={{
+        flexShrink: 0,
+        width: 280,
+        height: 520,
+        scrollSnapAlign: 'start',
+        textDecoration: 'none',
+        display: 'block',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
         style={{
-          position: 'relative',
-          height: 420,
-          overflow: 'hidden',
-          cursor: 'none',
+          position: 'absolute',
+          inset: 0,
+          transform: hovered ? 'scale(1.04)' : 'scale(1)',
+          transition: 'transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94)',
         }}
       >
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            transform: hovered ? 'scale(1.04)' : 'scale(1)',
-            transition: 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)',
-          }}
-        >
-          <Image
-            src={TEST_IMAGES[regionIndex % 7]}
-            alt={region.name}
-            fill
-            sizes="(max-width: 768px) 50vw, 14vw"
-            style={{ objectFit: 'cover', objectPosition: 'center' }}
-          />
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 1,
-            background: '#0D0B09',
-            opacity: hovered ? 0.5 : 0.65,
-            transition: 'opacity 0.5s',
-          }}
+        <Image
+          src={TEST_IMAGES[index % 7]}
+          alt={region.name}
+          fill
+          sizes="280px"
+          style={{ objectFit: 'cover' }}
         />
-        {/* AVA abbreviation badge */}
-        <div
+      </div>
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: hovered
+            ? 'linear-gradient(to top, rgba(13,11,9,0.88) 0%, rgba(13,11,9,0.25) 55%, transparent 100%)'
+            : 'linear-gradient(to top, rgba(13,11,9,0.94) 0%, rgba(13,11,9,0.35) 55%, transparent 100%)',
+          transition: 'opacity 0.45s',
+        }}
+      />
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 24px', zIndex: 1 }}>
+        <span
           style={{
-            position: 'absolute',
-            top: 20,
-            right: 16,
-            zIndex: 2,
-            width: 48,
-            height: 48,
-            borderRadius: '50%',
-            border: '1px solid rgba(247,243,236,0.15)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 7,
-            fontWeight: 500,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: 'rgba(247,243,236,0.4)',
-            textAlign: 'center',
-            lineHeight: 1.3,
+            display: 'block',
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: 'italic',
+            fontWeight: 300,
+            fontSize: 'clamp(24px,2.5vw,34px)',
+            color: '#F7F3EC',
+            lineHeight: 1.05,
+            letterSpacing: '-0.02em',
+            marginBottom: 8,
           }}
         >
-          {region.slug.replace(/-/g, '\n').toUpperCase().slice(0, 8)}
-        </div>
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2, padding: '24px 20px' }}>
-          <span
-            style={{
-              display: 'block',
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: 'italic',
-              fontWeight: 300,
-              fontSize: 20,
-              color: '#F7F3EC',
-              lineHeight: 1.1,
-              marginBottom: 6,
-            }}
-          >
-            {region.name}
-          </span>
-          <span style={{ ...styles.microLabel, color: '#9B9283' }}>{region.tagline}</span>
-        </div>
+          {region.name}
+        </span>
+        <span style={{ ...styles.microLabel, color: '#9B9283' }}>{region.tagline}</span>
       </div>
     </Link>
   )
 }
 
-function EditorialCard({
-  href,
-  eyebrow,
-  title,
-  excerpt,
-  cardIndex,
-  tall,
-  meta,
-}: {
-  href: string
-  eyebrow: string
-  title: string
-  excerpt: string
-  cardIndex: number
-  tall?: boolean
-  meta?: string
-}) {
-  const [hovered, setHovered] = useState(false)
+function RegionEditorialCard({ region, index }: { region: RegionData; index: number }) {
+  const photoLeft = index % 2 === 0
   return (
-    <Link href={href} style={{ textDecoration: 'none', display: 'block' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: photoLeft ? 'row' : 'row-reverse',
+        width: '100%',
+        marginBottom: index < featuredRegions.length - 1 ? 2 : 0,
+        background: '#0D0B09',
+      }}
+    >
+      <div style={{ flex: '1 1 50%', position: 'relative', minHeight: 600, overflow: 'hidden' }}>
+        <Image
+          src={TEST_IMAGES[index % 7]}
+          alt={region.name}
+          fill
+          sizes="50vw"
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
       <div
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
         style={{
-          position: 'relative',
-          height: tall ? 520 : 380,
-          overflow: 'hidden',
-          cursor: 'none',
-          borderRadius: 2,
+          flex: '1 1 50%',
+          padding: '72px 60px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          background: '#0D0B09',
         }}
       >
-        <div
+        <p
           style={{
-            position: 'absolute',
-            inset: 0,
-            transform: hovered ? 'scale(1.03)' : 'scale(1)',
-            transition: 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)',
-          }}
-        >
-          <Image
-            src={TEST_IMAGES[cardIndex % 7]}
-            alt={title}
-            fill
-            sizes="(max-width: 768px) 100vw, 33vw"
-            style={{ objectFit: 'cover', objectPosition: 'center' }}
-          />
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 1,
-            background: 'linear-gradient(to top, rgba(13,11,9,0.95) 0%, rgba(13,11,9,0.2) 60%, transparent 100%)',
-          }}
-        />
-        {/* Eyebrow */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 20,
-            left: 20,
-            zIndex: 2,
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 9,
-            fontWeight: 400,
-            letterSpacing: '0.2em',
+            letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: '#C4943A',
+            marginBottom: 20,
           }}
         >
-          {eyebrow}
-          {meta ? ` · ${meta}` : ''}
+          Napa Valley Appellation
+        </p>
+        <h3
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: 'italic',
+            fontWeight: 300,
+            fontSize: 'clamp(40px, 4vw, 64px)',
+            color: '#F7F3EC',
+            lineHeight: 1.02,
+            letterSpacing: '-0.03em',
+            marginBottom: 16,
+          }}
+        >
+          {region.name}
+        </h3>
+        <p style={{ ...styles.microLabel, color: '#9B9283', marginBottom: 28 }}>Napa Valley, California</p>
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 15,
+            fontWeight: 300,
+            color: 'rgba(247,243,236,0.72)',
+            lineHeight: 1.85,
+            marginBottom: 36,
+          }}
+        >
+          {region.intro}
+        </p>
+        <div style={{ maxWidth: 420 }}>
+          <MarqueeCTA href={`/regions/${region.slug}`} label="learn more" />
         </div>
-        {/* Bottom content */}
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2, padding: '0 24px 28px' }}>
-          <h3
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: 'italic',
-              fontWeight: 300,
-              fontSize: 'clamp(22px,2.5vw,32px)',
-              color: '#F7F3EC',
-              lineHeight: 1.05,
-              letterSpacing: '-0.02em',
-              marginBottom: 10,
-            }}
-          >
-            {title}
-          </h3>
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12,
-              fontWeight: 300,
-              color: 'rgba(247,243,236,0.55)',
-              lineHeight: 1.6,
-              opacity: hovered ? 1 : 0,
-              transform: hovered ? 'translateY(0)' : 'translateY(8px)',
-              transition: 'opacity 0.4s, transform 0.4s',
-              marginBottom: 14,
-            }}
-          >
-            {excerpt}
-          </p>
-          <span
+      </div>
+    </div>
+  )
+}
+
+function ArticleFeatureRow({ article, index, href }: { article: Article; index: number; href: string }) {
+  const imageSrc = article.images[0] && article.images[0].length > 0 ? article.images[0] : TEST_IMAGES[index % 7]
+  const photoLeft = index % 2 === 0
+  const sectionEyebrow =
+    article.section === 'dining'
+      ? 'Dining'
+      : article.section === 'feature'
+        ? 'Feature'
+        : article.section === 'lede'
+          ? 'Guide'
+          : article.section.replace(/-/g, ' ')
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: photoLeft ? 'row' : 'row-reverse',
+        width: '100%',
+        minHeight: 500,
+        marginBottom: 2,
+      }}
+    >
+      <div style={{ flex: '0 0 55%', position: 'relative', minHeight: 500, overflow: 'hidden' }}>
+        <Image src={imageSrc} alt={article.title} fill sizes="55vw" style={{ objectFit: 'cover' }} />
+      </div>
+      <div
+        style={{
+          flex: '0 0 45%',
+          padding: '60px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          background: '#0D0B09',
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 9,
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
+            color: '#C4943A',
+            marginBottom: 16,
+          }}
+        >
+          {sectionEyebrow}
+        </p>
+        <h3
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: 'italic',
+            fontWeight: 300,
+            fontSize: 'clamp(32px, 3.5vw, 56px)',
+            color: '#F7F3EC',
+            lineHeight: 1.05,
+            letterSpacing: '-0.02em',
+            marginBottom: 20,
+          }}
+        >
+          {article.title}
+        </h3>
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 14,
+            fontWeight: 300,
+            color: 'rgba(247,243,236,0.55)',
+            lineHeight: 1.75,
+            marginBottom: 24,
+          }}
+        >
+          {article.excerpt}
+        </p>
+        <p style={{ ...styles.microLabel, color: 'rgba(155,146,131,0.55)', marginBottom: 28 }}>
+          {article.author ?? 'Wine Spectator'} · June 2026
+        </p>
+        <Link
+          href={href}
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 10,
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: '#F7F3EC',
+            textDecoration: 'none',
+            borderBottom: '1px solid rgba(247,243,236,0.25)',
+            paddingBottom: 4,
+            width: 'fit-content',
+          }}
+        >
+          Read the feature →
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+function WinerySpotlight({ winery }: { winery: Winery }) {
+  const r = getRegion(winery.region)
+  const ava = r?.name ?? winery.region.replace(/-/g, ' ')
+  const appt = winery.visitInfo?.appointment
+
+  return (
+    <div style={{ position: 'relative', height: 700, overflow: 'hidden' }}>
+      <Image src={winery.images[0]} alt={winery.name} fill sizes="100vw" style={{ objectFit: 'cover' }} priority />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, transparent 0%, rgba(13,11,9,0.5) 45%, rgba(13,11,9,0.92) 100%)',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          padding: '56px 60px',
+          zIndex: 1,
+        }}
+      >
+        <p style={{ ...styles.microLabel, color: '#C4943A', marginBottom: 16 }}>
+          {ava.toUpperCase()}
+          {appt !== undefined ? ` · ${appt ? 'BY APPOINTMENT' : 'WALK-INS WELCOME'}` : ''}
+        </p>
+        <h2
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: 'italic',
+            fontWeight: 300,
+            fontSize: 'clamp(56px, 8vw, 112px)',
+            color: '#F7F3EC',
+            lineHeight: 0.95,
+            letterSpacing: '-0.03em',
+            marginBottom: 16,
+          }}
+        >
+          {winery.name}
+        </h2>
+        {winery.address ? (
+          <p style={{ ...styles.microLabel, color: '#9B9283', marginBottom: 24 }}>{winery.address}</p>
+        ) : null}
+        <p
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: 'italic',
+            fontWeight: 300,
+            fontSize: 22,
+            color: 'rgba(247,243,236,0.85)',
+            lineHeight: 1.45,
+            maxWidth: 640,
+            marginBottom: 32,
+          }}
+        >
+          {winery.excerpt}
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center' }}>
+          {winery.visitInfo?.website ? (
+            <a
+              href={winery.visitInfo.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 10,
+                fontWeight: 500,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: '#0D0B09',
+                background: '#F7F3EC',
+                padding: '14px 28px',
+                borderRadius: 2,
+                textDecoration: 'none',
+              }}
+            >
+              Reserve a visit →
+            </a>
+          ) : null}
+          <Link
+            href={`/wineries/${winery.slug}`}
             style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: 10,
-              fontWeight: 400,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
               color: '#F7F3EC',
+              textDecoration: 'none',
               borderBottom: '1px solid rgba(247,243,236,0.3)',
-              paddingBottom: 3,
-              opacity: hovered ? 1 : 0,
-              transition: 'opacity 0.3s',
+              paddingBottom: 4,
             }}
           >
             Read more →
-          </span>
+          </Link>
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 
@@ -1169,48 +1256,12 @@ function EmailForm() {
 
 // ── Shared style objects ─────────────────────────────────────────────
 const styles = {
-  sectionLabel: {
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: 10,
-    fontWeight: 400,
-    letterSpacing: '0.25em',
-    textTransform: 'uppercase' as const,
-    color: '#9B9283',
-    marginBottom: 0,
-    padding: '0 60px 48px',
-  },
-  seeAllLink: {
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: 10,
-    fontWeight: 400,
-    letterSpacing: '0.18em',
-    textTransform: 'uppercase' as const,
-    color: '#9B9283',
-    textDecoration: 'none',
-    borderBottom: '1px solid rgba(155,146,131,0.3)',
-    paddingBottom: 3,
-  },
   bodyText: {
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 13,
     fontWeight: 300,
     color: '#9B9283',
     lineHeight: 1.8,
-  },
-  primaryBtn: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: 12,
-    background: '#F7F3EC',
-    color: '#0D0B09',
-    padding: '16px 32px',
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: 10,
-    fontWeight: 500,
-    letterSpacing: '0.2em',
-    textTransform: 'uppercase' as const,
-    textDecoration: 'none',
-    borderRadius: 2,
   },
   microLabel: {
     fontFamily: "'DM Sans', sans-serif",
