@@ -40,7 +40,6 @@ export default async function RestaurantDetailPage({ params }: Props) {
     <div style={{ background: '#0D0B09', color: '#F7F3EC', minHeight: '100vh' }}>
       <Nav />
 
-      {/* ── HERO IMAGE: clean, full-screen ── */}
       <section style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
         <Image src={venue.images[0]} alt={venue.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         <div
@@ -63,6 +62,7 @@ export default async function RestaurantDetailPage({ params }: Props) {
             color: 'rgba(247,243,236,0.6)',
             lineHeight: 1.3,
             whiteSpace: 'pre-line',
+            transform: 'rotate(8deg)',
           }}
         >
           {venue.region.replace(/-/g, '\n').toUpperCase()}
@@ -79,8 +79,7 @@ export default async function RestaurantDetailPage({ params }: Props) {
         />
       </section>
 
-      {/* ── TITLE + METADATA + CTAs: below hero ── */}
-      <section style={{ padding: '60px 60px 48px', maxWidth: 960, margin: '0 auto' }}>
+      <section style={{ padding: '60px 60px 48px', maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
         <p
           style={{
             fontFamily: "'DM Sans', sans-serif",
@@ -88,7 +87,7 @@ export default async function RestaurantDetailPage({ params }: Props) {
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: '#C4943A',
-            marginBottom: 20,
+            marginBottom: 24,
           }}
         >
           {venue.cuisine} &middot; {venue.priceRange} &middot; {regionName}
@@ -98,21 +97,21 @@ export default async function RestaurantDetailPage({ params }: Props) {
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
             fontWeight: 300,
-            fontSize: 'clamp(48px, 8vw, 96px)',
+            fontSize: 'clamp(48px, 7vw, 88px)',
             color: '#F7F3EC',
             lineHeight: 0.95,
             letterSpacing: '-0.03em',
-            marginBottom: 20,
+            marginBottom: 16,
           }}
         >
           {venue.name}
         </h1>
         {venue.address && (
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: '#9B9283', marginBottom: 32 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: '#9B9283', marginBottom: 36 }}>
             {venue.address}
           </p>
         )}
-        <div style={{ display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
           {(venue.reservations || venue.website) ? (
             <a href={reserveHref} target="_blank" rel="noopener noreferrer" style={primaryCTA}>
               Make a reservation
@@ -122,13 +121,13 @@ export default async function RestaurantDetailPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── PHOTO ── */}
-      <section style={{ position: 'relative', width: '100%', aspectRatio: '21/9', overflow: 'hidden' }}>
-        <Image src={venue.images[1 % venue.images.length]} alt="" fill sizes="100vw" style={{ objectFit: 'cover' }} />
+      <section style={{ padding: '0 60px' }}>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <Image src={venue.images[1 % venue.images.length]} alt="" fill sizes="calc(100vw - 120px)" style={{ objectFit: 'cover' }} />
+        </div>
       </section>
 
-      {/* ── BODY TEXT ── */}
-      <section id="story" style={{ padding: '100px 60px', maxWidth: 860, margin: '0 auto' }}>
+      <section id="story" style={{ padding: '80px 60px', maxWidth: 860, margin: '0 auto' }}>
         <p
           style={{
             fontFamily: "'Cormorant Garamond', serif",
@@ -142,73 +141,35 @@ export default async function RestaurantDetailPage({ params }: Props) {
         >
           {venue.excerpt}
         </p>
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 16,
-            fontWeight: 300,
-            color: 'rgba(247,243,236,0.7)',
-            lineHeight: 1.9,
-          }}
-        >
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, fontWeight: 300, color: 'rgba(247,243,236,0.65)', lineHeight: 1.9 }}>
           {venue.description}
         </p>
       </section>
 
-      {/* ── PHOTO ── */}
-      <section style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
-        <Image src={venue.images[2 % venue.images.length]} alt="" fill sizes="100vw" style={{ objectFit: 'cover' }} />
+      <section style={{ padding: '0 60px' }}>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <Image src={venue.images[2 % venue.images.length]} alt="" fill sizes="calc(100vw - 120px)" style={{ objectFit: 'cover' }} />
+        </div>
       </section>
 
-      {/* ── PRACTICAL INFO ── */}
-      <section style={{ padding: '80px 60px 100px', maxWidth: 860, margin: '0 auto' }}>
-        <div
-          style={{
-            borderTop: '1px solid rgba(247,243,236,0.08)',
-            paddingTop: 40,
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 32,
-          }}
-        >
-          <div>
-            <p style={infoLabel}>Cuisine</p>
-            <p style={infoValue}>{venue.cuisine}</p>
-          </div>
-          <div>
-            <p style={infoLabel}>Price range</p>
-            <p style={infoValue}>{venue.priceRange}</p>
-          </div>
-          {venue.address && (
-            <div>
-              <p style={infoLabel}>Address</p>
-              <p style={infoValue}>{venue.address}</p>
-            </div>
-          )}
+      <section style={{ padding: '80px 60px', maxWidth: 860, margin: '0 auto' }}>
+        <div style={{ borderTop: '1px solid rgba(247,243,236,0.08)', paddingTop: 40, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+          <div><p style={infoLabel}>Cuisine</p><p style={infoValue}>{venue.cuisine}</p></div>
+          <div><p style={infoLabel}>Price range</p><p style={infoValue}>{venue.priceRange}</p></div>
+          {venue.address && <div><p style={infoLabel}>Address</p><p style={infoValue}>{venue.address}</p></div>}
         </div>
-        <div style={{ marginTop: 48, display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ marginTop: 48, display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
           {(venue.reservations || venue.website) ? (
-            <a href={reserveHref} target="_blank" rel="noopener noreferrer" style={primaryCTA}>
-              Make a reservation
-            </a>
+            <a href={reserveHref} target="_blank" rel="noopener noreferrer" style={primaryCTA}>Make a reservation</a>
           ) : null}
           <Link href="/map" style={ghostCTA}>Explore the map &rarr;</Link>
         </div>
       </section>
 
-      {/* ── MORE FROM REGION ── */}
       {related.length > 0 && (
-        <section style={{ padding: '0 0 120px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
-          <div style={{ padding: '80px 60px 48px' }}>
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontWeight: 300,
-                fontSize: 'clamp(24px, 3vw, 40px)',
-                color: '#F7F3EC',
-              }}
-            >
+        <section style={{ padding: '0 0 100px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
+          <div style={{ padding: '60px 60px 40px' }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(24px, 3vw, 40px)', color: '#F7F3EC' }}>
               More from {regionName}
             </h2>
           </div>

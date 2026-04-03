@@ -94,7 +94,7 @@ export default function Nav() {
             style={{
               background: 'none',
               border: 'none',
-              cursor: 'none',
+              cursor: 'pointer',
               padding: '8px',
               display: 'flex',
               flexDirection: 'column',
@@ -148,7 +148,7 @@ export default function Nav() {
               right: '1.5rem',
               background: 'none',
               border: 'none',
-              cursor: 'none',
+              cursor: 'pointer',
               fontFamily: 'var(--font-body)',
               fontSize: '1.5rem',
               color: 'rgba(247,243,236,0.4)',

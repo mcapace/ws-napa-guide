@@ -13,7 +13,7 @@ export const primaryCTA: CSSProperties = {
   letterSpacing: '0.2em',
   textTransform: 'uppercase',
   textDecoration: 'none',
-  cursor: 'none',
+  cursor: 'pointer',
   whiteSpace: 'nowrap',
 }
 
@@ -27,7 +27,7 @@ export const ghostCTA: CSSProperties = {
   textDecoration: 'none',
   borderBottom: '1px solid rgba(247,243,236,0.25)',
   paddingBottom: 3,
-  cursor: 'none',
+  cursor: 'pointer',
 }
 
 export const sectionHeading: CSSProperties = {

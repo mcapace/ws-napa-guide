@@ -39,16 +39,9 @@ export default async function WineryDetailPage({ params }: Props) {
     <div style={{ background: '#0D0B09', color: '#F7F3EC', minHeight: '100vh' }}>
       <Nav />
 
-      {/* ── HERO IMAGE: clean, full-screen, no text overlay ── */}
+      {/* ── HERO: clean full-viewport image ── */}
       <section style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
-        <Image
-          src={winery.images[0]}
-          alt={winery.name}
-          fill
-          priority
-          sizes="100vw"
-          style={{ objectFit: 'cover' }}
-        />
+        <Image src={winery.images[0]} alt={winery.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         {/* AVA badge */}
         <div
           style={{
@@ -70,11 +63,11 @@ export default async function WineryDetailPage({ params }: Props) {
             color: 'rgba(247,243,236,0.6)',
             lineHeight: 1.3,
             whiteSpace: 'pre-line',
+            transform: 'rotate(8deg)',
           }}
         >
           {winery.region.replace(/-/g, '\n').toUpperCase()}
         </div>
-        {/* Subtle bottom gradient for transition to content */}
         <div
           style={{
             position: 'absolute',
@@ -87,8 +80,8 @@ export default async function WineryDetailPage({ params }: Props) {
         />
       </section>
 
-      {/* ── TITLE + LOCATION + CTAs: below hero (therealhotels pattern) ── */}
-      <section style={{ padding: '60px 60px 48px', maxWidth: 960, margin: '0 auto' }}>
+      {/* ── TITLE + CTAs: centered below hero (therealhotels pattern) ── */}
+      <section style={{ padding: '60px 60px 48px', maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
         <p
           style={{
             fontFamily: "'DM Sans', sans-serif",
@@ -96,7 +89,7 @@ export default async function WineryDetailPage({ params }: Props) {
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: '#C4943A',
-            marginBottom: 20,
+            marginBottom: 24,
           }}
         >
           {regionName} &middot; Napa Valley
@@ -106,28 +99,21 @@ export default async function WineryDetailPage({ params }: Props) {
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
             fontWeight: 300,
-            fontSize: 'clamp(48px, 8vw, 96px)',
+            fontSize: 'clamp(48px, 7vw, 88px)',
             color: '#F7F3EC',
             lineHeight: 0.95,
             letterSpacing: '-0.03em',
-            marginBottom: 20,
+            marginBottom: 16,
           }}
         >
           {winery.name}
         </h1>
         {winery.address && (
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13,
-              color: '#9B9283',
-              marginBottom: 32,
-            }}
-          >
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: '#9B9283', marginBottom: 36 }}>
             {winery.address}
           </p>
         )}
-        <div style={{ display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
           {winery.visitInfo?.website ? (
             <a href={winery.visitInfo.website} target="_blank" rel="noopener noreferrer" style={primaryCTA}>
               Reserve a visit
@@ -139,13 +125,15 @@ export default async function WineryDetailPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── FIRST PHOTO: full-width, interspersed with text ── */}
-      <section style={{ position: 'relative', width: '100%', aspectRatio: '21/9', overflow: 'hidden' }}>
-        <Image src={winery.images[1 % winery.images.length]} alt="" fill sizes="100vw" style={{ objectFit: 'cover' }} />
+      {/* ── PHOTO: with horizontal padding (therealhotels pattern) ── */}
+      <section style={{ padding: '0 60px' }}>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <Image src={winery.images[1 % winery.images.length]} alt="" fill sizes="calc(100vw - 120px)" style={{ objectFit: 'cover' }} />
+        </div>
       </section>
 
-      {/* ── BODY TEXT (therealhotels: full content width, generous spacing) ── */}
-      <section id="story" style={{ padding: '100px 60px', maxWidth: 860, margin: '0 auto' }}>
+      {/* ── BODY: excerpt + description ── */}
+      <section id="story" style={{ padding: '80px 60px', maxWidth: 860, margin: '0 auto' }}>
         <p
           style={{
             fontFamily: "'Cormorant Garamond', serif",
@@ -164,7 +152,7 @@ export default async function WineryDetailPage({ params }: Props) {
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 16,
             fontWeight: 300,
-            color: 'rgba(247,243,236,0.7)',
+            color: 'rgba(247,243,236,0.65)',
             lineHeight: 1.9,
           }}
         >
@@ -172,13 +160,15 @@ export default async function WineryDetailPage({ params }: Props) {
         </p>
       </section>
 
-      {/* ── SECOND PHOTO: full-width ── */}
-      <section style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
-        <Image src={winery.images[2 % winery.images.length]} alt="" fill sizes="100vw" style={{ objectFit: 'cover' }} />
+      {/* ── PHOTO ── */}
+      <section style={{ padding: '0 60px' }}>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <Image src={winery.images[2 % winery.images.length]} alt="" fill sizes="calc(100vw - 120px)" style={{ objectFit: 'cover' }} />
+        </div>
       </section>
 
-      {/* ── PRACTICAL INFO ── */}
-      <section style={{ padding: '80px 60px 100px', maxWidth: 860, margin: '0 auto' }}>
+      {/* ── INFO ── */}
+      <section style={{ padding: '80px 60px', maxWidth: 860, margin: '0 auto' }}>
         <div
           style={{
             borderTop: '1px solid rgba(247,243,236,0.08)',
@@ -214,7 +204,7 @@ export default async function WineryDetailPage({ params }: Props) {
             </div>
           )}
         </div>
-        <div style={{ marginTop: 48, display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ marginTop: 48, display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
           {winery.visitInfo?.website ? (
             <a href={winery.visitInfo.website} target="_blank" rel="noopener noreferrer" style={primaryCTA}>
               Reserve a visit
@@ -228,8 +218,8 @@ export default async function WineryDetailPage({ params }: Props) {
 
       {/* ── MORE FROM REGION ── */}
       {related.length > 0 && (
-        <section style={{ padding: '0 0 120px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
-          <div style={{ padding: '80px 60px 48px' }}>
+        <section style={{ padding: '0 0 100px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
+          <div style={{ padding: '60px 60px 40px' }}>
             <h2
               style={{
                 fontFamily: "'Cormorant Garamond', serif",

@@ -47,7 +47,6 @@ export default async function HotelDetailPage({ params }: Props) {
     <div style={{ background: '#0D0B09', color: '#F7F3EC', minHeight: '100vh' }}>
       <Nav />
 
-      {/* ── HERO IMAGE: clean, full-screen ── */}
       <section style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
         <Image src={place.images[0]} alt={place.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         <div
@@ -70,6 +69,7 @@ export default async function HotelDetailPage({ params }: Props) {
             color: 'rgba(247,243,236,0.6)',
             lineHeight: 1.3,
             whiteSpace: 'pre-line',
+            transform: 'rotate(8deg)',
           }}
         >
           {place.region.replace(/-/g, '\n').toUpperCase()}
@@ -86,8 +86,7 @@ export default async function HotelDetailPage({ params }: Props) {
         />
       </section>
 
-      {/* ── TITLE + METADATA + CTAs: below hero ── */}
-      <section style={{ padding: '60px 60px 48px', maxWidth: 960, margin: '0 auto' }}>
+      <section style={{ padding: '60px 60px 48px', maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
         <p
           style={{
             fontFamily: "'DM Sans', sans-serif",
@@ -95,7 +94,7 @@ export default async function HotelDetailPage({ params }: Props) {
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
             color: '#C4943A',
-            marginBottom: 20,
+            marginBottom: 24,
           }}
         >
           {cat} &middot; {place.priceRange} &middot; {regionName}
@@ -105,37 +104,35 @@ export default async function HotelDetailPage({ params }: Props) {
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
             fontWeight: 300,
-            fontSize: 'clamp(48px, 8vw, 96px)',
+            fontSize: 'clamp(48px, 7vw, 88px)',
             color: '#F7F3EC',
             lineHeight: 0.95,
             letterSpacing: '-0.03em',
-            marginBottom: 20,
+            marginBottom: 16,
           }}
         >
           {place.name}
         </h1>
         {place.address && (
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: '#9B9283', marginBottom: 32 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: '#9B9283', marginBottom: 36 }}>
             {place.address}
           </p>
         )}
-        <div style={{ display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
           {place.website ? (
-            <a href={place.website} target="_blank" rel="noopener noreferrer" style={primaryCTA}>
-              Book your stay
-            </a>
+            <a href={place.website} target="_blank" rel="noopener noreferrer" style={primaryCTA}>Book your stay</a>
           ) : null}
           <Link href="#story" style={ghostCTA}>Read more</Link>
         </div>
       </section>
 
-      {/* ── PHOTO ── */}
-      <section style={{ position: 'relative', width: '100%', aspectRatio: '21/9', overflow: 'hidden' }}>
-        <Image src={place.images[1 % place.images.length]} alt="" fill sizes="100vw" style={{ objectFit: 'cover' }} />
+      <section style={{ padding: '0 60px' }}>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <Image src={place.images[1 % place.images.length]} alt="" fill sizes="calc(100vw - 120px)" style={{ objectFit: 'cover' }} />
+        </div>
       </section>
 
-      {/* ── BODY TEXT ── */}
-      <section id="story" style={{ padding: '100px 60px', maxWidth: 860, margin: '0 auto' }}>
+      <section id="story" style={{ padding: '80px 60px', maxWidth: 860, margin: '0 auto' }}>
         <p
           style={{
             fontFamily: "'Cormorant Garamond', serif",
@@ -149,77 +146,36 @@ export default async function HotelDetailPage({ params }: Props) {
         >
           {place.excerpt}
         </p>
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 16,
-            fontWeight: 300,
-            color: 'rgba(247,243,236,0.7)',
-            lineHeight: 1.9,
-          }}
-        >
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, fontWeight: 300, color: 'rgba(247,243,236,0.65)', lineHeight: 1.9 }}>
           {place.description}
         </p>
       </section>
 
-      {/* ── PHOTO ── */}
-      <section style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
-        <Image src={place.images[2 % place.images.length]} alt="" fill sizes="100vw" style={{ objectFit: 'cover' }} />
+      <section style={{ padding: '0 60px' }}>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <Image src={place.images[2 % place.images.length]} alt="" fill sizes="calc(100vw - 120px)" style={{ objectFit: 'cover' }} />
+        </div>
       </section>
 
-      {/* ── PRACTICAL INFO ── */}
-      <section style={{ padding: '80px 60px 100px', maxWidth: 860, margin: '0 auto' }}>
-        <div
-          style={{
-            borderTop: '1px solid rgba(247,243,236,0.08)',
-            paddingTop: 40,
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 32,
-          }}
-        >
-          <div>
-            <p style={infoLabel}>Category</p>
-            <p style={infoValue}>{cat}</p>
-          </div>
-          <div>
-            <p style={infoLabel}>Price range</p>
-            <p style={infoValue}>{place.priceRange}</p>
-          </div>
-          <div>
-            <p style={infoLabel}>Location</p>
-            <p style={infoValue}>{regionName}</p>
-          </div>
-          {place.address && (
-            <div style={{ gridColumn: '1 / -1' }}>
-              <p style={infoLabel}>Address</p>
-              <p style={infoValue}>{place.address}</p>
-            </div>
-          )}
+      <section style={{ padding: '80px 60px', maxWidth: 860, margin: '0 auto' }}>
+        <div style={{ borderTop: '1px solid rgba(247,243,236,0.08)', paddingTop: 40, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+          <div><p style={infoLabel}>Category</p><p style={infoValue}>{cat}</p></div>
+          <div><p style={infoLabel}>Price range</p><p style={infoValue}>{place.priceRange}</p></div>
+          <div><p style={infoLabel}>Location</p><p style={infoValue}>{regionName}</p></div>
+          {place.address && <div style={{ gridColumn: '1 / -1' }}><p style={infoLabel}>Address</p><p style={infoValue}>{place.address}</p></div>}
         </div>
-        <div style={{ marginTop: 48, display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ marginTop: 48, display: 'flex', gap: 20, alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
           {place.website ? (
-            <a href={place.website} target="_blank" rel="noopener noreferrer" style={primaryCTA}>
-              Book your stay
-            </a>
+            <a href={place.website} target="_blank" rel="noopener noreferrer" style={primaryCTA}>Book your stay</a>
           ) : null}
           <Link href="/map" style={ghostCTA}>Explore the map &rarr;</Link>
         </div>
       </section>
 
-      {/* ── MORE FROM REGION ── */}
       {related.length > 0 && (
-        <section style={{ padding: '0 0 120px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
-          <div style={{ padding: '80px 60px 48px' }}>
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontWeight: 300,
-                fontSize: 'clamp(24px, 3vw, 40px)',
-                color: '#F7F3EC',
-              }}
-            >
+        <section style={{ padding: '0 0 100px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
+          <div style={{ padding: '60px 60px 40px' }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(24px, 3vw, 40px)', color: '#F7F3EC' }}>
               More from {regionName}
             </h2>
           </div>

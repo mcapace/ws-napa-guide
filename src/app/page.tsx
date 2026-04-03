@@ -953,13 +953,13 @@ function RegionEditorialCard({ region, index }: { region: RegionData; index: num
         variants={imgReveal}
         onMouseEnter={() => setImgHovered(true)}
         onMouseLeave={() => setImgHovered(false)}
-        style={{ flex: '1 1 50%', position: 'relative', minHeight: 600, overflow: 'hidden' }}
+        style={{ flex: '0 0 58%', position: 'relative', minHeight: 600, overflow: 'hidden' }}
       >
         <Image
           src={region.heroImage}
           alt={region.name}
           fill
-          sizes="50vw"
+          sizes="58vw"
           style={{
             objectFit: 'cover',
             transform: imgHovered ? 'scale(1.03)' : 'scale(1)',
@@ -970,7 +970,7 @@ function RegionEditorialCard({ region, index }: { region: RegionData; index: num
       <motion.div
         variants={textVariants}
         style={{
-          flex: '1 1 50%',
+          flex: '1 1 42%',
           padding: '72px 60px',
           display: 'flex',
           flexDirection: 'column',
@@ -1090,13 +1090,13 @@ function ArticleFeatureRow({ article, index, href }: { article: Article; index: 
         variants={imgReveal}
         onMouseEnter={() => setImgHovered(true)}
         onMouseLeave={() => setImgHovered(false)}
-        style={{ flex: '0 0 55%', position: 'relative', minHeight: 500, overflow: 'hidden' }}
+        style={{ flex: '0 0 58%', position: 'relative', minHeight: 500, overflow: 'hidden' }}
       >
         <Image
           src={imageSrc}
           alt={article.title}
           fill
-          sizes="55vw"
+          sizes="58vw"
           style={{
             objectFit: 'cover',
             transform: imgHovered ? 'scale(1.03)' : 'scale(1)',
@@ -1107,7 +1107,7 @@ function ArticleFeatureRow({ article, index, href }: { article: Article; index: 
       <motion.div
         variants={textVariants}
         style={{
-          flex: '0 0 45%',
+          flex: '1 1 42%',
           padding: '60px',
           display: 'flex',
           flexDirection: 'column',

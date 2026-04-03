@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import '@/styles/globals.css'
 import { WS_LOGO_OG_STROKE_ONLY_SRC } from '@/lib/ws-logo'
-import CustomCursor from '@/components/ui/CustomCursor'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
@@ -33,10 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="grain">
-      <body>
-        <CustomCursor />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
