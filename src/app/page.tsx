@@ -35,6 +35,7 @@ const PANELS = [
 
 export default function HomePage() {
   const heroRef = useRef<HTMLElement>(null)
+  const avaRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const overlayVideoRef = useRef<HTMLVideoElement>(null)
   const { scrollY } = useScroll()
@@ -52,8 +53,9 @@ export default function HomePage() {
       const heroH = hero.offsetHeight
       const start = heroH * 0.28
       const end = heroH * 0.82
+      const scrollCorridorEnd = heroH * 2
 
-      if (v > end && !expandedRef.current) {
+      if (v > end && v < scrollCorridorEnd && !expandedRef.current) {
         expandedRef.current = true
         setExpanded(true)
         setOverlayVisible(true)
@@ -376,7 +378,13 @@ export default function HomePage() {
               muted
               loop
               playsInline
-              style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                opacity: 1,
+                filter: 'brightness(1.3) contrast(1.1)',
+              }}
             />
             {/* WS logo top-left */}
             <div style={{ position: 'absolute', top: 28, left: 36 }}>
@@ -453,7 +461,9 @@ export default function HomePage() {
                     expandedRef.current = false
                     setOverlayVisible(false)
                     setExpanded(false)
-                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                    requestAnimationFrame(() => {
+                      avaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    })
                   }}
                   style={{
                     background: 'none',
@@ -477,9 +487,13 @@ export default function HomePage() {
       {/* Scroll spacer to drive expansion */}
       <div style={{ height: '100vh', background: '#0D0B09' }} />
 
+      <div style={{ position: 'relative', zIndex: 1 }}>
       {/* ── BROWSE BY AVA ── */}
       <RevealSection>
-        <section style={{ padding: '100px 0 0', background: '#0D0B09' }}>
+        <section
+          ref={avaRef}
+          style={{ position: 'relative', zIndex: 1, padding: '100px 0 0', background: '#0D0B09' }}
+        >
           <p style={styles.sectionLabel}>Browse by appellation</p>
           <div
             style={{
@@ -500,7 +514,7 @@ export default function HomePage() {
 
       {/* ── FEATURED WINERIES ── */}
       <RevealSection>
-        <section style={{ padding: '100px 60px' }}>
+        <section style={{ position: 'relative', zIndex: 1, padding: '100px 60px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 56 }}>
             <p style={styles.sectionLabel}>Landmark wineries</p>
             <Link href="/wineries" style={styles.seeAllLink}>
@@ -537,6 +551,7 @@ export default function HomePage() {
             alignItems: 'center',
             background: '#1A1612',
             position: 'relative',
+            zIndex: 1,
             overflow: 'hidden',
           }}
         >
@@ -626,7 +641,7 @@ export default function HomePage() {
 
       {/* ── WHERE TO EAT ── */}
       <RevealSection>
-        <section style={{ padding: '0 60px 100px' }}>
+        <section style={{ position: 'relative', zIndex: 1, padding: '0 60px 100px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 56 }}>
             <p style={styles.sectionLabel}>Where to eat</p>
             <Link href="/dining" style={styles.seeAllLink}>
@@ -654,7 +669,7 @@ export default function HomePage() {
 
       {/* ── WHERE TO STAY ── */}
       <RevealSection>
-        <section style={{ padding: '0 60px 100px' }}>
+        <section style={{ position: 'relative', zIndex: 1, padding: '0 60px 100px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 56 }}>
             <p style={styles.sectionLabel}>Where to stay</p>
             <Link href="/stay" style={styles.seeAllLink}>
@@ -684,6 +699,8 @@ export default function HomePage() {
       <RevealSection>
         <section
           style={{
+            position: 'relative',
+            zIndex: 1,
             padding: '80px 60px 100px',
             borderTop: '1px solid rgba(247,243,236,0.08)',
             display: 'flex',
@@ -714,6 +731,8 @@ export default function HomePage() {
       {/* ── FOOTER ── */}
       <footer
         style={{
+          position: 'relative',
+          zIndex: 1,
           borderTop: '1px solid rgba(247,243,236,0.08)',
           padding: '56px 60px 48px',
           background: '#0D0B09',
@@ -799,6 +818,7 @@ export default function HomePage() {
           </button>
         </div>
       </footer>
+      </div>
     </>
   )
 }
