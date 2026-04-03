@@ -5,6 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { regions, getRegion, type RegionData } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
@@ -74,6 +76,8 @@ export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
+
     const scrollContainer = scrollContainerRef.current
     const centerPanel = centerPanelRef.current
     const mosaic = mosaicRef.current
@@ -82,73 +86,79 @@ export default function HomePage() {
     const fullscreenOverlay = fullscreenOverlayRef.current
     const panels = panelRefs.current
 
-    // Smooth interpolation target
-    let currentProgress = 0
-    let targetProgress = 0
-    let raf: number
+    if (!scrollContainer || !centerPanel) return
 
-    const updateTarget = () => {
-      if (!scrollContainer) return
-      const vh = window.innerHeight
-      const containerTop = scrollContainer.getBoundingClientRect().top
-      const containerHeight = scrollContainer.offsetHeight
-      const scrolled = -containerTop
-      const total = containerHeight - vh
-      targetProgress = clamp(scrolled / total, 0, 1)
+    const vw = window.innerWidth
+    const vh = window.innerHeight
+
+    // ── GSAP scrub timeline (therealhotels pattern from 19766.js) ──
+    // scrub: true ties animation progress directly to scroll position
+    const heroTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: scrollContainer,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1, // 1 second smoothing
+        invalidateOnRefresh: true,
+      },
+    })
+
+    // Phase 1 (0-25%): mosaic parallax, nothing expands yet
+    // Phase 2 (25-85%): center panel expands, mosaic + copy fade
+    // Phase 3 (85-100%): fullscreen overlay fades in
+
+    // Center panel expand
+    heroTl.fromTo(
+      centerPanel,
+      { width: 200, height: 140, borderRadius: 3 },
+      { width: vw, height: vh, borderRadius: 0, ease: 'power2.inOut', duration: 0.6 },
+      0.25 // starts at 25% progress
+    )
+
+    // Mosaic fade out
+    if (mosaic) {
+      heroTl.to(mosaic, { opacity: 0, duration: 0.3, ease: 'none' }, 0.25)
     }
 
-    const animate = () => {
-      // Smoothly interpolate toward target (buttery feel)
-      currentProgress += (targetProgress - currentProgress) * 0.08
-
-      const vw = window.innerWidth
-      const vh = window.innerHeight
-      const progress = currentProgress
-
-      const expandProgress = clamp((progress - 0.25) / 0.6, 0, 1)
-      const expandEased = easeInOut(expandProgress)
-
-      const panelW = lerp(200, vw, expandEased)
-      const panelH = lerp(140, vh, expandEased)
-      const panelR = lerp(3, 0, expandEased)
-      if (centerPanel) {
-        centerPanel.style.width = `${panelW}px`
-        centerPanel.style.height = `${panelH}px`
-        centerPanel.style.borderRadius = `${panelR}px`
-      }
-
-      const mosaicOpacity = clamp(1 - expandProgress * 2, 0, 1)
-      if (mosaic) mosaic.style.opacity = String(mosaicOpacity)
-
-      if (heroCopy) heroCopy.style.opacity = String(clamp(1 - expandProgress * 3, 0, 1))
-      if (heroDisplay) heroDisplay.style.opacity = String(clamp(1 - expandProgress * 2, 0, 1))
-
-      const overlayProgress = clamp((progress - 0.85) / 0.15, 0, 1)
-      if (fullscreenOverlay) {
-        fullscreenOverlay.style.opacity = String(overlayProgress)
-        fullscreenOverlay.style.pointerEvents = overlayProgress > 0.5 ? 'all' : 'none'
-      }
-
-      const scrolled = -((scrollContainerRef.current?.getBoundingClientRect().top ?? 0))
-      panels.forEach((panel, i) => {
-        if (!panel) return
-        const drift = scrolled * SPEEDS[i]
-        const rot = PANEL_ROTS[i]
-        const tx = i === 2 ? '-50%' : '0'
-        panel.style.transform = `translateY(${-drift}px) translateX(${tx}) rotate(${rot})`
-      })
-
-      raf = requestAnimationFrame(animate)
+    // Hero copy fade out
+    if (heroCopy) {
+      heroTl.to(heroCopy, { opacity: 0, duration: 0.2, ease: 'none' }, 0.25)
     }
 
-    window.addEventListener('scroll', updateTarget, { passive: true })
-    window.addEventListener('resize', updateTarget, { passive: true })
-    updateTarget()
-    raf = requestAnimationFrame(animate)
+    // Hero display text fade out
+    if (heroDisplay) {
+      heroTl.to(heroDisplay, { opacity: 0, duration: 0.3, ease: 'none' }, 0.25)
+    }
+
+    // Fullscreen overlay fade in
+    if (fullscreenOverlay) {
+      heroTl.fromTo(
+        fullscreenOverlay,
+        { opacity: 0, pointerEvents: 'none' },
+        { opacity: 1, pointerEvents: 'all', duration: 0.15, ease: 'none' },
+        0.85
+      )
+    }
+
+    // Mosaic panel parallax (runs throughout)
+    panels.forEach((panel, i) => {
+      if (!panel) return
+      const rot = PANEL_ROTS[i]
+      const tx = i === 2 ? '-50%' : '0'
+      const drift = vh * 2 * SPEEDS[i]
+      heroTl.fromTo(
+        panel,
+        { y: 0, x: tx, rotation: parseFloat(rot) },
+        { y: -drift, x: tx, rotation: parseFloat(rot), ease: 'none', duration: 1 },
+        0
+      )
+    })
+
     return () => {
-      window.removeEventListener('scroll', updateTarget)
-      window.removeEventListener('resize', updateTarget)
-      cancelAnimationFrame(raf)
+      heroTl.kill()
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.trigger === scrollContainer) st.kill()
+      })
     }
   }, [])
 
