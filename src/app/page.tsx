@@ -458,7 +458,8 @@ export default function HomePage() {
             <span
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontWeight: 400,
+                fontStyle: 'italic',
+                fontWeight: 300,
                 fontSize: 'clamp(140px, 22vw, 380px)',
                 color: '#F7F3EC',
                 letterSpacing: '-0.03em',
