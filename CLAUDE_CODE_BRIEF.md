@@ -13,8 +13,109 @@ A Next.js microsite that is the digital companion to Wine Spectator's
 June 2026 print issue — a Napa Valley Ultimate Guide covering wineries, 
 restaurants, hotels, and travel itineraries across 7 appellations.
 
-The UX inspiration is therealhotels.com — dark, cinematic, editorial.
-Every page should feel like a magazine spread, not a website listing.
+This is NOT a standard website. It is a cinematic editorial experience 
+modeled directly on therealhotels.com. Before writing a single line of 
+code, visit https://www.therealhotels.com/ and scroll through the full 
+experience. Then visit a detail page: https://www.therealhotels.com/hotels/the-four-seasons-denver
+
+Study it. Everything we are building is that — but for Napa Valley wine travel.
+
+---
+
+## THE SITE WE ARE MIMICKING: therealhotels.com
+
+### Why it works
+therealhotels.com feels nothing like a normal travel site. It works because:
+
+1. EVERYTHING is on black — no white sections, no light backgrounds, ever
+2. You never feel like you're "navigating" — you scroll and the world reveals
+3. Images are cinematic — full bleed, edge to edge, no padding, no borders
+4. Typography does the heavy lifting — massive italic serif, minimal UI chrome
+5. The marquee CTA ("explore the map · explore the map ·") creates rhythm
+6. Cards feel like editorial spreads, not listings — full story paragraphs
+7. Clicking into a detail page feels like the page breathes open, not a load
+8. "More from this series" at the bottom pulls you into the next thing
+
+### Their homepage scroll flow (replicate this exactly):
+```
+LOAD:
+  - Pure black screen
+  - 5 scattered photo panels floating asymmetrically on darkness
+  - Italic serif headline centered between the panels
+  - Giant "The Real Hotels" type bleeding off the bottom of the screen
+  - Minimal nav: tiny label top-left, hamburger top-right
+
+SCROLL (this is the key moment — the expand):
+  - As user scrolls, the CENTER photo panel grows pixel by pixel
+  - It scales from a small floating tile → full viewport width and height
+  - The other panels fade away as it grows
+  - The headline and big type fade out
+  - At full size: fullscreen video/image with editorial title + CTA overlay
+
+CONTINUE SCROLLING (content flows naturally below):
+  - Centered intro paragraph — italic, large, no heading
+  - MarqueeCTA: "explore the map · explore the map ·" scrolling horizontally
+  - "Browse by series" — horizontal drag-to-scroll strip of series photos
+  - Featured hotel cards — full editorial story, full-width, alternating layout
+  - Email signup
+  - Footer
+```
+
+### Their detail page flow (replicate for every winery/restaurant/hotel):
+```
+- Full-bleed hero image — 100vh, no nav chrome, photo edge to edge
+- Series badge — small circle sticker top-right corner
+- Property name — massive Cormorant italic, bottom-left of hero
+- Location — small mist text below name
+- Two CTAs: "Book now" (cream button) + "Read more" (ghost link)
+---scroll---
+- Pull quote / lede — oversized italic serif, almost subhead size
+- Repeat the two CTAs
+- 2-3 full-width photos stacked
+- Body copy — full story paragraph, DM Sans, generous line height
+- "More from this series" — horizontal cards at bottom
+```
+
+### What makes it FEEL right (not just look right):
+- The scroll speed through the hero expand zone is 400vh — lots of room to breathe
+- The easing is cubic — slow start, fast middle, slow end — never mechanical
+- Section reveals are staggered — elements fade up one at a time, not all at once
+- Hover states are slow (0.6–0.7s) and subtle — image scale 1.03–1.04 only
+- No borders on images — ever. Images float on black.
+- White space is aggressive — sections breathe with 80–120px padding
+- The marquee CTA creates continuous motion on an otherwise still page
+
+---
+
+## HOW WE TRANSLATE THIS TO THE NAPA GUIDE
+
+| therealhotels element | Our Napa Guide equivalent |
+|---|---|
+| Scattered photo mosaic hero | Same — 5 Napa photos floating on black |
+| Center video expand | JW Player Napa aerial video expanding |
+| "The Real Hotels" display type | "Napa Valley" in same oversized treatment |
+| Marquee "explore the map" | Marquee "explore the guide" |
+| "Browse by series" horizontal strip | "Browse by appellation" AVA strip |
+| Series sticker badge | AVA name badge (circle, top-right) |
+| Featured hotel editorial card | Featured region editorial card |
+| Hotel name bottom-left of hero | Winery/region name bottom-left |
+| "Book now" CTA | "Reserve a visit" / "Make a reservation" |
+| "More from this series" | "More from Oakville" / "More from Rutherford" |
+| Full story paragraphs | Full editorial text from June PDF articles |
+| In the Wild section | "From the June Issue" feature articles |
+
+### The ONE FLOW to achieve:
+A user lands on the site. They scroll through the hero expand (feels cinematic, 
+not like a website). The content below flows naturally — they never have to 
+"navigate." They see Oakville, they scroll past it, then Rutherford, then 
+a featured winery. They click Inglenook. The page breathes open into a 
+full-bleed editorial spread. They read the story. At the bottom, "More from 
+Rutherford" shows them Quintessa. They click. The experience continues 
+endlessly, pulling them deeper into the guide. That is the goal.
+
+The site should feel like reading a beautiful print magazine that also 
+happens to be interactive. Wine Spectator editorial authority + 
+therealhotels cinematic UX.
 
 ---
 
