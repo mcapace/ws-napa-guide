@@ -554,7 +554,7 @@ export default function HomePage() {
 
       {/* ── BROWSE BY AVA (horizontal strip) ── */}
       <RevealSection>
-        <section style={{ padding: '0 0 100px' }}>
+        <section style={{ padding: '0 0 40px' }}>
           <div
             style={{
               padding: '0 60px',
@@ -594,9 +594,9 @@ export default function HomePage() {
 
       {/* ── FEATURED REGION EDITORIAL ── */}
       <RevealSection>
-        <section style={{ padding: '0 0 80px' }}>
-          <div style={{ padding: '0 60px', marginBottom: 60 }}>
-            <h2 style={sectionHeading}>The appellations worth knowing</h2>
+        <section style={{ padding: '0 0 0' }}>
+          <div style={{ padding: '0 60px', marginBottom: 40 }}>
+            <h2 style={{ ...sectionHeading, fontSize: 'clamp(32px, 4vw, 56px)' }}>The appellations worth knowing</h2>
           </div>
           {featuredRegions.map((region, i) => (
             <RegionEditorialCard key={region.slug} region={region} index={i} />
@@ -606,9 +606,9 @@ export default function HomePage() {
 
       {/* ── FROM THE JUNE ISSUE ── */}
       <RevealSection>
-        <section style={{ padding: '80px 0 100px' }}>
-          <div style={{ padding: '0 60px', marginBottom: 60 }}>
-            <h2 style={sectionHeading}>From the June issue</h2>
+        <section style={{ padding: '40px 0 0' }}>
+          <div style={{ padding: '0 60px', marginBottom: 40 }}>
+            <h2 style={{ ...sectionHeading, fontSize: 'clamp(32px, 4vw, 56px)' }}>From the June issue</h2>
           </div>
           {featuredArticleRows.map((article, i) => (
             <ArticleFeatureRow key={article.slug} article={article} index={i} href={articleHref[article.slug] ?? '/'} />
@@ -618,14 +618,14 @@ export default function HomePage() {
 
       {/* ── WINERY SPOTLIGHT ── */}
       <RevealSection>
-        <section style={{ padding: '0 0 100px' }}>
+        <section style={{ padding: '40px 0 60px' }}>
           <WinerySpotlight winery={spotlightWinery} />
         </section>
       </RevealSection>
 
       {/* ── DINING STRIP ── */}
       <RevealSection>
-        <section style={{ padding: '0 0 100px' }}>
+        <section style={{ padding: '0 0 60px' }}>
           <div
             style={{
               padding: '0 60px',
@@ -634,7 +634,7 @@ export default function HomePage() {
               marginBottom: 40,
             }}
           >
-            <h2 style={sectionHeading}>Tables worth the journey</h2>
+            <h2 style={{ ...sectionHeading, fontSize: 'clamp(28px, 3.5vw, 48px)' }}>Tables worth the journey</h2>
             <Link href="/dining" style={seeAllLink}>
               All restaurants →
             </Link>
@@ -647,7 +647,7 @@ export default function HomePage() {
 
       {/* ── STAY STRIP ── */}
       <RevealSection>
-        <section style={{ padding: '0 0 100px' }}>
+        <section style={{ padding: '0 0 60px' }}>
           <div
             style={{
               padding: '0 60px',
@@ -656,7 +656,7 @@ export default function HomePage() {
               marginBottom: 40,
             }}
           >
-            <h2 style={sectionHeading}>Where to sleep in wine country</h2>
+            <h2 style={{ ...sectionHeading, fontSize: 'clamp(28px, 3.5vw, 48px)' }}>Where to sleep in wine country</h2>
             <Link href="/stay" style={seeAllLink}>
               All hotels →
             </Link>
@@ -953,7 +953,7 @@ function RegionEditorialCard({ region, index }: { region: RegionData; index: num
         variants={imgReveal}
         onMouseEnter={() => setImgHovered(true)}
         onMouseLeave={() => setImgHovered(false)}
-        style={{ flex: '0 0 58%', position: 'relative', minHeight: 600, overflow: 'hidden' }}
+        style={{ flex: '0 0 58%', position: 'relative', minHeight: 700, overflow: 'hidden' }}
       >
         <Image
           src={region.heroImage}
@@ -1020,7 +1020,7 @@ function RegionEditorialCard({ region, index }: { region: RegionData; index: num
             marginBottom: 36,
           }}
         >
-          {region.intro}
+          {region.intro.length > 200 ? region.intro.slice(0, 200).replace(/\s+\S*$/, '') + '...' : region.intro}
         </motion.p>
         <motion.div variants={lineUp}>
           <Link
@@ -1189,7 +1189,7 @@ function WinerySpotlight({ winery }: { winery: Winery }) {
   const appt = winery.visitInfo?.appointment
 
   return (
-    <div style={{ position: 'relative', height: 700, overflow: 'hidden' }}>
+    <div style={{ position: 'relative', height: '85vh', minHeight: 600, overflow: 'hidden' }}>
       <Image src={winery.images[0]} alt={winery.name} fill sizes="100vw" style={{ objectFit: 'cover' }} priority />
       <div
         style={{
