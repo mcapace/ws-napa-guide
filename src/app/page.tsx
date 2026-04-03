@@ -624,7 +624,6 @@ export default function HomePage() {
       {featuredRegions.map((region, i) => (
         <Link key={region.slug} href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
           <section
-            className="region-hero-section"
             style={{
               position: 'relative',
               height: '100vh',
@@ -635,13 +634,6 @@ export default function HomePage() {
               boxShadow: '0 -40px 80px rgba(0,0,0,0.5)',
             }}
           >
-            <div
-              data-image-reveal=""
-              style={{
-                position: 'absolute',
-                inset: 0,
-              }}
-            >
               <Image
                 src={region.heroImage}
                 alt={region.name}
@@ -649,7 +641,6 @@ export default function HomePage() {
                 sizes="100vw"
                 style={{ objectFit: 'cover' }}
               />
-            </div>
               {/* Metadata top center */}
               <div
                 style={{
@@ -696,7 +687,7 @@ export default function HomePage() {
                   right: 0,
                   textAlign: 'center',
                   zIndex: 2,
-                  padding: '0 60px 48px',
+                  padding: '0 60px 80px',
                 }}
               >
                 <h2
