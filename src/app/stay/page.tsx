@@ -27,7 +27,7 @@ const sorted = [...hotels].sort((a, b) => {
 export default function StayIndexPage() {
   return (
     <div className={`grain ${detailStyles.page}`}>
-      <Nav theme="ink" />
+      <Nav />
 
       <header className={detailStyles.indexHero}>
         <span className={detailStyles.eyebrow}>Rest</span>
@@ -61,7 +61,7 @@ export default function StayIndexPage() {
         </div>
       </section>
 
-      <Footer variant="dark" />
+      <Footer />
     </div>
   )
 }

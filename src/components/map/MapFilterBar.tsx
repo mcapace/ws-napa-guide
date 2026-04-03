@@ -55,15 +55,15 @@ export default function MapFilterBar({
       <div
         style={{
           display: 'flex',
-          background: 'rgba(250,247,242,0.96)',
+          background: 'rgba(13,11,9,0.92)',
           backdropFilter: 'blur(12px)',
-          border: '1px solid var(--ivory-deep)',
+          border: '1px solid rgba(247,243,236,0.08)',
           overflow: 'hidden',
-          boxShadow: '0 4px 20px rgba(28,22,18,0.1)',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
           pointerEvents: 'auto',
         }}
       >
-        <FilterBtn active={filterType === 'all'} onClick={() => onTypeChange('all')} activeColor="var(--bordeaux)">
+        <FilterBtn active={filterType === 'all'} onClick={() => onTypeChange('all')} activeColor="#6B1C2A">
           All
         </FilterBtn>
 
@@ -80,7 +80,7 @@ export default function MapFilterBar({
                   width: '6px',
                   height: '6px',
                   borderRadius: '50%',
-                  background: filterType === type ? 'var(--ivory)' : PIN_COLORS[type],
+                  background: filterType === type ? '#F7F3EC' : PIN_COLORS[type],
                   flexShrink: 0,
                   transition: 'background 0.2s',
                 }}
@@ -90,13 +90,13 @@ export default function MapFilterBar({
           </FilterBtn>
         ))}
 
-        <div style={{ width: '1px', background: 'var(--ivory-deep)', margin: '8px 0' }} />
+        <div style={{ width: '1px', background: 'rgba(247,243,236,0.08)', margin: '8px 0' }} />
 
-        <FilterBtn active={showAVAs} onClick={onToggleAVAs} activeColor="var(--sage)">
+        <FilterBtn active={showAVAs} onClick={onToggleAVAs} activeColor="#5C6B52">
           AVA Regions
         </FilterBtn>
 
-        <FilterBtn active={false} onClick={onReset} activeColor="var(--ink-light)">
+        <FilterBtn active={false} onClick={onReset} activeColor="#9b9283">
           Reset
         </FilterBtn>
       </div>
@@ -120,15 +120,15 @@ export default function MapFilterBar({
               fontSize: '0.6rem',
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              color: filterRegion === region.slug ? 'var(--ivory)' : 'var(--ink-mid)',
-              background: filterRegion === region.slug ? 'var(--bordeaux)' : 'rgba(250,247,242,0.92)',
-              border: '1px solid var(--ivory-deep)',
+              color: filterRegion === region.slug ? '#F7F3EC' : '#9b9283',
+              background: filterRegion === region.slug ? '#6B1C2A' : 'rgba(13,11,9,0.85)',
+              border: '1px solid rgba(247,243,236,0.08)',
               padding: '0.35rem 0.8rem',
-              cursor: 'pointer',
+              cursor: 'none',
               backdropFilter: 'blur(8px)',
-              transition: 'all 0.2s',
+              transition: 'all 0.3s',
               whiteSpace: 'nowrap',
-              boxShadow: '0 2px 8px rgba(28,22,18,0.08)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
             }}
           >
             {region.label}
@@ -141,14 +141,14 @@ export default function MapFilterBar({
         style={{
           fontFamily: 'var(--font-body)',
           fontSize: '0.62rem',
-          color: 'var(--ink-light)',
-          background: 'rgba(250,247,242,0.88)',
+          color: '#9b9283',
+          background: 'rgba(13,11,9,0.85)',
           padding: '0.25rem 0.8rem',
           backdropFilter: 'blur(8px)',
-          border: '1px solid var(--ivory-deep)',
+          border: '1px solid rgba(247,243,236,0.08)',
           letterSpacing: '0.08em',
           pointerEvents: 'auto',
-          boxShadow: '0 2px 8px rgba(28,22,18,0.06)',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
         }}
       >
         {visibleCount} location{visibleCount !== 1 ? 's' : ''} shown
@@ -173,17 +173,17 @@ function FilterBtn({ active, onClick, activeColor, children }: FilterBtnProps) {
         fontSize: '0.62rem',
         letterSpacing: '0.12em',
         textTransform: 'uppercase',
-        color: active ? 'var(--ivory)' : 'var(--ink-mid)',
+        color: active ? '#F7F3EC' : '#9b9283',
         background: active ? activeColor : 'transparent',
         border: 'none',
         padding: '0.65rem 1rem',
-        cursor: 'pointer',
-        transition: 'all 0.2s',
+        cursor: 'none',
+        transition: 'all 0.3s',
         whiteSpace: 'nowrap',
         fontWeight: active ? 500 : 400,
       }}
-      onMouseEnter={(e) => { if (!active) e.currentTarget.style.color = 'var(--ink)' }}
-      onMouseLeave={(e) => { if (!active) e.currentTarget.style.color = 'var(--ink-mid)' }}
+      onMouseEnter={(e) => { if (!active) e.currentTarget.style.color = '#F7F3EC' }}
+      onMouseLeave={(e) => { if (!active) e.currentTarget.style.color = '#9b9283' }}
     >
       {children}
     </button>

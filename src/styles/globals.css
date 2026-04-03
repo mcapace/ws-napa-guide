@@ -4,28 +4,18 @@
 @import 'mapbox-gl/dist/mapbox-gl.css';
 
 :root {
-  /* ── Core palette ── */
-  --ivory:        #FAF7F2;        /* page background */
-  --ivory-warm:   #F4EFE6;        /* card surfaces */
-  --ivory-deep:   #EDE5D8;        /* borders, dividers */
-  --parchment:    #E2D9C8;        /* subtle section bg */
-
-  --ink:          #1C1612;        /* primary text */
-  --ink-mid:      #3D3530;        /* secondary text */
-  --ink-light:    #7A6F65;        /* muted / captions */
-
-  --bordeaux:     #5C1A28;        /* authority accent */
+  /* ── Dark cinematic palette (therealhotels style) ── */
+  --ink:          #0D0B09;        /* primary background */
+  --ink-mid:      #1A1612;        /* slightly lighter dark */
+  --cream:        #F7F3EC;        /* primary text */
+  --bordeaux:     #6B1C2A;        /* authority accent */
   --bordeaux-mid: #7D2436;        /* hover states */
-  --bordeaux-pale:#F5ECEe;        /* bordeaux tint bg */
-
-  --gold:         #B8872E;        /* gold accent */
-  --gold-warm:    #C99A3F;        /* gold hover */
-  --gold-pale:    #FBF4E6;        /* gold tint bg */
-
-  --sage:         #4A5E42;        /* nature accent */
+  --gold:         #C4943A;        /* eyebrows, highlights */
+  --gold-warm:    #D4A848;        /* gold hover */
+  --sage:         #5C6B52;        /* nature accent */
   --sage-mid:     #637A58;        /* sage secondary */
-  --sage-pale:    #EEF2EB;        /* sage tint bg */
-
+  --mist:         #9B9283;        /* secondary text */
+  --dust:         #2A2520;        /* card backgrounds */
   --terracotta:   #B85C38;        /* warm accent for dining */
 
   /* ── Typography ── */
@@ -33,20 +23,26 @@
   --font-body:    'DM Sans', system-ui, sans-serif;
 
   /* ── Spacing ── */
-  --section-pad:  clamp(4rem, 8vw, 7rem);
+  --section-pad:  clamp(5rem, 10vw, 7.5rem);
   --container:    1380px;
 
   /* ── Transitions ── */
   --ease-out:     cubic-bezier(0.4, 0, 0.2, 1);
   --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* Aliases for components still using pre-reskin tokens */
-  --cream:        var(--ivory);
-  --cream-dark:   var(--ivory-deep);
-  --mist:         var(--ink-light);
-  --dust:         var(--ink-mid);
+  /* Aliases for older components */
+  --ivory:        var(--cream);
+  --ivory-warm:   var(--dust);
+  --ivory-deep:   rgba(247, 243, 236, 0.08);
+  --parchment:    var(--ink-mid);
+  --ink-light:    var(--mist);
+  --ink-mid-alias: var(--mist);
+  --cream-dark:   rgba(247, 243, 236, 0.5);
   --bordeaux-light: var(--bordeaux-mid);
   --gold-light:   var(--gold-warm);
+  --bordeaux-pale: rgba(107, 28, 42, 0.15);
+  --gold-pale:    rgba(196, 148, 58, 0.08);
+  --sage-pale:    rgba(92, 107, 82, 0.08);
 }
 
 /* ── Reset ── */
@@ -59,12 +55,30 @@ html {
 }
 
 body {
-  background: var(--ivory);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--cream);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.7;
+  cursor: none;
 }
+
+/* ── Custom cursor (therealhotels style) ── */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--cream);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  mix-blend-mode: difference;
+  transition: transform 0.15s ease;
+}
+
+a, button, [role="button"] { cursor: none; }
 
 /* ── Display type ── */
 .display-2xl {
@@ -121,7 +135,7 @@ body {
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--bordeaux);
+  color: var(--bordeaux-mid);
 }
 
 .body-lg {
@@ -129,13 +143,13 @@ body {
   font-size: 1.1rem;
   font-weight: 300;
   line-height: 1.85;
-  color: var(--ink-mid);
+  color: rgba(247, 243, 236, 0.6);
 }
 
 .caption {
   font-family: var(--font-body);
   font-size: 0.78rem;
-  color: var(--ink-light);
+  color: var(--mist);
   line-height: 1.5;
 }
 
@@ -164,15 +178,7 @@ body {
   margin: 1.25rem 0;
 }
 
-/* ── Section backgrounds ── */
-.bg-ivory      { background: var(--ivory); }
-.bg-ivory-warm { background: var(--ivory-warm); }
-.bg-parchment  { background: var(--parchment); }
-.bg-bordeaux   { background: var(--bordeaux); }
-.bg-sage-pale  { background: var(--sage-pale); }
-.bg-gold-pale  { background: var(--gold-pale); }
-
-/* ── Buttons ── */
+/* ── Buttons (dark theme) ── */
 .btn-primary {
   display: inline-block;
   font-family: var(--font-body);
@@ -180,15 +186,18 @@ body {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ivory);
-  background: var(--bordeaux);
+  color: var(--ink);
+  background: var(--cream);
   padding: 0.9rem 2.25rem;
   text-decoration: none;
   border: none;
-  cursor: pointer;
-  transition: background 0.25s var(--ease-out);
+  cursor: none;
+  transition: background 0.6s var(--ease-out), color 0.6s var(--ease-out);
 }
-.btn-primary:hover { background: var(--bordeaux-mid); }
+.btn-primary:hover {
+  background: var(--gold);
+  color: var(--ink);
+}
 
 .btn-secondary {
   display: inline-block;
@@ -197,17 +206,17 @@ body {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--bordeaux);
+  color: var(--cream);
   background: transparent;
   padding: 0.9rem 2.25rem;
   text-decoration: none;
-  border: 1.5px solid var(--bordeaux);
-  cursor: pointer;
-  transition: all 0.25s var(--ease-out);
+  border: 1px solid rgba(247, 243, 236, 0.2);
+  cursor: none;
+  transition: all 0.6s var(--ease-out);
 }
 .btn-secondary:hover {
-  background: var(--bordeaux);
-  color: var(--ivory);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
 .btn-gold {
@@ -217,13 +226,13 @@ body {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ivory);
+  color: var(--ink);
   background: var(--gold);
   padding: 0.9rem 2.25rem;
   text-decoration: none;
   border: none;
-  cursor: pointer;
-  transition: background 0.25s var(--ease-out);
+  cursor: none;
+  transition: background 0.6s var(--ease-out);
 }
 .btn-gold:hover { background: var(--gold-warm); }
 
@@ -234,33 +243,37 @@ body {
   font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--ink-light);
+  color: var(--mist);
   background: transparent;
   padding: 0;
   text-decoration: none;
   border: none;
-  cursor: pointer;
-  transition: color 0.2s;
+  border-bottom: 1px solid rgba(155, 146, 131, 0.3);
+  padding-bottom: 3px;
+  cursor: none;
+  transition: color 0.6s, border-color 0.6s;
 }
-.btn-ghost:hover { color: var(--ink); }
+.btn-ghost:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
 
-/* ── Cards ── */
+/* ── Cards (dark) ── */
 .card {
-  background: var(--ivory-warm);
-  border: 1px solid var(--ivory-deep);
-  transition: border-color 0.25s, transform 0.3s var(--ease-out), box-shadow 0.3s;
+  background: var(--dust);
+  border: 1px solid rgba(247, 243, 236, 0.06);
+  transition: border-color 0.6s var(--ease-out), transform 0.6s var(--ease-out);
 }
 .card:hover {
-  border-color: var(--parchment);
+  border-color: rgba(247, 243, 236, 0.12);
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(28, 22, 18, 0.08);
 }
 
 /* ── Image containers ── */
 .img-wrap {
   position: relative;
   overflow: hidden;
-  background: var(--parchment);
+  background: var(--ink-mid);
 }
 .img-wrap img,
 .img-wrap .img-fill {
@@ -269,7 +282,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--ease-out);
+  transition: transform 0.7s var(--ease-out);
 }
 .img-wrap:hover .img-fill,
 .card:hover .img-wrap .img-fill {
@@ -282,7 +295,7 @@ body {
   align-items: center;
   gap: 3px;
   background: var(--bordeaux);
-  color: var(--ivory);
+  color: var(--cream);
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 500;
@@ -290,21 +303,21 @@ body {
   line-height: 1;
 }
 
-/* ── Sponsor tiers ── */
+/* ── Sponsor tiers (dark) ── */
 .sponsor-standard {
-  border-top: 1px solid var(--ivory-deep);
+  border-top: 1px solid rgba(247, 243, 236, 0.08);
   padding-top: 0.75rem;
   margin-top: 0.75rem;
 }
 
 .sponsor-featured {
-  border: 1.5px solid rgba(184,135,46,0.3);
-  background: var(--gold-pale);
+  border: 1px solid rgba(196, 148, 58, 0.2);
+  background: rgba(196, 148, 58, 0.05);
   padding: 1.5rem;
 }
 
 .sponsor-presenting {
-  background: var(--bordeaux-pale);
+  background: rgba(107, 28, 42, 0.1);
   border-top: 2px solid var(--bordeaux);
   border-bottom: 2px solid var(--bordeaux);
   padding: 3rem 2rem;
@@ -318,24 +331,27 @@ body {
   font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-mid);
+  color: rgba(247, 243, 236, 0.5);
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.6s;
 }
-.nav-link:hover { color: var(--bordeaux); }
+.nav-link:hover { color: var(--gold); }
 
-/* ── Mapbox overrides (light theme) ── */
+/* ── Mapbox overrides (dark theme) ── */
 .mapboxgl-ctrl-group {
-  background: rgba(250,247,242,0.92) !important;
-  border: 1px solid var(--ivory-deep) !important;
+  background: rgba(13, 11, 9, 0.92) !important;
+  border: 1px solid rgba(247, 243, 236, 0.08) !important;
   backdrop-filter: blur(8px);
-  box-shadow: 0 2px 12px rgba(28,22,18,0.1) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
 }
-.mapboxgl-ctrl-group button { background: transparent !important; }
+.mapboxgl-ctrl-group button {
+  background: transparent !important;
+  color: var(--cream) !important;
+}
 .mapboxgl-ctrl-scale {
-  background: rgba(250,247,242,0.85) !important;
-  border-color: var(--ivory-deep) !important;
-  color: var(--ink-light) !important;
+  background: rgba(13, 11, 9, 0.85) !important;
+  border-color: rgba(247, 243, 236, 0.08) !important;
+  color: var(--mist) !important;
   font-family: var(--font-body) !important;
   font-size: 10px !important;
 }
@@ -347,16 +363,16 @@ body {
 }
 .mapboxgl-popup-tip { display: none !important; }
 
-/* ── Scrollbar ── */
+/* ── Scrollbar (dark) ── */
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--ivory); }
-::-webkit-scrollbar-thumb { background: var(--parchment); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--ink-light); }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--dust); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--mist); }
 
 /* ── Selection ── */
-::selection { background: var(--bordeaux); color: var(--ivory); }
+::selection { background: var(--bordeaux); color: var(--cream); }
 
-/* ── Texture overlay (subtle paper grain) ── */
+/* ── Texture overlay (subtle film grain) ── */
 .grain::before {
   content: '';
   position: fixed;
@@ -367,7 +383,7 @@ body {
   z-index: 9999;
 }
 
-/* Regions — neighbor cards (CSS var hover, server-safe) */
+/* Regions neighbor cards hover */
 .neighbor-region-link:hover {
   border-color: var(--hover-accent, var(--bordeaux)) !important;
   color: var(--hover-accent, var(--bordeaux)) !important;
@@ -394,7 +410,7 @@ body {
   to { transform: translateX(-50%); }
 }
 
-/* Horizontal strips — hide scrollbar */
+/* Horizontal strips hide scrollbar */
 .strip-scroll {
   scrollbar-width: none;
   -ms-overflow-style: none;

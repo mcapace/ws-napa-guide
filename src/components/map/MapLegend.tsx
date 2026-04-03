@@ -9,10 +9,10 @@ export default function MapLegend() {
         position: 'absolute',
         bottom: '3rem',
         right: '1rem',
-        background: 'rgba(250,247,242,0.95)',
+        background: 'rgba(13,11,9,0.92)',
         backdropFilter: 'blur(12px)',
-        border: '1px solid var(--ivory-deep)',
-        boxShadow: '0 4px 20px rgba(28,22,18,0.08)',
+        border: '1px solid rgba(247,243,236,0.08)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
         padding: '1rem 1.1rem',
         zIndex: 10,
         display: 'flex',
@@ -27,7 +27,7 @@ export default function MapLegend() {
           fontSize: '0.55rem',
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
-          color: 'var(--gold)',
+          color: '#C4943A',
           display: 'block',
           marginBottom: '0.1rem',
         }}
@@ -51,7 +51,7 @@ export default function MapLegend() {
             style={{
               fontFamily: 'var(--font-body)',
               fontSize: '0.72rem',
-              color: 'var(--ink-mid)',
+              color: '#9b9283',
             }}
           >
             {PIN_LABELS[type]}
@@ -61,7 +61,7 @@ export default function MapLegend() {
 
       <div
         style={{
-          borderTop: '1px solid var(--ivory-deep)',
+          borderTop: '1px solid rgba(247,243,236,0.08)',
           paddingTop: '0.5rem',
           display: 'flex',
           alignItems: 'center',
@@ -72,12 +72,12 @@ export default function MapLegend() {
           style={{
             width: '16px',
             height: '0',
-            borderTop: '2px dashed var(--sage)',
+            borderTop: '2px dashed #5C6B52',
             opacity: 0.6,
             flexShrink: 0,
           }}
         />
-        <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.72rem', color: 'var(--ink-mid)' }}>
+        <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.72rem', color: '#9b9283' }}>
           AVA boundary
         </span>
       </div>

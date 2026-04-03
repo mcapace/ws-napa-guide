@@ -11,41 +11,34 @@ const footerLinks = [
   { label: 'Plan', href: '/plan' },
 ]
 
-type FooterProps = {
-  /** Dark bar (homepage): inverted logo 0.7 opacity. Light: ivory footer, logo not inverted. */
-  variant?: 'dark' | 'light'
-}
-
-export default function Footer({ variant = 'dark' }: FooterProps) {
-  const dark = variant === 'dark'
-
+export default function Footer() {
   return (
-    <footer className={dark ? styles.footerDark : styles.footerLight}>
+    <footer className={styles.footerDark}>
       <div className={styles.inner}>
         <div className={styles.brand}>
           <Link href="/" className={styles.logoLink} aria-label="Wine Spectator Napa Valley Guide home">
             <WsMark
               height={WS_LOGO_HEIGHT.footer}
-              opacity={dark ? 0.7 : 0.85}
-              invert={dark}
+              opacity={0.7}
+              invert
             />
           </Link>
           <p className={styles.brandText}>
             Napa Valley Guide
             <br />
-            <br />© {new Date().getFullYear()} M. Shanken Communications, Inc.
+            <br />&copy; {new Date().getFullYear()} M. Shanken Communications, Inc.
             <br />
             All rights reserved.
           </p>
         </div>
         <nav className={styles.nav} aria-label="Footer">
           {footerLinks.map((l) => (
-            <Link key={l.href} href={l.href} className={dark ? styles.navLinkDark : styles.navLinkLight}>
+            <Link key={l.href} href={l.href} className={styles.navLinkDark}>
               {l.label}
             </Link>
           ))}
         </nav>
-        <p className={dark ? styles.legalDark : styles.legalLight}>
+        <p className={styles.legalDark}>
           This guide is a companion to the
           <br />
           June 2026 issue of Wine Spectator.

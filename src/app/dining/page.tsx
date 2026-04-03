@@ -20,7 +20,7 @@ const sorted = [...restaurants].sort((a, b) => {
 export default function DiningIndexPage() {
   return (
     <div className={`grain ${detailStyles.page}`}>
-      <Nav theme="ink" />
+      <Nav />
 
       <header className={detailStyles.indexHero}>
         <span className={detailStyles.eyebrow}>Eat</span>
@@ -53,7 +53,7 @@ export default function DiningIndexPage() {
         </div>
       </section>
 
-      <Footer variant="dark" />
+      <Footer />
     </div>
   )
 }

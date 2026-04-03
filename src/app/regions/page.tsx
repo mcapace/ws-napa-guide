@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Nav from '@/components/ui/Nav'
+import Footer from '@/components/ui/Footer'
 import { regions } from '@/data/regions'
 
 export const metadata: Metadata = {
   title: 'Regions',
-  description: 'Explore all six Napa Valley appellations — from Oakville\'s Cabernet heartland to Calistoga\'s volcanic north.',
+  description: 'Explore all seven Napa Valley appellations — from Oakville\'s Cabernet heartland to Calistoga\'s volcanic north.',
 }
 
 export default function RegionsPage() {
@@ -16,44 +17,50 @@ export default function RegionsPage() {
       {/* Page header */}
       <section
         style={{
-          background: 'var(--bordeaux)',
-          paddingTop: '140px',
+          paddingTop: '160px',
           paddingBottom: '5rem',
+          borderBottom: '1px solid rgba(247,243,236,0.06)',
         }}
       >
         <div className="container">
           <span
-            className="eyebrow"
-            style={{ color: 'rgba(250,247,242,0.5)', display: 'block', marginBottom: '1rem' }}
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '0.62rem',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'var(--gold)',
+              display: 'block',
+              marginBottom: '1rem',
+            }}
           >
             Wine Spectator — Napa Valley Guide
           </span>
-          <h1 className="display-xl" style={{ color: 'var(--ivory)', maxWidth: '16ch' }}>
-            Six <em style={{ fontStyle: 'italic' }}>distinct</em> appellations
+          <h1 className="display-xl" style={{ color: 'var(--cream)', maxWidth: '16ch' }}>
+            Seven <em style={{ fontStyle: 'italic' }}>distinct</em> appellations
           </h1>
-          <span className="rule" style={{ background: 'rgba(250,247,242,0.3)', margin: '1.5rem 0' }} />
-          <p className="body-lg" style={{ color: 'rgba(250,247,242,0.65)', maxWidth: '55ch' }}>
-            Each of Napa Valley&apos;s six principal growing regions has a distinct character shaped by
+          <span className="rule" style={{ background: 'rgba(247,243,236,0.15)', margin: '1.5rem 0' }} />
+          <p className="body-lg" style={{ maxWidth: '55ch' }}>
+            Each of Napa Valley&apos;s principal growing regions has a distinct character shaped by
             soil, elevation, and climate. Understanding their differences is understanding Napa itself.
           </p>
         </div>
       </section>
 
-      {/* Regions list — alternating layout */}
+      {/* Regions list — alternating layout on dark */}
       {regions.map((region, i) => (
         <section
           key={region.slug}
           style={{
-            background: i % 2 === 0 ? 'var(--ivory)' : 'var(--ivory-warm)',
             padding: 'var(--section-pad) 0',
-            borderBottom: '1px solid var(--ivory-deep)',
+            borderBottom: '1px solid rgba(247,243,236,0.06)',
           }}
         >
           <div
             className="container"
             style={{
               display: 'grid',
-              gridTemplateColumns: i % 2 === 0 ? '1fr 1fr' : '1fr 1fr',
+              gridTemplateColumns: '1fr 1fr',
               gap: '5rem',
               alignItems: 'center',
               direction: i % 2 !== 0 ? 'rtl' : 'ltr',
@@ -65,10 +72,8 @@ export default function RegionsPage() {
                 <div
                   style={{
                     aspectRatio: '4/3',
-                    background: 'var(--parchment)',
                     overflow: 'hidden',
                     position: 'relative',
-                    boxShadow: '0 16px 48px rgba(28,22,18,0.1)',
                   }}
                 >
                   <div
@@ -78,7 +83,7 @@ export default function RegionsPage() {
                       backgroundImage: `url(${region.heroImage})`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
-                      transition: 'transform 0.6s ease',
+                      transition: 'transform 0.7s cubic-bezier(0.4,0,0.2,1)',
                     }}
                     className="region-img"
                   />
@@ -91,7 +96,7 @@ export default function RegionsPage() {
                       fontFamily: 'var(--font-display)',
                       fontSize: '4rem',
                       fontWeight: 300,
-                      color: 'rgba(250,247,242,0.25)',
+                      color: 'rgba(247,243,236,0.15)',
                       lineHeight: 1,
                     }}
                   >
@@ -116,7 +121,7 @@ export default function RegionsPage() {
               >
                 Appellation 0{i + 1}
               </span>
-              <h2 className="display-lg" style={{ color: 'var(--ink)', marginBottom: '0.25rem' }}>
+              <h2 className="display-lg" style={{ color: 'var(--cream)', marginBottom: '0.25rem' }}>
                 {region.name}
               </h2>
               <p
@@ -130,8 +135,17 @@ export default function RegionsPage() {
               >
                 {region.tagline}
               </p>
-              <span className="rule" style={{ background: region.accentColor, opacity: 0.5 }} />
-              <p className="body-lg" style={{ marginBottom: '1.5rem' }}>
+              <span className="rule" style={{ background: region.accentColor, opacity: 0.4 }} />
+              <p
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '1rem',
+                  fontWeight: 300,
+                  lineHeight: 1.85,
+                  color: 'rgba(247,243,236,0.55)',
+                  marginBottom: '1.5rem',
+                }}
+              >
                 {region.intro}
               </p>
 
@@ -144,10 +158,10 @@ export default function RegionsPage() {
                       fontFamily: 'var(--font-body)',
                       fontSize: '0.65rem',
                       letterSpacing: '0.1em',
-                      color: 'var(--ink-mid)',
-                      background: 'var(--ivory-deep)',
+                      color: 'rgba(247,243,236,0.4)',
+                      background: 'rgba(247,243,236,0.04)',
                       padding: '0.3rem 0.75rem',
-                      border: '1px solid var(--parchment)',
+                      border: '1px solid rgba(247,243,236,0.08)',
                     }}
                   >
                     {tag}
@@ -162,9 +176,9 @@ export default function RegionsPage() {
                 <Link
                   href={`/map?region=${region.slug}`}
                   className="btn-ghost"
-                  style={{ color: region.accentColor }}
+                  style={{ color: region.accentColor, borderColor: region.accentColor }}
                 >
-                  View on map →
+                  View on map &rarr;
                 </Link>
               </div>
             </div>
@@ -173,13 +187,20 @@ export default function RegionsPage() {
       ))}
 
       {/* Footer CTA */}
-      <section style={{ background: 'var(--parchment)', padding: '5rem 0', textAlign: 'center' }}>
+      <section
+        style={{
+          background: 'var(--ink-mid)',
+          padding: '5rem 0',
+          textAlign: 'center',
+          borderTop: '1px solid rgba(247,243,236,0.06)',
+        }}
+      >
         <div className="container">
           <span className="eyebrow" style={{ display: 'block', marginBottom: '1rem' }}>
             Ready to plan?
           </span>
-          <h2 className="display-lg" style={{ color: 'var(--ink)', marginBottom: '1.5rem' }}>
-            Build your <em style={{ color: 'var(--bordeaux)', fontStyle: 'italic' }}>perfect itinerary</em>
+          <h2 className="display-lg" style={{ color: 'var(--cream)', marginBottom: '1.5rem' }}>
+            Build your <em style={{ color: 'var(--gold)', fontStyle: 'italic' }}>perfect itinerary</em>
           </h2>
           <p className="body-lg" style={{ maxWidth: '50ch', margin: '0 auto 2.5rem' }}>
             Tell us your dates, interests, and how many days you have — our planner will
@@ -192,8 +213,17 @@ export default function RegionsPage() {
         </div>
       </section>
 
+      <Footer />
+
       <style>{`
         .region-img:hover { transform: scale(1.04); }
+        @media (max-width: 768px) {
+          .container > div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr !important;
+            direction: ltr !important;
+            gap: 2rem !important;
+          }
+        }
       `}</style>
     </div>
   )

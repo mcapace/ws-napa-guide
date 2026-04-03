@@ -53,7 +53,7 @@ const avaLabelLayer: LayerProps = {
   paint: {
     'text-color': ['get', 'color'],
     'text-opacity': 0.8,
-    'text-halo-color': 'rgba(250,247,242,0.9)',
+    'text-halo-color': 'rgba(13,11,9,0.8)',
     'text-halo-width': 2,
   },
 }
@@ -201,9 +201,9 @@ export default function NapaMap() {
             >
               <div
                 style={{
-                  background: 'rgba(250,247,242,0.97)',
-                  border: '1px solid var(--ivory-deep)',
-                  boxShadow: '0 4px 20px rgba(28,22,18,0.12)',
+                  background: 'rgba(13,11,9,0.95)',
+                  border: '1px solid rgba(247,243,236,0.08)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
                   padding: '0.65rem 1rem',
                   backdropFilter: 'blur(8px)',
                   maxWidth: '200px',
@@ -213,7 +213,7 @@ export default function NapaMap() {
                   style={{
                     fontFamily: 'var(--font-display)',
                     fontSize: '1rem',
-                    color: 'var(--ink)',
+                    color: '#F7F3EC',
                     marginBottom: '2px',
                     lineHeight: 1.2,
                   }}
@@ -262,7 +262,7 @@ export default function NapaMap() {
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'var(--ivory)',
+            background: '#0D0B09',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -277,7 +277,7 @@ export default function NapaMap() {
               fontSize: '0.6rem',
               letterSpacing: '0.25em',
               textTransform: 'uppercase',
-              color: 'var(--bordeaux)',
+              color: '#C4943A',
             }}
           >
             Wine Spectator
@@ -287,7 +287,7 @@ export default function NapaMap() {
               fontFamily: 'var(--font-display)',
               fontSize: '1.5rem',
               fontStyle: 'italic',
-              color: 'var(--ink)',
+              color: '#F7F3EC',
             }}
           >
             Loading Napa Valley…
@@ -296,7 +296,7 @@ export default function NapaMap() {
             style={{
               width: '48px',
               height: '1px',
-              background: 'var(--bordeaux)',
+              background: '#6B1C2A',
               animation: 'loadPulse 1.5s ease-in-out infinite',
             }}
           />
@@ -312,9 +312,9 @@ export default function NapaMap() {
       <style>{`
         .mapboxgl-popup-content{background:transparent!important;padding:0!important;box-shadow:none!important;border-radius:0!important;}
         .mapboxgl-popup-tip{display:none!important;}
-        .mapboxgl-ctrl-group{background:rgba(250,247,242,0.95)!important;border:1px solid var(--ivory-deep)!important;backdrop-filter:blur(8px);box-shadow:0 2px 12px rgba(28,22,18,0.08)!important;}
+        .mapboxgl-ctrl-group{background:rgba(13,11,9,0.92)!important;border:1px solid rgba(247,243,236,0.08)!important;backdrop-filter:blur(8px);box-shadow:0 2px 12px rgba(0,0,0,0.3)!important;}
         .mapboxgl-ctrl-group button{background:transparent!important;}
-        .mapboxgl-ctrl-scale{background:rgba(250,247,242,0.88)!important;border-color:var(--ivory-deep)!important;color:var(--ink-light)!important;font-family:var(--font-body)!important;font-size:10px!important;}
+        .mapboxgl-ctrl-scale{background:rgba(13,11,9,0.85)!important;border-color:rgba(247,243,236,0.08)!important;color:#9b9283!important;font-family:var(--font-body)!important;font-size:10px!important;}
       `}</style>
     </div>
   )
@@ -349,7 +349,7 @@ function PinMarker({ pin, isSelected, isHovered, onHover }: {
           borderRadius: '50% 50% 50% 0',
           transform: 'rotate(-45deg)',
           background: isSelected ? color : `${color}DD`,
-          border: `2px solid ${isSelected ? 'var(--ivory)' : 'rgba(250,247,242,0.6)'}`,
+          border: `2px solid ${isSelected ? '#F7F3EC' : 'rgba(247,243,236,0.6)'}`,
           transition: 'all 0.2s ease',
           display: 'flex',
           alignItems: 'center',
@@ -383,8 +383,8 @@ function PinMarker({ pin, isSelected, isHovered, onHover }: {
             position: 'absolute',
             top: '-8px',
             right: '-14px',
-            background: 'var(--bordeaux)',
-            color: 'var(--ivory)',
+            background: '#6B1C2A',
+            color: '#F7F3EC',
             fontFamily: 'var(--font-display)',
             fontSize: '0.65rem',
             padding: '1px 5px',

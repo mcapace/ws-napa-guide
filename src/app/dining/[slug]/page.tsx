@@ -43,7 +43,7 @@ export default async function RestaurantDetailPage({ params }: Props) {
 
   return (
     <div style={{ background: '#0D0B09', color: '#F7F3EC', minHeight: '100vh' }}>
-      <Nav theme="ink" />
+      <Nav />
 
       <section style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
         <Image
@@ -228,7 +228,7 @@ export default async function RestaurantDetailPage({ params }: Props) {
         </section>
       )}
 
-      <Footer variant="dark" />
+      <Footer />
     </div>
   )
 }

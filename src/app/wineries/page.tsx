@@ -20,7 +20,7 @@ const sorted = [...wineries].sort((a, b) => {
 export default function WineriesIndexPage() {
   return (
     <div className={`grain ${detailStyles.page}`}>
-      <Nav theme="ink" />
+      <Nav />
 
       <header className={detailStyles.indexHero}>
         <span className={detailStyles.eyebrow}>Taste</span>
@@ -52,7 +52,7 @@ export default function WineriesIndexPage() {
         </div>
       </section>
 
-      <Footer variant="dark" />
+      <Footer />
     </div>
   )
 }

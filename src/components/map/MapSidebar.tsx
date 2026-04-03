@@ -18,7 +18,7 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'rgba(28,22,18,0.25)',
+            background: 'rgba(0,0,0,0.4)',
             zIndex: 19,
             display: 'none',
           }}
@@ -33,10 +33,10 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
           left: 0,
           bottom: 0,
           width: '380px',
-          background: 'rgba(250,247,242,0.97)',
+          background: 'rgba(13,11,9,0.97)',
           backdropFilter: 'blur(16px)',
-          borderRight: '1px solid var(--ivory-deep)',
-          boxShadow: '4px 0 32px rgba(28,22,18,0.08)',
+          borderRight: '1px solid rgba(247,243,236,0.06)',
+          boxShadow: '4px 0 32px rgba(0,0,0,0.3)',
           zIndex: 20,
           transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
           transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -53,28 +53,28 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
             top: '1rem',
             right: '1rem',
             background: 'none',
-            border: '1px solid var(--ivory-deep)',
-            color: 'var(--ink-light)',
+            border: '1px solid rgba(247,243,236,0.1)',
+            color: '#9b9283',
             width: '32px',
             height: '32px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            cursor: 'pointer',
+            cursor: 'none',
             fontSize: '1.1rem',
             zIndex: 1,
-            transition: 'border-color 0.2s, color 0.2s',
+            transition: 'border-color 0.6s, color 0.6s',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = 'var(--bordeaux)'
-            e.currentTarget.style.color = 'var(--bordeaux)'
+            e.currentTarget.style.borderColor = '#C4943A'
+            e.currentTarget.style.color = '#C4943A'
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'var(--ivory-deep)'
-            e.currentTarget.style.color = 'var(--ink-light)'
+            e.currentTarget.style.borderColor = 'rgba(247,243,236,0.1)'
+            e.currentTarget.style.color = '#9b9283'
           }}
         >
-          ×
+          &times;
         </button>
 
         {pin ? (
@@ -83,7 +83,7 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
             <div
               style={{
                 aspectRatio: '16/9',
-                background: 'var(--parchment)',
+                background: '#1A1612',
                 overflow: 'hidden',
                 position: 'relative',
                 flexShrink: 0,
@@ -96,7 +96,7 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
                   backgroundImage: `url(${pin.images[0]})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
-                  transition: 'transform 0.6s ease',
+                  transition: 'transform 0.7s ease',
                 }}
               />
               {/* Type badge */}
@@ -106,7 +106,7 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
                   top: '1rem',
                   left: '1rem',
                   background: PIN_COLORS[pin.type],
-                  color: 'var(--ivory)',
+                  color: '#F7F3EC',
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.6rem',
                   letterSpacing: '0.15em',
@@ -124,8 +124,8 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
                     position: 'absolute',
                     bottom: '1rem',
                     right: '1rem',
-                    background: 'var(--bordeaux)',
-                    color: 'var(--ivory)',
+                    background: '#6B1C2A',
+                    color: '#F7F3EC',
                     fontFamily: 'var(--font-display)',
                     fontSize: '1.3rem',
                     fontWeight: 400,
@@ -147,7 +147,7 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
                   fontSize: '0.62rem',
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
-                  color: 'var(--gold)',
+                  color: '#C4943A',
                   display: 'block',
                   marginBottom: '0.4rem',
                 }}
@@ -157,36 +157,36 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
 
               <h2
                 className="display-md"
-                style={{ color: 'var(--ink)', marginBottom: '0.5rem' }}
+                style={{ color: '#F7F3EC', marginBottom: '0.5rem' }}
               >
                 {pin.name}
               </h2>
 
               <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
                 {pin.cuisine && (
-                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--ink-light)' }}>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#9b9283' }}>
                     {pin.cuisine}
                   </span>
                 )}
                 {pin.priceRange && (
-                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--ink-light)' }}>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#9b9283' }}>
                     {pin.priceRange}
                   </span>
                 )}
                 {pin.category && (
-                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--ink-light)', textTransform: 'capitalize' }}>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#9b9283', textTransform: 'capitalize' }}>
                     {pin.category}
                   </span>
                 )}
               </div>
 
-              <div style={{ width: '32px', height: '1px', background: 'var(--gold)', marginBottom: '1.25rem', opacity: 0.7 }} />
+              <div style={{ width: '32px', height: '1px', background: '#C4943A', marginBottom: '1.25rem', opacity: 0.7 }} />
 
               <p
                 style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.9rem',
-                  color: 'var(--ink-mid)',
+                  color: 'rgba(247,243,236,0.55)',
                   lineHeight: 1.8,
                   marginBottom: '2rem',
                 }}
@@ -196,10 +196,23 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
 
               <Link
                 href={pin.href}
-                className="btn-primary"
-                style={{ display: 'block', textAlign: 'center', marginBottom: '0.75rem' }}
+                style={{
+                  display: 'block',
+                  textAlign: 'center',
+                  marginBottom: '0.75rem',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.7rem',
+                  fontWeight: 500,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  color: '#0D0B09',
+                  background: '#F7F3EC',
+                  padding: '0.9rem 2.25rem',
+                  textDecoration: 'none',
+                  transition: 'background 0.6s ease',
+                }}
               >
-                Read Full Profile →
+                Read Full Profile &rarr;
               </Link>
 
               <a
@@ -213,22 +226,22 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
                   fontSize: '0.65rem',
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
-                  color: 'var(--ink-light)',
+                  color: '#9b9283',
                   padding: '0.75rem',
                   textDecoration: 'none',
-                  border: '1px solid var(--ivory-deep)',
-                  transition: 'border-color 0.2s, color 0.2s',
+                  border: '1px solid rgba(247,243,236,0.1)',
+                  transition: 'border-color 0.6s, color 0.6s',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--bordeaux)'
-                  e.currentTarget.style.color = 'var(--bordeaux)'
+                  e.currentTarget.style.borderColor = '#C4943A'
+                  e.currentTarget.style.color = '#C4943A'
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--ivory-deep)'
-                  e.currentTarget.style.color = 'var(--ink-light)'
+                  e.currentTarget.style.borderColor = 'rgba(247,243,236,0.1)'
+                  e.currentTarget.style.color = '#9b9283'
                 }}
               >
-                Get Directions ↗
+                Get Directions &nearr;
               </a>
             </div>
           </>
@@ -249,14 +262,14 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
               style={{
                 width: '48px',
                 height: '48px',
-                border: '1px solid var(--ivory-deep)',
+                border: '1px solid rgba(247,243,236,0.1)',
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--bordeaux)" strokeWidth="1.5">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B1C2A" strokeWidth="1.5">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
                 <circle cx="12" cy="10" r="3"/>
               </svg>
@@ -266,12 +279,14 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
                 fontFamily: 'var(--font-display)',
                 fontSize: '1.1rem',
                 fontStyle: 'italic',
-                color: 'var(--ink-light)',
+                color: '#9b9283',
               }}
             >
               Select a pin to explore
             </p>
-            <p className="caption">Click any winery, restaurant, or hotel on the map</p>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.78rem', color: '#9b9283', lineHeight: 1.5 }}>
+              Click any winery, restaurant, or hotel on the map
+            </p>
           </div>
         )}
       </aside>
