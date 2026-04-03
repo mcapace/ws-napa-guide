@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '@/styles/globals.css'
 import { WS_LOGO_OG_STROKE_ONLY_SRC } from '@/lib/ws-logo'
+import AnimationProvider from '@/components/ui/AnimationProvider'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
@@ -32,7 +33,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="grain">
-      <body>{children}</body>
+      <body>
+        <AnimationProvider />
+        {children}
+      </body>
     </html>
   )
 }

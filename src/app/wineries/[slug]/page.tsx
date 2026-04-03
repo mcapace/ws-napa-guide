@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
+import Newsletter from '@/components/ui/Newsletter'
 import { wineries } from '@/data/wineries'
 import { getRegion } from '@/data/regions'
 import { primaryCTA, ghostCTA, infoLabel, infoValue } from '@/lib/editorial-styles'
@@ -83,6 +84,8 @@ export default async function WineryDetailPage({ params }: Props) {
       {/* ── TITLE + CTAs: centered below hero (therealhotels pattern) ── */}
       <section style={{ padding: '60px 60px 48px', maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
         <p
+          data-text-split=""
+          data-lines-slide-up=""
           style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 10,
@@ -95,6 +98,8 @@ export default async function WineryDetailPage({ params }: Props) {
           {regionName} &middot; Napa Valley
         </p>
         <h1
+          data-text-split=""
+          data-letters-rotate-in=""
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
@@ -109,7 +114,11 @@ export default async function WineryDetailPage({ params }: Props) {
           {winery.name}
         </h1>
         {winery.address && (
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: '#9B9283', marginBottom: 36 }}>
+          <p
+            data-text-split=""
+            data-lines-slide-up=""
+            style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: '#9B9283', marginBottom: 36 }}
+          >
             {winery.address}
           </p>
         )}
@@ -135,6 +144,8 @@ export default async function WineryDetailPage({ params }: Props) {
       {/* ── BODY: excerpt + description ── */}
       <section id="story" style={{ padding: '80px 60px', maxWidth: 860, margin: '0 auto' }}>
         <p
+          data-text-split=""
+          data-lines-slide-up=""
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
@@ -148,6 +159,8 @@ export default async function WineryDetailPage({ params }: Props) {
           {winery.excerpt}
         </p>
         <p
+          data-text-split=""
+          data-lines-slide-up=""
           style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 16,
@@ -221,6 +234,8 @@ export default async function WineryDetailPage({ params }: Props) {
         <section style={{ padding: '0 0 100px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
           <div style={{ padding: '60px 60px 40px' }}>
             <h2
+              data-text-split=""
+              data-letters-rotate-in=""
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontStyle: 'italic',
@@ -236,6 +251,7 @@ export default async function WineryDetailPage({ params }: Props) {
         </section>
       )}
 
+      <Newsletter />
       <Footer />
     </div>
   )

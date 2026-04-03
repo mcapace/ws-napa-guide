@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
+import Newsletter from '@/components/ui/Newsletter'
 import { hotels } from '@/data/hotels'
 import { getRegion } from '@/data/regions'
 import { primaryCTA, ghostCTA, infoLabel, infoValue } from '@/lib/editorial-styles'
@@ -88,6 +89,7 @@ export default async function HotelDetailPage({ params }: Props) {
 
       <section style={{ padding: '60px 60px 48px', maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
         <p
+          data-text-split="" data-lines-slide-up=""
           style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 10,
@@ -100,6 +102,7 @@ export default async function HotelDetailPage({ params }: Props) {
           {cat} &middot; {place.priceRange} &middot; {regionName}
         </p>
         <h1
+          data-text-split="" data-letters-rotate-in=""
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
@@ -114,7 +117,7 @@ export default async function HotelDetailPage({ params }: Props) {
           {place.name}
         </h1>
         {place.address && (
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: '#9B9283', marginBottom: 36 }}>
+          <p data-text-split="" data-lines-slide-up="" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: '#9B9283', marginBottom: 36 }}>
             {place.address}
           </p>
         )}
@@ -134,6 +137,7 @@ export default async function HotelDetailPage({ params }: Props) {
 
       <section id="story" style={{ padding: '80px 60px', maxWidth: 860, margin: '0 auto' }}>
         <p
+          data-text-split="" data-lines-slide-up=""
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
@@ -146,7 +150,7 @@ export default async function HotelDetailPage({ params }: Props) {
         >
           {place.excerpt}
         </p>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, fontWeight: 300, color: 'rgba(247,243,236,0.65)', lineHeight: 1.9 }}>
+        <p data-text-split="" data-lines-slide-up="" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, fontWeight: 300, color: 'rgba(247,243,236,0.65)', lineHeight: 1.9 }}>
           {place.description}
         </p>
       </section>
@@ -175,7 +179,7 @@ export default async function HotelDetailPage({ params }: Props) {
       {related.length > 0 && (
         <section style={{ padding: '0 0 100px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
           <div style={{ padding: '60px 60px 40px' }}>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(24px, 3vw, 40px)', color: '#F7F3EC' }}>
+            <h2 data-text-split="" data-letters-rotate-in="" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(24px, 3vw, 40px)', color: '#F7F3EC' }}>
               More from {regionName}
             </h2>
           </div>
@@ -183,6 +187,7 @@ export default async function HotelDetailPage({ params }: Props) {
         </section>
       )}
 
+      <Newsletter />
       <Footer />
     </div>
   )
