@@ -20,9 +20,11 @@ const TEST_IMAGES = [
   '/test-images/AdobeStock_805204520.jpeg',
 ]
 
-// ── JW Player video IDs ──────────────────────────────────────────────
-const HERO_MP4 = 'https://cdn.jwplayer.com/videos/FvwrhNa4-720p.mp4'
-const HERO_POSTER = 'https://cdn.jwplayer.com/v2/media/FvwrhNa4/poster.jpg'
+// ── JW Player (test media; swap IDs when final assets land) ───────────
+// Catalog also in src/components/video/JWVideo.tsx STATIC_MP4_720
+const HERO_MEDIA_ID = 'sVn1cQyI'
+const HERO_MP4 = `https://cdn.jwplayer.com/videos/${HERO_MEDIA_ID}-WBFwZoOE.mp4`
+const HERO_POSTER = `https://cdn.jwplayer.com/v2/media/${HERO_MEDIA_ID}/poster.jpg`
 
 // ── Mosaic panel positions (mirroring therealhotels) ─────────────────
 const PANELS = [

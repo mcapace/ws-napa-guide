@@ -11,18 +11,18 @@ interface JWVideoProps {
 
 /**
  * 720p MP4 URLs from https://cdn.jwplayer.com/v2/media/{id}
- * (all verified 2026-04; encoding suffix is consistently -WBFwZoOE for these assets).
+ * (JW delivery suffix for 720p on this property is -WBFwZoOE; fetch fallback resolves unknown IDs.)
  */
 const STATIC_MP4_720: Record<string, string> = {
-  FvwrhNa4: 'https://cdn.jwplayer.com/videos/FvwrhNa4-WBFwZoOE.mp4',
-  '40AxzG0G': 'https://cdn.jwplayer.com/videos/40AxzG0G-WBFwZoOE.mp4',
-  tWL1fGgj: 'https://cdn.jwplayer.com/videos/tWL1fGgj-WBFwZoOE.mp4',
-  xS5p1TZF: 'https://cdn.jwplayer.com/videos/xS5p1TZF-WBFwZoOE.mp4',
-  ixRk7Rxw: 'https://cdn.jwplayer.com/videos/ixRk7Rxw-WBFwZoOE.mp4',
-  wLOq4CgZ: 'https://cdn.jwplayer.com/videos/wLOq4CgZ-WBFwZoOE.mp4',
-  '6PuhlRIs': 'https://cdn.jwplayer.com/videos/6PuhlRIs-WBFwZoOE.mp4',
-  Yt32URjQ: 'https://cdn.jwplayer.com/videos/Yt32URjQ-WBFwZoOE.mp4',
-  '4RTGrZfr': 'https://cdn.jwplayer.com/videos/4RTGrZfr-WBFwZoOE.mp4',
+  sVn1cQyI: 'https://cdn.jwplayer.com/videos/sVn1cQyI-WBFwZoOE.mp4',
+  X3Dl9rlP: 'https://cdn.jwplayer.com/videos/X3Dl9rlP-WBFwZoOE.mp4',
+  eKsjbrpR: 'https://cdn.jwplayer.com/videos/eKsjbrpR-WBFwZoOE.mp4',
+  fLjxpfOO: 'https://cdn.jwplayer.com/videos/fLjxpfOO-WBFwZoOE.mp4',
+  A27sKx96: 'https://cdn.jwplayer.com/videos/A27sKx96-WBFwZoOE.mp4',
+  Rjc3IIQX: 'https://cdn.jwplayer.com/videos/Rjc3IIQX-WBFwZoOE.mp4',
+  ORdXtOpV: 'https://cdn.jwplayer.com/videos/ORdXtOpV-WBFwZoOE.mp4',
+  wirI2N7n: 'https://cdn.jwplayer.com/videos/wirI2N7n-WBFwZoOE.mp4',
+  PTOXPcmG: 'https://cdn.jwplayer.com/videos/PTOXPcmG-WBFwZoOE.mp4',
 }
 
 type SourceRow = { file?: string; type?: string; label?: string; height?: number }
