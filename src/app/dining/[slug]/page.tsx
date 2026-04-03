@@ -9,7 +9,6 @@ import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
 import { restaurants } from '@/data/restaurants'
 import { getRegion } from '@/data/regions'
 import { ghostCTA, infoLabel, infoValue, primaryCTA } from '@/lib/editorial-styles'
-import { TEST_IMAGES } from '@/lib/test-images'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -36,7 +35,6 @@ export default async function RestaurantDetailPage({ params }: Props) {
   const region = getRegion(venue.region)
   const regionName = region?.name ?? 'Napa Valley'
   const related = restaurants.filter((x) => x.region === venue.region && x.slug !== venue.slug)
-  const slugIndex = restaurants.findIndex((x) => x.slug === slug)
   const badgeLines = venue.region.replace(/-/g, '\n').toUpperCase()
   const lede = venue.excerpt || `${venue.description.slice(0, 220)}…`
   const reserveHref = venue.reservations ?? venue.website ?? '#'

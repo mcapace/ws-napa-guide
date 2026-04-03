@@ -9,7 +9,6 @@ import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
 import { wineries } from '@/data/wineries'
 import { getRegion } from '@/data/regions'
 import { ghostCTA, infoLabel, infoValue, primaryCTA } from '@/lib/editorial-styles'
-import { TEST_IMAGES } from '@/lib/test-images'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -36,7 +35,6 @@ export default async function WineryDetailPage({ params }: Props) {
   const region = getRegion(winery.region)
   const regionName = region?.name ?? 'Napa Valley'
   const relatedWineries = wineries.filter((w) => w.region === winery.region && w.slug !== winery.slug)
-  const slugIndex = wineries.findIndex((w) => w.slug === slug)
   const badgeLines = winery.region.replace(/-/g, '\n').toUpperCase()
   const lede = winery.excerpt || `${winery.description.slice(0, 220)}…`
 

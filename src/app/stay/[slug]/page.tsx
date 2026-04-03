@@ -9,7 +9,6 @@ import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
 import { hotels } from '@/data/hotels'
 import { getRegion } from '@/data/regions'
 import { ghostCTA, infoLabel, infoValue, primaryCTA } from '@/lib/editorial-styles'
-import { TEST_IMAGES } from '@/lib/test-images'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -43,7 +42,6 @@ export default async function HotelDetailPage({ params }: Props) {
   const region = getRegion(place.region)
   const regionName = region?.name ?? 'Napa Valley'
   const related = hotels.filter((x) => x.region === place.region && x.slug !== place.slug)
-  const slugIndex = hotels.findIndex((x) => x.slug === slug)
   const badgeLines = place.region.replace(/-/g, '\n').toUpperCase()
   const lede = place.excerpt || `${place.description.slice(0, 220)}…`
   const cat = categoryLabel[place.category] ?? place.category
