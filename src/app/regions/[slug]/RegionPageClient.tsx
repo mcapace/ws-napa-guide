@@ -10,14 +10,29 @@ import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
 
-const REGION_COLORS: Record<string, string> = {
-  oakville: 'linear-gradient(160deg,#1C2E12 0%,#2D4A1E 50%,#1A2610 100%)',
-  rutherford: 'linear-gradient(160deg,#2E1A0A 0%,#4A2C16 50%,#1E110A 100%)',
-  yountville: 'linear-gradient(160deg,#1E0A2E 0%,#2C1044 50%,#140820 100%)',
-  'st-helena': 'linear-gradient(160deg,#1A2E10 0%,#2C4A1C 50%,#122010 100%)',
-  calistoga: 'linear-gradient(160deg,#0A1E2E 0%,#102C3A 50%,#081418 100%)',
-  'pritchard-hill': 'linear-gradient(160deg,#2E2A0A 0%,#44401C 50%,#201E08 100%)',
-  'downtown-napa': 'linear-gradient(160deg,#0A2E20 0%,#104A32 50%,#082018 100%)',
+const TEST_IMAGES = [
+  '/test-images/AdobeStock_39828282.jpeg',
+  '/test-images/AdobeStock_85747125.jpeg',
+  '/test-images/AdobeStock_86969265.jpeg',
+  '/test-images/AdobeStock_164779985.jpeg',
+  '/test-images/AdobeStock_286007082.jpeg',
+  '/test-images/AdobeStock_291250504.jpeg',
+  '/test-images/AdobeStock_805204520.jpeg',
+]
+
+/** Same semantics as findIndex((_, i) => i === s.length % 7) — picks image by slug length. */
+function slugToIndex(s: string) {
+  return s.length % 7
+}
+
+const REGION_SLUG_TO_IMAGE_INDEX: Record<string, number> = {
+  oakville: 3,
+  rutherford: 0,
+  yountville: 6,
+  'st-helena': 1,
+  calistoga: 5,
+  'pritchard-hill': 4,
+  'downtown-napa': 2,
 }
 
 function orderedWineries(winerySlugs: string[]) {
@@ -59,6 +74,8 @@ export default function RegionPageClient({ slug }: { slug: string }) {
 
   const pullQuote = region.pullQuote ?? region.intro
   const heroSubtitle = region.tagline
+  const regionImageIndex = REGION_SLUG_TO_IMAGE_INDEX[slug] ?? 0
+  const featuredCardImageIndex = slugToIndex(slug)
 
   return (
     <>
@@ -107,12 +124,15 @@ export default function RegionPageClient({ slug }: { slug: string }) {
           overflow: 'hidden',
         }}
       >
-        {/* Background gradient */}
-        <div
+        <Image
+          src={TEST_IMAGES[regionImageIndex]}
+          alt={region.name}
+          fill
+          priority
+          sizes="100vw"
           style={{
-            position: 'absolute',
-            inset: 0,
-            background: REGION_COLORS[slug] ?? 'linear-gradient(160deg,#1C2E12,#2D4A1E)',
+            objectFit: 'cover',
+            objectPosition: 'center',
             transform: `translateY(${scrollY * 0.3}px)`,
             willChange: 'transform',
           }}
@@ -122,6 +142,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
           style={{
             position: 'absolute',
             inset: 0,
+            zIndex: 1,
             background: 'linear-gradient(to bottom, rgba(13,11,9,0.2) 0%, rgba(13,11,9,0.5) 50%, rgba(13,11,9,0.92) 100%)',
           }}
         />
@@ -132,6 +153,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
             position: 'absolute',
             top: 28,
             right: 36,
+            zIndex: 2,
             padding: '8px 16px',
             border: '1px solid rgba(247,243,236,0.2)',
             borderRadius: 2,
@@ -251,6 +273,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
             position: 'absolute',
             bottom: 28,
             left: '50%',
+            zIndex: 2,
             transform: 'translateX(-50%)',
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 9,
@@ -333,7 +356,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
                 body={w.description}
                 cta="Reserve a visit →"
                 externalHref={w.visitInfo?.website}
-                bg={REGION_COLORS[slug] ?? 'linear-gradient(160deg,#1C2E12,#2D4A1E)'}
+                imageIndex={featuredCardImageIndex}
               />
             ))}
 
@@ -374,7 +397,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
                 body={r.description}
                 cta="Make a reservation →"
                 externalHref={r.reservations ?? r.website ?? undefined}
-                bg="linear-gradient(160deg,#141420,#2A2438)"
+                imageIndex={featuredCardImageIndex}
               />
             ))}
             {regionRestaurants.slice(1).map((r) => (
@@ -500,27 +523,34 @@ export default function RegionPageClient({ slug }: { slug: string }) {
               marginTop: 48,
             }}
           >
-            {otherRegions.map((r) => (
+            {otherRegions.map((r, index) => (
               <Link key={r.slug} href={`/regions/${r.slug}`} style={{ textDecoration: 'none' }}>
                 <motion.div
                   whileHover={{ scale: 1.01 }}
                   style={{
                     position: 'relative',
                     height: 280,
-                    background: REGION_COLORS[r.slug as string] ?? '#1C2E12',
                     overflow: 'hidden',
                     cursor: 'none',
                     borderRadius: 2,
                   }}
                 >
+                  <Image
+                    src={TEST_IMAGES[index % 7]}
+                    alt={r.name}
+                    fill
+                    sizes="33vw"
+                    style={{ objectFit: 'cover', objectPosition: 'center' }}
+                  />
                   <div
                     style={{
                       position: 'absolute',
                       inset: 0,
+                      zIndex: 1,
                       background: 'linear-gradient(to top, rgba(13,11,9,0.88) 0%, transparent 60%)',
                     }}
                   />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '20px 24px' }}>
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2, padding: '20px 24px' }}>
                     <span
                       style={{
                         display: 'block',
@@ -662,7 +692,7 @@ function FeaturedCard({
   body,
   cta,
   externalHref,
-  bg,
+  imageIndex,
 }: {
   href: string
   eyebrow: string
@@ -670,7 +700,7 @@ function FeaturedCard({
   body: string
   cta: string
   externalHref?: string
-  bg: string
+  imageIndex: number
 }) {
   return (
     <div
@@ -685,15 +715,22 @@ function FeaturedCard({
     >
       <div
         style={{
-          background: bg,
           minHeight: 380,
           position: 'relative',
         }}
       >
+        <Image
+          src={TEST_IMAGES[imageIndex % 7]}
+          alt={title}
+          fill
+          sizes="50vw"
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+        />
         <div
           style={{
             position: 'absolute',
             inset: 0,
+            zIndex: 1,
             background: 'rgba(13,11,9,0.3)',
           }}
         />
@@ -702,6 +739,7 @@ function FeaturedCard({
             position: 'absolute',
             top: 20,
             left: 24,
+            zIndex: 2,
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 9,
             letterSpacing: '0.2em',

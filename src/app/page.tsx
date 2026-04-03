@@ -10,17 +10,27 @@ import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
 
+const TEST_IMAGES = [
+  '/test-images/AdobeStock_39828282.jpeg',
+  '/test-images/AdobeStock_85747125.jpeg',
+  '/test-images/AdobeStock_86969265.jpeg',
+  '/test-images/AdobeStock_164779985.jpeg',
+  '/test-images/AdobeStock_286007082.jpeg',
+  '/test-images/AdobeStock_291250504.jpeg',
+  '/test-images/AdobeStock_805204520.jpeg',
+]
+
 // ── JW Player video IDs ──────────────────────────────────────────────
 const HERO_MP4 = 'https://cdn.jwplayer.com/videos/FvwrhNa4-720p.mp4'
 const HERO_POSTER = 'https://cdn.jwplayer.com/v2/media/FvwrhNa4/poster.jpg'
 
 // ── Mosaic panel positions (mirroring therealhotels) ─────────────────
 const PANELS = [
-  { id: 1, style: { width: 148, height: 190, top: '11%', left: '7%', rotate: -1.5 }, speed: 0.06, bg: 'linear-gradient(160deg,#1C2E14,#2D4A20,#1A2610)' },
-  { id: 2, style: { width: 110, height: 145, top: '29%', left: '13%', rotate: 1.0 }, speed: 0.09, bg: 'linear-gradient(160deg,#1A1A24,#2A2A38,#141420)' },
-  { id: 3, style: { width: 150, height: 100, top: '8%', left: '50%', rotate: 0.5, translateX: '-50%' }, speed: 0.04, bg: 'linear-gradient(160deg,#141E28,#1E2E3C,#0E161E)' },
-  { id: 4, style: { width: 190, height: 160, top: '9%', right: '7%', rotate: -0.8 }, speed: 0.07, bg: 'linear-gradient(160deg,#2A1810,#3D2415,#1E110A)' },
-  { id: 5, style: { width: 130, height: 170, bottom: '22%', right: '8%', rotate: 1.2 }, speed: 0.05, bg: 'linear-gradient(160deg,#1C2E14,#3A5224,#1C2E14)' },
+  { id: 1, style: { width: 148, height: 190, top: '11%', left: '7%', rotate: -1.5 }, speed: 0.06, imageIndex: 5 },
+  { id: 2, style: { width: 110, height: 145, top: '29%', left: '13%', rotate: 1.0 }, speed: 0.09, imageIndex: 2 },
+  { id: 3, style: { width: 150, height: 100, top: '8%', left: '50%', rotate: 0.5, translateX: '-50%' }, speed: 0.04, imageIndex: 0 },
+  { id: 4, style: { width: 190, height: 160, top: '9%', right: '7%', rotate: -0.8 }, speed: 0.07, imageIndex: 3 },
+  { id: 5, style: { width: 130, height: 170, bottom: '22%', right: '8%', rotate: 1.2 }, speed: 0.05, imageIndex: 6 },
 ]
 
 export default function HomePage() {
@@ -220,7 +230,13 @@ export default function HomePage() {
               pointerEvents: 'none',
             }}
           >
-            <div style={{ width: '100%', height: '100%', background: panel.bg }} />
+            <Image
+              src={TEST_IMAGES[panel.imageIndex]}
+              alt=""
+              fill
+              sizes="200px"
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+            />
           </div>
         ))}
 
@@ -241,6 +257,14 @@ export default function HomePage() {
             opacity: overlayVisible ? 0 : 1,
           }}
         >
+          <Image
+            src={TEST_IMAGES[4]}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: 'cover', objectPosition: 'center', zIndex: 0 }}
+          />
           <video
             ref={videoRef}
             src={HERO_MP4}
@@ -249,7 +273,7 @@ export default function HomePage() {
             muted
             loop
             playsInline
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%', objectFit: 'cover' }}
           />
         </div>
 
@@ -467,8 +491,8 @@ export default function HomePage() {
               borderBottom: '1px solid rgba(247,243,236,0.06)',
             }}
           >
-            {regions.map((region) => (
-              <AVACard key={region.slug} region={region} />
+            {regions.map((region, regionIndex) => (
+              <AVACard key={region.slug} region={region} regionIndex={regionIndex} />
             ))}
           </div>
         </section>
@@ -491,7 +515,7 @@ export default function HomePage() {
                 eyebrow={w.region.replace(/-/g, ' ')}
                 title={w.name}
                 excerpt={(w.excerpt ?? `${w.description.slice(0, 100)}…`)}
-                bg={REGION_COLORS[w.region] ?? '#1C2E12'}
+                cardIndex={i}
                 tall={i === 0}
               />
             ))}
@@ -613,14 +637,14 @@ export default function HomePage() {
             {restaurants
               .filter((r) => r.featured)
               .slice(0, 4)
-              .map((r) => (
+              .map((r, i) => (
                 <EditorialCard
                   key={r.slug}
                   href={`/dining/${r.slug}`}
                   eyebrow={r.cuisine}
                   title={r.name}
                   excerpt={r.excerpt ?? `${r.description.slice(0, 90)}…`}
-                  bg={REGION_COLORS[r.region] ?? '#141420'}
+                  cardIndex={i}
                   meta={r.priceRange}
                 />
               ))}
@@ -648,7 +672,7 @@ export default function HomePage() {
                   eyebrow={h.region.replace(/-/g, ' ')}
                   title={h.name}
                   excerpt={`${h.description.slice(0, 110)}…`}
-                  bg={REGION_COLORS[h.region] ?? '#2E1A0A'}
+                  cardIndex={i}
                   tall={i === 0 || i === 3}
                 />
               ))}
@@ -779,17 +803,6 @@ export default function HomePage() {
   )
 }
 
-// ── Region color map ─────────────────────────────────────────────────
-const REGION_COLORS: Record<string, string> = {
-  oakville: 'linear-gradient(160deg,#1C2E12,#2D4A1E)',
-  rutherford: 'linear-gradient(160deg,#2E1A0A,#4A2C16)',
-  yountville: 'linear-gradient(160deg,#1E0A2E,#2C1044)',
-  'st-helena': 'linear-gradient(160deg,#1A2E10,#2C4A1C)',
-  calistoga: 'linear-gradient(160deg,#0A1E2E,#102C3A)',
-  'pritchard-hill': 'linear-gradient(160deg,#2E2A0A,#44401C)',
-  'downtown-napa': 'linear-gradient(160deg,#0A2E20,#104A32)',
-}
-
 // ── Sub-components ───────────────────────────────────────────────────
 
 function Cursor() {
@@ -839,7 +852,7 @@ function RevealSection({ children }: { children: ReactNode }) {
   )
 }
 
-function AVACard({ region }: { region: (typeof regions)[0] }) {
+function AVACard({ region, regionIndex }: { region: (typeof regions)[0]; regionIndex: number }) {
   const [hovered, setHovered] = useState(false)
   return (
     <Link href={`/regions/${region.slug}`} style={{ textDecoration: 'none' }}>
@@ -857,15 +870,23 @@ function AVACard({ region }: { region: (typeof regions)[0] }) {
           style={{
             position: 'absolute',
             inset: 0,
-            background: REGION_COLORS[region.slug as string] ?? '#1C2E12',
             transform: hovered ? 'scale(1.04)' : 'scale(1)',
             transition: 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)',
           }}
-        />
+        >
+          <Image
+            src={TEST_IMAGES[regionIndex % 7]}
+            alt={region.name}
+            fill
+            sizes="(max-width: 768px) 50vw, 14vw"
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+          />
+        </div>
         <div
           style={{
             position: 'absolute',
             inset: 0,
+            zIndex: 1,
             background: '#0D0B09',
             opacity: hovered ? 0.5 : 0.65,
             transition: 'opacity 0.5s',
@@ -877,6 +898,7 @@ function AVACard({ region }: { region: (typeof regions)[0] }) {
             position: 'absolute',
             top: 20,
             right: 16,
+            zIndex: 2,
             width: 48,
             height: 48,
             borderRadius: '50%',
@@ -896,7 +918,7 @@ function AVACard({ region }: { region: (typeof regions)[0] }) {
         >
           {region.slug.replace(/-/g, '\n').toUpperCase().slice(0, 8)}
         </div>
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '24px 20px' }}>
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2, padding: '24px 20px' }}>
           <span
             style={{
               display: 'block',
@@ -923,7 +945,7 @@ function EditorialCard({
   eyebrow,
   title,
   excerpt,
-  bg,
+  cardIndex,
   tall,
   meta,
 }: {
@@ -931,7 +953,7 @@ function EditorialCard({
   eyebrow: string
   title: string
   excerpt: string
-  bg: string
+  cardIndex: number
   tall?: boolean
   meta?: string
 }) {
@@ -953,15 +975,23 @@ function EditorialCard({
           style={{
             position: 'absolute',
             inset: 0,
-            background: bg,
             transform: hovered ? 'scale(1.03)' : 'scale(1)',
             transition: 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)',
           }}
-        />
+        >
+          <Image
+            src={TEST_IMAGES[cardIndex % 7]}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+          />
+        </div>
         <div
           style={{
             position: 'absolute',
             inset: 0,
+            zIndex: 1,
             background: 'linear-gradient(to top, rgba(13,11,9,0.95) 0%, rgba(13,11,9,0.2) 60%, transparent 100%)',
           }}
         />
@@ -971,6 +1001,7 @@ function EditorialCard({
             position: 'absolute',
             top: 20,
             left: 20,
+            zIndex: 2,
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 9,
             fontWeight: 400,
@@ -983,7 +1014,7 @@ function EditorialCard({
           {meta ? ` · ${meta}` : ''}
         </div>
         {/* Bottom content */}
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 24px 28px' }}>
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 2, padding: '0 24px 28px' }}>
           <h3
             style={{
               fontFamily: "'Cormorant Garamond', serif",
