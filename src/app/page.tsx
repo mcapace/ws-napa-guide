@@ -846,7 +846,7 @@ function RevealSection({ children }: { children: ReactNode }) {
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] as const }}
     >
       {children}
     </motion.div>
@@ -921,8 +921,26 @@ function AVAStrip({ region, index }: { region: RegionData; index: number }) {
 
 function RegionEditorialCard({ region, index }: { region: RegionData; index: number }) {
   const photoLeft = index % 2 === 0
+  const [imgHovered, setImgHovered] = useState(false)
+
+  const textVariants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+  }
+  const lineUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const } },
+  }
+  const imgReveal = {
+    hidden: { scale: 1.08, opacity: 0 },
+    visible: { scale: 1, opacity: 1, transition: { duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] as const } },
+  }
+
   return (
-    <div
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-100px' }}
       style={{
         display: 'flex',
         flexDirection: photoLeft ? 'row' : 'row-reverse',
@@ -931,16 +949,26 @@ function RegionEditorialCard({ region, index }: { region: RegionData; index: num
         background: '#0D0B09',
       }}
     >
-      <div style={{ flex: '1 1 50%', position: 'relative', minHeight: 600, overflow: 'hidden' }}>
+      <motion.div
+        variants={imgReveal}
+        onMouseEnter={() => setImgHovered(true)}
+        onMouseLeave={() => setImgHovered(false)}
+        style={{ flex: '1 1 50%', position: 'relative', minHeight: 600, overflow: 'hidden' }}
+      >
         <Image
           src={region.heroImage}
           alt={region.name}
           fill
           sizes="50vw"
-          style={{ objectFit: 'cover' }}
+          style={{
+            objectFit: 'cover',
+            transform: imgHovered ? 'scale(1.03)' : 'scale(1)',
+            transition: 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)',
+          }}
         />
-      </div>
-      <div
+      </motion.div>
+      <motion.div
+        variants={textVariants}
         style={{
           flex: '1 1 50%',
           padding: '72px 60px',
@@ -950,7 +978,8 @@ function RegionEditorialCard({ region, index }: { region: RegionData; index: num
           background: '#0D0B09',
         }}
       >
-        <p
+        <motion.p
+          variants={lineUp}
           style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 9,
@@ -961,8 +990,9 @@ function RegionEditorialCard({ region, index }: { region: RegionData; index: num
           }}
         >
           Napa Valley Appellation
-        </p>
-        <h3
+        </motion.p>
+        <motion.h3
+          variants={lineUp}
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
@@ -975,9 +1005,12 @@ function RegionEditorialCard({ region, index }: { region: RegionData; index: num
           }}
         >
           {region.name}
-        </h3>
-        <p style={{ ...styles.microLabel, color: '#9B9283', marginBottom: 28 }}>Napa Valley, California</p>
-        <p
+        </motion.h3>
+        <motion.p variants={lineUp} style={{ ...styles.microLabel, color: '#9B9283', marginBottom: 28 }}>
+          Napa Valley, California
+        </motion.p>
+        <motion.p
+          variants={lineUp}
           style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 15,
@@ -988,18 +1021,36 @@ function RegionEditorialCard({ region, index }: { region: RegionData; index: num
           }}
         >
           {region.intro}
-        </p>
-        <div style={{ maxWidth: 420 }}>
-          <MarqueeCTA href={`/regions/${region.slug}`} label="learn more" />
-        </div>
-      </div>
-    </div>
+        </motion.p>
+        <motion.div variants={lineUp}>
+          <Link
+            href={`/regions/${region.slug}`}
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 10,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#F7F3EC',
+              textDecoration: 'none',
+              borderBottom: '1px solid rgba(247,243,236,0.25)',
+              paddingBottom: 4,
+              width: 'fit-content',
+              display: 'inline-block',
+              transition: 'border-color 0.6s, color 0.6s',
+            }}
+          >
+            Explore {region.name} &rarr;
+          </Link>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   )
 }
 
 function ArticleFeatureRow({ article, index, href }: { article: Article; index: number; href: string }) {
   const imageSrc = article.images[0] && article.images[0].length > 0 ? article.images[0] : TEST_IMAGES[index % 7]
   const photoLeft = index % 2 === 0
+  const [imgHovered, setImgHovered] = useState(false)
   const sectionEyebrow =
     article.section === 'dining'
       ? 'Dining'
@@ -1009,8 +1060,24 @@ function ArticleFeatureRow({ article, index, href }: { article: Article; index: 
           ? 'Guide'
           : article.section.replace(/-/g, ' ')
 
+  const textVariants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
+  }
+  const lineUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const } },
+  }
+  const imgReveal = {
+    hidden: { scale: 1.06, opacity: 0 },
+    visible: { scale: 1, opacity: 1, transition: { duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] as const } },
+  }
+
   return (
-    <div
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-80px' }}
       style={{
         display: 'flex',
         flexDirection: photoLeft ? 'row' : 'row-reverse',
@@ -1019,10 +1086,26 @@ function ArticleFeatureRow({ article, index, href }: { article: Article; index: 
         marginBottom: 2,
       }}
     >
-      <div style={{ flex: '0 0 55%', position: 'relative', minHeight: 500, overflow: 'hidden' }}>
-        <Image src={imageSrc} alt={article.title} fill sizes="55vw" style={{ objectFit: 'cover' }} />
-      </div>
-      <div
+      <motion.div
+        variants={imgReveal}
+        onMouseEnter={() => setImgHovered(true)}
+        onMouseLeave={() => setImgHovered(false)}
+        style={{ flex: '0 0 55%', position: 'relative', minHeight: 500, overflow: 'hidden' }}
+      >
+        <Image
+          src={imageSrc}
+          alt={article.title}
+          fill
+          sizes="55vw"
+          style={{
+            objectFit: 'cover',
+            transform: imgHovered ? 'scale(1.03)' : 'scale(1)',
+            transition: 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)',
+          }}
+        />
+      </motion.div>
+      <motion.div
+        variants={textVariants}
         style={{
           flex: '0 0 45%',
           padding: '60px',
@@ -1032,7 +1115,8 @@ function ArticleFeatureRow({ article, index, href }: { article: Article; index: 
           background: '#0D0B09',
         }}
       >
-        <p
+        <motion.p
+          variants={lineUp}
           style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 9,
@@ -1043,8 +1127,9 @@ function ArticleFeatureRow({ article, index, href }: { article: Article; index: 
           }}
         >
           {sectionEyebrow}
-        </p>
-        <h3
+        </motion.p>
+        <motion.h3
+          variants={lineUp}
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
@@ -1057,8 +1142,9 @@ function ArticleFeatureRow({ article, index, href }: { article: Article; index: 
           }}
         >
           {article.title}
-        </h3>
-        <p
+        </motion.h3>
+        <motion.p
+          variants={lineUp}
           style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 14,
@@ -1069,28 +1155,31 @@ function ArticleFeatureRow({ article, index, href }: { article: Article; index: 
           }}
         >
           {article.excerpt}
-        </p>
-        <p style={{ ...styles.microLabel, color: 'rgba(155,146,131,0.55)', marginBottom: 28 }}>
-          {article.author ?? 'Wine Spectator'} · June 2026
-        </p>
-        <Link
-          href={href}
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 10,
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            color: '#F7F3EC',
-            textDecoration: 'none',
-            borderBottom: '1px solid rgba(247,243,236,0.25)',
-            paddingBottom: 4,
-            width: 'fit-content',
-          }}
+        </motion.p>
+        <motion.p variants={lineUp} style={{ ...styles.microLabel, color: 'rgba(155,146,131,0.55)', marginBottom: 28 }}>
+          {article.author ?? 'Wine Spectator'} &middot; June 2026
+        </motion.p>
+        <motion.div variants={lineUp}>
+          <Link
+            href={href}
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 10,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#F7F3EC',
+              textDecoration: 'none',
+              borderBottom: '1px solid rgba(247,243,236,0.25)',
+              paddingBottom: 4,
+              width: 'fit-content',
+              display: 'inline-block',
+            }}
         >
-          Read the feature →
-        </Link>
-      </div>
-    </div>
+            Read the feature &rarr;
+          </Link>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   )
 }
 
