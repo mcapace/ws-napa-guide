@@ -25,9 +25,9 @@ const featuredArticleRows: Article[] = featuredJuneSlugs
   .filter((a): a is Article => Boolean(a))
 
 const articleHref: Record<string, string> = {
-  'judgment-of-paris': '/features/napa-judgment',
-  'napa-taco-tour': '/dining',
-  'napa-landmarks': '/map',
+  'judgment-of-paris': '/features/judgment-of-paris',
+  'napa-taco-tour': '/features/napa-taco-tour',
+  'napa-landmarks': '/features/napa-landmarks',
 }
 
 const spotlightWinery = wineries.find((w) => w.slug === 'opus-one') ?? wineries[0]
