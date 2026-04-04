@@ -49,7 +49,7 @@ Since Crabb’s death, vintners have debated the vineyard’s legacy. Sub
 The Oakville AVA is sacred ground for Cabernet Sauvignon. Its vineyards are considered the filet mignon of
 the valley because of how the grape performs in the terroir. Oakville Cabernets are beloved for their richness and density of fruit, savory and earth elements combined with their reputation as being among the most ageworthy in Napa Valley.
 
-sequent owners divided and sold the land. In 1966, vintner Robert Mondavi built his winery on part of the To Kalon property, helping to launch Napa’s modern wine era. Along the way, Mondavi was granted trademarks in 1988 and 1994, now owned by Constellation Brands following their purchase of the Mondavi winery in 2004. Other vintners argue that they have the right to use the name because they farm portions of the original es tate; grower Andy Beckstoffer was able to secure naming rights for his portion. The dispute continues and has grown bitter at
+sequent owners divided and sold the land. In 1966, vintner Robert Mondavi built his winery on part of the To Kalon property, helping to launch Napa’s modern wine era. Along the way, Mondavi was granted trademarks in 1988 and 1994, now owned by Constellation Brands following their purchase of the Mondavi winery in 2004. Other vintners argue that they have the right to use the name because they farm portions of the original estate; grower Andy Beckstoffer wasable to secure naming rights for his portion. The dispute continues and has grown bitter at
 times, a testament to To Kalon’s enduring significance. Driving through Oakville offers one of the best ways to understand the “valley.” The AVA covers ground from the foothills of the Vaca mountain range’s volcanic soils on its eastern flank to the Mayacamas’ alluvial soils on its western edge, with each side offering distinct characteristics in their wines.
 
 Where to Taste
@@ -64,7 +64,7 @@ options and library vintages.
 Cardinale Far Niente Winery /
 Bella Union Winery 1350 Acacia Drive | far niente.com
 Gil and Beth Nickel opened Far Niente in 1979, and the 19th-century stone winery and surrounding fairy tale-esque gardens are definitely worth a visit to experience the environs, fine wines and a chance to try their late-harvest Dolce.
-We also recommend taking a short drive north to check out the latest tasting room in the winery’s portfolio, Bella Union (which is technically in Rutherford), founded in 2012 as a way to celebrate regional blend expressions of Napa wine. The former Provenance tasting room was recently remodeled for Bella Union, and embraces the La Belle Époque era with more modern designs, many tasting op portunities and stunning views.
+We also recommend taking a short drive north to check out the latest tasting room in the winery’s portfolio, Bella Union (which is technically in Rutherford), founded in 2012 as a way to celebrate regional blend expressions of Napa wine. The former Provenance tasting room was recently remodeled for Bella Union, and embraces the La Belle Époque era with more modern designs, many tasting opportunities and stunning views.
 Nickel & Nickel 8164 St. Helena Highway | farniente.com/
 wineries/nickel-and-nickel A distinctive white estate fence outlines
 this picturesque estate, which includes an 1884 Victorian farmhouse, barn-style
@@ -73,7 +73,7 @@ dives into single-vineyard expressions of Napa Cabernet Sauvignon through a va
 riety of methods that make an excellent case for terroir.
 Rudd Estate / Crossroads House
 500 Oakville Cross Road | ruddwines.com Rudd Estate is among the most scenic
-wineries in Napa, with a wonderful gar den and scraggly oak trees creating a
+wineries in Napa, with a wonderful garden and scraggly oak trees creating a
 serene setting. It’s also among one of the few second-generation, family
 owned properties you can visit. While visiting Rudd to taste their wines is an
 excellent idea, the Crossroads House is also on the property, where their second
@@ -83,27 +83,23 @@ B Cellars Winery
 Groth Vineyards & Winery
 750 Oakville Cross Road grothwines.com
 Miner Family Winery 7850 Silverado Trail minerwines.com
-Opus One 1144 Oakville Cross Road
-opusonewinery.com PlumpJack Estate Winery 620 Oakville Cross Road
+Opus One 1144 Oakville Cross Road opusonewinery.com PlumpJack Estate Winery 620 Oakville Cross Road
 plumpjackwinery.com Promontory Wine
-1601 Oakville Grade promontory.wine Rudd
-lunches curated by nearby Under-Study.
+1601 Oakville Grade promontory.wine Rudd lunches curated by nearby Under-Study.
 
 7377 St. Helena Highway | brix.com
 
 Where to Eat
 
-Brix represents farm-to-table cuisine, but in this case the res taurant is located amid the farm. Part of an exquisite 16-acre estate, there are raised beds of vegetables and herbs, a fruit and citrus orchard and a vineyard where the Kelleher family– owners of Brix and their own namesake winery–grow grapes. Seasonal offerings might include pappardelle with bone mar row, black pepper and Parmigiano-Reggiano, or their fried
+Brix represents farm-to-table cuisine, but in this case the restaurant is located amid the farm. Part of an exquisite 16-acre estate, there are raised beds of vegetables and herbs, a fruit and citrus orchard and a vineyard where the Kelleher family– owners of Brix and their own namesake winery–grow grapes. Seasonal offerings might include pappardelle with bone mar row, black pepper and Parmigiano-Reggiano, or their fried
 chicken, which is served with a cheddar biscuit, mashed pota toes and gravy. Further comfort food items, like “Arnold Palm er’s Meatloaf” are perfectly prepared, as is a Dungeness crab tagliatelle with crispy prosciutto and sea urchin butter.
 Mustards Grill 7399 St. Helena Highway | mustardsgrill.com
-“Sorry, everything is delicious,” you’ll see on the signage for Mustard’s Grill, a dreamy restaurant that is always buzzing with excitement and dishing up hearty American fare as imag ined by chef-owner Cindy Pawlcyn. Since 1983, Pawlcyn has helped define wine country cuisine–seasonal, fresh, comfort ing and approachable, and of course, a terrific match for wine. The delicate onion rings are a must-order, as is the Mongolian pork chop with sweet-n-sour red cabbage and house-made mustard. The kitchen does lighter fare with plenty of precision, including the daily tostada and Hunan grilled chicken salad.
-Oakville Grocery Mustards
-shooting Mustards
+“Sorry, everything is delicious,” you’ll see on the signage for Mustard’s Grill, a dreamy restaurant that is always buzzing with excitement and dishing up hearty American fare as imag ined by chef-owner Cindy Pawlcyn. Since 1983, Pawlcyn has helped define wine country cuisine–seasonal, fresh, comforting and approachable, and of course, a terrific match for wine. The delicate onion rings are a must-order, as is the Mongolian pork chop with sweet-n-sour red cabbage and house-made mustard. The kitchen does lighter fare with plenty of precision, including the daily tostada and Hunan grilled chicken salad.
+Oakville Grocery Mustards shooting Mustards
 Breakfast/ Coffee/
 Sandwiches/ Snacks
 Oakville Grocery 7856 St. Helena Highway | oakville
-grocery.com Do stop by the iconic Oakville Gro
-cery, if only to stretch your legs and wander among the crowded shelves
+grocery.com Do stop by the iconic Oakville Grocery, if only to stretch your legs and wander among the crowded shelves
 packed with gourmet pantry ingredients and snacks that make excellent
 gifts. Coffee, pastries, cookies and picnic provisions are all here, as well
 as gourmet salads and large, shareable sandwiches, like the “Wagon
@@ -115,7 +111,7 @@ Wood-fired pizzas, served on the patio, are also top notch.`,
       intro: `Two of the most anticipated re-openings this year are the Robert Mondavi Winery and Beaulieu Vineyard. Both are scheduled to open soon; RMW in May and BV by July.`,
       body: `THE EVERYTHING OLD IS NEW AGAIN TOUR Two of the most anticipated re-openings this year are the
 Robert Mondavi Winery and Beaulieu Vineyard. Both are scheduled to open soon; RMW in May and BV by July, and they are offering reservations as of press time. When historic wineries reinvent themselves they reflect broader shifts across Napa Valley. As a new generation of owners and wine lovers shapes the region’s future, Napa continues to ask: How do you honor a storied past while embracing what comes next?
-At RMW, the renovation preserves the iconic 1966 Cliff May design, including the signature arch and tower that echo California’s Spanish missions. The team has added new structures on either side, including a hospitality wing wrapped in glass walls that bring guests visually closer to the vineyards. Design ers lined the ceiling with oak staves salvaged from old fermentation vats—wine stains and all—adding texture and authenticity to the modern space.
+At RMW, the renovation preserves the iconic 1966 Cliff May design, including the signature arch and tower that echo California’s Spanish missions. The team has added new structures on either side, including a hospitality wing wrapped in glass walls that bring guests visually closer to the vineyards. Designers lined the ceiling with oak staves salvaged from old fermentation vats—wine stains and all—adding texture and authenticity to the modern space.
 Five minutes down the road, BV has also chosen restoration over replacement. The team reinforced the original stone walls instead of rebuilding them and repurposed redwood from old tanks to clad the ceilings, even preserving boards marked with handwritten notes. During construction, the winery recycled 98% of its materials. The redesigned space blends contemporary
 elements and natural light with the historic stone facade, creating a seamless indoor-outdoor flow. Historical artifacts are on display Throughout the property, including founder Georges de
 Latour’s refurbished Cadillac near the entrance. Expect heavier traffic as wine lovers line up to experience the results of these years-long renovations. As with any highly anticipated restaurant debut, allow a little time for staff to settle into the new spaces and refine service. Even so, both re-openings promise to reward the wait.`,
@@ -149,14 +145,14 @@ mus land grant. In 1864, Yount gave his daughter Elizabeth 1,040 acres in the ce
 The Rutherfords’ parcel changed hands several times before Finnish fur trader and sea captain Gustave Niebaum acquired it in 1879. He founded Inglenook and built its semi-Gothic château in 1887; the building still stands. After Prohibition ended, his grand-nephew John Daniel Jr. crafted a series of extraordinary wines until he sold the estate in the 1960s. In 1975, film maker Francis Ford Coppola purchased the estate; he worked
 
 reunite the original property and transform it into a popular tourist destination.
-French chemist Georges de Latour had arrived in California in 1883 and built his fortune in the cream of tartar business, an important baking ingredient that is a natural byproduct of wine making. In 1900, he moved to Napa Valley and founded Beau lieu Vineyard on land adjacent to Inglenook. He also became the first to import phylloxera-resistant rootstock. In 1938, de Latour hired winemaker André Tchelistcheff at BV and under his direction, the Georges de Latour Private Reserve Cabernet became one of the most famous wines in the world.
-Rutherford sits at the widest point of Napa Valley, where fewer mountain shadows allow more sunlight to reach the vineyards. The benchlands divide into two distinct areas. On the eastern edge, complex soils and varied microclimates fold into the Vaca Mountains. Volcanic soils dominate much of this terrain and remain moderately deep, but the mountains delay sun rise and slow the warming of the vines.
+French chemist Georges de Latour had arrived in California in 1883 and built his fortune in the cream of tartar business, an important baking ingredient that is a natural byproduct of wine making. In 1900, he moved to Napa Valley and founded Beaulieu Vineyard on land adjacent to Inglenook. He also became the first to import phylloxera-resistant rootstock. In 1938, de Latour hired winemaker André Tchelistcheff at BV and under his direction, the Georges de Latour Private Reserve Cabernet became one of the most famous wines in the world.
+Rutherford sits at the widest point of Napa Valley, where fewer mountain shadows allow more sunlight to reach the vineyards. The benchlands divide into two distinct areas. On the eastern edge, complex soils and varied microclimates fold into the Vaca Mountains. Volcanic soils dominate much of this terrain and remain moderately deep, but the mountains delay sunrise and slow the warming of the vines.
 The western benchland receives morning sun and gains pro tection from afternoon heat when the sun dips behind the Mayacamas Mountains. This side of the valley features more alluvial soils and experiences cooler, windier conditions that create
 a drying effect.
 Tchelistcheff coined the term “Rutherford Dust,” in reference to dusty, powdery alluvial soils on the west side, and the distinct subtle grain and minerality they imbue in the AVA’s Cabernets. There are few simple pleasures as fine as sipping a Rutherford Cabernet while some Rutherford Dust clings to your shoes after a day in the vineyards.
 
 Cathiard Family Estate
-1978 Zinfandel Lane | cathiardvine yard.com
+1978 Zinfandel Lane | cathiardvineyard.com
 The late Daniel Cathiard built an im pressive career in wine, purchasing
 Bordeaux’s Smith-Haut-Lafitte in 1990, then buying (and renaming)
 the former Flora Springs estate at the base of the Mayacamas moun
@@ -171,14 +167,10 @@ Inglenook/Niebaum; Pennino
 Where to Taste
 
 Beaulieu Vineyard
-1960 St. Helena Highway
-bvwines.com Cakebread
-8300 St. Helena Highway
-cakebread.com Caymus
-Vineyards 8700 Conn Creek Road
-caymus.com Dakota Shy
-Wine 771 Sage Canyon Road
-dakotashywine.com Foley
+1960 St. Helena Highway bvwines.com Cakebread
+8300 St. Helena Highway cakebread.com Caymus
+Vineyards 8700 Conn Creek Road caymus.com Dakota Shy
+Wine 771 Sage Canyon Road dakotashywine.com Foley
 Cathiard Johnson
 Winery Honig
 Vineyard and Winery 850 Rutherford Road honigwine.com
@@ -186,16 +178,13 @@ Mumm Napa 8445 Silverado Trail mummnapa.com Round Pond Cellars
 875 Rutherford Road roundpond.com Rutherford Hill Winery 200 Rutherford Hill Road
 rutherfordhill.com Sequoia
 Grove Winery 8338 St Helena 1991 St. Helena Highway | inglenook.com; niebaumpennino.com
-Even if you didn’t know Francis Ford Coppola owned Inglenook, you’d still pick up on how cinematic and grand the estate is, a mix of history, beauty, movie memorabilia and elegant wines. There are plenty of visitor experiences available, from simply enjoying a glass to more informative tours and li brary tastings. The recently opened Pennino House on the property is another chance to taste wines in a relaxed atmosphere, like stepping into a family home with a cozy living room plus plenty of out door seating. Here they also serve a curated selection of Italian-inspired non-alcoholic beverages.
+Even if you didn’t know Francis Ford Coppola owned Inglenook, you’d still pick up on how cinematic and grand the estate is, a mix of history, beauty, movie memorabilia and elegant wines. There are plenty of visitor experiences available, from simply enjoying a glass to more informative tours and li brary tastings. The recently opened Pennino House on the property is another chance to taste wines in a relaxed atmosphere, like stepping into a family home with a cozy living room plus plenty of outdoor seating. Here they also serve a curated selection of Italian-inspired non-alcoholic beverages.
 Quintessa 1601 Silverado Trail | quintessa.com
 Quintessa lies an easy turn off of the Silverado Trail, but a visit here takes you off the beaten path, into the heart of Rutherford and a uniquely serene setting. The entire property is nearly 300 acres, and the best way to soak it all in is through the “Quintessential Experience,” where a tasting takes place in a private glass pavilion overlooking Dragon Lake.
-8350 St. Helena Highway
-foleyjohnsonwines.com Frog’s Leap Winery
-8815 Conn Creek Road frogsleap.com Grgich Hills 1829 St. Helena High way S.
-grgich.com Highway
-sequoiagrove.com St. Supéry Estate
-Vineyards & Winery 8440 St. Helena Highway
-stsupery.com Sullivan
+8350 St. Helena Highway foleyjohnsonwines.com Frog’s Leap Winery
+8815 Conn Creek Road frogsleap.com Grgich Hills 1829 St. Helena Highway S.
+grgich.com Highway sequoiagrove.com St. Supéry Estate
+Vineyards & Winery 8440 St. Helena Highway stsupery.com Sullivan
 Rutherford Estate 1090 Galleron Road sullivanwine.com
 Staglin Staglin Family Vineyard
 1570 Bella Oaks Lane | staglinfamily.com There’s much to learn from a visit to Staglin, begin ning with the viticultural history of the property, which dates to 1864. Significant figures such as An dré Tchelistcheff and Beaulieu founder Georges de Latour have ties here, drawn to this place that clearly defines what makes the Rutherford Bench an amaz ing place to grow grapes.
@@ -211,33 +200,27 @@ Grill
 Where to Stay
 
 Rutherford Grill 1180 Rutherford Road | ruth erfordgrill.com
-It would be easy to simply think of Rutherford Grill as the best place to pair ex pertly crafted barbeque with rich Napa Cabernets. But there’s so much more to en joy, including deviled eggs, a generous iceberg wedge salad, oak-grilled salmon and iron skillet cornbread bites. The staff is friendly and the patio seating is popular when weather permits.
+It would be easy to simply think of Rutherford Grill as the best place to pair expertly crafted barbeque with rich Napa Cabernets. But there’s so much more to enjoy, including deviled eggs, a generous iceberg wedge salad, oak-grilled salmon and iron skillet cornbread bites. The staff is friendly and the patio seating is popular when weather permits.
 La Luna Market &
-Taqueria 1153 Rutherford Road
-lalunamarket.com The
+Taqueria 1153 Rutherford Road lalunamarket.com The
 Restaurant at Auberge du Soleil
-180 Rutherford Hill Road
-auberge.com/auberge du-soleil/dine Recently renovated, this inn has plenty of personal ity. It was originally designed and built by the Mor ton Salt heiress Mary Tilden Morton, who leaned into Spanish-hacienda architecture with 19th-century barn wood beans and wrought iron details. Today, it’s the Goldilocks of Napa Valley hotels; it has quiet vibes in the tiny town of Rutherford, but also is con veniently located halfway up the valley and close to much of the vineyard action. Rooms are air-condi tioned and feature fireplaces and private balconies or patios.
-Auberge du Soleil 180 Rutherford Hill Road
-auberge.com/auberge-du-soleil
+180 Rutherford Hill Road auberge.com/auberge du-soleil/dine Recently renovated, this inn has plenty of personal ity. It was originally designed and built by the Morton Salt heiress Mary Tilden Morton, who leaned into Spanish-hacienda architecture with 19th-century barn wood beans and wrought iron details. Today, it’s the Goldilocks of Napa Valley hotels; it has quiet vibes in the tiny town of Rutherford, but also is con veniently located halfway up the valley and close to much of the vineyard action. Rooms are air-condi tioned and feature fireplaces and private balconies or patios.
+Auberge du Soleil 180 Rutherford Hill Road auberge.com/auberge-du-soleil
 
 Rancho Caymus Inn`,
     adventure: {
       title: 'The Sauvignon Blanc Discovery Tour',
       intro: `Napa may be Cabernet country, but many of its red wine specialists also craft exceptional Sauvignon Blancs. White wine lovers have plenty to celebrate with these refreshing, expressive wines.`,
       body: `THE SAUVIGNON BLANC DISCOVERY TOUR Napa may be Cabernet country, but many
-of its red wine specialists also craft ex ceptional Sauvignon Blancs (not to
-mention that Sauvignon Blanc is one of Caber net Sauvignon’s parents, along with Cabernet
-Franc). White wine lovers have plenty to cele
-brate with these refreshing, expressive wines.
+of its red wine specialists also craft exceptional Sauvignon Blancs (not to
+mention that Sauvignon Blanc is one of Cabernet Sauvignon’s parents, along with Cabernet
+Franc). White wine lovers have plenty to cele brate with these refreshing, expressive wines.
 Several standout producers lie close to one another, making it easy to explore. Start at Groth
 in Oakville and choose a tasting that features the
 estate Sauvignon Blanc. The experience highlights how Napa has transformed Sauvignon
-Blanc from an afterthought into a deliberate, dy
-namic category. In the 1990s, the Groth family—
+Blanc from an afterthought into a deliberate, dy namic category. In the 1990s, the Groth family—
 now in its second generation in wine—recog nized that certain clay-heavy vineyard blocks planted to Cabernet suited white varieties better. They began replanting, helping to usher in a new era for the grape. The estate Sauvignon Blanc, first released with the 2019 vintage, ex
-shoot St Supery
-emplifies that vision.
+shoot St Supery emplifies that vision.
 St Supery Grgich Hills
 Just 3 miles away, Rutherford’s St. Supéry welcomes guests with one of the valley’s most approachable tasting experiences. The winery farms its Sauvignon Blanc at Dollarhide Ranch in Pope Valley, east of Napa, and has championed distinctive ex
 pressions of the grape since the 1980s. Today, it remains a category leader. Several tasting flights spotlight Sauvignon Blanc, including the “White Wine Discovery,” which demonstrates how fermentation vessels from stainless steel to French oak bar rels and concrete fermentors shape the wine’s texture and style.
@@ -271,27 +254,21 @@ sity, floral lift and distinctive character, with select bottlings available onl
 in 1867 in honor of George C. Yount, a pioneer widely credited with planting the first wine grapes in Napa Valley. Tiny and charming, the town has long counted just a modest population (3,500 today), growing slowly even with the arrival of the railroad and eventually becoming an incorporated town in 1965. Over the past few decades, Yountville has evolved into arguably Napa Valley’s most celebrated culinary hub, and its main Washington Street is often bustling with visitors strolling its pedestrian-friendly confines. The line at the pick-up
 window for Bouchon Bakery can get quite long… Many of the city’s oldest buildings have been preserved and repurposed, including V Marketplace. Built in the early 1870s as Gottlieb Groezinger Winery, this large, stone complex in the center of town is now dedicated to shopping and dining ven
 
-ues. The French Laundry, the city’s most famous restaurant, resides in a home built in 1900 that was initially a saloon and then a steam laundry business from which the restaurant cre ated its name.
-Yountville makes an ideal home base for a quintessential Napa Valley vacation, offering visitors a jumping off point in the heart of the valley (15 minutes to St. Helena or downtown Napa). Yountville’s small-town charm blends seamlessly with its several lux ury hotels and concentration of top-notch dining options. Total ing just 1.5 square miles, it is an entirely walkable town—and while restaurants dominate the scene here, there are more than enough downtown tasting rooms that one could happily taste in over the course of a few days and never have to get into a car. Oak Knoll is the closest neighbor the south, with Stags Leap Dis trict just east of town adding ample choices to your itinerary.
+ues. The French Laundry, the city’s most famous restaurant, resides in a home built in 1900 that was initially a saloon and then a steam laundry business from which the restaurant created its name.
+Yountville makes an ideal home base for a quintessential Napa Valley vacation, offering visitors a jumping off point in the heart of the valley (15 minutes to St. Helena or downtown Napa). Yountville’s small-town charm blends seamlessly with its several luxury hotels and concentration of top-notch dining options. Totaling just 1.5 square miles, it is an entirely walkable town—and while restaurants dominate the scene here, there are more than enough downtown tasting rooms that one could happily taste in over the course of a few days and never have to get into a car. Oak Knoll is the closest neighbor the south, with Stags Leap District just east of town adding ample choices to your itinerary.
 
 Where to Taste
 
-Downtown Yountville has more than a dozen tasting
-rooms, and when you include the nearby Stags Leap District and Oak Knoll AVAs, which butt up against the city from the east and south, respectively, there’s an abundance of wineries within a few minutes’ drive. These southern appel
-lations are influenced more by San Pablo Bay, bringing fog and cooling breezes that yield an elegant style of Cabernet Sauvignon. The climate also favors other grapes, including Chardon nay, Sauvignon Blanc, Zinfandel, Petite Sirah and more.
+Downtown Yountville has more than a dozen tasting rooms, and when you include the nearby Stags Leap District and Oak Knoll AVAs, which butt up against the city from the east and south, respectively, there’s an abundance of wineries within a few minutes’ drive. These southern appel
+lations are influenced more by San Pablo Bay, bringing fog and cooling breezes that yield an elegant style of Cabernet Sauvignon. The climate also favors other grapes, including Chardonnay, Sauvignon Blanc, Zinfandel, Petite Sirah and more.
 Yountville Stewart
 6752 Washington St. | stewartscellars.com Passersby may first be lured by the charming
 stone building and courtyard while strolling down Washington Street, and then pleased to
-discover the lineup of wines available for tast
-ing inside. This Ken Fulk- and Arcanum Archi tecture–designed tasting room is polished,
-with an eclectic residential style that includes
-vintage furnishings and quirky paraphernalia.
-The light-filled tasting hall and surrounding
-courtyards are welcoming to casual wine lov ers who can walk in without a prior reserva
-tion. Yet it’s also a place for shrewd collectors
-as Stewart sources from several high-profile vineyards, and its Nomad Cabernet Sauvignon
-Tasting held in the NOMAD Heritage Library, a
-cozy, private room filled with books and a fireplace, takes guests through a deep dive
+discover the lineup of wines available for tasting inside. This Ken Fulk- and Arcanum Archi tecture–designed tasting room is polished,
+with an eclectic residential style that includes vintage furnishings and quirky paraphernalia.
+The light-filled tasting hall and surrounding courtyards are welcoming to casual wine lovers who can walk in without a prior reserva
+tion. Yet it’s also a place for shrewd collectors as Stewart sources from several high-profile vineyards, and its Nomad Cabernet Sauvignon
+Tasting held in the NOMAD Heritage Library, a cozy, private room filled with books and a fireplace, takes guests through a deep dive
 into single-vineyard Cabernet bottlings, one each from Andy Beckstoffer’s famed sites, in
 cluding Dr. Crane, Bourn, Las Piedras, To Kalon, Georges III and Missouri Hopper.
 Stewart Antinori
@@ -301,16 +278,12 @@ Chandon 1 California Drive chandon.com
 Hestan Vineyards 6548 Washington St. hestanvineyards.com
 Mayacamas 1155 Loyoya Road mayacamas.com Priest Ranch 6490 Washington St. priestranchwines. com
 
-Baldacci 6236 Silverado Trail
-baldaccivineyards.com Chimney
-Rock 5350 Silverado Trail
-chimneyrock.com Cliff Lede
-1473 Yountville Cross Road
-cliffledevineyards.com The Duckhorn
+Baldacci 6236 Silverado Trail baldaccivineyards.com Chimney
+Rock 5350 Silverado Trail chimneyrock.com Cliff Lede
+1473 Yountville Cross Road cliffledevineyards.com The Duckhorn
 Collection at Paraduxx
 7257 Silverado Trail paraduxx.com
-Odette 5998 Silverado Trail
-odetteestate.com Pine Ridge
+Odette 5998 Silverado Trail odetteestate.com Pine Ridge
 5901 Silverado Trail pineridgevineyards.com Quixote
 6126 Silverado Trail quixotewinery.com Clos du Val
 Clos Du Val 5330 Silverado Trail. | closduval.com
@@ -319,39 +292,31 @@ Stags Leap District Shafer
 Vineyards 6121 Silverado Trail silveradovineyards.com
 Stag’s Leap Wine Cellars 5766 Silverado Trail stagsleapwinecellars. com
 Stags’ Leap Winery 6150 Silverado Trail stagsleap.com
-Among the six from the Judgement of Paris tasting, Clos du Val lost its way a bit over time, making lackluster wines and growing into a large-volume brand in the 1990s. But in 2014, the Goelet family began scaling back and investing significant time and money in the vineyards and winery, including its tasting room. The magic that captivated founder John Goelet and French wine maker Bernard Portet to bet on the Stags Leap District is evident in the contemporary, warm Hirondelle House where tastings are held. Tall ceilings and west-facing windows let natural light fill the space. When weather permits, a tasting on the patio, sur rounded by lush gardens and overlooking the estate vineyards, is not to be missed. Each tasting experience traces the winery’s momentous history with modern wines, but a retrospective tasting allows guests to chart the winery’s stylistic evolution while sampling 10-, 20- and 30-year-old releases.
+Among the six from the Judgement of Paris tasting, Clos du Val lost its way a bit over time, making lackluster wines and growing into a large-volume brand in the 1990s. But in 2014, the Goelet family began scaling back and investing significant time and money in the vineyards and winery, including its tasting room. The magic that captivated founder John Goelet and French winemaker Bernard Portet to bet on the Stags Leap District is evident in the contemporary, warm Hirondelle House where tastings are held. Tall ceilings and west-facing windows let natural light fill the space. When weather permits, a tasting on the patio, surrounded by lush gardens and overlooking the estate vineyards, is not to be missed. Each tasting experience traces the winery’s momentous history with modern wines, but a retrospective tasting allows guests to chart the winery’s stylistic evolution while sampling 10-, 20- and 30-year-old releases.
 Lewis 6320 Silverado Trail. | lewiscellars.com
-It’s rare for a winery to move locations, but
-when the Wonderful Company —owners of Lewis since 2021—purchased the former Rob
+It’s rare for a winery to move locations, but when the Wonderful Company —owners of Lewis since 2021—purchased the former Rob
 ert Sinskey Winery and surrounding property in Stags Leap, it became a full-circle moment
-to relocate from Lewis’ Oak Knoll winery, as the
-first vintage, 1992, was made at Robert Sinskey.
+to relocate from Lewis’ Oak Knoll winery, as the first vintage, 1992, was made at Robert Sinskey.
 The tasting room opened in October 2025, and the vibe is a little bit opulent and a little bit
-archetypal Napa, befitting Lewis’s wines. Evok
-ing the 19th-century drawing room of English artist William Turner, the space feels luxurious
-and inviting, yet playful, with custom furniture
-and textiles from London’s House of Hackney juxtaposed against vibrant, mixed-media com
+archetypal Napa, befitting Lewis’s wines. Evoking the 19th-century drawing room of English artist William Turner, the space feels luxurious
+and inviting, yet playful, with custom furniture and textiles from London’s House of Hackney juxtaposed against vibrant, mixed-media com
 missioned art by Zachary Scott. Perched on a hill, the winery’s outdoor terraces are ideal for
-soaking in some sunshine, and there’s a range
-of tasting experiences, including a five-course
+soaking in some sunshine, and there’s a range of tasting experiences, including a five-course
 food and wine pairing.
 
 Lewis
 
 Oak Knoll District Hendry
 3104 Redwood Rd. | hendrywines.com Hendry is an old-school, under-the-radar gem
-that delights without a grand château or pomp
-and circumstance. The ranch at the base of Mount
+that delights without a grand château or pomp and circumstance. The ranch at the base of Mount
 Veeder, which today includes 114 acres planted,
 dates to 1859 and has been under the Hendry family’s stewardship since 1939. The vibe is inti
-mate and casual, with tastings hosted on a porch
-or inside a simple farmhouse-style building (from
+mate and casual, with tastings hosted on a porch or inside a simple farmhouse-style building (from
 10 a.m. to 3 p.m.-ish) by appointment, and it is all
 about the wine. Hendry’s knowledgeable staff pour a selection of estate-grown wines while
 sharing details of the family and its history on the
 ranch. Time a visit right, and you can reserve the
-“Hike with Hendry” experience, held four times a
-year and hosted by third-generation farmer and
+“Hike with Hendry” experience, held four times a year and hosted by third-generation farmer and
 winemaker Mike Hendry, who discusses and dem onstrates the seasonal happenings in the vine
 yard, followed by a tasting flight.
 Trefethen 1160 Oak Knoll Ave.. | trefethen.com
@@ -371,7 +336,7 @@ Robert Biale 4038 Big Ranch Road biale.com Signorello 4500 Silverado Trail signo
 Where to Eat
 
 What Yountville lacks in size, it more than makes up
-for with its assemblage of exciting culinary options. Home to chef Thomas Keller’s famous French Laun dry, a Grand Award winner since 2007, the Thomas Keller Res taurant Group also operates Best of Award of Excellence winner Bouchon Bistro, plus Bouchon Bakery, Ad Hoc + Addendum and RO Restaurant and Lounge. Packed into city limits are another
+for with its assemblage of exciting culinary options. Home to chef Thomas Keller’s famous French Laun dry, a Grand Award winner since 2007, the Thomas Keller Restaurant Group also operates Best of Award of Excellence winner Bouchon Bistro, plus Bouchon Bakery, Ad Hoc + Addendum and RO Restaurant and Lounge. Packed into city limits are another
 dozen or so eateries, including Best of Award of Excellence win ner Bottega, and Lucy, an Award of Excellence-winning restau rant within the Bardessono Hotel.
 Ad Hoc
 Also Recommended Bistro Jeanty 6510 Washington St.
@@ -391,29 +356,27 @@ Lang & Reed Chenin Blanc and Mayacamas Merlot, plus a smattering of Euro
 pean options. Overall, the vibe is convivial, approachable and rooted in the idea
 of gathering around great food and wine in a laid-back setting.
 Clementine 6525 Washington St.. | clementineyountville.
-com Opened last summer, Clementine stands out
-from the valley’s many white tablecloth res taurants with its breezy Mediterranean bis
+com Opened last summer, Clementine stands out from the valley’s many white tablecloth restaurants with its breezy Mediterranean bis
 6525 Washington St. botteganapavalley.com Bouchon
 Bistro 6534 Washington St. thomaskeller.com/ bouchonyountville
 Ciccio 6770 Washington St. ciccionapavalley.com
 The French Laundry 6640 Washington St. thomaskeller.com/tfl
 Regiis Ova 6480 Washington St. regiisova.com RH
 Restaurant 6725 Washington St. rh.com/us/en/yount ville/restaurant
-tro vibe and seasonal, flavor-packed dishes. For lunch, expect fresh appetizers and sal ads, such oysters with Champagne mignon ette and fermented hot sauce or Caesar salad with crispy anchovies and black garlic breadcrumbs, alongside flatbreads and brunch favorites such as lobster eggs Benedict. The wood-grilled lamb burger with rosemary aioli and harissa ketchup rivals any burger in the valley. Dinner builds on the lunch menu with heartier mains, including salt-baked branzino with charred tangerines and a yogurt-spiced half chicken with tahini roasted carrots. The wine list is compact, af fordable, food-friendly and globally inspired, with a dash of hearty, standout Napa Cabernets, including Stag’s Leap Wine Cellars, Opus One and Harlan. One way to enjoy Cle mentine is to linger over an Aperol spritz on the olive-shaded patio on a warm summer night. Inside, the space is cottage-chic: bright and cheery, with whimsical touches such as embroidered napkins and playful watercolor prints of seafood serving gelato and dancing in top hats.
-they are sending
-photos with people Clementine
+tro vibe and seasonal, flavor-packed dishes. For lunch, expect fresh appetizers and sal ads, such oysters with Champagne mignon ette and fermented hot sauce or Caesar salad with crispy anchovies and black garlic breadcrumbs, alongside flatbreads and brunch favorites such as lobster eggs Benedict. The wood-grilled lamb burger with rosemary aioli and harissa ketchup rivals any burger in the valley. Dinner builds on the lunch menu with heartier mains, including salt-baked branzino with charred tangerines and a yogurt-spiced half chicken with tahini roasted carrots. The wine list is compact, affordable, food-friendly and globally inspired, with a dash of hearty, standout Napa Cabernets, including Stag’s Leap Wine Cellars, Opus One and Harlan. One way to enjoy Clementine is to linger over an Aperol spritz on the olive-shaded patio on a warm summer night. Inside, the space is cottage-chic: bright and cheery, with whimsical touches such as embroidered napkins and playful watercolor prints of seafood serving gelato and dancing in top hats.
+they are sending photos with people Clementine
 
 Where to Stay
 
 Despite its compact size, Yountville offers an array of
 lodging options, from boutique B&Bs to luxury hotels. In general, the options lean toward lavish, with the av erage rate around $500-$600 per night during winter months and as high as $800-$900 in summer.
-The Estate Yountville is by far the biggest complex, a 22-acre village within the town spanning most of the west side of Wash ington Street and including two separate hotels—Vintage House
+The Estate Yountville is by far the biggest complex, a 22-acre village within the town spanning most of the west side of Washington Street and including two separate hotels—Vintage House
 and Hotel Villagio—plus a private five-bedroom villa along with shopping, restaurants and a spa. Bardessono and North Block also offer luxe accommodations, with resort amenities such as an on-site spa and restaurant. For something smaller, Maison Fleurie’s 13-bedroom southern Franceinspired B&B is directly behind Bouchon Bakery. It’s also among the lower-priced op
 tions, but without skimping on style and comfort. Also Recommended
-Sttupa Estate 638 Silverado Trail | sttupaestate.com Formerly Poetry Inn, this Howard Backen–designed boutique luxury hotel recently received a rebrand courtesy of its new owners, PA Capital Management, the family-owned company behind Sulli van Rutherford Estate and Loco Tequila. Perched on the eastern hills in Stags Leap, its remote location promotes pri vacy. Each luxurious, curated room, named after renowned poets such as Emily Dickinson and the Silverado Squat ter himself, Robert Louis Stevenson, of fers a distinctive flair and includes a wood-burning fireplace, deep soaking tub, and west-facing terraces to take in the stunning view. Additional amenities include an on-site spa and direct access to a private hiking trail. The new owner ship has further enhanced the guest ex perience by adding curated wellness programs and bespoke culinary experiences with Michelin-caliber Napa Valley chefs.
+Sttupa Estate 638 Silverado Trail | sttupaestate.com Formerly Poetry Inn, this Howard Backen–designed boutique luxury hotel recently received a rebrand courtesy of its new owners, PA Capital Management, the family-owned company behind Sullivan Rutherford Estate and Loco Tequila. Perched on the eastern hills in Stags Leap, its remote location promotes pri vacy. Each luxurious, curated room, named after renowned poets such as Emily Dickinson and the Silverado Squatter himself, Robert Louis Stevenson, of fers a distinctive flair and includes a wood-burning fireplace, deep soaking tub, and west-facing terraces to take in the stunning view. Additional amenities include an on-site spa and direct access to a private hiking trail. The new owner ship has further enhanced the guest experience by adding curated wellness programs and bespoke culinary experiences with Michelin-caliber Napa Valley chefs.
 Bardessono Sttupa
 Bardessono 6526 Yount St. | bardessono.com
-Following a recent $1.8 million guestroom ren ovation, Bardessono further cemented itself as one of Napa’s premier five-star hotels. One of only 14 LEED Platinum-certified hotels in the U.S., it brings a new meaning to eco-luxury, with its 62 spacious, lavish rooms constructed with salvaged wood, low-VOC paints and fin ishes, and architecture that maximizes natural light and ventilation. Its large bathrooms also double as a private spa for in-room treatments. Each room also includes a private patio or bal cony. The communal grounds are serene, with native landscaping and peaceful courtyards, and a rooftop pool with plush cabanas and daybeds beckons for peacefully soaking in the sun. An on-site organic garden supplies many of the ingredients found at Lucy Restaurant and Bar, a Wine Spectator Award of Excellence winner since 2022.
+Following a recent $1.8 million guestroom renovation, Bardessono further cemented itself as one of Napa’s premier five-star hotels. One of only 14 LEED Platinum-certified hotels in the U.S., it brings a new meaning to eco-luxury, with its 62 spacious, lavish rooms constructed with salvaged wood, low-VOC paints and fin ishes, and architecture that maximizes natural light and ventilation. Its large bathrooms also double as a private spa for in-room treatments. Each room also includes a private patio or bal cony. The communal grounds are serene, with native landscaping and peaceful courtyards, and a rooftop pool with plush cabanas and daybeds beckons for peacefully soaking in the sun. An on-site organic garden supplies many of the ingredients found at Lucy Restaurant and Bar, a Wine Spectator Award of Excellence winner since 2022.
 The Estate Yountville 6481 Washington St. theestateyountville.com
 Hotel Yountville
 6462 Washington St. hotelyountville.com Maison
@@ -424,22 +387,20 @@ napavalleylodge.com North Block 6757 Washington St. northblockyountville. com
 
 YOUNTVILLE Public Art & Rural Charm Considering that you can walk from
 one end of the town to the other in about 15 minutes, a casual stroll
-that includes the self-guided tour of out door, rotating sculptures is a great way to
-explore the community. Many of the in stallations are integrated into the land
+that includes the self-guided tour of outdoor, rotating sculptures is a great way to
+explore the community. Many of the installations are integrated into the land
 scape and seem as though they’ve always been there, while others are large or
 brightly colored and beg for attention from a distance. Break up the stroll by checking
 out the handful of boutique shops and art galleries that have joined the tasting rooms and restaurants along Washington Street. Venture off the main drag and you’ll find the bucolic Napa Valley farmhouses and Craftsman-style houses among the rural elegance that makes Yountville so attractive.
 Hestan Vineyards 6548 Washington St. | hestanvineyards.com At this auxiliary tasting room for cookware tycoon and vintner Stanley Cheng’s collection of wines, Hestan cookware and Ruffoni copper cookware from Italy are also on display and available for purchase.
-Kollar Chocolates shooting sculpture art walk
-caption 6525 Washington St.. | kollarchocolates.com What better complement to Yountville’s food and wine culture than craft chocolate? Anyone with a sweet tooth should seek out Kollar Chocolates, founded in 2011 by chef-turned-chocolatier Chris Kollar. Time a visit accordingly and you can watch chocolate production using European techniques like hand-tempering, or meticulous hand-painting of bonbons. Speaking of bonbons, the colorful as sortment includes unique flavor combinations like
+Kollar Chocolates shooting sculpture art walk caption 6525 Washington St.. | kollarchocolates.com What better complement to Yountville’s food and wine culture than craft chocolate? Anyone with a sweet tooth should seek out Kollar Chocolates, founded in 2011 by chef-turned-chocolatier Chris Kollar. Time a visit accordingly and you can watch chocolate production using European techniques like hand-tempering, or meticulous hand-painting of bonbons. Speaking of bonbons, the colorful as sortment includes unique flavor combinations like
 Kollar chocolates sunflower seed praline or white chocolate ganache with yuzu gel. Whether treating yourself or shopping for a gift, there’s a dizzying array of tasting options beyond bonbons, including dark chocolate espresso malt balls, chocolate bark and more.
-Mad Fritz 6720 Washington St.. | madfritz.com/
-drink-mad-fritz-beer This tap house offers nearly a dozen of the unique beers from winemaker Nile Zacherle. There is a lo
+Mad Fritz 6720 Washington St.. | madfritz.com/ drink-mad-fritz-beer This tap house offers nearly a dozen of the unique beers from winemaker Nile Zacherle. There is a lo
 cation in St. Helena as well. Hours are limited: Thursday to Sunday, 1 p.m. to 8 p.m.
-Napa Valley Museum 55 Presidents Circle. | napavalleymuseum.org Comprising three galleries, the Napa Valley Mu seum houses a permanent collection of artwork, artifacts and objects that demonstrate the valley’s rich geography and history, plus a rotating exhibi tions and public events throughout the year.
+Napa Valley Museum 55 Presidents Circle. | napavalleymuseum.org Comprising three galleries, the Napa Valley Museum houses a permanent collection of artwork, artifacts and objects that demonstrate the valley’s rich geography and history, plus a rotating exhibi tions and public events throughout the year.
 RH Gallery 6725 Washington St.. | rh.com/us/en/Yountville A free-to-explore design showroom only, nothing is for sale here, but come in for an immersive ar chitectural and lifestyle experience with drool worthy inspiration for luxury home furnishings.
 Sculpture Art Walk townofyountville.com/238/Art-Walk
-A self-guided exploration of the sculpted art in stallations downtown. Check the website for an audio tour or to book a docent-led tour for a more in-depth, behind-the-scenes walk.`,
+A self-guided exploration of the sculpted art installations downtown. Check the website for an audio tour or to book a docent-led tour for a more in-depth, behind-the-scenes walk.`,
     adventure: {
       title: 'Three Ways to Experience Yountville',
       intro: `Three distinct adventures — culinary, Stags Leap, and into the hills — each offering a different lens on this remarkable corner of the valley.`,
@@ -458,8 +419,7 @@ Brunch—three sparkling wines with seasonal sides and brunch
 favorites like smoked salmon eggs Benedict or Dungeness crab avocado toast. Other days, try options like “Fried Chicken and Fizz” or “Culinary Journey,” a three-course tasting with tête de cuvée wines.
 The renovation invites lingering in lush gardens and terraces with vineyard views, lounge seating and shady umbrellas. When ready for round two, head north on Washington, right onto Yountville Crossroad, then right when it dead ends on the Silverado Trail, to Darioush. Here, warm Persian hospitality and a commu nal tasting room (up to 12 guests) set the stage for an epicurean
 this is the “Togetherness
-Lunch” (add mention to
-copy?)
+Lunch” (add mention to copy?)
 Darioush adventure. Don’t be discouraged by the name when pre-booking; the “By Invitation Only” experience is open to all and features top cuvées with seasonal food pairings. Meals begin with wood-fired barbari bread (a type of Iranian yeast-leavened flatbread) and herb butter, followed by a four-course plated meal. Past dishes have in
 cluded ricotta scarpinocc with shiitake mushrooms and prosciutto crumble, and Masami Ranch New York strip with crispy squash blossom, garden peppers and sauce romesco.
 Chandon Napa Valley
@@ -467,10 +427,10 @@ Chandon Napa Valley
 2: Stags Leap Splendor Stags Leap District is a small, unique AVA east of Yountville,
 renowned for distinctive Cabernet shaped by the Palisades (a rocky volcanic outcropping in the Vaca Mountains) and cool nights from San Pablo Bay. This itinerary offers a boots-on the-ground exploration of the region with stops at two wineries.
 At the Yountville Crossroad and Silverado Trail intersection sits Cliff Lede Vineyards, a relatively newer estate (founded in 2002) among its more historic neighbors. Often, vacationing means limited-to-no exercise, but a good way to get your steps in is with Cliff Lede’s “Morning Walk in the Vineyard.” Offered daily at 10:30 a.m. by appointment, it covers a mile through es
-tate vineyards, which spans 60 acres and is split between hillside and valley floor vines, plus the Howard Backen-designed grav ity-flow winery and aging caves. The tour is a little bit country, covering sustainable farming practices and vineyard activity, and a little bit rock and roll, as a trip through the Backstage Tasting Lounge, showcases rock memorabilia and rotating art exhibi tions by prominent music-world artists (past featured artists in clude Jerry Garcia, John Lennon and Grace Slick). Sips of vari
+tate vineyards, which spans 60 acres and is split between hillside and valley floor vines, plus the Howard Backen-designed gravity-flow winery and aging caves. The tour is a little bit country, covering sustainable farming practices and vineyard activity, and a little bit rock and roll, as a trip through the Backstage Tasting Lounge, showcases rock memorabilia and rotating art exhibitions by prominent music-world artists (past featured artists include Jerry Garcia, John Lennon and Grace Slick). Sips of vari
 
-ous wines are poured along the way, including while standing in the vineyard blocks from which the grapes used come[UNCLEAR]. The walk goes on year-round, weather permitting, so wear com fortable shoes and appropriate attire.
-It’s a five-minute drive to Shafer, one of Napa’s most celebrated estates. But if lunch is in order, head back into Yountville for a quick slice or sandwich at Velo Deli & Pizzeria. Otherwise, hang a right on Silverado Trail and then a left immediately after passing Baldacci Family Winery, and wind upward into the Pali sades to the winery. John Shafer, a Chicago publishing execu tive, purchased the property in 1972 and spent several years planting the hillside estate before launching in 1978. Winemaker Elias Fernandez has spent 40-plus harvests on this property, crafting Shafer Vineyards’ Hillside Select Cabernet Sauvignon, one of the most emblematic wines of Stags Leap and a treasured Napa Cabernet collectible. The “Shafer Hillside Experience” in cludes a sparkling welcome with small bites, followed by a Po laris Ranger tour of the iconic Shafer Hillside property, includ ing panoramic Landers Point. Taste the latest Hillside Select vintage, then return for a sampling of library vintages—some available for purchase.
+ous wines are poured along the way, including while standing in the vineyard blocks from which the grapes used come[UNCLEAR]. The walk goes on year-round, weather permitting, so wear comfortable shoes and appropriate attire.
+It’s a five-minute drive to Shafer, one of Napa’s most celebrated estates. But if lunch is in order, head back into Yountville for a quick slice or sandwich at Velo Deli & Pizzeria. Otherwise, hang a right on Silverado Trail and then a left immediately after passing Baldacci Family Winery, and wind upward into the Palisades to the winery. John Shafer, a Chicago publishing execu tive, purchased the property in 1972 and spent several years planting the hillside estate before launching in 1978. Winemaker Elias Fernandez has spent 40-plus harvests on this property, crafting Shafer Vineyards’ Hillside Select Cabernet Sauvignon, one of the most emblematic wines of Stags Leap and a treasured Napa Cabernet collectible. The “Shafer Hillside Experience” includes a sparkling welcome with small bites, followed by a Polaris Ranger tour of the iconic Shafer Hillside property, including panoramic Landers Point. Taste the latest Hillside Select vintage, then return for a sampling of library vintages—some available for purchase.
 
 3: Into The Hills While exploring the valley floor,
 it’s easy to overlook the many wineries perched in the hills
@@ -490,8 +450,7 @@ the west side, soils are composed primarily of marine layers, as opposed to the 
 soils of the east (though there is also some volcanic soil at Veeder’s highest elevations—
 a distinctive quirk of the AVA). Set at about
 1,800 feet on a 475-acre estate, Mayacamas boasts dramatic views (the highest point is
-2,400 feet) and a storied past. Its stone cel
-lar, dating to the late 1800s, is still used alongside the modern hospitality center de
+2,400 feet) and a storied past. Its stone cel lar, dating to the late 1800s, is still used alongside the modern hospitality center de
 signed by Backen & Gillam, which opened in 2021. It’s also one of the six Napa winer
 ies that participated in the Judgment of Paris tasting, if you’re filling out your bingo
 card. The private, guided tour includes an all-terrain vehicle journey through the
@@ -557,10 +516,9 @@ Winemaker Chris Phelps has a pretty good résumé, having spent time at Pétrus 
 Clif Family 709 Main St. | clifffamily.com
 The is a popular spot, thanks in large part to the food truck parked behind it that offers delicious bruschetta along with salads, polenta tots and organic whole roasted chickens. The main tasting room offers the full range of the win ery’s broad portfolio, while the next door Enoteca provides private (by ap
 ley, with 6,800 acres of vines, the area takes in nearly 100 wineries. Included here are suggested tasting rooms on Spring Mountain as well, which rises above the town’s western side.
-AXR 3199 St. Helena High
-way N.
+AXR 3199 St. Helena Highway N.
 axrnapavalley.com Ballantine
-2820 St. Helena High way N.
+2820 St. Helena Highway N.
 ballentinevineyards.
 com Beringer
 Vineyards 2000 Main St.
@@ -571,11 +529,11 @@ corison.com Davies
 Vineyards 1210 Grayson Ave.
 daviesvineyards.com The Debate 1244 Spring St.
 thedebatewine.com El Molino
-Winery 3315 St. Helena High way N.
+Winery 3315 St. Helena Highway N.
 elmolinowinery.com Forman
 Vineyard 1501 Big Rock Road formanvineyard.com
 Freemark Abbey
-3022 St. Helena High way N.
+3022 St. Helena Highway N.
 freemarkabbey.com Hall Wines
 401 St. Helena Highway S.
 hallwines.com Ehlers Estate 3222 Ehlers Lane | www.ehlersestate.com
@@ -592,8 +550,7 @@ inkgrade.com Charles Krug
 charleskrug.com Lang & Reed
 1244 Spring St.
 langandreed.com Lokoya
-3787 Spring Mountain Road
-lokoya.com Louis M.
+3787 Spring Mountain Road lokoya.com Louis M.
 Martini Winery
 254 St. Helena Highway S.
 louismartini.com Mending Wall 3730 Silverado Trail N. mendingwall.com
@@ -602,18 +559,17 @@ merryvale.com Orin Swift
 1321 Main St.
 orinswift.com Faust Haus
 Faust Haus 2867 St. Helena Hwy North | faustwines.com
-This 1878-dated structure (formerly home to St. Clement winery and part of Spring Mountain Vine yard before that) was purchased by the Huneeus family in 2016 and renovated in 2020. Offering a broader approach to wine tasting, you can find both local and international artisanal wares—jewelry, sculpture, leather goods, clothing and more—rotating on display throughout the year. There’s a speakeasy in the basement where vinyl records can be played during tastings of library vintages. There’s always an eclectic mix of small bites served. And while the 2,500-square-foot space has several swanky rooms inside, the haus sits perched atop a sprawling terrace of vines that looks east over the valley.
+This 1878-dated structure (formerly home to St. Clement winery and part of Spring Mountain Vineyard before that) was purchased by the Huneeus family in 2016 and renovated in 2020. Offering a broader approach to wine tasting, you can find both local and international artisanal wares—jewelry, sculpture, leather goods, clothing and more—rotating on display throughout the year. There’s a speakeasy in the basement where vinyl records can be played during tastings of library vintages. There’s always an eclectic mix of small bites served. And while the 2,500-square-foot space has several swanky rooms inside, the haus sits perched atop a sprawling terrace of vines that looks east over the valley.
 Joseph Phelps
 200 Taplin Road josephphelps.com
 The Prisoner 1178 Galleron Road theprisonerwinecom pany.com
 Raymond 849 Zinfandel Lane raymondvineyards.com
-Revana 2930 St. Helena High way N.
+Revana 2930 St. Helena Highway N.
 revanawine.com Lewelling Vineyards, Haley Wight
 Lewelling Vineyards
 1282 Vidovich Ave.
-www.lewellingvineyards.com Wines from the Lewelling clan, one of St. Helena’s longtime families, are now made by sixth generation Haley Wight. The tasting room pours the family’s small-production Cabernet Sauvignons, along with Wight’s own Hayfork brand, which fea tures more offbeat bottlings of Marsanne and Charbono. In a simply adorned room with a single table in the middle and a wooden plank over a couple of barrels forming a counter, you’ll be hosted by either Wight or her brother, NAME?.
-Snowden 1432 Main Street
-snowdenvineyards.com Winemaker Diana Snowden lives in Burgundy, where along with her husband, Jeremy Seysses, she makes the wines for Domaine Dujac. She comes back to her native St. Helena a few times a year to oversee her family’s vineyards and winemak ing, so you might catch her in the tasting room. If not, someone else from the Snowden clan will be on hand. Visits are intimate in scale, as the family hosts only a single small group at time in their bare bones tasting room. You’ll get to talk farm ing, winemaking and more with the folks who do the work themselves. themselves.
+www.lewellingvineyards.com Wines from the Lewelling clan, one of St. Helena’s longtime families, are now made by sixth generation Haley Wight. The tasting room pours the family’s small-production Cabernet Sauvignons, along with Wight’s own Hayfork brand, which features more offbeat bottlings of Marsanne and Charbono. In a simply adorned room with a single table in the middle and a wooden plank over a couple of barrels forming a counter, you’ll be hosted by either Wight or her brother, NAME?.
+Snowden 1432 Main Street snowdenvineyards.com Winemaker Diana Snowden lives in Burgundy, where along with her husband, Jeremy Seysses, she makes the wines for Domaine Dujac. She comes back to her native St. Helena a few times a year to oversee her family’s vineyards and winemak ing, so you might catch her in the tasting room. If not, someone else from the Snowden clan will be on hand. Visits are intimate in scale, as the family hosts only a single small group at time in their bare bones tasting room. You’ll get to talk farming, winemaking and more with the folks who do the work themselves. themselves.
 
 Spottswoode Estate Vineyard & Winery 1902 Madrona Ave. | spottswoode.com This family-owned property has been run by the Novak family since 1972, though its history dates to 1882. The quintessen tial St. Helena estate, Spottswoode sits in the heart of the town’s lush and verdant west side. There are different experiences offered, including a vineyard walk or a tasting of library vintages. Visits are by appointment only, with preference given to existing mailing list customers, so re serve well in advance. Note: No children or pets permitted.
 Spottswoode 3522 Silverado Trail N.
@@ -622,21 +578,20 @@ rombauer.coma The Royal We
 royalwewines.com Salvestrin
 Winery 397 Main St.
 salvestrinwinery.com Seavey
-Vineyard 1310 Conn Valley Road
-seaveyvineyard.com Studio 1299A
+Vineyard 1310 Conn Valley Road seaveyvineyard.com Studio 1299A
 1299 Main St. | allaccessnapavalley.com Previously the owner of 750 Wines, a retail operation in St. Helena, Monica Stevens has been around the Napa wine scene for nearly two decades. Her latest venture is this collective tasting room. Stevens pours wines from five-dozen boutique size labels (Arrow & Branch, Hobel, Hourglass, Zeitgeist and more) for whom running their own tasting room would be ei ther too time-consuming, too expensive, or both. Clients fill out a questionnaire first, after which Stevens will curate a selection of wines to taste. The space is utilitarian, but welcom ing, with a long single table in the middle of a room decorated with artwork by local artist Layla Fanucci.
 Whitehall Lane Winery 1563 St. Helena Highway S. | whitehalllane.com
-Family-owned and operated by the Leonardini family since 1993, this winery gives you the classic Napa Valley style tast ing experience, from the walk up bar positioned as you first
-enter to the tour of the winery and grounds provided with ev ery tasting. You can go big and taste their portfolio-headlining Cabernets in a modern setting that overlooks the vineyard in back of the winery, or you can settle in and sip some Sauvignon Blanc al fresco in the recently added garden pavilion sur rounded by vines.
+Family-owned and operated by the Leonardini family since 1993, this winery gives you the classic Napa Valley style tasting experience, from the walk up bar positioned as you first
+enter to the tour of the winery and grounds provided with ev ery tasting. You can go big and taste their portfolio-headlining Cabernets in a modern setting that overlooks the vineyard in back of the winery, or you can settle in and sip some Sauvignon Blancal fresco in the recently added garden pavilion surrounded by vines.
 Studio 1299A Spring
 Mountain Vineyard
-2805 Spring Mountain Road springmountainvine yard.com
+2805 Spring Mountain Road springmountainvineyard.com
 St. Helena Winery 100 Pratt Ave.
 sthelenawinery.com Stony Hill
-3331 St. Helena High way N.
+3331 St. Helena Highway N.
 stonyhillvineyard.com Titus
 Vineyards 2971 Silverado Trail N. titusvineyards.com
-Trinchero 3070 St. Helena High way N.
+Trinchero 3070 St. Helena Highway N.
 trincheronapavalley. com Vineyard 7 & 8
 4028 Spring Mountain Road vineyard7and8.com
 Wheeler Farms
@@ -653,7 +608,7 @@ Napa Valley 1327 Railroad Ave | www.charliesnv.com
 Restaurants
 
 Chef/owner Elliott Bell comes from the French Laundry family tree, where he spent a decade as executive sous chef. Bell ren ovated the former Cindy’s Backstreet Kitchen space for Char lie’s (named after his son). Its airy, whitewashed setting is both
-potato chips and the double-fried chicken stay in place. The wine list features a hefty dose of California, but a Euro pean presence too, including an ample Champagne section. Bell’s is one of the few places in the valley that stays open with
+potato chips and the double-fried chicken stay in place. The wine list features a hefty dose of California, but a European presence too, including an ample Champagne section. Bell’s is one of the few places in the valley that stays open with
 loved by locals and sought out by destination diners. Food
 here is American brasserie in feel, elevated by high quality
 farm-to-table ingredients, some of which are grown just up
@@ -663,7 +618,7 @@ sour cream and onion dressing tossed with salt and vinegar
 
 a late-night menu (9 p.m. to 11 p.m.). Expect to see other hospi tality folks filing in for a caviar bump or dirty steak after their shifts end. If Bell isn’t in the kitchen himself (he almost always is), he’s volunteering his time as a member of the St. Helena fire department or toting his children around town with his wife, Katy.
 
-Cook 1310 Main Street | cooksthelena.com Chef/owner Jude Wilmoth arguably cre ated the model that Charlie’s Elliott Bell has employed around the corner: ele vated comfort food and hearty portions combined with a vibe of convivial famil iarity. Opened in 2004, Cook is always filled with locals, though the staff will likely remember you on your second visit too. Cuisine here is frankly Italian centric, with the eggplant parmesan with béchamel or cavatelli all’arrabbiata with house made spicy sausage vying for signature dish honors. Don’t overlook the daily risotto, pasta and soup spe cials. The bar gets busy starting right at 5 pm. The small dining room and close quarter seating in the back hums with a din during peak dinner service, throughout which you’ll see people getting up to go talk to friends or colleagues at other tables. Come hungry, start with the house barrel-aged negroni and en joy a St. Helena Cabernet as you take in the scene. Only open Monday through Friday (lunch and dinner), and you will need a reservation.
+Cook 1310 Main Street | cooksthelena.com Chef/owner Jude Wilmoth arguably created the model that Charlie’s Elliott Bell has employed around the corner: ele vated comfort food and hearty portions combined with a vibe of convivial famil iarity. Opened in 2004, Cook is always filled with locals, though the staff will likely remember you on your second visit too. Cuisine here is frankly Italian centric, with the eggplant parmesan with béchamel or cavatelli all’arrabbiata with house made spicy sausage vying for signature dish honors. Don’t overlook the daily risotto, pasta and soup spe cials. The bar gets busy starting right at 5 pm. The small dining room and close quarter seating in the back hums with a din during peak dinner service, throughout which you’ll see people getting up to go talk to friends or colleagues at other tables. Come hungry, start with the house barrel-aged negroni and enjoy a St. Helena Cabernet as you take in the scene. Only open Monday through Friday (lunch and dinner), and you will need a reservation.
 Cook Oak
 831 Charter Oak Ave.
 thecharteroak.com C29
@@ -692,7 +647,7 @@ giugnis.com Sam’s General Store
 1400 Oak Ave.
 samsgeneralstore.com The Station 1153 Main St.
 stationsh.com The Model Bakery
-1357 Main St. | themodelbakery.com Originally named St. Helena Bakery before the name was changed to Model Bakery the 1930s, this is a St. Helena institution. Former caterer Karen Mitchell purchased the business in 1984 and was joined by her daughter Sarah in 2011. Along the way, they’ve expanding the business to other locations, including downtown Napa. Ex pect a line in the morning, but if you’re there early enough, you never know what winemaker might pass through on their way to work. There are few better places to carbo load and caffeine up for the day.
+1357 Main St. | themodelbakery.com Originally named St. Helena Bakery before the name was changed to Model Bakery the 1930s, this is a St. Helena institution. Former caterer Karen Mitchell purchased the business in 1984 and was joined by her daughter Sarah in 2011. Along the way, they’ve expanding the business to other locations, including downtown Napa. Expect a line in the morning, but if you’re there early enough, you never know what winemaker might pass through on their way to work. There are few better places to carbo load and caffeine up for the day.
 Roman Holiday Gelato Under-Study
 587 St. Helena Highway S. | under-study. com Where Hermes meets Willy Wonka is how chef/co-owner Philip Tessier de scribes his culinary playground. While his Press, next door, provides the Mi chelin-experience, this place evokes he donism and whimsy, from the baked goods on display right as you walk in to the lobster omelette offered on week ends. You can also put together an ele vated grab-and-go picnic, with the likes of jarred duck rillettes or charcoal roasted beets. There’s a butcher counter in the back and a demonstration kitchen. You can grab a bottle of wine here, too.
 Erosion Creamery & Café 1234 Main St. | erosion.buzz
@@ -701,8 +656,7 @@ Roman Holiday Gelato 1336 Oak Ave. | romanholidaygelato.com Just off Main Street
 
 Where to Stay
 
-While downtown Napa continues to grow, St. Helena
-retains a bucolic charm. Its underlying resistance to going full tourism means its hotels are generally on the smaller side. That does put pressure on vacancies and, in turn, price. Book your stay well-ahead and think about visiting during off-peak times of year (March and November can be lovely
+While downtown Napa continues to grow, St. Helena retains a bucolic charm. Its underlying resistance to going full tourism means its hotels are generally on the smaller side. That does put pressure on vacancies and, in turn, price. Book your stay well-ahead and think about visiting during off-peak times of year (March and November can be lovely
 Alila for example).
 For those looking for the resort experience, with in-house spa, pool and dining, Alila and Meadowood lead the way. For those who want to put more of their resources to tasting and eating out, there are budget options that offer great location but fewer ame
 nities, such El Bonita, Inn St. Helena and Vineyard Country Inn.
@@ -710,8 +664,8 @@ Alila Napa Valley 1915 Main St. | URL TK
 A historic setting, Alila’s main lobby is located in the property’s origi nal, 1907 Georgian Revival residence. By 1911, the site was home to St. Helena’s first tourist resort and after more than a few iterations along the way, it’s now Hyatt’s Alila, a 69-rooms and– suites, adult-focused
 property (under 18 must be accompanied by a parent at all times). The modern architecture that was added adheres to the symmetry of the original Acacia House. The main restaurant, Violetto, features four and eight-course tasting menus for dinner, while the Salvia Terrace of fers à la carte options and an elegant setting for golden hour. A full spa and swimming pool fill out the grounds. The spacious, Vineyard View rooms have a terrace for sunset-viewing, and there’s even direct access to Beringer Vineyards right next door.
 The Inn at Salvestrin 397 Main St. | (707) 963-5101 [NO WEBSITE?]
-Originally a New Yorker, Dr. George Belden Crane wound up purchasing more than 300 acres of land in St. Hel ena on which he built his home and planted European grape varieties in the 1860s. His 1879 Victorian house is now part of the Salvestrin family’s estate, op erating as a three-bedroom B&B amid their holdings in the Dr. Crane Vineyard.
-Wydown Hotel 1424 Main St. | wydownhotel.com This is among the smallest hotels in town, occupying the historic Kibbler building (built in 1886), a former drug store that now houses a 12-room bou tique hotel. The location is perfect— catty corner from Model Bakery and steps from the main shopping and res taurant section of town. The comfy, well appointed rooms are spacious, featuring high ceilings, unique furniture items and curated decor. The place feels both cozy and tony; owner Mark Hoffmeister de scribes it as feeling like you’re in cool apartment. Named after Wydown Boulevard in Hoffmeister’s native St. Louis, the hotel provides breakfast and after noon tea. Guests also have complimen tary access to Health Spa Napa Valley. Carol, the head concierge, knows the lay of land and will help set you up with
+Originally a New Yorker, Dr. George Belden Crane wound up purchasing more than 300 acres of land in St. Helena on which he built his home and planted European grape varieties in the 1860s. His 1879 Victorian house is now part of the Salvestrin family’s estate, op erating as a three-bedroom B&B amid their holdings in the Dr. Crane Vineyard.
+Wydown Hotel 1424 Main St. | wydownhotel.com This is among the smallest hotels in town, occupying the historic Kibbler building (built in 1886), a former drug store that now houses a 12-room bou tique hotel. The location is perfect— catty corner from Model Bakery and steps from the main shopping and restaurant section of town. The comfy, well appointed rooms are spacious, featuring high ceilings, unique furniture items and curated decor. The place feels both cozy and tony; owner Mark Hoffmeister de scribes it as feeling like you’re in cool apartment. Named after Wydown Boulevard in Hoffmeister’s native St. Louis, the hotel provides breakfast and after noon tea. Guests also have complimen tary access to Health Spa Napa Valley. Carol, the head concierge, knows the lay of land and will help set you up with
 Harvest Inn 1 Main St. | harvestinn.com
 Owner Rick Kaufman purchased Harvest Inn in 2013 and he’s been tweaking and im proving it ever since, including adding rooms and new dining facilities. Harvest Inn has a bit of a throwback feel, as its Tudor-style buildings that house the guest rooms feature brick work and leaded-glass windows. The 8-acre property meanders through towering redwoods that provide cool shade and a respite from the bustle of the highway. It also borders the Leonardini Vineyard of Whitehall Lane, affording some rooms picturesque views (and most rooms have a fireplace). There are family and adult-only pools on site. While Kaufman is a wine and cigar lover, he embraces the idea that the valley should provide a complete vacation experience; to wit, his concierge can arrange for pheasant hunting, clay shooting, horseback riding, hot-air ballon rides and more.
 Harvest Inn El Bonita
@@ -730,10 +684,10 @@ of the valley’s best shopping/ strolling opportunities. Clothing, housewares, 
 Health Spa Napa Valley 1030 Main St. | healthspanapavalley.com
 This full-service health spa is connected to South bridge Napa Valley hotel. It offers a range of spa treatments, pool and gym. Day passes are available, while some additional hotels, such as the Wydown, provide complimentary access for their guests.
 Christopher Hill Gallery 1235 Main St. | chgallery.com
-Hill’s namesake fine art gallery features contem porary art, primarily paintings, along with sculp ture and mixed media, from a rotating selection of several dozen artists that Hill displays exclusively in his space. He has managed his gallery in the same location for 20 years and is known for his low-key vibe.
+Hill’s namesake fine art gallery features contemporary art, primarily paintings, along with sculp ture and mixed media, from a rotating selection of several dozen artists that Hill displays exclusively in his space. He has managed his gallery in the same location for 20 years and is known for his low-key vibe.
 
 Erin Martin Design 1350 Main St. | erinmartin.com
-Owner of this interior design studio and show room, Erin Martin started by painting murals for local businesses and private clients. Over time, she moved into interior design and worked on projects for the likes of Clos du Val, Chappellet, Shafer and more, even partnering with Howard Backen along the way. Now, 30 years on, Martin’s design studio partners with local artists to stock a showroom of pieces that show off her overall aesthetic ap proach, while her team lends their talents to cus tomers looking to design their homes.
+Owner of this interior design studio and show room, Erin Martin started by painting murals for local businesses and private clients. Over time, she moved into interior design and worked on projects for the likes of Clos du Val, Chappellet, Shafer and more, even partnering with Howard Backen along the way. Now, 30 years on, Martin’s design studio partners with local artists to stock a showroom of pieces that show off her overall aesthetic approach, while her team lends their talents to cus tomers looking to design their homes.
 Mad Fritz Brewery and Malthouse 393 Lafata St. | purchasemadfritz.com
 Owner Nile Zacherlie’s day job is winemaker for David Arthur Vineyards. Since 2014, though, he’s put his fermentation sciences degree to good use via Mad Fritz, his side-hustle brewery-coffee roaster. Mad Fritz offers a lineup of single-origin beers that you can taste through in a small, shabby-chic industrial space located in the ware house section on the southeast side of town. The tasting ends with an espresso shot of one of his single-origin coffees. (Mad Fritz has an additional taproom in Yountville.)
 New West Knifeworks 1380 Main St. | newwestknifeworks.com Founded by former chef Corey Milligan, this spe
@@ -751,48 +705,41 @@ tasting, less is more. Two win eries per day, especially for
 beginners, is plenty. Expect most tastings to last 90 min
 utes; more complex experi ences can last longer. Give
 yourself wiggle room between appointments so you’re not
-rushed. Corey Milligan While some tasting rooms
-are staffed by professional hosts, many family-owned
+rushed. Corey Milligan While some tasting rooms are staffed by professional hosts, many family-owned
 wineries host their tastings personally, taking time out of
 their day to meet their cus tomers face to face. This is
-part of what makes Napa Val ley so special. Please keep in
+part of what makes Napa Valley so special. Please keep in
 mind, though, that running a winery is a full-time agricul
 tural job. Tardiness or no shows hurt the bottom line, so
-always be punctual. Most tast ing room dress codes are up
+always be punctual. Most tasting room dress codes are up
 scale casual, at most (bling Head east out of town, crossing both
-the Pope Street bridge and Silverado Trail to head up the winding, rug ged Conn Valley Road. The drive time to Seavey Vineyard is just 15 minutes, but as you pass through the gate onto the property, you’ll feel a world away. The Seavey family purchased the property in 1979 and began plant ing vines. The winery (and your tasting) is housed in a restored 1880s stone dairy barn. Under the hand of winemaker Jim Duane, the Cabernet here is deep, dark and vivid, with a decidedly cool cast iron note. Merlot and Chardonnay are also produced. There’s also library inventory here, so you can purchase an older vintage to take for your BYOB later in the day.
-Ric Forman Drive back the way you came and make the righthand turn up Big Rock Road. Take that winding and narrow drive to Ric Forman Vine yard. Tastings are held in a stone-walled tasting room that sits several stories below the winery, thanks to a dramatic into-the-hillside construc tion. Forman, a legend in the valley, runs the property he founded in 1978 along with his son Tobias. The Cabernet here is Bordeaux-reminiscent, with gravelly grip and a tight band of cassis fruit; with cellar time they really show their stuff. There’s a Chardonnay as well.
+the Pope Street bridge and Silverado Trail to head up the winding, rug ged Conn Valley Road. The drive time to Seavey Vineyard is just 15 minutes, but as you pass through the gate onto the property, you’ll feel a world away. The Seavey family purchased the property in 1979 and began planting vines. The winery (and your tasting) is housed in a restored 1880s stone dairy barn. Under the hand of winemaker Jim Duane, the Cabernet here is deep, dark and vivid, with a decidedly cool cast iron note. Merlot and Chardonnay are also produced. There’s also library inventory here, so you can purchase an older vintage to take for your BYOB later in the day.
+Ric Forman Drive back the way you came and make the righthand turn up Big Rock Road. Take that winding and narrow drive to Ric Forman Vineyard. Tastings are held in a stone-walled tasting room that sits several stories below the winery, thanks to a dramatic into-the-hillside construction. Forman, a legend in the valley, runs the property he founded in 1978 along with his son Tobias. The Cabernet here is Bordeaux-reminiscent, with gravelly grip and a tight band of cassis fruit; with cellar time they really show their stuff. There’s a Chardonnay as well.
 From there you’re barely 10 minutes back to town. After all that tannin and Cab, I’d need the smash burger at the Charter Oak as part of a lazy lunch. Grab some outdoor seating if it’s not too hot, as the patio is well-shaded.
 not required). And do not wear perfume, cologne or other body fragrances—they interfere with tasting.
-Lastly, consider your pre ferred tasting time of day. Some folks are morning tast ers, others need to wait until the afternoon. Either way, I al ways suggest to leave space for a light jog, hike, disco nap or some other non-wine activ ity. Wine and wellness go hand in hand and the valley is full of things to do.
+Lastly, consider your pre ferred tasting time of day. Some folks are morning tast ers, others need to wait until the afternoon. Either way, I al ways suggest to leave space for a light jog, hike, disco nap or some other non-wine activity. Wine and wellness go hand in hand and the valley is full of things to do.
 
 2: WEST SIDE FAMILY WINERIES eration on the property, along with his wife and
-daughters. The property has the distinction of be
-ing home to the largest part of the historic Dr.
-Crane Vineyard. The 1800s Victorian house located
-here is Dr. Crane’s historic home. There’s a mix of
-wines on offer, including Sangiovese and Sauvi
-gnon Blanc, along with sleek, restrained and min
+daughters. The property has the distinction of be ing home to the largest part of the historic Dr.
+Crane Vineyard. The 1800s Victorian house located here is Dr. Crane’s historic home. There’s a mix of
+wines on offer, including Sangiovese and Sauvignon Blanc, along with sleek, restrained and min
 erally Cabernets from the estate vineyard. You can
 taste in the tasting room that sits above the winery,
 or upgrade for a tasting inside the historic home.
-From there, it’s not even three minutes to Cori
-son Winery, marked by a pair of tall palm trees at
-the driveway entrance. Here you’ll find Cathy Co
-rison and her nearly 50 vintages of winemaking
-experience. Her husband, William, designed the
-simple, high-ceilinged Victorian-style barn/winery;
+From there, it’s not even three minutes to Corison Winery, marked by a pair of tall palm trees at
+the driveway entrance. Here you’ll find Cathy Corison and her nearly 50 vintages of winemaking
+experience. Her husband, William, designed the simple, high-ceilinged Victorian-style barn/winery;
 Corison The west side is the best side, at least that’s what the deni zens of St. Helena’s tony residential area say. You can
 decide for yourself, as this jaunt stays on the western side of Highway 29 while introducing you multi-generational family-owned wineries.
-Head south and you’ll be barely out of town when you’ll see a vineyard on your right with a small shingle sign that says Salves trin Winery, est. 1932. Rich Salvestrin represents the third gen
-their two daughters are also increasingly involved in the day to day. Corison has a strong following for her Cabernet bottlings, which typically check in under 14% alco hol, low compared to most Napa Cabernets. The wine style is bright, high-toned and fresh, with a crunchier feel rather than plush or dense. They also age remarkably well. Among her fruit sources is the nearby Sunbasket Vineyard, planted by the legendary André Tchelistcheff in the 1950s.
+Head south and you’ll be barely out of town when you’ll see a vineyard on your right with a small shingle sign that says Salvestrin Winery, est. 1932. Rich Salvestrin represents the third gen
+their two daughters are also increasingly involved in the day to day. Corison has a strong following for her Cabernet bottlings, which typically check in under 14% alcohol, low compared to most Napa Cabernets. The wine style is bright, high-toned and fresh, with a crunchier feel rather than plush or dense. They also age remarkably well. Among her fruit sources is the nearby Sunbasket Vineyard, planted by the legendary André Tchelistcheff in the 1950s.
 For lunch, keep it on the west side and try Under-Study, the brainchild of Press chef Philip Tessier. A bakery/patisserie and
 3: A ST. HELENA HISTORY LESSON With this year marking the
 big 5-0 for the Judgement of Paris tasting (see page
 TK), what better time to stop in and check on how a few of the wineries that were involved are doing today?
-Freemark Abbey’s history goes way back before the 1976 event, starting in 1881 with Josephine Tychon. Eventu ally, in 1939, it becomes Freemark Ab bey. In the 1940s and 1950s, the winery opened a “sampling room”—basically the region’s first tasting room. Two of Freemark’s wines were included in the Paris tasting, making it the only [CAL IFORNIA?] winery to have both a red and white wine in the event. Those wines aren’t available any more, but don’t despair. Winemaker Kristy Melton joined in 2019 and she’s helped up the game here. Both the Bosché and
+Freemark Abbey’s history goes way back before the 1976 event, starting in 1881 with Josephine Tychon. Eventually, in 1939, it becomes Freemark Abbey. In the 1940s and 1950s, the winery opened a “sampling room”—basically the region’s first tasting room. Two of Freemark’s wines were included in the Paris tasting, making it the only [CAL IFORNIA?] winery to have both a red and white wine in the event. Those wines aren’t available any more, but don’t despair. Winemaker Kristy Melton joined in 2019 and she’s helped up the game here. Both the Bosché and
 Freemark Abbey Spring Mountain Vineyard, which had its 1973 Chardonnay in the Paris tasting, is going through yet another awakening. The estate’s lengthy his
-tory includes a cobbling together of various properties on the steep and rugged slopes of Spring Mountain. The wildfires of 2020 nearly dealt it a fatal blow, but luckily an investment group swooped in and is in the process of replanting the 200-plus-acre vine yard. Part of an experience here can include a tour of the property, well worth it. The estate also had ample stocks of older vintages that survived the blaze and some of those are on of
+tory includes a cobbling together of various properties on the steep and rugged slopes of Spring Mountain. The wildfires of 2020 nearly dealt it a fatal blow, but luckily an investment group swooped in and is in the process of replanting the 200-plus-acre vineyard. Part of an experience here can include a tour of the property, well worth it. The estate also had ample stocks of older vintages that survived the blaze and some of those are on of
 fer, including a flight that includes the ’79 and ’88 Cabernets. Small bites are available too. Tastings are held in the historic manor house that was the set
 ting for the bawdy Falcon Crest TV se Sycamore vineyard-designate Cabernets, plus a new bottling called La Colline, are stars of a large portfolio that includes other Cabernets, Merlot and whites. Library vintages are available too. Staff here is very friendly and the renovated stone-walled win
 ery provides a great setting.
@@ -801,8 +748,8 @@ ries that ran for more than 200 episodes in the 1980s. After the tasting, you ca
 
 coffee stop, it turns into a café with small plates for lunch.
 The Royal We 4: MODERN TASTING SALONS These two stops will give you educational perspective on
-the modern-day approach, defined by hosts with som melier-level wine knowledge in a refined setting. Start your morning at Royal We Wines, a tasting salon from winemaker Thomas Rivers Brown and partner Matt Hardin. The space is comfy/swanky with a bar counter and side rooms that offer varying seating configurations. It feels fancy, but the vibe is casual. On hand are several Rivers Brown projects, including his extreme coastal Pinot Noir label Aston. There’s also Caterwaul, a burgeoning value-priced Cabernet label, along with bottlings from Matthew Wallace, RIV, Switch back Ridge and Shibumi Knoll Vineyards. Tastings can be either single-brand or a mixed portfolio, and while reservations are always recommended, the salon does take walk-ins, space permitting.
-From there, just drive a few minutes farther south and turn left down Zinfandel Lane. Wheeler Farms was developed by the Araujo family after they sold the Eisele Vineyard in Calistoga and created their Accendo brand (now owned by the Bettinelli fam ily and Jack Bittner). Started as a high-end custom crush facility, the large, dark brown barn structure, designed by Taylor Lombardo, is now owned by Su zanne Deal Booth, owner of Bella Oaks Vineyard in nearby Rutherford. Winemaker Nigel Kinsman still makes Accendo here, along with his own Kinsman Eades project, Bella Oaks, Annulus and a few other
+the modern-day approach, defined by hosts with som melier-level wine knowledge in a refined setting. Start your morning at Royal We Wines, a tasting salon from winemaker Thomas Rivers Brown and partner Matt Hardin. The space is comfy/swanky with a bar counter and side rooms that offer varying seating configurations. It feels fancy, but the vibe is casual. On hand are several Rivers Brown projects, including his extreme coastal Pinot Noir label Aston. There’s also Caterwaul, a burgeoning value-priced Cabernet label, along with bottlings from Matthew Wallace, RIV, Switchback Ridge and Shibumi Knoll Vineyards. Tastings can be either single-brand or a mixed portfolio, and while reservations are always recommended, the salon does take walk-ins, space permitting.
+From there, just drive a few minutes farther south and turn left down Zinfandel Lane. Wheeler Farms was developed by the Araujo family after they sold the Eisele Vineyard in Calistoga and created their Accendo brand (now owned by the Bettinelli fam ily and Jack Bittner). Started as a high-end custom crush facility, the large, dark brown barn structure, designed by Taylor Lombardo, is now owned by Suzanne Deal Booth, owner of Bella Oaks Vineyard in nearby Rutherford. Winemaker Nigel Kinsman still makes Accendo here, along with his own Kinsman Eades project, Bella Oaks, Annulus and a few other
 manages everything else, including the high-end hospitality that features in-house chef Bruce Marder (formerly at Mustard’s). Marder draws on the working farm that continues the property’s agricultural history—a culinary garden, fruit orchard and heri
 tage chickens are all on site. While tasting wines, you can dine family-style in the outdoor olive grove or inside at the chef’s ta ble. Depending on which experience you choose, you might need to clear three hours on your schedule. Visits here are best with a small group (four to six people).
 labels. While he handles production, his wife, Shae,`,
@@ -830,12 +777,12 @@ labels. While he handles production, his wife, Shae,`,
     body: `Tucked away at the northern end of Napa Valley, the town
 of Calistoga has long held its own, unique vibe. For those looking for a more relaxed version of wine country, Calistoga is a haven.
 One reason for that vibe is location: 30 miles north of downtown Napa, where the valley narrows and turns west. The tall evergreen woods of Robert Louis Stevenson State Park and the looming Mount St. Helena make it feel more like a wooded re treat than wide open farming country.
-That retreat aspect is the second distinction—wellness tour ism predates wine tourism in Calistoga. The Wappo natives valued the geothermal springs and mud baths here and built sweat lodges atop them. Sam Brannan, who made his fortune selling equipment to miners during the height of the California Gold Rush, visited the hot springs in 1859 and bought up the northern portion of Rancho Carne Humana, establishing the town and building a resort that still stands today (albeit mod
+That retreat aspect is the second distinction—wellness tourism predates wine tourism in Calistoga. The Wappo natives valued the geothermal springs and mud baths here and built sweat lodges atop them. Sam Brannan, who made his fortune selling equipment to miners during the height of the California Gold Rush, visited the hot springs in 1859 and bought up the northern portion of Rancho Carne Humana, establishing the town and building a resort that still stands today (albeit mod
 ernized), Indian Springs. He named his town by combining
 California with Saratoga Springs, a popular resort in New York state.
 To help his tourism destination grow, Brannan founded the Napa Valley Railroad, connecting Calistoga to ferry terminals in Vallejo on the bay, making it easy for San Francisco residents to travel upvalley for vacation. The Napa Valley Wine Train travels over portions of the track today. Not all the locals ap
 preciated Brannan’s changes to their sleepy area—he was shot by residents, though he recovered, proving that wariness of overdevelopment is not a new Napa phenomenon.
-Calistoga today still offers that rustic, relaxed feel paired with sophisticated escape. You can stroll the old downtown stretch of Lincoln Road, which feels like an 1800s California town, despite the coffee shops and art galleries. You can head out to the wineries, which feel a little less formal than those farther down the valley. And you can visit the spas or hiking trails to unwind from a long day of tasting.
+Calistoga today still offers that rustic, relaxed feel paired with sophisticated escape. You can stroll the old downtown stretch of Lincoln Road, which feels like an 1800s California town, despite the coffee shops and art galleries. You can head out to the wineries, which feel a littleless formal than those farther down the valley. And you can visit the spas or hiking trails to unwind from a long day of tasting.
 
 Where to Taste
 
@@ -845,24 +792,23 @@ Hourglass 4208 Silverado Trail | hourglasswines.com
 Chalk Hill Gap cool the vines dramatically in the eve ning. There’s also a higher percentage of volcanic soil here. The wineries vary too, from secluded spots to the perched, modernist lookout of Sterling Vineyards to the faux Tuscan castle of Castello di Amorosa.
 aubertwines.com Note: Currently tastings are limited as they reno vate the hospitality space, but soon they will have expanded capacity.
 Bennett Lane 3340 CA-128 bennettlane.com
-CADE Estate More than five years after the Glass Fire tore through, destroying several buildings, Hourglass forges on, with consulting wine maker Tony Biagi producing outstanding Bordeaux-style blends from two estate vineyards. Founded by couple Jeff Smith and Carolyn Duryea, the winery at their Blueline estate blends into the eastern hills of the Valley, with a round, Hobbiton-style door opening into the hillside and into the winery. Guests can pass through the winery and down into the aging tunnels deep under ground to find a peaceful tasting room and a flight of multiple wines.
+CADE Estate More than five years after the Glass Fire tore through, destroying several buildings, Hourglass forges on, with consulting winemaker Tony Biagi producing outstanding Bordeaux-style blends from two estate vineyards. Founded by couple Jeff Smith and Carolyn Duryea, the winery at their Blueline estate blends into the eastern hills of the Valley, with a round, Hobbiton-style door opening into the hillside and into the winery. Guests can pass through the winery and down into the aging tunnels deep under ground to find a peaceful tasting room and a flight of multiple wines.
 Larkmead Vineyards 1100 Larkmead Lane | larkmead.com
 Larkmead’s Howard Backen-designed tasting salon looks fairly new, but there
 are plenty of hints that this is a winery with real history. The property was
 founded in 1895 by Lillie Colt, a San Francisco woman whose wealthy par
 ents gave her a Napa farm to get her out of the corrupting city. She responded by
 converting the land into a winery, which survived through Prohibition by produc
-ing sacramental wine and then was pur chased by the Solari family in 1948. Lo
+ing sacramental wine and then was purchased by the Solari family in 1948. Lo
 cated at one of the narrowest, hottest points of the valley, Larkmead is sur
-rounded by its vineyards, primarily Cab ernet with some Sauvignon Blanc and a
+rounded by its vineyards, primarily Cabernet with some Sauvignon Blanc and a
 bit of Tocai Friulano. A visit includes a tour of the vineyards followed by a
 seated tasting paired with cheese and charcuterie in the comfortable tasting
 room, or the pergola when the weather is nice. And in this part of the valley, it
 usually is.
 Larkmead 260 Howell Mountain Road S.
 cadewinery.com Castello di
-Amorosa 4045 St. Helena High way
-castellodiamorosa.com Frank Family 1091 Larkmead Lane frankfamilyvineyards. com
+Amorosa 4045 St. Helena Highway castellodiamorosa.com Frank Family 1091 Larkmead Lane frankfamilyvineyards. com
 Girard 1077 Dunaweal Lane girardwinery.com
 Lola Wines 916 Foothill Blvd.
 lolawines.com Outpost Wines 2075 Summit Lake Drive
@@ -870,16 +816,15 @@ outpostwines.com Rivers-Marie 900 Foothill Blvd. riversmarie.com
 Spire Collection 299 Bennett Lane spirecollection.com
 Sterling Vineyards
 1111 Dunaweal Lane sterlingvineyards.com Lola Wines
-916 Foothill Blvd. | lolawines.com Driving into the heart of town, you might be forgiven for think ing the Lola House is a residence—it looks like a quaint brick bungalow. But inside is a welcoming tasting experience. Wine maker and owner Seth Cripe, who trained at Caymus and Belle Glos, makes Russian River Valley Pinot Noir plus a fascinating selection of wines from less-typical California grapes, includ ing Vermentino, Charbono and Counoise. A tasting here is just $35 for five wines, and it can be paired with snacks, including bottarga. This is one of the better bargains in the valley. Sit down in one of several eclectic rooms or on the shaded patio space and enjoy a funkier side of Napa.
+916 Foothill Blvd. | lolawines.com Driving into the heart of town, you might be forgiven for think ing the Lola House is a residence—it looks like a quaint brick bungalow. But inside is a welcoming tasting experience. Winemaker and owner Seth Cripe, who trained at Caymus and Belle Glos, makes Russian River Valley Pinot Noir plus a fascinating selection of wines from less-typical California grapes, including Vermentino, Charbono and Counoise. A tasting here is just $35 for five wines, and it can be paired with snacks, including bottarga. This is one of the better bargains in the valley. Sit down in one of several eclectic rooms or on the shaded patio space and enjoy a funkier side of Napa.
 Schramsberg 1400 Schramsberg Road | schramsberg.com
-Napa locals thought Jack and Jamie Davies were fools when they fled Los Angeles in 19764[UH??] and bought the old Sch ram place in the foothills of Spring Mountain, with its crum bling buildings and abandoned tunnels. Instead, the Davieses helped kickstart Napa Valley’s modern era, part of a migration of young, enthusiastic winemakers into the region. The couple cleared out the tunnels to age their sparkling wine in and be gan producing bubbly that rivals Champagne. Schramsberg is still owned by the family today. Guests can enjoy a tour of the tunnels and learn more about sparkling winemaking, then taste six wines from both Schramsberg and Davies Vineyard, their nearby still-wine project.
+Napa locals thought Jack and Jamie Davies were fools when they fled Los Angeles in 19764[UH??] and bought the old Schram place in the foothills of Spring Mountain, with its crum bling buildings and abandoned tunnels. Instead, the Davieses helped kickstart Napa Valley’s modern era, part of a migration of young, enthusiastic winemakers into the region. The couple cleared out the tunnels to age their sparkling wine in and be gan producing bubbly that rivals Champagne. Schramsberg is still owned by the family today. Guests can enjoy a tour of the tunnels and learn more about sparkling winemaking, then taste six wines from both Schramsberg and Davies Vineyard, their nearby still-wine project.
 Tamber Bey 1251 Tubbs Lane tamberbey.com
 Tank Garage 1020 Foothill Blvd. tankgaragewinery.com
 Trois Noix 865 Silverado Trail N. troisnoixwine.com
 Vine Cliff 7400 Silverado Trail vinecliff1871.com
 
-TO EAT Calistoga’s restaurant
-scene reflects the town’s mix of refined
+TO EAT Calistoga’s restaurant scene reflects the town’s mix of refined
 and comfortable. You can opt for fine dining options at the resorts in town, including a two-star Michelin experience at Auro at the Four Seasons. But there are also comfy local dining rooms that will feed you well and help you relax after a day of winery visits or hiking the trails of the nearby state park. And nearly every place in town has a good wine program.
 Calistoga Inn & Brewery 1250 Lincoln Ave. | calistogainn.com
 Located where Lincoln Road crosses the Napa River, the Calistoga Inn’s restaurant epitomizes the upscale California comfort the town is characterized by. Choose between a cozy dining room or, when the weather is nice (which, c’mon, it’s Napa Valley) sit on the spacious patio alongside the river. For a break from wine, try one of the excellent beers from the inn’s micro-brewery, Napa Valley Brewing Company. Of course, the wine selection (and cocktail choices) are good too. The menu takes in Napa versions of comfort food—skirt steak, Sonoma duck leg confit with seasonal mushrooms, a wood-fire grilled pork chop garnished with pomegranate and ginger Cabernet sauce.
@@ -894,13 +839,13 @@ com Evangeline
 1226 Washington St.
 evangelinenapa.com Calistoga Inn & Brewery
 Lovina Lovina
-1107 Cedar St. | lovinacalistoga. com Lovina feels like it’s been around forever, in part due to the 120-year-old house it occupies but also the boisterous atmo sphere inside thanks to the crowd of locals who dine here. It’s also welcoming to all, with numerous vegan and gluten-free options on the Cal-Ital menu. Consider the “impossible sau sage” lasagna, or dive into the ri sotto with braised Wagyu bone less short rib. Plus, respect to a restaurant whose desserts in clude “Sundae Funday” and “A Hot Mess,” which is a hot brownie topped with house made marshmallow cream and pistachio gelato. The Napa- and Sonoma-focused wine list in cludes a selection of older wines, like Freemark Abbey Cabernet Sauvignon Rutherford Sycamore Vineyard 2009.
+1107 Cedar St. | lovinacalistoga. com Lovina feels like it’s been around forever, in part due to the 120-year-old house it occupies but also the boisterous atmo sphere inside thanks to the crowd of locals who dine here. It’s also welcoming to all, with numerous vegan and gluten-free options on the Cal-Ital menu. Consider the “impossible sau sage” lasagna, or dive into the ri sotto with braised Wagyu boneless short rib. Plus, respect to a restaurant whose desserts include “Sundae Funday” and “A Hot Mess,” which is a hot brownie topped with house made marshmallow cream and pistachio gelato. The Napa- and Sonoma-focused wine list includes a selection of older wines, like Freemark Abbey Cabernet Sauvignon Rutherford Sycamore Vineyard 2009.
 Fleetwood Calistoga Motor Lodge & Spa
 1880 Lincoln Ave.
-fleetwoodcalistoga.com House of Better Dr. Wilkinson’s Back yard Resort)
+fleetwoodcalistoga.com House of Better Dr. Wilkinson’s Backyard Resort)
 1507 Lincoln Ave.
 drwilkinson.com/ house-of-better
-Solbar Solage, Auberge Re sorts Collection
+Solbar Solage, Auberge Resorts Collection
 755 Silverado Trail N. auberge.com/solage/ dine/solbar
 The Living Room at TRUSS Four Seasons Resort Napa Valley
 400 Silverado Trail N. trussrestaurantandbar. com; fourseasons.com/ napavalley
@@ -930,8 +875,8 @@ before you head out for wine tasting, Sarafornia is the place to start. Named
 for a supposed slip of the tongue by town founder Sam Brannan (he meant to
 say his town would be the Saratoga of California and instead said Calistoga of
 Sarafornia), this diner has been open since 1976, serving breakfast and lunch.
-The breakfast plates are big and com forting, with more than a dozen egg
-dishes, including “The Best Huevos Ran cheros in Napa Valley.”
+The breakfast plates are big and comforting, with more than a dozen egg
+dishes, including “The Best Huevos Rancheros in Napa Valley.”
 Cafe Sarafornia Calistoga
 Roastery 1426 Lincoln Ave. (707) 942-5757
 Palisades Eatery
@@ -947,21 +892,17 @@ Francis House Inn thread at all of these homes-away-from-home is a focus on well
 The Francis House Inn 1403 Myrtle St. | thefrancishouse.com
 Tucked away on a side street two blocks from Lincoln Road, this is an intimate luxury hotel, with
 just eight rooms but plenty of deluxe amenities,
-from a sauna and salt room to a heated pool and
-clay tennis court. It’s also on the National Register
+from a sauna and salt room to a heated pool and clay tennis court. It’s also on the National Register
 of Historic Places. Built in 1886 as a family home
 for prominent local merchant James H. Francis,
-the old house with French Second Empire archi
-tecture was converted to the Calistoga Hospital in
-1919, then abandoned in 1964. In 2014, interior
-designer Dina Dwyer and her developer/contrac
-tor husband, Richard Dwyer, began a four-year
-restoration before opening the inn.
+the old house with French Second Empire architecture was converted to the Calistoga Hospital in
+1919, then abandoned in 1964. In 2014, interior designer Dina Dwyer and her developer/contrac
+tor husband, Richard Dwyer, began a four-year restoration before opening the inn.
 Four Seasons Resort & Residences Napa Valley 400 Silverado Trail fourseasons.com/ napavalley
 Indian Springs Resort & Spa 1712 Lincoln Ave.
 indianspringscalistoga. com Okaeri
 1415 Foothill Blvd. okaericalistoga.com Solage
-755 Silverado Trail N. | aubergeresorts.com/solage Of Auberge Resorts’ three Napa Valley properties, So lage is the most relaxed and approachable, popular with both guests and locals who come enjoy the pool and spa with day passes. Guests can stay in one of TK bun galows reached on winding shady paths, making this feel like a resort community. The bungalows are luxuri ous, with glass doors that open wide into private yards.
+755 Silverado Trail N. | aubergeresorts.com/solage Of Auberge Resorts’ three Napa Valley properties, Solage is the most relaxed and approachable, popular with both guests and locals who come enjoy the pool and spa with day passes. Guests can stay in one of TK bun galows reached on winding shady paths, making this feel like a resort community. The bungalows are luxurious, with glass doors that open wide into private yards.
 Solage offers a full menu of wellness options in a 20,000-square-foot spa. Need a massage? There are more than a dozen options to choose from, each at vari ous durations. Then there’s the “signature mudslide,” which provides a lengthy soak in the mineral-enriched mud common to the area, followed by relaxation in a geothermally heated mineral bath. Guests can end their spa day in a private poolside cabana with wine service
 Dr. Wilkinson’s Backyard Resort & Mineral Springs
 1507 Lincoln Ave. | drwilkinson.com Driving by, this looks like a 1950s motel, and it sort of is. Dr. Jon Wilkinson and his wife, Edy, founded this road side resort in 1952 with the aim of promoting wellness in Calistoga’s mineral springs. Today, it’s a luxury hotel, run by Marriott. From the outside, the rooms and cot tages still look like a ’50s motor lodge, but interiors have been updated and modernized. At the spa, a lengthy list of amenities includes three mineral pools of varying temperatures, mud treatments and a Mexican American restaurant with a focus on health food.
@@ -970,11 +911,11 @@ Dr Wilkinson’s`,
       title: 'Two Calistoga Adventures',
       intro: `Two journeys that are a little outside the box — a walkable tasting tour through town, and a mountain getaway to Howell Mountain.`,
       body: `If you’re staying all the way up in Calistoga, you’re probably
-Napa smart. There are plenty of incredible wineries mak ing outstanding to classic bottlings in this part of the valley, but here are three journeys that are a little more outside the box.
+Napa smart. There are plenty of incredible wineries making outstanding to classic bottlings in this part of the valley, but here are three journeys that are a little more outside the box.
 1: A Walkable Tasting Tour Wine country is beautiful, but there are a lot of vineyards between the wineries, which can mean a lot
 of driving. Here’s an antidote to that: a tasting at
 three great Calistoga wineries, all within walking distance of one another.
-To begin, head to where Lincoln Road, the main street of Cal istoga, meets Highway 29 (in Calistoga it’s called Foothill Boulevard). From there, it’s two and a half blocks south to Rivers Marie. Winemaker—Thomas Rivers Brown is a California
+To begin, head to where Lincoln Road, the main street of Calistoga, meets Highway 29 (in Calistoga it’s called Foothill Boulevard). From there, it’s two and a half blocks south to Rivers Marie. Winemaker—Thomas Rivers Brown is a California
 superstar who got his start with Zinfandel and Petite Sirah at Turley, then began making some of the world’s highest-rated Cabernets. This is his personal winery, and the tasting room is a glass-enclosed, light-filled space where you can sample his single-vineyard bottlings of Chardonnay and Pinot Noir from the Sonoma Coast, as well as some Cabernet Sauvignon.
 Lola Head back up Foothill and in just a block you’ll arrive at your next destination: Lola Wines. The brick bungalow looks like a residence, but within discover the wines of owner Seth Cripe, who trained at Caymus and Belle Glos. Cripe makes Russian River Valley Pinot Noir plus a fascinating selection of wines from less-typical California grapes, including Vermentino, Charbono and Counoise. A tasting here is just $35 for five wines, and you can pair it with various snacks while sitting in one of several eclectic rooms or on the shaded patio space.
 If Lola looks like someone’s house, your next stop looks like a gas station. Tank Garage Winery
@@ -985,7 +926,7 @@ And tastings run about $40 per person.
 If you like any of the wines you taste, buy a bottle for your next
 stop, lunch at Buster’s BBQ, a block to the north and just across
 the street. Charles “Buster” Davis was born and raised in Shreveport,
-Louisiana, before moving to Cali fornia and eventually Calistoga. He
+Louisiana, before moving to California and eventually Calistoga. He
 cooks brisket, ribs and other meaty goodness here, the perfect pairing
 for a juicy Napa red wine. They have a limited wine list, but allow
 
@@ -1000,11 +941,11 @@ the general manager. Past a fire pit, there’s a tasting room with gorgeous
 views of redwoods and the valley far below. CADE makes a lovely Sauvignon
 Blanc and delicious Cabernet that is a Tip: Most wineries require reservations to
 visit and taste (local regulations require them to). So make your appointments in
-advance. But if you end up with some free time during less busy seasons, some win
+advance. But if you end up with some free time duringless busy seasons, some win
 eries will gladly make that appointment for you at the front door.
 good intro to Howell Mountain fruit.
 Head back onto Howell Mountain Road and head farther up hill. Have faith in your GPS, because it’s another 5 miles uphill to Outpost Wines, perched on a ridge of the mountain, with Napa Valley on one side and Pope Valley on the other. AXA Mil
-lésimes, which owns Bordeaux’s Château Pichon Baron and Por tugal’s Quinta do Noval, purchased Outpost from Frank Dotzler in 2018. Dotzler is still managing the place and Thomas Rivers Brown makes the wines, which include Cabernet but also an in triguing Grenache and Zinfandel that can be hard to find outside the tasting room. That room feels like an old California barn, but with gorgeous views of Napa Valley below.
+lésimes, which owns Bordeaux’s Château Pichon Baron and Por tugal’s Quinta do Noval, purchased Outpost from Frank Dotzler in 2018. Dotzler is still managing the place and Thomas Rivers Brown makes the wines, which include Cabernet but also an intriguing Grenache and Zinfandel that can be hard to find outside the tasting room. That room feels like an old California barn, but with gorgeous views of Napa Valley below.
 CADE Estate`,
     },
     soilNote:
@@ -1041,7 +982,7 @@ tion, you’ll pass numerous vineyards as well as a handful of eye popping homes
 Where to Taste on Pritchard Hill
 
 David Arthur Vineyards 210 Long Ranch Road | davidarthur.com
-Don Long purchased 1,000 acres on Pritchard Hill in the 1950s and was among the first to plant vines in the 1970s. Today, his son David and grand daughter Laura are carrying on the family tradition. Winemaker Nile Zach erle fashions muscular, mineral-accented wines that help define Pritchard Hill’s terroir.
+Don Long purchased 1,000 acres on Pritchard Hill in the 1950s and was among the first to plant vines in the 1970s. Today, his son David and grand daughter Laura are carrying on the family tradition. Winemaker Nile Zacherle fashions muscular, mineral-accented wines that help define Pritchard Hill’s terroir.
 Chappellet Winery 1581 Sage Canyon Road | chappellet.com
 Don and Molly Chappellet founded their winery in 1967; early vintages were made by the legendary Philip Togni. Togni was followed by Joe Cafaro, Tony Soter and Cathy Corison. Since the 1990s, Phillip Corallo-Titus has handled winemaking, while second- and third-generation Chappellets, led by Don and Molly’s son Cyril, pilot this historic family estate.
 Continuum Estate 1677 Sage Canyon Road | continuumestate.com
@@ -1076,11 +1017,11 @@ Tim Mondavi (Robert’s son) and his sister, Marcia Mondavi Borger, founded Cont
 lovers, and Napa the town, a sleepy, workaday community. That dichotomy has disappeared. Downtown Napa has become a destination in its own right while also serving as the main hub for exploring the valley that runs for 30 miles in length to its north.
 There’s plenty to see, eat, drink and do in downtown Napa, led by a strong concentration of tasting rooms, now numbering more than 40. These urban spaces typically do not require reservations (unlike most upvalley tasting rooms) and offer a more casual and accessible experience.
 Restaurants, hotels and music venues abound, and the town’s walkable streets are lively, lined with shops, galleries, spas and more. Downtown has a thriving coffee, cocktail and craft beer culture, too, infusing the energy of those passions to the mix.
-The evolution began in the early 2000s when vintner Robert Mondavi opened Copia: The American Center for Wine, Food & the Arts along an oxbow-shaped curve of the Napa River. To day, a branch of the Culinary Institute of America occupies the space, offering classes, seminars and a restaurant. Oxbow Pub lic Market, opened in 2008, features artisanal food vendors, specialty shops, restaurants and a wine bar under one roof. The three-day music festival BottleRock draws a diverse audience
+The evolution began in the early 2000s when vintner Robert Mondavi opened Copia: The American Center for Wine, Food & the Arts along an oxbow-shaped curve of the Napa River. Today, a branch of the Culinary Institute of America occupies the space, offering classes, seminars and a restaurant. Oxbow Public Market, opened in 2008, features artisanal food vendors, specialty shops, restaurants and a wine bar under one roof. The three-day music festival BottleRock draws a diverse audience
 
 whose interests are reflected in the many new businesses popping up.
 First Street Napa is a centerpiece for the downtown area. A three-block, 325,000-square-foot mixed-use development, it features dozens of shops and restaurants, anchored by the Archer Hotel. On weekends, the hotel’s rooftop restaurant and bar buzz with energy. Phase two is under construction and will add a 160-room hotel and 78-unit condominium building, both with rooftop access. The expansion will create a pedestrian friendly corridor extending to Main Street and bring even more shopping opportunities.
-The city has also integrated the Napa Wine Train into its cul tural identity. The 2-mile stretch of semi-industrial backyards that the train passes through has been transformed into the Rail Arts District, where murals and art installations wrap around switch boxes and line a paved walking path.
+The city has also integrated the Napa Wine Train into its cultural identity. The 2-mile stretch of semi-industrial backyards that the train passes through has been transformed into the Rail Arts District, where murals and art installations wrap around switchboxes and line a paved walking path.
 Food City, near downtown, has emerged as a hot spot, home to a specialty market, the popular Naysayer Coffee, a fried chicken joint, a taqueria, even a cat café. Good Pantry, a zero waste grocery store, has also opened there.
 This fresh-faced Napa doesn’t live in the valley’s shadow. It complements the region, blending wine, food, art, culture and community into an experience that feels distinctly, confidently Napan.
 
@@ -1099,8 +1040,7 @@ Wine Bar & Smokin’ BBQ
 bountyhunterwinebar.
 com Compline Wine
 Shop/Compline Restaurant
-1300 First St., Suite 319 and Suite 312
-complinewine.com Kerr Cellars
+1300 First St., Suite 319 and Suite 312 complinewine.com Kerr Cellars
 1463 First St.
 kerrcellars.com Maison Fayard
 1408 Second St.
@@ -1114,12 +1054,9 @@ Cadet Hestan Napa
 Stanley Cheng is both a vintner and a kitchen innovator, founder of Meyer Corporation, one of the largest cookware companies in the world. So it makes sense that when he and his wife, Helen, opened their downtown Napa spot (they have a tasting room in Yountville as well), the couple com bined their loves into a new concept: part restaurant, part cookware bou tique. Guests can enjoy the talents of chef Mark Dommen, formerly of One Market Restaurant, while admiring the showroom of products and appli ances and enjoying the lineup of wines.
 Mayacamas Downtown
 1256 First St. | mayacamas.
-com If you can’t make the jour
-ney to visit the remote Mayacamas estate on
-Mount Veeder, you can head to their chic down
-town tasting room to sam ple current releases or li
-brary vintages by the bottle or glass in a more
-accessible setting.
+com If you can’t make the jour ney to visit the remote Mayacamas estate on
+Mount Veeder, you can head to their chic down town tasting room to sam ple current releases or li
+brary vintages by the bottle or glass in a more accessible setting.
 Gentleman Farmer Wines
 974 Franklin St.
 outerspace.wine/ Robert Craig Winery
@@ -1149,11 +1086,10 @@ Angèle Celadon
 Napa Valley Restaurant 500 Main St., Suite G celadonnapa.com
 Celadon has quietly and consistently been a go-to place for excellent food since 1996. The setting is in a relaxing garden courtyard and adjacent dining room, the menu a mix of California, Mediterranean and Asian influences. The dinner- and brunch-only menu features wine-friendly items like pork belly lettuce cups, Moroccan braised lamb shanks and the signature wild mushroom risotto.
 Con Amor 815 Main St.
-iloveconamor.com Con Amor is a fun new place
-showcasing top-notch Mexi can dishes, including chile
+iloveconamor.com Con Amor is a fun new place showcasing top-notch Mexican dishes, including chile
 relleno, gorditas, mole chicken wings and birria, a
 Sunday special. The black matte walls, chandeliers and
-Dia de los Muertos vibe pro vide a charming setting. This
+Dia de los Muertos vibe provide a charming setting. This
 is an excellent spot for in ventive mezcal and tequila
 based cocktails, like the La Teresota, with tequila, alma
 finca, lime and salt foam.
@@ -1174,11 +1110,10 @@ Napa Restaurant
 1300 First St., Suite 272 kitchendoornapa.com
 Los Agaves Napa
 660 Main St.
-losagavesnapa.com Morimoto Napa
-and Morimoto Asia
+losagavesnapa.com Morimoto Napa and Morimoto Asia
 610 Main St. and 790 The Dutch Door
 1245 First St.
-thedutchdoornapa.com Look for the Dutch door–a horizontally split door–on Randolph Street, around the corner from the First Street address. You’ll probably see plenty of people waiting to pick up their to-go only food. Fried chicken is the signature dish here, which can be served with either Cajun, Korean or Spanish spices, as either ten ders or in a sandwich. Vegetarian op tions are plentiful, with a made-from scratch plant burger created from quinoa, roasted mushrooms and pep pers, kale, black beans and chickpeas. There are also plant-based bowl options and a beef hot dog with caramelized
+thedutchdoornapa.com Look for the Dutch door–a horizontally split door–on Randolph Street, around the corner from the First Street address. You’ll probably see plenty of people waiting to pick up their to-go only food. Fried chicken is the signature dish here, which can be served with either Cajun, Korean or Spanish spices, as either ten ders or in a sandwich. Vegetarian options are plentiful, with a made-from scratch plant burger created from quinoa, roasted mushrooms and pep pers, kale, black beans and chickpeas. There are also plant-based bowl options and a beef hot dog with caramelized
 Main St.
 morimotonapa.com Normandie
 Napa 670 Main St.
@@ -1231,15 +1166,15 @@ There are plenty of places to fuel up before a full day of exploration in Napa; 
 Contimo Provisions 950 Randolph St. | contimonapa..com
 Fresh-baked biscuits, homemade pimento cheese, luxurious sandwiches and gourmet pantry items are all on offer at this bright and cheerful spot.
 Genova Delicatessen 550 Trancas St. | genovadelinapa.com
-Sandwiches here are generous, many with an Ital ian spin, and there is both a hot and cold selection of deli salads. Imported Italian goods are also sold, as are homemade ravioli and sauces, soups and meatballs. Before anyone reminds you, take the cannoli.
+Sandwiches here are generous, many with an Italian spin, and there is both a hot and cold selection of deli salads. Imported Italian goods are also sold, as are homemade ravioli and sauces, soups and meatballs. Before anyone reminds you, take the cannoli.
 Grace’s Table 1400 Second St. | gracestable.net
 Grace’s Table is open all day serving international bistro food, but the iron skillet cornbread served with lavender honey butter, the shrimp and grits,
 the chilaquiles and cinnamon rolls make it ideal for breakfast or brunch.
 Le Paris Artisan and Cafe 828 Brown St. | lepariscafe.com
 Not only does the pastry selection include cropuffs, sticky buns and crème brûlée brioche, there are also wonderful savory options, like a fresh-baked croissant with smoked salmon, scram bled eggs and crème fraîche. If the purple ube or decadent tres leches offerings catch your eye, you should absolutely try them.
-Moulin Bakery 1321 First St. | moulinbakerycoffee.com It might be hidden in an alley behind First Street, but once you find Moulin it will no doubt be full of patrons spilling onto the few outdoor tables. Ex pertly made coffees and French-style pastries are here, including the most crunchy, delicate viennoi series imaginable.
+Moulin Bakery 1321 First St. | moulinbakerycoffee.com It might be hidden in an alley behind First Street, but once you find Moulin it will no doubt be full of patrons spilling onto the few outdoor tables. Expertly made coffees and French-style pastries are here, including the most crunchy, delicate viennoi series imaginable.
 Naysayer Coffee 1813 Old Sonoma Road | naysayercoffee.com Located in Food City, Naysayer has some of the best coffee in town, with some of the friendliest service. Seasonal beverages are inspired, like an horchata latte or spiced chamomile latte, and small bites are precise and fresh. A second loca tion recently opened up north of downtown.
-1412 Second St. | ohmcoffee.com The “ohm” here refers to the musical term for the measure of electrical resistance in an amplifier, and founder Derek Bromley names his roasts after guitar amplifiers. Bromley is not only a rock gui tarist, he also worked in the wine industry and ap plies both of these approaches to his coffee, fea turing single-origin roasts in a rock ‘n’ roll setting. A second location near the Rail Arts District is the coffee roastery and lab, where classes in cupping, latte art and brewing methods are taught.
+1412 Second St. | ohmcoffee.com The “ohm” here refers to the musical term for the measure of electrical resistance in an amplifier, and founder Derek Bromley names his roasts after guitar amplifiers. Bromley is not only a rock gui tarist, he also worked in the wine industry and ap plies both of these approaches to his coffee, featuring single-origin roasts in a rock ‘n’ roll setting. A second location near the Rail Arts District is the coffee roastery and lab, where classes in cupping, latte art and brewing methods are taught.
 Winston’s Cafe and Bakery 1517 Third St. | winstonsnapa.com
 This bright and airy café is known for generous plates of breakfast and lunch and an eye-popping assortment of baked goods, donuts and pastries. It can be busy, but orders move quickly.
 Ohm Coffee
@@ -1251,8 +1186,8 @@ Don’t be dismayed by the line outside Gott’s Roadside—it moves quickly and
 For international flavors, El Porteno features empanadas both sweet and sa vory, while Moro showcases Moroccan flavored mains on flatbreads, salads or
 
 couscous, tasty and fresh. Sumo Dog takes hot dogs and puts a Japanese twist on them, with ingredients like wasabi relish, tonkatsu sauce and furikake. Rotation is the newest addition, with a rotation of chef residencies, including Martin Yan and Tristan Epps.
-Bar Lucia is a wine bar with small bites, adjacent to the decadent Kara’s Cup cakes. For the sweet tooth, there’s also lo cal chocolatier Annette’s Chocolates. Fieldwork taproom has 20 beers on tap and Detroit-style pizza. The Walt tasting room is located across the street.
-Gott’s Hudson Greens & Goods blends a juice bar with fresh produce and curated pantry goods. Fatted Calf Charcuterie has some of the best high-end butcher and charcuterie items, as well as terrific sand wiches such as a savory porchetta and house-smoked ham with black truffle but ter. Whole Spice will inspire your next cooking adventure, as well as give you a place to test your smell memories. And Model Bakery has Oprah’s favorite Eng lish muffins, fresh-baked breads and plenty of sandwiches, wraps, cookies and pastries.
+Bar Lucia is a wine bar with small bites, adjacent to the decadent Kara’s Cupcakes. For the sweet tooth, there’s also lo cal chocolatier Annette’s Chocolates. Fieldwork taproom has 20 beers on tap and Detroit-style pizza. The Walt tasting room is located across the street.
+Gott’s Hudson Greens & Goods blends a juice bar with fresh produce and curated pantry goods. Fatted Calf Charcuterie has some of the best high-end butcher and charcuterie items, as well as terrific sandwiches such as a savory porchetta and house-smoked ham with black truffle but ter. Whole Spice will inspire your next cooking adventure, as well as give you a place to test your smell memories. And Model Bakery has Oprah’s favorite English muffins, fresh-baked breads and plenty of sandwiches, wraps, cookies and pastries.
 
 Where to Stay
 
@@ -1289,17 +1224,13 @@ mation before heading out.
 The Arbaretum 1149 First St. | napadistillery.comthe-arbaretum
 This local distillery makes quality brandy, gin,
 whiskey and bottled cocktails such as mint julep,
-brown derby and the sidecar. This art deco-in
-spired spot fills up with people tasting inventive
+brown derby and the sidecar. This art deco-inspired spot fills up with people tasting inventive
 cocktails and snacking on small bites like deviled
 eggs and muffaletta pizza.
 Bougie Napa Luxury Candles 1300 First St., Suite 332. | bougienapa.com
-There are dozens of lovely hand-poured candles to
-purchase at Bougie, but consider one of the can
-dle-making classes to sharpen your senses. During
-the class, the math and chemistry behind a perfect
-burn are discussed, and you can design a signa
-ture scent.
+There are dozens of lovely hand-poured candles to purchase at Bougie, but consider one of the can
+dle-making classes to sharpen your senses. During the class, the math and chemistry behind a perfect
+burn are discussed, and you can design a signa ture scent.
 Jeffries Chispa Bar
 1500 First St., Suite 140. | chispabar.com Tastebuds come alive at this hybrid tequila and agave-centric cocktail bar meets swank restau rant. Bites include crudo, tacos, caviar, a spicy oc topus dish with sautéed peanuts, pasilla peppers and pickled garlic, and plenty of sandwiches and salads. Cocktails include clever concoctions like the Oaxacan old fashioned, with reposado mezcal, toasted agave, mole and orange bitters, or Peat & Repeat, a mix of Laphroaig Scotch, mezcal, agave, lemon, lime and yuzu.
 Marquee Pinball CIA at Copia
@@ -1315,36 +1246,28 @@ If you’re someone that needs to level up, this pin ball and classic video game
 Mommenpop Tasting Room 920 Franklin St.. | mommenpop.compages/
 tasting-room This cheerful, aperitif tasting room showcases
 the citrus-based Mommenpop drinks created by winemaker Samantha Sheehan. The blood or
-ange is made from an organically grown Bar bera rosé with blood oranges and botanicals.
+ange is made from an organically grown Barbera rosé with blood oranges and botanicals.
 There is also Seville orange, ruby grapefruit, and
 a lime-pop made from a base of Chardonnay with Makrut and Bearss limes, long pepper,
 toasted fig leaves, orris root and vanilla bean.
 Rail Arts District Start at 816 Vallejo St.. | radnapa.org
 Consider this stretch a sort of contemporary open-air gallery, with public art installations
-along a paved walking and biking trail. Eleven
-murals, wrapped switch boxes and 21 clay sculp
-tures have turned a semi-industrial area into a
-colorful patch.
+along a paved walking and biking trail. Eleven murals, wrapped switchboxes and 21 clay sculp
+tures have turned a semi-industrial area into a colorful patch.
 Rancho Gordo 1350 Main St.. | ranchogordo.com
 Steve Sando changed the way we talk about beans when in 2001 he founded Rancho Gordo,
 a company focused on cultivating and selling rare, indigenous heirloom bean varieties. The
-beans have since become the ultimate designer
-ingredient, and the Rancho Gordo Bean Club has a waiting list thousands long. This new loca
-tion for a retail shop is an expanded, bright and
-colorful place to shop for beans, spices and cookbooks for the legume lovers in your life.
+beans have since become the ultimate designer ingredient, and the Rancho Gordo Bean Club has a waiting list thousands long. This new loca
+tion for a retail shop is an expanded, bright and colorful place to shop for beans, spices and cookbooks for the legume lovers in your life.
 Tonewood & Courage 1300 First St., Suite 212. | tonewoodandcourage.
 com Musicians will find themselves at home in this
-part music store, part gathering place. High-end
-guitar and bass brands are sold, as well as hand
-built instruments by local artisans. In the eve
-nings, it becomes an intimate music venue for
+part music store, part gathering place. High-end guitar and bass brands are sold, as well as hand
+built instruments by local artisans. In the eve nings, it becomes an intimate music venue for
 musicians in a variety of genres.
 Wilfred’s Lounge 967 First St.. | wilfredslounge.com
 A tiki bar in Napa that pulls no punches with the
-Polynesian stylings or flavors, Wilfred’s is a
-place to get your fix of kalua pork, chicken katsu
-or spam fries (panko-crusted fried spam served
-with a mango habanero sauce), along with mai tais and other colorful and tasty cocktails.
+Polynesian stylings or flavors, Wilfred’s is a place to get your fix of kalua pork, chicken katsu
+or spam fries (panko-crusted fried spam served with a mango habanero sauce), along with mai tais and other colorful and tasty cocktails.
 Rancho Gordo
 
 DOWNTOWN NAPA Beyond City Limits One of the most appealing aspects of using downtown
@@ -1415,11 +1338,9 @@ plenty of thought to pairing with the cuisine, featuring
 plenty of German Rieslings and other aromatic white
 wines from around the world.
 Farm Restaurant & Bar (Carneros)
-Inside Carneros Resort 4048 Sonoma Highway
-carnerosresort.com Foodshed (North
+Inside Carneros Resort 4048 Sonoma Highway carnerosresort.com Foodshed (North
 Napa)
-3385 Old California Way Carabao
-foodshedpizza.com
+3385 Old California Way Carabao foodshedpizza.com
 
 Where to Stay
 
@@ -1447,7 +1368,7 @@ Stanly Ranch, Auberge Collection
       intro: `Head south from downtown into Carneros, where the cool influence of San Pablo Bay shapes an entirely different style of wine.`,
       body: `THE WIND IN YOUR HAIR TOUR Several places around Napa feel
 completely distinct from the rest of the valley. Carneros stands out
-with its own microclimate, aromas, am bience and energy.
+with its own microclimate, aromas, ambience and energy.
 Driving through Carneros typically means traveling east to west, rather
 than following Napa Valley’s usual north-to-south route. Rolling hills de
 fine the landscape more than valley floors or rugged mountains. Curving
@@ -1459,9 +1380,9 @@ air.
 Start a day exploring the Napa side of Carneros (the region also stretches west into Sonoma) with donuts—spe
 Domaine Carneros cifically, the famous ones at Boon Fly Café. Located at Carneros Resort and Spa, the bright red, barn-style restaurant welcomes guests through a separate entrance off Sonoma Highway. You might order the chicken and waffles, Dungeness crab Benedict
 Bouchaine or corned beef hash, but save room for the donuts—they make the perfect sweet finish to breakfast.
-Next, drive less than 10 minutes to Bouchaine Winery. On a clear day the property offers sweeping bay views. The wines are precise and aromatic, and the winery hosts dynamic
-educational programs. On Friday mornings, the Fal conry in the Garden experience truly stands out. A master falconer introduces guests to raptors—perhaps a hawk, owl or falcon—and explains how these birds partner with vineyard teams, how they hunt and how they see. You can even pose for a photo with the birds, all while enjoying a glass of wine.
-Just five minutes away, Domaine Carneros rises from a hilltop like a fairy-tale château. Climbing the romantic, grand staircase offers countless photo op portunities. Domaine Carneros has built its reputation on exceptional sparkling wines and a wide range of tasting experiences. Two stand out in particular. The Art of Sabrage teaches guests to open a bottle of spar
+Next, driveless than 10 minutes to Bouchaine Winery. On a clear day the property offers sweeping bay views. The wines are precise and aromatic, and the winery hosts dynamic
+educational programs. On Friday mornings, the Falconry in the Garden experience truly stands out. A master falconer introduces guests to raptors—perhaps a hawk, owl or falcon—and explains how these birds partner with vineyard teams, how they hunt and how they see. You can even pose for a photo with the birds, all while enjoying a glass of wine.
+Just five minutes away, Domaine Carneros rises from a hilltop like a fairy-tale château. Climbing the romantic, grand staircase offers countless photo opportunities. Domaine Carneros has built its reputation on exceptional sparkling wines and a wide range of tasting experiences. Two stand out in particular. The Art of Sabrage teaches guests to open a bottle of spar
 kling wine with a sword, a tradition that dates to Na poleon’s era. Equally memorable is the Ultimate Caviar Experience, where sparkling wines pair with an as sortment of Tsar Nicoulai Caviar served alongside gourmet potato chips, toast points, and crème fraîche.`,
     },
     soilNote:
