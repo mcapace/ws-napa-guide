@@ -635,7 +635,7 @@ export default function HomePage() {
                 />
               </div>
               {/* Gradient for text readability */}
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(13,11,9,0.2) 0%, rgba(13,11,9,0.1) 40%, rgba(13,11,9,0.6) 85%, rgba(13,11,9,0.9) 100%)', zIndex: 1 }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(13,11,9,0.3) 0%, rgba(13,11,9,0.05) 30%, rgba(13,11,9,0.4) 70%, rgba(13,11,9,0.95) 100%)', zIndex: 1 }} />
               {/* Metadata top center */}
               <div
                 style={{
@@ -659,8 +659,6 @@ export default function HomePage() {
                   Napa Valley Appellation
                 </p>
                 <p
-                  data-text-split=""
-                  data-lines-slide-up=""
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
                     fontSize: 10,
@@ -686,8 +684,6 @@ export default function HomePage() {
                 }}
               >
                 <h2
-                  data-text-split=""
-                  data-letters-rotate-in=""
                   style={{
                     fontFamily: "'Cormorant Garamond', serif",
                     fontStyle: 'italic',
@@ -696,6 +692,7 @@ export default function HomePage() {
                     color: '#F7F3EC',
                     lineHeight: 0.9,
                     letterSpacing: '-0.03em',
+                    textShadow: '0 4px 40px rgba(0,0,0,0.5)',
                   }}
                 >
                   {region.name}
