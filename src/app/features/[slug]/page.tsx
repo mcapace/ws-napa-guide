@@ -6,6 +6,9 @@ import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import { articles, featuredArticles } from '@/data/articles'
+import { wineries } from '@/data/wineries'
+import { restaurants } from '@/data/restaurants'
+import { HorizontalStrip, type HorizontalStripItem } from '@/components/ui/HorizontalStrip'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -178,6 +181,54 @@ export default async function FeatureArticlePage({ params }: Props) {
           </p>
         ))}
       </section>
+
+      {/* ── RELATED LISTINGS ── */}
+      {(() => {
+        const relatedItems: HorizontalStripItem[] = []
+        if (article.relatedWineries) {
+          article.relatedWineries.forEach((slug) => {
+            const w = wineries.find((x) => x.slug === slug)
+            if (w) relatedItems.push({ type: 'winery', item: w })
+          })
+        }
+        if (article.relatedRestaurants) {
+          article.relatedRestaurants.forEach((slug) => {
+            const r = restaurants.find((x) => x.slug === slug)
+            if (r) relatedItems.push({ type: 'dining', item: r })
+          })
+        }
+        if (relatedItems.length === 0) return null
+        return (
+          <section style={{ padding: '60px 0 80px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
+            <div style={{ padding: '0 60px', marginBottom: 32 }}>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 10,
+                  letterSpacing: '0.22em',
+                  textTransform: 'uppercase',
+                  color: '#C4943A',
+                  marginBottom: 12,
+                }}
+              >
+                From this story
+              </p>
+              <h3
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontStyle: 'italic',
+                  fontWeight: 300,
+                  fontSize: 'clamp(24px, 3vw, 36px)',
+                  color: '#F7F3EC',
+                }}
+              >
+                Places mentioned
+              </h3>
+            </div>
+            <HorizontalStrip entries={relatedItems} />
+          </section>
+        )
+      })()}
 
       {/* ── READ NEXT ── */}
       {related.length > 0 && (
