@@ -182,6 +182,21 @@ export default function AnimationProvider() {
       })
       triggersRef.current.push(trigger)
     })
+
+    // ANIMATION 6: Pin sections (therealhotels stacking card scroll)
+    // Each [data-pin-section] pins at top while the next one scrolls up over it
+    const pinSections = document.querySelectorAll<HTMLElement>('[data-pin-section]')
+    pinSections.forEach((el, i) => {
+      if (i >= pinSections.length - 1) return // don't pin the last one
+      const st = ScrollTrigger.create({
+        trigger: el,
+        start: 'top top',
+        end: 'bottom top',
+        pin: true,
+        pinSpacing: false,
+      })
+      triggersRef.current.push(st)
+    })
   }
 
   return null // No DOM output, just initializes animations

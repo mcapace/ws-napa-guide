@@ -622,16 +622,22 @@ export default function HomePage() {
 
       </div>{/* close main-content */}
 
-      {/* ── FEATURED REGIONS: overlapping sticky cards ── */}
-      {/* Must be OUTSIDE main-content to avoid transform ancestors breaking sticky */}
-      <div style={{ position: 'relative', background: '#0D0B09' }}>
+      {/* ── FEATURED REGIONS: GSAP pinned stacking cards ── */}
+      <div style={{ background: '#0D0B09' }}>
         {featuredRegions.map((region, i) => (
-          <div
+          <Link
             key={region.slug}
-            style={{ height: i < featuredRegions.length - 1 ? '200vh' : '100vh' }}
+            href={`/regions/${region.slug}`}
+            data-pin-section=""
+            style={{
+              textDecoration: 'none',
+              display: 'block',
+              height: '100vh',
+              position: 'relative',
+              zIndex: i + 1,
+            }}
           >
-            <Link href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block', position: 'sticky', top: 0, height: '100vh', zIndex: i + 1 }}>
-              <section style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
               <div data-image-scale="" style={{ position: 'absolute', inset: 0 }}>
                 <Image
                   src={region.heroImage}
@@ -708,9 +714,8 @@ export default function HomePage() {
                   {region.name}
                 </h2>
               </div>
-              </section>
-            </Link>
-          </div>
+            </div>
+          </Link>
         ))}
       </div>
 
