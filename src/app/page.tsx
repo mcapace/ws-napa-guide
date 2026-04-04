@@ -643,6 +643,8 @@ export default function HomePage() {
                   style={{ objectFit: 'cover' }}
                 />
               </div>
+              {/* Gradient for text readability */}
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(13,11,9,0.2) 0%, rgba(13,11,9,0.1) 40%, rgba(13,11,9,0.6) 85%, rgba(13,11,9,0.9) 100%)', zIndex: 1 }} />
               {/* Metadata top center */}
               <div
                 style={{

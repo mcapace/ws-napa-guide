@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
+import Newsletter from '@/components/ui/Newsletter'
 import ScrollReveal from '@/components/ui/ScrollReveal'
 import { regions } from '@/data/regions'
 
@@ -215,6 +216,7 @@ export default function RegionsPage() {
         </div>
       </section>
 
+      <Newsletter />
       <Footer />
 
       <style>{`

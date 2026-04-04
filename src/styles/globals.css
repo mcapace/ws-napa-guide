@@ -458,3 +458,49 @@ html.lenis body {
 .lenis.lenis-stopped {
   overflow: hidden;
 }
+
+/* ── Mobile responsiveness ── */
+@media (max-width: 768px) {
+  body { font-size: 15px; }
+
+  .display-2xl { font-size: clamp(2.5rem, 12vw, 4rem); }
+  .display-xl { font-size: clamp(2rem, 10vw, 3rem); }
+  .display-lg { font-size: clamp(1.5rem, 6vw, 2.25rem); }
+
+  .btn-primary, .btn-secondary, .btn-gold, .btn-ghost {
+    font-size: 0.65rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  /* Index page grid collapses */
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Section padding collapse on mobile */
+  section {
+    padding-left: clamp(20px, 5vw, 60px) !important;
+    padding-right: clamp(20px, 5vw, 60px) !important;
+  }
+
+  /* 3-column info grids collapse */
+  div[style*="gridTemplateColumns: 'repeat(3"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Footer grid collapse */
+  .inner {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .display-2xl { font-size: 2.25rem; }
+  .display-xl { font-size: 1.75rem; }
+
+  section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}

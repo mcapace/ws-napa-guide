@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import detailStyles from '@/app/regions/[slug]/regionDetail.module.css'
 import Footer from '@/components/ui/Footer'
 import Nav from '@/components/ui/Nav'
+import Newsletter from '@/components/ui/Newsletter'
 import StayClient from './StayClient'
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function StayIndexPage() {
         </div>
       </section>
 
+      <Newsletter />
       <Footer />
     </div>
   )
