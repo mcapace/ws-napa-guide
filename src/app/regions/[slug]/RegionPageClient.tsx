@@ -315,39 +315,24 @@ export default function RegionPageClient({ slug }: { slug: string }) {
         <Reveal>
           <section style={{ padding: '0 60px 80px', background: '#0D0B09' }}>
             <SectionDivider />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
               <SectionLabel>Where to taste</SectionLabel>
-              <Link href="/wineries" style={seeAllStyle}>
-                All wineries →
-              </Link>
+              <Link href="/wineries" style={seeAllStyle}>All wineries &rarr;</Link>
             </div>
 
-            {regionWineries.slice(0, 1).map((w) => (
-              <FeaturedCard
+            {regionWineries.map((w) => (
+              <ListingCard
                 key={w.slug}
                 href={`/wineries/${w.slug}`}
-                eyebrow={w.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'}
-                title={w.name}
-                body={w.description}
-                cta="Reserve a visit →"
-                externalHref={w.visitInfo?.website}
                 imageSrc={w.images[0]}
+                title={w.name}
+                location={region.name}
+                eyebrow={w.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'}
+                excerpt={w.excerpt ?? w.description.slice(0, 160) + '...'}
+                primaryCta="Reserve a visit"
+                primaryHref={w.visitInfo?.website}
               />
             ))}
-
-            {regionWineries.slice(1).length > 0 && (
-              <div style={{ marginTop: 2 }}>
-                {regionWineries.slice(1).map((w) => (
-                  <CompactCard
-                    key={w.slug}
-                    href={`/wineries/${w.slug}`}
-                    title={w.name}
-                    meta={w.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'}
-                    excerpt={w.excerpt ?? `${w.description.slice(0, 120)}…`}
-                  />
-                ))}
-              </div>
-            )}
           </section>
         </Reveal>
       )}
@@ -357,31 +342,21 @@ export default function RegionPageClient({ slug }: { slug: string }) {
         <Reveal>
           <section style={{ padding: '0 60px 80px', background: '#0D0B09' }}>
             <SectionDivider />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
               <SectionLabel>Where to eat</SectionLabel>
-              <Link href="/dining" style={seeAllStyle}>
-                All restaurants →
-              </Link>
+              <Link href="/dining" style={seeAllStyle}>All restaurants &rarr;</Link>
             </div>
-            {regionRestaurants.slice(0, 1).map((r) => (
-              <FeaturedCard
+            {regionRestaurants.map((r) => (
+              <ListingCard
                 key={r.slug}
                 href={`/dining/${r.slug}`}
-                eyebrow={`${r.cuisine} · ${r.priceRange}`}
-                title={r.name}
-                body={r.description}
-                cta="Make a reservation →"
-                externalHref={r.reservations ?? r.website ?? undefined}
                 imageSrc={r.images[0]}
-              />
-            ))}
-            {regionRestaurants.slice(1).map((r) => (
-              <CompactCard
-                key={r.slug}
-                href={`/dining/${r.slug}`}
                 title={r.name}
-                meta={`${r.cuisine} · ${r.priceRange}`}
-                excerpt={`${r.description.slice(0, 120)}…`}
+                location={region.name}
+                eyebrow={`${r.cuisine} · ${r.priceRange}`}
+                excerpt={r.excerpt ?? r.description.slice(0, 160) + '...'}
+                primaryCta="Make a reservation"
+                primaryHref={r.reservations ?? r.website ?? undefined}
               />
             ))}
           </section>
@@ -400,12 +375,16 @@ export default function RegionPageClient({ slug }: { slug: string }) {
               </Link>
             </div>
             {regionHotels.map((h) => (
-              <CompactCard
+              <ListingCard
                 key={h.slug}
                 href={`/stay/${h.slug}`}
+                imageSrc={h.images[0]}
                 title={h.name}
-                meta={h.priceRange}
-                excerpt={`${h.description.slice(0, 140)}…`}
+                location={region.name}
+                eyebrow={h.priceRange}
+                excerpt={h.excerpt ?? h.description.slice(0, 160) + '...'}
+                primaryCta="Book your stay"
+                primaryHref={h.website ?? undefined}
               />
             ))}
           </section>
@@ -753,79 +732,149 @@ function FeaturedCard({
   )
 }
 
-function CompactCard({ href, title, meta, excerpt }: { href: string; title: string; meta: string; excerpt: string }) {
+/** therealhotels listing card: thumbnail left | name+meta | excerpt | CTAs right */
+function ListingCard({
+  href,
+  imageSrc,
+  eyebrow,
+  title,
+  location,
+  excerpt,
+  primaryCta,
+  primaryHref,
+}: {
+  href: string
+  imageSrc: string
+  eyebrow?: string
+  title: string
+  location?: string
+  excerpt: string
+  primaryCta: string
+  primaryHref?: string
+}) {
   const [hovered, setHovered] = useState(false)
   return (
-    <Link href={href} style={{ textDecoration: 'none', display: 'block' }}>
-      <div
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr auto',
-          gap: 40,
-          alignItems: 'start',
-          padding: '28px 0',
-          borderTop: '1px solid rgba(247,243,236,0.07)',
-          cursor: 'pointer',
-          background: hovered ? 'rgba(247,243,236,0.02)' : 'transparent',
-          transition: 'background 0.3s',
-        }}
-      >
-        <div>
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 9,
-              fontWeight: 400,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: '#C4943A',
-              marginBottom: 8,
-            }}
-          >
-            {meta}
-          </p>
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '140px 1fr auto',
+        gap: 24,
+        alignItems: 'start',
+        padding: '24px 0',
+        borderTop: '1px solid rgba(247,243,236,0.07)',
+        background: hovered ? 'rgba(247,243,236,0.02)' : 'transparent',
+        transition: 'background 0.3s',
+      }}
+    >
+      {/* Thumbnail */}
+      <Link href={href} style={{ display: 'block', position: 'relative', width: 140, height: 100, overflow: 'hidden', flexShrink: 0, borderRadius: 2 }}>
+        <Image
+          src={imageSrc}
+          alt={title}
+          fill
+          sizes="140px"
+          style={{
+            objectFit: 'cover',
+            transform: hovered ? 'scale(1.05)' : 'scale(1)',
+            transition: 'transform 0.6s ease',
+          }}
+        />
+      </Link>
+
+      {/* Name + meta + excerpt */}
+      <div style={{ minWidth: 0 }}>
+        <Link href={href} style={{ textDecoration: 'none' }}>
           <h4
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontStyle: 'italic',
               fontWeight: 300,
-              fontSize: 'clamp(20px,2vw,28px)',
+              fontSize: 'clamp(18px, 2vw, 26px)',
               color: '#F7F3EC',
-              lineHeight: 1.1,
-              letterSpacing: '-0.01em',
-              marginBottom: 10,
+              lineHeight: 1.15,
+              marginBottom: 4,
             }}
           >
             {title}
           </h4>
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12,
-              fontWeight: 300,
-              color: 'rgba(247,243,236,0.5)',
-              lineHeight: 1.7,
-            }}
-          >
-            {excerpt}
-          </p>
-        </div>
-        <span
+        </Link>
+        <p
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 18,
-            color: '#F7F3EC',
-            opacity: hovered ? 1 : 0.2,
-            transition: 'opacity 0.3s',
-            marginTop: 6,
+            fontSize: 9,
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: '#9B9283',
+            marginBottom: 8,
           }}
         >
-          →
-        </span>
+          {location ?? ''}{eyebrow ? ` · ${eyebrow}` : ''}
+        </p>
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 12,
+            fontWeight: 300,
+            color: 'rgba(247,243,236,0.5)',
+            lineHeight: 1.65,
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}
+        >
+          {excerpt}
+        </p>
       </div>
-    </Link>
+
+      {/* CTAs */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0, alignItems: 'flex-end' }}>
+        {primaryHref && (
+          <a
+            href={primaryHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 9,
+              fontWeight: 500,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: '#0D0B09',
+              background: '#F7F3EC',
+              padding: '8px 16px',
+              textDecoration: 'none',
+              borderRadius: 2,
+              whiteSpace: 'nowrap',
+              transition: 'background 0.3s',
+            }}
+          >
+            {primaryCta}
+          </a>
+        )}
+        <Link
+          href={href}
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 9,
+            fontWeight: 400,
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: '#9B9283',
+            textDecoration: 'none',
+            padding: '8px 16px',
+            border: '1px solid rgba(247,243,236,0.12)',
+            borderRadius: 2,
+            whiteSpace: 'nowrap',
+            transition: 'border-color 0.3s, color 0.3s',
+          }}
+        >
+          Read more
+        </Link>
+      </div>
+    </div>
   )
 }
 
