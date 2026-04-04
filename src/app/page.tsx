@@ -107,12 +107,12 @@ export default function HomePage() {
     // Phase 2 (25-85%): center panel expands, mosaic + copy fade
     // Phase 3 (85-100%): fullscreen overlay fades in
 
-    // Center panel expand
+    // Center panel expand (starts top-right, grows to fill viewport)
     heroTl.fromTo(
       centerPanel,
-      { width: 200, height: 140, borderRadius: 3 },
-      { width: vw, height: vh, borderRadius: 0, ease: 'power2.inOut', duration: 0.6 },
-      0.25 // starts at 25% progress
+      { width: 280, height: 200, top: '8%', right: '5%', borderRadius: 3 },
+      { width: vw, height: vh, top: 0, right: 0, borderRadius: 0, ease: 'power2.inOut', duration: 0.6 },
+      0.25
     )
 
     // Mosaic fade out
@@ -368,15 +368,14 @@ export default function HomePage() {
             ref={centerPanelRef}
             style={{
               position: 'absolute',
-              top: '50%',
-              left: '50%',
-              width: 200,
-              height: 140,
-              transform: 'translate(-50%, -50%)',
+              top: '8%',
+              right: '5%',
+              width: 280,
+              height: 200,
               borderRadius: 3,
               overflow: 'hidden',
               zIndex: 20,
-              willChange: 'width, height, border-radius',
+              willChange: 'width, height, border-radius, top, right',
             }}
           >
             <Image
