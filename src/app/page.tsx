@@ -44,11 +44,11 @@ const HERO_POSTER = `https://cdn.jwplayer.com/v2/media/${HERO_MEDIA_ID}/poster.j
 
 // ── Mosaic panel positions (mirroring therealhotels) ─────────────────
 const PANELS = [
-  { id: 1, style: { width: 220, height: 280, top: '6%', left: '5%' }, imageIndex: 5 },
-  { id: 2, style: { width: 180, height: 230, top: '25%', left: '14%' }, imageIndex: 2 },
-  { id: 3, style: { width: 240, height: 160, top: '5%', left: '50%' }, imageIndex: 0 },
-  { id: 4, style: { width: 280, height: 240, top: '6%', right: '5%' }, imageIndex: 3 },
-  { id: 5, style: { width: 200, height: 260, bottom: '18%', right: '6%' }, imageIndex: 6 },
+  { id: 1, style: { width: 200, height: 260, top: '8%', left: '5%' }, imageIndex: 5 },
+  { id: 2, style: { width: 160, height: 210, top: '30%', left: '12%' }, imageIndex: 2 },
+  { id: 3, style: { width: 280, height: 220, top: '15%', left: '38%' }, imageIndex: 0 },
+  { id: 4, style: { width: 180, height: 240, bottom: '15%', right: '12%' }, imageIndex: 3 },
+  { id: 5, style: { width: 160, height: 200, bottom: '25%', left: '50%' }, imageIndex: 6 },
 ]
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
@@ -98,36 +98,36 @@ export default function HomePage() {
         trigger: scrollContainer,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 1, // 1 second smoothing
+        scrub: true, // direct scroll tie, no lag
         invalidateOnRefresh: true,
       },
     })
 
-    // Phase 1 (0-25%): mosaic parallax, nothing expands yet
-    // Phase 2 (25-85%): center panel expands, mosaic + copy fade
-    // Phase 3 (85-100%): fullscreen overlay fades in
+    // Phase 1 (0-15%): mosaic parallax, gentle start
+    // Phase 2 (15-75%): panel expands smoothly from top-right to full
+    // Phase 3 (75-100%): overlay fades in
 
-    // Center panel expand (starts top-right, grows to fill viewport)
+    // Center panel expand
     heroTl.fromTo(
       centerPanel,
       { width: 280, height: 200, top: '8%', right: '5%', borderRadius: 3 },
-      { width: vw, height: vh, top: 0, right: 0, borderRadius: 0, ease: 'power2.inOut', duration: 0.6 },
-      0.25
+      { width: vw, height: vh, top: 0, right: 0, borderRadius: 0, ease: 'power1.out', duration: 0.6 },
+      0.15
     )
 
-    // Mosaic fade out
+    // Mosaic fade out (starts with expand, fades quickly)
     if (mosaic) {
-      heroTl.to(mosaic, { opacity: 0, duration: 0.3, ease: 'none' }, 0.25)
+      heroTl.to(mosaic, { opacity: 0, duration: 0.25, ease: 'power1.out' }, 0.15)
     }
 
     // Hero copy fade out
     if (heroCopy) {
-      heroTl.to(heroCopy, { opacity: 0, duration: 0.2, ease: 'none' }, 0.25)
+      heroTl.to(heroCopy, { opacity: 0, duration: 0.15, ease: 'power1.out' }, 0.15)
     }
 
     // Hero display text fade out
     if (heroDisplay) {
-      heroTl.to(heroDisplay, { opacity: 0, duration: 0.3, ease: 'none' }, 0.25)
+      heroTl.to(heroDisplay, { opacity: 0, duration: 0.25, ease: 'power1.out' }, 0.15)
     }
 
     // Fullscreen overlay fade in
@@ -135,8 +135,8 @@ export default function HomePage() {
       heroTl.fromTo(
         fullscreenOverlay,
         { opacity: 0, pointerEvents: 'none' },
-        { opacity: 1, pointerEvents: 'all', duration: 0.15, ease: 'none' },
-        0.85
+        { opacity: 1, pointerEvents: 'all', duration: 0.2, ease: 'power1.out' },
+        0.75
       )
     }
 
@@ -314,7 +314,7 @@ export default function HomePage() {
       </AnimatePresence>
 
       {/* ── STICKY SCROLL HERO (400vh) — progress drives panel via JS, not React state ── */}
-      <div ref={scrollContainerRef} style={{ position: 'relative', height: '400vh' }}>
+      <div ref={scrollContainerRef} style={{ position: 'relative', height: '300vh' }}>
         <div
           style={{
             position: 'sticky',
