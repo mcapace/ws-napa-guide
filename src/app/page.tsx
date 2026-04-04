@@ -436,18 +436,6 @@ export default function HomePage() {
               <br />
               American wine forever.
             </p>
-            <p
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 11,
-                fontWeight: 300,
-                letterSpacing: '0.12em',
-                color: 'rgba(247,243,236,0.45)',
-                lineHeight: 1.7,
-              }}
-            >
-              Wine Spectator &middot; June 2026
-            </p>
           </div>
 
           <div
