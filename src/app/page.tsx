@@ -620,20 +620,18 @@ export default function HomePage() {
         </section>
       </RevealSection>
 
-      {/* ── FEATURED REGIONS: full-viewport overlapping sections ── */}
-      {featuredRegions.map((region, i) => (
-        <Link key={region.slug} href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
-          <section
-            style={{
-              position: 'relative',
-              height: '100vh',
-              minHeight: 600,
-              overflow: 'hidden',
-              zIndex: i + 10,
-              marginTop: i === 0 ? 0 : '-10vh',
-              boxShadow: '0 -40px 80px rgba(0,0,0,0.5)',
-            }}
+      </div>{/* close main-content */}
+
+      {/* ── FEATURED REGIONS: overlapping sticky cards ── */}
+      {/* Must be OUTSIDE main-content to avoid transform ancestors breaking sticky */}
+      <div style={{ position: 'relative', background: '#0D0B09' }}>
+        {featuredRegions.map((region, i) => (
+          <div
+            key={region.slug}
+            style={{ height: i < featuredRegions.length - 1 ? '200vh' : '100vh' }}
           >
+            <Link href={`/regions/${region.slug}`} style={{ textDecoration: 'none', display: 'block', position: 'sticky', top: 0, height: '100vh', zIndex: i + 1 }}>
+              <section style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
               <div data-image-scale="" style={{ position: 'absolute', inset: 0 }}>
                 <Image
                   src={region.heroImage}
@@ -710,9 +708,13 @@ export default function HomePage() {
                   {region.name}
                 </h2>
               </div>
-          </section>
-        </Link>
-      ))}
+              </section>
+            </Link>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ position: 'relative', zIndex: 5, background: '#0D0B09' }}>
 
       {/* ── "IN THE WILD" / FROM THE JUNE ISSUE ── */}
       <RevealSection>
