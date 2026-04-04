@@ -3,6 +3,8 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import Footer from '@/components/ui/Footer'
+import Newsletter from '@/components/ui/Newsletter'
 import { motion } from 'framer-motion'
 import { useState, useEffect, type CSSProperties, type ReactNode } from 'react'
 import { regions } from '@/data/regions'
@@ -557,60 +559,8 @@ export default function RegionPageClient({ slug }: { slug: string }) {
         </section>
       </Reveal>
 
-      {/* ── FOOTER ── */}
-      <footer
-        style={{
-          borderTop: '1px solid rgba(247,243,236,0.08)',
-          padding: '48px 60px',
-          background: '#0D0B09',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Link href="/">
-          <Image
-            src="/logos/WS_logo__1_.png"
-            alt="Wine Spectator"
-            width={140}
-            height={20}
-            style={{ filter: 'invert(1)', height: '18px', width: 'auto', opacity: 0.6 }}
-          />
-        </Link>
-        <div style={{ display: 'flex', gap: 32 }}>
-          {[
-            ['Map', '/map'],
-            ['Wineries', '/wineries'],
-            ['Dining', '/dining'],
-            ['Stay', '/stay'],
-          ].map(([label, href]) => (
-            <Link
-              key={href}
-              href={href}
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 9,
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: 'rgba(155,146,131,0.5)',
-                textDecoration: 'none',
-              }}
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 9,
-            color: 'rgba(155,146,131,0.3)',
-            letterSpacing: '0.06em',
-          }}
-        >
-          © 2026 M. Shanken Communications, Inc.
-        </p>
-      </footer>
+      <Newsletter />
+      <Footer />
     </>
   )
 }
