@@ -927,13 +927,29 @@ function RevealSection({ children }: { children: ReactNode }) {
 }
 
 /** therealhotels "browse by series" pattern:
- *  Vertical stack of HUGE serif names, centered,
- *  with small thumbnails scattered to sides.
- *  Non-hovered items are dim gray, hovered item is bright white. */
+ *  Vertical stack of HUGE serif names, centered.
+ *  On hover: name turns white, multiple images appear scattered,
+ *  a fun icon/sticker appears on the text. */
 function AppellationLink({ region, index }: { region: RegionData; index: number }) {
   const [hovered, setHovered] = useState(false)
-  // Alternate thumbnail position: left for even, right for odd
-  const thumbSide = index % 2 === 0 ? 'left' : 'right'
+
+  // Get 2-3 images for this region from its wineries
+  const regionWineries = wineries.filter((w) => w.region === region.slug)
+  const img1 = region.heroImage
+  const img2 = regionWineries[0]?.images[0] ?? TEST_IMAGES[(index + 1) % TEST_IMAGES.length]
+  const img3 = regionWineries[1]?.images[0] ?? TEST_IMAGES[(index + 3) % TEST_IMAGES.length]
+
+  // Sticker icons per region
+  const icons: Record<string, string> = {
+    oakville: '🍷',
+    rutherford: '🏛️',
+    yountville: '🍽️',
+    'st-helena': '☀️',
+    calistoga: '♨️',
+    'pritchard-hill': '⛰️',
+    'downtown-napa': '🌉',
+  }
+  const icon = icons[region.slug] ?? '🍇'
 
   return (
     <Link
@@ -948,46 +964,100 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         width: '100%',
         position: 'relative',
         padding: '8px 60px',
-        transition: 'opacity 0.5s ease',
       }}
     >
-      {/* Thumbnail (appears on hover, scattered position) */}
+      {/* Image 1: left side */}
       <div
         style={{
           position: 'absolute',
-          [thumbSide]: 'clamp(40px, 8vw, 120px)',
-          width: 'clamp(100px, 12vw, 200px)',
+          left: 'clamp(30px, 5vw, 80px)',
+          top: '50%',
+          transform: `translateY(-50%) ${hovered ? 'scale(1)' : 'scale(0.85)'}`,
+          width: 'clamp(120px, 14vw, 220px)',
           aspectRatio: '4/3',
           overflow: 'hidden',
           opacity: hovered ? 1 : 0,
-          transform: hovered ? 'scale(1)' : 'scale(0.9)',
-          transition: 'opacity 0.5s ease, transform 0.5s ease',
+          clipPath: hovered ? 'inset(0% 0% 0% 0%)' : 'inset(0% 100% 0% 0%)',
+          transition: 'clip-path 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, transform 0.5s ease',
           pointerEvents: 'none',
+          borderRadius: 2,
         }}
       >
-        <Image
-          src={region.heroImage}
-          alt=""
-          fill
-          sizes="200px"
-          style={{ objectFit: 'cover' }}
-        />
+        <Image src={img1} alt="" fill sizes="220px" style={{ objectFit: 'cover' }} />
       </div>
-      {/* Name */}
-      <span
+
+      {/* Image 2: right side, offset up */}
+      <div
         style={{
-          fontFamily: "'Cormorant Garamond', serif",
-          fontStyle: 'italic',
-          fontWeight: 300,
-          fontSize: 'clamp(48px, 8vw, 120px)',
-          color: hovered ? '#F7F3EC' : 'rgba(247,243,236,0.2)',
-          lineHeight: 1.1,
-          letterSpacing: '-0.03em',
-          transition: 'color 0.5s ease',
-          textAlign: 'center',
+          position: 'absolute',
+          right: 'clamp(30px, 5vw, 80px)',
+          top: '20%',
+          transform: `${hovered ? 'scale(1)' : 'scale(0.85)'}`,
+          width: 'clamp(100px, 12vw, 180px)',
+          aspectRatio: '3/4',
+          overflow: 'hidden',
+          opacity: hovered ? 1 : 0,
+          clipPath: hovered ? 'inset(0% 0% 0% 0%)' : 'inset(0% 0% 0% 100%)',
+          transition: 'clip-path 0.5s cubic-bezier(0.4,0,0.2,1) 0.08s, opacity 0.4s ease 0.08s, transform 0.5s ease',
+          pointerEvents: 'none',
+          borderRadius: 2,
         }}
       >
-        {region.name}
+        <Image src={img2} alt="" fill sizes="180px" style={{ objectFit: 'cover' }} />
+      </div>
+
+      {/* Image 3: right side, offset down */}
+      <div
+        style={{
+          position: 'absolute',
+          right: 'clamp(180px, 22vw, 340px)',
+          bottom: '-10%',
+          transform: `${hovered ? 'scale(1)' : 'scale(0.85)'}`,
+          width: 'clamp(80px, 10vw, 150px)',
+          aspectRatio: '1/1',
+          overflow: 'hidden',
+          opacity: hovered ? 1 : 0,
+          clipPath: hovered ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)',
+          transition: 'clip-path 0.5s cubic-bezier(0.4,0,0.2,1) 0.15s, opacity 0.4s ease 0.15s, transform 0.5s ease',
+          pointerEvents: 'none',
+          borderRadius: 2,
+        }}
+      >
+        <Image src={img3} alt="" fill sizes="150px" style={{ objectFit: 'cover' }} />
+      </div>
+
+      {/* Name + icon */}
+      <span style={{ position: 'relative', display: 'inline-block' }}>
+        {/* Sticker icon (appears on hover) */}
+        <span
+          style={{
+            position: 'absolute',
+            top: '-0.3em',
+            left: '50%',
+            transform: `translateX(-50%) ${hovered ? 'scale(1) rotate(8deg)' : 'scale(0) rotate(-8deg)'}`,
+            fontSize: 'clamp(24px, 3vw, 40px)',
+            transition: 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)',
+            pointerEvents: 'none',
+            zIndex: 2,
+          }}
+        >
+          {icon}
+        </span>
+        <span
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: 'italic',
+            fontWeight: 300,
+            fontSize: 'clamp(48px, 8vw, 120px)',
+            color: hovered ? '#F7F3EC' : 'rgba(247,243,236,0.2)',
+            lineHeight: 1.1,
+            letterSpacing: '-0.03em',
+            transition: 'color 0.4s ease',
+            textAlign: 'center',
+          }}
+        >
+          {region.name}
+        </span>
       </span>
     </Link>
   )
