@@ -18,7 +18,7 @@ import { sectionHeading, seeAllLink } from '@/lib/editorial-styles'
 import { TEST_IMAGES } from '@/lib/test-images'
 import type { Article, Winery } from '@/lib/types'
 
-const featuredRegions = regions.slice(0, 3)
+const featuredRegions = regions
 const featuredJuneSlugs = ['judgment-of-paris', 'napa-taco-tour', 'napa-landmarks'] as const
 const featuredArticleRows: Article[] = featuredJuneSlugs
   .map((slug) => getArticle(slug))
