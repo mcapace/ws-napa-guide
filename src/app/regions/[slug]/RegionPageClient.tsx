@@ -310,53 +310,73 @@ export default function RegionPageClient({ slug }: { slug: string }) {
         </motion.p>
       </section>
 
-      {/* ── EDITORIAL BODY (the full article) ── */}
+      {/* ── EDITORIAL BODY on LIGHT background ── */}
       {region.body && (
         <Reveal>
-          <section style={{ background: '#0D0B09', padding: '0 60px 80px' }}>
-            {/* Full-width image break */}
-            <div style={{ margin: '0 -60px 60px', position: 'relative', aspectRatio: '21/9', overflow: 'hidden' }}>
-              <Image
-                src={regionWineries[0]?.images[0] ?? region.heroImage}
-                alt=""
-                fill
-                sizes="100vw"
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-
-            {/* Body paragraphs */}
-            <div style={{ maxWidth: 760, margin: '0 auto' }}>
-              {region.body.split('\n\n').filter(Boolean).slice(0, 8).map((para, i) => (
-                <p
-                  key={i}
-                  style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 16,
-                    fontWeight: 300,
-                    color: 'rgba(247,243,236,0.7)',
-                    lineHeight: 1.9,
-                    marginBottom: 24,
-                  }}
-                >
-                  {para}
-                </p>
-              ))}
-            </div>
-
-            {/* Second image break if we have a second winery image */}
-            {regionWineries[1] && (
-              <div style={{ margin: '40px -60px 0', position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
-                <Image
-                  src={regionWineries[1].images[0]}
-                  alt=""
-                  fill
-                  sizes="100vw"
-                  style={{ objectFit: 'cover' }}
-                />
+          <div style={{ background: '#F7F3EC', color: '#0D0B09' }}>
+            <section style={{ padding: '80px 60px', maxWidth: 1200, margin: '0 auto' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }}>
+                <div>
+                  {region.body.split('\n\n').filter(Boolean).slice(0, 6).map((para, i) => (
+                    <p
+                      key={i}
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: 15,
+                        fontWeight: 300,
+                        color: 'rgba(13,11,9,0.7)',
+                        lineHeight: 1.9,
+                        marginBottom: 24,
+                      }}
+                    >
+                      {para}
+                    </p>
+                  ))}
+                </div>
+                <div style={{ position: 'sticky', top: 100, aspectRatio: '3/4', overflow: 'hidden', borderRadius: 2 }}>
+                  <Image
+                    src={regionWineries[0]?.images[0] ?? region.heroImage}
+                    alt=""
+                    fill
+                    sizes="50vw"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
               </div>
-            )}
-          </section>
+
+              {/* Second block: remaining paragraphs with image left */}
+              {region.body.split('\n\n').filter(Boolean).length > 6 && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start', marginTop: 60 }}>
+                  <div style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden', borderRadius: 2 }}>
+                    <Image
+                      src={regionWineries[1]?.images[0] ?? region.heroImage}
+                      alt=""
+                      fill
+                      sizes="50vw"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div>
+                    {region.body.split('\n\n').filter(Boolean).slice(6, 12).map((para, i) => (
+                      <p
+                        key={i}
+                        style={{
+                          fontFamily: "'DM Sans', sans-serif",
+                          fontSize: 15,
+                          fontWeight: 300,
+                          color: 'rgba(13,11,9,0.7)',
+                          lineHeight: 1.9,
+                          marginBottom: 24,
+                        }}
+                      >
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </section>
+          </div>
         </Reveal>
       )}
 
