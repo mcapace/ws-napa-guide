@@ -310,14 +310,16 @@ export default function RegionPageClient({ slug }: { slug: string }) {
         </motion.p>
       </section>
 
+      {/* ══════ LISTINGS: LIGHT THEME (therealhotels pattern) ══════ */}
+      <div style={{ background: '#F7F3EC', color: '#0D0B09' }}>
+
       {/* ── WHERE TO TASTE ── */}
       {regionWineries.length > 0 && (
         <Reveal>
-          <section style={{ padding: '0 60px 80px', background: '#0D0B09' }}>
-            <SectionDivider />
+          <section style={{ padding: '60px 60px 40px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
-              <SectionLabel>Where to taste</SectionLabel>
-              <Link href="/wineries" style={seeAllStyle}>All wineries &rarr;</Link>
+              <SectionLabel light>Where to taste</SectionLabel>
+              <Link href="/wineries" style={{ ...seeAllStyle, color: '#6B1C2A' }}>All wineries &rarr;</Link>
             </div>
 
             {regionWineries.map((w) => (
@@ -340,11 +342,10 @@ export default function RegionPageClient({ slug }: { slug: string }) {
       {/* ── WHERE TO EAT ── */}
       {regionRestaurants.length > 0 && (
         <Reveal>
-          <section style={{ padding: '0 60px 80px', background: '#0D0B09' }}>
-            <SectionDivider />
+          <section style={{ padding: '20px 60px 40px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
-              <SectionLabel>Where to eat</SectionLabel>
-              <Link href="/dining" style={seeAllStyle}>All restaurants &rarr;</Link>
+              <SectionLabel light>Where to eat</SectionLabel>
+              <Link href="/dining" style={{ ...seeAllStyle, color: '#6B1C2A' }}>All restaurants &rarr;</Link>
             </div>
             {regionRestaurants.map((r) => (
               <ListingCard
@@ -366,13 +367,10 @@ export default function RegionPageClient({ slug }: { slug: string }) {
       {/* ── WHERE TO STAY ── */}
       {regionHotels.length > 0 && (
         <Reveal>
-          <section style={{ padding: '0 60px 80px', background: '#0D0B09' }}>
-            <SectionDivider />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48 }}>
-              <SectionLabel>Where to stay</SectionLabel>
-              <Link href="/stay" style={seeAllStyle}>
-                All hotels →
-              </Link>
+          <section style={{ padding: '20px 60px 60px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
+              <SectionLabel light>Where to stay</SectionLabel>
+              <Link href="/stay" style={{ ...seeAllStyle, color: '#6B1C2A' }}>All hotels &rarr;</Link>
             </div>
             {regionHotels.map((h) => (
               <ListingCard
@@ -390,6 +388,8 @@ export default function RegionPageClient({ slug }: { slug: string }) {
           </section>
         </Reveal>
       )}
+
+      </div>{/* close light theme listings wrapper */}
 
       {/* ── ADVENTURE / ITINERARY ── */}
       {region.adventure && (
@@ -569,16 +569,16 @@ function SectionDivider({ light }: { light?: boolean }) {
   )
 }
 
-function SectionLabel({ children }: { children: ReactNode }) {
+function SectionLabel({ children, light }: { children: ReactNode; light?: boolean }) {
   return (
     <p
       style={{
         fontFamily: "'DM Sans', sans-serif",
         fontSize: 10,
-        fontWeight: 400,
+        fontWeight: 500,
         letterSpacing: '0.25em',
         textTransform: 'uppercase',
-        color: '#9B9283',
+        color: light ? '#6B1C2A' : '#9B9283',
         marginBottom: 0,
       }}
     >
@@ -763,8 +763,8 @@ function ListingCard({
         gap: 24,
         alignItems: 'start',
         padding: '24px 0',
-        borderTop: '1px solid rgba(247,243,236,0.07)',
-        background: hovered ? 'rgba(247,243,236,0.02)' : 'transparent',
+        borderTop: '1px solid rgba(13,11,9,0.08)',
+        background: hovered ? 'rgba(13,11,9,0.03)' : 'transparent',
         transition: 'background 0.3s',
       }}
     >
@@ -792,7 +792,7 @@ function ListingCard({
               fontStyle: 'italic',
               fontWeight: 300,
               fontSize: 'clamp(18px, 2vw, 26px)',
-              color: '#F7F3EC',
+              color: '#0D0B09',
               lineHeight: 1.15,
               marginBottom: 4,
             }}
@@ -817,7 +817,7 @@ function ListingCard({
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 12,
             fontWeight: 300,
-            color: 'rgba(247,243,236,0.5)',
+            color: 'rgba(13,11,9,0.55)',
             lineHeight: 1.65,
             display: '-webkit-box',
             WebkitLineClamp: 2,
@@ -842,8 +842,8 @@ function ListingCard({
               fontWeight: 500,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              color: '#0D0B09',
-              background: '#F7F3EC',
+              color: '#F7F3EC',
+              background: '#0D0B09',
               padding: '8px 16px',
               textDecoration: 'none',
               borderRadius: 2,
@@ -862,10 +862,10 @@ function ListingCard({
             fontWeight: 400,
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
-            color: '#9B9283',
+            color: '#6B1C2A',
             textDecoration: 'none',
             padding: '8px 16px',
-            border: '1px solid rgba(247,243,236,0.12)',
+            border: '1px solid rgba(13,11,9,0.15)',
             borderRadius: 2,
             whiteSpace: 'nowrap',
             transition: 'border-color 0.3s, color 0.3s',
