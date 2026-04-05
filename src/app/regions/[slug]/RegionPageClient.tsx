@@ -310,6 +310,56 @@ export default function RegionPageClient({ slug }: { slug: string }) {
         </motion.p>
       </section>
 
+      {/* ── EDITORIAL BODY (the full article) ── */}
+      {region.body && (
+        <Reveal>
+          <section style={{ background: '#0D0B09', padding: '0 60px 80px' }}>
+            {/* Full-width image break */}
+            <div style={{ margin: '0 -60px 60px', position: 'relative', aspectRatio: '21/9', overflow: 'hidden' }}>
+              <Image
+                src={regionWineries[0]?.images[0] ?? region.heroImage}
+                alt=""
+                fill
+                sizes="100vw"
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+
+            {/* Body paragraphs */}
+            <div style={{ maxWidth: 760, margin: '0 auto' }}>
+              {region.body.split('\n\n').filter(Boolean).slice(0, 8).map((para, i) => (
+                <p
+                  key={i}
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 16,
+                    fontWeight: 300,
+                    color: 'rgba(247,243,236,0.7)',
+                    lineHeight: 1.9,
+                    marginBottom: 24,
+                  }}
+                >
+                  {para}
+                </p>
+              ))}
+            </div>
+
+            {/* Second image break if we have a second winery image */}
+            {regionWineries[1] && (
+              <div style={{ margin: '40px -60px 0', position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
+                <Image
+                  src={regionWineries[1].images[0]}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+            )}
+          </section>
+        </Reveal>
+      )}
+
       {/* ══════ LISTINGS: LIGHT THEME (therealhotels pattern) ══════ */}
       <div style={{ background: '#F7F3EC', color: '#0D0B09' }}>
 
