@@ -172,37 +172,57 @@ export default function RegionDetailPage({ data }: { data: RegionData }) {
         </p>
       </section>
 
-      {/* ── 4. EDITORIAL BODY — text + photos ── */}
+      {/* ── 4. EDITORIAL BODY — text interleaved with photos ── */}
       <section style={{
         padding: '0 clamp(24px, 6vw, 100px) 64px',
         background: '#FFFFFF', maxWidth: 1100,
         marginLeft: 'auto', marginRight: 'auto',
       }}>
-        {/* Text left, photo right */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, marginBottom: 48, alignItems: 'start' }}>
-          <div>
-            {ledeParagraphs.slice(0, 2).map((p, i) => (
-              <p key={i} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 300, color: 'rgba(13,11,9,0.65)', lineHeight: 1.85, marginBottom: 22 }}>{p.trim()}</p>
-            ))}
-          </div>
-          <div style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
-            <Image src={data.wineries[0]?.images[0] || data.heroImage} alt="" fill sizes="50vw" style={{ objectFit: 'cover' }} />
-          </div>
-        </div>
+        {/* Collect all available images for interleaving */}
+        {(() => {
+          const allImages = [
+            ...data.wineries.map(w => w.images[0]),
+            ...data.restaurants.map(r => r.images[0]),
+            ...data.hotels.map(h => h.images[0]),
+            data.heroImage,
+          ].filter(Boolean);
 
-        {/* Photo left, text right */}
-        {ledeParagraphs.length > 2 && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, marginBottom: 48, alignItems: 'start' }}>
-            <div style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden' }}>
-              <Image src={data.restaurants[0]?.images[0] || data.heroImage} alt="" fill sizes="50vw" style={{ objectFit: 'cover' }} />
-            </div>
-            <div>
-              {ledeParagraphs.slice(2, 4).map((p, i) => (
-                <p key={i} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 300, color: 'rgba(13,11,9,0.65)', lineHeight: 1.85, marginBottom: 22 }}>{p.trim()}</p>
-              ))}
-            </div>
-          </div>
-        )}
+          // Group paragraphs into pairs, insert a photo between each pair
+          const blocks: React.ReactNode[] = [];
+          for (let i = 0; i < ledeParagraphs.length; i += 2) {
+            const pair = ledeParagraphs.slice(i, i + 2);
+            const imgIdx = Math.floor(i / 2);
+            const isEven = imgIdx % 2 === 0;
+            const img = allImages[imgIdx % allImages.length];
+
+            blocks.push(
+              <div key={i} style={{
+                display: 'grid', gridTemplateColumns: '1fr 1fr',
+                gap: 40, marginBottom: 48, alignItems: 'start',
+                direction: isEven ? 'ltr' : 'rtl',
+              }}>
+                <div style={{ direction: 'ltr' }}>
+                  {pair.map((p, j) => (
+                    <p key={j} style={{
+                      fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 300,
+                      color: 'rgba(13,11,9,0.65)', lineHeight: 1.85, marginBottom: 22,
+                    }}>{p.trim()}</p>
+                  ))}
+                </div>
+                <div style={{
+                  direction: 'ltr',
+                  position: 'relative',
+                  aspectRatio: isEven ? '3/4' : '4/3',
+                  overflow: 'hidden',
+                }}>
+                  <Image src={img} alt="" fill sizes="50vw" style={{ objectFit: 'cover' }} />
+                </div>
+              </div>
+            );
+          }
+
+          return blocks;
+        })()}
 
         {/* CTAs */}
         <div style={{ display: 'flex', gap: 10 }}>
