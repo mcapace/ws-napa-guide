@@ -638,7 +638,7 @@ export default function HomePage() {
               {/* Gradient overlay for text readability */}
               <div style={{
                 position: 'absolute', inset: 0,
-                background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 40%, transparent 60%)',
+                background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 50%, transparent 80%)',
                 zIndex: 1,
               }} />
               {/* Metadata top center */}
@@ -655,9 +655,10 @@ export default function HomePage() {
                   Napa Valley Appellation
                 </p>
               </div>
-              {/* Name + tagline at bottom of image */}
+              {/* Name + tagline centered on image */}
               <div style={{
-                position: 'absolute', bottom: 60, left: 0, right: 0,
+                position: 'absolute', top: '50%', left: 0, right: 0,
+                transform: 'translateY(-50%)',
                 textAlign: 'center', zIndex: 2, padding: '0 40px',
               }}>
                 <h2 style={{
