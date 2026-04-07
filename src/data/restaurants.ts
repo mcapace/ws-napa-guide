@@ -71,7 +71,7 @@ export const restaurants: Restaurant[] = [
     name: 'Brix',
     region: 'oakville',
     address: '7377 St. Helena Highway, Oakville',
-    website: 'https://brix.com',
+    website: 'https://www.brix.com',
     cuisine: 'Farm-to-table',
     priceRange: '$$$',
     coords: [-122.4067, 38.4389],

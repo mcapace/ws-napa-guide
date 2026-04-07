@@ -139,77 +139,49 @@ Latour’s refurbished Cadillac near the entrance. Expect heavier traffic as win
     accentColor: '#2E1A0A',
     pullQuote: `Tchelistcheff coined the term "Rutherford Dust," in reference to dusty, powdery alluvial soils on the west side, and the distinct subtle grain and minerality they imbue in the AVA's Cabernets.`,
     intro: `When it comes to grapevines, Rutherford is one of Napa Valley's big names. But as far as towns go, Rutherford is a blink-and-you'll-miss-it spot along Highway 29 about halfway up the valley. As you drive past a former railroad station you might catch the smoky aromas of expertly grilled food at Rutherford Grill without realizing you've just passed through the heart of a town with a population of only about 100.`,
-    body: `When it comes to grapevines, Rutherford is one of
-Napa Valley’s big names. But as far as towns go, Rutherford is a blink-and-you’ll-miss-it spot along Highway 29 about halfway up the valley. As you drive past a former railroad station you might catch the smoky aromas of expertly grilled food at Rutherford Grill without realizing
-you’ve just passed through the heart of a town with a population of only about 100. On Rutherford Cross Road, there’s a small post office, the Rancho Caymus Inn and La Luna Market & Taqueria, a go-to for locally favored Mexican food. But this sleepy appearance belies that Rutherford boasts a rich wine history shaped by some of the region’s most important trailblazers.
-The indigenous Mishewal-Wappo people first inhabited the land that now includes present-day Yountville, Oakville and Rutherford. In 1836, authorities granted nearly 12,000 acres on the valley floor to George C. Yount as part of the Rancho Cay
-mus land grant. In 1864, Yount gave his daughter Elizabeth 1,040 acres in the center of the modern-day AVA as a wedding gift when she married Thomas Rutherford. The Rutherfords planted vineyards and produced wine, while giving the town its name.
-The Rutherfords’ parcel changed hands several times before Finnish fur trader and sea captain Gustave Niebaum acquired it in 1879. He founded Inglenook and built its semi-Gothic château in 1887; the building still stands. After Prohibition ended, his grand-nephew John Daniel Jr. crafted a series of extraordinary wines until he sold the estate in the 1960s. In 1975, film maker Francis Ford Coppola purchased the estate; he worked
+    body: `When it comes to grapevines, Rutherford is one of Napa Valley’s big names. But as far as towns go, Rutherford is a blink-and-you’ll-miss-it spot along Highway 29 about halfway up the valley. As you drive past a former railroad station you might catch the smoky aromas of expertly grilled food at Rutherford Grill without realizing you’ve just passed through the heart of a town with a population of only about 100. On Rutherford Cross Road, there’s a small post office, the Rancho Caymus Inn and La Luna Market & Taqueria, a go-to for locally favored Mexican food. But this sleepy appearance belies that Rutherford boasts a rich wine history shaped by some of the region’s most important trailblazers.
 
-reunite the original property and transform it into a popular tourist destination.
-French chemist Georges de Latour had arrived in California in 1883 and built his fortune in the cream of tartar business, an important baking ingredient that is a natural byproduct of wine making. In 1900, he moved to Napa Valley and founded Beaulieu Vineyard on land adjacent to Inglenook. He also became the first to import phylloxera-resistant rootstock. In 1938, de Latour hired winemaker André Tchelistcheff at BV and under his direction, the Georges de Latour Private Reserve Cabernet became one of the most famous wines in the world.
+The indigenous Mishewal-Wappo people first inhabited the land that now includes present-day Yountville, Oakville and Rutherford. In 1836, authorities granted nearly 12,000 acres on the valley floor to George C. Yount as part of the Rancho Caymus land grant. In 1864, Yount gave his daughter Elizabeth 1,040 acres in the center of the modern-day AVA as a wedding gift when she married Thomas Rutherford. The Rutherfords planted vineyards and produced wine, while giving the town its name.
+
+The Rutherfords’ parcel changed hands several times before Finnish fur trader and sea captain Gustave Niebaum acquired it in 1879. He founded Inglenook and built its semi-Gothic château in 1887; the building still stands. After Prohibition ended, his grand-nephew John Daniel Jr. crafted a series of extraordinary wines until he sold the estate in the 1960s. In 1975, filmmaker Francis Ford Coppola purchased the estate; he worked to reunite the original property and transform it into a popular tourist destination.
+
+French chemist Georges de Latour had arrived in California in 1883 and built his fortune in the cream of tartar business, an important baking ingredient that is a natural byproduct of winemaking. In 1900, he moved to Napa Valley and founded Beaulieu Vineyard on land adjacent to Inglenook. He also became the first to import phylloxera-resistant rootstock. In 1938, de Latour hired winemaker André Tchelistcheff at BV and under his direction, the Georges de Latour Private Reserve Cabernet became one of the most famous wines in the world.
+
 Rutherford sits at the widest point of Napa Valley, where fewer mountain shadows allow more sunlight to reach the vineyards. The benchlands divide into two distinct areas. On the eastern edge, complex soils and varied microclimates fold into the Vaca Mountains. Volcanic soils dominate much of this terrain and remain moderately deep, but the mountains delay sunrise and slow the warming of the vines.
-The western benchland receives morning sun and gains pro tection from afternoon heat when the sun dips behind the Mayacamas Mountains. This side of the valley features more alluvial soils and experiences cooler, windier conditions that create
-a drying effect.
-Tchelistcheff coined the term “Rutherford Dust,” in reference to dusty, powdery alluvial soils on the west side, and the distinct subtle grain and minerality they imbue in the AVA’s Cabernets. There are few simple pleasures as fine as sipping a Rutherford Cabernet while some Rutherford Dust clings to your shoes after a day in the vineyards.
 
-Cathiard Family Estate
-1978 Zinfandel Lane | cathiardvineyard.com
-The late Daniel Cathiard built an im pressive career in wine, purchasing
-Bordeaux’s Smith-Haut-Lafitte in 1990, then buying (and renaming)
-the former Flora Springs estate at the base of the Mayacamas moun
-tain range in 2020. Management was just transitioning to the family’s
-next generation when Cathiard died earlier this year. A visit makes it
-clear how deeply the family is dedi cated to this property, with meticu
-lously maintained grounds and inti mate visit experiences that might
-include a tour of the vineyards in an electric Range Rover, including the
-wine cave and on-site cooperage.
-Inglenook/Niebaum; Pennino
+The western benchland receives morning sun and gains protection from afternoon heat when the sun dips behind the Mayacamas Mountains. This side of the valley features more alluvial soils and experiences cooler, windier conditions that create a drying effect.
+
+Tchelistcheff coined the term “Rutherford Dust,” in reference to dusty, powdery alluvial soils on the west side, and the distinct subtle grain and minerality they imbue in the AVA’s Cabernets. There are few simple pleasures as fine as sipping a Rutherford Cabernet while some Rutherford Dust clings to your shoes after a day in the vineyards.
 
 Where to Taste
 
-Beaulieu Vineyard
-1960 St. Helena Highway bvwines.com Cakebread
-8300 St. Helena Highway cakebread.com Caymus
-Vineyards 8700 Conn Creek Road caymus.com Dakota Shy
-Wine 771 Sage Canyon Road dakotashywine.com Foley
-Cathiard Johnson
-Winery Honig
-Vineyard and Winery 850 Rutherford Road honigwine.com
-Mumm Napa 8445 Silverado Trail mummnapa.com Round Pond Cellars
-875 Rutherford Road roundpond.com Rutherford Hill Winery 200 Rutherford Hill Road
-rutherfordhill.com Sequoia
-Grove Winery 8338 St Helena 1991 St. Helena Highway | inglenook.com; niebaumpennino.com
-Even if you didn’t know Francis Ford Coppola owned Inglenook, you’d still pick up on how cinematic and grand the estate is, a mix of history, beauty, movie memorabilia and elegant wines. There are plenty of visitor experiences available, from simply enjoying a glass to more informative tours and li brary tastings. The recently opened Pennino House on the property is another chance to taste wines in a relaxed atmosphere, like stepping into a family home with a cozy living room plus plenty of outdoor seating. Here they also serve a curated selection of Italian-inspired non-alcoholic beverages.
+Cathiard Family Estate 1978 Zinfandel Lane | cathiardvineyard.com
+The late Daniel Cathiard built an impressive career in wine, purchasing Bordeaux’s Smith-Haut-Lafitte in 1990, then buying (and renaming) the former Flora Springs estate at the base of the Mayacamas mountain range in 2020. Management was just transitioning to the family’s next generation when Cathiard died earlier this year. A visit makes it clear how deeply the family is dedicated to this property, with meticulously maintained grounds and intimate visit experiences that might include a tour of the vineyards in an electric Range Rover, including the wine cave and on-site cooperage.
+
+Inglenook/Niebaum-Pennino 1991 St. Helena Highway | inglenook.com; niebaumpennino.com
+Even if you didn’t know Francis Ford Coppola owned Inglenook, you’d still pick up on how cinematic and grand the estate is, a mix of history, beauty, movie memorabilia and elegant wines. There are plenty of visitor experiences available, from simply enjoying a glass to more informative tours and library tastings. The recently opened Pennino House on the property is another chance to taste wines in a relaxed atmosphere, like stepping into a family home with a cozy living room plus plenty of outdoor seating. Here they also serve a curated selection of Italian-inspired non-alcoholic beverages.
+
 Quintessa 1601 Silverado Trail | quintessa.com
 Quintessa lies an easy turn off of the Silverado Trail, but a visit here takes you off the beaten path, into the heart of Rutherford and a uniquely serene setting. The entire property is nearly 300 acres, and the best way to soak it all in is through the “Quintessential Experience,” where a tasting takes place in a private glass pavilion overlooking Dragon Lake.
-8350 St. Helena Highway foleyjohnsonwines.com Frog’s Leap Winery
-8815 Conn Creek Road frogsleap.com Grgich Hills 1829 St. Helena Highway S.
-grgich.com Highway sequoiagrove.com St. Supéry Estate
-Vineyards & Winery 8440 St. Helena Highway stsupery.com Sullivan
-Rutherford Estate 1090 Galleron Road sullivanwine.com
-Staglin Staglin Family Vineyard
-1570 Bella Oaks Lane | staglinfamily.com There’s much to learn from a visit to Staglin, begin ning with the viticultural history of the property, which dates to 1864. Significant figures such as An dré Tchelistcheff and Beaulieu founder Georges de Latour have ties here, drawn to this place that clearly defines what makes the Rutherford Bench an amaz ing place to grow grapes.
-For more than 40 years, the Staglin family has been the caretaker, including piecing together parts of the property that had been separated from the original, such as the Steckter home, which is now their base for hospitality. The winery remains family run, with second-generation vintner Shannon Staglin at the helm.
 
-Rancho Caymus Inn 1140 Rutherford Road | ranchocaymusinn.com
+Staglin Family Vineyard 1570 Bella Oaks Lane | staglinfamily.com
+There’s much to learn from a visit to Staglin, beginning with the viticultural history of the property, which dates to 1864. Significant figures such as André Tchelistcheff and Beaulieu founder Georges de Latour have ties here, drawn to this place that clearly defines what makes the Rutherford Bench an amazing place to grow grapes. For more than 40 years, the Staglin family has been the caretaker, including piecing together parts of the property that had been separated from the original, such as the Steckter home, which is now their base for hospitality. The winery remains family run, with second-generation vintner Shannon Staglin at the helm.
 
 Where to Eat
 
-shoot Rutherford
-Grill
+Rutherford Grill 1180 Rutherford Road | rutherfordgrill.com
+It would be easy to simply think of Rutherford Grill as the best place to pair expertly crafted barbeque with rich Napa Cabernets. But there’s so much more to enjoy, including deviled eggs, a generous iceberg wedge salad, oak-grilled salmon and iron skillet cornbread bites. The staff is friendly and the patio seating is popular when weather permits.
+
+La Luna Market & Taqueria 1153 Rutherford Road | lalunamarket.com
+
+The Restaurant at Auberge du Soleil 180 Rutherford Hill Road | auberge.com/auberge-du-soleil/dine
 
 Where to Stay
 
-Rutherford Grill 1180 Rutherford Road | ruth erfordgrill.com
-It would be easy to simply think of Rutherford Grill as the best place to pair expertly crafted barbeque with rich Napa Cabernets. But there’s so much more to enjoy, including deviled eggs, a generous iceberg wedge salad, oak-grilled salmon and iron skillet cornbread bites. The staff is friendly and the patio seating is popular when weather permits.
-La Luna Market &
-Taqueria 1153 Rutherford Road lalunamarket.com The
-Restaurant at Auberge du Soleil
-180 Rutherford Hill Road auberge.com/auberge du-soleil/dine Recently renovated, this inn has plenty of personal ity. It was originally designed and built by the Morton Salt heiress Mary Tilden Morton, who leaned into Spanish-hacienda architecture with 19th-century barn wood beans and wrought iron details. Today, it’s the Goldilocks of Napa Valley hotels; it has quiet vibes in the tiny town of Rutherford, but also is con veniently located halfway up the valley and close to much of the vineyard action. Rooms are air-condi tioned and feature fireplaces and private balconies or patios.
-Auberge du Soleil 180 Rutherford Hill Road auberge.com/auberge-du-soleil
+Rancho Caymus Inn 1140 Rutherford Road | ranchocaymusinn.com
+Recently renovated, this inn has plenty of personality. It was originally designed and built by the Morton Salt heiress Mary Tilden Morton, who leaned into Spanish-hacienda architecture with 19th-century barn wood beams and wrought iron details. Today, it’s the Goldilocks of Napa Valley hotels; it has quiet vibes in the tiny town of Rutherford, but also is conveniently located halfway up the valley and close to much of the vineyard action. Rooms are air-conditioned and feature fireplaces and private balconies or patios.
 
-Rancho Caymus Inn`,
+Auberge du Soleil 180 Rutherford Hill Road | auberge.com/auberge-du-soleil`,
     adventure: {
       title: 'The Sauvignon Blanc Discovery Tour',
       intro: `Napa may be Cabernet country, but many of its red wine specialists also craft exceptional Sauvignon Blancs. White wine lovers have plenty to celebrate with these refreshing, expressive wines.`,
