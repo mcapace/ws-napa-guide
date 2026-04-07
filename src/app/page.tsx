@@ -624,9 +624,9 @@ export default function HomePage() {
               zIndex: i + 1,
             }}
           >
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
-              {/* Image area: top 65% */}
-              <div data-image-scale="" style={{ position: 'relative', flex: '1 1 65%', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', inset: 0 }}>
+              {/* Full-screen image */}
+              <div data-image-scale="" style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
                 <Image
                   src={region.heroImage}
                   alt={region.name}
@@ -634,65 +634,47 @@ export default function HomePage() {
                   sizes="100vw"
                   style={{ objectFit: 'cover' }}
                 />
-                {/* Metadata top center */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 80,
-                    left: 0,
-                    right: 0,
-                    textAlign: 'center',
-                    zIndex: 2,
-                  }}
-                >
-                  <p
-                    style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: 10,
-                      letterSpacing: '0.22em',
-                      textTransform: 'uppercase',
-                      color: 'rgba(247,243,236,0.7)',
-                    }}
-                  >
-                    Napa Valley Appellation
-                  </p>
-                </div>
               </div>
-              {/* Name area: bottom 35%, solid dark background */}
-              <div
-                style={{
-                  flex: '0 0 35%',
-                  background: '#0D0B09',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '0 60px',
-                }}
-              >
-                <h2
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontStyle: 'italic',
-                    fontWeight: 300,
-                    fontSize: 'clamp(56px, 9vw, 120px)',
-                    color: '#F7F3EC',
-                    lineHeight: 0.9,
-                    letterSpacing: '-0.03em',
-                    marginBottom: 12,
-                  }}
-                >
+              {/* Gradient overlay for text readability */}
+              <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 40%, transparent 60%)',
+                zIndex: 1,
+              }} />
+              {/* Metadata top center */}
+              <div style={{
+                position: 'absolute', top: 80, left: 0, right: 0,
+                textAlign: 'center', zIndex: 2,
+              }}>
+                <p style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 10, letterSpacing: '0.22em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(247,243,236,0.7)',
+                }}>
+                  Napa Valley Appellation
+                </p>
+              </div>
+              {/* Name + tagline at bottom of image */}
+              <div style={{
+                position: 'absolute', bottom: 60, left: 0, right: 0,
+                textAlign: 'center', zIndex: 2, padding: '0 40px',
+              }}>
+                <h2 style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontStyle: 'italic', fontWeight: 300,
+                  fontSize: 'clamp(56px, 9vw, 120px)',
+                  color: '#F7F3EC', lineHeight: 0.9,
+                  letterSpacing: '-0.03em', marginBottom: 12,
+                  textShadow: '0 2px 20px rgba(0,0,0,0.4)',
+                }}>
                   {region.name}
                 </h2>
-                <p
-                  style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 11,
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    color: '#9B9283',
-                  }}
-                >
+                <p style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 11, letterSpacing: '0.18em',
+                  textTransform: 'uppercase', color: '#C4943A',
+                }}>
                   {region.tagline}
                 </p>
               </div>
