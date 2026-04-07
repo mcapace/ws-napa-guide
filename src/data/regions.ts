@@ -7,6 +7,17 @@ export interface RegionAdventure {
   body: string
 }
 
+/** Small caps directory line (print “Also recommended” rail). */
+export interface RegionAlsoRecommended {
+  name: string
+  lines?: string[]
+}
+
+export interface RegionCultureSpot {
+  name: string
+  detail: string
+}
+
 export interface RegionData {
   slug: Region | string
   name: string
@@ -14,6 +25,33 @@ export interface RegionData {
   author?: string
   issue?: string
   pullQuote?: string
+  /** Magazine running head, e.g. guide title | cluster appellations */
+  runningHead?: string
+  /** WHERE TO TASTE editorial lead (before listings). */
+  whereToTasteIntro?: string
+  /** WHERE TO EAT editorial lead. */
+  whereToEatIntro?: string
+  /** WHERE TO STAY editorial lead. */
+  whereToStayIntro?: string
+  alsoRecommendedEat?: RegionAlsoRecommended[]
+  alsoRecommendedStay?: RegionAlsoRecommended[]
+  /** Yountville / downtown tasting grid (draft page 2). */
+  tasteQuickList?: RegionAlsoRecommended[]
+  /** Stags Leap District sidebar listings (draft page 3). */
+  alsoRecommendedTaste?: RegionAlsoRecommended[]
+  /** Oak Knoll District spread (draft page 4). */
+  oakKnollBlock?: {
+    sectionTitle: string
+    intro?: string
+    featured: { name: string; lines: string[]; body: string }[]
+    sidebar: RegionAlsoRecommended[]
+  }
+  cultureBlock?: {
+    title: string
+    subtitle?: string
+    intro: string
+    spots: RegionCultureSpot[]
+  }
   adventure?: RegionAdventure
   heroImage: string
   accentColor: string

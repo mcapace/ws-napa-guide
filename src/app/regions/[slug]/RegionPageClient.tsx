@@ -11,6 +11,11 @@ import { regions } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
+import { articles } from '@/data/articles'
+import { OpenerTwoColumn, YountvilleSpreadLayout } from './YountvilleSpreadLayout'
+import { YountvillePrintProofs } from './YountvillePrintProofs'
+import { YountvilleVerbatimReader } from './YountvilleVerbatimReader'
+import { TRH, trhType, trhLayout } from './real-hotels-theme'
 
 function orderedWineries(winerySlugs: string[]) {
   return winerySlugs
@@ -51,6 +56,9 @@ export default function RegionPageClient({ slug }: { slug: string }) {
 
   const pullQuote = region.pullQuote ?? region.intro
   const heroSubtitle = region.tagline
+  const hasFeatureArticle = articles.some((a) => a.slug === region.articleSlug)
+  /** The Real Hotels–style layout (centered hero, light editorial, horizontal listing rows). */
+  const trh = slug === 'yountville'
 
   return (
     <>
@@ -95,7 +103,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
           height: '100vh',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
+          justifyContent: trh ? 'center' : 'flex-end',
           overflow: 'hidden',
         }}
       >
@@ -122,26 +130,28 @@ export default function RegionPageClient({ slug }: { slug: string }) {
           }}
         />
 
-        {/* AVA badge — top right */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 28,
-            right: 36,
-            zIndex: 2,
-            padding: '8px 16px',
-            border: '1px solid rgba(247,243,236,0.2)',
-            borderRadius: 2,
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 9,
-            fontWeight: 400,
-            letterSpacing: '0.25em',
-            textTransform: 'uppercase',
-            color: 'rgba(247,243,236,0.6)',
-          }}
-        >
-          Napa Valley Appellation
-        </div>
+        {/* AVA badge — top right (hidden on TRH-style centered hero) */}
+        {!trh ? (
+          <div
+            style={{
+              position: 'absolute',
+              top: 28,
+              right: 36,
+              zIndex: 2,
+              padding: '8px 16px',
+              border: '1px solid rgba(247,243,236,0.2)',
+              borderRadius: 2,
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 9,
+              fontWeight: 400,
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'rgba(247,243,236,0.6)',
+            }}
+          >
+            Napa Valley Appellation
+          </div>
+        ) : null}
 
         {/* Hero content — bottom left */}
         <motion.div
@@ -151,66 +161,142 @@ export default function RegionPageClient({ slug }: { slug: string }) {
           style={{
             position: 'relative',
             zIndex: 10,
-            padding: '0 60px 64px',
+            padding: trh ? '0 32px 0' : '0 60px 64px',
+            width: '100%',
+            maxWidth: trh ? 920 : undefined,
+            margin: trh ? '0 auto' : undefined,
+            textAlign: trh ? 'center' : 'left',
           }}
         >
-          {/* Author + issue */}
-          <p
+          {region.runningHead ? (
+            <p
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 9,
+                fontWeight: 400,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: 'rgba(247,243,236,0.42)',
+                marginBottom: trh ? 28 : 20,
+                maxWidth: 720,
+                lineHeight: 1.5,
+                marginLeft: trh ? 'auto' : undefined,
+                marginRight: trh ? 'auto' : undefined,
+              }}
+            >
+              {region.runningHead}
+            </p>
+          ) : null}
+
+          {trh ? (
+            <>
+              {/* Print page 1 masthead: YOUNTVILLE + World-Class Dining, then by-line */}
+              <h1
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontWeight: 700,
+                  fontSize: 'clamp(40px, 7vw, 72px)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  color: '#F7F3EC',
+                  lineHeight: 1,
+                  margin: '0 0 12px',
+                }}
+              >
+                {region.name}
+              </h1>
+              <p
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontStyle: 'italic',
+                  fontWeight: 400,
+                  fontSize: 'clamp(22px, 3.5vw, 34px)',
+                  color: 'rgba(247,243,236,0.92)',
+                  lineHeight: 1.2,
+                  margin: '0 0 24px',
+                }}
+              >
+                {heroSubtitle}
+              </p>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 10,
+                  fontWeight: 400,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(247,243,236,0.45)',
+                  marginBottom: 36,
+                }}
+              >
+                By {region.author ?? 'Wine Spectator'}
+              </p>
+            </>
+          ) : (
+            <>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 10,
+                  fontWeight: 400,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(247,243,236,0.45)',
+                  marginBottom: 16,
+                }}
+              >
+                By {region.author ?? 'Wine Spectator'} · {region.issue ?? 'June 2026'}
+              </p>
+              <h1
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontStyle: 'italic',
+                  fontWeight: 300,
+                  fontSize: 'clamp(64px,10vw,140px)',
+                  color: '#F7F3EC',
+                  lineHeight: 0.9,
+                  letterSpacing: '-0.03em',
+                  marginBottom: 20,
+                }}
+              >
+                {region.name}
+              </h1>
+              <p
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 13,
+                  fontWeight: 300,
+                  color: 'rgba(247,243,236,0.55)',
+                  letterSpacing: '0.04em',
+                  marginBottom: 36,
+                }}
+              >
+                {heroSubtitle}
+              </p>
+            </>
+          )}
+
+          {/* CTAs — pill pair like The Real Hotels */}
+          <div
             style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 10,
-              fontWeight: 400,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: 'rgba(247,243,236,0.45)',
-              marginBottom: 16,
+              display: 'flex',
+              gap: 16,
+              alignItems: 'center',
+              justifyContent: trh ? 'center' : 'flex-start',
+              flexWrap: 'wrap',
             }}
           >
-            By {region.author ?? 'Wine Spectator'} · {region.issue ?? 'June 2026'}
-          </p>
-
-          {/* Region name — massive */}
-          <h1
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: 'italic',
-              fontWeight: 300,
-              fontSize: 'clamp(64px,10vw,140px)',
-              color: '#F7F3EC',
-              lineHeight: 0.9,
-              letterSpacing: '-0.03em',
-              marginBottom: 20,
-            }}
-          >
-            {region.name}
-          </h1>
-
-          {/* Subtitle */}
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13,
-              fontWeight: 300,
-              color: 'rgba(247,243,236,0.55)',
-              letterSpacing: '0.04em',
-              marginBottom: 36,
-            }}
-          >
-            {heroSubtitle}
-          </p>
-
-          {/* Two CTAs — therealhotels pattern */}
-          <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
             <Link
               href={`/map?region=${slug}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: 10,
                 background: '#F7F3EC',
                 color: '#0D0B09',
-                padding: '14px 28px',
-                borderRadius: 2,
+                padding: trh ? '13px 32px' : '14px 28px',
+                borderRadius: trh ? 9999 : 2,
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: 10,
                 fontWeight: 500,
@@ -222,20 +308,25 @@ export default function RegionPageClient({ slug }: { slug: string }) {
               Explore on map
             </Link>
             <a
-              href="#intro"
+              href={slug === 'yountville' ? '#where-to-taste' : '#intro'}
               style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: trh ? '13px 32px' : '0 0 3px 0',
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: 10,
                 fontWeight: 400,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: 'rgba(247,243,236,0.6)',
+                color: trh ? '#F7F3EC' : 'rgba(247,243,236,0.6)',
                 textDecoration: 'none',
-                borderBottom: '1px solid rgba(247,243,236,0.25)',
-                paddingBottom: 3,
+                border: trh ? '1px solid rgba(247,243,236,0.55)' : 'none',
+                borderBottom: trh ? 'none' : '1px solid rgba(247,243,236,0.25)',
+                borderRadius: trh ? 9999 : 0,
               }}
             >
-              Read more ↓
+              {slug === 'yountville' ? 'Read more' : 'Read more ↓'}
             </a>
           </div>
         </motion.div>
@@ -265,55 +356,228 @@ export default function RegionPageClient({ slug }: { slug: string }) {
       <section
         id="intro"
         style={{
-          background: '#0D0B09',
+          background: trh ? TRH.editorialBg : '#0D0B09',
           padding: '100px 60px 80px',
-          maxWidth: 900,
+          maxWidth: trh ? 1200 : 900,
           margin: '0 auto',
         }}
       >
-        <motion.blockquote
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9 }}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 'clamp(26px,3.5vw,44px)',
-            color: '#F7F3EC',
-            lineHeight: 1.2,
-            letterSpacing: '-0.01em',
-            borderLeft: '2px solid #C4943A',
-            paddingLeft: 40,
-            marginBottom: 48,
-          }}
-        >
-          {pullQuote}
-        </motion.blockquote>
+        {!trh ? (
+          <motion.blockquote
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9 }}
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: 'italic',
+              fontWeight: 300,
+              fontSize: 'clamp(26px,3.5vw,44px)',
+              color: '#F7F3EC',
+              lineHeight: 1.2,
+              letterSpacing: '-0.01em',
+              borderLeft: '2px solid #C4943A',
+              paddingLeft: 40,
+              marginBottom: 48,
+            }}
+          >
+            {pullQuote}
+          </motion.blockquote>
+        ) : null}
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9, delay: 0.1 }}
+        {region.runningHead && region.intro.includes('\n\n') ? (
+          <OpenerTwoColumn introText={region.intro} light={trh} />
+        ) : (
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: 0.1 }}
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 16,
+              fontWeight: 300,
+              color: trh ? TRH.inkMuted : 'rgba(247,243,236,0.7)',
+              lineHeight: 1.9,
+              letterSpacing: '0.01em',
+            }}
+          >
+            {region.intro}
+          </motion.p>
+        )}
+      </section>
+
+      {/* ── AT A GLANCE — terroir, tags, magazine feature (mirrors regions index) ── */}
+      <section
+        id="at-a-glance"
+        style={{
+          background: trh ? TRH.editorialBgAlt : '#0D0B09',
+          padding: '0 60px 72px',
+          borderBottom: trh ? `1px solid ${TRH.rule}` : '1px solid rgba(247,243,236,0.06)',
+        }}
+      >
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 9,
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              color: trh ? TRH.accent : '#C4943A',
+              marginBottom: 20,
+            }}
+          >
+            At a glance
+          </p>
+          <div
+            style={{
+              height: 1,
+              background: trh ? TRH.ink : region.accentColor,
+              opacity: trh ? 0.2 : 0.45,
+              maxWidth: 120,
+              marginBottom: 28,
+            }}
+          />
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 11,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: trh ? TRH.inkFaint : 'rgba(247,243,236,0.38)',
+              marginBottom: 12,
+            }}
+          >
+            Terroir & style
+          </p>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 15,
+              fontWeight: 300,
+              color: trh ? TRH.inkMuted : 'rgba(247,243,236,0.72)',
+              lineHeight: 1.85,
+              marginBottom: 32,
+            }}
+          >
+            {region.soilNote}
+          </p>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 11,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: trh ? TRH.inkFaint : 'rgba(247,243,236,0.38)',
+              marginBottom: 14,
+            }}
+          >
+            Best for
+          </p>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 36 }}>
+            {region.bestFor.map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 11,
+                  letterSpacing: '0.08em',
+                  color: trh ? TRH.inkMuted : 'rgba(247,243,236,0.48)',
+                  background: trh ? 'rgba(26,24,22,0.04)' : 'rgba(247,243,236,0.04)',
+                  padding: '8px 14px',
+                  border: trh ? `1px solid ${TRH.rule}` : '1px solid rgba(247,243,236,0.1)',
+                  borderRadius: 2,
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          {hasFeatureArticle ? (
+            <Link
+              href={`/features/${region.articleSlug}`}
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 10,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: trh ? TRH.ink : '#F7F3EC',
+                textDecoration: 'none',
+                borderBottom: trh ? `1px solid ${TRH.ruleStrong}` : '1px solid rgba(247,243,236,0.35)',
+                paddingBottom: 4,
+                display: 'inline-block',
+              }}
+            >
+              Read the Wine Spectator feature &rarr;
+            </Link>
+          ) : null}
+        </div>
+      </section>
+
+      {slug === 'yountville' ? (
+        <nav
+          aria-label="Jump to section"
           style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 16,
-            fontWeight: 300,
-            color: 'rgba(247,243,236,0.7)',
-            lineHeight: 1.9,
-            letterSpacing: '0.01em',
+            position: 'sticky',
+            top: 72,
+            zIndex: 50,
+            background: trh ? 'rgba(255,255,255,0.94)' : 'rgba(13,11,9,0.92)',
+            backdropFilter: 'blur(8px)',
+            borderBottom: trh ? `1px solid ${TRH.rule}` : '1px solid rgba(247,243,236,0.08)',
+            padding: '14px 60px',
           }}
         >
-          {region.intro}
-        </motion.p>
-      </section>
+          <div
+            style={{
+              maxWidth: 1280,
+              margin: '0 auto',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '12px 28px',
+              justifyContent: 'center',
+            }}
+          >
+            {(
+              [
+                ['Taste', '#where-to-taste'],
+                ['Oak Knoll', '#oak-knoll'],
+                ['Eat', '#where-to-eat'],
+                ['Stay', '#where-to-stay'],
+                ['Culture', '#region-culture'],
+                ['Adventure', '#adventure'],
+                ['Full text', '#yountville-verbatim'],
+                ['Print spreads', '#print-spreads'],
+              ] as const
+            ).map(([label, hash]) => (
+              <a
+                key={hash}
+                href={hash}
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 9,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: trh ? TRH.inkFaint : 'rgba(247,243,236,0.55)',
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        </nav>
+      ) : null}
 
       {/* ── EDITORIAL BODY on LIGHT background ── */}
       {region.body && (
         <Reveal>
-          <div style={{ background: '#F7F3EC', color: '#0D0B09' }}>
+          <div
+            style={{
+              background: slug === 'yountville' ? TRH.editorialBg : '#F7F3EC',
+              color: slug === 'yountville' ? TRH.ink : '#0D0B09',
+            }}
+          >
             <section style={{ padding: '80px 60px', maxWidth: 1200, margin: '0 auto' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }}>
                 <div>
@@ -324,7 +588,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
                         fontFamily: "'DM Sans', sans-serif",
                         fontSize: 15,
                         fontWeight: 300,
-                        color: 'rgba(13,11,9,0.7)',
+                        color: slug === 'yountville' ? TRH.inkMuted : 'rgba(13,11,9,0.7)',
                         lineHeight: 1.9,
                         marginBottom: 24,
                       }}
@@ -364,7 +628,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
                           fontFamily: "'DM Sans', sans-serif",
                           fontSize: 15,
                           fontWeight: 300,
-                          color: 'rgba(13,11,9,0.7)',
+                          color: slug === 'yountville' ? TRH.inkMuted : 'rgba(13,11,9,0.7)',
                           lineHeight: 1.9,
                           marginBottom: 24,
                         }}
@@ -380,151 +644,190 @@ export default function RegionPageClient({ slug }: { slug: string }) {
         </Reveal>
       )}
 
-      {/* ══════ LISTINGS: LIGHT THEME (therealhotels pattern) ══════ */}
-      <div style={{ background: '#F7F3EC', color: '#0D0B09' }}>
-
-      {/* ── WHERE TO TASTE ── */}
-      {regionWineries.length > 0 && (
+      {/* ══════ LISTINGS ══════ */}
+      {slug === 'yountville' ? (
         <Reveal>
-          <section style={{ padding: '60px 60px 40px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
-              <SectionLabel light>Where to taste</SectionLabel>
-              <Link href="/wineries" style={{ ...seeAllStyle, color: '#6B1C2A' }}>All wineries &rarr;</Link>
-            </div>
-
-            {regionWineries.map((w) => (
-              <ListingCard
-                key={w.slug}
-                href={`/wineries/${w.slug}`}
-                imageSrc={w.images[0]}
-                title={w.name}
-                location={region.name}
-                eyebrow={w.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'}
-                excerpt={w.excerpt ?? w.description.slice(0, 160) + '...'}
-                primaryCta="Reserve a visit"
-                primaryHref={w.visitInfo?.website}
-              />
-            ))}
-          </section>
+          <YountvilleSpreadLayout
+            region={region}
+            regionWineries={regionWineries}
+            regionRestaurants={regionRestaurants}
+            regionHotels={regionHotels}
+          />
         </Reveal>
-      )}
+      ) : (
+        <div style={{ background: '#F7F3EC', color: '#0D0B09' }}>
+          {/* ── WHERE TO TASTE ── */}
+          {regionWineries.length > 0 && (
+            <Reveal>
+              <section id="where-to-taste" style={{ padding: '60px 60px 40px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
+                  <SectionLabel light>Where to taste</SectionLabel>
+                  <Link href="/wineries" style={{ ...seeAllStyle, color: '#6B1C2A' }}>All wineries &rarr;</Link>
+                </div>
 
-      {/* ── WHERE TO EAT ── */}
-      {regionRestaurants.length > 0 && (
-        <Reveal>
-          <section style={{ padding: '20px 60px 40px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
-              <SectionLabel light>Where to eat</SectionLabel>
-              <Link href="/dining" style={{ ...seeAllStyle, color: '#6B1C2A' }}>All restaurants &rarr;</Link>
-            </div>
-            {regionRestaurants.map((r) => (
-              <ListingCard
-                key={r.slug}
-                href={`/dining/${r.slug}`}
-                imageSrc={r.images[0]}
-                title={r.name}
-                location={region.name}
-                eyebrow={`${r.cuisine} · ${r.priceRange}`}
-                excerpt={r.excerpt ?? r.description.slice(0, 160) + '...'}
-                primaryCta="Make a reservation"
-                primaryHref={r.reservations ?? r.website ?? undefined}
-              />
-            ))}
-          </section>
-        </Reveal>
-      )}
+                {regionWineries.map((w) => (
+                  <ListingCard
+                    key={w.slug}
+                    href={`/wineries/${w.slug}`}
+                    imageSrc={w.images[0]}
+                    title={w.name}
+                    location={region.name}
+                    eyebrow={w.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'}
+                    excerpt={w.excerpt ?? w.description.slice(0, 160) + '...'}
+                    primaryCta="Reserve a visit"
+                    primaryHref={w.visitInfo?.website}
+                  />
+                ))}
+              </section>
+            </Reveal>
+          )}
 
-      {/* ── WHERE TO STAY ── */}
-      {regionHotels.length > 0 && (
-        <Reveal>
-          <section style={{ padding: '20px 60px 60px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
-              <SectionLabel light>Where to stay</SectionLabel>
-              <Link href="/stay" style={{ ...seeAllStyle, color: '#6B1C2A' }}>All hotels &rarr;</Link>
-            </div>
-            {regionHotels.map((h) => (
-              <ListingCard
-                key={h.slug}
-                href={`/stay/${h.slug}`}
-                imageSrc={h.images[0]}
-                title={h.name}
-                location={region.name}
-                eyebrow={h.priceRange}
-                excerpt={h.excerpt ?? h.description.slice(0, 160) + '...'}
-                primaryCta="Book your stay"
-                primaryHref={h.website ?? undefined}
-              />
-            ))}
-          </section>
-        </Reveal>
-      )}
+          {/* ── WHERE TO EAT ── */}
+          {regionRestaurants.length > 0 && (
+            <Reveal>
+              <section id="where-to-eat" style={{ padding: '20px 60px 40px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
+                  <SectionLabel light>Where to eat</SectionLabel>
+                  <Link href="/dining" style={{ ...seeAllStyle, color: '#6B1C2A' }}>All restaurants &rarr;</Link>
+                </div>
+                {regionRestaurants.map((r) => (
+                  <ListingCard
+                    key={r.slug}
+                    href={`/dining/${r.slug}`}
+                    imageSrc={r.images[0]}
+                    title={r.name}
+                    location={region.name}
+                    eyebrow={`${r.cuisine} · ${r.priceRange}`}
+                    excerpt={r.excerpt ?? r.description.slice(0, 160) + '...'}
+                    primaryCta="Make a reservation"
+                    primaryHref={r.reservations ?? r.website ?? undefined}
+                  />
+                ))}
+              </section>
+            </Reveal>
+          )}
 
-      </div>{/* close light theme listings wrapper */}
+          {/* ── WHERE TO STAY ── */}
+          {regionHotels.length > 0 && (
+            <Reveal>
+              <section id="where-to-stay" style={{ padding: '20px 60px 60px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 32 }}>
+                  <SectionLabel light>Where to stay</SectionLabel>
+                  <Link href="/stay" style={{ ...seeAllStyle, color: '#6B1C2A' }}>All hotels &rarr;</Link>
+                </div>
+                {regionHotels.map((h) => (
+                  <ListingCard
+                    key={h.slug}
+                    href={`/stay/${h.slug}`}
+                    imageSrc={h.images[0]}
+                    title={h.name}
+                    location={region.name}
+                    eyebrow={h.priceRange}
+                    excerpt={h.excerpt ?? h.description.slice(0, 160) + '...'}
+                    primaryCta="Book your stay"
+                    primaryHref={h.website ?? undefined}
+                  />
+                ))}
+              </section>
+            </Reveal>
+          )}
+        </div>
+      )}
 
       {/* ── ADVENTURE / ITINERARY ── */}
       {region.adventure && (
         <Reveal>
           <section
+            id="adventure"
             style={{
-              padding: '80px 60px',
-              background: '#1A1612',
-              margin: '0 0 0 0',
+              padding: `${trhLayout.sectionPadYMain} ${trhLayout.sectionPadX}`,
+              background: trh ? TRH.editorialBg : '#1A1612',
+              margin: 0,
+              borderTop: trh ? `1px solid ${TRH.rule}` : undefined,
             }}
           >
-            <SectionDivider light />
-            <p
+            <div
               style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 9,
-                fontWeight: 400,
-                letterSpacing: '0.25em',
-                textTransform: 'uppercase',
-                color: '#C4943A',
-                marginBottom: 24,
+                height: 1,
+                background: trh ? TRH.rule : 'rgba(247,243,236,0.06)',
+                marginBottom: 40,
               }}
+            />
+            <p
+              style={
+                trh
+                  ? { ...trhType.eyebrow(TRH.accent), marginBottom: 24 }
+                  : {
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: 9,
+                      fontWeight: 400,
+                      letterSpacing: '0.25em',
+                      textTransform: 'uppercase',
+                      color: '#C4943A',
+                      marginBottom: 24,
+                    }
+              }
             >
               Adventure
             </p>
             <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontWeight: 300,
-                fontSize: 'clamp(32px,4vw,56px)',
-                color: '#F7F3EC',
-                lineHeight: 1.05,
-                letterSpacing: '-0.02em',
-                marginBottom: 32,
-                maxWidth: 700,
-              }}
+              style={
+                trh
+                  ? {
+                      ...trhType.displayRoman(TRH.ink),
+                      fontSize: 'clamp(1.75rem, 3.5vw, 3.5rem)',
+                      lineHeight: 1.05,
+                      marginBottom: 32,
+                      maxWidth: 700,
+                    }
+                  : {
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontStyle: 'italic',
+                      fontWeight: 300,
+                      fontSize: 'clamp(32px,4vw,56px)',
+                      color: '#F7F3EC',
+                      lineHeight: 1.05,
+                      letterSpacing: '-0.02em',
+                      marginBottom: 32,
+                      maxWidth: 700,
+                    }
+              }
             >
               {region.adventure.title}
             </h2>
             <div style={{ maxWidth: 720 }}>
               <p
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 15,
-                  fontWeight: 300,
-                  color: 'rgba(247,243,236,0.8)',
-                  lineHeight: 1.9,
-                  marginBottom: 24,
-                  fontStyle: 'italic',
-                }}
+                style={
+                  trh
+                    ? { ...trhType.body(TRH.inkMuted), marginBottom: 24, fontStyle: 'italic' }
+                    : {
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: 15,
+                        fontWeight: 300,
+                        color: 'rgba(247,243,236,0.8)',
+                        lineHeight: 1.9,
+                        marginBottom: 24,
+                        fontStyle: 'italic',
+                      }
+                }
               >
                 {region.adventure.intro}
               </p>
               {region.adventure.body.split('\n\n').map((para, i) => (
                 <p
                   key={i}
-                  style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 14,
-                    fontWeight: 300,
-                    color: 'rgba(247,243,236,0.65)',
-                    lineHeight: 1.9,
-                    marginBottom: 20,
-                  }}
+                  style={
+                    trh
+                      ? { ...trhType.bodyTight(TRH.inkMuted), marginBottom: 20 }
+                      : {
+                          fontFamily: "'DM Sans', sans-serif",
+                          fontSize: 14,
+                          fontWeight: 300,
+                          color: 'rgba(247,243,236,0.65)',
+                          lineHeight: 1.9,
+                          marginBottom: 20,
+                        }
+                  }
                 >
                   {para}
                 </p>
@@ -533,6 +836,13 @@ export default function RegionPageClient({ slug }: { slug: string }) {
           </section>
         </Reveal>
       )}
+
+      {slug === 'yountville' ? (
+        <>
+          <YountvilleVerbatimReader />
+          <YountvillePrintProofs />
+        </>
+      ) : null}
 
       {/* ── MORE FROM NAPA — 3-up grid ── */}
       <Reveal>

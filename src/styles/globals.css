@@ -377,6 +377,80 @@ a, button, [role="button"] { cursor: pointer; }
   z-index: 9999;
 }
 
+/* Yountville / Real Hotels–style opener: stack on small screens */
+.trh-opener-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px clamp(1.5rem, 4vw, 3.5rem);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+  .trh-opener-grid {
+    grid-template-columns: 1fr;
+    gap: 1.35rem;
+  }
+}
+
+/* Real Hotels–style feature row + sidebar rail (region / series pages) */
+.trh-feature-split {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(1.25rem, 3vw, 3rem);
+  align-items: start;
+  max-width: 1180px;
+  margin: 0 auto 56px;
+}
+
+@media (max-width: 900px) {
+  .trh-feature-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.trh-rail-grid {
+  display: grid;
+  grid-template-columns: 1fr minmax(200px, 260px);
+  gap: clamp(28px, 4vw, 48px);
+  align-items: start;
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 900px) {
+  .trh-rail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.trh-directory-split {
+  display: grid;
+  grid-template-columns: minmax(200px, 260px) 1fr;
+  gap: 40px;
+  max-width: 1180px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .trh-directory-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.trh-dropcap-columns {
+  column-count: 2;
+  column-gap: 48px;
+}
+
+@media (max-width: 767px) {
+  .trh-dropcap-columns {
+    column-count: 1;
+  }
+}
+
 /* Regions neighbor cards hover */
 .neighbor-region-link:hover {
   border-color: var(--hover-accent, var(--bordeaux)) !important;
