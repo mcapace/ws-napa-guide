@@ -8,7 +8,7 @@ import RegionPageClient from './RegionPageClient'
 import RegionDetailPage from '@/components/RegionDetailPage'
 
 // Regions that use the new therealhotels-style layout
-const NEW_LAYOUT_REGIONS = ['yountville'];
+const NEW_LAYOUT_REGIONS = ['yountville', 'oakville', 'rutherford', 'st-helena', 'calistoga', 'pritchard-hill', 'downtown-napa'];
 
 type Props = {
   params: Promise<{ slug: string }>

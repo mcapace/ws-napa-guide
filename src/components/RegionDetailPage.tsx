@@ -63,7 +63,7 @@ function ListingRow({ name, subtitle, excerpt, image, href, ctaLabel }: {
         <Image src={image} alt={name} fill sizes="120px" style={{ objectFit: 'cover' }} />
       </div>
       <div>
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontStyle: 'italic', fontWeight: 400, color: '#0D0B09', margin: '0 0 3px', lineHeight: 1.2 }}>{name}</p>
+        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(18px, 2vw, 24px)', fontStyle: 'italic', fontWeight: 400, color: '#0D0B09', margin: '0 0 3px', lineHeight: 1.2 }}>{name}</p>
         {subtitle && <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#999', margin: 0 }}>{subtitle}</p>}
       </div>
       <p style={{
@@ -98,7 +98,7 @@ function ListingSection({ title, intro, children }: {
       {/* Section header */}
       <h2 style={{
         fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300,
-        fontSize: 'clamp(28px, 3.5vw, 42px)', color: '#0D0B09',
+        fontSize: 'clamp(32px, 4vw, 52px)', color: '#0D0B09',
         margin: '0 0 16px',
       }}>
         {title}
@@ -129,7 +129,7 @@ export default function RegionDetailPage({ data }: { data: RegionData }) {
   const ledeParagraphs = lede.split(/\n\n+/).filter(p => p.trim().length > 80);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FFFFFF' }}>
+    <div style={{ minHeight: '100vh', background: '#FFFFFF', WebkitFontSmoothing: 'antialiased' as unknown as string }}>
       <Nav />
 
       {/* ── 1. HERO ── */}
@@ -139,7 +139,7 @@ export default function RegionDetailPage({ data }: { data: RegionData }) {
         <div style={{ position: 'absolute', bottom: 48, left: 0, right: 0, textAlign: 'center', padding: '0 24px' }}>
           <h1 style={{
             fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300,
-            fontSize: 'clamp(44px, 7vw, 88px)', color: '#F7F3EC', lineHeight: 1,
+            fontSize: 'clamp(56px, 9vw, 128px)', color: '#F7F3EC', lineHeight: 1,
             letterSpacing: '-0.02em', margin: 0, textShadow: '0 2px 24px rgba(0,0,0,0.3)',
           }}>
             {data.name}
@@ -165,7 +165,7 @@ export default function RegionDetailPage({ data }: { data: RegionData }) {
       <section style={{ padding: '72px clamp(24px, 8vw, 140px)', background: '#FFFFFF' }}>
         <p style={{
           fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300,
-          fontSize: 'clamp(24px, 3vw, 36px)', color: '#0D0B09', lineHeight: 1.5,
+          fontSize: 'clamp(32px, 4.5vw, 56px)', color: '#0D0B09', lineHeight: 1.4,
           margin: 0, maxWidth: 860, marginLeft: 'auto', marginRight: 'auto',
         }}>
           {data.pullQuote}
