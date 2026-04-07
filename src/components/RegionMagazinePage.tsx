@@ -43,7 +43,7 @@ function Featured({ listing, photoSide }: { listing: FeaturedListing; photoSide:
   return (
     <div style={{ marginBottom: 40, overflow: 'hidden' }}>
       {/* Photo floats to one side, text wraps around it */}
-      <div style={{
+      <div className="mag-float" style={{
         float: photoSide,
         width: '48%',
         margin: photoSide === 'left' ? '0 24px 16px 0' : '0 0 16px 24px',
@@ -136,7 +136,7 @@ function FeaturedFullWidth({ listing }: { listing: FeaturedListing }) {
       </p>
 
       {/* Full-width editorial text, 2-column */}
-      <div style={{
+      <div className="mag-cols" style={{
         fontFamily: 'var(--font-body)',
         fontSize: 14,
         lineHeight: 1.7,
@@ -187,7 +187,7 @@ function AlsoRecommendedGrid({ listings }: { listings: SidebarListing[] }) {
       }}>
         Also Recommended
       </p>
-      <div style={{
+      <div className="mag-grid" style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
         gap: '12px 32px',
@@ -301,7 +301,7 @@ function AdventureSection({ adventure }: { adventure: Adventure }) {
         {adventure.number}: {adventure.title}
       </h3>
 
-      <div style={{
+      <div className="mag-cols" style={{
         fontFamily: 'var(--font-body)',
         fontSize: 14,
         lineHeight: 1.75,
@@ -323,6 +323,16 @@ export default function RegionMagazinePage({ data }: { data: RegionMagazineData 
 
   return (
     <div style={{ background: CREAM, color: INK }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .mag-cols { column-count: 1 !important; }
+          .mag-float { float: none !important; width: 100% !important; margin: 0 0 16px 0 !important; }
+          .mag-section { padding-left: 20px !important; padding-right: 20px !important; }
+          .mag-title-inline { display: block !important; }
+          .mag-grid { grid-template-columns: 1fr !important; }
+          .mag-adventure-img { aspect-ratio: 16/9 !important; }
+        }
+      `}</style>
       <Nav />
 
       {/* ── Hero (full-bleed, ~60% of viewport) ────────────────── */}
@@ -384,7 +394,7 @@ export default function RegionMagazinePage({ data }: { data: RegionMagazineData 
         maxWidth: 960,
         margin: '0 auto',
       }}>
-        <div style={{
+        <div className="mag-cols" style={{
           fontFamily: 'var(--font-body)',
           fontSize: 15,
           lineHeight: 1.75,
@@ -429,7 +439,7 @@ export default function RegionMagazinePage({ data }: { data: RegionMagazineData 
 
         {/* Section intro with drop cap */}
         {data.taste.intro && (
-          <div style={{
+          <div className="mag-cols" style={{
             fontFamily: 'var(--font-body)',
             fontSize: 15,
             lineHeight: 1.75,
@@ -487,7 +497,7 @@ export default function RegionMagazinePage({ data }: { data: RegionMagazineData 
         <SectionTitle title="Where to Eat" />
 
         {data.eat.intro && (
-          <div style={{
+          <div className="mag-cols" style={{
             fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.75,
             color: '#333', columnCount: 2, columnGap: 36,
             maxWidth: 960, margin: '0 auto 40px',
@@ -529,7 +539,7 @@ export default function RegionMagazinePage({ data }: { data: RegionMagazineData 
           <SectionTitle title={data.slug === 'calistoga' ? 'Where to Stay and Soak' : 'Where to Stay'} />
 
           {data.stay.intro && (
-            <div style={{
+            <div className="mag-cols" style={{
               fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.75,
               color: '#333', columnCount: 2, columnGap: 36,
               maxWidth: 960, margin: '0 auto 40px',
@@ -580,7 +590,7 @@ export default function RegionMagazinePage({ data }: { data: RegionMagazineData 
 
           <div style={{ maxWidth: 960, margin: '32px auto 0' }}>
             {s.intro && (
-              <div style={{
+              <div className="mag-cols" style={{
                 fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.75,
                 color: '#333', columnCount: 2, columnGap: 32, marginBottom: 32,
               }}>
