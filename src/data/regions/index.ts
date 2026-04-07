@@ -4,6 +4,8 @@ import { oakvilleData } from './oakville';
 import { rutherfordData } from './rutherford';
 import { calistogaData } from './calistoga';
 import { pritchardHillData } from './pritchard-hill';
+import { stHelenaData } from './st-helena';
+import { downtownNapaData } from './downtown-napa';
 
 const regionMagazineDataMap: Record<string, RegionMagazineData> = {
   yountville: yountvilleData,
@@ -11,6 +13,8 @@ const regionMagazineDataMap: Record<string, RegionMagazineData> = {
   rutherford: rutherfordData,
   calistoga: calistogaData,
   'pritchard-hill': pritchardHillData,
+  'st-helena': stHelenaData,
+  'downtown-napa': downtownNapaData,
 };
 
 export function getRegionMagazineData(slug: string): RegionMagazineData | undefined {
