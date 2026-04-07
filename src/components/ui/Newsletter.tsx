@@ -5,19 +5,17 @@ export default function Newsletter() {
     <section
       style={{
         padding: '80px 60px',
-        borderTop: '1px solid rgba(247,243,236,0.06)',
+        background: '#0D0B09',
         textAlign: 'center',
       }}
     >
       <div style={{ maxWidth: 520, margin: '0 auto' }}>
         <h2
-          data-text-split=""
-          data-letters-rotate-in=""
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
             fontWeight: 300,
-            fontSize: 'clamp(28px, 3.5vw, 44px)',
+            fontSize: 'clamp(36px, 5vw, 56px)',
             color: '#F7F3EC',
             marginBottom: 16,
           }}
@@ -25,8 +23,6 @@ export default function Newsletter() {
           Stay in the know
         </h2>
         <p
-          data-text-split=""
-          data-lines-slide-up=""
           style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 14,
