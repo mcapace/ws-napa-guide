@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { RegionMagazineData, FeaturedListing, SidebarListing, SubRegion, Adventure, SpecialSection } from '@/data/region-structured.types';
+import { RegionMagazineData, FeaturedListing, SidebarListing, Adventure, SpecialSection } from '@/data/region-structured.types';
 import Nav from '@/components/ui/Nav';
 import Footer from '@/components/ui/Footer';
 import Newsletter from '@/components/ui/Newsletter';
@@ -13,366 +13,305 @@ const CREAM = '#F7F3EC';
 const INK = '#0D0B09';
 const GOLD = '#C4943A';
 const MIST = '#A89F91';
-const RULE = 'rgba(0,0,0,0.12)';
 
-/* ── Featured Listing (magazine style) ──────────────────────────── */
-function FeaturedListing_({ listing, index }: { listing: FeaturedListing; index: number }) {
-  const imageRight = index % 2 !== 0;
-
+/* ── Drop Cap Paragraph ─────────────────────────────────────────── */
+function DropCap({ text }: { text: string }) {
+  const first = text.charAt(0);
+  const rest = text.slice(1);
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: imageRight ? 'row-reverse' : 'row',
-      gap: 40,
-      marginBottom: 48,
-      flexWrap: 'wrap' as const,
-    }}>
-      {/* Photo — large, ~50% width */}
-      <div style={{ flex: '0 0 48%', maxWidth: '100%' }}>
-        <div style={{ position: 'relative', width: '100%', aspectRatio: '3/2', overflow: 'hidden' }}>
+    <p style={{ margin: '0 0 20px' }}>
+      <span style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 64,
+        fontWeight: 400,
+        fontStyle: 'italic',
+        float: 'left',
+        lineHeight: 0.78,
+        marginRight: 6,
+        marginTop: 4,
+        color: INK,
+      }}>
+        {first}
+      </span>
+      {rest}
+    </p>
+  );
+}
+
+/* ── Featured Listing (text wraps around photo) ─────────────────── */
+function Featured({ listing, photoSide }: { listing: FeaturedListing; photoSide: 'left' | 'right' }) {
+  return (
+    <div style={{ marginBottom: 40, overflow: 'hidden' }}>
+      {/* Photo floats to one side, text wraps around it */}
+      <div style={{
+        float: photoSide,
+        width: '48%',
+        margin: photoSide === 'left' ? '0 24px 16px 0' : '0 0 16px 24px',
+      }}>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
           <Image
             src={listing.image}
             alt={listing.name}
             fill
             style={{ objectFit: 'cover' }}
-            sizes="(max-width: 768px) 100vw, 48vw"
+            sizes="(max-width: 768px) 100vw, 45vw"
           />
+          {/* Caption label at bottom */}
+          <div style={{
+            position: 'absolute', bottom: 0, left: 0,
+            background: 'rgba(0,0,0,0.6)',
+            padding: '4px 12px',
+          }}>
+            <span style={{
+              fontFamily: 'var(--font-body)', fontSize: 11,
+              color: '#fff', fontWeight: 500,
+            }}>
+              {listing.name}
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Text */}
-      <div style={{ flex: 1, minWidth: 260 }}>
-        <h3 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(22px, 2.5vw, 32px)',
-          fontStyle: 'italic',
-          fontWeight: 400,
-          color: INK,
-          margin: '0 0 6px',
-          lineHeight: 1.15,
-        }}>
-          {listing.name}
-        </h3>
+      {/* Name + address */}
+      <h3 style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: 18,
+        fontWeight: 700,
+        color: INK,
+        margin: '0 0 2px',
+        lineHeight: 1.3,
+      }}>
+        {listing.name}
+      </h3>
+      <p style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: 12,
+        fontStyle: 'italic',
+        color: MIST,
+        margin: '0 0 10px',
+      }}>
+        {listing.address}
+        {listing.website && <> | {listing.website}</>}
+      </p>
 
-        <p style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 12,
-          color: MIST,
-          letterSpacing: '0.03em',
-          margin: '0 0 2px',
-          lineHeight: 1.5,
-        }}>
-          {listing.address}
-          {listing.website && (
-            <> <span style={{ color: GOLD }}>| {listing.website}</span></>
-          )}
-        </p>
+      {/* Editorial writeup — wraps around the floated photo */}
+      <p style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: 14,
+        lineHeight: 1.7,
+        color: '#333',
+        margin: 0,
+      }}>
+        {listing.writeup}
+      </p>
 
-        {listing.category && (
-          <p style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: 10,
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em',
-            color: GOLD,
-            margin: '4px 0 0',
-            fontWeight: 600,
-          }}>
-            {listing.category}
-          </p>
-        )}
+      <div style={{ clear: 'both' }} />
+    </div>
+  );
+}
 
-        <p style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 15,
-          lineHeight: 1.75,
-          color: '#444',
-          margin: '14px 0 0',
+/* ── Full-width Featured (photo spans full width, text below) ───── */
+function FeaturedFullWidth({ listing }: { listing: FeaturedListing }) {
+  return (
+    <div style={{ marginBottom: 40 }}>
+      {/* Name + address */}
+      <h3 style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: 18,
+        fontWeight: 700,
+        color: INK,
+        margin: '0 0 2px',
+      }}>
+        {listing.name}
+      </h3>
+      <p style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: 12,
+        fontStyle: 'italic',
+        color: MIST,
+        margin: '0 0 12px',
+      }}>
+        {listing.address}
+        {listing.website && <> | {listing.website}</>}
+      </p>
+
+      {/* Full-width editorial text, 2-column */}
+      <div style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: 14,
+        lineHeight: 1.7,
+        color: '#333',
+        columnCount: 2,
+        columnGap: 32,
+        marginBottom: 20,
+      }}>
+        <p style={{ margin: 0 }}>{listing.writeup}</p>
+      </div>
+
+      {/* Full-width photo */}
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+        <Image
+          src={listing.image}
+          alt={listing.name}
+          fill
+          style={{ objectFit: 'cover' }}
+          sizes="100vw"
+        />
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0,
+          background: 'rgba(0,0,0,0.6)',
+          padding: '4px 12px',
         }}>
-          {listing.writeup}
-        </p>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: 11, color: '#fff', fontWeight: 500 }}>
+            {listing.name}
+          </span>
+        </div>
       </div>
     </div>
   );
 }
 
-/* ── Sidebar Listing (compact: name / address | website) ────────── */
-function SidebarItem({ listing }: { listing: SidebarListing }) {
+/* ── Also Recommended Grid (multi-column at bottom of section) ── */
+function AlsoRecommendedGrid({ listings }: { listings: SidebarListing[] }) {
+  if (!listings.length) return null;
   return (
-    <div style={{ marginBottom: 16 }}>
-      <p style={{
-        fontFamily: 'var(--font-display)',
-        fontSize: 16,
-        fontWeight: 600,
-        fontStyle: 'italic',
-        color: INK,
-        margin: 0,
-        lineHeight: 1.3,
-      }}>
-        {listing.slug ? (
-          <Link href={`/wineries/${listing.slug}`} style={{ color: INK, textDecoration: 'none' }}>{listing.name}</Link>
-        ) : listing.name}
-      </p>
+    <div style={{ marginTop: 32, clear: 'both' }}>
       <p style={{
         fontFamily: 'var(--font-body)',
         fontSize: 11,
+        fontWeight: 600,
+        textTransform: 'uppercase',
+        letterSpacing: '0.12em',
         color: MIST,
-        margin: '2px 0 0',
-        lineHeight: 1.4,
+        margin: '0 0 16px',
       }}>
-        {listing.address}
-        {listing.website && (
-          <> <span style={{ color: GOLD }}>| {listing.website}</span></>
-        )}
+        Also Recommended
       </p>
-    </div>
-  );
-}
-
-/* ── Magazine Spread: Featured (left) + Sidebar (right) ─────────── */
-function MagazineSpread({
-  featured,
-  alsoRecommended,
-  type,
-  subRegionName,
-  subRegionIntro,
-}: {
-  featured: FeaturedListing[];
-  alsoRecommended: SidebarListing[];
-  type: 'winery' | 'restaurant' | 'hotel';
-  subRegionName?: string;
-  subRegionIntro?: string;
-}) {
-  return (
-    <div style={{ marginBottom: 56 }}>
-      {subRegionName && (
-        <div style={{ marginBottom: 32 }}>
-          <h3 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(26px, 3vw, 38px)',
-            fontStyle: 'italic',
-            fontWeight: 300,
-            color: INK,
-            margin: '0 0 8px',
-          }}>
-            {subRegionName}
-          </h3>
-          {subRegionIntro && (
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 15,
-              lineHeight: 1.7,
-              color: '#555',
-              maxWidth: 600,
-            }}>
-              {subRegionIntro}
-            </p>
-          )}
-        </div>
-      )}
-
       <div style={{
         display: 'grid',
-        gridTemplateColumns: alsoRecommended.length > 0 ? '1fr 280px' : '1fr',
-        gap: 56,
-        alignItems: 'start',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+        gap: '12px 32px',
       }}>
-        {/* Main column — featured listings */}
-        <div>
-          {featured.map((f, i) => (
-            <FeaturedListing_ key={f.name} listing={f} index={i} />
-          ))}
-        </div>
-
-        {/* Sidebar — Also Recommended */}
-        {alsoRecommended.length > 0 && (
-          <aside style={{
-            borderLeft: `1px solid ${RULE}`,
-            paddingLeft: 32,
-            position: 'sticky' as const,
-            top: 100,
-          }}>
-            <h4 style={{
+        {listings.map((l) => (
+          <div key={l.name}>
+            <p style={{
               fontFamily: 'var(--font-body)',
-              fontSize: 10,
+              fontSize: 14,
               fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.18em',
-              color: MIST,
-              margin: '0 0 20px',
-              paddingBottom: 12,
-              borderBottom: `1px solid ${RULE}`,
+              color: INK,
+              margin: '0 0 1px',
+              lineHeight: 1.3,
             }}>
-              Also Recommended
-            </h4>
-            {alsoRecommended.map((l) => (
-              <SidebarItem key={l.name} listing={l} />
-            ))}
-          </aside>
-        )}
+              {l.name}
+            </p>
+            <p style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 11,
+              fontStyle: 'italic',
+              color: MIST,
+              margin: '0 0 2px',
+            }}>
+              {l.address}
+            </p>
+            {l.website && (
+              <p style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 11,
+                fontStyle: 'italic',
+                color: GOLD,
+                margin: 0,
+              }}>
+                {l.website}
+              </p>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
-/* ── Section Header (bold caps with rule) ───────────────────────── */
-function SectionHeader({ title, intro }: { title: string; intro?: string }) {
+/* ── Section Header (bold caps, centered, like the PDF) ─────────── */
+function SectionTitle({ title }: { title: string }) {
   return (
-    <div style={{
-      marginBottom: 48,
-      paddingBottom: 20,
-      borderBottom: `2px solid ${INK}`,
+    <h2 style={{
+      fontFamily: 'var(--font-body)',
+      fontSize: 'clamp(28px, 4vw, 42px)',
+      fontWeight: 900,
+      textTransform: 'uppercase',
+      letterSpacing: '0.06em',
+      color: INK,
+      margin: '0 0 28px',
+      textAlign: 'center',
     }}>
-      <h2 style={{
-        fontFamily: 'var(--font-body)',
-        fontSize: 14,
-        fontWeight: 800,
-        textTransform: 'uppercase',
-        letterSpacing: '0.25em',
-        color: INK,
-        margin: 0,
-      }}>
-        {title}
-      </h2>
-      {intro && (
-        <p style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 16,
-          lineHeight: 1.75,
-          color: '#555',
-          margin: '16px 0 0',
-          maxWidth: 720,
-        }}>
-          {intro}
-        </p>
-      )}
-    </div>
+      {title}
+    </h2>
   );
 }
 
-/* ── Adventure Card ─────────────────────────────────────────────── */
-function AdventureCard({ adventure, author }: { adventure: Adventure; author: string }) {
+/* ── Sub-Region Header (light weight, like the PDF) ─────────────── */
+function SubRegionTitle({ name }: { name: string }) {
+  return (
+    <h3 style={{
+      fontFamily: 'var(--font-display)',
+      fontSize: 'clamp(28px, 4vw, 44px)',
+      fontWeight: 300,
+      color: INK,
+      margin: '48px 0 28px',
+      textAlign: 'center',
+    }}>
+      {name}
+    </h3>
+  );
+}
+
+/* ── Adventure Section ──────────────────────────────────────────── */
+function AdventureSection({ adventure }: { adventure: Adventure }) {
   const renderNarrative = (text: string) => {
     const parts = text.split(/\*\*(.*?)\*\*/g);
     return parts.map((part, i) =>
-      i % 2 === 1 ? <strong key={i} style={{ color: CREAM, fontWeight: 600 }}>{part}</strong> : <span key={i}>{part}</span>
+      i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
     );
   };
 
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 48,
-      marginBottom: 72,
-      alignItems: 'start',
-    }}>
-      {/* Image */}
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
+    <div style={{ marginBottom: 56 }}>
+      {/* Full-width photo */}
+      <div style={{
+        position: 'relative', width: '100%',
+        aspectRatio: '21/9', overflow: 'hidden',
+        marginBottom: 24,
+      }}>
         <Image
           src={adventure.image}
           alt={adventure.title}
           fill
           style={{ objectFit: 'cover' }}
-          sizes="50vw"
+          sizes="100vw"
         />
       </div>
 
-      {/* Text */}
-      <div>
-        <p style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 10,
-          fontWeight: 700,
-          textTransform: 'uppercase',
-          letterSpacing: '0.18em',
-          color: GOLD,
-          margin: '0 0 8px',
-        }}>
-          Excursion {adventure.number}
-        </p>
-        <h3 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(28px, 3.5vw, 44px)',
-          fontStyle: 'italic',
-          fontWeight: 300,
-          color: CREAM,
-          margin: '0 0 24px',
-          lineHeight: 1.1,
-        }}>
-          {adventure.title}
-        </h3>
-        <p style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 16,
-          lineHeight: 1.85,
-          color: MIST,
-        }}>
-          {renderNarrative(adventure.narrative)}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/* ── Special Section ────────────────────────────────────────────── */
-function SpecialSectionBlock({ section }: { section: SpecialSection }) {
-  return (
-    <div style={{
-      padding: '64px clamp(24px, 5vw, 120px)',
-      background: CREAM,
-      borderTop: `1px solid ${RULE}`,
-    }}>
-      <SectionHeader title={section.title} intro={section.intro} />
-      {section.featured && section.featured.length > 0 && (
-        <MagazineSpread
-          featured={section.featured}
-          alsoRecommended={section.alsoRecommended || []}
-          type="winery"
-        />
-      )}
-      {!section.featured?.length && section.narrative && (
-        <p style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 16,
-          lineHeight: 1.85,
-          color: '#444',
-          maxWidth: 720,
-        }}>
-          {section.narrative}
-        </p>
-      )}
-    </div>
-  );
-}
-
-/* ── Drop Cap ───────────────────────────────────────────────────── */
-function DropCapParagraph({ text }: { text: string }) {
-  const firstLetter = text.charAt(0);
-  const rest = text.slice(1);
-  return (
-    <p style={{
-      fontFamily: 'var(--font-body)',
-      fontSize: 17,
-      lineHeight: 1.85,
-      color: '#333',
-      margin: '0 0 24px',
-    }}>
-      <span style={{
+      <h3 style={{
         fontFamily: 'var(--font-display)',
-        fontSize: 72,
-        fontWeight: 400,
-        fontStyle: 'italic',
-        float: 'left' as const,
-        lineHeight: 0.8,
-        marginRight: 8,
-        marginTop: 6,
+        fontSize: 'clamp(24px, 3.5vw, 38px)',
+        fontWeight: 300,
         color: INK,
+        margin: '0 0 20px',
       }}>
-        {firstLetter}
-      </span>
-      {rest}
-    </p>
+        {adventure.number}: {adventure.title}
+      </h3>
+
+      <div style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: 14,
+        lineHeight: 1.75,
+        color: '#333',
+        columnCount: 2,
+        columnGap: 32,
+      }}>
+        <DropCap text={adventure.narrative.replace(/\*\*/g, '')} />
+      </div>
+    </div>
   );
 }
 
@@ -383,11 +322,11 @@ export default function RegionMagazinePage({ data }: { data: RegionMagazineData 
   const ledeParagraphs = data.lede.split('\n\n');
 
   return (
-    <div style={{ background: INK }}>
+    <div style={{ background: CREAM, color: INK }}>
       <Nav />
 
-      {/* ── Hero ────────────────────────────────────────────────── */}
-      <section style={{ position: 'relative', height: '70vh', overflow: 'hidden' }}>
+      {/* ── Hero (full-bleed, ~60% of viewport) ────────────────── */}
+      <section style={{ position: 'relative', height: '65vh', overflow: 'hidden' }}>
         <Image
           src={data.heroImage}
           alt={data.title}
@@ -396,112 +335,85 @@ export default function RegionMagazinePage({ data }: { data: RegionMagazineData 
           priority
           sizes="100vw"
         />
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 50%)',
-        }} />
-        <div style={{
-          position: 'absolute',
-          bottom: 48,
-          left: 0,
-          right: 0,
-          textAlign: 'center',
-          padding: '0 24px',
-        }}>
-          <h1 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(48px, 9vw, 120px)',
-            fontStyle: 'italic',
-            fontWeight: 300,
-            color: CREAM,
-            margin: 0,
-            lineHeight: 0.95,
-            letterSpacing: '-0.02em',
-          }}>
-            {data.title}
-          </h1>
-          <p style={{
-            fontFamily: 'var(--font-body)',
-            fontSize: 14,
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '0.2em',
-            color: GOLD,
-            margin: '14px 0 0',
-          }}>
-            {data.subtitle}
-          </p>
-        </div>
       </section>
 
-      {/* ── Lede / Editorial Intro ──────────────────────────────── */}
+      {/* ── Title Block ─────────────────────────────────────────── */}
       <section style={{
-        padding: '72px clamp(24px, 5vw, 120px)',
-        background: CREAM,
+        padding: '48px clamp(24px, 5vw, 120px) 0',
+        textAlign: 'center',
       }}>
+        <h1 style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: 'clamp(32px, 5vw, 52px)',
+          fontWeight: 900,
+          textTransform: 'uppercase',
+          letterSpacing: '0.08em',
+          color: INK,
+          margin: 0,
+          display: 'inline',
+        }}>
+          {data.title}
+        </h1>
+        {' '}
+        <span style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 'clamp(28px, 4.5vw, 48px)',
+          fontStyle: 'italic',
+          fontWeight: 300,
+          color: INK,
+        }}>
+          {data.subtitle}
+        </span>
+
         <p style={{
           fontFamily: 'var(--font-body)',
-          fontSize: 11,
-          fontWeight: 600,
+          fontSize: 13,
+          fontWeight: 500,
           textTransform: 'uppercase',
           letterSpacing: '0.15em',
           color: MIST,
-          margin: '0 0 36px',
+          margin: '16px 0 0',
         }}>
           By {data.author}
         </p>
+      </section>
 
+      {/* ── Lede (2-column with drop cap) ───────────────────────── */}
+      <section style={{
+        padding: '36px clamp(24px, 5vw, 120px) 56px',
+        maxWidth: 960,
+        margin: '0 auto',
+      }}>
         <div style={{
-          maxWidth: 860,
+          fontFamily: 'var(--font-body)',
+          fontSize: 15,
+          lineHeight: 1.75,
+          color: '#333',
           columnCount: 2,
-          columnGap: 48,
-          columnRule: `1px solid ${RULE}`,
+          columnGap: 36,
+          columnRule: '1px solid rgba(0,0,0,0.08)',
         }}>
           {ledeParagraphs.map((p, i) =>
-            i === 0 ? (
-              <DropCapParagraph key={i} text={p} />
-            ) : (
-              <p key={i} style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: 17,
-                lineHeight: 1.85,
-                color: '#333',
-                margin: '0 0 24px',
-              }}>
-                {p}
-              </p>
-            )
+            i === 0 ? <DropCap key={i} text={p} /> : <p key={i} style={{ margin: '0 0 20px' }}>{p}</p>
           )}
         </div>
 
         {data.tip && (
           <div style={{
-            marginTop: 48,
-            padding: '20px 28px',
+            marginTop: 32,
+            padding: '16px 24px',
             borderLeft: `3px solid ${GOLD}`,
-            background: 'rgba(196, 148, 58, 0.05)',
-            maxWidth: 640,
+            background: 'rgba(196, 148, 58, 0.04)',
           }}>
             <p style={{
               fontFamily: 'var(--font-body)',
-              fontSize: 10,
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.18em',
-              color: GOLD,
-              margin: '0 0 6px',
-            }}>
-              Tip
-            </p>
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 14,
-              lineHeight: 1.7,
+              fontSize: 13,
+              lineHeight: 1.6,
               color: '#555',
               margin: 0,
               fontStyle: 'italic',
             }}>
+              <strong style={{ color: GOLD, fontStyle: 'normal', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em' }}>Tip </strong>
               {data.tip}
             </p>
           </div>
@@ -510,86 +422,100 @@ export default function RegionMagazinePage({ data }: { data: RegionMagazineData 
 
       {/* ── WHERE TO TASTE ──────────────────────────────────────── */}
       <section style={{
-        padding: '64px clamp(24px, 5vw, 120px)',
-        background: CREAM,
-        borderTop: `1px solid ${RULE}`,
+        padding: '56px clamp(24px, 5vw, 120px)',
+        borderTop: '1px solid rgba(0,0,0,0.1)',
       }}>
-        <SectionHeader title="Where to Taste" intro={data.taste.intro} />
+        <SectionTitle title="Where to Taste" />
 
-        {/* Sub-regions with their own featured + sidebar */}
-        {data.taste.subRegions?.map((sr) => (
-          <MagazineSpread
-            key={sr.name}
-            featured={sr.featured}
-            alsoRecommended={sr.alsoRecommended}
-            type="winery"
-            subRegionName={sr.name}
-            subRegionIntro={sr.intro}
-          />
-        ))}
-
-        {/* Top-level featured + sidebar (for regions without sub-regions) */}
-        {data.taste.featured.length > 0 && (
-          <MagazineSpread
-            featured={data.taste.featured}
-            alsoRecommended={data.taste.alsoRecommended}
-            type="winery"
-          />
+        {/* Section intro with drop cap */}
+        {data.taste.intro && (
+          <div style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 15,
+            lineHeight: 1.75,
+            color: '#333',
+            columnCount: 2,
+            columnGap: 36,
+            maxWidth: 960,
+            margin: '0 auto 40px',
+          }}>
+            <DropCap text={data.taste.intro} />
+          </div>
         )}
 
-        {/* If no featured but has sidebar only */}
-        {data.taste.featured.length === 0 && data.taste.alsoRecommended.length > 0 && !data.taste.subRegions?.length && (
-          <div style={{ borderLeft: `1px solid ${RULE}`, paddingLeft: 32, maxWidth: 320 }}>
-            <h4 style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 10,
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.18em',
-              color: MIST,
-              margin: '0 0 20px',
-            }}>
-              Also Recommended
-            </h4>
-            {data.taste.alsoRecommended.map((l) => (
-              <SidebarItem key={l.name} listing={l} />
+        {/* Sub-regions */}
+        {data.taste.subRegions?.map((sr) => (
+          <div key={sr.name} style={{ maxWidth: 960, margin: '0 auto', marginBottom: 56 }}>
+            <SubRegionTitle name={sr.name} />
+            {sr.intro && (
+              <p style={{
+                fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.7,
+                color: '#555', textAlign: 'center', maxWidth: 700, margin: '0 auto 32px',
+              }}>
+                {sr.intro}
+              </p>
+            )}
+
+            {sr.featured.map((f, i) => {
+              // Alternate between wrap-around and full-width layouts
+              if (sr.featured.length > 1 && i === sr.featured.length - 1) {
+                return <FeaturedFullWidth key={f.name} listing={f} />;
+              }
+              return <Featured key={f.name} listing={f} photoSide={i % 2 === 0 ? 'right' : 'left'} />;
+            })}
+
+            <AlsoRecommendedGrid listings={sr.alsoRecommended} />
+          </div>
+        ))}
+
+        {/* Top-level featured (non-sub-region) */}
+        {data.taste.featured.length > 0 && (
+          <div style={{ maxWidth: 960, margin: '0 auto' }}>
+            {data.taste.featured.map((f, i) => (
+              <Featured key={f.name} listing={f} photoSide={i % 2 === 0 ? 'right' : 'left'} />
             ))}
+            <AlsoRecommendedGrid listings={data.taste.alsoRecommended} />
           </div>
         )}
       </section>
 
       {/* ── WHERE TO EAT ────────────────────────────────────────── */}
       <section style={{
-        padding: '64px clamp(24px, 5vw, 120px)',
-        background: CREAM,
-        borderTop: `1px solid ${RULE}`,
+        padding: '56px clamp(24px, 5vw, 120px)',
+        borderTop: '1px solid rgba(0,0,0,0.1)',
       }}>
-        <SectionHeader title="Where to Eat" intro={data.eat.intro} />
+        <SectionTitle title="Where to Eat" />
 
-        <MagazineSpread
-          featured={data.eat.featured}
-          alsoRecommended={data.eat.alsoRecommended}
-          type="restaurant"
-        />
+        {data.eat.intro && (
+          <div style={{
+            fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.75,
+            color: '#333', columnCount: 2, columnGap: 36,
+            maxWidth: 960, margin: '0 auto 40px',
+          }}>
+            <DropCap text={data.eat.intro} />
+          </div>
+        )}
+
+        <div style={{ maxWidth: 960, margin: '0 auto' }}>
+          {data.eat.featured.map((f, i) => (
+            <Featured key={f.name} listing={f} photoSide={i % 2 === 0 ? 'left' : 'right'} />
+          ))}
+          <AlsoRecommendedGrid listings={data.eat.alsoRecommended} />
+        </div>
 
         {data.eat.breakfastCoffee && (
-          <div style={{ marginTop: 32, paddingTop: 32, borderTop: `1px solid ${RULE}` }}>
+          <div style={{ maxWidth: 960, margin: '40px auto 0', paddingTop: 32, borderTop: '1px solid rgba(0,0,0,0.08)' }}>
             <h3 style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 11,
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.2em',
-              color: INK,
-              margin: '0 0 32px',
+              fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 700,
+              textTransform: 'uppercase', letterSpacing: '0.12em', color: INK,
+              margin: '0 0 28px', textAlign: 'center',
             }}>
               Breakfast / Coffee / Sandwiches / Snacks
             </h3>
-            <MagazineSpread
-              featured={data.eat.breakfastCoffee.featured}
-              alsoRecommended={data.eat.breakfastCoffee.alsoRecommended}
-              type="restaurant"
-            />
+            {data.eat.breakfastCoffee.featured.map((f, i) => (
+              <Featured key={f.name} listing={f} photoSide={i % 2 === 0 ? 'right' : 'left'} />
+            ))}
+            <AlsoRecommendedGrid listings={data.eat.breakfastCoffee.alsoRecommended} />
           </div>
         )}
       </section>
@@ -597,62 +523,114 @@ export default function RegionMagazinePage({ data }: { data: RegionMagazineData 
       {/* ── WHERE TO STAY ───────────────────────────────────────── */}
       {data.stay && (
         <section style={{
-          padding: '64px clamp(24px, 5vw, 120px)',
-          background: CREAM,
-          borderTop: `1px solid ${RULE}`,
+          padding: '56px clamp(24px, 5vw, 120px)',
+          borderTop: '1px solid rgba(0,0,0,0.1)',
         }}>
-          <SectionHeader title="Where to Stay" intro={data.stay.intro} />
-          <MagazineSpread
-            featured={data.stay.featured}
-            alsoRecommended={data.stay.alsoRecommended}
-            type="hotel"
-          />
+          <SectionTitle title={data.slug === 'calistoga' ? 'Where to Stay and Soak' : 'Where to Stay'} />
+
+          {data.stay.intro && (
+            <div style={{
+              fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.75,
+              color: '#333', columnCount: 2, columnGap: 36,
+              maxWidth: 960, margin: '0 auto 40px',
+            }}>
+              <DropCap text={data.stay.intro} />
+            </div>
+          )}
+
+          <div style={{ maxWidth: 960, margin: '0 auto' }}>
+            {data.stay.featured.map((f, i) => (
+              <Featured key={f.name} listing={f} photoSide={i % 2 === 0 ? 'left' : 'right'} />
+            ))}
+            <AlsoRecommendedGrid listings={data.stay.alsoRecommended} />
+          </div>
         </section>
       )}
 
       {/* ── Special Sections ────────────────────────────────────── */}
       {data.specialSections?.map((s) => (
-        <SpecialSectionBlock key={s.title} section={s} />
+        <section key={s.title} style={{
+          padding: '56px clamp(24px, 5vw, 120px)',
+          borderTop: '1px solid rgba(0,0,0,0.1)',
+        }}>
+          {/* Title: BOLD CAPS + italic subtitle style */}
+          <h2 style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 'clamp(24px, 3.5vw, 36px)',
+            fontWeight: 900,
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            color: INK,
+            margin: '0 0 4px',
+            textAlign: 'center',
+            display: 'inline-block',
+            width: '100%',
+          }}>
+            {data.title}{' '}
+            <span style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 300,
+              fontStyle: 'italic',
+              textTransform: 'none',
+              letterSpacing: 0,
+            }}>
+              {s.title}
+            </span>
+          </h2>
+
+          <div style={{ maxWidth: 960, margin: '32px auto 0' }}>
+            {s.intro && (
+              <div style={{
+                fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.75,
+                color: '#333', columnCount: 2, columnGap: 32, marginBottom: 32,
+              }}>
+                <DropCap text={s.intro} />
+              </div>
+            )}
+
+            {s.featured?.map((f, i) => (
+              <Featured key={f.name} listing={f} photoSide={i % 2 === 0 ? 'right' : 'left'} />
+            ))}
+            {s.alsoRecommended && <AlsoRecommendedGrid listings={s.alsoRecommended} />}
+          </div>
+        </section>
       ))}
 
       {/* ── ADVENTURES ──────────────────────────────────────────── */}
       {data.adventures.length > 0 && (
         <section style={{
-          padding: '80px clamp(24px, 5vw, 120px)',
-          background: INK,
+          padding: '56px clamp(24px, 5vw, 120px)',
+          borderTop: '1px solid rgba(0,0,0,0.1)',
         }}>
-          <div style={{
-            marginBottom: 64,
-            paddingBottom: 20,
-            borderBottom: `1px solid rgba(255,255,255,0.15)`,
+          <h2 style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 'clamp(24px, 3.5vw, 36px)',
+            fontWeight: 900,
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            color: INK,
+            margin: 0,
+            textAlign: 'center',
           }}>
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 10,
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.18em',
-              color: GOLD,
-              margin: '0 0 8px',
-            }}>
-              Choose Your Adventure
-            </p>
-            <h2 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(32px, 4.5vw, 56px)',
-              fontStyle: 'italic',
-              fontWeight: 300,
-              color: CREAM,
-              margin: 0,
-              lineHeight: 1.1,
-            }}>
-              {data.adventures.length} excursion{data.adventures.length > 1 ? 's' : ''} from {data.author}
-            </h2>
-          </div>
+            {data.title} Choose Your Adventure
+          </h2>
+          <p style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(18px, 2.5vw, 28px)',
+            fontStyle: 'italic',
+            fontWeight: 300,
+            color: '#555',
+            margin: '8px 0 48px',
+            textAlign: 'center',
+          }}>
+            {data.adventures.length === 1 ? 'One excursion' : `${data.adventures.length === 2 ? 'Two' : 'Three'} excursions`} from {data.author}
+          </p>
 
-          {data.adventures.map((a) => (
-            <AdventureCard key={a.number} adventure={a} author={data.author} />
-          ))}
+          <div style={{ maxWidth: 960, margin: '0 auto' }}>
+            {data.adventures.map((a) => (
+              <AdventureSection key={a.number} adventure={a} />
+            ))}
+          </div>
         </section>
       )}
 
