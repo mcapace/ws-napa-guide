@@ -3,12 +3,29 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import type { RegionData } from '@/data/regions'
 import type { Hotel, Restaurant, Winery } from '@/lib/types'
 import { TRH, trhType, trhLayout } from './real-hotels-theme'
 
 const bodyLight: CSSProperties = trhType.body()
+const trhSectionGapY = 120
+const trhEntryGapY = 80
+const trhImageHover = '0.6s cubic-bezier(0.25,0.46,0.45,0.94)'
+
+function truncateForDirectory(fallback: string): string {
+  const t = fallback.trim()
+  if (!t) return ''
+  const sents = t.match(/[^.!?]+[.!?]+/g) || []
+  const from3 = sents.slice(0, 3).join(' ').replace(/\s+/g, ' ').trim()
+  const candidate = from3 && from3.length ? from3 : t
+  if (candidate.length <= 400) return candidate
+  const sub = candidate.slice(0, 400)
+  const e = Math.max(sub.lastIndexOf('.'), sub.lastIndexOf('!'), sub.lastIndexOf('?'))
+  if (e > 20) return candidate.slice(0, e + 1).trim()
+  return sub.trim() + '…'
+}
 
 function SeriesSectionTitle({ children, subtitle }: { children: React.ReactNode; subtitle?: string }) {
   return (
@@ -195,71 +212,91 @@ const textLinkUpper: CSSProperties = {
   paddingBottom: 3,
 }
 
-/** The Real Hotels–style horizontal directory row. */
+/**
+ * Real Hotels directory row — 50/50 image / content, alternating with `imageOnLeft`.
+ * Image: only objectFit, transform, transition. Body is a separate <p> with listingExcerpt (no CSS line-clamp).
+ */
 function SeriesListingRow({
   href,
   imageSrc,
   title,
-  locationLine,
-  eyebrow,
-  excerpt,
-  primaryCta,
+  eyebrowText,
+  metaLine,
+  body,
+  primaryLabel,
   primaryHref,
-  expanded,
+  imageOnLeft,
 }: {
   href: string
   imageSrc: string
   title: string
-  locationLine: string
-  eyebrow?: string
-  excerpt: string
-  primaryCta: string
+  eyebrowText: string
+  metaLine?: string
+  body: string
+  primaryLabel: string
   primaryHref?: string
-  /** Show full excerpt (print-style flagship blurbs). */
-  expanded?: boolean
+  imageOnLeft: boolean
 }) {
-  return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(140px, 160px) 1fr auto',
-        gap: 'clamp(20px, 3vw, 36px)',
-        alignItems: 'start',
-        padding: '36px 0',
-        borderTop: `1px solid ${TRH.rule}`,
-      }}
-    >
-      <Link href={href} style={{ display: 'block', position: 'relative', aspectRatio: '4/3', overflow: 'hidden', borderRadius: 2 }}>
-        <Image src={imageSrc} alt={title} fill sizes="180px" style={{ objectFit: 'cover' }} />
-      </Link>
-      <div style={{ minWidth: 0 }}>
-        <Link href={href} style={{ textDecoration: 'none' }}>
-          <h3 style={trhType.listingTitle()}>{title}</h3>
-        </Link>
-        <p style={{ ...trhType.meta(), margin: '0 0 14px' }}>
-          {locationLine}
-          {eyebrow ? ` · ${eyebrow}` : ''}
-        </p>
-        <p
+  const [imgHover, setImgHover] = useState(false)
+  const media = (
+    <div className="trh-listing-5050__media">
+      <Link
+        href={href}
+        onMouseEnter={() => setImgHover(true)}
+        onMouseLeave={() => setImgHover(false)}
+        className="trh-listing-5050__mediaLink"
+        aria-label={title}
+      >
+        <Image
+          src={imageSrc}
+          alt={title}
+          fill
+          sizes="(max-width: 800px) 100vw, 50vw"
           style={{
-            ...trhType.listingExcerpt(),
-            ...(expanded
-              ? {}
-              : {
-                  display: '-webkit-box',
-                  WebkitLineClamp: 4,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
-                }),
+            objectFit: 'cover',
+            transform: imgHover ? 'scale(1.03)' : 'scale(1)',
+            transition: `transform ${trhImageHover}`,
           }}
-        >
-          {excerpt}
-        </p>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-end', flexShrink: 0, paddingTop: 4 }}>
+        />
+      </Link>
+    </div>
+  )
+  const content = (
+    <div className="trh-listing-5050__content" style={{ background: TRH.editorialBg }}>
+      <p style={{ ...trhType.eyebrow(), marginBottom: 12, textAlign: 'left' as const }}>{eyebrowText}</p>
+      <h3
+        style={{
+          ...trhType.displayItalic(TRH.ink),
+          fontSize: 'clamp(1.35rem, 2vw, 2rem)',
+          lineHeight: 1.2,
+          margin: '0 0 10px',
+        }}
+      >
+        {title}
+      </h3>
+      {metaLine ? <p style={{ ...trhType.meta(), margin: '0 0 20px' }}>{metaLine}</p> : null}
+      <p
+        style={{
+          ...trhType.listingExcerpt(),
+          margin: '0 0 28px',
+          textAlign: 'left' as const,
+        }}
+      >
+        {body}
+      </p>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: 14,
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}
+      >
         {primaryHref ? (
           <a href={primaryHref} target="_blank" rel="noopener noreferrer" style={pillPrimary}>
-            {primaryCta}
+            {primaryLabel}
           </a>
         ) : null}
         <Link href={href} style={textLinkUpper}>
@@ -267,6 +304,21 @@ function SeriesListingRow({
         </Link>
       </div>
     </div>
+  )
+  return (
+    <article className={imageOnLeft ? 'trh-listing-5050' : 'trh-listing-5050 trh-listing-5050--image-right'}>
+      {imageOnLeft ? (
+        <>
+          {media}
+          {content}
+        </>
+      ) : (
+        <>
+          {content}
+          {media}
+        </>
+      )}
+    </article>
   )
 }
 
@@ -361,13 +413,13 @@ export function RegionDirectorySpread({
 
   return (
     <div style={{ background: TRH.editorialBg, color: TRH.ink }}>
-      {regionWineries.length > 0 && tasteIntro && (
+      {regionWineries.length > 0 && (
         <section
           id="where-to-taste"
           style={{ padding: `${trhLayout.sectionPadYMain} ${trhLayout.sectionPadX} clamp(2.5rem, 5vw, 3.5rem)` }}
         >
-          <SeriesSectionTitle subtitle="More from this guide">Where to taste</SeriesSectionTitle>
-          <SectionEditLead text={tasteIntro} dropCap />
+          <SeriesSectionTitle>Where to taste</SeriesSectionTitle>
+          {tasteIntro.trim() ? <SectionEditLead text={tasteIntro} dropCap /> : null}
 
           {firstWinery && (
             <div className="trh-feature-split">
@@ -437,21 +489,32 @@ export function RegionDirectorySpread({
                 items={alsoTaste}
               />
             ) : null}
-            <div style={{ minWidth: 0 }}>
-              {moreWineries.map((w, idx) => (
-                <SeriesListingRow
-                  key={w.slug}
-                  href={`/wineries/${w.slug}`}
-                  imageSrc={w.images[0]}
-                  title={w.name}
-                  locationLine={isYountville && idx < 2 ? 'Stags Leap District' : region.name}
-                  eyebrow={w.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'}
-                  excerpt={w.description}
-                  primaryCta="Reserve"
-                  primaryHref={w.visitInfo?.website}
-                  expanded
-                />
-              ))}
+            <div
+              style={{
+                minWidth: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: trhEntryGapY,
+              }}
+            >
+              {moreWineries.map((w, idx) => {
+                const visit = w.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'
+                const stagsCorrection = isYountville && idx < 2
+                const loc = stagsCorrection ? 'Stags Leap District' : region.name
+                return (
+                  <SeriesListingRow
+                    key={w.slug}
+                    href={`/wineries/${w.slug}`}
+                    imageSrc={w.images[0]}
+                    title={w.name}
+                    eyebrowText={`${visit} · ${loc}`}
+                    body={w.directoryBlurb?.trim() || truncateForDirectory(w.description)}
+                    primaryLabel="Reserve a visit"
+                    primaryHref={w.visitInfo?.website}
+                    imageOnLeft={idx % 2 === 0}
+                  />
+                )
+              })}
             </div>
           </div>
 
@@ -505,32 +568,45 @@ export function RegionDirectorySpread({
         </section>
       )}
 
-      {regionRestaurants.length > 0 && eatIntro && (
+      {regionRestaurants.length > 0 && (
         <section
           id="where-to-eat"
           style={{
+            marginTop: regionWineries.length > 0 ? trhSectionGapY : 0,
             padding: `${trhLayout.sectionPadYMain} ${trhLayout.sectionPadX} clamp(2.5rem, 5vw, 3.5rem)`,
             background: TRH.editorialBgAlt,
             borderTop: `1px solid ${TRH.rule}`,
           }}
         >
-          <SeriesSectionTitle subtitle="More from this guide">Where to eat</SeriesSectionTitle>
-          <div className="trh-rail-grid" style={{ marginBottom: 40 }}>
-            <SectionEditLead text={eatIntro} dropCap={false} />
-            {alsoEat.length > 0 ? <AlsoRecommendedRailLight title="Also recommended" items={alsoEat} /> : null}
-          </div>
-          <div style={{ maxWidth: 1180, margin: '0 auto' }}>
-            {regionRestaurants.map((r) => (
+          <SeriesSectionTitle>Where to eat</SeriesSectionTitle>
+          {eatIntro.trim() && alsoEat.length > 0 ? (
+            <div className="trh-rail-grid" style={{ marginBottom: 40 }}>
+              <SectionEditLead text={eatIntro} dropCap={false} />
+              <AlsoRecommendedRailLight title="Also recommended" items={alsoEat} />
+            </div>
+          ) : null}
+          {eatIntro.trim() && alsoEat.length === 0 ? <SectionEditLead text={eatIntro} dropCap={false} /> : null}
+          {!eatIntro.trim() && alsoEat.length > 0 ? (
+            <div style={{ maxWidth: 1180, margin: '0 auto 40px' }}>
+              <AlsoRecommendedRailLight title="Also recommended" items={alsoEat} />
+            </div>
+          ) : null}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: trhEntryGapY, maxWidth: 1180, margin: '0 auto' }}>
+            {regionRestaurants.map((r, idx) => (
               <SeriesListingRow
                 key={r.slug}
                 href={`/dining/${r.slug}`}
                 imageSrc={r.images[0]}
                 title={r.name}
-                locationLine={region.name}
-                eyebrow={`${r.cuisine} · ${r.priceRange}`}
-                excerpt={r.excerpt ?? r.description}
-                primaryCta="Reservations"
+                eyebrowText={`${r.cuisine} · ${r.priceRange}`}
+                metaLine={region.name}
+                body={
+                  r.directoryBlurb?.trim() || (r.excerpt?.trim() ? r.excerpt : truncateForDirectory(r.description))
+                }
+                primaryLabel="Reservations"
                 primaryHref={r.reservations ?? r.website ?? undefined}
+                imageOnLeft={idx % 2 === 0}
               />
             ))}
           </div>
@@ -538,31 +614,43 @@ export function RegionDirectorySpread({
         </section>
       )}
 
-      {regionHotels.length > 0 && stayIntro && (
+      {regionHotels.length > 0 && (
         <section
           id="where-to-stay"
           style={{
+            marginTop: regionWineries.length > 0 || regionRestaurants.length > 0 ? trhSectionGapY : 0,
             padding: `${trhLayout.sectionPadYMain} ${trhLayout.sectionPadX} clamp(3rem, 6vw, 4rem)`,
             borderTop: `1px solid ${TRH.rule}`,
           }}
         >
-          <SeriesSectionTitle subtitle="More from this guide">Where to stay</SeriesSectionTitle>
-          <div className="trh-rail-grid" style={{ marginBottom: 40 }}>
-            <SectionEditLead text={stayIntro} dropCap={false} />
-            {alsoStay.length > 0 ? <AlsoRecommendedRailLight title="Also recommended" items={alsoStay} /> : null}
-          </div>
-          <div style={{ maxWidth: 1180, margin: '0 auto' }}>
-            {regionHotels.map((h) => (
+          <SeriesSectionTitle>Where to stay</SeriesSectionTitle>
+          {stayIntro.trim() && alsoStay.length > 0 ? (
+            <div className="trh-rail-grid" style={{ marginBottom: 40 }}>
+              <SectionEditLead text={stayIntro} dropCap={false} />
+              <AlsoRecommendedRailLight title="Also recommended" items={alsoStay} />
+            </div>
+          ) : null}
+          {stayIntro.trim() && alsoStay.length === 0 ? <SectionEditLead text={stayIntro} dropCap={false} /> : null}
+          {!stayIntro.trim() && alsoStay.length > 0 ? (
+            <div style={{ maxWidth: 1180, margin: '0 auto 40px' }}>
+              <AlsoRecommendedRailLight title="Also recommended" items={alsoStay} />
+            </div>
+          ) : null}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: trhEntryGapY, maxWidth: 1180, margin: '0 auto' }}>
+            {regionHotels.map((h, idx) => (
               <SeriesListingRow
                 key={h.slug}
                 href={`/stay/${h.slug}`}
                 imageSrc={h.images[0]}
                 title={h.name}
-                locationLine={region.name}
-                eyebrow={h.priceRange}
-                excerpt={h.excerpt ?? h.description}
-                primaryCta="Book"
+                eyebrowText={`${h.priceRange} · ${region.name}`}
+                body={
+                  h.directoryBlurb?.trim() || (h.excerpt?.trim() ? h.excerpt : truncateForDirectory(h.description))
+                }
+                primaryLabel="Book"
                 primaryHref={h.website}
+                imageOnLeft={idx % 2 === 0}
               />
             ))}
           </div>
@@ -574,6 +662,8 @@ export function RegionDirectorySpread({
         <section
           id="region-culture"
           style={{
+            marginTop:
+              regionWineries.length + regionRestaurants.length + regionHotels.length > 0 ? trhSectionGapY : 0,
             padding: `${trhLayout.sectionPadYMain} ${trhLayout.sectionPadX} clamp(4rem, 9vw, 6rem)`,
             background: TRH.editorialBgAlt,
             borderTop: `1px solid ${TRH.rule}`,
