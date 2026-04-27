@@ -34,6 +34,13 @@ export default async function RegionPage({ params }: Props) {
   const region = getRegion(slug)
   if (!region) notFound()
 
+  // Temporary: route Yountville through the new TRH layout (RegionPageClient
+  // + RegionDirectorySpread) for verification before propagating to other
+  // AVAs in a later commit. Other six AVAs continue to use RegionDetailPage.
+  if (slug === 'yountville') {
+    return <RegionPageClient slug={slug} />
+  }
+
   if (NEW_LAYOUT_REGIONS.includes(slug)) {
     const regionWineries = region.winerySlugs
       .map(s => wineries.find(w => w.slug === s))
