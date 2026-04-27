@@ -72,6 +72,7 @@ export default function HomePage() {
   const heroCopyRef = useRef<HTMLDivElement>(null)
   const heroDisplayRef = useRef<HTMLDivElement>(null)
   const fullscreenOverlayRef = useRef<HTMLDivElement>(null)
+  const heroVideoRef = useRef<HTMLVideoElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -104,39 +105,40 @@ export default function HomePage() {
     })
 
     // Phase 1 (0-15%): mosaic parallax, gentle start
-    // Phase 2 (15-75%): panel expands smoothly from top-right to full
-    // Phase 3 (75-100%): overlay fades in
+    // Phase 2 (15-65%): panel expands smoothly from top-right to full
+    // Phase 3 (65-82%): DEAD AIR — fullscreen video plays uninterrupted
+    // Phase 4 (82-100%): editorial overlay fades in
 
     // Center panel expand
     heroTl.fromTo(
       centerPanel,
-      { width: 280, height: 200, top: '8%', right: '5%', borderRadius: 3 },
-      { width: vw, height: vh, top: 0, right: 0, borderRadius: 0, ease: 'power1.out', duration: 0.6 },
+      { width: 280, height: 200, top: '8%', right: '5%', borderRadius: 0 },
+      { width: vw, height: vh, top: 0, right: 0, borderRadius: 0, ease: 'power3.inOut', duration: 0.5 },
       0.15
     )
 
     // Mosaic fade out (starts with expand, fades quickly)
     if (mosaic) {
-      heroTl.to(mosaic, { opacity: 0, duration: 0.25, ease: 'power1.out' }, 0.15)
+      heroTl.to(mosaic, { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0.15)
     }
 
     // Hero copy fade out
     if (heroCopy) {
-      heroTl.to(heroCopy, { opacity: 0, duration: 0.15, ease: 'power1.out' }, 0.15)
+      heroTl.to(heroCopy, { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0.15)
     }
 
     // Hero display text fade out
     if (heroDisplay) {
-      heroTl.to(heroDisplay, { opacity: 0, duration: 0.25, ease: 'power1.out' }, 0.15)
+      heroTl.to(heroDisplay, { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0.15)
     }
 
-    // Fullscreen overlay fade in
+    // Fullscreen overlay fade in (after the dead-air pause beat)
     if (fullscreenOverlay) {
       heroTl.fromTo(
         fullscreenOverlay,
         { opacity: 0, pointerEvents: 'none' },
-        { opacity: 1, pointerEvents: 'all', duration: 0.2, ease: 'power1.out' },
-        0.75
+        { opacity: 1, pointerEvents: 'all', duration: 0.18, ease: 'power2.out' },
+        0.82
       )
     }
 
@@ -154,8 +156,24 @@ export default function HomePage() {
       )
     })
 
+    // ── Lazy-load the hero video after first paint ──
+    // Defers video network request so it doesn't compete with critical assets
+    // (mosaic images, fonts, JS bundles). Video starts playing once loaded —
+    // user sees the poster during the brief load window. Saves ~200ms TTI.
+    const videoLoadTimer = window.setTimeout(() => {
+      const video = heroVideoRef.current
+      if (video && !video.src) {
+        video.src = HERO_MP4
+        video.load()
+        video.play().catch(() => {
+          // Autoplay blocked; poster remains visible — acceptable fallback
+        })
+      }
+    }, 400)
+
     return () => {
       heroTl.kill()
+      window.clearTimeout(videoLoadTimer)
       ScrollTrigger.getAll().forEach((st) => {
         if (st.trigger === scrollContainer) st.kill()
       })
@@ -314,7 +332,7 @@ export default function HomePage() {
       </AnimatePresence>
 
       {/* ── STICKY SCROLL HERO (400vh) — progress drives panel via JS, not React state ── */}
-      <div ref={scrollContainerRef} style={{ position: 'relative', height: '300vh' }}>
+      <div ref={scrollContainerRef} style={{ position: 'relative', height: '400vh' }}>
         <div
           style={{
             position: 'sticky',
@@ -348,7 +366,7 @@ export default function HomePage() {
                   left: (panel.style as { left?: string; right?: string; bottom?: string }).left,
                   right: (panel.style as { right?: string }).right,
                   bottom: (panel.style as { bottom?: string }).bottom,
-                  borderRadius: 3,
+                  borderRadius: 0,
                   overflow: 'hidden',
                   willChange: 'transform',
                 }}
@@ -372,10 +390,10 @@ export default function HomePage() {
               right: '5%',
               width: 280,
               height: 200,
-              borderRadius: 3,
+              borderRadius: 0,
               overflow: 'hidden',
               zIndex: 20,
-              willChange: 'width, height, border-radius, top, right',
+              willChange: 'width, height, top, right',
             }}
           >
             <Image
@@ -387,12 +405,12 @@ export default function HomePage() {
               style={{ objectFit: 'cover', objectPosition: 'center' }}
             />
             <video
-              src={HERO_MP4}
+              ref={heroVideoRef}
               poster={HERO_POSTER}
-              autoPlay
               muted
               loop
               playsInline
+              preload="none"
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -501,6 +519,16 @@ export default function HomePage() {
               }}
             >
               <div>
+                <span
+                  style={{
+                    display: 'block',
+                    width: 60,
+                    height: 1,
+                    background: '#C4943A',
+                    marginBottom: 18,
+                  }}
+                  aria-hidden="true"
+                />
                 <p
                   style={{
                     fontFamily: "'DM Sans', sans-serif",

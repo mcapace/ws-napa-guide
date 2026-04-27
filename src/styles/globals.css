@@ -377,6 +377,131 @@ a, button, [role="button"] { cursor: pointer; }
   z-index: 9999;
 }
 
+/* Yountville / Real Hotels–style opener: stack on small screens */
+.trh-opener-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px clamp(1.5rem, 4vw, 3.5rem);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+  .trh-opener-grid {
+    grid-template-columns: 1fr;
+    gap: 1.35rem;
+  }
+}
+
+/* Real Hotels–style feature row + sidebar rail (region / series pages) */
+.trh-feature-split {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(1.25rem, 3vw, 3rem);
+  align-items: start;
+  max-width: 1180px;
+  margin: 0 auto 56px;
+}
+
+@media (max-width: 900px) {
+  .trh-feature-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.trh-rail-grid {
+  display: grid;
+  grid-template-columns: 1fr minmax(200px, 260px);
+  gap: clamp(28px, 4vw, 48px);
+  align-items: start;
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 900px) {
+  .trh-rail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.trh-directory-split {
+  display: grid;
+  grid-template-columns: minmax(200px, 260px) 1fr;
+  gap: 40px;
+  max-width: 1180px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .trh-directory-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* RegionDirectorySpread — 50/50 directory rows (Layer 2); image full-bleed, no border/radius on media */
+.trh-listing-5050 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1180px;
+  margin: 0 auto;
+  min-height: min(50vw, 480px);
+  width: 100%;
+  align-items: stretch;
+}
+
+.trh-listing-5050__media {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+
+.trh-listing-5050__mediaLink {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+}
+
+.trh-listing-5050__content {
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 800px) {
+  .trh-listing-5050 {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+
+  .trh-listing-5050 .trh-listing-5050__media {
+    order: 1;
+  }
+
+  .trh-listing-5050 .trh-listing-5050__content {
+    order: 2;
+  }
+}
+
+.trh-dropcap-columns {
+  column-count: 2;
+  column-gap: 48px;
+}
+
+@media (max-width: 767px) {
+  .trh-dropcap-columns {
+    column-count: 1;
+  }
+}
+
 /* Regions neighbor cards hover */
 .neighbor-region-link:hover {
   border-color: var(--hover-accent, var(--bordeaux)) !important;
