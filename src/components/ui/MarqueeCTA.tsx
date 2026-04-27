@@ -23,7 +23,7 @@ export function MarqueeCTA({ href, label }: { href: string; label: string }) {
           style={{
             display: 'flex',
             gap: 0,
-            animation: 'marquee 20s linear infinite',
+            animation: 'marquee 38s linear infinite',
             whiteSpace: 'nowrap',
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 11,
