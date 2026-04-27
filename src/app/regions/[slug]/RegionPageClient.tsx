@@ -4,9 +4,10 @@ import { notFound, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/ui/Footer'
+import Nav from '@/components/ui/Nav'
 import Newsletter from '@/components/ui/Newsletter'
 import { motion } from 'framer-motion'
-import { useState, useEffect, Suspense, type CSSProperties, type ReactNode } from 'react'
+import { useState, Suspense, type CSSProperties, type ReactNode } from 'react'
 import { regions } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
@@ -49,345 +50,203 @@ function RegionPageClientContent({ slug }: { slug: string }) {
   const otherRegions =
     neighborFull.length >= 1 ? neighborFull.slice(0, 3) : regions.filter((r) => r.slug !== slug).slice(0, 3)
 
-  const [scrollY, setScrollY] = useState(0)
-  useEffect(() => {
-    const handler = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
-  }, [])
-
-  const pullQuote = region.pullQuote ?? region.intro
-  const heroSubtitle = region.tagline
-  /** The Real Hotels–style layout (centered hero, light editorial, horizontal listing rows). */
-  const trh = slug === 'yountville'
-
   return (
     <>
-      {/* ── NAV ── */}
-      <nav
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 200,
-          padding: '24px 36px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mixBlendMode: 'difference',
-        }}
-      >
-        <Link href="/">
-          <Image
-            src="/logos/WS_logo__1_.png"
-            alt="Wine Spectator"
-            width={140}
-            height={20}
-            style={{ filter: 'invert(1)', height: '20px', width: 'auto' }}
-          />
-        </Link>
-        <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-          <Link href="/regions" style={navLink}>
-            ← All Regions
-          </Link>
-          <Link href="/map" style={navLink}>
-            Map
-          </Link>
-        </div>
-      </nav>
+      <Nav />
 
-      {/* ── HERO — full bleed, therealhotels style ── */}
-      <section
-        style={{
-          position: 'relative',
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: trh ? 'center' : 'flex-end',
-          overflow: 'hidden',
-        }}
-      >
+      {/* — therealhotels-style hero: absolute layers, italic Cormorant title, no parallax — */}
+      <section style={{ position: 'relative', height: '85vh', overflow: 'hidden' }}>
         <Image
           src={region.heroImage}
           alt={region.name}
           fill
           priority
           sizes="100vw"
-          style={{
-            objectFit: 'cover',
-            objectPosition: 'center',
-            transform: `translateY(${scrollY * 0.3}px)`,
-            willChange: 'transform',
-          }}
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
         />
-        {/* Dark overlay — strong at bottom */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
             zIndex: 1,
-            background: 'linear-gradient(to bottom, rgba(13,11,9,0.2) 0%, rgba(13,11,9,0.5) 50%, rgba(13,11,9,0.92) 100%)',
+            background:
+              'linear-gradient(to bottom, rgba(13,11,9,0.12) 0%, rgba(13,11,9,0.35) 45%, rgba(13,11,9,0.9) 100%)',
           }}
         />
 
-        {/* AVA badge — top right (hidden on TRH-style centered hero) */}
-        {!trh ? (
-          <div
-            style={{
-              position: 'absolute',
-              top: 28,
-              right: 36,
-              zIndex: 2,
-              padding: '8px 16px',
-              border: '1px solid rgba(247,243,236,0.2)',
-              borderRadius: 2,
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 9,
-              fontWeight: 400,
-              letterSpacing: '0.25em',
-              textTransform: 'uppercase',
-              color: 'rgba(247,243,236,0.6)',
-            }}
-          >
-            Napa Valley Appellation
-          </div>
-        ) : null}
-
-        {/* Hero content — bottom left */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-          style={{
-            position: 'relative',
-            zIndex: 10,
-            padding: trh ? '0 32px 0' : '0 60px 64px',
-            width: '100%',
-            maxWidth: trh ? 920 : undefined,
-            margin: trh ? '0 auto' : undefined,
-            textAlign: trh ? 'center' : 'left',
-          }}
-        >
-          {region.runningHead ? (
-            <p
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 9,
-                fontWeight: 400,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'rgba(247,243,236,0.42)',
-                marginBottom: trh ? 28 : 20,
-                maxWidth: 720,
-                lineHeight: 1.5,
-                marginLeft: trh ? 'auto' : undefined,
-                marginRight: trh ? 'auto' : undefined,
-              }}
-            >
-              {region.runningHead}
-            </p>
-          ) : null}
-
-          {trh ? (
-            <>
-              {/* Print page 1 masthead: YOUNTVILLE + World-Class Dining, then by-line */}
-              <h1
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontWeight: 700,
-                  fontSize: 'clamp(40px, 7vw, 72px)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.04em',
-                  color: '#F7F3EC',
-                  lineHeight: 1,
-                  margin: '0 0 12px',
-                }}
-              >
-                {region.name}
-              </h1>
-              <p
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontStyle: 'italic',
-                  fontWeight: 400,
-                  fontSize: 'clamp(22px, 3.5vw, 34px)',
-                  color: 'rgba(247,243,236,0.92)',
-                  lineHeight: 1.2,
-                  margin: '0 0 24px',
-                }}
-              >
-                {heroSubtitle}
-              </p>
-              <p
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 10,
-                  fontWeight: 400,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(247,243,236,0.45)',
-                  marginBottom: 36,
-                }}
-              >
-                By {region.author ?? 'Wine Spectator'}
-              </p>
-            </>
-          ) : (
-            <>
-              <p
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 10,
-                  fontWeight: 400,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(247,243,236,0.45)',
-                  marginBottom: 16,
-                }}
-              >
-                By {region.author ?? 'Wine Spectator'} · {region.issue ?? 'June 2026'}
-              </p>
-              <h1
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontStyle: 'italic',
-                  fontWeight: 300,
-                  fontSize: 'clamp(64px,10vw,140px)',
-                  color: '#F7F3EC',
-                  lineHeight: 0.9,
-                  letterSpacing: '-0.03em',
-                  marginBottom: 20,
-                }}
-              >
-                {region.name}
-              </h1>
-              <p
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 13,
-                  fontWeight: 300,
-                  color: 'rgba(247,243,236,0.55)',
-                  letterSpacing: '0.04em',
-                  marginBottom: 36,
-                }}
-              >
-                {heroSubtitle}
-              </p>
-            </>
-          )}
-
-          {/* CTAs — pill pair like The Real Hotels */}
-          <div
-            style={{
-              display: 'flex',
-              gap: 16,
-              alignItems: 'center',
-              justifyContent: trh ? 'center' : 'flex-start',
-              flexWrap: 'wrap',
-            }}
-          >
-            <Link
-              href={`/map?region=${slug}`}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 10,
-                background: '#F7F3EC',
-                color: '#0D0B09',
-                padding: trh ? '13px 32px' : '14px 28px',
-                borderRadius: trh ? 9999 : 2,
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 10,
-                fontWeight: 500,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                textDecoration: 'none',
-              }}
-            >
-              Explore on map
-            </Link>
-            <a
-              href={slug === 'yountville' ? '#where-to-taste' : '#intro'}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: trh ? '13px 32px' : '0 0 3px 0',
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 10,
-                fontWeight: 400,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: trh ? '#F7F3EC' : 'rgba(247,243,236,0.6)',
-                textDecoration: 'none',
-                border: trh ? '1px solid rgba(247,243,236,0.55)' : 'none',
-                borderBottom: trh ? 'none' : '1px solid rgba(247,243,236,0.25)',
-                borderRadius: trh ? 9999 : 0,
-              }}
-            >
-              {slug === 'yountville' ? 'Read more' : 'Read more ↓'}
-            </a>
-          </div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+        <p
           style={{
             position: 'absolute',
-            bottom: 28,
-            left: '50%',
+            top: 100,
+            left: 40,
             zIndex: 2,
-            transform: 'translateX(-50%)',
+            margin: 0,
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 9,
-            letterSpacing: '0.2em',
+            fontSize: 10,
+            fontWeight: 500,
+            letterSpacing: '0.25em',
             textTransform: 'uppercase',
-            color: 'rgba(247,243,236,0.3)',
+            color: 'rgba(247,243,236,0.85)',
           }}
         >
-          scroll
-        </motion.div>
-      </section>
+          WINE SPECTATOR · NAPA VALLEY GUIDE
+        </p>
 
-      {/* ── INTRO / PULL QUOTE ── */}
-      <section
-        id="intro"
-        style={{
-          background: trh ? TRH.editorialBg : '#0D0B09',
-          padding: '100px 60px 80px',
-          maxWidth: trh ? 1200 : 900,
-          margin: '0 auto',
-        }}
-      >
-        {!trh ? (
-          <motion.blockquote
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9 }}
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '42%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 2,
+            textAlign: 'center',
+            width: '100%',
+            padding: '0 24px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <h1
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontStyle: 'italic',
               fontWeight: 300,
-              fontSize: 'clamp(26px,3.5vw,44px)',
+              fontSize: 'clamp(72px, 12vw, 180px)',
+              lineHeight: 0.95,
               color: '#F7F3EC',
-              lineHeight: 1.2,
-              letterSpacing: '-0.01em',
-              borderLeft: '2px solid #C4943A',
-              paddingLeft: 40,
-              marginBottom: 48,
+              margin: 0,
             }}
           >
-            {pullQuote}
-          </motion.blockquote>
-        ) : null}
+            {region.name}
+          </h1>
+          <div
+            aria-hidden
+            style={{ width: 1, height: 24, margin: '16px auto', background: 'rgba(247,243,236,0.3)' }}
+          />
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 11,
+              fontWeight: 400,
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'rgba(247,243,236,0.7)',
+              margin: 0,
+            }}
+          >
+            {region.name.toUpperCase()}, NAPA VALLEY
+          </p>
+        </div>
 
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '70%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 2,
+            textAlign: 'center',
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 11,
+              fontWeight: 400,
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'rgba(247,243,236,0.6)',
+              margin: 0,
+            }}
+          >
+            {region.tagline.toUpperCase()}
+          </p>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 11,
+              fontWeight: 400,
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'rgba(247,243,236,0.6)',
+              margin: '10px 0 0',
+            }}
+          >
+            {'BY ' + (region.author ?? 'Wine Spectator').toUpperCase()}
+          </p>
+        </div>
+
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '85%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 2,
+            display: 'flex',
+            gap: 16,
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            width: '100%',
+            padding: '0 16px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <Link
+            href="/map"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#F7F3EC',
+              color: '#0D0B09',
+              padding: '13px 32px',
+              borderRadius: 9999,
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 10,
+              fontWeight: 500,
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+            }}
+          >
+            EXPLORE ON MAP
+            <span style={{ marginLeft: 6 }}>↗</span>
+          </Link>
+          <a
+            href="#article"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '13px 32px',
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 10,
+              fontWeight: 400,
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: '#F7F3EC',
+              textDecoration: 'none',
+              border: '1px solid rgba(247,243,236,0.55)',
+              borderRadius: 9999,
+            }}
+          >
+            READ THE ARTICLE
+          </a>
+        </div>
+      </section>
+
+      {/* ── INTRO / PULL QUOTE (article lede) ── */}
+      <section
+        id="article"
+        style={{
+          background: TRH.editorialBg,
+          padding: '100px 60px 80px',
+          maxWidth: 1200,
+          margin: '0 auto',
+        }}
+      >
         {region.runningHead && region.intro.includes('\n\n') ? (
-          <OpenerTwoColumn introText={region.intro} light={trh} />
+          <OpenerTwoColumn introText={region.intro} light />
         ) : (
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -398,7 +257,7 @@ function RegionPageClientContent({ slug }: { slug: string }) {
               fontFamily: "'DM Sans', sans-serif",
               fontSize: 16,
               fontWeight: 300,
-              color: trh ? TRH.inkMuted : 'rgba(247,243,236,0.7)',
+              color: TRH.inkMuted,
               lineHeight: 1.9,
               letterSpacing: '0.01em',
             }}
@@ -925,17 +784,6 @@ function ListingCard({
       </div>
     </div>
   )
-}
-
-const navLink: CSSProperties = {
-  fontFamily: "'DM Sans', sans-serif",
-  fontSize: 10,
-  fontWeight: 400,
-  letterSpacing: '0.18em',
-  textTransform: 'uppercase',
-  color: '#F7F3EC',
-  textDecoration: 'none',
-  opacity: 0.7,
 }
 
 const seeAllStyle: CSSProperties = {
