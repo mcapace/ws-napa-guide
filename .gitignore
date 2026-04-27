@@ -42,3 +42,4 @@ next-env.d.ts
 
 # Large draft PDFs — store outside repo / CDN
 public/PDFs/*.pdf
+PR_DESCRIPTION.md
