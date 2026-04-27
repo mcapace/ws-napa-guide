@@ -519,6 +519,16 @@ export default function HomePage() {
               }}
             >
               <div>
+                <span
+                  style={{
+                    display: 'block',
+                    width: 60,
+                    height: 1,
+                    background: '#C4943A',
+                    marginBottom: 18,
+                  }}
+                  aria-hidden="true"
+                />
                 <p
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
