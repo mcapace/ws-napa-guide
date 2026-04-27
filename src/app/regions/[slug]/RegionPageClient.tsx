@@ -12,7 +12,7 @@ import { regions } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
-import { OpenerTwoColumn, RegionDirectorySpread } from './RegionDirectorySpread'
+import { RegionDirectorySpread } from './RegionDirectorySpread'
 import { YountvillePrintProofs } from './YountvillePrintProofs'
 import { YountvilleVerbatimReader } from './YountvilleVerbatimReader'
 import { TRH } from './real-hotels-theme'
@@ -49,6 +49,17 @@ function RegionPageClientContent({ slug }: { slug: string }) {
     .filter((r): r is (typeof regions)[number] => r != null)
   const otherRegions =
     neighborFull.length >= 1 ? neighborFull.slice(0, 3) : regions.filter((r) => r.slug !== slug).slice(0, 3)
+
+  const [expanded, setExpanded] = useState(false)
+  const paragraphs = region.body.split(/\n\n+/).filter((p) => p.length > 0)
+  const bodyP = {
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: 17,
+    lineHeight: 1.75,
+    color: 'rgba(13,11,9,0.85)',
+    marginBottom: 24,
+    textAlign: 'left' as const,
+  }
 
   return (
     <>
@@ -235,35 +246,144 @@ function RegionPageClientContent({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* ── INTRO / PULL QUOTE (article lede) ── */}
+      {/* Article reader: full region.body at #article */}
       <section
         id="article"
         style={{
           background: TRH.editorialBg,
-          padding: '100px 60px 80px',
-          maxWidth: 1200,
+          padding: 'clamp(80px, 10vw, 120px) clamp(24px, 5vw, 60px)',
+          maxWidth: 720,
           margin: '0 auto',
         }}
       >
-        {region.runningHead && region.intro.includes('\n\n') ? (
-          <OpenerTwoColumn introText={region.intro} light />
-        ) : (
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, delay: 0.1 }}
+        <header style={{ textAlign: 'center' }}>
+          <p
             style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: 16,
-              fontWeight: 300,
-              color: TRH.inkMuted,
-              lineHeight: 1.9,
-              letterSpacing: '0.01em',
+              fontSize: 11,
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              color: 'rgba(13,11,9,0.55)',
+              margin: '0 0 24px',
             }}
           >
-            {region.intro}
-          </motion.p>
+            FROM THE JUNE 2026 ISSUE
+          </p>
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: 'italic',
+              fontWeight: 300,
+              fontSize: 'clamp(36px, 5vw, 56px)',
+              color: TRH.ink,
+              lineHeight: 1.1,
+              margin: '0 0 16px',
+              textAlign: 'center',
+            }}
+          >
+            {region.tagline}
+          </h2>
+          {region.author && (
+            <p
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 11,
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: 'rgba(13,11,9,0.5)',
+                margin: '0 0 56px',
+                textAlign: 'center',
+              }}
+            >
+              {`BY ${region.author.toUpperCase()}`}
+            </p>
+          )}
+        </header>
+
+        {paragraphs.slice(0, 4).map((text, i) => {
+          if (i === 0) {
+            const firstChar = text.charAt(0)
+            const restOfFirst = text.slice(1)
+            return (
+              <p key={0} style={{ ...bodyP, overflow: 'hidden' }}>
+                <span
+                  style={{
+                    float: 'left',
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontStyle: 'italic',
+                    fontSize: '5.5em',
+                    lineHeight: 0.85,
+                    color: '#C4943A',
+                    paddingRight: 12,
+                    marginTop: 6,
+                  }}
+                >
+                  {firstChar}
+                </span>
+                {restOfFirst}
+              </p>
+            )
+          }
+          return (
+            <p key={i} style={bodyP}>
+              {text}
+            </p>
+          )
+        })}
+
+        {paragraphs.length > 4 && !expanded && (
+          <div style={{ textAlign: 'center', margin: '32px 0' }}>
+            <div
+              style={{
+                width: 60,
+                height: 1,
+                background: '#C4943A',
+                margin: '0 auto 20px',
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 11,
+                letterSpacing: '0.25em',
+                textTransform: 'uppercase',
+                color: '#C4943A',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                textDecoration: 'underline',
+                textUnderlineOffset: 4,
+              }}
+            >
+              CONTINUE READING ↓
+            </button>
+          </div>
+        )}
+
+        {expanded && (
+          <div>
+            {paragraphs.slice(4).map((text, j) => (
+              <p key={j + 4} style={bodyP}>
+                {text}
+              </p>
+            ))}
+          </div>
+        )}
+
+        {expanded && (
+          <p
+            style={{
+              textAlign: 'center',
+              color: TRH.ink,
+              fontSize: 12,
+              margin: '32px 0 0',
+            }}
+          >
+            ■
+          </p>
         )}
       </section>
 
