@@ -335,7 +335,7 @@ function ShowMoreLink({ href, children }: { href: string; children: ReactNode })
   )
 }
 
-export function YountvilleSpreadLayout({
+export function RegionDirectorySpread({
   region,
   regionWineries,
   regionRestaurants,
@@ -346,6 +346,7 @@ export function YountvilleSpreadLayout({
   regionRestaurants: Restaurant[]
   regionHotels: Hotel[]
 }) {
+  const isYountville = region.slug === 'yountville'
   const tasteIntro = region.whereToTasteIntro ?? ''
   const eatIntro = region.whereToEatIntro ?? ''
   const stayIntro = region.whereToStayIntro ?? ''
@@ -356,9 +357,7 @@ export function YountvilleSpreadLayout({
   const alsoTaste = region.alsoRecommendedTaste ?? []
   const oakKnoll = region.oakKnollBlock
 
-  const [stewart, clos, lewis] = regionWineries
-  const [adHoc, clem, ...otherRest] = regionRestaurants
-  const [sttupa, bard] = regionHotels
+  const [firstWinery, ...moreWineries] = regionWineries
 
   return (
     <div style={{ background: TRH.editorialBg, color: TRH.ink }}>
@@ -370,35 +369,49 @@ export function YountvilleSpreadLayout({
           <SeriesSectionTitle subtitle="More from this guide">Where to taste</SeriesSectionTitle>
           <SectionEditLead text={tasteIntro} dropCap />
 
-          {stewart && (
+          {firstWinery && (
             <div className="trh-feature-split">
               <div style={{ position: 'relative', minHeight: 420 }}>
-                <Image src={stewart.images[0]} alt={stewart.name} fill sizes="55vw" style={{ objectFit: 'cover', borderRadius: 2 }} />
-                <PrintCaption label={stewart.name.replace(' Cellars', '')} />
+                <Image src={firstWinery.images[0]} alt={firstWinery.name} fill sizes="55vw" style={{ objectFit: 'cover', borderRadius: 2 }} />
+                <PrintCaption label={firstWinery.name.replace(' Cellars', '')} />
               </div>
               <div>
                 <h3 style={{ ...trhType.displayItalic(TRH.ink), fontSize: 'clamp(1.5rem, 2.5vw, 2.625rem)', marginBottom: 8 }}>
-                  {stewart.name}
+                  {firstWinery.name}
                 </h3>
-                <p
-                  style={{
-                    fontFamily: TRH.fontSans,
-                    fontSize: 12,
-                    fontStyle: 'italic',
-                    color: TRH.inkFaint,
-                    marginBottom: 20,
-                  }}
-                >
-                  6752 Washington St. · stewartscellars.com
-                </p>
-                <p style={{ ...bodyLight, marginBottom: 28 }}>{stewart.description}</p>
+                {isYountville ? (
+                  <p
+                    style={{
+                      fontFamily: TRH.fontSans,
+                      fontSize: 12,
+                      fontStyle: 'italic',
+                      color: TRH.inkFaint,
+                      marginBottom: 20,
+                    }}
+                  >
+                    6752 Washington St. · stewartscellars.com
+                  </p>
+                ) : firstWinery.address ? (
+                  <p
+                    style={{
+                      fontFamily: TRH.fontSans,
+                      fontSize: 12,
+                      fontStyle: 'italic',
+                      color: TRH.inkFaint,
+                      marginBottom: 20,
+                    }}
+                  >
+                    {firstWinery.address}
+                  </p>
+                ) : null}
+                <p style={{ ...bodyLight, marginBottom: 28 }}>{firstWinery.description}</p>
                 <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' }}>
-                  {stewart.visitInfo?.website ? (
-                    <a href={stewart.visitInfo.website} target="_blank" rel="noopener noreferrer" style={pillPrimary}>
+                  {firstWinery.visitInfo?.website ? (
+                    <a href={firstWinery.visitInfo.website} target="_blank" rel="noopener noreferrer" style={pillPrimary}>
                       Reserve
                     </a>
                   ) : null}
-                  <Link href={`/wineries/${stewart.slug}`} style={{ ...textLinkUpper, borderColor: TRH.accent, color: TRH.accent }}>
+                  <Link href={`/wineries/${firstWinery.slug}`} style={{ ...textLinkUpper, borderColor: TRH.accent, color: TRH.accent }}>
                     Read more
                   </Link>
                 </div>
@@ -406,7 +419,10 @@ export function YountvilleSpreadLayout({
             </div>
           )}
 
-          <TasteQuickListGrid items={tasteQuick} label="Yountville · also taste" />
+          <TasteQuickListGrid
+            items={tasteQuick}
+            label={isYountville ? 'Yountville · also taste' : `${region.name} · also taste`}
+          />
 
           <div
             className={alsoTaste.length > 0 ? 'trh-directory-split' : undefined}
@@ -416,35 +432,26 @@ export function YountvilleSpreadLayout({
             }}
           >
             {alsoTaste.length > 0 ? (
-              <AlsoRecommendedRailLight title="Stags Leap District" items={alsoTaste} />
+              <AlsoRecommendedRailLight
+                title={isYountville ? 'Stags Leap District' : 'Also recommended'}
+                items={alsoTaste}
+              />
             ) : null}
             <div style={{ minWidth: 0 }}>
-              {clos ? (
+              {moreWineries.map((w, idx) => (
                 <SeriesListingRow
-                  href={`/wineries/${clos.slug}`}
-                  imageSrc={clos.images[0]}
-                  title={clos.name}
-                  locationLine="Stags Leap District"
-                  eyebrow={clos.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'}
-                  excerpt={clos.description}
+                  key={w.slug}
+                  href={`/wineries/${w.slug}`}
+                  imageSrc={w.images[0]}
+                  title={w.name}
+                  locationLine={isYountville && idx < 2 ? 'Stags Leap District' : region.name}
+                  eyebrow={w.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'}
+                  excerpt={w.description}
                   primaryCta="Reserve"
-                  primaryHref={clos.visitInfo?.website}
+                  primaryHref={w.visitInfo?.website}
                   expanded
                 />
-              ) : null}
-              {lewis ? (
-                <SeriesListingRow
-                  href={`/wineries/${lewis.slug}`}
-                  imageSrc={lewis.images[0]}
-                  title={lewis.name}
-                  locationLine="Stags Leap District"
-                  eyebrow={lewis.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'}
-                  excerpt={lewis.description}
-                  primaryCta="Reserve"
-                  primaryHref={lewis.visitInfo?.website}
-                  expanded
-                />
-              ) : null}
+              ))}
             </div>
           </div>
 
@@ -513,31 +520,7 @@ export function YountvilleSpreadLayout({
             {alsoEat.length > 0 ? <AlsoRecommendedRailLight title="Also recommended" items={alsoEat} /> : null}
           </div>
           <div style={{ maxWidth: 1180, margin: '0 auto' }}>
-            {adHoc ? (
-              <SeriesListingRow
-                href={`/dining/${adHoc.slug}`}
-                imageSrc={adHoc.images[0]}
-                title={adHoc.name}
-                locationLine={region.name}
-                eyebrow={`${adHoc.cuisine} · ${adHoc.priceRange}`}
-                excerpt={adHoc.excerpt ?? adHoc.description}
-                primaryCta="Reservations"
-                primaryHref={adHoc.reservations ?? adHoc.website ?? undefined}
-              />
-            ) : null}
-            {clem ? (
-              <SeriesListingRow
-                href={`/dining/${clem.slug}`}
-                imageSrc={clem.images[0]}
-                title={clem.name}
-                locationLine={region.name}
-                eyebrow={`${clem.cuisine} · ${clem.priceRange}`}
-                excerpt={clem.excerpt ?? clem.description}
-                primaryCta="Reservations"
-                primaryHref={clem.reservations ?? clem.website ?? undefined}
-              />
-            ) : null}
-            {otherRest.map((r) => (
+            {regionRestaurants.map((r) => (
               <SeriesListingRow
                 key={r.slug}
                 href={`/dining/${r.slug}`}
@@ -569,30 +552,19 @@ export function YountvilleSpreadLayout({
             {alsoStay.length > 0 ? <AlsoRecommendedRailLight title="Also recommended" items={alsoStay} /> : null}
           </div>
           <div style={{ maxWidth: 1180, margin: '0 auto' }}>
-            {sttupa ? (
+            {regionHotels.map((h) => (
               <SeriesListingRow
-                href={`/stay/${sttupa.slug}`}
-                imageSrc={sttupa.images[0]}
-                title={sttupa.name}
+                key={h.slug}
+                href={`/stay/${h.slug}`}
+                imageSrc={h.images[0]}
+                title={h.name}
                 locationLine={region.name}
-                eyebrow={sttupa.priceRange}
-                excerpt={sttupa.excerpt ?? sttupa.description}
+                eyebrow={h.priceRange}
+                excerpt={h.excerpt ?? h.description}
                 primaryCta="Book"
-                primaryHref={sttupa.website}
+                primaryHref={h.website}
               />
-            ) : null}
-            {bard ? (
-              <SeriesListingRow
-                href={`/stay/${bard.slug}`}
-                imageSrc={bard.images[0]}
-                title={bard.name}
-                locationLine={region.name}
-                eyebrow={bard.priceRange}
-                excerpt={bard.excerpt ?? bard.description}
-                primaryCta="Book"
-                primaryHref={bard.website}
-              />
-            ) : null}
+            ))}
           </div>
           <ShowMoreLink href="/stay">Show more hotels</ShowMoreLink>
         </section>

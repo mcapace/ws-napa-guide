@@ -12,7 +12,7 @@ import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
 import { articles } from '@/data/articles'
-import { OpenerTwoColumn, YountvilleSpreadLayout } from './YountvilleSpreadLayout'
+import { OpenerTwoColumn, RegionDirectorySpread } from './RegionDirectorySpread'
 import { YountvillePrintProofs } from './YountvillePrintProofs'
 import { YountvilleVerbatimReader } from './YountvilleVerbatimReader'
 import { TRH, trhType, trhLayout } from './real-hotels-theme'
@@ -647,7 +647,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
       {/* ══════ LISTINGS ══════ */}
       {slug === 'yountville' ? (
         <Reveal>
-          <YountvilleSpreadLayout
+          <RegionDirectorySpread
             region={region}
             regionWineries={regionWineries}
             regionRestaurants={regionRestaurants}
