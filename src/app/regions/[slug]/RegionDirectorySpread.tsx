@@ -12,7 +12,15 @@ import { TRH, trhType, trhLayout } from './real-hotels-theme'
 const bodyLight: CSSProperties = trhType.body()
 const trhSectionGapY = 120
 const trhEntryGapY = 80
+const trhDirectoryRowGapY = 36
 const trhImageHover = '0.6s cubic-bezier(0.25,0.46,0.45,0.94)'
+
+const hotelCategoryLabel: Record<Hotel['category'], string> = {
+  resort: 'Resort',
+  boutique: 'Boutique hotel',
+  inn: 'Country inn',
+  villa: 'Private villa',
+}
 
 function truncateForDirectory(fallback: string): string {
   const t = fallback.trim()
@@ -212,112 +220,110 @@ const textLinkUpper: CSSProperties = {
   paddingBottom: 3,
 }
 
-/**
- * Real Hotels directory row — 50/50 image / content, alternating with `imageOnLeft`.
- * Image: only objectFit, transform, transition. Body is a separate <p> with listingExcerpt (no CSS line-clamp).
- */
+const directoryEyebrow: CSSProperties = {
+  fontFamily: TRH.fontSans,
+  fontSize: 11,
+  letterSpacing: '0.2em',
+  textTransform: 'uppercase',
+  color: '#C4943A',
+  marginBottom: 8,
+  fontWeight: 500,
+}
+
+const directoryTitle: CSSProperties = {
+  fontFamily: TRH.fontDisplay,
+  fontStyle: 'italic',
+  fontWeight: 300,
+  fontSize: 'clamp(26px, 2.2vw, 30px)',
+  color: TRH.ink,
+  lineHeight: 1.2,
+  margin: '0 0 10px',
+}
+
+const directoryBody: CSSProperties = {
+  fontFamily: TRH.fontSans,
+  fontSize: 15,
+  lineHeight: 1.7,
+  color: TRH.inkMuted,
+  margin: 0,
+  flex: '1 1 auto',
+  minHeight: 0,
+}
+
+const readMoreDirectory: CSSProperties = {
+  fontFamily: TRH.fontSans,
+  fontSize: 10,
+  color: TRH.ink,
+  textDecoration: 'underline',
+  textUnderlineOffset: 4,
+}
+
+/** Dense single-column directory row: image left ~40%, content right; Read more only when `wsEditorial === true`. */
 function SeriesListingRow({
   href,
   imageSrc,
   title,
   eyebrowText,
-  metaLine,
   body,
   primaryLabel,
   primaryHref,
-  imageOnLeft,
+  wsEditorial,
 }: {
   href: string
   imageSrc: string
   title: string
   eyebrowText: string
-  metaLine?: string
   body: string
   primaryLabel: string
   primaryHref?: string
-  imageOnLeft: boolean
+  wsEditorial?: boolean
 }) {
   const [imgHover, setImgHover] = useState(false)
-  const media = (
-    <div className="trh-listing-5050__media">
-      <Link
-        href={href}
-        onMouseEnter={() => setImgHover(true)}
-        onMouseLeave={() => setImgHover(false)}
-        className="trh-listing-5050__mediaLink"
-        aria-label={title}
-      >
-        <Image
-          src={imageSrc}
-          alt={title}
-          fill
-          sizes="(max-width: 800px) 100vw, 50vw"
-          style={{
-            objectFit: 'cover',
-            transform: imgHover ? 'scale(1.03)' : 'scale(1)',
-            transition: `transform ${trhImageHover}`,
-          }}
-        />
-      </Link>
-    </div>
-  )
-  const content = (
-    <div className="trh-listing-5050__content" style={{ background: TRH.editorialBg }}>
-      <p style={{ ...trhType.eyebrow(), marginBottom: 12, textAlign: 'left' as const }}>{eyebrowText}</p>
-      <h3
-        style={{
-          ...trhType.displayItalic(TRH.ink),
-          fontSize: 'clamp(1.35rem, 2vw, 2rem)',
-          lineHeight: 1.2,
-          margin: '0 0 10px',
-        }}
-      >
-        {title}
-      </h3>
-      {metaLine ? <p style={{ ...trhType.meta(), margin: '0 0 20px' }}>{metaLine}</p> : null}
-      <p
-        style={{
-          ...trhType.listingExcerpt(),
-          margin: '0 0 28px',
-          textAlign: 'left' as const,
-        }}
-      >
-        {body}
-      </p>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: 14,
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}
-      >
-        {primaryHref ? (
-          <a href={primaryHref} target="_blank" rel="noopener noreferrer" style={pillPrimary}>
-            {primaryLabel}
-          </a>
-        ) : null}
-        <Link href={href} style={textLinkUpper}>
-          Read more
+  const showReadMore = wsEditorial === true
+  return (
+    <article className="trh-directory-row">
+      <div className="trh-directory-row__image">
+        <Link
+          href={href}
+          onMouseEnter={() => setImgHover(true)}
+          onMouseLeave={() => setImgHover(false)}
+          aria-label={title}
+        >
+          <Image
+            src={imageSrc}
+            alt={title}
+            fill
+            sizes="(max-width: 699px) 100vw, 38vw"
+            style={{
+              objectFit: 'cover',
+              transform: imgHover ? 'scale(1.03)' : 'scale(1)',
+              transition: `transform ${trhImageHover}`,
+            }}
+          />
         </Link>
       </div>
-    </div>
-  )
-  return (
-    <article className={imageOnLeft ? 'trh-listing-5050' : 'trh-listing-5050 trh-listing-5050--image-right'}>
-      {imageOnLeft ? (
-        <>
-          {media}
-          {content}
-        </>
-      ) : (
-        <>
-          {content}
-          {media}
-        </>
-      )}
+      <div className="trh-directory-row__content" style={{ background: TRH.editorialBg }}>
+        <p style={directoryEyebrow}>{eyebrowText}</p>
+        <h3 style={directoryTitle}>{title}</h3>
+        <p style={directoryBody}>{body}</p>
+        <div
+          className="trh-directory-row__ctaRow"
+          style={{
+            justifyContent: primaryHref && showReadMore ? 'space-between' : 'flex-start',
+          }}
+        >
+          {primaryHref ? (
+            <a href={primaryHref} target="_blank" rel="noopener noreferrer" style={pillPrimary}>
+              {primaryLabel}
+            </a>
+          ) : null}
+          {showReadMore ? (
+            <Link href={href} style={readMoreDirectory}>
+              Read more
+            </Link>
+          ) : null}
+        </div>
+      </div>
     </article>
   )
 }
@@ -494,7 +500,7 @@ export function RegionDirectorySpread({
                 minWidth: 0,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: trhEntryGapY,
+                gap: trhDirectoryRowGapY,
               }}
             >
               {moreWineries.map((w, idx) => {
@@ -509,9 +515,9 @@ export function RegionDirectorySpread({
                     title={w.name}
                     eyebrowText={`${visit} · ${loc}`}
                     body={w.directoryBlurb?.trim() || truncateForDirectory(w.description)}
-                    primaryLabel="Reserve a visit"
+                    primaryLabel="Reserve"
                     primaryHref={w.visitInfo?.website}
-                    imageOnLeft={idx % 2 === 0}
+                    wsEditorial={w.wsEditorial}
                   />
                 )
               })}
@@ -592,21 +598,20 @@ export function RegionDirectorySpread({
             </div>
           ) : null}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: trhEntryGapY, maxWidth: 1180, margin: '0 auto' }}>
-            {regionRestaurants.map((r, idx) => (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: trhDirectoryRowGapY, maxWidth: 1180, margin: '0 auto' }}>
+            {regionRestaurants.map((r) => (
               <SeriesListingRow
                 key={r.slug}
                 href={`/dining/${r.slug}`}
                 imageSrc={r.images[0]}
                 title={r.name}
                 eyebrowText={`${r.cuisine} · ${r.priceRange}`}
-                metaLine={region.name}
                 body={
                   r.directoryBlurb?.trim() || (r.excerpt?.trim() ? r.excerpt : truncateForDirectory(r.description))
                 }
                 primaryLabel="Reservations"
                 primaryHref={r.reservations ?? r.website ?? undefined}
-                imageOnLeft={idx % 2 === 0}
+                wsEditorial={r.wsEditorial}
               />
             ))}
           </div>
@@ -637,22 +642,25 @@ export function RegionDirectorySpread({
             </div>
           ) : null}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: trhEntryGapY, maxWidth: 1180, margin: '0 auto' }}>
-            {regionHotels.map((h, idx) => (
-              <SeriesListingRow
-                key={h.slug}
-                href={`/stay/${h.slug}`}
-                imageSrc={h.images[0]}
-                title={h.name}
-                eyebrowText={`${h.priceRange} · ${region.name}`}
-                body={
-                  h.directoryBlurb?.trim() || (h.excerpt?.trim() ? h.excerpt : truncateForDirectory(h.description))
-                }
-                primaryLabel="Book"
-                primaryHref={h.website}
-                imageOnLeft={idx % 2 === 0}
-              />
-            ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: trhDirectoryRowGapY, maxWidth: 1180, margin: '0 auto' }}>
+            {regionHotels.map((h) => {
+              const categoryLabel = hotelCategoryLabel[h.category] ?? h.category
+              return (
+                <SeriesListingRow
+                  key={h.slug}
+                  href={`/stay/${h.slug}`}
+                  imageSrc={h.images[0]}
+                  title={h.name}
+                  eyebrowText={`${categoryLabel} · ${h.priceRange}`}
+                  body={
+                    h.directoryBlurb?.trim() || (h.excerpt?.trim() ? h.excerpt : truncateForDirectory(h.description))
+                  }
+                  primaryLabel="Book"
+                  primaryHref={h.website}
+                  wsEditorial={h.wsEditorial}
+                />
+              )
+            })}
           </div>
           <ShowMoreLink href="/stay">Show more hotels</ShowMoreLink>
         </section>

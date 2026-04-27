@@ -35,6 +35,8 @@ export interface Winery {
   sponsorTier: SponsorTier
   images: string[]
   featured?: boolean
+  /** When true, indicates this entity has substantial Wine Spectator editorial content and should link to its detail page from directory rows. Populated editorially over time. */
+  wsEditorial?: boolean
 }
 
 export interface Restaurant {
@@ -56,6 +58,8 @@ export interface Restaurant {
   sponsorTier: SponsorTier
   images: string[]
   featured?: boolean
+  /** When true, indicates this entity has substantial Wine Spectator editorial content and should link to its detail page from directory rows. Populated editorially over time. */
+  wsEditorial?: boolean
 }
 
 export interface Hotel {
@@ -77,6 +81,8 @@ export interface Hotel {
   sponsorTier: SponsorTier
   images: string[]
   featured?: boolean
+  /** When true, indicates this entity has substantial Wine Spectator editorial content and should link to its detail page from directory rows. Populated editorially over time. */
+  wsEditorial?: boolean
 }
 
 export interface Article {
