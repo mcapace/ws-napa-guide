@@ -1,12 +1,12 @@
 'use client'
 
-import { notFound } from 'next/navigation'
+import { notFound, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import { motion } from 'framer-motion'
-import { useState, useEffect, type CSSProperties, type ReactNode } from 'react'
+import { useState, useEffect, Suspense, type CSSProperties, type ReactNode } from 'react'
 import { regions } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
@@ -33,9 +33,12 @@ function orderedHotels(hotelSlugs: string[]) {
   return hotelSlugs.map((s) => hotels.find((h) => h.slug === s)).filter((h): h is (typeof hotels)[number] => h != null)
 }
 
-export default function RegionPageClient({ slug }: { slug: string }) {
+function RegionPageClientContent({ slug }: { slug: string }) {
   const region = regions.find((r) => r.slug === slug)
   if (!region) notFound()
+
+  const searchParams = useSearchParams()
+  const showProofs = searchParams.get('proof') === '1'
 
   const regionWineries = orderedWineries(region.winerySlugs)
   const regionRestaurants = orderedRestaurants(region.restaurantSlugs)
@@ -545,8 +548,12 @@ export default function RegionPageClient({ slug }: { slug: string }) {
                 ['Stay', '#where-to-stay'],
                 ['Culture', '#region-culture'],
                 ['Adventure', '#adventure'],
-                ['Full text', '#yountville-verbatim'],
-                ['Print spreads', '#print-spreads'],
+                ...(showProofs
+                  ? ([
+                      ['Full text', '#yountville-verbatim'],
+                      ['Print spreads', '#print-spreads'],
+                    ] as const)
+                  : []),
               ] as const
             ).map(([label, hash]) => (
               <a
@@ -837,7 +844,7 @@ export default function RegionPageClient({ slug }: { slug: string }) {
         </Reveal>
       )}
 
-      {slug === 'yountville' ? (
+      {slug === 'yountville' && showProofs ? (
         <>
           <YountvilleVerbatimReader />
           <YountvillePrintProofs />
@@ -921,6 +928,14 @@ export default function RegionPageClient({ slug }: { slug: string }) {
       <Newsletter />
       <Footer />
     </>
+  )
+}
+
+export default function RegionPageClient({ slug }: { slug: string }) {
+  return (
+    <Suspense fallback={null}>
+      <RegionPageClientContent slug={slug} />
+    </Suspense>
   )
 }
 
