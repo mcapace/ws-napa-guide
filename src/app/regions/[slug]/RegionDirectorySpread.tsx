@@ -305,7 +305,7 @@ function SeriesListingRow({
             fontFamily: TRH.fontDisplay,
             fontStyle: 'italic',
             fontWeight: 300,
-            fontSize: 'clamp(28px, 3vw, 40px)',
+            fontSize: 'clamp(26px, 2.4vw, 34px)',
             color: TRH.ink,
             lineHeight: 1.05,
             margin: '0 0 16px',

@@ -443,7 +443,7 @@ a, button, [role="button"] { cursor: pointer; }
 /* RegionDirectorySpread — therealhotels four-column series row */
 .trh-series-row {
   display: grid;
-  grid-template-columns: minmax(280px, 22%) minmax(220px, 1.3fr) minmax(0, 1.5fr) minmax(0, 180px);
+  grid-template-columns: minmax(260px, 22%) minmax(260px, 1.4fr) minmax(0, 1.4fr) minmax(0, 180px);
   column-gap: clamp(40px, 5vw, 80px);
   align-items: start;
   max-width: 1280px;
