@@ -21,6 +21,8 @@ export interface Winery {
   rating?: number
   description: string
   excerpt: string
+  /** TRH directory layer; if absent, use truncated `description`. */
+  directoryBlurb?: string
   tastingNotes?: string
   highlights?: string[]
   visitInfo?: {
@@ -46,6 +48,8 @@ export interface Restaurant {
   priceRange: '$' | '$$' | '$$$' | '$$$$'
   description: string
   excerpt: string
+  /** TRH directory layer; if absent, use truncated `description`. */
+  directoryBlurb?: string
   highlights?: string[]
   reservations?: string
   chefName?: string
@@ -64,6 +68,8 @@ export interface Hotel {
   priceRange: string
   description: string
   excerpt: string
+  /** TRH directory layer; if absent, use truncated `description`. */
+  directoryBlurb?: string
   highlights?: string[]
   amenities?: string[]
   rooms?: number
