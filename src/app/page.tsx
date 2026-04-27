@@ -104,39 +104,40 @@ export default function HomePage() {
     })
 
     // Phase 1 (0-15%): mosaic parallax, gentle start
-    // Phase 2 (15-75%): panel expands smoothly from top-right to full
-    // Phase 3 (75-100%): overlay fades in
+    // Phase 2 (15-65%): panel expands smoothly from top-right to full
+    // Phase 3 (65-82%): DEAD AIR — fullscreen video plays uninterrupted
+    // Phase 4 (82-100%): editorial overlay fades in
 
     // Center panel expand
     heroTl.fromTo(
       centerPanel,
       { width: 280, height: 200, top: '8%', right: '5%', borderRadius: 0 },
-      { width: vw, height: vh, top: 0, right: 0, borderRadius: 0, ease: 'power3.inOut', duration: 0.6 },
+      { width: vw, height: vh, top: 0, right: 0, borderRadius: 0, ease: 'power3.inOut', duration: 0.5 },
       0.15
     )
 
     // Mosaic fade out (starts with expand, fades quickly)
     if (mosaic) {
-      heroTl.to(mosaic, { opacity: 0, duration: 0.25, ease: 'power1.out' }, 0.15)
+      heroTl.to(mosaic, { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0.15)
     }
 
     // Hero copy fade out
     if (heroCopy) {
-      heroTl.to(heroCopy, { opacity: 0, duration: 0.15, ease: 'power1.out' }, 0.15)
+      heroTl.to(heroCopy, { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0.15)
     }
 
     // Hero display text fade out
     if (heroDisplay) {
-      heroTl.to(heroDisplay, { opacity: 0, duration: 0.25, ease: 'power1.out' }, 0.15)
+      heroTl.to(heroDisplay, { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0.15)
     }
 
-    // Fullscreen overlay fade in
+    // Fullscreen overlay fade in (after the dead-air pause beat)
     if (fullscreenOverlay) {
       heroTl.fromTo(
         fullscreenOverlay,
         { opacity: 0, pointerEvents: 'none' },
-        { opacity: 1, pointerEvents: 'all', duration: 0.2, ease: 'power1.out' },
-        0.75
+        { opacity: 1, pointerEvents: 'all', duration: 0.18, ease: 'power2.out' },
+        0.82
       )
     }
 
