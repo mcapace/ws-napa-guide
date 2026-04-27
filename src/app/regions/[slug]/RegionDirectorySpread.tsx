@@ -12,9 +12,6 @@ import { TRH, trhType, trhLayout } from './real-hotels-theme'
 const bodyLight: CSSProperties = trhType.body()
 const trhSectionGapY = 120
 const trhEntryGapY = 80
-const trhDirectoryRowGapY = 36
-const trhImageHover = '0.6s cubic-bezier(0.25,0.46,0.45,0.94)'
-
 const hotelCategoryLabel: Record<Hotel['category'], string> = {
   resort: 'Resort',
   boutique: 'Boutique hotel',
@@ -220,50 +217,50 @@ const textLinkUpper: CSSProperties = {
   paddingBottom: 3,
 }
 
-const directoryEyebrow: CSSProperties = {
-  fontFamily: TRH.fontSans,
-  fontSize: 11,
-  letterSpacing: '0.2em',
-  textTransform: 'uppercase',
-  color: '#C4943A',
-  marginBottom: 8,
-  fontWeight: 500,
-}
-
-const directoryTitle: CSSProperties = {
-  fontFamily: TRH.fontDisplay,
-  fontStyle: 'italic',
-  fontWeight: 300,
-  fontSize: 'clamp(26px, 2.2vw, 30px)',
-  color: TRH.ink,
-  lineHeight: 1.2,
-  margin: '0 0 10px',
-}
-
-const directoryBody: CSSProperties = {
-  fontFamily: TRH.fontSans,
-  fontSize: 15,
-  lineHeight: 1.7,
-  color: TRH.inkMuted,
-  margin: 0,
-  flex: '1 1 auto',
-  minHeight: 0,
-}
-
-const readMoreDirectory: CSSProperties = {
+const seriesRowPrimaryCta: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  boxSizing: 'border-box',
+  background: TRH.ink,
+  color: TRH.pillText,
+  padding: '12px 20px',
+  borderRadius: 9999,
   fontFamily: TRH.fontSans,
   fontSize: 10,
-  color: TRH.ink,
-  textDecoration: 'underline',
-  textUnderlineOffset: 4,
+  fontWeight: 500,
+  letterSpacing: '0.2em',
+  textTransform: 'uppercase',
+  textDecoration: 'none',
+  border: 'none',
 }
 
-/** Dense single-column directory row: image left ~40%, content right; Read more only when `wsEditorial === true`. */
+const seriesRowSecondaryCta: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  boxSizing: 'border-box',
+  background: 'transparent',
+  color: TRH.ink,
+  padding: '12px 20px',
+  borderRadius: 9999,
+  fontFamily: TRH.fontSans,
+  fontSize: 10,
+  fontWeight: 500,
+  letterSpacing: '0.2em',
+  textTransform: 'uppercase',
+  textDecoration: 'none',
+  border: `1px solid ${TRH.ink}`,
+}
+
+/** therealhotels four-column row: image | title + meta | body | CTAs. READ MORE when `wsEditorial === true`. */
 function SeriesListingRow({
   href,
   imageSrc,
   title,
-  eyebrowText,
+  metaLines,
   body,
   primaryLabel,
   primaryHref,
@@ -272,7 +269,7 @@ function SeriesListingRow({
   href: string
   imageSrc: string
   title: string
-  eyebrowText: string
+  metaLines: string[]
   body: string
   primaryLabel: string
   primaryHref?: string
@@ -281,8 +278,8 @@ function SeriesListingRow({
   const [imgHover, setImgHover] = useState(false)
   const showReadMore = wsEditorial === true
   return (
-    <article className="trh-directory-row">
-      <div className="trh-directory-row__image">
+    <article className="trh-series-row">
+      <div className="trh-series-row__image">
         <Link
           href={href}
           onMouseEnter={() => setImgHover(true)}
@@ -293,36 +290,72 @@ function SeriesListingRow({
             src={imageSrc}
             alt={title}
             fill
-            sizes="(max-width: 699px) 100vw, 38vw"
+            sizes="(max-width: 799px) 100vw, min(280px, 22vw)"
             style={{
               objectFit: 'cover',
-              transform: imgHover ? 'scale(1.03)' : 'scale(1)',
-              transition: `transform ${trhImageHover}`,
+              transform: imgHover ? 'scale(1.04)' : 'scale(1)',
+              transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
             }}
           />
         </Link>
       </div>
-      <div className="trh-directory-row__content" style={{ background: TRH.editorialBg }}>
-        <p style={directoryEyebrow}>{eyebrowText}</p>
-        <h3 style={directoryTitle}>{title}</h3>
-        <p style={directoryBody}>{body}</p>
-        <div
-          className="trh-directory-row__ctaRow"
+      <div className="trh-series-row__title-block">
+        <h3
           style={{
-            justifyContent: primaryHref && showReadMore ? 'space-between' : 'flex-start',
+            fontFamily: TRH.fontDisplay,
+            fontStyle: 'italic',
+            fontWeight: 300,
+            fontSize: 'clamp(28px, 3vw, 40px)',
+            color: TRH.ink,
+            lineHeight: 1.05,
+            margin: '0 0 16px',
           }}
         >
-          {primaryHref ? (
-            <a href={primaryHref} target="_blank" rel="noopener noreferrer" style={pillPrimary}>
-              {primaryLabel}
-            </a>
-          ) : null}
-          {showReadMore ? (
-            <Link href={href} style={readMoreDirectory}>
-              Read more
-            </Link>
-          ) : null}
-        </div>
+          {title}
+        </h3>
+        {metaLines.map((line, i) => (
+          <p
+            key={`${i}-${line.slice(0, 24)}`}
+            style={{
+              fontFamily: TRH.fontSans,
+              fontSize: 10,
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color: 'rgba(13,11,9,0.55)',
+              lineHeight: 1.6,
+              margin: '0 0 4px',
+            }}
+          >
+            {line}
+          </p>
+        ))}
+      </div>
+      <div className="trh-series-row__body">
+        <p
+          style={{
+            fontFamily: TRH.fontSans,
+            fontSize: 15,
+            lineHeight: 1.55,
+            color: 'rgba(13,11,9,0.75)',
+            margin: 0,
+            maxWidth: '100%',
+          }}
+        >
+          {body}
+        </p>
+      </div>
+      <div className="trh-series-row__cta-col">
+        {primaryHref ? (
+          <a href={primaryHref} target="_blank" rel="noopener noreferrer" style={seriesRowPrimaryCta}>
+            {primaryLabel}
+            <span style={{ marginLeft: 6 }}>↗</span>
+          </a>
+        ) : null}
+        {showReadMore ? (
+          <Link href={href} style={seriesRowSecondaryCta}>
+            READ MORE
+          </Link>
+        ) : null}
       </div>
     </article>
   )
@@ -500,20 +533,24 @@ export function RegionDirectorySpread({
                 minWidth: 0,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: trhDirectoryRowGapY,
+                gap: 0,
+                maxWidth: 1280,
+                margin: '0 auto',
               }}
             >
               {moreWineries.map((w, idx) => {
                 const visit = w.visitInfo?.appointment ? 'By appointment' : 'Walk-ins welcome'
                 const stagsCorrection = isYountville && idx < 2
-                const loc = stagsCorrection ? 'Stags Leap District' : region.name
                 return (
                   <SeriesListingRow
                     key={w.slug}
                     href={`/wineries/${w.slug}`}
                     imageSrc={w.images[0]}
                     title={w.name}
-                    eyebrowText={`${visit} · ${loc}`}
+                    metaLines={[
+                      stagsCorrection ? 'STAGS LEAP DISTRICT' : region.name.toUpperCase(),
+                      visit.toUpperCase(),
+                    ]}
                     body={w.directoryBlurb?.trim() || truncateForDirectory(w.description)}
                     primaryLabel="Reserve"
                     primaryHref={w.visitInfo?.website}
@@ -598,14 +635,14 @@ export function RegionDirectorySpread({
             </div>
           ) : null}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: trhDirectoryRowGapY, maxWidth: 1180, margin: '0 auto' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0, maxWidth: 1280, margin: '0 auto' }}>
             {regionRestaurants.map((r) => (
               <SeriesListingRow
                 key={r.slug}
                 href={`/dining/${r.slug}`}
                 imageSrc={r.images[0]}
                 title={r.name}
-                eyebrowText={`${r.cuisine} · ${r.priceRange}`}
+                metaLines={[region.name.toUpperCase(), `${r.cuisine} · ${r.priceRange}`.toUpperCase()]}
                 body={
                   r.directoryBlurb?.trim() || (r.excerpt?.trim() ? r.excerpt : truncateForDirectory(r.description))
                 }
@@ -642,7 +679,7 @@ export function RegionDirectorySpread({
             </div>
           ) : null}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: trhDirectoryRowGapY, maxWidth: 1180, margin: '0 auto' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0, maxWidth: 1280, margin: '0 auto' }}>
             {regionHotels.map((h) => {
               const categoryLabel = hotelCategoryLabel[h.category] ?? h.category
               return (
@@ -651,7 +688,7 @@ export function RegionDirectorySpread({
                   href={`/stay/${h.slug}`}
                   imageSrc={h.images[0]}
                   title={h.name}
-                  eyebrowText={`${categoryLabel} · ${h.priceRange}`}
+                  metaLines={[region.name.toUpperCase(), `${categoryLabel} · ${h.priceRange}`.toUpperCase()]}
                   body={
                     h.directoryBlurb?.trim() || (h.excerpt?.trim() ? h.excerpt : truncateForDirectory(h.description))
                   }
