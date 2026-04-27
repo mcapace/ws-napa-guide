@@ -110,8 +110,8 @@ export default function HomePage() {
     // Center panel expand
     heroTl.fromTo(
       centerPanel,
-      { width: 280, height: 200, top: '8%', right: '5%', borderRadius: 3 },
-      { width: vw, height: vh, top: 0, right: 0, borderRadius: 0, ease: 'power1.out', duration: 0.6 },
+      { width: 280, height: 200, top: '8%', right: '5%', borderRadius: 0 },
+      { width: vw, height: vh, top: 0, right: 0, borderRadius: 0, ease: 'power3.inOut', duration: 0.6 },
       0.15
     )
 
@@ -314,7 +314,7 @@ export default function HomePage() {
       </AnimatePresence>
 
       {/* ── STICKY SCROLL HERO (400vh) — progress drives panel via JS, not React state ── */}
-      <div ref={scrollContainerRef} style={{ position: 'relative', height: '300vh' }}>
+      <div ref={scrollContainerRef} style={{ position: 'relative', height: '400vh' }}>
         <div
           style={{
             position: 'sticky',
@@ -348,7 +348,7 @@ export default function HomePage() {
                   left: (panel.style as { left?: string; right?: string; bottom?: string }).left,
                   right: (panel.style as { right?: string }).right,
                   bottom: (panel.style as { bottom?: string }).bottom,
-                  borderRadius: 3,
+                  borderRadius: 0,
                   overflow: 'hidden',
                   willChange: 'transform',
                 }}
@@ -372,10 +372,10 @@ export default function HomePage() {
               right: '5%',
               width: 280,
               height: 200,
-              borderRadius: 3,
+              borderRadius: 0,
               overflow: 'hidden',
               zIndex: 20,
-              willChange: 'width, height, border-radius, top, right',
+              willChange: 'width, height, top, right',
             }}
           >
             <Image
