@@ -6,20 +6,33 @@ import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
 import RegionPageClient from './RegionPageClient'
 import RegionDetailPage from '@/components/RegionDetailPage'
+import { RegionEditorialPage } from '@/components/regions/RegionEditorialPage'
+import { getMdxRegionSlugs, loadRegionMdxCached } from '@/lib/content/loadRegionMdx'
 
 // Regions that use the new therealhotels-style layout
-const NEW_LAYOUT_REGIONS = ['yountville', 'oakville', 'rutherford', 'st-helena', 'calistoga', 'pritchard-hill', 'downtown-napa'];
+const NEW_LAYOUT_REGIONS = ['yountville', 'oakville', 'rutherford', 'st-helena', 'calistoga', 'pritchard-hill', 'downtown-napa']
 
 type Props = {
   params: Promise<{ slug: string }>
 }
 
 export async function generateStaticParams() {
-  return getAllRegionSlugs().map((slug) => ({ slug }))
+  const fromMdx = getMdxRegionSlugs()
+  const fromTs = getAllRegionSlugs()
+  const merged = [...new Set([...fromTs, ...fromMdx])]
+  return merged.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
+  const mdxDoc = await loadRegionMdxCached(slug)
+  if (mdxDoc) {
+    return {
+      title: `${mdxDoc.frontmatter.region} — ${mdxDoc.frontmatter.tagline}`,
+      description: mdxDoc.frontmatter.dek,
+      openGraph: { images: [mdxDoc.frontmatter.heroImage] },
+    }
+  }
   const region = getRegion(slug)
   if (!region) return {}
   return {
@@ -31,47 +44,47 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function RegionPage({ params }: Props) {
   const { slug } = await params
+  const mdxDoc = await loadRegionMdxCached(slug)
+  if (mdxDoc) {
+    return <RegionEditorialPage data={mdxDoc} />
+  }
+
   const region = getRegion(slug)
   if (!region) notFound()
 
-  // Temporary: route Yountville through the new TRH layout (RegionPageClient
-  // + RegionDirectorySpread) for verification before propagating to other
-  // AVAs in a later commit. Other six AVAs continue to use RegionDetailPage.
-  if (slug === 'yountville') {
-    return <RegionPageClient slug={slug} />
-  }
-
   if (NEW_LAYOUT_REGIONS.includes(slug)) {
     const regionWineries = region.winerySlugs
-      .map(s => wineries.find(w => w.slug === s))
-      .filter((w): w is typeof wineries[number] => !!w)
-      .map(w => ({ slug: w.slug, name: w.name, address: w.address, excerpt: w.excerpt, images: w.images }));
+      .map((s) => wineries.find((w) => w.slug === s))
+      .filter((w): w is (typeof wineries)[number] => !!w)
+      .map((w) => ({ slug: w.slug, name: w.name, address: w.address, excerpt: w.excerpt, images: w.images }))
 
     const regionRestaurants = region.restaurantSlugs
-      .map(s => restaurants.find(r => r.slug === s))
-      .filter((r): r is typeof restaurants[number] => !!r)
-      .map(r => ({ slug: r.slug, name: r.name, cuisine: r.cuisine, priceRange: r.priceRange, excerpt: r.excerpt, images: r.images }));
+      .map((s) => restaurants.find((r) => r.slug === s))
+      .filter((r): r is (typeof restaurants)[number] => !!r)
+      .map((r) => ({ slug: r.slug, name: r.name, cuisine: r.cuisine, priceRange: r.priceRange, excerpt: r.excerpt, images: r.images }))
 
     const regionHotels = region.hotelSlugs
-      .map(s => hotels.find(h => h.slug === s))
-      .filter((h): h is typeof hotels[number] => !!h)
-      .map(h => ({ slug: h.slug, name: h.name, category: h.category, priceRange: h.priceRange, excerpt: h.excerpt, images: h.images }));
+      .map((s) => hotels.find((h) => h.slug === s))
+      .filter((h): h is (typeof hotels)[number] => !!h)
+      .map((h) => ({ slug: h.slug, name: h.name, category: h.category, priceRange: h.priceRange, excerpt: h.excerpt, images: h.images }))
 
     return (
-      <RegionDetailPage data={{
-        slug: region.slug,
-        name: region.name,
-        tagline: region.tagline,
-        author: region.author ?? '',
-        heroImage: region.heroImage,
-        pullQuote: region.pullQuote ?? region.intro,
-        intro: region.intro,
-        body: region.body ?? region.intro,
-        wineries: regionWineries,
-        restaurants: regionRestaurants,
-        hotels: regionHotels,
-      }} />
-    );
+      <RegionDetailPage
+        data={{
+          slug: region.slug,
+          name: region.name,
+          tagline: region.tagline,
+          author: region.author ?? '',
+          heroImage: region.heroImage,
+          pullQuote: region.pullQuote ?? region.intro,
+          intro: region.intro,
+          body: region.body ?? region.intro,
+          wineries: regionWineries,
+          restaurants: regionRestaurants,
+          hotels: regionHotels,
+        }}
+      />
+    )
   }
 
   return <RegionPageClient slug={slug} />
