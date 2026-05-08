@@ -137,7 +137,10 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   const restaurantBlocks: { title: string; body: string }[] = []
   let breakfastInner: { title: string; body: string } | null = null
 
+  const skipEatDirectoryH2 = new Set(['Restaurant Directory', 'Breakfast, Coffee & Snacks Directory'])
+
   for (const b of eatBlocks) {
+    if (skipEatDirectoryH2.has(b.title.trim())) continue
     if (b.title.toLowerCase().includes('breakfast')) {
       const trimmed = b.body.trim()
       const m = trimmed.match(/^### ([^\n]+)\n([\s\S]*)$/m)

@@ -877,16 +877,25 @@ function RevealSection({ children }: { children: ReactNode }) {
   )
 }
 
-/** Per-row overlap choreography (therealhotels-style): different height, tuck, and tilt per line */
-const APP_MARK_STAGGER = [
-  { top: -0.06, right: -0.04, dx: 0.14, dy: -0.2, deg: -10 },
-  { top: 0.22, right: 0.02, dx: -0.18, dy: 0.12, deg: 8 },
-  { top: -0.18, right: 0.1, dx: 0.22, dy: 0.04, deg: -6 },
-  { top: 0.1, right: -0.12, dx: -0.14, dy: 0.24, deg: 7 },
-  { top: -0.26, right: 0, dx: 0.1, dy: -0.28, deg: -5 },
-  { top: 0.18, right: 0.06, dx: 0.2, dy: 0.16, deg: 6 },
-  { top: -0.1, right: -0.14, dx: -0.24, dy: -0.08, deg: -7 },
-] as const
+/** Per-row overlap (therealhotels-style): anchor along the word with mixed left/right % so marks aren’t one vertical column */
+type MarkStagger = {
+  edge: 'left' | 'right'
+  inset: string
+  top: string
+  dx: number
+  dy: number
+  deg: number
+}
+
+const APP_MARK_STAGGER: readonly MarkStagger[] = [
+  { edge: 'left', inset: '8%', top: '-0.04em', dx: 0.12, dy: -0.14, deg: -11 },
+  { edge: 'right', inset: '18%', top: '0.18em', dx: -0.16, dy: 0.1, deg: 9 },
+  { edge: 'left', inset: '48%', top: '0.22em', dx: 0.08, dy: 0.06, deg: -7 },
+  { edge: 'right', inset: '6%', top: '-0.18em', dx: 0.04, dy: -0.22, deg: 6 },
+  { edge: 'left', inset: '62%', top: '-0.2em', dx: -0.1, dy: 0.04, deg: -5 },
+  { edge: 'right', inset: '38%', top: '0.12em', dx: 0.18, dy: 0.18, deg: 8 },
+  { edge: 'left', inset: '28%', top: '0.05em', dx: -0.2, dy: -0.1, deg: -8 },
+]
 
 /** therealhotels "browse by series" pattern:
  *  Vertical stack of HUGE serif names, centered.
@@ -1010,8 +1019,10 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           aria-hidden
           style={{
             position: 'absolute',
-            top: `${st.top}em`,
-            right: `${st.right}em`,
+            top: st.top,
+            ...(st.edge === 'left'
+              ? { left: st.inset, right: 'auto' }
+              : { right: st.inset, left: 'auto' }),
             width: '0.55em',
             height: '0.55em',
             minWidth: 32,
@@ -1020,11 +1031,13 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
             zIndex: 2,
             isolation: 'isolate',
             pointerEvents: 'none',
+            opacity: hovered ? 1 : 0,
             transform: hovered
-              ? `translate(calc(${st.dx}em + 0.02em), calc(${st.dy}em - 0.03em)) rotate(${hoverTilt}deg) scale(1.08)`
-              : `translate(${st.dx}em, ${st.dy}em) rotate(${st.deg}deg)`,
+              ? `translate(calc(${st.dx}em + 0.02em), calc(${st.dy}em - 0.03em)) rotate(${hoverTilt}deg) scale(1.06)`
+              : `translate(${st.dx}em, ${st.dy}em) rotate(${st.deg}deg) scale(0.88)`,
             transformOrigin: 'center center',
-            transition: 'transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1)',
+            transition:
+              'opacity 0.28s ease, transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}
         >
           <RegionMark slug={String(region.slug)} accentColor={region.accentColor} />
