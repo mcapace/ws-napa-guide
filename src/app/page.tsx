@@ -966,7 +966,7 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         <Image src={img3} alt="" fill sizes="150px" style={{ objectFit: 'cover' }} />
       </div>
 
-      {/* Name + inline sticker icon (therealhotels-style: sits on end of word) */}
+      {/* Name + inline sticker icon — wrapper sets font-size so 0.52em scales with the display serif */}
       <span
         style={{
           position: 'relative',
@@ -974,6 +974,8 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           alignItems: 'center',
           justifyContent: 'center',
           flexWrap: 'nowrap',
+          fontSize: 'clamp(48px, 8vw, 120px)',
+          lineHeight: 1.1,
         }}
       >
         <span
@@ -981,9 +983,7 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
             fontWeight: 300,
-            fontSize: 'clamp(48px, 8vw, 120px)',
             color: hovered ? '#F7F3EC' : 'rgba(247,243,236,0.2)',
-            lineHeight: 1.1,
             letterSpacing: '-0.03em',
             transition: 'color 0.4s ease',
             textAlign: 'center',
@@ -994,14 +994,17 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         <span
           aria-hidden
           style={{
-            width: '0.52em',
-            height: '0.52em',
+            width: '0.55em',
+            height: '0.55em',
+            minWidth: 32,
+            minHeight: 32,
             flexShrink: 0,
-            marginLeft: '-0.16em',
-            marginBottom: '0.04em',
+            marginLeft: '-0.14em',
+            marginBottom: '0.05em',
             display: 'block',
             position: 'relative',
             zIndex: 2,
+            isolation: 'isolate',
             transform: hovered ? 'scale(1.07) rotate(-6deg)' : 'scale(1) rotate(0deg)',
             transition: 'transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}

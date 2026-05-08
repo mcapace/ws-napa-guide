@@ -84,7 +84,14 @@ const OakvilleMark: FC<RegionMarkProps> = ({ slug, accentColor }) => {
   const leaf = accentColor ? punchUp(accentColor) : c.leaf!
   const fid = `rm-${slug.replace(/[^a-z0-9-]/gi, '')}-oak`
   return (
-    <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden className="region-inline-mark">
+    <svg
+      viewBox="0 0 24 24"
+      width="100%"
+      height="100%"
+      aria-hidden
+      className="region-inline-mark"
+      style={{ display: 'block' }}
+    >
       <OutlinedGroup filterId={fid}>
         <circle cx="12" cy="12.5" r="2.35" fill={c.berry} />
         <circle cx="9.1" cy="15.8" r="2.35" fill={c.berry} opacity={0.92} />
@@ -106,7 +113,14 @@ const RutherfordMark: FC<RegionMarkProps> = ({ slug }) => {
   const c = ill(slug)
   const fid = `rm-${slug}-ruth`
   return (
-    <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden className="region-inline-mark">
+    <svg
+      viewBox="0 0 24 24"
+      width="100%"
+      height="100%"
+      aria-hidden
+      className="region-inline-mark"
+      style={{ display: 'block' }}
+    >
       <OutlinedGroup filterId={fid}>
         <path d="M3.5 19h17v2.2H3.5z" fill={c.soil} />
         <path d="M4.5 16.2h15M6 13h12M8 9.5h8" fill="none" stroke={c.gold} strokeWidth={1.6} strokeLinecap="round" />
@@ -127,7 +141,14 @@ const YountvilleMark: FC<RegionMarkProps> = ({ slug }) => {
   const c = ill(slug)
   const fid = `rm-${slug}-yvn`
   return (
-    <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden className="region-inline-mark">
+    <svg
+      viewBox="0 0 24 24"
+      width="100%"
+      height="100%"
+      aria-hidden
+      className="region-inline-mark"
+      style={{ display: 'block' }}
+    >
       <OutlinedGroup filterId={fid}>
         <ellipse cx="12" cy="15.8" rx="7.2" ry="3.1" fill={c.plate} />
         <path d="M7.8 15.8H5M19 15.8h2.2" fill="none" stroke={c.gold} strokeWidth={1.4} strokeLinecap="round" />
@@ -149,7 +170,14 @@ const PritchardHillMark: FC<RegionMarkProps> = ({ slug }) => {
   const c = ill(slug)
   const fid = `rm-${slug}-ph`
   return (
-    <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden className="region-inline-mark">
+    <svg
+      viewBox="0 0 24 24"
+      width="100%"
+      height="100%"
+      aria-hidden
+      className="region-inline-mark"
+      style={{ display: 'block' }}
+    >
       <OutlinedGroup filterId={fid}>
         <path d="M3.5 20L12 4.5l4 8.5L20.5 20z" fill={c.peak} />
         <path d="M16 12.5L20.5 20H14" fill={c.soil} opacity={0.65} />
@@ -163,7 +191,14 @@ const StHelenaMark: FC<RegionMarkProps> = ({ slug }) => {
   const c = ill(slug)
   const fid = `rm-${slug}-sh`
   return (
-    <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden className="region-inline-mark">
+    <svg
+      viewBox="0 0 24 24"
+      width="100%"
+      height="100%"
+      aria-hidden
+      className="region-inline-mark"
+      style={{ display: 'block' }}
+    >
       <OutlinedGroup filterId={fid}>
         <path d="M12 6l7.5 5v11h-15V11z" fill={c.brick} />
         <path d="M12 6L4.5 11h15z" fill={c.gold} />
@@ -177,7 +212,14 @@ const CalistogaMark: FC<RegionMarkProps> = ({ slug }) => {
   const c = ill(slug)
   const fid = `rm-${slug}-cal`
   return (
-    <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden className="region-inline-mark">
+    <svg
+      viewBox="0 0 24 24"
+      width="100%"
+      height="100%"
+      aria-hidden
+      className="region-inline-mark"
+      style={{ display: 'block' }}
+    >
       <OutlinedGroup filterId={fid}>
         <ellipse cx="12" cy="17.5" rx="8" ry="2.8" fill={c.spring} opacity={0.45} />
         <path
@@ -204,7 +246,14 @@ const DowntownNapaMark: FC<RegionMarkProps> = ({ slug }) => {
   const c = ill(slug)
   const fid = `rm-${slug}-dn`
   return (
-    <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden className="region-inline-mark">
+    <svg
+      viewBox="0 0 24 24"
+      width="100%"
+      height="100%"
+      aria-hidden
+      className="region-inline-mark"
+      style={{ display: 'block' }}
+    >
       <OutlinedGroup filterId={fid}>
         <rect x="5.5" y="5.5" width="13" height="13" rx="1.2" fill={c.grid} />
         <path
