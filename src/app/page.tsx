@@ -966,27 +966,16 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         <Image src={img3} alt="" fill sizes="150px" style={{ objectFit: 'cover' }} />
       </div>
 
-      {/* Name + icon */}
-      <span style={{ position: 'relative', display: 'inline-block' }}>
-        {/* Sticker icon (appears on hover) */}
-        <span
-          style={{
-            position: 'absolute',
-            top: '-0.35em',
-            left: '50%',
-            transform: `translateX(-50%) ${hovered ? 'scale(1) rotate(8deg)' : 'scale(0) rotate(-8deg)'}`,
-            transition: 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)',
-            pointerEvents: 'none',
-            zIndex: 2,
-            color: '#F7F3EC',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          aria-hidden
-        >
-          <RegionMark size={44} strokeWidth={1.35} accentColor={region.accentColor} />
-        </span>
+      {/* Name + inline sticker icon (therealhotels-style: sits on end of word) */}
+      <span
+        style={{
+          position: 'relative',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexWrap: 'nowrap',
+        }}
+      >
         <span
           style={{
             fontFamily: "'Cormorant Garamond', serif",
@@ -1001,6 +990,23 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           }}
         >
           {region.name}
+        </span>
+        <span
+          aria-hidden
+          style={{
+            width: '0.52em',
+            height: '0.52em',
+            flexShrink: 0,
+            marginLeft: '-0.16em',
+            marginBottom: '0.04em',
+            display: 'block',
+            position: 'relative',
+            zIndex: 2,
+            transform: hovered ? 'scale(1.07) rotate(-6deg)' : 'scale(1) rotate(0deg)',
+            transition: 'transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          }}
+        >
+          <RegionMark slug={String(region.slug)} accentColor={region.accentColor} />
         </span>
       </span>
     </Link>

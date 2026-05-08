@@ -222,5 +222,293 @@
   "yountville|North Block Hotel|6757 Washington Street": {
     "lat": 38.406398,
     "lng": -122.365639
+  },
+  "rutherford|Beaulieu Vineyard|1960 St. Helena Highway": {
+    "lat": 38.460615,
+    "lng": -122.422105
+  },
+  "rutherford|Cakebread|8300 St. Helena Highway": {
+    "lat": 38.448005,
+    "lng": -122.411124
+  },
+  "rutherford|Caymus Vineyards|8700 Conn Creek Road": {
+    "lat": 38.47003,
+    "lng": -122.39768
+  },
+  "rutherford|Dakota Shy Wine|771 Sage Canyon Road": {
+    "lat": 38.485907,
+    "lng": -122.401423
+  },
+  "rutherford|Foley Johnson Winery|8350 St. Helena Highway": {
+    "lat": 38.450324,
+    "lng": -122.413537
+  },
+  "rutherford|Frog's Leap Winery|8815 Conn Creek Road": {
+    "lat": 38.47403,
+    "lng": -122.40236
+  },
+  "rutherford|Grgich Hills|1829 St. Helena Highway S.": {
+    "lat": 38.465607,
+    "lng": -122.429191
+  },
+  "rutherford|Honig Vineyard and Winery|850 Rutherford Road": {
+    "lat": 38.47182,
+    "lng": -122.40734
+  },
+  "rutherford|Sullivan Rutherford Estate|1090 Galleron Road": {
+    "lat": 38.47837,
+    "lng": -122.42989
+  },
+  "rutherford|Auberge du Soleil|180 Rutherford Hill Road": {
+    "lat": 38.493535,
+    "lng": -122.406057
+  },
+  "st-helena|AXR|3199 St. Helena Highway N.": {
+    "lat": 38.530377,
+    "lng": -122.504543
+  },
+  "st-helena|Ballantine|2820 St. Helena Highway N.": {
+    "lat": 38.519656,
+    "lng": -122.489702
+  },
+  "st-helena|Charles Krug|2800 Main Street": {
+    "lat": 38.518782,
+    "lng": -122.481487
+  },
+  "st-helena|Corison Winery|987 St. Helena Highway S.": {
+    "lat": 38.484996,
+    "lng": -122.447409
+  },
+  "st-helena|Davies Vineyards|1210 Grayson Avenue": {
+    "lat": 38.498362,
+    "lng": -122.462233
+  },
+  "st-helena|The Debate|1244 Spring Street": {
+    "lat": 38.503331,
+    "lng": -122.468811
+  },
+  "st-helena|El Molino Winery|3315 St. Helena Highway N.": {
+    "lat": 38.53961,
+    "lng": -122.5102
+  },
+  "st-helena|Forman Vineyard|1501 Big Rock Road": {
+    "lat": 38.51734,
+    "lng": -122.44552
+  },
+  "st-helena|Freemark Abbey|3022 St. Helena Highway N.": {
+    "lat": 38.525635,
+    "lng": -122.49643
+  },
+  "st-helena|Hall Wines|401 St. Helena Highway S.": {
+    "lat": 38.488972,
+    "lng": -122.453057
+  },
+  "st-helena|The Salon at Heitz Cellar|436 St. Helena Highway S.": {
+    "lat": 38.491062,
+    "lng": -122.450682
+  },
+  "st-helena|Ink Grade / The Pavillion|699 St. Helena Highway S.": {
+    "lat": 38.48796,
+    "lng": -122.449521
+  },
+  "st-helena|Lang & Reed|1244 Spring Street": {
+    "lat": 38.503331,
+    "lng": -122.468811
+  },
+  "st-helena|Lokoya|3787 Spring Mountain Road": {
+    "lat": 38.51399,
+    "lng": -122.53993
+  },
+  "st-helena|Louis M. Martini Winery|254 St. Helena Highway S.": {
+    "lat": 38.49236,
+    "lng": -122.452642
+  },
+  "st-helena|Mending Wall|3730 Silverado Trail N.": {
+    "lat": 38.55609,
+    "lng": -122.4997
+  },
+  "st-helena|Orin Swift|1321 Main Street": {
+    "lat": 38.5044,
+    "lng": -122.469347
+  },
+  "st-helena|Joseph Phelps|200 Taplin Road": {
+    "lat": 38.50727,
+    "lng": -122.42877
+  },
+  "st-helena|The Prisoner|1178 Galleron Road": {
+    "lat": 38.474435,
+    "lng": -122.432296
+  },
+  "st-helena|Raymond|849 Zinfandel Lane": {
+    "lat": 38.482526,
+    "lng": -122.435081
+  },
+  "st-helena|Revana|2930 St. Helena Highway N.": {
+    "lat": 38.52089,
+    "lng": -122.4924
+  },
+  "st-helena|Rombauer|3522 Silverado Trail N.": {
+    "lat": 38.546031,
+    "lng": -122.492738
+  },
+  "st-helena|The Royal We|929 Main Street": {
+    "lat": 38.501492,
+    "lng": -122.464995
+  },
+  "st-helena|Salvestrin Winery|397 Main Street": {
+    "lat": 38.496729,
+    "lng": -122.46127
+  },
+  "st-helena|Seavey Vineyard|1310 Conn Valley Road": {
+    "lat": 38.5081,
+    "lng": -122.40027
+  },
+  "st-helena|Spring Mountain Vineyard|2805 Spring Mountain Road": {
+    "lat": 38.50607,
+    "lng": -122.48985
+  },
+  "st-helena|St. Helena Winery|100 Pratt Avenue": {
+    "lat": 38.51974,
+    "lng": -122.47571
+  },
+  "st-helena|Stony Hill|3331 St. Helena Highway N.": {
+    "lat": 38.535537,
+    "lng": -122.5292
+  },
+  "st-helena|Titus Vineyards|2971 Silverado Trail N.": {
+    "lat": 38.527467,
+    "lng": -122.485413
+  },
+  "st-helena|Trinchero|3070 St. Helena Highway N.": {
+    "lat": 38.52821,
+    "lng": -122.49719
+  },
+  "st-helena|Vineyard 7 & 8|4028 Spring Mountain Road": {
+    "lat": 38.526176,
+    "lng": -122.552538
+  },
+  "st-helena|Wheeler Farms|588 Zinfandel Lane": {
+    "lat": 38.487375,
+    "lng": -122.437614
+  },
+  "st-helena|El Bonita Motel|195 Main Street": {
+    "lat": 38.494827,
+    "lng": -122.457693
+  },
+  "st-helena|Inn St. Helena|1515 Main Street": {
+    "lat": 38.506204,
+    "lng": -122.472491
+  },
+  "st-helena|Meadowood|900 Meadowood Lane": {
+    "lat": 38.52255,
+    "lng": -122.46741
+  },
+  "st-helena|Le Petit Pali|1152 Lodi Lane": {
+    "lat": 38.52598,
+    "lng": -122.49478
+  },
+  "st-helena|Southbridge|1020 Main Street": {
+    "lat": 38.502676,
+    "lng": -122.464919
+  },
+  "st-helena|Vineyard Country Inn|201 Main Street": {
+    "lat": 38.49554,
+    "lng": -122.45826
+  },
+  "yountville|Antinori Napa Valley|3700 Soda Canyon Road": {
+    "lat": 38.42783,
+    "lng": -122.29176
+  },
+  "yountville|Mayacamas|1155 Lokoya Road": {
+    "lat": 38.3652,
+    "lng": -122.42344
+  },
+  "yountville|Baldacci|6236 Silverado Trail": {
+    "lat": 38.42093,
+    "lng": -122.33813
+  },
+  "yountville|Chimney Rock|5350 Silverado Trail": {
+    "lat": 38.389995,
+    "lng": -122.312891
+  },
+  "yountville|Cliff Lede|1473 Yountville Cross Road": {
+    "lat": 38.42402,
+    "lng": -122.344634
+  },
+  "yountville|The Collection at Paraduxx|7257 Silverado Trail": {
+    "lat": 38.436589,
+    "lng": -122.352544
+  },
+  "yountville|Odette|5998 Silverado Trail": {
+    "lat": 38.405826,
+    "lng": -122.328046
+  },
+  "yountville|Pine Ridge|5901 Silverado Trail": {
+    "lat": 38.405675,
+    "lng": -122.331937
+  },
+  "yountville|Quixote|6126 Silverado Trail": {
+    "lat": 38.41788,
+    "lng": -122.32331
+  },
+  "yountville|Shafer|6154 Silverado Trail": {
+    "lat": 38.42042,
+    "lng": -122.32665
+  },
+  "yountville|Silverado Vineyards|6121 Silverado Trail": {
+    "lat": 38.416336,
+    "lng": -122.34111
+  },
+  "yountville|Stag's Leap Wine Cellars|5766 Silverado Trail": {
+    "lat": 38.399326,
+    "lng": -122.323556
+  },
+  "yountville|Stags' Leap Winery|6150 Silverado Trail": {
+    "lat": 38.414168,
+    "lng": -122.321397
+  },
+  "yountville|Arrow & Branch|5215 Solano Avenue": {
+    "lat": 38.362591,
+    "lng": -122.341272
+  },
+  "yountville|Darioush|4240 Silverado Trail": {
+    "lat": 38.367466,
+    "lng": -122.294664
+  },
+  "yountville|Hagafen|4160 Silverado Trail": {
+    "lat": 38.364798,
+    "lng": -122.289431
+  },
+  "yountville|Keplinger|5215 Solano Avenue": {
+    "lat": 38.362591,
+    "lng": -122.341272
+  },
+  "yountville|Laird|5055 Solano Avenue": {
+    "lat": 38.35394,
+    "lng": -122.33499
+  },
+  "yountville|Materra|4326 Big Ranch Road": {
+    "lat": 38.362429,
+    "lng": -122.309303
+  },
+  "yountville|Reynolds|3266 Silverado Trail": {
+    "lat": 38.355987,
+    "lng": -122.284871
+  },
+  "yountville|Robert Biale|4038 Big Ranch Road": {
+    "lat": 38.350641,
+    "lng": -122.301029
+  },
+  "yountville|Signorello|4500 Silverado Trail": {
+    "lat": 38.3708,
+    "lng": -122.296164
+  },
+  "yountville|The Estate Yountville|6481 Washington Street": {
+    "lat": 38.399549,
+    "lng": -122.359637
+  },
+  "yountville|North Block|6757 Washington Street": {
+    "lat": 38.406398,
+    "lng": -122.365639
   }
 }
