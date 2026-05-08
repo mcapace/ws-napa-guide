@@ -25,27 +25,26 @@ export default function AnimationProvider() {
   useEffect(() => {
     // ── Lenis smooth scroll ──
     const lenis = new Lenis({
+      lerp: 0.08,
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     })
     lenisRef.current = lenis
 
-    function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
+    const lenisRaf = (time: number) => {
+      lenis.raf(time * 1000)
     }
-    requestAnimationFrame(raf)
-
-    // Connect Lenis to GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update)
-    gsap.ticker.add((time) => lenis.raf(time * 1000))
+    gsap.ticker.add(lenisRaf)
     gsap.ticker.lagSmoothing(0)
+
+    lenis.on('scroll', ScrollTrigger.update)
 
     // ── Initialize text animations ──
     initAnimations()
 
     return () => {
+      gsap.ticker.remove(lenisRaf)
       triggersRef.current.forEach((t) => t.kill())
       triggersRef.current = []
       lenis.destroy()

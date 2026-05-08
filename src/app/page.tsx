@@ -12,11 +12,11 @@ import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
 import { getArticle } from '@/data/articles'
-import { MarqueeCTA } from '@/components/ui/MarqueeCTA'
 import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
 import { sectionHeading, seeAllLink } from '@/lib/editorial-styles'
 import { TEST_IMAGES } from '@/lib/test-images'
 import type { Article, Winery } from '@/lib/types'
+import { getRegionEditorialIcon } from '@/lib/regionIcons'
 
 const featuredRegions = regions
 const featuredJuneSlugs = ['judgment-of-paris', 'napa-taco-tour', 'napa-landmarks'] as const
@@ -620,7 +620,24 @@ export default function HomePage() {
             Fifty miles of valley floor and mountain slope — and yet Napa Valley has become the benchmark against
             which the world measures itself.
           </p>
-          <MarqueeCTA href="/regions" label="explore the guide" />
+          <Link
+            href="/regions"
+            style={{
+              display: 'inline-block',
+              marginTop: 8,
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 11,
+              fontWeight: 500,
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              color: 'rgba(247,243,236,0.85)',
+              textDecoration: 'none',
+              borderBottom: '1px solid rgba(247,243,236,0.35)',
+              paddingBottom: 6,
+            }}
+          >
+            Explore the guide →
+          </Link>
         </section>
       </RevealSection>
 
@@ -941,24 +958,13 @@ function RevealSection({ children }: { children: ReactNode }) {
  *  a fun icon/sticker appears on the text. */
 function AppellationLink({ region, index }: { region: RegionData; index: number }) {
   const [hovered, setHovered] = useState(false)
+  const RegionIcon = getRegionEditorialIcon(region.slug)
 
   // Get 2-3 images for this region from its wineries
   const regionWineries = wineries.filter((w) => w.region === region.slug)
   const img1 = region.heroImage
   const img2 = regionWineries[0]?.images[0] ?? TEST_IMAGES[(index + 1) % TEST_IMAGES.length]
   const img3 = regionWineries[1]?.images[0] ?? TEST_IMAGES[(index + 3) % TEST_IMAGES.length]
-
-  // Sticker icons per region
-  const icons: Record<string, string> = {
-    oakville: '🍷',
-    rutherford: '🏛️',
-    yountville: '🍽️',
-    'st-helena': '☀️',
-    calistoga: '♨️',
-    'pritchard-hill': '⛰️',
-    'downtown-napa': '🌉',
-  }
-  const icon = icons[region.slug] ?? '🍇'
 
   return (
     <Link
@@ -1041,16 +1047,20 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         <span
           style={{
             position: 'absolute',
-            top: '-0.3em',
+            top: '-0.35em',
             left: '50%',
             transform: `translateX(-50%) ${hovered ? 'scale(1) rotate(8deg)' : 'scale(0) rotate(-8deg)'}`,
-            fontSize: 'clamp(24px, 3vw, 40px)',
             transition: 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)',
             pointerEvents: 'none',
             zIndex: 2,
+            color: '#F7F3EC',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
+          aria-hidden
         >
-          {icon}
+          <RegionIcon size={32} strokeWidth={1.25} />
         </span>
         <span
           style={{

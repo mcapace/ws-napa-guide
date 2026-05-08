@@ -69,17 +69,14 @@ export function TastingDirectoryWithMap({
                     borderBottom: '1px solid rgba(26,22,20,0.1)',
                   }}
                 >
-                  <p style={{ margin: '0 0 6px', fontSize: 15, fontWeight: 600, color: '#1A1614' }}>{row.name}</p>
-                  <p style={{ margin: '0 0 10px', fontSize: 13, lineHeight: 1.55, color: 'rgba(26,22,20,0.72)' }}>
-                    {row.address}
-                  </p>
+                  <p className="tasting-directory-name">{row.name}</p>
+                  <p className="tasting-directory-address">{row.address}</p>
                   {href && (
                     <a
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="feature-meta-link"
-                      style={{ fontSize: 11 }}
+                      className="tasting-directory-url"
                     >
                       {row.website.replace(/^https?:\/\//i, '')}
                     </a>

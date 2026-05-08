@@ -5,6 +5,14 @@ export type RegionCoordinates = {
   lng: number
 }
 
+/** Optional editorial marquee copy per section; missing keys fall back to section labels in the template. */
+export type RegionMarqueePhrases = {
+  taste?: string
+  eat?: string
+  stay?: string
+  sidebar?: string
+}
+
 export type RegionMdxFrontmatter = {
   slug: string
   region: string
@@ -18,6 +26,7 @@ export type RegionMdxFrontmatter = {
   relatedFeatures: string[]
   /** Reserved for online-exclusive eyebrow; ignored in UI for now. */
   exclusiveToOnline?: boolean
+  marqueePhrases?: RegionMarqueePhrases
 }
 
 export type TastingDirectoryRow = {

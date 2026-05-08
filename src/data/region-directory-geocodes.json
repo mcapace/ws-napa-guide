@@ -1,0 +1,226 @@
+{
+  "calistoga|Bennett Lane Winery|3340 CA-128": {
+    "lat": 38.595485,
+    "lng": -122.61891
+  },
+  "calistoga|CADE Estate|260 Howell Mountain Road South": {
+    "lat": 38.564479,
+    "lng": -122.441497
+  },
+  "calistoga|Castello di Amorosa|4045 St. Helena Highway": {
+    "lat": 38.55844,
+    "lng": -122.54251
+  },
+  "calistoga|Frank Family Vineyards|1091 Larkmead Lane": {
+    "lat": 38.5594,
+    "lng": -122.52223
+  },
+  "calistoga|Sterling Vineyards|1111 Dunaweal Lane": {
+    "lat": 38.56971,
+    "lng": -122.54523
+  },
+  "calistoga|Tank Garage Winery|1020 Foothill Boulevard": {
+    "lat": 38.575214,
+    "lng": -122.57963
+  },
+  "calistoga|Tamber Bey|1251 Tubbs Lane": {
+    "lat": 38.59481,
+    "lng": -122.60517
+  },
+  "calistoga|Trois Noix|865 Silverado Trail North": {
+    "lat": 38.586105,
+    "lng": -122.57452
+  },
+  "calistoga|Four Seasons Resort Napa Valley|400 Silverado Trail": {
+    "lat": 38.5789,
+    "lng": -122.521
+  },
+  "calistoga|Indian Springs Resort & Spa|1712 Lincoln Avenue": {
+    "lat": 38.581952,
+    "lng": -122.575168
+  },
+  "calistoga|Okaeri|1415 Foothill Boulevard": {
+    "lat": 38.575943,
+    "lng": -122.583488
+  },
+  "calistoga|Calistoga Motor Lodge|1880 Lincoln Avenue": {
+    "lat": 38.587046,
+    "lng": -122.576335
+  },
+  "downtown-napa|Back Room Wines|1546 First Street": {
+    "lat": 38.297363,
+    "lng": -122.290323
+  },
+  "downtown-napa|Bounty Hunter Wine Bar|975 First Street": {
+    "lat": 38.299257,
+    "lng": -122.285074
+  },
+  "downtown-napa|Compline Wine Shop|1300 First Street, Suite 319": {
+    "lat": 38.29819,
+    "lng": -122.288357
+  },
+  "downtown-napa|Kerr Cellars|1463 First Street": {
+    "lat": 38.297135,
+    "lng": -122.28883
+  },
+  "downtown-napa|Maison Fayard|1408 Second Street": {
+    "lat": 38.296896,
+    "lng": -122.288427
+  },
+  "downtown-napa|Robert Craig Winery|1553 Second Street": {
+    "lat": 38.295905,
+    "lng": -122.28959
+  },
+  "downtown-napa|Roots Run Deep Salon|1607 First Street": {
+    "lat": 38.297066,
+    "lng": -122.291353
+  },
+  "downtown-napa|Vintner’s Collective|1245 Main Street": {
+    "lat": 38.301103,
+    "lng": -122.287257
+  },
+  "oakville|B Cellars Winery|703 Oakville Cross Road": {
+    "lat": 38.449321,
+    "lng": -122.373531
+  },
+  "oakville|Groth Vineyards & Winery|750 Oakville Cross Road": {
+    "lat": 38.4492,
+    "lng": -122.380111
+  },
+  "oakville|Miner Family Winery|7850 Silverado Trail": {
+    "lat": 38.46274,
+    "lng": -122.371105
+  },
+  "oakville|Opus One|1144 Oakville Cross Road": {
+    "lat": 38.439597,
+    "lng": -122.398089
+  },
+  "oakville|PlumpJack Estate Winery|620 Oakville Cross Road": {
+    "lat": 38.45545,
+    "lng": -122.37405
+  },
+  "oakville|Promontory Wine|1601 Oakville Grade": {
+    "lat": 38.42138,
+    "lng": -122.41485
+  },
+  "oakville|Robert Mondavi Winery|7801 St. Helena Highway": {
+    "lat": 38.441476,
+    "lng": -122.410097
+  },
+  "oakville|Silver Oak Cellars|915 Oakville Cross Road": {
+    "lat": 38.440681,
+    "lng": -122.381166
+  },
+  "oakville|Turnbull Wine Cellars|8210 St. Helena Highway": {
+    "lat": 38.444576,
+    "lng": -122.408427
+  },
+  "pritchard-hill|David Arthur Vineyards|210 Long Ranch Road": {
+    "lat": 38.46776,
+    "lng": -122.34869
+  },
+  "pritchard-hill|Chappellet Winery|1581 Sage Canyon Road": {
+    "lat": 38.47934,
+    "lng": -122.32931
+  },
+  "pritchard-hill|Continuum Estate|1677 Sage Canyon Road": {
+    "lat": 38.46717,
+    "lng": -122.33645
+  },
+  "rutherford|Mumm Napa|8445 Silverado Trail": {
+    "lat": 38.47834,
+    "lng": -122.39362
+  },
+  "rutherford|Round Pond Cellars|875 Rutherford Road": {
+    "lat": 38.46396,
+    "lng": -122.40273
+  },
+  "rutherford|Rutherford Hill Winery|200 Rutherford Hill Road": {
+    "lat": 38.493677,
+    "lng": -122.403813
+  },
+  "rutherford|Sequoia Grove Winery|8338 St. Helena Highway": {
+    "lat": 38.449833,
+    "lng": -122.411773
+  },
+  "rutherford|St. Supéry Estate Vineyards & Winery|8440 St. Helena Highway": {
+    "lat": 38.455086,
+    "lng": -122.414874
+  },
+  "rutherford|Sullivan Rutherford Estate|1090 Langtry Road": {
+    "lat": 38.504444,
+    "lng": -122.5394
+  },
+  "st-helena|Beringer Vineyards|2000 Main Street": {
+    "lat": 38.510349,
+    "lng": -122.480482
+  },
+  "st-helena|Charles Krug Winery|2800 Main Street": {
+    "lat": 38.50565,
+    "lng": -122.49685
+  },
+  "st-helena|Corison Winery|987 St. Helena Highway South": {
+    "lat": 38.484996,
+    "lng": -122.447409
+  },
+  "st-helena|Freemark Abbey|3022 St. Helena Highway North": {
+    "lat": 38.525635,
+    "lng": -122.49643
+  },
+  "st-helena|Merryvale Vineyards|1000 Main Street": {
+    "lat": 38.50545,
+    "lng": -122.48475
+  },
+  "st-helena|Vintner’s Collective|1245 Main Street": {
+    "lat": 38.50595,
+    "lng": -122.46185
+  },
+  "st-helena|Whitehall Lane|1563 St. Helena Highway South": {
+    "lat": 38.477709,
+    "lng": -122.438331
+  },
+  "yountville|Bell Wine Cellars|6200 Washington Street": {
+    "lat": 38.39053,
+    "lng": -122.34478
+  },
+  "yountville|Chandon|1 California Drive": {
+    "lat": 38.39768,
+    "lng": -122.36529
+  },
+  "yountville|Hestan Vineyards|6548 Washington Street": {
+    "lat": 38.403104,
+    "lng": -122.36269
+  },
+  "yountville|Cornell Wine Co.|6795 Washington Street": {
+    "lat": 38.406293,
+    "lng": -122.367378
+  },
+  "yountville|Priest Ranch|6490 Washington Street": {
+    "lat": 38.40003,
+    "lng": -122.359135
+  },
+  "yountville|Jessup Cellars|6740 Washington Street": {
+    "lat": 38.405937,
+    "lng": -122.366222
+  },
+  "yountville|Paraduxx|7257 Silverado Trail": {
+    "lat": 38.436589,
+    "lng": -122.352544
+  },
+  "yountville|Hotel Yountville|6462 Washington Street": {
+    "lat": 38.39825,
+    "lng": -122.35745
+  },
+  "yountville|Maison Fleurie|6529 Yount Street": {
+    "lat": 38.40251,
+    "lng": -122.361481
+  },
+  "yountville|Napa Valley Lodge|2230 Madison Street": {
+    "lat": 38.406917,
+    "lng": -122.367952
+  },
+  "yountville|North Block Hotel|6757 Washington Street": {
+    "lat": 38.406398,
+    "lng": -122.365639
+  }
+}

@@ -18,6 +18,7 @@ import {
   splitWhereToStay,
   splitWhereToTaste,
 } from '@/lib/content/parseRegionMdxBody'
+import { attachDirectoryGeocodes } from '@/lib/content/directoryGeocode'
 import { TEST_IMAGES } from '@/lib/test-images'
 
 import { cache } from 'react'
@@ -130,7 +131,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   photoIdx += featuredWineries.length
 
   const tableText = extractGfmTable(directoryRaw)
-  const tastingDirectory = parseTastingDirectoryTable(tableText)
+  const tastingDirectory = attachDirectoryGeocodes(frontmatter.slug, parseTastingDirectoryTable(tableText))
 
   const eatBlocks = splitH2Blocks(eatMd)
   const restaurantBlocks: { title: string; body: string }[] = []
@@ -186,7 +187,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     featuredHotels = assignPlaceholderPhotos(featuredHotelsBase, photoIdx)
     photoIdx += featuredHotels.length
     const stayTable = extractGfmTable(stayDirectoryRaw)
-    lodgingDirectory = parseTastingDirectoryTable(stayTable)
+    lodgingDirectory = attachDirectoryGeocodes(frontmatter.slug, parseTastingDirectoryTable(stayTable))
   }
 
   const lede = await compileLede(ledeMd)

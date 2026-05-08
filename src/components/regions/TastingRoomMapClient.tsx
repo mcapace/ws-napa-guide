@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import Map, { Marker, NavigationControl, Popup } from 'react-map-gl/mapbox'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import Map, { Marker, NavigationControl, Popup, type MapRef } from 'react-map-gl/mapbox'
+import mapboxgl from 'mapbox-gl'
 import type { RegionCoordinates, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
 
@@ -10,11 +11,11 @@ const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!
 type Props = {
   center: { lat: number; lng: number }
   rows: TastingDirectoryRow[]
-  /** Shown on the always-visible center marker popup */
+  /** Shown on the center / overview popup when useful */
   regionName: string
 }
 
-/** Burgundy marker; used for geocoded rows and region center. */
+/** Burgundy marker; used for geocoded rows and optional region anchor. */
 function PinMarker({ onClick, label }: { onClick: () => void; label: string }) {
   return (
     <button
@@ -40,14 +41,48 @@ type PopupState =
   | { kind: 'row'; row: TastingDirectoryRow; lng: number; lat: number }
 
 export function TastingRoomMapClient({ center, rows, regionName }: Props) {
+  const mapRef = useRef<MapRef>(null)
   const pinned = rows.filter(
     (r): r is TastingDirectoryRow & { coordinates: RegionCoordinates } => r.coordinates !== null,
   )
+  const pinSignature = useMemo(() => {
+    return pinned
+      .map((p) => `${p.coordinates.lat.toFixed(4)}:${p.coordinates.lng.toFixed(4)}`)
+      .sort()
+      .join(',')
+  }, [rows])
   const [popup, setPopup] = useState<PopupState | null>(null)
+
+  useEffect(() => {
+    const map = mapRef.current?.getMap()
+    if (!map) return
+
+    const run = () => {
+      if (pinned.length === 0) {
+        map.jumpTo({ center: [center.lng, center.lat], zoom: 12 })
+        return
+      }
+      const b = new mapboxgl.LngLatBounds()
+      for (const row of pinned) {
+        b.extend([row.coordinates.lng, row.coordinates.lat])
+      }
+      if (pinned.length === 1) {
+        map.easeTo({ center: [pinned[0].coordinates.lng, pinned[0].coordinates.lat], zoom: 13, duration: 0 })
+        return
+      }
+      map.fitBounds(b, { padding: 72, maxZoom: 13.5, duration: 0 })
+    }
+
+    if (map.isStyleLoaded()) run()
+    else map.once('load', run)
+  }, [center.lat, center.lng, pinSignature])
+
+  const showCenterPin = pinned.length === 0
 
   return (
     <div style={{ width: '100%', height: '100%', minHeight: 420, borderRadius: 2, overflow: 'hidden' }}>
       <Map
+        ref={mapRef}
         mapboxAccessToken={MAPBOX_TOKEN}
         initialViewState={{
           longitude: center.lng,
@@ -58,17 +93,16 @@ export function TastingRoomMapClient({ center, rows, regionName }: Props) {
         mapStyle="mapbox://styles/mapbox/outdoors-v12"
       >
         <NavigationControl position="top-right" showCompass={false} />
-        <Marker longitude={center.lng} latitude={center.lat} anchor="center">
-          <PinMarker label={`${regionName} map center`} onClick={() => setPopup({ kind: 'center' })} />
-        </Marker>
+        {showCenterPin && (
+          <Marker longitude={center.lng} latitude={center.lat} anchor="center">
+            <PinMarker label={`${regionName} map center`} onClick={() => setPopup({ kind: 'center' })} />
+          </Marker>
+        )}
         {pinned.map((row) => {
           const { lat, lng } = row.coordinates
           return (
             <Marker key={`${row.name}-${row.address}`} longitude={lng} latitude={lat} anchor="bottom">
-              <PinMarker
-                label={row.name}
-                onClick={() => setPopup({ kind: 'row', row, lng, lat })}
-              />
+              <PinMarker label={row.name} onClick={() => setPopup({ kind: 'row', row, lng, lat })} />
             </Marker>
           )
         })}
@@ -85,7 +119,7 @@ export function TastingRoomMapClient({ center, rows, regionName }: Props) {
             <div style={{ padding: '6px 4px', maxWidth: 200, fontFamily: "'DM Sans', sans-serif" }}>
               <p style={{ margin: 0, fontWeight: 600, fontSize: 13, color: '#1A1614' }}>{regionName}</p>
               <p style={{ margin: '6px 0 0', fontSize: 11, lineHeight: 1.4, color: '#3D3835' }}>
-                Regional map. Tasting rooms with coordinates appear as additional pins when available.
+                Run the geocode task to plot each listing when coordinates are available.
               </p>
             </div>
           </Popup>
@@ -102,13 +136,15 @@ export function TastingRoomMapClient({ center, rows, regionName }: Props) {
           >
             <div style={{ padding: '4px 4px 2px', maxWidth: 220, fontFamily: "'DM Sans', sans-serif" }}>
               <p style={{ margin: '0 0 8px', fontWeight: 600, fontSize: 13, color: '#1A1614' }}>{popup.row.name}</p>
-              <p style={{ margin: '0 0 8px', fontSize: 12, lineHeight: 1.45, color: '#3D3835' }}>{popup.row.address}</p>
+              <p style={{ margin: '0 0 8px', fontSize: 12, lineHeight: 1.45, color: '#3D3835' }}>
+                {popup.row.address}
+              </p>
               {normalizeWebsiteUrl(popup.row.website) && (
                 <a
                   href={normalizeWebsiteUrl(popup.row.website)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ fontSize: 11, color: '#722F37', textDecoration: 'underline', textUnderlineOffset: 3 }}
+                  style={{ fontSize: 11, color: 'rgba(26,22,20,0.65)', textDecoration: 'underline', textUnderlineOffset: 3 }}
                 >
                   Visit website
                 </a>
