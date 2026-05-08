@@ -877,6 +877,17 @@ function RevealSection({ children }: { children: ReactNode }) {
   )
 }
 
+/** Per-row overlap choreography (therealhotels-style): different height, tuck, and tilt per line */
+const APP_MARK_STAGGER = [
+  { top: -0.06, right: -0.04, dx: 0.14, dy: -0.2, deg: -10 },
+  { top: 0.22, right: 0.02, dx: -0.18, dy: 0.12, deg: 8 },
+  { top: -0.18, right: 0.1, dx: 0.22, dy: 0.04, deg: -6 },
+  { top: 0.1, right: -0.12, dx: -0.14, dy: 0.24, deg: 7 },
+  { top: -0.26, right: 0, dx: 0.1, dy: -0.28, deg: -5 },
+  { top: 0.18, right: 0.06, dx: 0.2, dy: 0.16, deg: 6 },
+  { top: -0.1, right: -0.14, dx: -0.24, dy: -0.08, deg: -7 },
+] as const
+
 /** therealhotels "browse by series" pattern:
  *  Vertical stack of HUGE serif names, centered.
  *  On hover: name turns white, multiple images appear scattered,
@@ -890,6 +901,8 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
   const img1 = region.heroImage
   const img2 = regionWineries[0]?.images[0] ?? TEST_IMAGES[(index + 1) % TEST_IMAGES.length]
   const img3 = regionWineries[1]?.images[0] ?? TEST_IMAGES[(index + 3) % TEST_IMAGES.length]
+  const st = APP_MARK_STAGGER[index % APP_MARK_STAGGER.length]
+  const hoverTilt = st.deg + (st.deg >= 0 ? 5 : -5)
 
   return (
     <Link
@@ -904,6 +917,7 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         width: '100%',
         position: 'relative',
         padding: '8px 60px',
+        overflow: 'visible',
       }}
     >
       {/* Image 1: left side */}
@@ -966,16 +980,17 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         <Image src={img3} alt="" fill sizes="150px" style={{ objectFit: 'cover' }} />
       </div>
 
-      {/* Name + inline sticker icon — wrapper sets font-size so 0.52em scales with the display serif */}
+      {/* Name + staggered sticker — mark overlaps type at varied heights / tilts (therealhotels) */}
       <span
         style={{
           position: 'relative',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'nowrap',
+          display: 'inline-block',
           fontSize: 'clamp(48px, 8vw, 120px)',
           lineHeight: 1.1,
+          paddingTop: '0.22em',
+          paddingBottom: '0.28em',
+          paddingRight: '0.5em',
+          paddingLeft: '0.08em',
         }}
       >
         <span
@@ -994,18 +1009,21 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         <span
           aria-hidden
           style={{
+            position: 'absolute',
+            top: `${st.top}em`,
+            right: `${st.right}em`,
             width: '0.55em',
             height: '0.55em',
             minWidth: 32,
             minHeight: 32,
-            flexShrink: 0,
-            marginLeft: '-0.14em',
-            marginBottom: '0.05em',
             display: 'block',
-            position: 'relative',
             zIndex: 2,
             isolation: 'isolate',
-            transform: hovered ? 'scale(1.07) rotate(-6deg)' : 'scale(1) rotate(0deg)',
+            pointerEvents: 'none',
+            transform: hovered
+              ? `translate(calc(${st.dx}em + 0.02em), calc(${st.dy}em - 0.03em)) rotate(${hoverTilt}deg) scale(1.08)`
+              : `translate(${st.dx}em, ${st.dy}em) rotate(${st.deg}deg)`,
+            transformOrigin: 'center center',
             transition: 'transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}
         >
