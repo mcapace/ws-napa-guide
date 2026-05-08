@@ -80,7 +80,7 @@ export default function Nav() {
                 fontSize: '0.55rem',
                 letterSpacing: '0.28em',
                 textTransform: 'uppercase',
-                color: 'rgba(247,243,236,0.55)',
+                color: 'rgba(247,243,236,0.82)',
                 fontWeight: 500,
               }}
             >

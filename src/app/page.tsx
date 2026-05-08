@@ -152,6 +152,7 @@ export default function HomePage() {
     <>
       {/* ── NAV (therealhotels: branded label left, hamburger right) ── */}
       <nav
+        className="home-nav"
         style={{
           position: 'fixed',
           top: 0,
@@ -199,7 +200,7 @@ export default function HomePage() {
                 fontWeight: 500,
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
-                color: 'rgba(247,243,236,0.6)',
+                color: 'rgba(247,243,236,0.82)',
               }}
             >
               Napa Valley Guide
@@ -313,6 +314,7 @@ export default function HomePage() {
         >
           <div
             ref={mosaicRef}
+            className="home-hero-mosaic"
             style={{
               position: 'absolute',
               inset: 0,
@@ -352,6 +354,7 @@ export default function HomePage() {
 
           <div
             ref={centerPanelRef}
+            className="home-hero-center"
             style={{
               position: 'absolute',
               top: '8%',
@@ -392,6 +395,7 @@ export default function HomePage() {
 
           <div
             ref={heroCopyRef}
+            className="home-hero-tagline"
             style={{
               position: 'absolute',
               left: '50%',
@@ -426,6 +430,7 @@ export default function HomePage() {
 
           <div
             ref={heroDisplayRef}
+            className="home-hero-display"
             style={{
               position: 'absolute',
               bottom: '-0.08em',
@@ -570,6 +575,7 @@ export default function HomePage() {
       <RevealSection>
         <section
           ref={avaRef}
+          className="home-intro"
           style={{ padding: '120px 60px 80px', maxWidth: 800, margin: '0 auto', textAlign: 'center' }}
         >
           <p
@@ -593,7 +599,7 @@ export default function HomePage() {
 
       {/* ── BROWSE BY APPELLATION (therealhotels vertical list with huge serif names) ── */}
       <RevealSection>
-        <section style={{ padding: '80px 0 100px' }}>
+        <section className="home-appellation-wrap" style={{ padding: '80px 0 100px' }}>
           <div className="dim-siblings" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
             {regions.map((region, i) => (
               <AppellationLink key={region.slug} region={region} index={i} />
@@ -637,7 +643,7 @@ export default function HomePage() {
                 zIndex: 1,
               }} />
               {/* Metadata top center */}
-              <div style={{
+              <div className="home-region-pin-label" style={{
                 position: 'absolute', top: 80, left: 0, right: 0,
                 textAlign: 'center', zIndex: 2,
               }}>
@@ -651,7 +657,7 @@ export default function HomePage() {
                 </p>
               </div>
               {/* Name + tagline centered on image */}
-              <div style={{
+              <div className="home-region-pin-copy" style={{
                 position: 'absolute', top: '50%', left: 0, right: 0,
                 transform: 'translateY(-50%)',
                 textAlign: 'center', zIndex: 2, padding: '0 40px',
@@ -683,7 +689,7 @@ export default function HomePage() {
 
       {/* ── "IN THE WILD" / FROM THE JUNE ISSUE ── */}
       <RevealSection>
-        <section style={{ padding: '120px 60px', textAlign: 'center', maxWidth: 700, margin: '0 auto' }}>
+        <section className="home-wild-section" style={{ padding: '120px 60px', textAlign: 'center', maxWidth: 700, margin: '0 auto' }}>
           <p
             data-text-split=""
             data-lines-slide-up=""
@@ -723,7 +729,7 @@ export default function HomePage() {
       </RevealSection>
 
       {/* ── NEWSLETTER (therealhotels style: massive serif heading + full-width input) ── */}
-      <section style={{ padding: '120px 60px 100px', borderTop: '1px solid rgba(247,243,236,0.06)', textAlign: 'center' }}>
+      <section className="home-newsletter-section" style={{ padding: '120px 60px 100px', borderTop: '1px solid rgba(247,243,236,0.06)', textAlign: 'center' }}>
         <h2
           data-text-split=""
           data-letters-rotate-in=""
@@ -767,6 +773,7 @@ export default function HomePage() {
         }}
       >
         <div
+          className="home-footer-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: '1.1fr 1fr 1fr 1fr',
@@ -829,6 +836,7 @@ export default function HomePage() {
           </nav>
         </div>
         <div
+          className="home-footer-legal"
           style={{
             borderTop: '1px solid rgba(247,243,236,0.05)',
             paddingTop: 24,
@@ -917,6 +925,7 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
   return (
     <Link
       href={`/regions/${region.slug}`}
+      className="home-appellation-link"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -1004,11 +1013,12 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         }}
       >
         <span
+          className="home-appellation-name"
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
             fontWeight: 300,
-            color: hovered ? '#F7F3EC' : 'rgba(247,243,236,0.2)',
+            ...(hovered ? { color: '#F7F3EC' } : {}),
             letterSpacing: '-0.03em',
             transition: 'color 0.4s ease',
             textAlign: 'center',
@@ -1055,6 +1065,7 @@ function EmailForm() {
     <p style={{ ...styles.bodyText, color: '#C4943A', textAlign: 'center' }}>You&apos;re in. Watch your inbox.</p>
   ) : (
     <form
+      className="home-newsletter-form"
       onSubmit={(e) => {
         e.preventDefault()
         if (email) setDone(true)
