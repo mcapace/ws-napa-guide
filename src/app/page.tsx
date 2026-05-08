@@ -919,16 +919,16 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
       href={`/regions/${region.slug}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-        style={{
-          textDecoration: 'none',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-          position: 'relative',
-          padding: '0 clamp(24px, 5vw, 60px)',
-          overflow: 'visible',
-        }}
+      style={{
+        textDecoration: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        position: 'relative',
+        padding: 'clamp(5px, 0.9vw, 11px) clamp(24px, 5vw, 60px)',
+        overflow: 'visible',
+      }}
     >
       {/* Image 1: left side */}
       <div
@@ -996,9 +996,9 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           position: 'relative',
           display: 'inline-block',
           fontSize: 'clamp(48px, 8vw, 120px)',
-          lineHeight: 0.84,
+          lineHeight: 0.92,
           paddingTop: 0,
-          paddingBottom: '0.02em',
+          paddingBottom: '0.08em',
           paddingRight: '0.5em',
           paddingLeft: '0.08em',
         }}
