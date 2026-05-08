@@ -620,24 +620,6 @@ export default function HomePage() {
             Fifty miles of valley floor and mountain slope — and yet Napa Valley has become the benchmark against
             which the world measures itself.
           </p>
-          <Link
-            href="/regions"
-            style={{
-              display: 'inline-block',
-              marginTop: 8,
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 11,
-              fontWeight: 500,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: 'rgba(247,243,236,0.85)',
-              textDecoration: 'none',
-              borderBottom: '1px solid rgba(247,243,236,0.35)',
-              paddingBottom: 6,
-            }}
-          >
-            Explore the guide →
-          </Link>
         </section>
       </RevealSection>
 
