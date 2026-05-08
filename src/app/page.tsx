@@ -7,30 +7,16 @@ import type { ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { regions, getRegion, type RegionData } from '@/data/regions'
+import { regions, type RegionData } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
-import { getArticle } from '@/data/articles'
 import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
 import { sectionHeading, seeAllLink } from '@/lib/editorial-styles'
 import { TEST_IMAGES } from '@/lib/test-images'
-import type { Article, Winery } from '@/lib/types'
-import { getRegionEditorialIcon } from '@/lib/regionIcons'
+import { getRegionEditorialMark } from '@/lib/regionIcons'
 
 const featuredRegions = regions
-const featuredJuneSlugs = ['judgment-of-paris', 'napa-taco-tour', 'napa-landmarks'] as const
-const featuredArticleRows: Article[] = featuredJuneSlugs
-  .map((slug) => getArticle(slug))
-  .filter((a): a is Article => Boolean(a))
-
-const articleHref: Record<string, string> = {
-  'judgment-of-paris': '/features/judgment-of-paris',
-  'napa-taco-tour': '/features/napa-taco-tour',
-  'napa-landmarks': '/features/napa-landmarks',
-}
-
-const spotlightWinery = wineries.find((w) => w.slug === 'opus-one') ?? wineries[0]
 const featuredRestaurants = restaurants.some((r) => r.featured)
   ? restaurants.filter((r) => r.featured)
   : restaurants.slice(0, 8)
@@ -53,16 +39,6 @@ const PANELS = [
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
 const PANEL_ROTS = ['-1.5deg', '1deg', '0.5deg', '-0.8deg', '1.2deg'] as const
-
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t
-}
-function clamp(v: number, min: number, max: number) {
-  return Math.min(Math.max(v, min), max)
-}
-function easeInOut(t: number) {
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
-}
 
 export default function HomePage() {
   const avaRef = useRef<HTMLElement>(null)
@@ -754,9 +730,6 @@ export default function HomePage() {
         </section>
       </RevealSection>
 
-      {/* ── WINERY SPOTLIGHT (full-bleed) ── */}
-      <WinerySpotlight winery={spotlightWinery} />
-
       {/* ── DINING STRIP ── */}
       <RevealSection>
         <section style={{ padding: '80px 0 60px' }}>
@@ -940,7 +913,7 @@ function RevealSection({ children }: { children: ReactNode }) {
  *  a fun icon/sticker appears on the text. */
 function AppellationLink({ region, index }: { region: RegionData; index: number }) {
   const [hovered, setHovered] = useState(false)
-  const RegionIcon = getRegionEditorialIcon(region.slug)
+  const RegionMark = getRegionEditorialMark(region.slug)
 
   // Get 2-3 images for this region from its wineries
   const regionWineries = wineries.filter((w) => w.region === region.slug)
@@ -1042,7 +1015,7 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           }}
           aria-hidden
         >
-          <RegionIcon size={32} strokeWidth={1.25} />
+          <RegionMark size={26} strokeWidth={1.05} />
         </span>
         <span
           style={{
@@ -1061,439 +1034,6 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         </span>
       </span>
     </Link>
-  )
-}
-
-function AVAStrip({ region, index }: { region: RegionData; index: number }) {
-  const [hovered, setHovered] = useState(false)
-  return (
-    <Link
-      href={`/regions/${region.slug}`}
-      style={{
-        flexShrink: 0,
-        width: 280,
-        height: 520,
-        scrollSnapAlign: 'start',
-        textDecoration: 'none',
-        display: 'block',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          transform: hovered ? 'scale(1.04)' : 'scale(1)',
-          transition: 'transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94)',
-        }}
-      >
-        <Image
-          src={region.heroImage}
-          alt={region.name}
-          fill
-          sizes="280px"
-          style={{ objectFit: 'cover' }}
-        />
-      </div>
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: hovered
-            ? 'linear-gradient(to top, rgba(13,11,9,0.88) 0%, rgba(13,11,9,0.25) 55%, transparent 100%)'
-            : 'linear-gradient(to top, rgba(13,11,9,0.94) 0%, rgba(13,11,9,0.35) 55%, transparent 100%)',
-          transition: 'opacity 0.45s',
-        }}
-      />
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 24px', zIndex: 1 }}>
-        <span
-          style={{
-            display: 'block',
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 'clamp(24px,2.5vw,34px)',
-            color: '#F7F3EC',
-            lineHeight: 1.05,
-            letterSpacing: '-0.02em',
-            marginBottom: 8,
-          }}
-        >
-          {region.name}
-        </span>
-        <span style={{ ...styles.microLabel, color: '#9B9283' }}>{region.tagline}</span>
-      </div>
-    </Link>
-  )
-}
-
-function RegionEditorialCard({ region, index }: { region: RegionData; index: number }) {
-  const photoLeft = index % 2 === 0
-  const [imgHovered, setImgHovered] = useState(false)
-
-  const textVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
-  }
-  const lineUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const } },
-  }
-  const imgReveal = {
-    hidden: { scale: 1.08, opacity: 0 },
-    visible: { scale: 1, opacity: 1, transition: { duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] as const } },
-  }
-
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-100px' }}
-      style={{
-        display: 'flex',
-        flexDirection: photoLeft ? 'row' : 'row-reverse',
-        width: '100%',
-        marginBottom: index < featuredRegions.length - 1 ? 2 : 0,
-        background: '#0D0B09',
-      }}
-    >
-      <motion.div
-        variants={imgReveal}
-        onMouseEnter={() => setImgHovered(true)}
-        onMouseLeave={() => setImgHovered(false)}
-        style={{ flex: '0 0 58%', position: 'relative', minHeight: 700, overflow: 'hidden' }}
-      >
-        <Image
-          src={region.heroImage}
-          alt={region.name}
-          fill
-          sizes="58vw"
-          style={{
-            objectFit: 'cover',
-            transform: imgHovered ? 'scale(1.03)' : 'scale(1)',
-            transition: 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)',
-          }}
-        />
-      </motion.div>
-      <motion.div
-        variants={textVariants}
-        style={{
-          flex: '1 1 42%',
-          padding: '72px 60px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          background: '#0D0B09',
-        }}
-      >
-        <motion.p
-          variants={lineUp}
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 9,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: '#C4943A',
-            marginBottom: 20,
-          }}
-        >
-          Napa Valley Appellation
-        </motion.p>
-        <motion.h3
-          variants={lineUp}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 'clamp(40px, 4vw, 64px)',
-            color: '#F7F3EC',
-            lineHeight: 1.02,
-            letterSpacing: '-0.03em',
-            marginBottom: 16,
-          }}
-        >
-          {region.name}
-        </motion.h3>
-        <motion.p variants={lineUp} style={{ ...styles.microLabel, color: '#9B9283', marginBottom: 28 }}>
-          Napa Valley, California
-        </motion.p>
-        <motion.p
-          variants={lineUp}
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 15,
-            fontWeight: 300,
-            color: 'rgba(247,243,236,0.72)',
-            lineHeight: 1.85,
-            marginBottom: 36,
-          }}
-        >
-          {region.intro.length > 200 ? region.intro.slice(0, 200).replace(/\s+\S*$/, '') + '...' : region.intro}
-        </motion.p>
-        <motion.div variants={lineUp}>
-          <Link
-            href={`/regions/${region.slug}`}
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 10,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#F7F3EC',
-              textDecoration: 'none',
-              borderBottom: '1px solid rgba(247,243,236,0.25)',
-              paddingBottom: 4,
-              width: 'fit-content',
-              display: 'inline-block',
-              transition: 'border-color 0.6s, color 0.6s',
-            }}
-          >
-            Explore {region.name} &rarr;
-          </Link>
-        </motion.div>
-      </motion.div>
-    </motion.div>
-  )
-}
-
-function ArticleFeatureRow({ article, index, href }: { article: Article; index: number; href: string }) {
-  const imageSrc = article.images[0] && article.images[0].length > 0 ? article.images[0] : TEST_IMAGES[index % 7]
-  const photoLeft = index % 2 === 0
-  const [imgHovered, setImgHovered] = useState(false)
-  const sectionEyebrow =
-    article.section === 'dining'
-      ? 'Dining'
-      : article.section === 'feature'
-        ? 'Feature'
-        : article.section === 'lede'
-          ? 'Guide'
-          : article.section.replace(/-/g, ' ')
-
-  const textVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
-  }
-  const lineUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const } },
-  }
-  const imgReveal = {
-    hidden: { scale: 1.06, opacity: 0 },
-    visible: { scale: 1, opacity: 1, transition: { duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94] as const } },
-  }
-
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-80px' }}
-      style={{
-        display: 'flex',
-        flexDirection: photoLeft ? 'row' : 'row-reverse',
-        width: '100%',
-        minHeight: 500,
-        marginBottom: 2,
-      }}
-    >
-      <motion.div
-        variants={imgReveal}
-        onMouseEnter={() => setImgHovered(true)}
-        onMouseLeave={() => setImgHovered(false)}
-        style={{ flex: '0 0 58%', position: 'relative', minHeight: 500, overflow: 'hidden' }}
-      >
-        <Image
-          src={imageSrc}
-          alt={article.title}
-          fill
-          sizes="58vw"
-          style={{
-            objectFit: 'cover',
-            transform: imgHovered ? 'scale(1.03)' : 'scale(1)',
-            transition: 'transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)',
-          }}
-        />
-      </motion.div>
-      <motion.div
-        variants={textVariants}
-        style={{
-          flex: '1 1 42%',
-          padding: '60px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          background: '#0D0B09',
-        }}
-      >
-        <motion.p
-          variants={lineUp}
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 9,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: '#C4943A',
-            marginBottom: 16,
-          }}
-        >
-          {sectionEyebrow}
-        </motion.p>
-        <motion.h3
-          variants={lineUp}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 'clamp(32px, 3.5vw, 56px)',
-            color: '#F7F3EC',
-            lineHeight: 1.05,
-            letterSpacing: '-0.02em',
-            marginBottom: 20,
-          }}
-        >
-          {article.title}
-        </motion.h3>
-        <motion.p
-          variants={lineUp}
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 14,
-            fontWeight: 300,
-            color: 'rgba(247,243,236,0.55)',
-            lineHeight: 1.75,
-            marginBottom: 24,
-          }}
-        >
-          {article.excerpt}
-        </motion.p>
-        <motion.p variants={lineUp} style={{ ...styles.microLabel, color: 'rgba(155,146,131,0.55)', marginBottom: 28 }}>
-          {article.author ?? 'Wine Spectator'} &middot; June 2026
-        </motion.p>
-        <motion.div variants={lineUp}>
-          <Link
-            href={href}
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 10,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#F7F3EC',
-              textDecoration: 'none',
-              borderBottom: '1px solid rgba(247,243,236,0.25)',
-              paddingBottom: 4,
-              width: 'fit-content',
-              display: 'inline-block',
-            }}
-        >
-            Read the feature &rarr;
-          </Link>
-        </motion.div>
-      </motion.div>
-    </motion.div>
-  )
-}
-
-function WinerySpotlight({ winery }: { winery: Winery }) {
-  const r = getRegion(winery.region)
-  const ava = r?.name ?? winery.region.replace(/-/g, ' ')
-  const appt = winery.visitInfo?.appointment
-
-  return (
-    <div style={{ position: 'relative', height: '85vh', minHeight: 600, overflow: 'hidden' }}>
-      <Image src={winery.images[0]} alt={winery.name} fill sizes="100vw" style={{ objectFit: 'cover' }} priority />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to bottom, transparent 0%, rgba(13,11,9,0.5) 45%, rgba(13,11,9,0.92) 100%)',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: '56px 60px',
-          zIndex: 1,
-        }}
-      >
-        <p style={{ ...styles.microLabel, color: '#C4943A', marginBottom: 16 }}>
-          {ava.toUpperCase()}
-          {appt !== undefined ? ` · ${appt ? 'BY APPOINTMENT' : 'WALK-INS WELCOME'}` : ''}
-        </p>
-        <h2
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 'clamp(56px, 8vw, 112px)',
-            color: '#F7F3EC',
-            lineHeight: 0.95,
-            letterSpacing: '-0.03em',
-            marginBottom: 16,
-          }}
-        >
-          {winery.name}
-        </h2>
-        {winery.address ? (
-          <p style={{ ...styles.microLabel, color: '#9B9283', marginBottom: 24 }}>{winery.address}</p>
-        ) : null}
-        <p
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 22,
-            color: 'rgba(247,243,236,0.85)',
-            lineHeight: 1.45,
-            maxWidth: 640,
-            marginBottom: 32,
-          }}
-        >
-          {winery.excerpt}
-        </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center' }}>
-          {winery.visitInfo?.website ? (
-            <a
-              href={winery.visitInfo.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 10,
-                fontWeight: 500,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: '#0D0B09',
-                background: '#F7F3EC',
-                padding: '14px 28px',
-                borderRadius: 2,
-                textDecoration: 'none',
-              }}
-            >
-              Reserve a visit →
-            </a>
-          ) : null}
-          <Link
-            href={`/wineries/${winery.slug}`}
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 10,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#F7F3EC',
-              textDecoration: 'none',
-              borderBottom: '1px solid rgba(247,243,236,0.3)',
-              paddingBottom: 4,
-            }}
-          >
-            Read more →
-          </Link>
-        </div>
-      </div>
-    </div>
   )
 }
 
