@@ -32,34 +32,40 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
           {f.body}
         </FeatureBlock>
       ))}
-      <TastingDirectoryWithMap
-        regionLabel={frontmatter.region}
-        center={frontmatter.coordinates}
-        rows={data.tastingDirectory}
-      />
-      <MarqueeRibbon phrase={mq?.eat ?? 'Where to Eat'} />
-      {data.featuredRestaurants.map((f) => (
-        <FeatureBlock
-          key={f.name}
-          name={f.name}
-          address={f.address}
-          website={f.website}
-          image={f.image}
-          imagePosition={f.imagePosition}
-        >
-          {f.body}
-        </FeatureBlock>
-      ))}
-      {data.breakfast && (
-        <FeatureBlock
-          name={data.breakfast.name}
-          address={data.breakfast.address}
-          website={data.breakfast.website}
-          image={data.breakfast.image}
-          imagePosition={data.breakfast.imagePosition}
-        >
-          {data.breakfast.body}
-        </FeatureBlock>
+      {data.tastingDirectory.length > 0 && (
+        <TastingDirectoryWithMap
+          regionLabel={frontmatter.region}
+          center={frontmatter.coordinates}
+          rows={data.tastingDirectory}
+        />
+      )}
+      {(data.featuredRestaurants.length > 0 || data.breakfast) && (
+        <>
+          <MarqueeRibbon phrase={mq?.eat ?? 'Where to Eat'} />
+          {data.featuredRestaurants.map((f) => (
+            <FeatureBlock
+              key={f.name}
+              name={f.name}
+              address={f.address}
+              website={f.website}
+              image={f.image}
+              imagePosition={f.imagePosition}
+            >
+              {f.body}
+            </FeatureBlock>
+          ))}
+          {data.breakfast && (
+            <FeatureBlock
+              name={data.breakfast.name}
+              address={data.breakfast.address}
+              website={data.breakfast.website}
+              image={data.breakfast.image}
+              imagePosition={data.breakfast.imagePosition}
+            >
+              {data.breakfast.body}
+            </FeatureBlock>
+          )}
+        </>
       )}
       {(data.featuredHotels.length > 0 || data.lodgingDirectory.length > 0) && (
         <>
@@ -86,8 +92,12 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
           )}
         </>
       )}
-      <MarqueeRibbon phrase={mq?.sidebar ?? data.sidebarHeading} />
-      <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
+      {data.sidebarHeading ? (
+        <>
+          <MarqueeRibbon phrase={mq?.sidebar ?? data.sidebarHeading} />
+          <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
+        </>
+      ) : null}
       <Newsletter />
       <Footer />
     </div>

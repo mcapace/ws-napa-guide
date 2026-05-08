@@ -4,6 +4,7 @@ import type { EditorialFeature, RegionCoordinates, TastingDirectoryRow } from '@
 /** Map short references in MDX to CMS feature slugs. */
 const FEATURE_SLUG_ALIASES: Record<string, string> = {
   landmarks: 'napa-landmarks',
+  tacos: 'napa-taco-tour',
 }
 
 export function resolveFeatureSlug(ref: string): string {
@@ -23,11 +24,18 @@ export function splitTopLevelH1(md: string): Record<string, string> {
 }
 
 export function splitWhereToTaste(text: string): { featuredRaw: string; directoryRaw: string } {
-  const featMatch = text.match(/## Featured Wineries\s*([\s\S]*?)## Tasting Room Directory/)
-  const dirMatch = text.match(/## Tasting Room Directory\s*([\s\S]*)/)
+  if (/## Tasting Room Directory\b/.test(text)) {
+    const featMatch = text.match(/## Featured Wineries\s*([\s\S]*?)## Tasting Room Directory/)
+    const dirMatch = text.match(/## Tasting Room Directory\s*([\s\S]*)/)
+    return {
+      featuredRaw: featMatch?.[1]?.trim() ?? '',
+      directoryRaw: (dirMatch?.[1] ?? '').trim(),
+    }
+  }
+  const featOnly = text.match(/## Featured Wineries\s*([\s\S]*)/)
   return {
-    featuredRaw: featMatch?.[1]?.trim() ?? '',
-    directoryRaw: (dirMatch?.[1] ?? '').trim(),
+    featuredRaw: (featOnly?.[1] ?? '').trim(),
+    directoryRaw: '',
   }
 }
 

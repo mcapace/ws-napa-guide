@@ -887,14 +887,15 @@ type MarkStagger = {
   deg: number
 }
 
+/** Keep top ≥ ~0.08em and dy biased downward so marks sit on cap height / x-height, not in the gap above. */
 const APP_MARK_STAGGER: readonly MarkStagger[] = [
-  { edge: 'left', inset: '8%', top: '-0.04em', dx: 0.12, dy: -0.14, deg: -11 },
-  { edge: 'right', inset: '18%', top: '0.18em', dx: -0.16, dy: 0.1, deg: 9 },
-  { edge: 'left', inset: '48%', top: '0.22em', dx: 0.08, dy: 0.06, deg: -7 },
-  { edge: 'right', inset: '6%', top: '-0.18em', dx: 0.04, dy: -0.22, deg: 6 },
-  { edge: 'left', inset: '62%', top: '-0.2em', dx: -0.1, dy: 0.04, deg: -5 },
-  { edge: 'right', inset: '38%', top: '0.12em', dx: 0.18, dy: 0.18, deg: 8 },
-  { edge: 'left', inset: '28%', top: '0.05em', dx: -0.2, dy: -0.1, deg: -8 },
+  { edge: 'left', inset: '10%', top: '0.14em', dx: 0.1, dy: 0.14, deg: -11 },
+  { edge: 'right', inset: '16%', top: '0.26em', dx: -0.14, dy: 0.2, deg: 9 },
+  { edge: 'left', inset: '46%', top: '0.3em', dx: 0.08, dy: 0.18, deg: -7 },
+  { edge: 'right', inset: '10%', top: '0.18em', dx: 0.04, dy: 0.12, deg: 6 },
+  { edge: 'left', inset: '56%', top: '0.22em', dx: -0.1, dy: 0.16, deg: -5 },
+  { edge: 'right', inset: '34%', top: '0.34em', dx: 0.16, dy: 0.22, deg: 8 },
+  { edge: 'left', inset: '28%', top: '0.2em', dx: -0.18, dy: 0.12, deg: -8 },
 ]
 
 /** therealhotels "browse by series" pattern:
@@ -918,16 +919,16 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
       href={`/regions/${region.slug}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{
-        textDecoration: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        position: 'relative',
-        padding: '8px 60px',
-        overflow: 'visible',
-      }}
+        style={{
+          textDecoration: 'none',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          position: 'relative',
+          padding: '0 clamp(24px, 5vw, 60px)',
+          overflow: 'visible',
+        }}
     >
       {/* Image 1: left side */}
       <div
@@ -995,9 +996,9 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           position: 'relative',
           display: 'inline-block',
           fontSize: 'clamp(48px, 8vw, 120px)',
-          lineHeight: 1.1,
-          paddingTop: '0.22em',
-          paddingBottom: '0.28em',
+          lineHeight: 0.84,
+          paddingTop: 0,
+          paddingBottom: '0.02em',
           paddingRight: '0.5em',
           paddingLeft: '0.08em',
         }}
@@ -1023,19 +1024,19 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
             ...(st.edge === 'left'
               ? { left: st.inset, right: 'auto' }
               : { right: st.inset, left: 'auto' }),
-            width: '0.55em',
-            height: '0.55em',
-            minWidth: 32,
-            minHeight: 32,
+            width: '0.58em',
+            height: '0.58em',
+            minWidth: 34,
+            minHeight: 34,
             display: 'block',
             zIndex: 2,
             isolation: 'isolate',
             pointerEvents: 'none',
             opacity: hovered ? 1 : 0,
             transform: hovered
-              ? `translate(calc(${st.dx}em + 0.02em), calc(${st.dy}em - 0.03em)) rotate(${hoverTilt}deg) scale(1.06)`
+              ? `translate(calc(${st.dx}em + 0.02em), calc(${st.dy}em + 0.03em)) rotate(${hoverTilt}deg) scale(1.06)`
               : `translate(${st.dx}em, ${st.dy}em) rotate(${st.deg}deg) scale(0.88)`,
-            transformOrigin: 'center center',
+            transformOrigin: '50% 78%',
             transition:
               'opacity 0.28s ease, transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}

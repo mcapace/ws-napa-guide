@@ -194,7 +194,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   }
 
   const lede = await compileLede(ledeMd)
-  const sidebar = await compileSidebar(sidebarMd)
+  const sidebar = sidebarMd.trim() ? await compileSidebar(sidebarMd) : null
   const related = resolveRelatedStories(frontmatter.relatedFeatures ?? [])
 
   return {
