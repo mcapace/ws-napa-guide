@@ -9,18 +9,10 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { regions, type RegionData } from '@/data/regions'
 import { wineries } from '@/data/wineries'
-import { restaurants } from '@/data/restaurants'
-import { hotels } from '@/data/hotels'
-import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
-import { sectionHeading, seeAllLink } from '@/lib/editorial-styles'
 import { TEST_IMAGES } from '@/lib/test-images'
 import { getRegionEditorialMark } from '@/lib/regionIcons'
 
 const featuredRegions = regions
-const featuredRestaurants = restaurants.some((r) => r.featured)
-  ? restaurants.filter((r) => r.featured)
-  : restaurants.slice(0, 8)
-const featuredHotels = hotels.some((h) => h.featured) ? hotels.filter((h) => h.featured) : hotels.slice(0, 6)
 
 // ── JW Player (test media; swap IDs when final assets land) ───────────
 // Catalog also in src/components/video/JWVideo.tsx STATIC_MP4_720
@@ -730,28 +722,6 @@ export default function HomePage() {
         </section>
       </RevealSection>
 
-      {/* ── DINING STRIP ── */}
-      <RevealSection>
-        <section style={{ padding: '80px 0 60px' }}>
-          <div style={{ padding: '0 60px', display: 'flex', justifyContent: 'space-between', marginBottom: 40 }}>
-            <h2 style={{ ...sectionHeading, fontSize: 'clamp(28px, 3.5vw, 48px)' }}>Tables worth the journey</h2>
-            <Link href="/dining" style={seeAllLink}>All restaurants &rarr;</Link>
-          </div>
-          <HorizontalStrip entries={featuredRestaurants.map((item) => ({ type: 'dining' as const, item }))} />
-        </section>
-      </RevealSection>
-
-      {/* ── STAY STRIP ── */}
-      <RevealSection>
-        <section style={{ padding: '0 0 60px' }}>
-          <div style={{ padding: '0 60px', display: 'flex', justifyContent: 'space-between', marginBottom: 40 }}>
-            <h2 style={{ ...sectionHeading, fontSize: 'clamp(28px, 3.5vw, 48px)' }}>Where to sleep in wine country</h2>
-            <Link href="/stay" style={seeAllLink}>All hotels &rarr;</Link>
-          </div>
-          <HorizontalStrip entries={featuredHotels.map((item) => ({ type: 'stay' as const, item }))} />
-        </section>
-      </RevealSection>
-
       {/* ── NEWSLETTER (therealhotels style: massive serif heading + full-width input) ── */}
       <section style={{ padding: '120px 60px 100px', borderTop: '1px solid rgba(247,243,236,0.06)', textAlign: 'center' }}>
         <h2
@@ -1015,7 +985,7 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           }}
           aria-hidden
         >
-          <RegionMark size={26} strokeWidth={1.05} />
+          <RegionMark size={44} strokeWidth={1.35} accentColor={region.accentColor} />
         </span>
         <span
           style={{
