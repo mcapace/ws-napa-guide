@@ -49,6 +49,9 @@
   --ws-nav-tagline-size: 0.825rem;
   --ws-nav-brand-gap: 21px;
   --ws-persistent-nav-height: 74px;
+  /* Match homepage `home-nav`: same inset from viewport edges */
+  --ws-nav-edge-padding-y: 24px;
+  --ws-nav-edge-padding-x: 36px;
 }
 
 /* ── Reset ── */
@@ -103,32 +106,93 @@ body {
   }
 }
 
-/* ── Persistent nav brand (regions, directories, features, Map, etc.) ── */
-.ws-persistent-nav-inner {
-  height: var(--ws-persistent-nav-height);
+/* ── Shared shell: homepage + persistent nav (identical viewport insets) ── */
+.ws-nav-shell {
+  padding: var(--ws-nav-edge-padding-y) var(--ws-nav-edge-padding-x);
+  box-sizing: border-box;
+}
+
+.ws-persistent-nav-inner.ws-nav-inner {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: auto;
+  min-height: 0;
+  align-items: flex-start;
+}
+
+.ws-nav-inner > button:last-of-type {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .ws-nav-brand {
-  gap: var(--ws-nav-brand-gap);
+  display: grid;
+  grid-template-columns: 2px minmax(0, auto);
+  column-gap: var(--ws-nav-brand-gap);
+  row-gap: 0;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.ws-nav-brand::before {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 48px;
+  background: var(--bordeaux);
+  transition: background 0.28s ease;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+
+.ws-nav--over-hero-imagery .ws-nav-brand::before {
+  background: #faf7f2;
 }
 
 .ws-nav-brand__wordmark {
+  grid-column: 2;
+  grid-row: 1;
+  margin-bottom: 6px;
+  align-self: end;
   height: var(--ws-nav-logo-height) !important;
   width: auto !important;
   transition: filter 0.28s ease;
 }
 
 .ws-nav-brand__tagline {
+  grid-column: 2;
+  grid-row: 2;
   font-family: var(--font-body);
   font-size: var(--ws-nav-tagline-size) !important;
   font-weight: 500;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   transition: color 0.28s ease;
+  align-self: start;
+  line-height: 1.2;
+  display: block;
+}
+
+/* ── Persistent nav brand (regions, directories, features, Map, etc.) ── */
+.ws-persistent-nav-inner {
+  height: var(--ws-persistent-nav-height);
 }
 
 /* Persistent nav: isolated scroll-driven chrome (not tied to GSAP homepage hero) */
 .ws-nav-hamburger-bar {
+  display: block;
+  width: 28px;
+  height: 1.5px;
   transition: transform 0.3s ease, opacity 0.3s ease, background 0.28s ease;
 }
 
@@ -186,15 +250,45 @@ body {
   color: rgba(250, 247, 242, 0.88);
 }
 
-/* Homepage fixed nav — same proportional scale as persistent Nav */
+/* Homepage fixed nav — same shell insets + layout row as .ws-nav-shell / .ws-nav-inner */
+.home-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--ws-nav-edge-padding-y) var(--ws-nav-edge-padding-x);
+  box-sizing: border-box;
+}
+
 .home-nav a[href='/'] {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
   gap: var(--ws-nav-brand-gap);
 }
 
 .home-nav a[href='/'] > span:first-of-type {
+  display: block;
+  width: 2px;
   height: 48px;
+  flex-shrink: 0;
   background: var(--bordeaux);
   transition: background 0.28s ease;
+}
+
+.home-nav > button {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .home-nav a[href='/'] > div > img {
@@ -217,8 +311,11 @@ body {
 }
 
 .home-nav__hamburger-bar {
+  display: block;
   transition: background 0.28s ease;
   background: var(--bordeaux);
+  width: 28px;
+  height: 1.5px;
 }
 
 .home-nav--over-imagery a[href='/'] > div > img {
@@ -807,6 +904,10 @@ html.lenis body {
 
   /* ── Homepage (src/app/page.tsx) mobile ── */
   .home-nav {
+    padding: calc(10px + env(safe-area-inset-top, 0px)) 20px 12px !important;
+  }
+
+  .ws-nav-shell {
     padding: calc(10px + env(safe-area-inset-top, 0px)) 20px 12px !important;
   }
 

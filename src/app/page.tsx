@@ -182,34 +182,9 @@ export default function HomePage() {
       {/* ── NAV (therealhotels: branded label left, hamburger right) ── */}
       <nav
         className={homeNavOverImagery ? 'home-nav home-nav--over-imagery' : 'home-nav'}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          padding: '24px 36px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-        }}
       >
-        <Link
-          href="/"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            textDecoration: 'none',
-          }}
-        >
-          <span
-            style={{
-              display: 'block',
-              width: 2,
-              flexShrink: 0,
-            }}
-            aria-hidden
-          />
+        <Link href="/">
+          <span aria-hidden />
           <div>
             <Image
               src="/logos/WS_logo__1_.png"
@@ -223,21 +198,12 @@ export default function HomePage() {
         </Link>
         <button
           onClick={() => setMenuOpen(true)}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 6,
-          }}
           aria-label="Open menu"
           type="button"
         >
-          <span className="home-nav__hamburger-bar" style={{ display: 'block', width: 28, height: 1.5 }} />
-          <span className="home-nav__hamburger-bar" style={{ display: 'block', width: 28, height: 1.5 }} />
-          <span className="home-nav__hamburger-bar" style={{ display: 'block', width: 28, height: 1.5 }} />
+          <span className="home-nav__hamburger-bar" />
+          <span className="home-nav__hamburger-bar" />
+          <span className="home-nav__hamburger-bar" />
         </button>
       </nav>
 

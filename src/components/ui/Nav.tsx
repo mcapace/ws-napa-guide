@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect, useLayoutEffect } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import { WS_LOGO_PRIMARY_SRC } from '@/lib/ws-logo'
 import { useNavOverHeroImagery } from '@/hooks/useNavOverHeroImagery'
 
@@ -38,7 +38,7 @@ export default function Nav() {
   return (
     <>
       <header
-        className={chromeClass}
+        className={`${chromeClass} ws-nav-shell`}
         style={{
           position: 'fixed',
           top: 0,
@@ -53,28 +53,9 @@ export default function Nav() {
           transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
         }}
       >
-        <nav
-          className="ws-persistent-nav-inner"
-          style={{
-            maxWidth: 'var(--container)',
-            margin: '0 auto',
-            padding: '0 2rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
+        <nav className="ws-persistent-nav-inner ws-nav-inner">
           {/* Logo + label (left) */}
-          <Link
-            href="/"
-            className="ws-nav-brand"
-            style={{
-              textDecoration: 'none',
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
+          <Link href="/" className="ws-nav-brand">
             <Image
               className="ws-nav-brand__wordmark"
               src={WS_LOGO_PRIMARY_SRC}
@@ -92,15 +73,7 @@ export default function Nav() {
           {/* Hamburger (right) */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '8px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '5px',
-            }}
+            type="button"
             aria-label="Toggle menu"
           >
             {[0, 1, 2].map((i) => (
@@ -108,9 +81,6 @@ export default function Nav() {
                 key={i}
                 className="ws-nav-hamburger-bar"
                 style={{
-                  display: 'block',
-                  width: '22px',
-                  height: '1.5px',
                   transition: 'transform 0.3s ease, opacity 0.3s ease, background 0.28s ease, color 0.28s ease',
                   transform:
                     menuOpen && i === 0 ? 'rotate(45deg) translate(4px, 4px)'
