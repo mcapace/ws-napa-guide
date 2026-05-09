@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import '@/styles/globals.css'
 import { WS_LOGO_OG_STROKE_ONLY_SRC } from '@/lib/ws-logo'
 import AnimationProvider from '@/components/ui/AnimationProvider'
@@ -35,10 +36,29 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim()
+  const shouldLoadGA = process.env.NODE_ENV === 'production' && Boolean(gaMeasurementId)
+
   return (
     <html lang="en" className="grain">
       <body>
         <AnimationProvider />
+        {shouldLoadGA ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga-init" strategy="afterInteractive">
+              {`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${gaMeasurementId}');
+      `}
+            </Script>
+          </>
+        ) : null}
         {children}
       </body>
     </html>
