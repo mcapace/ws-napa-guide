@@ -11,6 +11,7 @@ import { regions, type RegionData } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { TEST_IMAGES } from '@/lib/test-images'
 import { getRegionEditorialMark } from '@/lib/regionIcons'
+import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
 
 const featuredRegions = regions
 
@@ -759,7 +760,7 @@ export default function HomePage() {
         >
           Be the first to know when new wineries, restaurants, and travel guides are added
         </p>
-        <EmailForm />
+        <NewsletterSubscribeForm variant="hero" />
         </section>
 
       {/* ── FOOTER ── */}
@@ -1055,66 +1056,6 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
         </span>
       </span>
     </Link>
-  )
-}
-
-function EmailForm() {
-  const [email, setEmail] = useState('')
-  const [done, setDone] = useState(false)
-  return done ? (
-    <p style={{ ...styles.bodyText, color: '#C4943A', textAlign: 'center' }}>You&apos;re in. Watch your inbox.</p>
-  ) : (
-    <form
-      className="home-newsletter-form"
-      onSubmit={(e) => {
-        e.preventDefault()
-        if (email) setDone(true)
-      }}
-      style={{
-        display: 'flex',
-        maxWidth: 700,
-        margin: '0 auto',
-        border: '1px solid rgba(247,243,236,0.2)',
-      }}
-    >
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="EMAIL ADDRESS"
-        style={{
-          flex: 1,
-          background: 'none',
-          border: 'none',
-          outline: 'none',
-          color: '#F7F3EC',
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 12,
-          fontWeight: 400,
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          padding: '18px 24px',
-        }}
-      />
-      <button
-        type="submit"
-        style={{
-          background: 'none',
-          border: 'none',
-          borderLeft: '1px solid rgba(247,243,236,0.2)',
-          cursor: 'pointer',
-          color: 'rgba(247,243,236,0.6)',
-          padding: '18px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          transition: 'color 0.3s',
-        }}
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M5 12h14M12 5l7 7-7 7" />
-        </svg>
-      </button>
-    </form>
   )
 }
 
