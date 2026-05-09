@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { ReactNode } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { regions, type RegionData } from '@/data/regions'
@@ -13,6 +13,7 @@ import { TEST_IMAGES } from '@/lib/test-images'
 import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
 import Footer from '@/components/ui/Footer'
+import { NavMenuOverlay } from '@/components/ui/NavMenuOverlay'
 
 const featuredRegions = regions
 
@@ -247,78 +248,7 @@ export default function HomePage() {
         </button>
       </nav>
 
-      {/* ── SLIDE-OUT MENU ── */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 500,
-              background: 'rgba(13,11,9,0.97)',
-              display: 'flex',
-              flexDirection: 'column',
-              padding: '80px 60px',
-            }}
-          >
-            <button
-              onClick={() => setMenuOpen(false)}
-              type="button"
-              style={{
-                position: 'absolute',
-                top: 28,
-                right: 36,
-                background: 'none',
-                border: 'none',
-                color: '#F7F3EC',
-                fontSize: 24,
-                cursor: 'pointer',
-                opacity: 0.6,
-              }}
-            >
-              ✕
-            </button>
-            {[
-              { label: 'Wineries', href: '/wineries' },
-              { label: 'Regions', href: '/regions' },
-              { label: 'Dining', href: '/dining' },
-              { label: 'Stay', href: '/stay' },
-              { label: 'Map', href: '/map' },
-              { label: 'Plan', href: '/plan' },
-              { label: 'Subscribe', href: 'https://winespectator.com/subscribe' },
-            ].map((item, i) => (
-              <motion.div
-                key={item.href}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.06 }}
-              >
-                <Link
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    display: 'block',
-                    marginBottom: 24,
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontStyle: 'italic',
-                    fontWeight: 300,
-                    fontSize: 'clamp(36px,5vw,64px)',
-                    color: '#F7F3EC',
-                    textDecoration: 'none',
-                    lineHeight: 1.1,
-                    letterSpacing: '-0.02em',
-                  }}
-                >
-                  {item.label}
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <NavMenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
 
       {/* ── STICKY SCROLL HERO (400vh) — progress drives panel via JS, not React state ── */}
       <div ref={scrollContainerRef} style={{ position: 'relative', height: '400vh' }}>
