@@ -3,10 +3,26 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Map, { Marker, NavigationControl, Popup, type MapRef } from 'react-map-gl/mapbox'
 import mapboxgl from 'mapbox-gl'
-import type { RegionCoordinates, TastingDirectoryRow } from '@/lib/content/types'
+import type { DirectoryCategory, RegionCoordinates, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!
+
+const PIN_COLORS: Record<DirectoryCategory, string> = {
+  winery: '#722F37',
+  restaurant: '#8B5A2B',
+  hotel: '#2C5282',
+}
+
+const CATEGORY_LABELS: Record<DirectoryCategory, string> = {
+  winery: 'Winery',
+  restaurant: 'Restaurant',
+  hotel: 'Hotel',
+}
+
+function categoryLabel(c: DirectoryCategory): string {
+  return CATEGORY_LABELS[c]
+}
 
 type Props = {
   center: { lat: number; lng: number }
@@ -15,8 +31,15 @@ type Props = {
   regionName: string
 }
 
-/** Burgundy marker; used for geocoded rows and optional region anchor. */
-function PinMarker({ onClick, label }: { onClick: () => void; label: string }) {
+function PinMarker({
+  onClick,
+  label,
+  color,
+}: {
+  onClick: () => void
+  label: string
+  color: string
+}) {
   return (
     <button
       type="button"
@@ -25,7 +48,7 @@ function PinMarker({ onClick, label }: { onClick: () => void; label: string }) {
         width: 28,
         height: 28,
         borderRadius: '50%',
-        background: '#722F37',
+        background: color,
         border: '2px solid #FAF7F2',
         boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
         cursor: 'pointer',
@@ -47,7 +70,7 @@ export function TastingRoomMapClient({ center, rows, regionName }: Props) {
   )
   const pinSignature = useMemo(() => {
     return pinned
-      .map((p) => `${p.coordinates.lat.toFixed(4)}:${p.coordinates.lng.toFixed(4)}`)
+      .map((p) => `${p.coordinates.lat.toFixed(4)}:${p.coordinates.lng.toFixed(4)}:${p.category}`)
       .sort()
       .join(',')
   }, [rows])
@@ -95,14 +118,23 @@ export function TastingRoomMapClient({ center, rows, regionName }: Props) {
         <NavigationControl position="top-right" showCompass={false} />
         {showCenterPin && (
           <Marker longitude={center.lng} latitude={center.lat} anchor="center">
-            <PinMarker label={`${regionName} map center`} onClick={() => setPopup({ kind: 'center' })} />
+            <PinMarker
+              color="#722F37"
+              label={`${regionName} map center`}
+              onClick={() => setPopup({ kind: 'center' })}
+            />
           </Marker>
         )}
         {pinned.map((row) => {
           const { lat, lng } = row.coordinates
+          const color = PIN_COLORS[row.category] ?? PIN_COLORS.winery
           return (
-            <Marker key={`${row.name}-${row.address}`} longitude={lng} latitude={lat} anchor="bottom">
-              <PinMarker label={row.name} onClick={() => setPopup({ kind: 'row', row, lng, lat })} />
+            <Marker key={`${row.name}-${row.address}-${row.category}`} longitude={lng} latitude={lat} anchor="bottom">
+              <PinMarker
+                color={color}
+                label={row.name}
+                onClick={() => setPopup({ kind: 'row', row, lng, lat })}
+              />
             </Marker>
           )
         })}
@@ -116,7 +148,7 @@ export function TastingRoomMapClient({ center, rows, regionName }: Props) {
             closeButton
             closeOnClick={false}
           >
-            <div style={{ padding: '6px 4px', maxWidth: 200, fontFamily: "'DM Sans', sans-serif" }}>
+            <div style={{ padding: '6px 4px', maxWidth: 200, fontFamily: 'var(--font-body)' }}>
               <p style={{ margin: 0, fontWeight: 600, fontSize: 13, color: '#1A1614' }}>{regionName}</p>
               <p style={{ margin: '6px 0 0', fontSize: 11, lineHeight: 1.4, color: '#3D3835' }}>
                 Run the geocode task to plot each listing when coordinates are available.
@@ -134,7 +166,10 @@ export function TastingRoomMapClient({ center, rows, regionName }: Props) {
             closeButton
             closeOnClick={false}
           >
-            <div style={{ padding: '4px 4px 2px', maxWidth: 220, fontFamily: "'DM Sans', sans-serif" }}>
+            <div style={{ padding: '4px 4px 2px', maxWidth: 220, fontFamily: 'var(--font-body)' }}>
+              <p style={{ margin: '0 0 4px', fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: PIN_COLORS[popup.row.category] }}>
+                {categoryLabel(popup.row.category)}
+              </p>
               <p style={{ margin: '0 0 8px', fontWeight: 600, fontSize: 13, color: '#1A1614' }}>{popup.row.name}</p>
               <p style={{ margin: '0 0 8px', fontSize: 12, lineHeight: 1.45, color: '#3D3835' }}>
                 {popup.row.address}

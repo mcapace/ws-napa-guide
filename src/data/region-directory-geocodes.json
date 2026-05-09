@@ -510,5 +510,561 @@
   "yountville|North Block|6757 Washington Street": {
     "lat": 38.406398,
     "lng": -122.365639
+  },
+  "calistoga|Hourglass|4208 Silverado Trail": {
+    "lat": 38.579114,
+    "lng": -122.515384
+  },
+  "calistoga|Larkmead Vineyards|1100 Larkmead Lane": {
+    "lat": 38.558488,
+    "lng": -122.524608
+  },
+  "calistoga|Schramsberg|1400 Schramsberg Road": {
+    "lat": 38.55049,
+    "lng": -122.53805
+  },
+  "calistoga|Aubert|333 Silverado Trail": {
+    "lat": 38.581972,
+    "lng": -122.566154
+  },
+  "calistoga|Bennett Lane|3340 CA-128": {
+    "lat": 38.599874,
+    "lng": -122.615195
+  },
+  "calistoga|CADE Estate|260 Howell Mountain Road S.": {
+    "lat": 38.56136,
+    "lng": -122.443563
+  },
+  "calistoga|Frank Family|1091 Larkmead Lane": {
+    "lat": 38.5594,
+    "lng": -122.52223
+  },
+  "calistoga|Girard|1077 Dunaweal Lane": {
+    "lat": 38.572194,
+    "lng": -122.551586
+  },
+  "calistoga|Lola Wines|916 Foothill Boulevard": {
+    "lat": 38.574769,
+    "lng": -122.578576
+  },
+  "calistoga|Outpost Wines|2075 Summit Lake Drive": {
+    "lat": 38.59815,
+    "lng": -122.46362
+  },
+  "calistoga|Rivers-Marie|900 Foothill Boulevard": {
+    "lat": 38.57479,
+    "lng": -122.57738
+  },
+  "calistoga|Spire Collection|299 Bennett Lane": {
+    "lat": 38.601618,
+    "lng": -122.608113
+  },
+  "calistoga|Tank Garage|1020 Foothill Boulevard": {
+    "lat": 38.575214,
+    "lng": -122.57963
+  },
+  "calistoga|Trois Noix|865 Silverado Trail N.": {
+    "lat": 38.586105,
+    "lng": -122.57452
+  },
+  "calistoga|Vine Cliff|7400 Silverado Trail": {
+    "lat": 38.44715,
+    "lng": -122.35059
+  },
+  "calistoga|Calistoga Inn & Brewery|1250 Lincoln Avenue": {
+    "lat": 38.576881,
+    "lng": -122.579493
+  },
+  "calistoga|Lovina|1107 Cedar Street": {
+    "lat": 38.576581,
+    "lng": -122.579599
+  },
+  "calistoga|Picobar|755 Silverado Trail N. (Solage, Auberge Resorts Collection)": {
+    "lat": 38.584599,
+    "lng": -122.571017
+  },
+  "calistoga|Sam's Social Club|1712 Lincoln Avenue (Indian Springs Resort)": {
+    "lat": 38.581952,
+    "lng": -122.575168
+  },
+  "calistoga|Auro|400 Silverado Trail N.": {
+    "lat": 38.584627,
+    "lng": -122.567835
+  },
+  "calistoga|Bricco Osteria|1350 Lincoln Avenue": {
+    "lat": 38.578138,
+    "lng": -122.578922
+  },
+  "calistoga|Buster's Southern Original BBQ|1207 Foothill Boulevard": {
+    "lat": 38.57488,
+    "lng": -122.58105
+  },
+  "calistoga|Evangeline|1226 Washington Street": {
+    "lat": 38.57894,
+    "lng": -122.57949
+  },
+  "calistoga|Fleetwood Calistoga Motor Lodge & Spa|1880 Lincoln Avenue": {
+    "lat": 38.587046,
+    "lng": -122.576335
+  },
+  "calistoga|House of Better at Dr. Wilkinson's Backyard Resort|1507 Lincoln Avenue": {
+    "lat": 38.580552,
+    "lng": -122.578292
+  },
+  "calistoga|Solbar|755 Silverado Trail N.": {
+    "lat": 38.584599,
+    "lng": -122.571017
+  },
+  "calistoga|The Living Room at TRUSS Restaurant|400 Silverado Trail N.": {
+    "lat": 38.584627,
+    "lng": -122.567835
+  },
+  "calistoga|The Francis House Inn|1403 Myrtle Street": {
+    "lat": 38.576577,
+    "lng": -122.582518
+  },
+  "calistoga|Solage|755 Silverado Trail N.": {
+    "lat": 38.584599,
+    "lng": -122.571017
+  },
+  "calistoga|Dr. Wilkinson's Backyard Resort & Mineral Springs|1507 Lincoln Avenue": {
+    "lat": 38.580552,
+    "lng": -122.578292
+  },
+  "calistoga|Four Seasons Resort & Residences Napa Valley|400 Silverado Trail": {
+    "lat": 38.584627,
+    "lng": -122.567835
+  },
+  "downtown-napa|Hestan Napa|1300 First Street, Suite 291": {
+    "lat": 38.29819,
+    "lng": -122.288357
+  },
+  "downtown-napa|Mayacamas Downtown|1256 First Street": {
+    "lat": 38.29829,
+    "lng": -122.28777
+  },
+  "downtown-napa|Cadet Wine & Beer Bar|930 Franklin Street": {
+    "lat": 38.297426,
+    "lng": -122.287961
+  },
+  "downtown-napa|Gentleman Farmer Bungalow|1564 First Street": {
+    "lat": 38.297402,
+    "lng": -122.290685
+  },
+  "downtown-napa|Bounty Hunter Wine Bar & Smokin' BBQ|975 First Street": {
+    "lat": 38.299257,
+    "lng": -122.285074
+  },
+  "downtown-napa|No Love Lost Wine Co.|960 Clinton Street": {
+    "lat": 38.301563,
+    "lng": -122.287101
+  },
+  "downtown-napa|Outer Space Wines|974 Franklin Street": {
+    "lat": 38.29747,
+    "lng": -122.288401
+  },
+  "downtown-napa|Quilt & Co.|813 Main Street": {
+    "lat": 38.297939,
+    "lng": -122.284681
+  },
+  "downtown-napa|Roots Run Deep Tasting Salon|1607 First Street": {
+    "lat": 38.297066,
+    "lng": -122.291353
+  },
+  "downtown-napa|Vintner's Collective|1245 Main Street": {
+    "lat": 38.301103,
+    "lng": -122.287257
+  },
+  "downtown-napa|Angèle Restaurant & Bar|540 Main Street": {
+    "lat": 38.296226,
+    "lng": -122.282713
+  },
+  "downtown-napa|Celadon|500 Main Street, Suite G": {
+    "lat": 38.296344,
+    "lng": -122.282757
+  },
+  "downtown-napa|Con Amor|815 Main Street": {
+    "lat": 38.298,
+    "lng": -122.284759
+  },
+  "downtown-napa|La Toque|1314 McKinstry Street": {
+    "lat": 38.303927,
+    "lng": -122.283512
+  },
+  "downtown-napa|Scala Osteria & Bar|1141 First Street": {
+    "lat": 38.298375,
+    "lng": -122.286511
+  },
+  "downtown-napa|The Dutch Door|1245 First Street": {
+    "lat": 38.29799,
+    "lng": -122.287594
+  },
+  "downtown-napa|Torc Napa|1140 Main Street": {
+    "lat": 38.300329,
+    "lng": -122.286251
+  },
+  "downtown-napa|Contimo Provisions|950 Randolph Street": {
+    "lat": 38.297916,
+    "lng": -122.28744
+  },
+  "downtown-napa|Genova Delicatessen|550 Trancas Street": {
+    "lat": 38.325024,
+    "lng": -122.279771
+  },
+  "downtown-napa|Grace's Table|1400 Second Street": {
+    "lat": 38.296918,
+    "lng": -122.288353
+  },
+  "downtown-napa|Le Paris Artisan and Cafe|828 Brown Street": {
+    "lat": 38.297956,
+    "lng": -122.285046
+  },
+  "downtown-napa|Moulin Bakery|1321 First Street": {
+    "lat": 38.297537,
+    "lng": -122.288204
+  },
+  "downtown-napa|Naysayer Coffee|1813 Old Sonoma Road": {
+    "lat": 38.287258,
+    "lng": -122.294641
+  },
+  "downtown-napa|Ohm Coffee|1412 Second Street": {
+    "lat": 38.296884,
+    "lng": -122.288469
+  },
+  "downtown-napa|Winston's Cafe and Bakery|1517 Third Street": {
+    "lat": 38.295439,
+    "lng": -122.288736
+  },
+  "downtown-napa|Oxbow Public Market|610 First Street": {
+    "lat": 38.30157,
+    "lng": -122.281611
+  },
+  "downtown-napa|Azzurro Pizzeria e Enoteca|1260 Main Street": {
+    "lat": 38.301187,
+    "lng": -122.286911
+  },
+  "downtown-napa|Cole's Chop House|1122 Main Street": {
+    "lat": 38.300233,
+    "lng": -122.286086
+  },
+  "downtown-napa|Compline Restaurant|1300 First Street, Suite 312": {
+    "lat": 38.29819,
+    "lng": -122.288357
+  },
+  "downtown-napa|Croccante Artisan Pizza|976 Pearl Street": {
+    "lat": 38.300886,
+    "lng": -122.286412
+  },
+  "downtown-napa|Kenzo Napa|1339 Pearl Street": {
+    "lat": 38.29894,
+    "lng": -122.289527
+  },
+  "downtown-napa|Kitchen Door Napa|1300 First Street, Suite 272": {
+    "lat": 38.29819,
+    "lng": -122.288357
+  },
+  "downtown-napa|Los Agaves Napa|660 Main Street": {
+    "lat": 38.29697,
+    "lng": -122.28342
+  },
+  "downtown-napa|Morimoto Napa and Asia Morimoto|610 Main Street and 790 Main Street": {
+    "lat": 38.298596,
+    "lng": -122.288187
+  },
+  "downtown-napa|Normandie Napa|670 Main Street": {
+    "lat": 38.297022,
+    "lng": -122.283243
+  },
+  "downtown-napa|Osha Thai Restaurant & Bar|1142 Main Street": {
+    "lat": 38.300439,
+    "lng": -122.286309
+  },
+  "downtown-napa|Oenotri|1425 First Street": {
+    "lat": 38.297361,
+    "lng": -122.288741
+  },
+  "downtown-napa|Red Rock Cafe & Back Door BBQ|1010 Lincoln Avenue": {
+    "lat": 38.308964,
+    "lng": -122.293689
+  },
+  "downtown-napa|Slanted Door Napa|1650 Soscol Avenue": {
+    "lat": 38.305328,
+    "lng": -122.284726
+  },
+  "downtown-napa|Stateline Road Smokehouse|872 Vallejo Street": {
+    "lat": 38.304636,
+    "lng": -122.286784
+  },
+  "downtown-napa|The Waterfront Seafood Grill|720 Main Street": {
+    "lat": 38.29728,
+    "lng": -122.283646
+  },
+  "downtown-napa|Zuzu|829 Main Street": {
+    "lat": 38.298145,
+    "lng": -122.284835
+  },
+  "downtown-napa|Napa River Inn|500 Main Street": {
+    "lat": 38.296344,
+    "lng": -122.282757
+  },
+  "downtown-napa|Westin Verasa|1314 McKinstry Street": {
+    "lat": 38.303927,
+    "lng": -122.283512
+  },
+  "downtown-napa|Andaz by Hyatt Napa|1450 First Street": {
+    "lat": 38.297535,
+    "lng": -122.289299
+  },
+  "downtown-napa|Archer Hotel Napa|1230 First Street": {
+    "lat": 38.298288,
+    "lng": -122.287595
+  },
+  "downtown-napa|Hotel Napa Valley|1556 Polk Street": {
+    "lat": 38.299233,
+    "lng": -122.292072
+  },
+  "oakville|Cardinale Winery|7600 St. Helena Highway": {
+    "lat": 38.430885,
+    "lng": -122.388577
+  },
+  "oakville|Far Niente Winery / Bella Union Winery|1350 Acacia Drive": {
+    "lat": 38.42572,
+    "lng": -122.40317
+  },
+  "oakville|Nickel & Nickel|8164 St. Helena Highway": {
+    "lat": 38.443216,
+    "lng": -122.406743
+  },
+  "oakville|Rudd Estate / Crossroads House|500 Oakville Cross Road": {
+    "lat": 38.45757,
+    "lng": -122.36672
+  },
+  "oakville|Brix|7377 St. Helena Highway": {
+    "lat": 38.415835,
+    "lng": -122.385666
+  },
+  "oakville|Mustards Grill|7399 St. Helena Highway": {
+    "lat": 38.418967,
+    "lng": -122.388162
+  },
+  "pritchard-hill|The Howard Backen Estate|275 Long Ranch Road": {
+    "lat": 38.45921,
+    "lng": -122.34005
+  },
+  "rutherford|Cathiard Family Estate|1978 Zinfandel Lane": {
+    "lat": 38.476621,
+    "lng": -122.45534
+  },
+  "rutherford|Inglenook / Niebaum / Pennino|1991 St. Helena Highway": {
+    "lat": 38.458712,
+    "lng": -122.423808
+  },
+  "rutherford|Quintessa|1601 Silverado Trail": {
+    "lat": 38.486844,
+    "lng": -122.410591
+  },
+  "rutherford|Staglin Family Vineyard|1570 Bella Oaks Lane": {
+    "lat": 38.441587,
+    "lng": -122.429201
+  },
+  "rutherford|Rutherford Grill|1180 Rutherford Road": {
+    "lat": 38.459187,
+    "lng": -122.422788
+  },
+  "rutherford|La Luna Market & Taqueria|1153 Rutherford Road": {
+    "lat": 38.45948,
+    "lng": -122.421116
+  },
+  "rutherford|The Restaurant at Auberge du Soleil|180 Rutherford Hill Road": {
+    "lat": 38.493535,
+    "lng": -122.406057
+  },
+  "rutherford|Rancho Caymus Inn|1140 Rutherford Road": {
+    "lat": 38.459967,
+    "lng": -122.421303
+  },
+  "st-helena|Ad Vivum|1400 Oak Avenue": {
+    "lat": 38.504718,
+    "lng": -122.47113
+  },
+  "st-helena|Clif Family|709 Main Street": {
+    "lat": 38.500629,
+    "lng": -122.464006
+  },
+  "st-helena|Ehlers Estate|3222 Ehlers Lane": {
+    "lat": 38.532002,
+    "lng": -122.498312
+  },
+  "st-helena|Faust Haus|2867 St. Helena Highway N.": {
+    "lat": 38.518328,
+    "lng": -122.492664
+  },
+  "st-helena|Lewelling Vineyards|1282 Vidovich Avenue": {
+    "lat": 38.500393,
+    "lng": -122.46398
+  },
+  "st-helena|Snowden|1432 Main Street": {
+    "lat": 38.50562,
+    "lng": -122.470889
+  },
+  "st-helena|Spottswoode Estate Vineyard & Winery|1902 Madrona Avenue": {
+    "lat": 38.50022,
+    "lng": -122.4789
+  },
+  "st-helena|Studio 1299A|1299 Main Street": {
+    "lat": 38.504325,
+    "lng": -122.468747
+  },
+  "st-helena|Whitehall Lane Winery|1563 St. Helena Highway S.": {
+    "lat": 38.477709,
+    "lng": -122.438331
+  },
+  "st-helena|Charlie's Napa Valley|1327 Railroad Avenue": {
+    "lat": 38.505038,
+    "lng": -122.468853
+  },
+  "st-helena|Cook|1310 Main Street": {
+    "lat": 38.504706,
+    "lng": -122.468681
+  },
+  "st-helena|The Charter Oak|831 Charter Oak Avenue": {
+    "lat": 38.50322,
+    "lng": -122.4608
+  },
+  "st-helena|C29|1320 Main Street": {
+    "lat": 38.504777,
+    "lng": -122.468986
+  },
+  "st-helena|The Farmstead|738 Main Street": {
+    "lat": 38.5009,
+    "lng": -122.46325
+  },
+  "st-helena|Gott's|933 Main Street": {
+    "lat": 38.501902,
+    "lng": -122.465422
+  },
+  "st-helena|Harvest Table|1 Main Street": {
+    "lat": 38.492475,
+    "lng": -122.455633
+  },
+  "st-helena|Press|587 St. Helena Highway S.": {
+    "lat": 38.488773,
+    "lng": -122.450479
+  },
+  "st-helena|Violetto at Alila Napa Valley|1915 Main Street": {
+    "lat": 38.50936,
+    "lng": -122.47848
+  },
+  "st-helena|The Model Bakery|1357 Main Street": {
+    "lat": 38.504771,
+    "lng": -122.46993
+  },
+  "st-helena|Under-Study|587 St. Helena Highway S.": {
+    "lat": 38.488773,
+    "lng": -122.450479
+  },
+  "st-helena|Erosion Creamery & Café|1234 Main Street": {
+    "lat": 38.504434,
+    "lng": -122.468465
+  },
+  "st-helena|Roman Holiday Gelato|1336 Oak Avenue": {
+    "lat": 38.504325,
+    "lng": -122.470388
+  },
+  "st-helena|Giugni's Deli|1227 Main Street": {
+    "lat": 38.503895,
+    "lng": -122.468622
+  },
+  "st-helena|Sam's General Store|1400 Oak Avenue": {
+    "lat": 38.504718,
+    "lng": -122.47113
+  },
+  "st-helena|The Station|1153 Main Street": {
+    "lat": 38.503555,
+    "lng": -122.467864
+  },
+  "st-helena|Harvest Inn|1 Main Street": {
+    "lat": 38.492475,
+    "lng": -122.455633
+  },
+  "st-helena|Wydown Hotel|1424 Main Street": {
+    "lat": 38.50565,
+    "lng": -122.470623
+  },
+  "st-helena|Alila Napa Valley|1915 Main Street": {
+    "lat": 38.50936,
+    "lng": -122.47848
+  },
+  "st-helena|The Inn at Salvestrin|397 Main Street": {
+    "lat": 38.496729,
+    "lng": -122.46127
+  },
+  "yountville|Stewart Cellars|6752 Washington Street": {
+    "lat": 38.406277,
+    "lng": -122.366236
+  },
+  "yountville|Clos du Val|5330 Silverado Trail": {
+    "lat": 38.387112,
+    "lng": -122.312549
+  },
+  "yountville|Lewis Cellars|6320 Silverado Trail": {
+    "lat": 38.425405,
+    "lng": -122.337013
+  },
+  "yountville|Hendry|3104 Redwood Road": {
+    "lat": 38.321111,
+    "lng": -122.343619
+  },
+  "yountville|Trefethen|1160 Oak Knoll Avenue": {
+    "lat": 38.360475,
+    "lng": -122.332445
+  },
+  "yountville|Ad Hoc + Addendum|6476 Washington Street": {
+    "lat": 38.399154,
+    "lng": -122.358541
+  },
+  "yountville|Clementine|6525 Washington Street": {
+    "lat": 38.401912,
+    "lng": -122.361927
+  },
+  "yountville|Bistro Jeanty|6510 Washington Street": {
+    "lat": 38.401027,
+    "lng": -122.359837
+  },
+  "yountville|Bottega|6525 Washington Street": {
+    "lat": 38.401912,
+    "lng": -122.361927
+  },
+  "yountville|Bouchon Bistro|6534 Washington Street": {
+    "lat": 38.402589,
+    "lng": -122.361965
+  },
+  "yountville|Ciccio|6770 Washington Street": {
+    "lat": 38.40659,
+    "lng": -122.366763
+  },
+  "yountville|The French Laundry|6640 Washington Street": {
+    "lat": 38.404446,
+    "lng": -122.364785
+  },
+  "yountville|Regiis Ova|6480 Washington Street": {
+    "lat": 38.399439,
+    "lng": -122.358748
+  },
+  "yountville|RH Restaurant|6725 Washington Street": {
+    "lat": 38.405563,
+    "lng": -122.36671
+  },
+  "yountville|Honor Market|6795 Washington Street": {
+    "lat": 38.406293,
+    "lng": -122.367378
+  },
+  "yountville|Bardessono|6526 Yount Street": {
+    "lat": 38.403096,
+    "lng": -122.360363
+  },
+  "yountville|Sttupa Estate|638 Silverado Trail": {
+    "lat": 38.296881,
+    "lng": -122.275255
   }
 }

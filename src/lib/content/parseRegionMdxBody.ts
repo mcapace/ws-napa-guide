@@ -1,5 +1,10 @@
 import type { ReactNode } from 'react'
-import type { EditorialFeature, RegionCoordinates, TastingDirectoryRow } from '@/lib/content/types'
+import type {
+  DirectoryCategory,
+  EditorialFeature,
+  RegionCoordinates,
+  TastingDirectoryRow,
+} from '@/lib/content/types'
 
 /** Map short references in MDX to CMS feature slugs. */
 const FEATURE_SLUG_ALIASES: Record<string, string> = {
@@ -41,12 +46,29 @@ export function splitWhereToTaste(text: string): { featuredRaw: string; director
 
 /** Same block pattern as tasting: featured editorial picks + markdown table for map/listings. */
 export function splitWhereToStay(text: string): { featuredRaw: string; directoryRaw: string } {
-  const featMatch = text.match(/## Featured Hotels\s*([\s\S]*?)## Lodging Directory/)
   const dirMatch = text.match(/## Lodging Directory\s*([\s\S]*)/)
-  return {
-    featuredRaw: featMatch?.[1]?.trim() ?? '',
-    directoryRaw: (dirMatch?.[1] ?? '').trim(),
+  if (dirMatch) {
+    const featMatch = text.match(/## Featured Hotels\s*([\s\S]*?)## Lodging Directory/)
+    return {
+      featuredRaw: featMatch?.[1]?.trim() ?? '',
+      directoryRaw: (dirMatch[1] ?? '').trim(),
+    }
   }
+  const featOnly = text.match(/## Featured Hotels\s*([\s\S]*)/)
+  return {
+    featuredRaw: (featOnly?.[1] ?? '').trim(),
+    directoryRaw: '',
+  }
+}
+
+/** Slice from after `heading` (full line e.g. `## Restaurant Directory`) until the next `## ` heading or EOF. */
+export function sliceAfterH2Heading(md: string, headingLine: string): string {
+  const idx = md.indexOf(headingLine)
+  if (idx < 0) return ''
+  const rest = md.slice(idx + headingLine.length)
+  const next = rest.search(/\n## /)
+  const slice = next >= 0 ? rest.slice(0, next) : rest
+  return slice.trim()
 }
 
 export function parseMetaLines(block: string): { address?: string; website?: string; bodyMd: string } {
@@ -99,7 +121,7 @@ export function extractGfmTable(text: string): string {
   return text.slice(idx).trim()
 }
 
-export function parseTastingDirectoryTable(tableMd: string): TastingDirectoryRow[] {
+export function parseTastingDirectoryTable(tableMd: string, category: DirectoryCategory): TastingDirectoryRow[] {
   const lines = tableMd.split('\n').filter((l) => l.trim().startsWith('|'))
   if (lines.length < 2) return []
   const parseRow = (line: string) =>
@@ -116,6 +138,7 @@ export function parseTastingDirectoryTable(tableMd: string): TastingDirectoryRow
       address,
       website,
       coordinates: null as RegionCoordinates | null,
+      category,
     }))
   return rows
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * One-time / manual: geocode tasting + lodging directory rows from region MDX into
- * src/data/region-directory-geocodes.json (Mapbox Geocoding API).
+ * Geocode all region MDX map listings into src/data/region-directory-geocodes.json
+ * (Mapbox Geocoding API). Includes: featured wineries/hotels/restaurants, all directory tables.
  *
  * Usage: MAPBOX_TOKEN=pk... npm run geocode
  * (uses NEXT_PUBLIC_MAPBOX_TOKEN from .env.local if MAPBOX_TOKEN unset)
@@ -82,6 +82,109 @@ function sliceAfterHeading(content, headingLine) {
   return slice
 }
 
+function sliceAfterH2UntilNextH2(md, headingLine) {
+  const idx = md.indexOf(headingLine)
+  if (idx < 0) return ''
+  const rest = md.slice(idx + headingLine.length)
+  const next = rest.search(/\n## /)
+  const slice = next >= 0 ? rest.slice(0, next) : rest
+  return slice.trim()
+}
+
+function getH1Body(content, title) {
+  const lines = content.split('\n')
+  let start = -1
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim() === `# ${title}`) {
+      start = i + 1
+      break
+    }
+  }
+  if (start < 0) return ''
+  const out = []
+  for (let i = start; i < lines.length; i++) {
+    const line = lines[i]
+    if (/^# [^#]/.test(line)) break
+    out.push(line)
+  }
+  return out.join('\n').trim()
+}
+
+function parseMetaLines(block) {
+  const lines = block.split('\n')
+  let address
+  let website
+  for (const line of lines) {
+    const addr = line.match(/^- \*\*Address:\*\*\s*(.+)$/i)
+    const web = line.match(/^- \*\*Website:\*\*\s*(.+)$/i)
+    if (addr) address = addr[1].trim()
+    else if (web) website = web[1].trim()
+  }
+  return { address, website }
+}
+
+function splitH3Blocks(md) {
+  const parts = md.split(/^### ([^\n]+)\n/m)
+  const result = []
+  for (let i = 1; i < parts.length; i += 2) {
+    result.push({
+      title: parts[i].trim(),
+      body: (parts[i + 1] ?? '').trim(),
+    })
+  }
+  return result
+}
+
+function splitWhereToTaste(text) {
+  if (/## Tasting Room Directory\b/.test(text)) {
+    const featMatch = text.match(/## Featured Wineries\s*([\s\S]*?)## Tasting Room Directory/)
+    const dirMatch = text.match(/## Tasting Room Directory\s*([\s\S]*)/)
+    return {
+      featuredRaw: featMatch?.[1]?.trim() ?? '',
+      directoryRaw: (dirMatch?.[1] ?? '').trim(),
+    }
+  }
+  const featOnly = text.match(/## Featured Wineries\s*([\s\S]*)/)
+  return {
+    featuredRaw: (featOnly?.[1] ?? '').trim(),
+    directoryRaw: '',
+  }
+}
+
+function splitWhereToStay(text) {
+  const dirMatch = text.match(/## Lodging Directory\s*([\s\S]*)/)
+  if (dirMatch) {
+    const featMatch = text.match(/## Featured Hotels\s*([\s\S]*?)## Lodging Directory/)
+    return {
+      featuredRaw: featMatch?.[1]?.trim() ?? '',
+      directoryRaw: (dirMatch[1] ?? '').trim(),
+    }
+  }
+  const featOnly = text.match(/## Featured Hotels\s*([\s\S]*)/)
+  return {
+    featuredRaw: (featOnly?.[1] ?? '').trim(),
+    directoryRaw: '',
+  }
+}
+
+/** Featured restaurant / cafe H2 blocks (excludes directory & breakfast folder headings). */
+function extractEatH2Rows(eatMd) {
+  const skip = new Set(['Restaurant Directory', 'Breakfast, Coffee & Snacks Directory'])
+  const parts = eatMd.split(/^## /m)
+  const rows = []
+  for (let i = 1; i < parts.length; i++) {
+    const seg = parts[i]
+    const nl = seg.indexOf('\n')
+    const title = seg.slice(0, nl).trim()
+    const body = seg.slice(nl + 1)
+    if (skip.has(title)) continue
+    if (title.toLowerCase().includes('breakfast')) continue
+    const { address, website } = parseMetaLines(body)
+    if (address) rows.push({ name: title, address, website: website || '' })
+  }
+  return rows
+}
+
 const LOCALITY_FOR_SLUG = {
   oakville: 'Oakville, Napa County',
   rutherford: 'Rutherford, Napa County',
@@ -134,13 +237,32 @@ async function main() {
     const content = readFileSync(join(CONTENT, f), 'utf8')
     const slug = extractSlug(content, f)
 
-    const tasteBlock = sliceAfterHeading(content, '## Tasting Room Directory')
-    const stayBlock = sliceAfterHeading(content, '## Lodging Directory')
+    const tasteMd = getH1Body(content, 'Where to Taste')
+    const eatMd = getH1Body(content, 'Where to Eat')
+    const stayMd = getH1Body(content, 'Where to Stay')
 
-    for (const row of parseTableRows(tasteBlock)) {
+    const { featuredRaw: tasteFeat, directoryRaw: tasteDir } = splitWhereToTaste(tasteMd)
+    for (const b of splitH3Blocks(tasteFeat)) {
+      const { address, website } = parseMetaLines(b.body)
+      if (address) todo.push({ slug, name: b.title, address, website: website || '' })
+    }
+    for (const row of parseTableRows(sliceAfterHeading(tasteMd, '## Tasting Room Directory'))) {
       todo.push({ slug, ...row })
     }
-    for (const row of parseTableRows(stayBlock)) {
+
+    for (const row of extractEatH2Rows(eatMd)) {
+      todo.push({ slug, ...row })
+    }
+    for (const row of parseTableRows(sliceAfterH2UntilNextH2(eatMd, '## Restaurant Directory'))) {
+      todo.push({ slug, ...row })
+    }
+
+    const { featuredRaw: stayFeat } = splitWhereToStay(stayMd)
+    for (const b of splitH3Blocks(stayFeat)) {
+      const { address, website } = parseMetaLines(b.body)
+      if (address) todo.push({ slug, name: b.title, address, website: website || '' })
+    }
+    for (const row of parseTableRows(sliceAfterHeading(stayMd, '## Lodging Directory'))) {
       todo.push({ slug, ...row })
     }
   }

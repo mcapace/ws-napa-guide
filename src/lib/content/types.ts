@@ -29,12 +29,16 @@ export type RegionMdxFrontmatter = {
   marqueePhrases?: RegionMarqueePhrases
 }
 
+/** Used for map pin color / legend. */
+export type DirectoryCategory = 'winery' | 'restaurant' | 'hotel'
+
 export type TastingDirectoryRow = {
   name: string
   address: string
   website: string
   /** Null until batch geocode fills MDX */
   coordinates: RegionCoordinates | null
+  category: DirectoryCategory
 }
 
 export type EditorialFeature = {
@@ -64,6 +68,7 @@ export type LoadedRegionMdx = {
   tastingDirectory: TastingDirectoryRow[]
   featuredRestaurants: EditorialFeature[]
   breakfast: EditorialFeature | null
+  restaurantDirectory: TastingDirectoryRow[]
   featuredHotels: EditorialFeature[]
   lodgingDirectory: TastingDirectoryRow[]
   sidebar: ReactNode

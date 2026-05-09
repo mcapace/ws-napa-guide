@@ -13,6 +13,7 @@ import {
   parseTastingDirectoryTable,
   resolveFeatureSlug,
   splitH2Blocks,
+  sliceAfterH2Heading,
   splitH3Blocks,
   splitTopLevelH1,
   splitWhereToStay,
@@ -131,7 +132,10 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   photoIdx += featuredWineries.length
 
   const tableText = extractGfmTable(directoryRaw)
-  const tastingDirectory = attachDirectoryGeocodes(frontmatter.slug, parseTastingDirectoryTable(tableText))
+  const tastingDirectory = attachDirectoryGeocodes(
+    frontmatter.slug,
+    parseTastingDirectoryTable(tableText, 'winery'),
+  )
 
   const eatBlocks = splitH2Blocks(eatMd)
   const restaurantBlocks: { title: string; body: string }[] = []
@@ -166,6 +170,12 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   const featuredRestaurantsWithPhotos = assignPlaceholderPhotos(featuredRestaurants, photoIdx)
   photoIdx += featuredRestaurants.length
 
+  const restaurantDirSlice = sliceAfterH2Heading(eatMd, '## Restaurant Directory')
+  const restaurantDirectory = attachDirectoryGeocodes(
+    frontmatter.slug,
+    parseTastingDirectoryTable(extractGfmTable(restaurantDirSlice), 'restaurant'),
+  )
+
   let breakfast: EditorialFeature | null = null
   if (breakfastInner) {
     const { address, website, bodyMd } = parseMetaLines(breakfastInner.body)
@@ -190,7 +200,10 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     featuredHotels = assignPlaceholderPhotos(featuredHotelsBase, photoIdx)
     photoIdx += featuredHotels.length
     const stayTable = extractGfmTable(stayDirectoryRaw)
-    lodgingDirectory = attachDirectoryGeocodes(frontmatter.slug, parseTastingDirectoryTable(stayTable))
+    lodgingDirectory = attachDirectoryGeocodes(
+      frontmatter.slug,
+      parseTastingDirectoryTable(stayTable, 'hotel'),
+    )
   }
 
   const lede = await compileLede(ledeMd)
@@ -207,6 +220,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     breakfast,
     featuredHotels,
     lodgingDirectory,
+    restaurantDirectory,
     sidebar,
     related,
   }
