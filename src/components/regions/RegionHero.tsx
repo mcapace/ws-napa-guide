@@ -18,8 +18,10 @@ export function RegionHero({ fm }: { fm: RegionMdxFrontmatter }) {
           inset: 0,
           background:
             'linear-gradient(to bottom, rgba(26,22,20,0.35) 0%, rgba(26,22,20,0.12) 35%, rgba(26,22,20,0.7) 100%)',
+          zIndex: 1,
         }}
       />
+      <div className="hero-top-scrim" aria-hidden />
       <div
         style={{
           position: 'absolute',
@@ -28,6 +30,7 @@ export function RegionHero({ fm }: { fm: RegionMdxFrontmatter }) {
           bottom: 0,
           padding: 'clamp(32px, 6vw, 72px) clamp(24px, 5vw, 64px) clamp(40px, 7vw, 88px)',
           maxWidth: 1100,
+          zIndex: 3,
         }}
       >
         <p

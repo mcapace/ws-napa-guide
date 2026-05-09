@@ -78,6 +78,23 @@ body {
   line-height: 1.7;
 }
 
+/* Top fade on hero imagery — extra contrast under fixed nav (pointer-events safe) */
+.hero-top-scrim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Homepage sticky mosaic: above panels / video, below fullscreen takeover overlay (25) */
+.hero-top-scrim--home-sticky {
+  z-index: 24;
+}
+
 @media (max-width: 480px) {
   :root {
     --ws-nav-logo-height: 32px;

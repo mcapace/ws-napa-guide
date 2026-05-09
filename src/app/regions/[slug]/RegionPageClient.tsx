@@ -84,13 +84,14 @@ function RegionPageClientContent({ slug }: { slug: string }) {
               'linear-gradient(to bottom, rgba(13,11,9,0.12) 0%, rgba(13,11,9,0.35) 45%, rgba(13,11,9,0.9) 100%)',
           }}
         />
+        <div className="hero-top-scrim" aria-hidden />
 
         <p
           style={{
             position: 'absolute',
             top: 100,
             left: 40,
-            zIndex: 2,
+            zIndex: 3,
             margin: 0,
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 10,
@@ -109,7 +110,7 @@ function RegionPageClientContent({ slug }: { slug: string }) {
             left: '50%',
             top: '42%',
             transform: 'translate(-50%, -50%)',
-            zIndex: 2,
+            zIndex: 3,
             textAlign: 'center',
             width: '100%',
             padding: '0 24px',
@@ -154,7 +155,7 @@ function RegionPageClientContent({ slug }: { slug: string }) {
             left: '50%',
             top: '70%',
             transform: 'translate(-50%, -50%)',
-            zIndex: 2,
+            zIndex: 3,
             textAlign: 'center',
           }}
         >
@@ -192,7 +193,7 @@ function RegionPageClientContent({ slug }: { slug: string }) {
             left: '50%',
             top: '85%',
             transform: 'translate(-50%, -50%)',
-            zIndex: 2,
+            zIndex: 3,
             display: 'flex',
             gap: 16,
             justifyContent: 'center',

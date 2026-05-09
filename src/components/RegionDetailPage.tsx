@@ -135,8 +135,9 @@ export default function RegionDetailPage({ data }: { data: RegionData }) {
       {/* ── 1. HERO ── */}
       <section data-nav-hero-root style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
         <Image src={data.heroImage} alt={data.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, transparent 60%)' }} />
-        <div style={{ position: 'absolute', bottom: 48, left: 0, right: 0, textAlign: 'center', padding: '0 24px' }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, transparent 60%)' }} />
+        <div className="hero-top-scrim" aria-hidden />
+        <div style={{ position: 'absolute', bottom: 48, left: 0, right: 0, textAlign: 'center', padding: '0 24px', zIndex: 3 }}>
           <h1 style={{
             fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300,
             fontSize: 'clamp(56px, 9vw, 128px)', color: '#F7F3EC', lineHeight: 1,

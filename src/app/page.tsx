@@ -326,6 +326,7 @@ export default function HomePage() {
             zIndex: 10,
           }}
         >
+          <div className="hero-top-scrim hero-top-scrim--home-sticky" aria-hidden />
           <div
             ref={mosaicRef}
             className="home-hero-mosaic"
@@ -657,10 +658,11 @@ export default function HomePage() {
                 background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 50%, transparent 80%)',
                 zIndex: 1,
               }} />
+              <div className="hero-top-scrim" aria-hidden />
               {/* Metadata top center */}
               <div className="home-region-pin-label" style={{
                 position: 'absolute', top: 80, left: 0, right: 0,
-                textAlign: 'center', zIndex: 2,
+                textAlign: 'center', zIndex: 3,
               }}>
                 <p style={{
                   fontFamily: "'DM Sans', sans-serif",
@@ -675,7 +677,7 @@ export default function HomePage() {
               <div className="home-region-pin-copy" style={{
                 position: 'absolute', top: '50%', left: 0, right: 0,
                 transform: 'translateY(-50%)',
-                textAlign: 'center', zIndex: 2, padding: '0 40px',
+                textAlign: 'center', zIndex: 3, padding: '0 40px',
               }}>
                 <h2 style={{
                   fontFamily: "'Cormorant Garamond', serif",
