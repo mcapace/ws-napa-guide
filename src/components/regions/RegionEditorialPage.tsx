@@ -6,7 +6,7 @@ import type { LoadedRegionMdx } from '@/lib/content/types'
 import { buildRegionEatMapRows, buildRegionStayMapRows, buildRegionTasteMapRows } from '@/lib/content/regionMapRows'
 import { RegionHero } from './RegionHero'
 import { RegionLede } from './RegionLede'
-import { MarqueeRibbon } from './MarqueeRibbon'
+import { SectionDivider } from './SectionDivider'
 import { TastingDirectoryWithMap } from './TastingDirectoryWithMap'
 import { SidebarCallout } from './SidebarCallout'
 import './region-editorial.css'
@@ -23,7 +23,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
       <Nav />
       <RegionHero fm={frontmatter} />
       <RegionLede>{data.lede}</RegionLede>
-      <MarqueeRibbon phrase={mq?.taste ?? 'Where to Taste'} />
+      <SectionDivider label={mq?.taste ?? 'Where to Taste'} />
       {data.featuredWineries.map((f) => (
         <FeatureBlock
           key={f.name}
@@ -48,7 +48,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
         data.restaurantDirectory.length > 0 ||
         eatMapRows.length > 0) && (
         <>
-          <MarqueeRibbon phrase={mq?.eat ?? 'Where to Eat'} />
+          <SectionDivider label={mq?.eat ?? 'Where to Eat'} />
           {data.featuredRestaurants.map((f) => (
             <FeatureBlock
               key={f.name}
@@ -87,7 +87,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
         data.lodgingDirectory.length > 0 ||
         stayMapRows.length > 0) && (
         <>
-          <MarqueeRibbon phrase={mq?.stay ?? 'Where to Stay'} />
+          <SectionDivider label={mq?.stay ?? 'Where to Stay'} />
           {data.featuredHotels.map((f) => (
             <FeatureBlock
               key={f.name}
@@ -113,7 +113,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
       )}
       {data.sidebarHeading ? (
         <>
-          <MarqueeRibbon phrase={mq?.sidebar ?? data.sidebarHeading} />
+          <SectionDivider label={mq?.sidebar ?? data.sidebarHeading} />
           <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
         </>
       ) : null}
