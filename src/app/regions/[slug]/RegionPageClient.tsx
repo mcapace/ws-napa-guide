@@ -62,11 +62,11 @@ function RegionPageClientContent({ slug }: { slug: string }) {
   }
 
   return (
-    <>
+    <div data-site-surface="light">
       <Nav />
 
       {/* — therealhotels-style hero: absolute layers, italic Cormorant title, no parallax — */}
-      <section style={{ position: 'relative', height: '85vh', overflow: 'hidden' }}>
+      <section data-nav-hero-root style={{ position: 'relative', height: '85vh', overflow: 'hidden' }}>
         <Image
           src={region.heroImage}
           alt={region.name}
@@ -560,7 +560,7 @@ function RegionPageClientContent({ slug }: { slug: string }) {
 
       <Newsletter />
       <Footer />
-    </>
+    </div>
   )
 }
 

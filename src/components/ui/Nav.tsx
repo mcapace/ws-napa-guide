@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { WS_LOGO_PRIMARY_SRC } from '@/lib/ws-logo'
+import { useNavOverHeroImagery } from '@/hooks/useNavOverHeroImagery'
 
 const navLinks = [
   { label: 'Wineries', href: '/wineries' },
@@ -16,6 +17,14 @@ const navLinks = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const heroChrome = useNavOverHeroImagery()
+
+  const chromeClass =
+    heroChrome === 'imagery'
+      ? 'ws-nav--over-hero-imagery'
+      : heroChrome === 'light'
+        ? 'ws-nav--on-light-surface'
+        : 'ws-nav--on-dark-surface'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80)
@@ -26,6 +35,7 @@ export default function Nav() {
   return (
     <>
       <header
+        className={chromeClass}
         style={{
           position: 'fixed',
           top: 0,
@@ -71,7 +81,6 @@ export default function Nav() {
               priority
               style={{
                 width: 'auto',
-                filter: 'invert(1)',
               }}
             />
             <span className="ws-nav-brand__tagline">Napa Valley Guide</span>
@@ -94,12 +103,12 @@ export default function Nav() {
             {[0, 1, 2].map((i) => (
               <span
                 key={i}
+                className="ws-nav-hamburger-bar"
                 style={{
                   display: 'block',
                   width: '22px',
                   height: '1.5px',
-                  background: 'rgba(247,243,236,0.7)',
-                  transition: 'transform 0.3s, opacity 0.3s',
+                  transition: 'transform 0.3s ease, opacity 0.3s ease, background 0.28s ease, color 0.28s ease',
                   transform:
                     menuOpen && i === 0 ? 'rotate(45deg) translate(4px, 4px)'
                     : menuOpen && i === 2 ? 'rotate(-45deg) translate(4px, -4px)'

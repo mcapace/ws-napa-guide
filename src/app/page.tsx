@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { ReactNode } from 'react'
@@ -44,6 +44,34 @@ export default function HomePage() {
   const heroVideoRef = useRef<HTMLVideoElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
+  const [homeNavOverImagery, setHomeNavOverImagery] = useState(true)
+
+  useLayoutEffect(() => {
+    const el = scrollContainerRef.current
+    if (!el) return
+
+    let ticking = false
+    const sync = () => {
+      ticking = false
+      const bottom = el.offsetTop + el.offsetHeight
+      setHomeNavOverImagery(window.scrollY < bottom)
+    }
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(sync)
+      }
+    }
+
+    sync()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [])
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -153,7 +181,7 @@ export default function HomePage() {
     <>
       {/* ── NAV (therealhotels: branded label left, hamburger right) ── */}
       <nav
-        className="home-nav"
+        className={homeNavOverImagery ? 'home-nav home-nav--over-imagery' : 'home-nav'}
         style={{
           position: 'fixed',
           top: 0,
@@ -164,7 +192,6 @@ export default function HomePage() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
-          mixBlendMode: 'difference',
         }}
       >
         <Link
@@ -179,10 +206,9 @@ export default function HomePage() {
             style={{
               display: 'block',
               width: 2,
-              height: 32,
-              background: '#C4943A',
               flexShrink: 0,
             }}
+            aria-hidden
           />
           <div>
             <Image
@@ -190,7 +216,7 @@ export default function HomePage() {
               alt="Wine Spectator"
               width={180}
               height={36}
-              style={{ filter: 'invert(1)', width: 'auto' }}
+              style={{ width: 'auto' }}
             />
             <span>Napa Valley Guide</span>
           </div>
@@ -209,9 +235,9 @@ export default function HomePage() {
           aria-label="Open menu"
           type="button"
         >
-          <span style={{ display: 'block', width: 28, height: 1.5, background: '#F7F3EC' }} />
-          <span style={{ display: 'block', width: 28, height: 1.5, background: '#F7F3EC' }} />
-          <span style={{ display: 'block', width: 28, height: 1.5, background: '#F7F3EC' }} />
+          <span className="home-nav__hamburger-bar" style={{ display: 'block', width: 28, height: 1.5 }} />
+          <span className="home-nav__hamburger-bar" style={{ display: 'block', width: 28, height: 1.5 }} />
+          <span className="home-nav__hamburger-bar" style={{ display: 'block', width: 28, height: 1.5 }} />
         </button>
       </nav>
 

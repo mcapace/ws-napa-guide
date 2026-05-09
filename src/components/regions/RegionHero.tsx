@@ -82,19 +82,6 @@ export function RegionHero({ fm }: { fm: RegionMdxFrontmatter }) {
         >
           {fm.tagline}
         </p>
-        {fm.heroCredit && (
-          <p
-            style={{
-              margin: '18px 0 0',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 11,
-              letterSpacing: '0.08em',
-              color: 'rgba(250,247,242,0.5)',
-            }}
-          >
-            Photo: {fm.heroCredit}
-          </p>
-        )}
       </div>
     </header>
   )

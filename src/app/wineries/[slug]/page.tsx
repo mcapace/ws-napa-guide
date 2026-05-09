@@ -37,11 +37,11 @@ export default async function WineryDetailPage({ params }: Props) {
   const bodyParagraphs = winery.description.split('\n\n').filter(Boolean)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FFFFFF' }}>
+    <div data-site-surface="light" style={{ minHeight: '100vh', background: '#FFFFFF' }}>
       <Nav />
 
       {/* ── 1. HERO with title overlaid ── */}
-      <section style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
+      <section data-nav-hero-root style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
         <Image src={winery.images[0]} alt={winery.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         <div style={{
           position: 'absolute', inset: 0,

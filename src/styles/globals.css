@@ -98,6 +98,7 @@ body {
 .ws-nav-brand__wordmark {
   height: var(--ws-nav-logo-height) !important;
   width: auto !important;
+  transition: filter 0.28s ease;
 }
 
 .ws-nav-brand__tagline {
@@ -106,7 +107,66 @@ body {
   font-weight: 500;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(247, 243, 236, 0.82);
+  transition: color 0.28s ease;
+}
+
+/* Persistent nav: isolated scroll-driven chrome (not tied to GSAP homepage hero) */
+.ws-nav-hamburger-bar {
+  transition: transform 0.3s ease, opacity 0.3s ease, background 0.28s ease;
+}
+
+.ws-nav--over-hero-imagery .ws-nav-brand__wordmark {
+  filter: invert(1);
+}
+
+.ws-nav--over-hero-imagery .ws-nav-brand__tagline {
+  color: rgba(250, 247, 242, 0.92);
+}
+
+.ws-nav--over-hero-imagery .ws-nav-hamburger-bar {
+  background: rgba(250, 247, 242, 0.92);
+}
+
+.ws-nav--on-light-surface .ws-nav-brand__wordmark {
+  filter: none;
+}
+
+.ws-nav--on-light-surface .ws-nav-brand__tagline {
+  color: var(--bordeaux);
+}
+
+.ws-nav--on-light-surface .ws-nav-hamburger-bar {
+  background: var(--bordeaux);
+}
+
+.ws-nav--on-dark-surface .ws-nav-brand__wordmark {
+  filter: invert(1);
+}
+
+.ws-nav--on-dark-surface .ws-nav-brand__tagline {
+  color: rgba(250, 247, 242, 0.88);
+}
+
+.ws-nav--on-dark-surface .ws-nav-hamburger-bar {
+  background: rgba(250, 247, 242, 0.85);
+}
+
+/* When a list/filter control sits in the nav rail, match hamburger treatment */
+.ws-nav-toolbar-icon {
+  color: rgba(250, 247, 242, 0.88);
+  transition: color 0.28s ease;
+}
+
+.ws-nav--over-hero-imagery .ws-nav-toolbar-icon {
+  color: rgba(250, 247, 242, 0.95);
+}
+
+.ws-nav--on-light-surface .ws-nav-toolbar-icon {
+  color: var(--bordeaux);
+}
+
+.ws-nav--on-dark-surface .ws-nav-toolbar-icon {
+  color: rgba(250, 247, 242, 0.88);
 }
 
 /* Homepage fixed nav — same proportional scale as persistent Nav */
@@ -116,12 +176,16 @@ body {
 
 .home-nav a[href='/'] > span:first-of-type {
   height: 48px;
+  background: var(--bordeaux);
+  transition: background 0.28s ease;
 }
 
 .home-nav a[href='/'] > div > img {
   height: var(--ws-nav-logo-height) !important;
   width: auto !important;
   margin-bottom: 6px !important;
+  filter: invert(1);
+  transition: filter 0.28s ease;
 }
 
 .home-nav a[href='/'] > div > span {
@@ -131,7 +195,29 @@ body {
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(247, 243, 236, 0.82);
+  color: var(--bordeaux);
+  transition: color 0.28s ease;
+}
+
+.home-nav__hamburger-bar {
+  transition: background 0.28s ease;
+  background: var(--bordeaux);
+}
+
+.home-nav--over-imagery a[href='/'] > div > img {
+  filter: invert(1);
+}
+
+.home-nav--over-imagery a[href='/'] > div > span {
+  color: rgba(250, 247, 242, 0.92);
+}
+
+.home-nav--over-imagery a[href='/'] > span:first-of-type {
+  background: #faf7f2;
+}
+
+.home-nav--over-imagery .home-nav__hamburger-bar {
+  background: #faf7f2;
 }
 
 .home-hero-fullscreen-overlay > div:first-child img {

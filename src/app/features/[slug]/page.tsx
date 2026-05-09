@@ -43,11 +43,11 @@ export default async function FeatureArticlePage({ params }: Props) {
   const midpoint = Math.floor(bodyParagraphs.length / 2)
 
   return (
-    <div style={{ background: '#0D0B09', color: '#F7F3EC', minHeight: '100vh' }}>
+    <div data-site-surface="dark" style={{ background: '#0D0B09', color: '#F7F3EC', minHeight: '100vh' }}>
       <Nav />
 
       {/* ── HERO IMAGE ── */}
-      <section style={{ position: 'relative', height: '70vh', minHeight: 400, overflow: 'hidden' }}>
+      <section data-nav-hero-root style={{ position: 'relative', height: '70vh', minHeight: 400, overflow: 'hidden' }}>
         <Image
           src={article.images[0]}
           alt={article.title}

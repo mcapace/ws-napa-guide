@@ -35,11 +35,11 @@ export default async function HotelDetailPage({ params }: Props) {
   const bodyParagraphs = place.description.split('\n\n').filter(Boolean)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FFFFFF' }}>
+    <div data-site-surface="light" style={{ minHeight: '100vh', background: '#FFFFFF' }}>
       <Nav />
 
       {/* ── 1. HERO ── */}
-      <section style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
+      <section data-nav-hero-root style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
         <Image src={place.images[0]} alt={place.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, transparent 60%)' }} />
         <div style={{ position: 'absolute', bottom: 48, left: 0, right: 0, textAlign: 'center', padding: '0 24px' }}>

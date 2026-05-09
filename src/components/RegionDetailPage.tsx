@@ -129,11 +129,11 @@ export default function RegionDetailPage({ data }: { data: RegionData }) {
   const ledeParagraphs = lede.split(/\n\n+/).filter(p => p.trim().length > 80);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FFFFFF', WebkitFontSmoothing: 'antialiased' as unknown as string }}>
+    <div data-site-surface="light" style={{ minHeight: '100vh', background: '#FFFFFF', WebkitFontSmoothing: 'antialiased' as unknown as string }}>
       <Nav />
 
       {/* ── 1. HERO ── */}
-      <section style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
+      <section data-nav-hero-root style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
         <Image src={data.heroImage} alt={data.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, transparent 60%)' }} />
         <div style={{ position: 'absolute', bottom: 48, left: 0, right: 0, textAlign: 'center', padding: '0 24px' }}>

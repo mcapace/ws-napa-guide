@@ -19,7 +19,10 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
   const stayMapRows = buildRegionStayMapRows(data)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FAF7F2', WebkitFontSmoothing: 'antialiased' as string }}>
+    <div
+      data-site-surface="light"
+      style={{ minHeight: '100vh', background: '#FAF7F2', WebkitFontSmoothing: 'antialiased' as string }}
+    >
       <Nav />
       <RegionHero fm={frontmatter} />
       <RegionLede>{data.lede}</RegionLede>
