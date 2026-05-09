@@ -2,9 +2,12 @@ import type { Metadata } from 'next'
 import '@/styles/globals.css'
 import { WS_LOGO_OG_STROKE_ONLY_SRC } from '@/lib/ws-logo'
 import AnimationProvider from '@/components/ui/AnimationProvider'
+import { getSiteUrl } from '@/lib/site-url'
+
+const siteUrl = getSiteUrl()
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(siteUrl),
   title: {
     default: 'Napa Valley | Wine Spectator\'s Ultimate Guide',
     template: '%s | Napa Valley Guide — Wine Spectator',
@@ -16,6 +19,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     siteName: 'Wine Spectator Napa Valley Guide',
+    url: '/',
     // Social-only asset (solid background). Never use in page components — see ws-logo.ts
     images: [WS_LOGO_OG_STROKE_ONLY_SRC],
   },
