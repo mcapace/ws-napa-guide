@@ -172,7 +172,6 @@ export default function HomePage() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 14,
             textDecoration: 'none',
           }}
         >
@@ -189,23 +188,11 @@ export default function HomePage() {
             <Image
               src="/logos/WS_logo__1_.png"
               alt="Wine Spectator"
-              width={120}
-              height={20}
-              style={{ filter: 'invert(1)', height: '18px', width: 'auto', marginBottom: 4 }}
+              width={180}
+              height={36}
+              style={{ filter: 'invert(1)', width: 'auto' }}
             />
-            <span
-              style={{
-                display: 'block',
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 8,
-                fontWeight: 500,
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
-                color: 'rgba(247,243,236,0.82)',
-              }}
-            >
-              Napa Valley Guide
-            </span>
+            <span>Napa Valley Guide</span>
           </div>
         </Link>
         <button
@@ -463,6 +450,7 @@ export default function HomePage() {
 
           <div
             ref={fullscreenOverlayRef}
+            className="home-hero-fullscreen-overlay"
             style={{
               position: 'absolute',
               inset: 0,
@@ -476,9 +464,9 @@ export default function HomePage() {
               <Image
                 src="/logos/WS_logo__1_.png"
                 alt="Wine Spectator"
-                width={160}
-                height={24}
-                style={{ filter: 'invert(1)', height: '24px', width: 'auto' }}
+                width={171}
+                height={36}
+                style={{ filter: 'invert(1)', width: 'auto' }}
               />
             </div>
             <div

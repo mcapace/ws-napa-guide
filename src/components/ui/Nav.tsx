@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { WS_LOGO_HEIGHT, WS_LOGO_PRIMARY_SRC } from '@/lib/ws-logo'
+import { WS_LOGO_PRIMARY_SRC } from '@/lib/ws-logo'
 
 const navLinks = [
   { label: 'Wineries', href: '/wineries' },
@@ -41,11 +41,11 @@ export default function Nav() {
         }}
       >
         <nav
+          className="ws-persistent-nav-inner"
           style={{
             maxWidth: 'var(--container)',
             margin: '0 auto',
             padding: '0 2rem',
-            height: '68px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -54,38 +54,27 @@ export default function Nav() {
           {/* Logo + label (left) */}
           <Link
             href="/"
+            className="ws-nav-brand"
             style={{
               textDecoration: 'none',
               flexShrink: 0,
               display: 'flex',
               alignItems: 'center',
-              gap: '14px',
             }}
           >
             <Image
+              className="ws-nav-brand__wordmark"
               src={WS_LOGO_PRIMARY_SRC}
               alt="Wine Spectator"
-              width={Math.round(WS_LOGO_HEIGHT.nav * 4.75)}
-              height={WS_LOGO_HEIGHT.nav}
+              width={Math.round(36 * 4.75)}
+              height={36}
               priority
               style={{
-                height: WS_LOGO_HEIGHT.nav,
                 width: 'auto',
                 filter: 'invert(1)',
               }}
             />
-            <span
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.55rem',
-                letterSpacing: '0.28em',
-                textTransform: 'uppercase',
-                color: 'rgba(247,243,236,0.82)',
-                fontWeight: 500,
-              }}
-            >
-              Napa Valley Guide
-            </span>
+            <span className="ws-nav-brand__tagline">Napa Valley Guide</span>
           </Link>
 
           {/* Hamburger (right) */}
@@ -159,12 +148,12 @@ export default function Nav() {
 
           <div style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', lineHeight: 0 }}>
             <Image
+              className="ws-nav-brand__wordmark"
               src={WS_LOGO_PRIMARY_SRC}
               alt="Wine Spectator"
-              width={100}
-              height={22}
+              width={171}
+              height={36}
               style={{
-                height: 22,
                 width: 'auto',
                 filter: 'invert(1)',
               }}

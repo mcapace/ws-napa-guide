@@ -43,6 +43,12 @@
   --bordeaux-pale: rgba(107, 28, 42, 0.15);
   --gold-pale:    rgba(196, 148, 58, 0.08);
   --sage-pale:    rgba(92, 107, 82, 0.08);
+
+  /* Persistent nav — wordmark + tagline (~1.5×; proportional) */
+  --ws-nav-logo-height: 36px;
+  --ws-nav-tagline-size: 0.825rem;
+  --ws-nav-brand-gap: 21px;
+  --ws-persistent-nav-height: 74px;
 }
 
 /* ── Reset ── */
@@ -70,6 +76,67 @@ body {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.7;
+}
+
+@media (max-width: 480px) {
+  :root {
+    --ws-nav-logo-height: 32px;
+    --ws-nav-tagline-size: 0.78rem;
+    --ws-persistent-nav-height: 70px;
+  }
+}
+
+/* ── Persistent nav brand (regions, directories, features, Map, etc.) ── */
+.ws-persistent-nav-inner {
+  height: var(--ws-persistent-nav-height);
+}
+
+.ws-nav-brand {
+  gap: var(--ws-nav-brand-gap);
+}
+
+.ws-nav-brand__wordmark {
+  height: var(--ws-nav-logo-height) !important;
+  width: auto !important;
+}
+
+.ws-nav-brand__tagline {
+  font-family: var(--font-body);
+  font-size: var(--ws-nav-tagline-size) !important;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.82);
+}
+
+/* Homepage fixed nav — same proportional scale as persistent Nav */
+.home-nav a[href='/'] {
+  gap: var(--ws-nav-brand-gap);
+}
+
+.home-nav a[href='/'] > span:first-of-type {
+  height: 48px;
+}
+
+.home-nav a[href='/'] > div > img {
+  height: var(--ws-nav-logo-height) !important;
+  width: auto !important;
+  margin-bottom: 6px !important;
+}
+
+.home-nav a[href='/'] > div > span {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--ws-nav-tagline-size) !important;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.82);
+}
+
+.home-hero-fullscreen-overlay > div:first-child img {
+  height: var(--ws-nav-logo-height) !important;
+  width: auto !important;
 }
 
 a, button, [role="button"] { cursor: pointer; }
