@@ -12,6 +12,7 @@ import { wineries } from '@/data/wineries'
 import { TEST_IMAGES } from '@/lib/test-images'
 import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
+import Footer from '@/components/ui/Footer'
 
 const featuredRegions = regions
 
@@ -86,8 +87,25 @@ export default function HomePage() {
 
     if (!scrollContainer || !centerPanel) return
 
-    const vw = window.innerWidth
-    const vh = window.innerHeight
+    const isNarrow = () => window.innerWidth <= 768
+    const panelStart = () => ({
+      width: isNarrow() ? Math.min(280, window.innerWidth - 28) : 280,
+      height: isNarrow()
+        ? Math.min(200, Math.round((Math.min(280, window.innerWidth - 28) * 200) / 280))
+        : 200,
+      top: isNarrow() ? '12%' : '8%',
+      right: isNarrow() ? '4%' : '5%',
+      left: 'auto',
+      borderRadius: 0,
+    })
+    const panelEnd = () => ({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      top: 0,
+      left: 0,
+      right: 'auto',
+      borderRadius: 0,
+    })
 
     // ── GSAP scrub timeline (therealhotels pattern from 19766.js) ──
     // scrub: true ties animation progress directly to scroll position
@@ -106,12 +124,28 @@ export default function HomePage() {
     // Phase 3 (65-82%): DEAD AIR — fullscreen video plays uninterrupted
     // Phase 4 (82-100%): editorial overlay fades in
 
-    // Center panel expand
+    // Center panel: getters so ScrollTrigger.refresh() picks up new innerWidth/innerHeight (mobile URL bar)
     heroTl.fromTo(
       centerPanel,
-      { width: 280, height: 200, top: '8%', right: '5%', borderRadius: 0 },
-      { width: vw, height: vh, top: 0, right: 0, borderRadius: 0, ease: 'power3.inOut', duration: 0.5 },
-      0.15
+      {
+        width: () => panelStart().width,
+        height: () => panelStart().height,
+        top: () => panelStart().top,
+        right: () => panelStart().right,
+        left: 'auto',
+        borderRadius: 0,
+      },
+      {
+        width: () => panelEnd().width,
+        height: () => panelEnd().height,
+        top: 0,
+        left: 0,
+        right: 'auto',
+        borderRadius: 0,
+        ease: 'power3.inOut',
+        duration: 0.5,
+      },
+      0.15,
     )
 
     // Mosaic fade out (starts with expand, fades quickly)
@@ -144,7 +178,7 @@ export default function HomePage() {
       if (!panel) return
       const rot = PANEL_ROTS[i]
       const tx = i === 2 ? '-50%' : '0'
-      const drift = vh * 2 * SPEEDS[i]
+      const drift = window.innerHeight * 2 * SPEEDS[i]
       heroTl.fromTo(
         panel,
         { y: 0, x: tx, rotation: parseFloat(rot) },
@@ -168,7 +202,13 @@ export default function HomePage() {
       }
     }, 400)
 
+    const onResize = () => {
+      ScrollTrigger.refresh()
+    }
+    window.addEventListener('resize', onResize)
+
     return () => {
+      window.removeEventListener('resize', onResize)
       heroTl.kill()
       window.clearTimeout(videoLoadTimer)
       ScrollTrigger.getAll().forEach((st) => {
@@ -349,6 +389,7 @@ export default function HomePage() {
             }}
           >
             <Image
+              className="home-hero-center-fallback"
               src={TEST_IMAGES[4]}
               alt=""
               fill
@@ -358,6 +399,7 @@ export default function HomePage() {
             />
             <video
               ref={heroVideoRef}
+              className="home-hero-video"
               poster={HERO_POSTER}
               muted
               loop
@@ -745,109 +787,9 @@ export default function HomePage() {
         <NewsletterSubscribeForm variant="hero" />
         </section>
 
-      {/* ── FOOTER ── */}
-      <footer
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          borderTop: '1px solid rgba(247,243,236,0.08)',
-          padding: '56px 60px 48px',
-          background: '#0D0B09',
-        }}
-      >
-        <div
-          className="home-footer-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1.1fr 1fr 1fr 1fr',
-            gap: 40,
-            alignItems: 'start',
-            marginBottom: 48,
-          }}
-        >
-          <div>
-            <Link href="/" style={{ display: 'inline-block', marginBottom: 16 }}>
-              <Image
-                src="/logos/WS_logo__1_.png"
-                alt="Wine Spectator"
-                width={160}
-                height={24}
-                style={{ filter: 'invert(1)', height: '22px', width: 'auto', opacity: 0.75 }}
-              />
-            </Link>
-            <p style={{ ...styles.microLabel, color: '#9B9283', marginBottom: 8 }}>Napa Valley Guide · June 2026</p>
-            <p style={{ ...styles.microLabel, color: 'rgba(155,146,131,0.4)' }}>
-              © 2026 M. Shanken Communications, Inc.
-              <br />
-              All rights reserved.
-            </p>
-          </div>
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start' }}>
-            {[
-              ['Wineries', '/wineries'],
-              ['Regions', '/regions'],
-              ['Dining', '/dining'],
-              ['Stay', '/stay'],
-            ].map(([label, href]) => (
-              <Link key={href} href={href} style={{ ...styles.microLabel, color: '#9B9283', textDecoration: 'none' }}>
-                {label}
-              </Link>
-            ))}
-          </nav>
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start' }}>
-            {[
-              ['Map', '/map'],
-              ['Plan', '/plan'],
-              ['Calendar', '/calendar'],
-              ['Subscribe', 'https://winespectator.com/subscribe'],
-            ].map(([label, href]) => (
-              <Link key={href} href={href} style={{ ...styles.microLabel, color: '#9B9283', textDecoration: 'none' }}>
-                {label}
-              </Link>
-            ))}
-          </nav>
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'flex-start' }}>
-            {[
-              ['Privacy', '/privacy'],
-              ['Contact', '/contact'],
-              ['WineSpectator.com', 'https://winespectator.com'],
-            ].map(([label, href]) => (
-              <Link key={href} href={href} style={{ ...styles.microLabel, color: 'rgba(155,146,131,0.45)', textDecoration: 'none' }}>
-                {label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-        <div
-          className="home-footer-legal"
-          style={{
-            borderTop: '1px solid rgba(247,243,236,0.05)',
-            paddingTop: 24,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <p style={{ ...styles.microLabel, color: 'rgba(155,146,131,0.3)' }}>
-            A companion to the June 15 &amp; 30, 2026 issue of Wine Spectator. Sponsor placements are clearly disclosed.
-          </p>
-          <button
-            type="button"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            style={{
-              background: 'none',
-              border: '1px solid rgba(247,243,236,0.12)',
-              borderRadius: 2,
-              padding: '8px 16px',
-              cursor: 'pointer',
-              ...styles.microLabel,
-              color: 'rgba(155,146,131,0.5)',
-            }}
-          >
-            Back to top ↑
-          </button>
-        </div>
-      </footer>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Footer />
+      </div>
       </div>
     </>
   )
