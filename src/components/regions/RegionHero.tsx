@@ -50,22 +50,10 @@ export function RegionHero({ fm }: { fm: RegionMdxFrontmatter }) {
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
             color: 'rgba(250,247,242,0.78)',
-            margin: '0 0 8px',
-          }}
-        >
-          By {fm.byline}
-        </p>
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 13,
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            color: 'rgba(250,247,242,0.65)',
             margin: '0 0 28px',
           }}
         >
-          {fm.issue}
+          By {fm.byline}
         </p>
         <h1
           style={{
