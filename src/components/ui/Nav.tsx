@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import { WS_LOGO_PRIMARY_SRC } from '@/lib/ws-logo'
 import { useNavOverHeroImagery } from '@/hooks/useNavOverHeroImagery'
 
@@ -19,15 +19,18 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const heroChrome = useNavOverHeroImagery()
 
-  const chromeClass =
-    heroChrome === 'imagery'
-      ? 'ws-nav--over-hero-imagery'
-      : heroChrome === 'light'
-        ? 'ws-nav--on-light-surface'
-        : 'ws-nav--on-dark-surface'
+  /** White logo/hamburger on hero photo OR on the dark sticky bar; dark only on transparent nav over cream/light body */
+  const lightOnDarkChrome = heroChrome === 'imagery' || scrolled
 
-  useEffect(() => {
+  const chromeClass = lightOnDarkChrome
+    ? 'ws-nav--over-hero-imagery'
+    : heroChrome === 'light'
+      ? 'ws-nav--on-light-surface'
+      : 'ws-nav--on-dark-surface'
+
+  useLayoutEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80)
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
