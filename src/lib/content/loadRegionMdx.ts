@@ -25,10 +25,14 @@ import { TEST_IMAGES } from '@/lib/test-images'
 import { cache } from 'react'
 
 function assignPlaceholderPhotos(list: EditorialFeature[], startIndex: number): EditorialFeature[] {
-  return list.map((item, i) => ({
-    ...item,
-    image: TEST_IMAGES[(startIndex + i) % TEST_IMAGES.length],
-  }))
+  return list.map((item, i) =>
+    item.image
+      ? item
+      : {
+          ...item,
+          image: TEST_IMAGES[(startIndex + i) % TEST_IMAGES.length],
+        },
+  )
 }
 
 const CONTENT_DIR = join(process.cwd(), 'src/content/regions')
@@ -157,11 +161,13 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   const featuredRestaurants: EditorialFeature[] = []
   for (let i = 0; i < restaurantBlocks.length; i++) {
     const b = restaurantBlocks[i]
-    const { address, website, bodyMd } = parseMetaLines(b.body)
+    const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(b.body)
     featuredRestaurants.push({
       name: b.title,
       address,
       website,
+      image,
+      imagePortrait,
       body: await compileMarkdown(bodyMd),
       imagePosition: i % 2 === 0 ? 'left' : 'right',
     })
@@ -178,7 +184,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
 
   let breakfast: EditorialFeature | null = null
   if (breakfastInner) {
-    const { address, website, bodyMd } = parseMetaLines(breakfastInner.body)
+    const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(breakfastInner.body)
     const pos = restaurantBlocks.length % 2 === 0 ? 'left' : 'right'
     breakfast = {
       name: breakfastInner.title,
@@ -186,7 +192,8 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
       website,
       body: await compileMarkdown(bodyMd),
       imagePosition: pos,
-      image: TEST_IMAGES[photoIdx % TEST_IMAGES.length],
+      image: image ?? TEST_IMAGES[photoIdx % TEST_IMAGES.length],
+      imagePortrait,
     }
     photoIdx += 1
   }

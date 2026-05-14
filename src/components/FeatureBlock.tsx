@@ -17,6 +17,8 @@ export type FeatureBlockProps = {
   website?: string
   children: ReactNode
   image?: string
+  /** Optional portrait crop; shown below `md` when both are set */
+  imagePortrait?: string
   imagePosition?: 'left' | 'right'
   eyebrow?: string
 }
@@ -33,6 +35,7 @@ export function FeatureBlock({
   website,
   children,
   image,
+  imagePortrait,
   imagePosition = 'left',
   eyebrow,
 }: FeatureBlockProps) {
@@ -138,7 +141,37 @@ export function FeatureBlock({
 
   const yMotion = parallaxY
 
-  const figure = image ? (
+  const figure =
+    image && imagePortrait ? (
+      <motion.div
+        className="feature-block-parallax-layer"
+        style={{
+          y: yMotion,
+          position: 'absolute',
+          inset: 0,
+          willChange: reduceMotion ? undefined : 'transform',
+        }}
+      >
+        <div className="feature-block-col-image__inner" style={{ position: 'relative' }}>
+          <Image
+            src={image}
+            alt=""
+            fill
+            sizes="(min-width: 960px) 50vw, 100vw"
+            className="hidden md:block"
+            style={{ objectFit: 'cover' }}
+          />
+          <Image
+            src={imagePortrait}
+            alt=""
+            fill
+            sizes="100vw"
+            className="md:hidden"
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
+      </motion.div>
+    ) : image ? (
     <motion.div
       className="feature-block-parallax-layer"
       style={{

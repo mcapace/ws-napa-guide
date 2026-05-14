@@ -34,6 +34,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
           address={f.address}
           website={f.website}
           image={f.image}
+          imagePortrait={f.imagePortrait}
           imagePosition={f.imagePosition}
         >
           {f.body}
@@ -59,6 +60,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
               address={f.address}
               website={f.website}
               image={f.image}
+              imagePortrait={f.imagePortrait}
               imagePosition={f.imagePosition}
             >
               {f.body}
@@ -79,6 +81,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
               address={data.breakfast.address}
               website={data.breakfast.website}
               image={data.breakfast.image}
+              imagePortrait={data.breakfast.imagePortrait}
               imagePosition={data.breakfast.imagePosition}
             >
               {data.breakfast.body}
@@ -98,6 +101,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
               address={f.address}
               website={f.website}
               image={f.image}
+              imagePortrait={f.imagePortrait}
               imagePosition={f.imagePosition}
             >
               {f.body}

@@ -21,6 +21,8 @@ export type RegionMdxFrontmatter = {
   issue: string
   dek: string
   heroImage: string
+  /** Optional portrait crop for narrow viewports (art-directed hero). */
+  heroImagePortrait?: string
   heroCredit?: string
   coordinates: RegionCoordinates
   relatedFeatures: string[]
@@ -47,8 +49,10 @@ export type EditorialFeature = {
   website?: string
   body: ReactNode
   imagePosition: 'left' | 'right'
-  /** From MDX later; until then loadRegionMdx assigns /public test placeholders */
+  /** From MDX `**Image:**` or placeholders */
   image?: string
+  /** From MDX `**ImagePortrait:**` when both crops exist */
+  imagePortrait?: string
 }
 
 export type RelatedStoryCard = {

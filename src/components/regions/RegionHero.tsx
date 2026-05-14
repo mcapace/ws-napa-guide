@@ -4,14 +4,39 @@ import type { RegionMdxFrontmatter } from '@/lib/content/types'
 export function RegionHero({ fm }: { fm: RegionMdxFrontmatter }) {
   return (
     <header className="region-editorial-hero">
-      <Image
-        src={fm.heroImage}
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        style={{ objectFit: 'cover' }}
-      />
+      <div style={{ position: 'absolute', inset: 0 }}>
+        {fm.heroImagePortrait ? (
+          <>
+            <Image
+              src={fm.heroImage}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="hidden md:block"
+              style={{ objectFit: 'cover' }}
+            />
+            <Image
+              src={fm.heroImagePortrait}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="md:hidden"
+              style={{ objectFit: 'cover' }}
+            />
+          </>
+        ) : (
+          <Image
+            src={fm.heroImage}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: 'cover' }}
+          />
+        )}
+      </div>
       <div
         style={{
           position: 'absolute',

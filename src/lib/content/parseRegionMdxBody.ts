@@ -71,24 +71,36 @@ export function sliceAfterH2Heading(md: string, headingLine: string): string {
   return slice.trim()
 }
 
-export function parseMetaLines(block: string): { address?: string; website?: string; bodyMd: string } {
+export function parseMetaLines(block: string): {
+  address?: string
+  website?: string
+  image?: string
+  imagePortrait?: string
+  bodyMd: string
+} {
   const lines = block.split('\n')
   const bodyLines: string[] = []
   let address: string | undefined
   let website: string | undefined
+  let image: string | undefined
+  let imagePortrait: string | undefined
   for (const line of lines) {
     const addr = line.match(/^- \*\*Address:\*\*\s*(.+)$/i)
     const web = line.match(/^- \*\*Website:\*\*\s*(.+)$/i)
+    const img = line.match(/^- \*\*Image:\*\*\s*(.+)$/i)
+    const imgPortrait = line.match(/^- \*\*ImagePortrait:\*\*\s*(.+)$/i)
     const coord = line.match(/^- \*\*Coordinates:\*\*\s*(.+)$/i)
     if (addr) address = addr[1].trim()
     else if (web) website = web[1].trim()
+    else if (img) image = img[1].trim()
+    else if (imgPortrait) imagePortrait = imgPortrait[1].trim()
     else if (coord) {
       /* reserved for future lat/lng in MDX */
     } else {
       bodyLines.push(line)
     }
   }
-  return { address, website, bodyMd: bodyLines.join('\n').trim() }
+  return { address, website, image, imagePortrait, bodyMd: bodyLines.join('\n').trim() }
 }
 
 export function splitH3Blocks(md: string): { title: string; body: string }[] {
@@ -156,12 +168,14 @@ export function buildEditorialFeaturesFromH3(
 ): Promise<EditorialFeature[]> {
   return Promise.all(
     blocks.map(async (blk, i) => {
-      const { address, website, bodyMd } = parseMetaLines(blk.body)
+      const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(blk.body)
       const body = await compileBody(bodyMd)
       return {
         name: blk.title,
         address,
         website,
+        image,
+        imagePortrait,
         body,
         imagePosition: i % 2 === 0 ? 'left' : 'right',
       }
