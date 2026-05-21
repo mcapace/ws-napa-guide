@@ -2,13 +2,21 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { MOSAIC_CROSSFADE_MS } from '@/lib/home-mosaic-images'
+import { MOSAIC_CROSSFADE_MS, type MosaicImageAsset } from '@/lib/home-mosaic-images'
 
 type Props = {
-  queue: readonly string[]
+  queue: readonly MosaicImageAsset[]
   intervalMs: number
   startDelayMs?: number
   sizes?: string
+}
+
+function layerStyle(asset: MosaicImageAsset) {
+  return {
+    objectFit: 'cover' as const,
+    objectPosition: asset.objectPosition ?? 'center',
+    transition: `opacity ${MOSAIC_CROSSFADE_MS}ms ease-in-out`,
+  }
 }
 
 export function HomeMosaicRotatingPanel({
@@ -18,21 +26,21 @@ export function HomeMosaicRotatingPanel({
   sizes = '200px',
 }: Props) {
   const [topSlot, setTopSlot] = useState(0)
-  const [srcA, setSrcA] = useState(queue[0])
-  const [srcB, setSrcB] = useState(queue[1] ?? queue[0])
+  const [assetA, setAssetA] = useState(queue[0])
+  const [assetB, setAssetB] = useState(queue[1] ?? queue[0])
   const indexRef = useRef(0)
 
   const advance = useCallback(() => {
     if (queue.length < 2) return
     const nextIndex = (indexRef.current + 1) % queue.length
     indexRef.current = nextIndex
-    const nextSrc = queue[nextIndex]
+    const nextAsset = queue[nextIndex]
     setTopSlot((slot) => {
       if (slot === 0) {
-        setSrcB(nextSrc)
+        setAssetB(nextAsset)
         return 1
       }
-      setSrcA(nextSrc)
+      setAssetA(nextAsset)
       return 0
     })
   }, [queue])
@@ -74,25 +82,23 @@ export function HomeMosaicRotatingPanel({
     }
   }, [advance, intervalMs, startDelayMs, queue.length])
 
-  const fade = { transition: `opacity ${MOSAIC_CROSSFADE_MS}ms ease-in-out` }
-
   return (
     <div className="home-mosaic-panel-stack">
       <Image
-        src={srcA}
+        src={assetA.src}
         alt=""
         fill
         sizes={sizes}
         className={topSlot === 0 ? 'home-mosaic-panel-layer is-top' : 'home-mosaic-panel-layer'}
-        style={{ objectFit: 'cover', objectPosition: 'center', ...fade }}
+        style={layerStyle(assetA)}
       />
       <Image
-        src={srcB}
+        src={assetB.src}
         alt=""
         fill
         sizes={sizes}
         className={topSlot === 1 ? 'home-mosaic-panel-layer is-top' : 'home-mosaic-panel-layer'}
-        style={{ objectFit: 'cover', objectPosition: 'center', ...fade }}
+        style={layerStyle(assetB)}
       />
     </div>
   )

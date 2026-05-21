@@ -1,36 +1,68 @@
 /** Homepage hero mosaic stills — `public/images/homepage/mosaic/` */
-export const HOME_MOSAIC_IMAGES = [
-  '/images/homepage/mosaic/collage-alila.jpg',
-  '/images/homepage/mosaic/collage-bardessono-pool.jpg',
-  '/images/homepage/mosaic/collage-bella.jpg',
-  '/images/homepage/mosaic/collage-bike.jpg',
-  '/images/homepage/mosaic/collage-calistoga.jpg',
-  '/images/homepage/mosaic/collage-charlies.jpg',
-  '/images/homepage/mosaic/collage-clementine-nhr.jpg',
-  '/images/homepage/mosaic/collage-grgich.jpg',
-  '/images/homepage/mosaic/collage-grigich.jpg',
-  '/images/homepage/mosaic/collage-harvestinn.jpg',
-  '/images/homepage/mosaic/collage-harvestinn2.jpg',
-  '/images/homepage/mosaic/collage-harvestinn3.jpg',
-  '/images/homepage/mosaic/collage-larkmead.jpg',
-  '/images/homepage/mosaic/collage-lewis.jpg',
-  '/images/homepage/mosaic/collage-lewis-nhr.jpg',
-  '/images/homepage/mosaic/collage-lewis-nhr2.jpg',
-  '/images/homepage/mosaic/collage-mustards-nhr.jpg',
-  '/images/homepage/mosaic/collage-outpost.jpg',
-  '/images/homepage/mosaic/collage-outpost2.jpg',
-  '/images/homepage/mosaic/collage-shafer.jpg',
-  '/images/homepage/mosaic/collage-sign.jpg',
-  '/images/homepage/mosaic/collage-stewart.jpg',
-  '/images/homepage/mosaic/collage-stuppa-nhr.jpg',
-  '/images/homepage/mosaic/collage-stuppa-nhr2.jpg',
-  '/images/homepage/mosaic/collage-understudy.jpg',
-  '/images/homepage/mosaic/collage-whitehall.jpg',
-] as const
 
-export const MOSAIC_ROTATE_INTERVAL_MS = 5200
-export const MOSAIC_CROSSFADE_MS = 900
-export const MOSAIC_STAGGER_MS = 1100
+export type MosaicOrientation = 'portrait' | 'landscape'
+
+export type MosaicImageAsset = {
+  src: string
+  /** Native crop orientation (from deliverable dimensions). */
+  orientation: MosaicOrientation
+  /** Cover crop anchor when slotted into a matching panel. */
+  objectPosition?: string
+}
+
+/**
+ * Panel slot orientations (index matches `PANELS` in page.tsx).
+ * Ratios: ~0.77 portrait (×4), ~1.27 landscape (center wide tile).
+ */
+export const MOSAIC_PANEL_SLOT_ORIENTATIONS: MosaicOrientation[] = [
+  'portrait', // 200×260
+  'portrait', // 160×210
+  'landscape', // 280×220
+  'portrait', // 180×240
+  'portrait', // 160×200
+]
+
+/** Catalog keyed to on-disk crops (5:4 landscape vs 5:7 portrait deliverables). */
+export const MOSAIC_IMAGE_CATALOG: MosaicImageAsset[] = [
+  { src: '/images/homepage/mosaic/collage-alila.jpg', orientation: 'landscape' },
+  { src: '/images/homepage/mosaic/collage-bardessono-pool.jpg', orientation: 'landscape' },
+  { src: '/images/homepage/mosaic/collage-bella.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-bike.jpg', orientation: 'landscape' },
+  { src: '/images/homepage/mosaic/collage-calistoga.jpg', orientation: 'landscape' },
+  { src: '/images/homepage/mosaic/collage-charlies.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-clementine-nhr.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-grgich.jpg', orientation: 'landscape' },
+  { src: '/images/homepage/mosaic/collage-grigich.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-harvestinn.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-harvestinn2.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-harvestinn3.jpg', orientation: 'landscape' },
+  { src: '/images/homepage/mosaic/collage-larkmead.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-lewis.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-lewis-nhr.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-lewis-nhr2.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-mustards-nhr.jpg', orientation: 'landscape' },
+  { src: '/images/homepage/mosaic/collage-outpost.jpg', orientation: 'landscape' },
+  { src: '/images/homepage/mosaic/collage-outpost2.jpg', orientation: 'landscape' },
+  { src: '/images/homepage/mosaic/collage-shafer.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-sign.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-stewart.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-stuppa-nhr.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-stuppa-nhr2.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-understudy.jpg', orientation: 'portrait' },
+  { src: '/images/homepage/mosaic/collage-whitehall.jpg', orientation: 'landscape' },
+]
+
+/** @deprecated Use MOSAIC_IMAGE_CATALOG — kept for any legacy imports */
+export const HOME_MOSAIC_IMAGES = MOSAIC_IMAGE_CATALOG.map((img) => img.src)
+
+export const MOSAIC_ROTATE_INTERVAL_MS = 7500
+export const MOSAIC_CROSSFADE_MS = 1100
+export const MOSAIC_STAGGER_MS = 1400
+
+const MOSAIC_BY_ORIENTATION = {
+  portrait: MOSAIC_IMAGE_CATALOG.filter((img) => img.orientation === 'portrait'),
+  landscape: MOSAIC_IMAGE_CATALOG.filter((img) => img.orientation === 'landscape'),
+} as const
 
 function shuffle<T>(items: T[]): T[] {
   const pool = [...items]
@@ -41,16 +73,17 @@ function shuffle<T>(items: T[]): T[] {
   return pool
 }
 
-/** One starting image per panel (unique when pool is large enough). */
-export function pickMosaicForPanels(panelCount: number): string[] {
-  const pool = shuffle([...HOME_MOSAIC_IMAGES])
-  return Array.from({ length: panelCount }, (_, i) => pool[i % pool.length])
+function poolForSlot(panelIndex: number): MosaicImageAsset[] {
+  const orientation =
+    MOSAIC_PANEL_SLOT_ORIENTATIONS[panelIndex] ?? 'portrait'
+  return [...MOSAIC_BY_ORIENTATION[orientation]]
 }
 
-/** Per-panel full-pool cycle (offset per tile so panels do not flip in sync). */
-export function buildMosaicPanelQueues(panelCount: number): string[][] {
-  const pool = shuffle([...HOME_MOSAIC_IMAGES])
+/** Per-panel rotation queue: only images whose native crop matches the tile aspect. */
+export function buildMosaicPanelQueues(panelCount: number): MosaicImageAsset[][] {
   return Array.from({ length: panelCount }, (_, panelIndex) => {
+    const pool = shuffle(poolForSlot(panelIndex))
+    if (pool.length === 0) return shuffle([...MOSAIC_IMAGE_CATALOG])
     const offset = Math.floor((panelIndex * pool.length) / panelCount)
     return [...pool.slice(offset), ...pool.slice(0, offset)]
   })

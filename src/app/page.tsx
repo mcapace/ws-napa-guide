@@ -10,7 +10,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { regions, type RegionData } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import {
-  HOME_MOSAIC_IMAGES,
   MOSAIC_ROTATE_INTERVAL_MS,
   MOSAIC_STAGGER_MS,
   buildMosaicPanelQueues,
@@ -54,9 +53,9 @@ export default function HomePage() {
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
   const [homeNavOverImagery, setHomeNavOverImagery] = useState(true)
-  /** Shuffled per-panel queues; tiles crossfade on an interval while hero is visible */
+  /** Slot-matched crops only (portrait tiles ×16, landscape center tile ×10) */
   const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
-  const heroCenterFallback = mosaicPanelQueues[2]?.[0] ?? HOME_MOSAIC_IMAGES[0]
+  const heroCenterFallback = mosaicPanelQueues[2]?.[0]?.src ?? '/images/homepage/mosaic/collage-alila.jpg'
 
   useLayoutEffect(() => {
     const el = scrollContainerRef.current
@@ -306,6 +305,7 @@ export default function HomePage() {
                   queue={mosaicPanelQueues[i]}
                   intervalMs={MOSAIC_ROTATE_INTERVAL_MS}
                   startDelayMs={i * MOSAIC_STAGGER_MS}
+                  sizes={`${panel.style.width}px`}
                 />
               </div>
             ))}
