@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { ReactNode } from 'react'
@@ -9,6 +9,13 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { regions, type RegionData } from '@/data/regions'
 import { wineries } from '@/data/wineries'
+import {
+  HOME_MOSAIC_IMAGES,
+  MOSAIC_ROTATE_INTERVAL_MS,
+  MOSAIC_STAGGER_MS,
+  buildMosaicPanelQueues,
+} from '@/lib/home-mosaic-images'
+import { HomeMosaicRotatingPanel } from '@/components/home/HomeMosaicRotatingPanel'
 import { TEST_IMAGES } from '@/lib/test-images'
 import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
@@ -25,11 +32,11 @@ const HERO_POSTER = `https://cdn.jwplayer.com/v2/media/${HERO_MEDIA_ID}/poster.j
 
 // ── Mosaic panel positions (mirroring therealhotels) ─────────────────
 const PANELS = [
-  { id: 1, style: { width: 200, height: 260, top: '8%', left: '5%' }, imageIndex: 5 },
-  { id: 2, style: { width: 160, height: 210, top: '30%', left: '12%' }, imageIndex: 2 },
-  { id: 3, style: { width: 280, height: 220, top: '15%', left: '38%' }, imageIndex: 0 },
-  { id: 4, style: { width: 180, height: 240, bottom: '15%', right: '12%' }, imageIndex: 3 },
-  { id: 5, style: { width: 160, height: 200, bottom: '25%', left: '50%' }, imageIndex: 6 },
+  { id: 1, style: { width: 200, height: 260, top: '8%', left: '5%' } },
+  { id: 2, style: { width: 160, height: 210, top: '30%', left: '12%' } },
+  { id: 3, style: { width: 280, height: 220, top: '15%', left: '38%' } },
+  { id: 4, style: { width: 180, height: 240, bottom: '15%', right: '12%' } },
+  { id: 5, style: { width: 160, height: 200, bottom: '25%', left: '50%' } },
 ]
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
@@ -47,6 +54,9 @@ export default function HomePage() {
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
   const [homeNavOverImagery, setHomeNavOverImagery] = useState(true)
+  /** Shuffled per-panel queues; tiles crossfade on an interval while hero is visible */
+  const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
+  const heroCenterFallback = mosaicPanelQueues[2]?.[0] ?? HOME_MOSAIC_IMAGES[0]
 
   useLayoutEffect(() => {
     const el = scrollContainerRef.current
@@ -292,12 +302,10 @@ export default function HomePage() {
                   willChange: 'transform',
                 }}
               >
-                <Image
-                  src={TEST_IMAGES[panel.imageIndex]}
-                  alt=""
-                  fill
-                  sizes="200px"
-                  style={{ objectFit: 'cover', objectPosition: 'center' }}
+                <HomeMosaicRotatingPanel
+                  queue={mosaicPanelQueues[i]}
+                  intervalMs={MOSAIC_ROTATE_INTERVAL_MS}
+                  startDelayMs={i * MOSAIC_STAGGER_MS}
                 />
               </div>
             ))}
@@ -320,7 +328,7 @@ export default function HomePage() {
           >
             <Image
               className="home-hero-center-fallback"
-              src={TEST_IMAGES[4]}
+              src={heroCenterFallback}
               alt=""
               fill
               priority

@@ -39,7 +39,7 @@ Property-level images are **not** nested in per-property subfolders: both crops 
 | Path | Role |
 |------|------|
 | `homepage/hero/` | Full-bleed hero: `video.mp4`, `poster.jpg` (plus any schema-defined stills) |
-| `homepage/mosaic/` | Mosaic stills (5 panels) |
+| `homepage/mosaic/` | Mosaic stills (`collage-*.jpg`); 26-image pool, 5 tiles crossfade on a staggered timer (`HomeMosaicRotatingPanel`) |
 | `homepage/cards/` | Pinned region cards: 7 regions × 2 crops each |
 | `{region-slug}/hero/` | Region hero: landscape + portrait pair per schema |
 | `{region-slug}/wineries/` | Winery section images (N × 2 crops) |

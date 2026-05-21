@@ -98,6 +98,19 @@ body {
   z-index: 24;
 }
 
+.home-mosaic-panel-stack {
+  position: absolute;
+  inset: 0;
+}
+
+.home-mosaic-panel-layer {
+  opacity: 0;
+}
+
+.home-mosaic-panel-layer.is-top {
+  opacity: 1;
+}
+
 @media (max-width: 480px) {
   :root {
     --ws-nav-logo-height: 32px;
