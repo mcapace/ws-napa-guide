@@ -55,9 +55,9 @@ export const MOSAIC_IMAGE_CATALOG: MosaicImageAsset[] = [
 /** @deprecated Use MOSAIC_IMAGE_CATALOG — kept for any legacy imports */
 export const HOME_MOSAIC_IMAGES = MOSAIC_IMAGE_CATALOG.map((img) => img.src)
 
-export const MOSAIC_ROTATE_INTERVAL_MS = 7500
-export const MOSAIC_CROSSFADE_MS = 1100
-export const MOSAIC_STAGGER_MS = 1400
+export const MOSAIC_ROTATE_INTERVAL_MS = 9500
+export const MOSAIC_CROSSFADE_MS = 1200
+export const MOSAIC_STAGGER_MS = 1700
 
 const MOSAIC_BY_ORIENTATION = {
   portrait: MOSAIC_IMAGE_CATALOG.filter((img) => img.orientation === 'portrait'),
@@ -87,4 +87,49 @@ export function buildMosaicPanelQueues(panelCount: number): MosaicImageAsset[][]
     const offset = Math.floor((panelIndex * pool.length) / panelCount)
     return [...pool.slice(offset), ...pool.slice(0, offset)]
   })
+}
+
+/** Initial frame: one unique still per visible tile (no duplicates on load). */
+export function pickInitialMosaicAssets(
+  queues: MosaicImageAsset[][]
+): MosaicImageAsset[] {
+  const used = new Set<string>()
+  return queues.map((queue) => {
+    const pick = queue.find((img) => !used.has(img.src)) ?? queue[0]
+    used.add(pick.src)
+    return pick
+  })
+}
+
+/** Next still for a tile: slot-matched pool, never duplicates another visible tile. */
+export function pickNextMosaicAsset(
+  panelIndex: number,
+  visible: MosaicImageAsset[],
+  queue: MosaicImageAsset[]
+): MosaicImageAsset {
+  const used = new Set(
+    visible
+      .filter((_, i) => i !== panelIndex)
+      .map((img) => img.src)
+  )
+  const current = visible[panelIndex]
+  const curIdx = Math.max(
+    0,
+    queue.findIndex((img) => img.src === current?.src)
+  )
+
+  const candidates: MosaicImageAsset[] = []
+  for (let step = 1; step <= queue.length; step++) {
+    const candidate = queue[(curIdx + step) % queue.length]
+    if (!used.has(candidate.src)) candidates.push(candidate)
+  }
+  if (candidates.length > 0) {
+    return candidates[Math.floor(Math.random() * candidates.length)]
+  }
+
+  for (let step = 1; step <= queue.length; step++) {
+    const candidate = queue[(curIdx + step) % queue.length]
+    if (candidate.src !== current?.src) return candidate
+  }
+  return current
 }

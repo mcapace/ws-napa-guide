@@ -9,12 +9,9 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { regions, type RegionData } from '@/data/regions'
 import { wineries } from '@/data/wineries'
-import {
-  MOSAIC_ROTATE_INTERVAL_MS,
-  MOSAIC_STAGGER_MS,
-  buildMosaicPanelQueues,
-} from '@/lib/home-mosaic-images'
+import { buildMosaicPanelQueues } from '@/lib/home-mosaic-images'
 import { HomeMosaicRotatingPanel } from '@/components/home/HomeMosaicRotatingPanel'
+import { useHomeMosaicRotation } from '@/components/home/useHomeMosaicRotation'
 import { TEST_IMAGES } from '@/lib/test-images'
 import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
@@ -53,9 +50,11 @@ export default function HomePage() {
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
   const [homeNavOverImagery, setHomeNavOverImagery] = useState(true)
-  /** Slot-matched crops only (portrait tiles ×16, landscape center tile ×10) */
+  /** Slot-matched crops; rotation never shows the same still on two tiles at once */
   const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
-  const heroCenterFallback = mosaicPanelQueues[2]?.[0]?.src ?? '/images/homepage/mosaic/collage-alila.jpg'
+  const mosaicVisible = useHomeMosaicRotation(mosaicPanelQueues)
+  const heroCenterFallback =
+    mosaicVisible[2]?.src ?? '/images/homepage/mosaic/collage-alila.jpg'
 
   useLayoutEffect(() => {
     const el = scrollContainerRef.current
@@ -302,9 +301,7 @@ export default function HomePage() {
                 }}
               >
                 <HomeMosaicRotatingPanel
-                  queue={mosaicPanelQueues[i]}
-                  intervalMs={MOSAIC_ROTATE_INTERVAL_MS}
-                  startDelayMs={i * MOSAIC_STAGGER_MS}
+                  asset={mosaicVisible[i]}
                   sizes={`${panel.style.width}px`}
                 />
               </div>
