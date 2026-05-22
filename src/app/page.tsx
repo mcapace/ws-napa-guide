@@ -38,6 +38,29 @@ const PANELS = [
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
 const PANEL_ROTS = ['-1.5deg', '1deg', '0.5deg', '-0.8deg', '1.2deg'] as const
 
+/** Pixel geometry for hero video panel — always position with `left`, never `right` (avoids GSAP horizontal bounce). */
+function heroPanelStart() {
+  const narrow = window.innerWidth <= 768
+  const width = narrow ? Math.min(280, window.innerWidth - 28) : 280
+  const height = narrow
+    ? Math.min(200, Math.round((width * 200) / 280))
+    : 200
+  const top = narrow ? window.innerHeight * 0.12 : window.innerHeight * 0.08
+  const rightInset = narrow ? window.innerWidth * 0.04 : window.innerWidth * 0.05
+  const left = window.innerWidth - width - rightInset
+  return { width, height, top, left, borderRadius: 0 }
+}
+
+function heroPanelEnd() {
+  return {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    top: 0,
+    left: 0,
+    borderRadius: 0,
+  }
+}
+
 export default function HomePage() {
   const avaRef = useRef<HTMLElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -83,6 +106,13 @@ export default function HomePage() {
     }
   }, [])
 
+  useLayoutEffect(() => {
+    const centerPanel = centerPanelRef.current
+    if (!centerPanel) return
+    const start = heroPanelStart()
+    gsap.set(centerPanel, { ...start, right: 'auto' })
+  }, [])
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
 
@@ -96,25 +126,7 @@ export default function HomePage() {
 
     if (!scrollContainer || !centerPanel) return
 
-    const isNarrow = () => window.innerWidth <= 768
-    const panelStart = () => ({
-      width: isNarrow() ? Math.min(280, window.innerWidth - 28) : 280,
-      height: isNarrow()
-        ? Math.min(200, Math.round((Math.min(280, window.innerWidth - 28) * 200) / 280))
-        : 200,
-      top: isNarrow() ? '12%' : '8%',
-      right: isNarrow() ? '4%' : '5%',
-      left: 'auto',
-      borderRadius: 0,
-    })
-    const panelEnd = () => ({
-      width: window.innerWidth,
-      height: window.innerHeight,
-      top: 0,
-      left: 0,
-      right: 'auto',
-      borderRadius: 0,
-    })
+    gsap.set(centerPanel, { ...heroPanelStart(), right: 'auto' })
 
     // ── GSAP scrub timeline (therealhotels pattern from 19766.js) ──
     // scrub: true ties animation progress directly to scroll position
@@ -133,23 +145,21 @@ export default function HomePage() {
     // Phase 3 (65-82%): DEAD AIR — fullscreen video plays uninterrupted
     // Phase 4 (82-100%): editorial overlay fades in
 
-    // Center panel: getters so ScrollTrigger.refresh() picks up new innerWidth/innerHeight (mobile URL bar)
+    // Center panel: tween left/top/width/height only (never right → left; that caused a pre-expand snap)
     heroTl.fromTo(
       centerPanel,
       {
-        width: () => panelStart().width,
-        height: () => panelStart().height,
-        top: () => panelStart().top,
-        right: () => panelStart().right,
-        left: 'auto',
+        width: () => heroPanelStart().width,
+        height: () => heroPanelStart().height,
+        top: () => heroPanelStart().top,
+        left: () => heroPanelStart().left,
         borderRadius: 0,
       },
       {
-        width: () => panelEnd().width,
-        height: () => panelEnd().height,
-        top: 0,
-        left: 0,
-        right: 'auto',
+        width: () => heroPanelEnd().width,
+        height: () => heroPanelEnd().height,
+        top: () => heroPanelEnd().top,
+        left: () => heroPanelEnd().left,
         borderRadius: 0,
         ease: 'power3.inOut',
         duration: 0.5,
@@ -212,6 +222,7 @@ export default function HomePage() {
     }, 400)
 
     const onResize = () => {
+      gsap.set(centerPanel, { ...heroPanelStart(), right: 'auto' })
       ScrollTrigger.refresh()
     }
     window.addEventListener('resize', onResize)
@@ -313,14 +324,12 @@ export default function HomePage() {
             className="home-hero-center"
             style={{
               position: 'absolute',
-              top: '8%',
-              right: '5%',
               width: 280,
               height: 200,
               borderRadius: 0,
               overflow: 'hidden',
               zIndex: 20,
-              willChange: 'width, height, top, right',
+              willChange: 'width, height, top, left',
             }}
           >
             <Image
