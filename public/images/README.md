@@ -1,6 +1,6 @@
 # Image assets (`public/images/`)
 
-On-disk layout for homepage and region editorial imagery. **No binaries are committed here by default**—only folder scaffolding and `.gitkeep` placeholders until assets are dropped in.
+On-disk layout for homepage and region editorial imagery. Region heroes and featured property stills live under `{region-slug}/`; re-import from a drive zip via `scripts/import-region-drive-images.py`.
 
 ## Canonical schema
 
