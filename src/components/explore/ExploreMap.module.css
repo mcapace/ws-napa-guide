@@ -226,6 +226,66 @@
   text-overflow: ellipsis;
 }
 
+.routeBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: rgba(196, 148, 58, 0.1);
+  border: 1px solid rgba(196, 148, 58, 0.28);
+  border-radius: 2px;
+}
+
+.routeBannerLabel {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.routeBannerClear {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 0;
+}
+
+.rowRouteStop {
+  background: rgba(196, 148, 58, 0.06);
+}
+
+.routeStopBadge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--gold);
+  border-radius: 999px;
+  line-height: 1;
+}
+
 .detailsLink {
   display: inline-block;
   margin-top: 8px;

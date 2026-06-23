@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useCallback } from 'react'
+import { Suspense, useCallback, useMemo } from 'react'
 import Image from 'next/image'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -10,6 +10,11 @@ import { RegionMoreAppellations } from '@/components/regions/RegionMoreAppellati
 import type { MapPin } from '@/data/map-pins'
 import type { RegionAdventure } from '@/data/regions'
 import type { LoadedRegionMdx } from '@/lib/content/types'
+import {
+  buildItinerarySteps,
+  collectItineraryRouteSlugs,
+  type ParsedItineraryStep,
+} from '@/lib/region-itinerary'
 import styles from './region-frame.module.css'
 
 export type RegionTab = 'story' | 'explore' | 'itinerary'
@@ -44,24 +49,64 @@ function RegionPageClientContent({ slug, mdx, pins, adventure }: RegionPageClien
 
   const explorePins = pins.map((p) => ({ ...p, editorial: undefined }))
 
+  const itinerarySteps = useMemo(
+    () => (adventure ? buildItinerarySteps(adventure.body, pins) : []),
+    [adventure, pins],
+  )
+  const itineraryRouteSlugs = useMemo(
+    () => collectItineraryRouteSlugs(itinerarySteps),
+    [itinerarySteps],
+  )
+
   const setTab = useCallback(
-    (tab: RegionTab) => {
+    (tab: RegionTab, exploreOpts?: { route?: string[]; place?: string }) => {
       const params = new URLSearchParams(searchParams.toString())
+
       if (tab === 'story') {
         params.delete('tab')
         params.delete('category')
         params.delete('place')
+        params.delete('route')
       } else {
         params.set('tab', tab)
         if (tab !== 'explore') {
           params.delete('category')
           params.delete('place')
+          params.delete('route')
         }
       }
+
+      if (tab === 'explore') {
+        if (exploreOpts?.place) {
+          params.set('place', exploreOpts.place)
+          params.delete('route')
+        } else if (exploreOpts?.route && exploreOpts.route.length > 0) {
+          params.set('route', exploreOpts.route.join(','))
+          params.delete('place')
+        } else {
+          params.delete('place')
+          params.delete('route')
+        }
+      }
+
       const q = params.toString()
       router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false })
     },
     [pathname, router, searchParams],
+  )
+
+  const openRouteOnMap = useCallback(
+    (routeSlugs: string[]) => {
+      setTab('explore', { route: routeSlugs })
+    },
+    [setTab],
+  )
+
+  const openPlaceOnMap = useCallback(
+    (placeSlug: string) => {
+      setTab('explore', { place: placeSlug })
+    },
+    [setTab],
   )
 
   const tabs: { id: RegionTab; label: string }[] = [
@@ -119,11 +164,7 @@ function RegionPageClientContent({ slug, mdx, pins, adventure }: RegionPageClien
       <div className={styles.panelZone}>
         <AnimatePresence mode="wait">
           {activeTab === 'story' ? (
-            <motion.div
-              key="story"
-              className={styles.panel}
-              {...PANEL_MOTION}
-            >
+            <motion.div key="story" className={styles.panel} {...PANEL_MOTION}>
               <StoryPanel mdx={mdx} />
             </motion.div>
           ) : null}
@@ -149,12 +190,14 @@ function RegionPageClientContent({ slug, mdx, pins, adventure }: RegionPageClien
           ) : null}
 
           {activeTab === 'itinerary' && adventure ? (
-            <motion.div
-              key="itinerary"
-              className={styles.panel}
-              {...PANEL_MOTION}
-            >
-              <ItineraryPanel adventure={adventure} onOpenMap={() => setTab('explore')} />
+            <motion.div key="itinerary" className={styles.panel} {...PANEL_MOTION}>
+              <ItineraryPanel
+                adventure={adventure}
+                steps={itinerarySteps}
+                routeSlugs={itineraryRouteSlugs}
+                onOpenRoute={() => openRouteOnMap(itineraryRouteSlugs)}
+                onOpenPlace={openPlaceOnMap}
+              />
             </motion.div>
           ) : null}
         </AnimatePresence>
@@ -188,27 +231,63 @@ function StoryPanel({ mdx }: { mdx: LoadedRegionMdx }) {
 
 function ItineraryPanel({
   adventure,
-  onOpenMap,
+  steps,
+  routeSlugs,
+  onOpenRoute,
+  onOpenPlace,
 }: {
   adventure: RegionAdventure
-  onOpenMap: () => void
+  steps: ParsedItineraryStep[]
+  routeSlugs: string[]
+  onOpenRoute: () => void
+  onOpenPlace: (slug: string) => void
 }) {
-  const steps = adventure.body.split(/\n\n+/).filter((s) => s.trim().length > 0)
-
   return (
     <div className={styles.itineraryPanel}>
       <h2 className={styles.itineraryTitle}>{adventure.title}</h2>
       {adventure.intro ? <p className={styles.itineraryIntro}>{adventure.intro}</p> : null}
+
+      {routeSlugs.length > 0 ? (
+        <p className={styles.itineraryRouteSummary}>
+          {routeSlugs.length} mapped stops detected in this itinerary
+        </p>
+      ) : null}
+
       <ol className={styles.steps}>
-        {steps.map((step, index) => (
-          <li key={index} className={styles.step}>
-            <span className={styles.stepMarker}>{index + 1}</span>
-            <p className={styles.stepText}>{step.trim()}</p>
+        {steps.map((step) => (
+          <li key={step.number} className={styles.step}>
+            <span className={styles.stepMarker}>{step.number}</span>
+            <div className={styles.stepContent}>
+              {step.title ? <h3 className={styles.stepTitle}>{step.title}</h3> : null}
+              <p className={styles.stepText}>{step.text}</p>
+              {step.matchedPins.length > 0 ? (
+                <div className={styles.stepPlaces}>
+                  {step.matchedPins.map((pin) => (
+                    <button
+                      key={pin.slug}
+                      type="button"
+                      className={styles.stepPlaceChip}
+                      onClick={() => onOpenPlace(pin.slug)}
+                    >
+                      View {pin.name} on map →
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </li>
         ))}
       </ol>
-      <button type="button" className={styles.itineraryMapCta} onClick={onOpenMap}>
-        Open this route on the map →
+
+      <button
+        type="button"
+        className={styles.itineraryMapCta}
+        onClick={onOpenRoute}
+        disabled={routeSlugs.length === 0}
+      >
+        {routeSlugs.length > 0
+          ? `Open ${routeSlugs.length} stops on the map →`
+          : 'No mapped stops found in this itinerary'}
       </button>
     </div>
   )

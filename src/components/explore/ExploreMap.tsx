@@ -88,6 +88,12 @@ export function ExploreMap({
     ? 'all'
     : searchParams.get('ava') || 'all'
 
+  const routeParam = searchParams.get('route')
+  const routeSlugs = useMemo(
+    () => (routeParam ? routeParam.split(',').map((s) => s.trim()).filter(Boolean) : []),
+    [routeParam],
+  )
+
   useEffect(() => {
     if (embedMode) setOverrideCategory(null)
   }, [embedMode, syncCategory])
@@ -114,10 +120,27 @@ export function ExploreMap({
     return list
   }, [pins, scopedRegion, pinnedCategory])
 
-  const visiblePins = useMemo(
+  const filteredPins = useMemo(
     () => filterExplorePins(scopedPins, categoryFilter, regionFilter),
     [scopedPins, categoryFilter, regionFilter],
   )
+
+  const visiblePins = useMemo(() => {
+    if (routeSlugs.length === 0) return filteredPins
+    const routePins = routeSlugs
+      .map((slug) => filteredPins.find((p) => p.slug === slug))
+      .filter((p): p is MapPin => p != null)
+    const rest = filteredPins.filter((p) => !routeSlugs.includes(p.slug))
+    return [...routePins, ...rest]
+  }, [filteredPins, routeSlugs])
+
+  const routeIndexBySlug = useMemo(() => {
+    const map: Record<string, number> = {}
+    routeSlugs.forEach((slug, i) => {
+      map[slug] = i + 1
+    })
+    return map
+  }, [routeSlugs])
 
   const counts = useMemo(() => countByCategory(scopedPins), [scopedPins])
 
@@ -147,6 +170,7 @@ export function ExploreMap({
       category?: ExploreCategoryFilter
       ava?: string | 'all'
       place?: string | null
+      route?: string | null
     }) => {
       if (embedMode) {
         if (opts.category !== undefined) setOverrideCategory(opts.category)
@@ -168,6 +192,9 @@ export function ExploreMap({
 
       if (!place) params.delete('place')
       else params.set('place', place)
+
+      if (opts.route === null || opts.route === '') params.delete('route')
+      else if (opts.route) params.set('route', opts.route)
 
       const q = params.toString()
       router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false })
@@ -215,6 +242,37 @@ export function ExploreMap({
     setMapBounds([b.getWest(), b.getSouth(), b.getEast(), b.getNorth()])
   }, [])
 
+  const fitBoundsToPins = useCallback((pinList: MapPin[]) => {
+    if (pinList.length === 0) return
+    const map = mapRef.current?.getMap()
+    if (!map) return
+
+    if (pinList.length === 1) {
+      flyToPin(pinList[0])
+      return
+    }
+
+    let minLng = pinList[0].coords[0]
+    let maxLng = pinList[0].coords[0]
+    let minLat = pinList[0].coords[1]
+    let maxLat = pinList[0].coords[1]
+
+    for (const pin of pinList) {
+      minLng = Math.min(minLng, pin.coords[0])
+      maxLng = Math.max(maxLng, pin.coords[0])
+      minLat = Math.min(minLat, pin.coords[1])
+      maxLat = Math.max(maxLat, pin.coords[1])
+    }
+
+    map.fitBounds(
+      [
+        [minLng, minLat],
+        [maxLng, maxLat],
+      ],
+      { padding: 72, duration: 900, maxZoom: 14 },
+    )
+  }, [flyToPin])
+
   const handleMapLoad = useCallback(() => {
     onMapMove()
     const map = mapRef.current?.getMap()
@@ -225,13 +283,21 @@ export function ExploreMap({
     if (scopedRegion && REGION_CENTERS[scopedRegion]) {
       const { center, zoom } = REGION_CENTERS[scopedRegion]
       mapRef.current?.flyTo({ center, zoom, duration: 0 })
-      return
+    }
+    if (routeSlugs.length > 0) {
+      const routePins = routeSlugs
+        .map((slug) => scopedPins.find((p) => p.slug === slug))
+        .filter((p): p is MapPin => p != null)
+      if (routePins.length > 0) {
+        fitBoundsToPins(routePins)
+        return
+      }
     }
     if (activePlace) {
       const pin = scopedPins.find((p) => p.slug === activePlace)
       if (pin) flyToPin(pin)
     }
-  }, [scopedRegion, scopedPins, activePlace, flyToPin, onMapMove])
+  }, [scopedRegion, scopedPins, activePlace, flyToPin, onMapMove, routeSlugs, fitBoundsToPins])
 
   const onCategoryChange = (cat: ExploreCategoryFilter) => {
     updateUrl({ category: cat, place: null })
@@ -298,6 +364,14 @@ export function ExploreMap({
     setScrollCenterSlug(null)
   }, [visiblePins])
 
+  useEffect(() => {
+    if (routeSlugs.length === 0) return
+    const routePins = routeSlugs
+      .map((slug) => scopedPins.find((p) => p.slug === slug))
+      .filter((p): p is MapPin => p != null)
+    if (routePins.length > 0) fitBoundsToPins(routePins)
+  }, [routeSlugs, scopedPins, fitBoundsToPins])
+
   const initialCenter = scopedRegion && REGION_CENTERS[scopedRegion]
     ? REGION_CENTERS[scopedRegion].center
     : NAPA_CENTER
@@ -335,6 +409,20 @@ export function ExploreMap({
       <div className={styles.exploreGrid}>
         <div className={styles.listColumn}>
           <div className={styles.filtersSticky}>
+            {routeSlugs.length > 0 ? (
+              <div className={styles.routeBanner}>
+                <span className={styles.routeBannerLabel}>
+                  Itinerary route · {routeSlugs.length} stops
+                </span>
+                <button
+                  type="button"
+                  className={styles.routeBannerClear}
+                  onClick={() => updateUrl({ route: null })}
+                >
+                  Show all listings
+                </button>
+              </div>
+            ) : null}
             {!pinnedCategory && (
               <div className={styles.filterRow}>
                 <button
@@ -396,6 +484,7 @@ export function ExploreMap({
                 const cfg = CATEGORY_CONFIG[pin.category]
                 const CatIcon = CATEGORY_ICONS[pin.category]
                 const isEditorial = pin.editorial
+                const routeStop = routeIndexBySlug[pin.slug]
                 const isSelected =
                   pin.slug === activePlace || pin.slug === scrollCenterSlug
                 return (
@@ -407,12 +496,15 @@ export function ExploreMap({
                     }}
                     className={`${styles.row} ${isSelected ? styles.rowSelected : ''}${
                       isEditorial ? ` ${styles.rowEditorial}` : ''
-                    }`}
+                    }${routeStop ? ` ${styles.rowRouteStop}` : ''}`}
                     onClick={() => selectPin(pin, false)}
                     onMouseEnter={() => setHoveredSlug(pin.slug)}
                     onMouseLeave={() => setHoveredSlug(null)}
                   >
                     <div className={styles.thumb}>
+                      {routeStop ? (
+                        <span className={styles.routeStopBadge}>{routeStop}</span>
+                      ) : null}
                       {pin.thumb ? (
                         <Image
                           src={pin.thumb}

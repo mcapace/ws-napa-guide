@@ -183,6 +183,41 @@
   line-height: 1.85;
 }
 
+/* Override MDX inline dark text on dark story panel */
+.storyProse :global(p),
+.storyProse :global(li),
+.storyProse :global(ul),
+.storyProse :global(ol),
+.storyProse :global(span) {
+  color: rgba(247, 243, 236, 0.78) !important;
+}
+
+.storyProse :global(a) {
+  color: var(--gold) !important;
+  border-bottom-color: rgba(196, 148, 58, 0.35) !important;
+}
+
+.storyProse :global(strong) {
+  color: var(--cream) !important;
+}
+
+.pulloutBody :global(p),
+.pulloutBody :global(li),
+.pulloutBody :global(ul),
+.pulloutBody :global(ol),
+.pulloutBody :global(span) {
+  color: rgba(247, 243, 236, 0.78) !important;
+}
+
+.pulloutBody :global(strong) {
+  color: var(--cream) !important;
+  font-weight: 400;
+}
+
+.pulloutBody :global(a) {
+  color: var(--gold) !important;
+}
+
 .storyPullout {
   margin: 48px 0;
   padding: 32px;
@@ -285,6 +320,62 @@
   gap: 20px;
   position: relative;
   padding-bottom: 32px;
+}
+
+.stepContent {
+  min-width: 0;
+}
+
+.stepTitle {
+  margin: 0 0 10px;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.15;
+  color: var(--cream);
+}
+
+.itineraryRouteSummary {
+  margin: 0 0 28px;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.stepPlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.stepPlaceChip {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(196, 148, 58, 0.08);
+  border: 1px solid rgba(196, 148, 58, 0.35);
+  border-radius: 2px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.stepPlaceChip:hover {
+  background: rgba(196, 148, 58, 0.16);
+  border-color: var(--gold);
+}
+
+.itineraryMapCta:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .step:last-child {
