@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getAllRegionSlugs, getRegion } from '@/data/regions'
+import { getAllRegionSlugs } from '@/data/regions'
+import { getRegionItineraries } from '@/data/region-itineraries'
 import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { getMdxRegionSlugs, loadRegionMdxCached } from '@/lib/content/loadRegionMdx'
 import RegionPageClient from './RegionPageClient'
@@ -34,15 +35,15 @@ export default async function RegionPage({ params }: Props) {
   const mdxDoc = await loadRegionMdxCached(slug)
   if (!mdxDoc) notFound()
 
-  const regionData = getRegion(slug)
   const regionPins = buildRegionExplorePins(slug, mdxDoc)
+  const itineraries = getRegionItineraries(slug)
 
   return (
     <RegionPageClient
       slug={slug}
       mdx={mdxDoc}
       pins={regionPins}
-      adventure={regionData?.adventure}
+      itineraries={itineraries}
     />
   )
 }

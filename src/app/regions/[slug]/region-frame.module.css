@@ -92,6 +92,71 @@
   color: var(--mist);
 }
 
+.heroScrollHint {
+  position: absolute;
+  right: clamp(24px, 5vw, 48px);
+  bottom: clamp(20px, 3vw, 32px);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border: 1px solid rgba(247, 243, 236, 0.22);
+  border-radius: 999px;
+  background: rgba(13, 11, 9, 0.55);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.88);
+  transition: border-color 0.2s ease, background 0.2s ease;
+  animation: heroScrollPulse 2.4s ease-in-out infinite;
+}
+
+.heroScrollHint:hover {
+  border-color: rgba(196, 148, 58, 0.55);
+  background: rgba(13, 11, 9, 0.72);
+}
+
+.heroScrollHintLabel {
+  white-space: nowrap;
+}
+
+.heroScrollHintIcon {
+  font-size: 14px;
+  line-height: 1;
+  color: var(--gold);
+}
+
+@keyframes heroScrollPulse {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+/* Compact hero when map/itinerary is primary */
+.frame[data-active-tab='explore'] .hero,
+.frame[data-active-tab='itinerary'] .hero {
+  height: 28vh;
+  min-height: 200px;
+  max-height: 320px;
+}
+
+.frame[data-active-tab='explore'] .heroTitle {
+  font-size: clamp(36px, 6vw, 64px);
+}
+
+.frame[data-active-tab='itinerary'] .heroTitle {
+  font-size: clamp(40px, 6.5vw, 72px);
+}
+
 /* ── Tab bar ── */
 .tabBar {
   position: sticky;
@@ -144,7 +209,26 @@
 /* ── Panel zone ── */
 .panelZone {
   position: relative;
+  scroll-margin-top: calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height) + 8px
+  );
+}
+
+.panelZoneScroll {
+  min-height: auto;
+}
+
+.panelZoneExplore {
   min-height: calc(100vh - var(--region-tab-bar-height));
+}
+
+.panelZoneItinerary {
+  min-height: auto;
+}
+
+.itineraryScrollyPanel {
+  width: 100%;
+  max-width: none;
 }
 
 .panel {
@@ -262,9 +346,40 @@
 
 /* ── Explore panel ── */
 .explorePanel {
+  position: relative;
   height: calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height));
   min-height: 480px;
   background: #faf7f2;
+}
+
+.exploreScrollMore {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  z-index: 25;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid rgba(13, 11, 9, 0.12);
+  border-radius: 999px;
+  background: rgba(247, 243, 236, 0.94);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(13, 11, 9, 0.12);
+  cursor: pointer;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.exploreScrollMore:hover {
+  border-color: rgba(196, 148, 58, 0.45);
+  box-shadow: 0 6px 24px rgba(13, 11, 9, 0.16);
 }
 
 .explorePanel :global(.exploreRoot) {
@@ -442,6 +557,9 @@
 
 .bottom {
   background: var(--ink);
+  scroll-margin-top: calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height) + 8px
+  );
 }
 
 @media (max-width: 1023px) {
@@ -480,5 +598,18 @@
 
   .explorePanel {
     height: calc(100dvh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height));
+  }
+
+  .heroScrollHint {
+    left: 20px;
+    right: 20px;
+    justify-content: center;
+  }
+
+  .frame[data-active-tab='explore'] .hero,
+  .frame[data-active-tab='itinerary'] .hero {
+    height: 24vh;
+    min-height: 180px;
+    max-height: 260px;
   }
 }

@@ -1,5 +1,7 @@
 /** Full street + landmark labels (Mapbox Streets v12). */
 export const MAP_STYLE = 'mapbox://styles/mapbox/streets-v12'
+/** Dark cinematic style for scrollytelling itinerary maps. */
+export const SCROLLY_MAP_STYLE = 'mapbox://styles/mapbox/dark-v11'
 export const NAPA_CENTER: [number, number] = [-122.4194, 38.5]
 export const NAPA_ZOOM = 10.2
 
@@ -8,6 +10,24 @@ export const CATEGORY_CONFIG = {
   dining: { label: 'Restaurants', color: '#6B1C2A', glyph: '●' },
   stay: { label: 'Hotels', color: '#5C6B52', glyph: '■' },
 } as const
+
+export const CATEGORY_COLORS = {
+  winery: '#C4943A',
+  dining: '#6B1C2A',
+  stay: '#5C6B52',
+  sight: '#9B9283',
+} as const
+
+export const TERRAIN_CONFIG = {
+  source: 'mapbox-dem',
+  demSource: {
+    type: 'raster-dem' as const,
+    url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+    tileSize: 512,
+    maxzoom: 14,
+  },
+  exaggeration: 1.4,
+}
 
 export type Category = keyof typeof CATEGORY_CONFIG
 

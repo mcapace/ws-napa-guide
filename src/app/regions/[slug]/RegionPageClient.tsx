@@ -1,20 +1,17 @@
 'use client'
 
-import { Suspense, useCallback, useMemo } from 'react'
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import Footer from '@/components/ui/Footer'
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
+import ScrollyItinerary from '@/components/itinerary/ScrollyItinerary'
 import { RegionMoreAppellations } from '@/components/regions/RegionMoreAppellations'
 import type { MapPin } from '@/data/map-pins'
-import type { RegionAdventure } from '@/data/regions'
 import type { LoadedRegionMdx } from '@/lib/content/types'
-import {
-  buildItinerarySteps,
-  collectItineraryRouteSlugs,
-  type ParsedItineraryStep,
-} from '@/lib/region-itinerary'
+import { REGION_CENTERS } from '@/lib/mapbox'
+import type { Itinerary } from '@/lib/types'
 import styles from './region-frame.module.css'
 
 export type RegionTab = 'story' | 'explore' | 'itinerary'
@@ -23,7 +20,7 @@ type RegionPageClientProps = {
   slug: string
   mdx: LoadedRegionMdx
   pins: MapPin[]
-  adventure?: RegionAdventure
+  itineraries?: Itinerary[]
 }
 
 const PANEL_MOTION = {
@@ -39,24 +36,19 @@ function parseTab(param: string | null, hasItinerary: boolean): RegionTab {
   return 'story'
 }
 
-function RegionPageClientContent({ slug, mdx, pins, adventure }: RegionPageClientProps) {
+function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPageClientProps) {
   const { frontmatter } = mdx
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
-  const hasItinerary = Boolean(adventure)
+  const hasItinerary = itineraries.length > 0
   const activeTab = parseTab(searchParams.get('tab'), hasItinerary)
+  const selectedItineraryId =
+    itineraries.find((it) => it.id === searchParams.get('itinerary'))?.id ?? itineraries[0]?.id
 
   const explorePins = pins.map((p) => ({ ...p, editorial: undefined }))
 
-  const itinerarySteps = useMemo(
-    () => (adventure ? buildItinerarySteps(adventure.body, pins) : []),
-    [adventure, pins],
-  )
-  const itineraryRouteSlugs = useMemo(
-    () => collectItineraryRouteSlugs(itinerarySteps),
-    [itinerarySteps],
-  )
+  const regionCenter = REGION_CENTERS[slug]?.center ?? [-122.4194, 38.5]
 
   const setTab = useCallback(
     (tab: RegionTab, exploreOpts?: { route?: string[]; place?: string }) => {
@@ -67,12 +59,18 @@ function RegionPageClientContent({ slug, mdx, pins, adventure }: RegionPageClien
         params.delete('category')
         params.delete('place')
         params.delete('route')
+        params.delete('itinerary')
       } else {
         params.set('tab', tab)
         if (tab !== 'explore') {
           params.delete('category')
           params.delete('place')
           params.delete('route')
+        }
+        if (tab === 'itinerary' && selectedItineraryId) {
+          params.set('itinerary', selectedItineraryId)
+        } else if (tab !== 'itinerary') {
+          params.delete('itinerary')
         }
       }
 
@@ -92,22 +90,50 @@ function RegionPageClientContent({ slug, mdx, pins, adventure }: RegionPageClien
       const q = params.toString()
       router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false })
     },
+    [pathname, router, searchParams, selectedItineraryId],
+  )
+
+  const setItinerary = useCallback(
+    (itineraryId: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('tab', 'itinerary')
+      params.set('itinerary', itineraryId)
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    },
     [pathname, router, searchParams],
   )
 
-  const openRouteOnMap = useCallback(
-    (routeSlugs: string[]) => {
-      setTab('explore', { route: routeSlugs })
-    },
-    [setTab],
-  )
+  const scrollToPanel = useCallback(() => {
+    document.getElementById('region-panel-content')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }, [])
 
-  const openPlaceOnMap = useCallback(
-    (placeSlug: string) => {
-      setTab('explore', { place: placeSlug })
-    },
-    [setTab],
-  )
+  const scrollToBottom = useCallback(() => {
+    const el = document.getElementById('region-bottom')
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [])
+
+  const [showScrollHint, setShowScrollHint] = useState(true)
+  const skipInitialScrollRef = useRef(true)
+
+  useEffect(() => {
+    const onScroll = () => setShowScrollHint(window.scrollY < 100)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    if (skipInitialScrollRef.current) {
+      skipInitialScrollRef.current = false
+      return
+    }
+    if (activeTab === 'story' || activeTab === 'itinerary') {
+      requestAnimationFrame(scrollToPanel)
+    }
+  }, [activeTab, scrollToPanel])
 
   const tabs: { id: RegionTab; label: string }[] = [
     { id: 'story', label: 'Story' },
@@ -116,7 +142,12 @@ function RegionPageClientContent({ slug, mdx, pins, adventure }: RegionPageClien
   if (hasItinerary) tabs.push({ id: 'itinerary', label: 'Itinerary' })
 
   return (
-    <div className={styles.frame} data-site-surface="dark">
+    <div
+      className={styles.frame}
+      data-site-surface="dark"
+      data-region-frame=""
+      data-active-tab={activeTab}
+    >
       <header className={styles.hero}>
         <Image
           src={frontmatter.heroImage}
@@ -145,6 +176,17 @@ function RegionPageClientContent({ slug, mdx, pins, adventure }: RegionPageClien
           <p className={styles.heroAva}>{frontmatter.region.toUpperCase()} AVA</p>
           <p className={styles.heroTagline}>{frontmatter.tagline}</p>
         </div>
+        {activeTab === 'story' && showScrollHint ? (
+          <button
+            type="button"
+            className={styles.heroScrollHint}
+            onClick={scrollToPanel}
+            aria-label="Scroll to article"
+          >
+            <span className={styles.heroScrollHintLabel}>Scroll to read</span>
+            <span className={styles.heroScrollHintIcon} aria-hidden>↓</span>
+          </button>
+        ) : null}
       </header>
 
       <nav className={styles.tabBar} aria-label="Region sections">
@@ -161,7 +203,16 @@ function RegionPageClientContent({ slug, mdx, pins, adventure }: RegionPageClien
         ))}
       </nav>
 
-      <div className={styles.panelZone}>
+      <div
+        id="region-panel-content"
+        className={`${styles.panelZone}${
+          activeTab === 'explore'
+            ? ` ${styles.panelZoneExplore}`
+            : activeTab === 'itinerary'
+              ? ` ${styles.panelZoneItinerary}`
+              : ` ${styles.panelZoneScroll}`
+        }`}
+      >
         <AnimatePresence mode="wait">
           {activeTab === 'story' ? (
             <motion.div key="story" className={styles.panel} {...PANEL_MOTION}>
@@ -186,24 +237,34 @@ function RegionPageClientContent({ slug, mdx, pins, adventure }: RegionPageClien
                   No listings for this region yet.
                 </p>
               )}
+              <button
+                type="button"
+                className={styles.exploreScrollMore}
+                onClick={scrollToBottom}
+              >
+                More appellations below ↓
+              </button>
             </motion.div>
           ) : null}
 
-          {activeTab === 'itinerary' && adventure ? (
-            <motion.div key="itinerary" className={styles.panel} {...PANEL_MOTION}>
-              <ItineraryPanel
-                adventure={adventure}
-                steps={itinerarySteps}
-                routeSlugs={itineraryRouteSlugs}
-                onOpenRoute={() => openRouteOnMap(itineraryRouteSlugs)}
-                onOpenPlace={openPlaceOnMap}
+          {activeTab === 'itinerary' && hasItinerary ? (
+            <motion.div
+              key="itinerary"
+              className={`${styles.panel} ${styles.itineraryScrollyPanel}`}
+              {...PANEL_MOTION}
+            >
+              <ScrollyItinerary
+                itineraries={itineraries}
+                regionCenter={regionCenter}
+                selectedItineraryId={selectedItineraryId}
+                onItineraryChange={setItinerary}
               />
             </motion.div>
           ) : null}
         </AnimatePresence>
       </div>
 
-      <div className={styles.bottom}>
+      <div id="region-bottom" className={styles.bottom}>
         <RegionMoreAppellations slug={slug} />
         <Footer />
       </div>
@@ -226,70 +287,6 @@ function StoryPanel({ mdx }: { mdx: LoadedRegionMdx }) {
         </aside>
       ) : null}
     </article>
-  )
-}
-
-function ItineraryPanel({
-  adventure,
-  steps,
-  routeSlugs,
-  onOpenRoute,
-  onOpenPlace,
-}: {
-  adventure: RegionAdventure
-  steps: ParsedItineraryStep[]
-  routeSlugs: string[]
-  onOpenRoute: () => void
-  onOpenPlace: (slug: string) => void
-}) {
-  return (
-    <div className={styles.itineraryPanel}>
-      <h2 className={styles.itineraryTitle}>{adventure.title}</h2>
-      {adventure.intro ? <p className={styles.itineraryIntro}>{adventure.intro}</p> : null}
-
-      {routeSlugs.length > 0 ? (
-        <p className={styles.itineraryRouteSummary}>
-          {routeSlugs.length} mapped stops detected in this itinerary
-        </p>
-      ) : null}
-
-      <ol className={styles.steps}>
-        {steps.map((step) => (
-          <li key={step.number} className={styles.step}>
-            <span className={styles.stepMarker}>{step.number}</span>
-            <div className={styles.stepContent}>
-              {step.title ? <h3 className={styles.stepTitle}>{step.title}</h3> : null}
-              <p className={styles.stepText}>{step.text}</p>
-              {step.matchedPins.length > 0 ? (
-                <div className={styles.stepPlaces}>
-                  {step.matchedPins.map((pin) => (
-                    <button
-                      key={pin.slug}
-                      type="button"
-                      className={styles.stepPlaceChip}
-                      onClick={() => onOpenPlace(pin.slug)}
-                    >
-                      View {pin.name} on map →
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          </li>
-        ))}
-      </ol>
-
-      <button
-        type="button"
-        className={styles.itineraryMapCta}
-        onClick={onOpenRoute}
-        disabled={routeSlugs.length === 0}
-      >
-        {routeSlugs.length > 0
-          ? `Open ${routeSlugs.length} stops on the map →`
-          : 'No mapped stops found in this itinerary'}
-      </button>
-    </div>
   )
 }
 
