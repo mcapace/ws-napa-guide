@@ -6,8 +6,10 @@ import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
 import { RegionHero } from './RegionHero'
 import { RegionLede } from './RegionLede'
+import { SectionDivider } from './SectionDivider'
 import { RegionEditorialSections } from './RegionEditorialSections'
 import { SidebarCallout } from './SidebarCallout'
+import { RelatedStoriesRail } from './RelatedStoriesRail'
 import { RegionAdventureBlock } from './RegionAdventureBlock'
 import { RegionMoreAppellations } from './RegionMoreAppellations'
 import './region-editorial.css'
@@ -27,11 +29,20 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
       <RegionHero fm={frontmatter} />
       <RegionLede>{data.lede}</RegionLede>
 
+      <RegionEditorialSections data={data} />
+
       {data.sidebarHeading ? (
-        <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
+        <>
+          {data.frontmatter.marqueePhrases?.sidebar ? (
+            <SectionDivider label={data.frontmatter.marqueePhrases.sidebar} />
+          ) : null}
+          <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
+        </>
       ) : null}
 
-      <RegionEditorialSections data={data} />
+      {data.related.length > 0 ? (
+        <RelatedStoriesRail cards={data.related} />
+      ) : null}
 
       <section style={{ background: '#FAF7F2', paddingBottom: 48 }}>
         <div

@@ -1,6 +1,7 @@
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { FeatureBlock } from '@/components/FeatureBlock'
 import { SectionDivider } from './SectionDivider'
+import { DirectoryTextList } from './DirectoryTextList'
 
 function featureToBlockProps(feature: LoadedRegionMdx['featuredWineries'][number]) {
   return {
@@ -15,6 +16,7 @@ function featureToBlockProps(feature: LoadedRegionMdx['featuredWineries'][number
 }
 
 export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
+  const regionLabel = data.frontmatter.region
   const phrases = data.frontmatter.marqueePhrases ?? {}
   const hasTaste =
     data.featuredWineries.length > 0 || data.tastingDirectory.length > 0
@@ -33,6 +35,10 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
           {data.featuredWineries.map((feature) => (
             <FeatureBlock key={`winery-${feature.name}`} {...featureToBlockProps(feature)} />
           ))}
+          <DirectoryTextList
+            title={`More ${regionLabel} Tasting Rooms`}
+            rows={data.tastingDirectory}
+          />
         </>
       )}
 
@@ -42,6 +48,10 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
           {data.featuredRestaurants.map((feature) => (
             <FeatureBlock key={`restaurant-${feature.name}`} {...featureToBlockProps(feature)} />
           ))}
+          <DirectoryTextList
+            title={`More ${regionLabel} Dining`}
+            rows={data.restaurantDirectory}
+          />
           {data.breakfast && (
             <FeatureBlock key={`breakfast-${data.breakfast.name}`} {...featureToBlockProps(data.breakfast)} />
           )}
@@ -54,6 +64,10 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
           {data.featuredHotels.map((feature) => (
             <FeatureBlock key={`hotel-${feature.name}`} {...featureToBlockProps(feature)} />
           ))}
+          <DirectoryTextList
+            title={`More ${regionLabel} Lodging`}
+            rows={data.lodgingDirectory}
+          />
         </>
       )}
     </>
