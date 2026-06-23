@@ -7,32 +7,44 @@
   --dust: #2a2520;
   --ink-mid: #1a1612;
   --line: rgba(13, 11, 9, 0.08);
-  background: var(--paper);
+  background: #faf7f2;
   color: var(--ink);
   padding-bottom: 48px;
+}
+
+.explorePanel {
+  height: clamp(520px, calc(100dvh - 10rem), 900px);
+  overflow: hidden;
 }
 
 .exploreGrid {
   display: grid;
   grid-template-columns: 45% 55%;
-  height: 85vh;
-  min-height: 560px;
-  max-height: 920px;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.exploreGrid > * {
+  min-height: 0;
 }
 
 .listColumn {
   display: flex;
   flex-direction: column;
+  height: 100%;
   min-height: 0;
+  overflow: hidden;
   border-right: 1px solid var(--line);
-  background: var(--paper);
+  background: #faf7f2;
 }
 
 .filtersSticky {
   position: sticky;
   top: 0;
   z-index: 5;
-  background: var(--paper);
+  flex-shrink: 0;
+  background: #faf7f2;
   padding: 20px 20px 12px;
   border-bottom: 1px solid var(--line);
 }
@@ -371,11 +383,16 @@
 }
 
 @media (max-width: 1023px) {
+  .explorePanel {
+    height: auto;
+    overflow: visible;
+  }
+
   .exploreGrid {
     grid-template-columns: 1fr;
     height: auto;
     min-height: auto;
-    max-height: none;
+    overflow: visible;
   }
 
   .listColumn {

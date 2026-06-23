@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function StayIndexPage() {
   return (
-    <div className={`grain ${detailStyles.page}`} data-site-surface="light">
+    <div className={detailStyles.page} data-site-surface="light">
       <Nav />
 
       <header className={detailStyles.indexHero}>

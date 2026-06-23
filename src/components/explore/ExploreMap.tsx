@@ -299,6 +299,7 @@ export function ExploreMap({
         </button>
       </div>
 
+      <div className={styles.explorePanel}>
       <div className={styles.exploreGrid}>
         <div className={styles.listColumn}>
           <div className={styles.filtersSticky}>
@@ -348,6 +349,7 @@ export function ExploreMap({
 
           <div
             ref={listScrollRef}
+            data-lenis-prevent
             className={`${styles.listScroll} ${mobileView === 'map' ? styles.listScrollMobileHidden : ''}`}
             onScroll={handleListScroll}
           >
@@ -526,6 +528,7 @@ export function ExploreMap({
             <p className={styles.mapAttribution}>© Mapbox © OpenStreetMap</p>
           </div>
         </div>
+      </div>
       </div>
 
       {selectedPin && !isDesktop && mobileView === 'map' && (

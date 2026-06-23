@@ -81,6 +81,12 @@ body {
   line-height: 1.7;
 }
 
+/* Light editorial / directory surfaces */
+[data-site-surface='light'] {
+  background-color: #faf7f2;
+  color: #0d0b09;
+}
+
 /* Top fade on hero imagery — extra contrast under fixed nav (pointer-events safe) */
 .hero-top-scrim {
   position: absolute;
