@@ -1,6 +1,6 @@
 import type { MapPin, MapPinCategory } from '@/data/map-pins'
 import { pinsByRegion } from '@/data/map-pins'
-import type { DirectoryCategory, EditorialFeature, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
+import type { DirectoryCategory, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
 import { isEditorialListingImage, pinHasListingImage } from '@/lib/explore'
 import {
@@ -50,16 +50,7 @@ function editorialImagePath(path?: string): string | undefined {
   return isEditorialListingImage(path) ? path!.trim() : undefined
 }
 
-function isFeaturedStoryRow(row: TastingDirectoryRow, featured: EditorialFeature[]): boolean {
-  return featured.some((f) => namesOverlap(f.name, row.name))
-}
-
-function listingThumbForRow(
-  data: LoadedRegionMdx,
-  row: TastingDirectoryRow,
-  featuredStories: EditorialFeature[],
-): string | undefined {
-  if (isFeaturedStoryRow(row, featuredStories)) return undefined
+function listingThumbForRow(data: LoadedRegionMdx, row: TastingDirectoryRow): string | undefined {
   const match = [
     ...data.featuredWineries,
     ...data.featuredRestaurants,
@@ -118,15 +109,6 @@ function mergeEditorialThumb(staticPin: MapPin, editorialThumb?: string): MapPin
   return { ...base, thumb, images: [thumb] }
 }
 
-function featuredStoriesForCategory(
-  data: LoadedRegionMdx,
-  category: DirectoryCategory,
-): EditorialFeature[] {
-  if (category === 'winery') return data.featuredWineries
-  if (category === 'hotel') return data.featuredHotels
-  return [...data.featuredRestaurants, ...(data.breakfast ? [data.breakfast] : [])]
-}
-
 function buildPinsFromRows(
   regionSlug: string,
   data: LoadedRegionMdx,
@@ -144,8 +126,7 @@ function buildPinsFromRows(
   }
 
   for (const row of rows) {
-    const featuredStories = featuredStoriesForCategory(data, row.category)
-    const listingThumb = listingThumbForRow(data, row, featuredStories)
+    const listingThumb = listingThumbForRow(data, row)
     const staticMatch = staticPool.find((p) => namesOverlap(p.name, row.name))
 
     if (staticMatch) {

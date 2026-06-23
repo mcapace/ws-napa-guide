@@ -4,6 +4,7 @@ import type { LoadedRegionMdx } from '@/lib/content/types'
 import { getRegion } from '@/data/regions'
 import { RegionHero } from './RegionHero'
 import { RegionIntro } from './RegionIntro'
+import { RegionGuideNav } from './RegionGuideNav'
 import { SectionDivider } from './SectionDivider'
 import {
   RegionEditorialSections,
@@ -29,7 +30,13 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
     >
       <RegionHero fm={frontmatter} />
 
-      <RegionIntro lede={data.lede} dek={frontmatter.dek} navItems={guideNav} />
+      <RegionIntro lede={data.lede} dek={frontmatter.dek} />
+
+      {guideNav.length > 0 ? (
+        <div className="region-guide-nav-bar">
+          <RegionGuideNav items={guideNav} />
+        </div>
+      ) : null}
 
       {data.sidebarHeading ? (
         <section id="region-sidebar" className="region-chapter region-chapter--sidebar">

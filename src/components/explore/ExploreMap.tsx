@@ -231,6 +231,9 @@ export function ExploreMap({
   const scrollSyncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastEaseSlugRef = useRef<string | null>(null)
 
+  const mapPanOffset: [number, number] =
+    isDesktop && !embedMode ? DESKTOP_MAP_OFFSET : [0, 0]
+
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1024px)')
     const update = () => setIsDesktop(mq.matches)
@@ -343,10 +346,10 @@ export function ExploreMap({
         zoom: 14,
         duration: 900,
         essential: false,
-        offset: isDesktop ? DESKTOP_MAP_OFFSET : [0, 0],
+        offset: mapPanOffset,
       })
     },
-    [isDesktop],
+    [mapPanOffset],
   )
 
   const easeToPin = useCallback(
@@ -358,10 +361,10 @@ export function ExploreMap({
         zoom: Math.max(map.getZoom(), 13),
         duration: 450,
         essential: false,
-        offset: isDesktop ? DESKTOP_MAP_OFFSET : [0, 0],
+        offset: mapPanOffset,
       })
     },
-    [isDesktop],
+    [mapPanOffset],
   )
 
   const selectPin = useCallback(
@@ -393,7 +396,7 @@ export function ExploreMap({
         center,
         zoom,
         duration: 0,
-        offset: isDesktop ? DESKTOP_MAP_OFFSET : [0, 0],
+        offset: mapPanOffset,
       })
       return
     }
@@ -401,7 +404,7 @@ export function ExploreMap({
       const pin = scopedMapPins.find((p) => p.slug === placeParam)
       if (pin) flyToPin(pin)
     }
-  }, [scopedRegion, scopedMapPins, placeParam, flyToPin, onMapMove, isDesktop])
+  }, [scopedRegion, scopedMapPins, placeParam, flyToPin, onMapMove, mapPanOffset])
 
   const onCategoryChange = (cat: ExploreCategoryFilter) => {
     updateUrl({ category: cat, place: null })
@@ -415,7 +418,7 @@ export function ExploreMap({
         center,
         zoom,
         duration: 1000,
-        offset: isDesktop ? DESKTOP_MAP_OFFSET : [0, 0],
+        offset: mapPanOffset,
       })
     }
   }
@@ -426,7 +429,7 @@ export function ExploreMap({
       center: [lng, lat],
       zoom: expansion + 1,
       duration: 600,
-      offset: isDesktop ? DESKTOP_MAP_OFFSET : [0, 0],
+      offset: mapPanOffset,
     })
   }
 
@@ -497,8 +500,12 @@ export function ExploreMap({
   const mapAvailable = Boolean(MAPBOX_TOKEN)
 
   return (
-    <div className={styles.exploreRoot}>
-      <div className={styles.exploreShell}>
+    <div
+      className={`${styles.exploreRoot} ${embedMode ? styles.exploreRootSplit : ''}`}
+    >
+      <div
+        className={`${styles.exploreShell} ${embedMode ? styles.exploreShellSplit : ''}`}
+      >
         <div className={styles.mapStage}>
           <div className={styles.mapWrap}>
             {mapAvailable ? (

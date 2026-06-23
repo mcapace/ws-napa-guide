@@ -27,8 +27,11 @@ export function RegionListingMapSection({
   if (listPins.length === 0 && mapPins.length === 0) return null
 
   return (
-    <div className="region-chapter__map">
-      <h3 className="region-chapter__map-title">{title}</h3>
+    <section className="region-map-bleed" aria-label={title}>
+      <div className="region-map-bleed__head">
+        <p className="region-map-bleed__eyebrow">Directory</p>
+        <h3 className="region-map-bleed__title">{title}</h3>
+      </div>
       <ExploreMapSection
         pins={mapPins.length > 0 ? mapPins : listPins}
         listPins={listPins}
@@ -37,6 +40,6 @@ export function RegionListingMapSection({
         pinnedCategory={pinnedCategory}
         embedMode
       />
-    </div>
+    </section>
   )
 }

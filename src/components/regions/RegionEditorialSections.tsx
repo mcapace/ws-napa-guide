@@ -13,10 +13,27 @@ function storyProps(feature: LoadedRegionMdx['featuredWineries'][number]) {
     name: feature.name,
     address: feature.address,
     website: feature.website,
-    image: feature.image,
-    imagePortrait: feature.imagePortrait,
     children: feature.body,
   }
+}
+
+function RegionChapterPicks({
+  stories,
+}: {
+  stories: Array<{ key: string; props: ReturnType<typeof storyProps> }>
+}) {
+  if (stories.length === 0) return null
+
+  return (
+    <div className="region-chapter__picks">
+      <p className="region-chapter__eyebrow">Editor&apos;s picks</p>
+      <div className="region-story-group">
+        {stories.map((story) => (
+          <RegionStoryCard key={story.key} {...story.props} />
+        ))}
+      </div>
+    </div>
+  )
 }
 
 /** Short jump-nav labels; section dividers use full `marqueePhrases` from MDX. */
@@ -35,15 +52,34 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
   const eatMapRows = buildRegionEatMapRows(data)
   const stayMapRows = buildRegionStayMapRows(data)
 
+  const tastePicks = data.featuredWineries.map((feature) => ({
+    key: `winery-${feature.name}`,
+    props: storyProps(feature),
+  }))
+
+  const eatPicks = [
+    ...data.featuredRestaurants.map((feature) => ({
+      key: `restaurant-${feature.name}`,
+      props: storyProps(feature),
+    })),
+    ...(data.breakfast
+      ? [{ key: `breakfast-${data.breakfast.name}`, props: storyProps(data.breakfast) }]
+      : []),
+  ]
+
+  const stayPicks = data.featuredHotels.map((feature) => ({
+    key: `hotel-${feature.name}`,
+    props: storyProps(feature),
+  }))
+
   const hasTaste =
-    data.featuredWineries.length > 0 || data.tastingDirectory.length > 0
+    tastePicks.length > 0 || data.tastingDirectory.length > 0
   const hasEat =
-    data.featuredRestaurants.length > 0 ||
-    data.breakfast !== null ||
+    eatPicks.length > 0 ||
     data.restaurantDirectory.length > 0 ||
     eatMapRows.length > 0
   const hasStay =
-    data.featuredHotels.length > 0 ||
+    stayPicks.length > 0 ||
     data.lodgingDirectory.length > 0 ||
     stayMapRows.length > 0
 
@@ -52,17 +88,11 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
       {hasTaste && (
         <section id="region-taste" className="region-chapter region-chapter--taste">
           <SectionDivider label={phrases.taste ?? 'Where to taste'} />
-          <div className="region-chapter__inner">
-            {data.featuredWineries.length > 0 && (
-              <div className="region-story-stack">
-                {data.featuredWineries.map((feature) => (
-                  <RegionStoryCard key={`winery-${feature.name}`} {...storyProps(feature)} />
-                ))}
-              </div>
-            )}
+          <div className="region-chapter__content">
+            <RegionChapterPicks stories={tastePicks} />
             {tasteMapRows.length > 0 && (
               <RegionListingMapSection
-                title={`More ${regionLabel} Tasting Rooms`}
+                title={`${regionLabel} tasting rooms`}
                 regionSlug={slug}
                 data={data}
                 mapRows={tasteMapRows}
@@ -76,28 +106,17 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
       {hasEat && (
         <section id="region-eat" className="region-chapter region-chapter--eat">
           <SectionDivider label={phrases.eat ?? 'Where to eat'} />
-          <div className="region-chapter__inner">
-            {data.featuredRestaurants.length > 0 && (
-              <div className="region-story-stack">
-                {data.featuredRestaurants.map((feature) => (
-                  <RegionStoryCard key={`restaurant-${feature.name}`} {...storyProps(feature)} />
-                ))}
-              </div>
-            )}
+          <div className="region-chapter__content">
+            <RegionChapterPicks stories={eatPicks} />
             {data.restaurantDirectory.length > 0 && (
               <RegionListingMapSection
-                title={`More ${regionLabel} Dining`}
+                title={`${regionLabel} dining`}
                 regionSlug={slug}
                 data={data}
                 mapRows={eatMapRows}
                 listRows={data.restaurantDirectory}
                 pinnedCategory="dining"
               />
-            )}
-            {data.breakfast && (
-              <div className="region-story-stack region-story-stack--single">
-                <RegionStoryCard key={`breakfast-${data.breakfast.name}`} {...storyProps(data.breakfast)} />
-              </div>
             )}
           </div>
         </section>
@@ -106,17 +125,11 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
       {hasStay && (
         <section id="region-stay" className="region-chapter region-chapter--stay">
           <SectionDivider label={phrases.stay ?? 'Where to stay'} />
-          <div className="region-chapter__inner">
-            {data.featuredHotels.length > 0 && (
-              <div className="region-story-stack">
-                {data.featuredHotels.map((feature) => (
-                  <RegionStoryCard key={`hotel-${feature.name}`} {...storyProps(feature)} />
-                ))}
-              </div>
-            )}
+          <div className="region-chapter__content">
+            <RegionChapterPicks stories={stayPicks} />
             {(data.lodgingDirectory.length > 0 || stayMapRows.length > 0) && (
               <RegionListingMapSection
-                title={`More ${regionLabel} Lodging`}
+                title={`${regionLabel} lodging`}
                 regionSlug={slug}
                 data={data}
                 mapRows={stayMapRows}
@@ -133,7 +146,6 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
 
 /** Nav anchor targets for sticky section jump links. */
 export function buildRegionGuideNavItems(data: LoadedRegionMdx): { id: string; label: string }[] {
-  const phrases = data.frontmatter.marqueePhrases ?? {}
   const tasteMapRows = buildRegionTasteMapRows(data)
   const eatMapRows = buildRegionEatMapRows(data)
   const stayMapRows = buildRegionStayMapRows(data)

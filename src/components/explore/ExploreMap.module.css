@@ -402,7 +402,177 @@
   font-size: 14px;
 }
 
+/* Region embed: full-bleed split list + map */
+.exploreRootSplit {
+  padding: 0;
+  background: var(--ink);
+  color: var(--cream);
+  width: 100%;
+}
+
+.exploreShellSplit {
+  display: grid;
+  grid-template-columns: minmax(0, 42%) minmax(0, 58%);
+  max-width: none;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  height: min(78vh, 820px);
+  min-height: 520px;
+  background: var(--ink);
+}
+
+.exploreShellSplit .mapStage {
+  position: relative;
+  grid-column: 2;
+  inset: auto;
+  height: 100%;
+  min-height: 0;
+}
+
+.exploreShellSplit .directoryPanel {
+  position: relative;
+  grid-column: 1;
+  top: auto;
+  left: auto;
+  bottom: auto;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  border-radius: 0;
+  background: var(--ink);
+  border: none;
+  border-right: 1px solid rgba(247, 243, 236, 0.08);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.exploreShellSplit .directoryHeader {
+  background: var(--ink);
+  border-bottom-color: rgba(247, 243, 236, 0.08);
+}
+
+.exploreShellSplit .resultCount {
+  color: var(--mist);
+}
+
+.exploreShellSplit .pill {
+  border-color: rgba(155, 146, 131, 0.45);
+  color: var(--mist);
+  background: transparent;
+}
+
+.exploreShellSplit .pill:hover {
+  border-color: rgba(247, 243, 236, 0.35);
+  color: var(--cream);
+}
+
+.exploreShellSplit .pillActive {
+  background: var(--cream);
+  color: var(--ink);
+  border-color: var(--cream);
+}
+
+.exploreShellSplit .card {
+  background: transparent;
+  border-color: rgba(247, 243, 236, 0.1);
+  color: var(--cream);
+}
+
+.exploreShellSplit .card:hover {
+  border-color: rgba(247, 243, 236, 0.22);
+  box-shadow: none;
+}
+
+.exploreShellSplit .cardSelected {
+  background: rgba(247, 243, 236, 0.06);
+  border-color: rgba(196, 148, 58, 0.5);
+  box-shadow: none;
+}
+
+.exploreShellSplit .cardName {
+  color: var(--cream);
+}
+
+.exploreShellSplit .cardMeta {
+  color: var(--mist);
+}
+
+.exploreShellSplit .cardVisual,
+.exploreShellSplit .cardThumb,
+.exploreShellSplit .cardIcon {
+  width: 80px;
+  height: 80px;
+}
+
+.exploreShellSplit .detailBack {
+  color: var(--mist);
+}
+
+.exploreShellSplit .detailBack:hover {
+  color: var(--cream);
+}
+
+.exploreShellSplit .detailName {
+  color: var(--cream);
+}
+
+.exploreShellSplit .detailRegion,
+.exploreShellSplit .detailExcerpt {
+  color: var(--mist);
+}
+
+.exploreShellSplit .detailsLink {
+  background: transparent;
+  color: var(--cream);
+  border-color: rgba(247, 243, 236, 0.25);
+}
+
+.exploreShellSplit .detailsLink:hover {
+  border-color: rgba(196, 148, 58, 0.6);
+  color: var(--cream);
+}
+
+.exploreShellSplit .emptyState {
+  color: var(--mist);
+}
+
 @media (max-width: 1023px) {
+  .exploreRootSplit {
+    padding: 0;
+    background: var(--ink);
+  }
+
+  .exploreShellSplit {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: auto;
+    background: var(--ink);
+  }
+
+  .exploreShellSplit .mapStage {
+    order: -1;
+    grid-column: auto;
+    flex-shrink: 0;
+    height: clamp(220px, 38vh, 320px);
+    border-bottom: 1px solid rgba(247, 243, 236, 0.08);
+  }
+
+  .exploreShellSplit .directoryPanel {
+    grid-column: auto;
+    flex: none;
+    background: var(--ink);
+    border-right: none;
+  }
+
+  .exploreShellSplit .cardVisual,
+  .exploreShellSplit .cardThumb,
+  .exploreShellSplit .cardIcon {
+    width: 52px;
+    height: 52px;
+  }
+
   .exploreRoot {
     padding: 0 0 32px;
   }

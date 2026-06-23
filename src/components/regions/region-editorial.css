@@ -418,8 +418,7 @@ a.tasting-directory-url:hover {
 /* ── Guide layout: intro, jump nav, story cards, chapters ─────────── */
 .region-intro {
   background: #faf7f2;
-  padding: clamp(40px, 6vw, 64px) clamp(24px, 4vw, 40px) clamp(32px, 5vw, 48px);
-  border-bottom: 1px solid rgba(26, 22, 20, 0.06);
+  padding: clamp(40px, 6vw, 64px) clamp(24px, 4vw, 40px) clamp(36px, 5vw, 52px);
 }
 
 .region-intro__inner {
@@ -434,7 +433,6 @@ a.tasting-directory-url:hover {
   line-height: 1.45;
   color: rgba(26, 22, 20, 0.78);
   margin: 0 0 clamp(28px, 4vw, 40px);
-  text-align: center;
 }
 
 .region-intro__lede {
@@ -442,6 +440,22 @@ a.tasting-directory-url:hover {
   font-size: clamp(18px, 2vw, 20px);
   line-height: 1.68;
   color: #1a1614;
+}
+
+.region-guide-nav-bar {
+  position: sticky;
+  top: var(--ws-site-header-height, 72px);
+  z-index: 30;
+  background: rgba(250, 247, 242, 0.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(26, 22, 20, 0.08);
+  padding: 10px clamp(24px, 4vw, 40px);
+}
+
+.region-guide-nav-bar .region-guide-nav {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 
 .region-guide-nav {
@@ -492,40 +506,33 @@ a.tasting-directory-url:hover {
 }
 
 .region-chapter[id] {
-  scroll-margin-top: calc(var(--ws-site-header-height, 72px) + 48px);
+  scroll-margin-top: calc(var(--ws-site-header-height, 72px) + 56px);
 }
 
-.region-chapter--taste {
-  background: #faf7f2;
+.region-chapter {
+  border-top: 1px solid rgba(26, 22, 20, 0.06);
 }
 
-.region-chapter--eat {
-  background: #f5f0e8;
-}
-
+.region-chapter--taste,
+.region-chapter--eat,
 .region-chapter--stay {
   background: #faf7f2;
 }
 
 .region-chapter--sidebar {
   background: linear-gradient(180deg, #ede5d8 0%, #e8dfd0 100%);
+  border-top: none;
 }
 
 .region-chapter .region-section-divider {
-  padding: clamp(36px, 5vw, 56px) clamp(24px, 4vw, 40px) clamp(20px, 3vw, 28px);
+  padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 40px) clamp(12px, 2vw, 16px);
   background: transparent;
 }
 
 .region-chapter--taste .region-section-divider__label,
-.region-chapter--taste .region-section-divider__rule {
-  background: #faf7f2;
-}
-
+.region-chapter--taste .region-section-divider__rule,
 .region-chapter--eat .region-section-divider__label,
-.region-chapter--eat .region-section-divider__rule {
-  background: #f5f0e8;
-}
-
+.region-chapter--eat .region-section-divider__rule,
 .region-chapter--stay .region-section-divider__label,
 .region-chapter--stay .region-section-divider__rule {
   background: #faf7f2;
@@ -534,6 +541,28 @@ a.tasting-directory-url:hover {
 .region-chapter--sidebar .region-section-divider__label,
 .region-chapter--sidebar .region-section-divider__rule {
   background: #ede5d8;
+}
+
+.region-chapter__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.region-chapter__picks {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 40px) clamp(28px, 4vw, 36px);
+}
+
+.region-chapter__eyebrow {
+  margin: 0 0 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(26, 22, 20, 0.48);
 }
 
 .region-chapter__inner {
@@ -554,55 +583,49 @@ a.tasting-directory-url:hover {
   margin-bottom: 0;
 }
 
+.region-story-group {
+  border: 1px solid rgba(26, 22, 20, 0.1);
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 1px 8px rgba(26, 22, 20, 0.04);
+}
+
+.region-story-group .region-story-card {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(26, 22, 20, 0.08);
+}
+
+.region-story-group .region-story-card:last-child {
+  border-bottom: none;
+}
+
 .region-story-card {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
+  padding: clamp(22px, 3vw, 28px) clamp(22px, 3vw, 32px);
   background: #fff;
   border: 1px solid rgba(26, 22, 20, 0.08);
   border-radius: 4px;
-  overflow: hidden;
   box-shadow: 0 2px 12px rgba(26, 22, 20, 0.04);
 }
 
+.region-story-card--text {
+  max-width: none;
+}
+
+.region-chapter--eat .region-story-group,
 .region-chapter--eat .region-story-card {
   background: #faf7f2;
-}
-
-.region-story-card__media {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 280px;
-  background: linear-gradient(145deg, rgba(26, 22, 20, 0.05) 0%, rgba(114, 47, 55, 0.1) 100%);
-}
-
-.region-story-card__media--empty {
-  aspect-ratio: unset;
-  max-height: none;
-  height: 4px;
-  background: linear-gradient(90deg, #722f37 0%, rgba(114, 47, 55, 0.2) 100%);
-}
-
-.region-story-card__img--landscape {
-  display: block;
-}
-
-.region-story-card__img--portrait {
-  display: none;
-}
-
-.region-story-card__body {
-  padding: clamp(24px, 3.5vw, 32px) clamp(24px, 3.5vw, 36px);
 }
 
 .region-story-card__title {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-weight: 400;
-  font-size: clamp(28px, 3.5vw, 36px);
+  font-size: clamp(26px, 3.2vw, 32px);
   line-height: 1.12;
   color: #1a1614;
-  margin: 0 0 16px;
+  margin: 0 0 14px;
 }
 
 .region-story-card__prose {
@@ -613,8 +636,8 @@ a.tasting-directory-url:hover {
 }
 
 .region-story-card__meta {
-  margin-top: 20px;
-  padding-top: 16px;
+  margin-top: 18px;
+  padding-top: 14px;
   border-top: 1px solid rgba(26, 22, 20, 0.08);
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
@@ -626,6 +649,43 @@ a.tasting-directory-url:hover {
 
 .region-story-card__address {
   margin: 0 0 8px;
+}
+
+.region-map-bleed {
+  width: 100%;
+  background: #0d0b09;
+  margin-top: 0;
+  border-top: 1px solid rgba(247, 243, 236, 0.08);
+}
+
+.region-chapter__content > .region-map-bleed:first-child {
+  border-top: none;
+}
+
+.region-map-bleed__head {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(24px, 3.5vw, 32px) clamp(20px, 4vw, 40px) clamp(10px, 2vw, 14px);
+}
+
+.region-map-bleed__eyebrow {
+  margin: 0 0 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.45);
+}
+
+.region-map-bleed__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(22px, 2.8vw, 28px);
+  color: #f7f3ec;
+  margin: 0;
+  line-height: 1.2;
 }
 
 .region-chapter__map {
@@ -642,50 +702,13 @@ a.tasting-directory-url:hover {
   text-align: center;
 }
 
-.region-chapter__map .exploreRoot {
-  padding-left: 0;
-  padding-right: 0;
-  padding-bottom: 0;
+.region-chapter__map .exploreRoot,
+.region-map-bleed .exploreRoot {
+  padding: 0;
 }
 
 .region-chapter--sidebar .region-sidebar-callout {
-  padding: clamp(40px, 6vw, 64px) clamp(24px, 4vw, 40px);
+  padding: clamp(28px, 4vw, 40px) clamp(24px, 4vw, 40px) clamp(40px, 6vw, 56px);
   border-top: none;
   background: transparent;
-}
-
-@media (min-width: 900px) {
-  .region-story-card {
-    grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
-    align-items: stretch;
-  }
-
-  .region-story-card__media {
-    aspect-ratio: unset;
-    max-height: none;
-    min-height: 100%;
-  }
-
-  .region-story-card__media--empty {
-    height: auto;
-    min-height: 4px;
-  }
-
-  .region-story-card__img--landscape {
-    display: block;
-  }
-
-  .region-story-card__img--portrait {
-    display: none;
-  }
-}
-
-@media (max-width: 899px) {
-  .region-story-card__img--landscape {
-    display: none;
-  }
-
-  .region-story-card__img--portrait {
-    display: block;
-  }
 }
