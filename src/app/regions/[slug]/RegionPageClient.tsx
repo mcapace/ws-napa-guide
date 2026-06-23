@@ -30,6 +30,13 @@ const PANEL_MOTION = {
   transition: { duration: 0.4, ease: 'easeOut' as const },
 }
 
+const ITINERARY_PANEL_MOTION = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+  transition: { duration: 0.35, ease: 'easeOut' as const },
+}
+
 function parseTab(param: string | null, hasItinerary: boolean): RegionTab {
   if (param === 'explore') return 'explore'
   if (param === 'itinerary' && hasItinerary) return 'itinerary'
@@ -251,7 +258,7 @@ function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPa
             <motion.div
               key="itinerary"
               className={`${styles.panel} ${styles.itineraryScrollyPanel}`}
-              {...PANEL_MOTION}
+              {...ITINERARY_PANEL_MOTION}
             >
               <ScrollyItinerary
                 itineraries={itineraries}

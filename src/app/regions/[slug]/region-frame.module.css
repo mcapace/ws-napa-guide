@@ -229,6 +229,8 @@
 .itineraryScrollyPanel {
   width: 100%;
   max-width: none;
+  /* Framer-motion transform breaks position:sticky on map column */
+  transform: none !important;
 }
 
 .panel {

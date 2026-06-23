@@ -3,6 +3,10 @@
   --gold: #c4943a;
   --mist: #9b9283;
   --ink-mid: #1a1612;
+  --scrolly-sticky-top: calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px)
+  );
+  --scrolly-map-height: calc(100vh - var(--scrolly-sticky-top));
   background: #0d0b09;
   color: var(--cream);
 }
@@ -229,8 +233,7 @@
 }
 
 .mapSticky {
-  position: sticky;
-  top: calc(var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px));
+  position: relative;
   height: calc(55vh - var(--region-tab-bar-height, 52px));
   min-height: 280px;
   z-index: 5;
@@ -353,26 +356,33 @@
 
 @media (min-width: 1024px) {
   .layout {
-    flex-direction: row;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: minmax(0, 40%) minmax(0, 60%);
+    align-items: start;
+    gap: 0;
   }
 
   .storyColumn {
     order: 1;
-    width: 40%;
-    flex-shrink: 0;
+    grid-column: 1;
+    width: auto;
     padding: 0 clamp(24px, 3vw, 48px) 64px;
   }
 
   .mapColumn {
     order: 2;
-    width: 60%;
-    flex: 1;
+    grid-column: 2;
+    width: auto;
+    position: sticky;
+    top: var(--scrolly-sticky-top);
+    height: var(--scrolly-map-height);
+    min-height: 480px;
+    align-self: start;
   }
 
   .mapSticky {
-    height: calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px));
-    min-height: 480px;
+    height: 100%;
+    min-height: 0;
   }
 
   .step {
@@ -386,6 +396,17 @@
 }
 
 @media (max-width: 1023px) {
+  .mapColumn {
+    position: sticky;
+    top: var(--scrolly-sticky-top);
+    z-index: 5;
+  }
+
+  .mapSticky {
+    height: 55vh;
+    min-height: 280px;
+  }
+
   .summaryText {
     white-space: normal;
     font-size: 9px;
