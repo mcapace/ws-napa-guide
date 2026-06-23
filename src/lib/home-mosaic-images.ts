@@ -55,9 +55,21 @@ export const MOSAIC_IMAGE_CATALOG: MosaicImageAsset[] = [
 /** @deprecated Use MOSAIC_IMAGE_CATALOG — kept for any legacy imports */
 export const HOME_MOSAIC_IMAGES = MOSAIC_IMAGE_CATALOG.map((img) => img.src)
 
-export const MOSAIC_ROTATE_INTERVAL_MS = 9500
-export const MOSAIC_CROSSFADE_MS = 1200
-export const MOSAIC_STAGGER_MS = 1700
+export const MOSAIC_ROTATE_INTERVAL_MS = 5800
+export const MOSAIC_CROSSFADE_MS = 1000
+/** Two panels advance together each tick; sequence spreads changes across the grid. */
+export const MOSAIC_PAIR_SEQUENCE: readonly [number, number][] = [
+  [0, 2],
+  [1, 4],
+  [0, 3],
+  [1, 2],
+  [3, 4],
+  [0, 1],
+  [2, 4],
+  [0, 4],
+  [1, 3],
+  [2, 3],
+]
 
 const MOSAIC_BY_ORIENTATION = {
   portrait: MOSAIC_IMAGE_CATALOG.filter((img) => img.orientation === 'portrait'),

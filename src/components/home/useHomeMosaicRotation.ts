@@ -1,9 +1,9 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
+  MOSAIC_PAIR_SEQUENCE,
   MOSAIC_ROTATE_INTERVAL_MS,
-  MOSAIC_STAGGER_MS,
   pickInitialMosaicAssets,
   pickNextMosaicAsset,
   type MosaicImageAsset,
@@ -11,14 +11,17 @@ import {
 
 export function useHomeMosaicRotation(queues: MosaicImageAsset[][]) {
   const [visible, setVisible] = useState(() => pickInitialMosaicAssets(queues))
+  const pairIndexRef = useRef(0)
 
-  const advancePanel = useCallback(
-    (panelIndex: number) => {
+  const advancePair = useCallback(
+    (panelIndices: readonly number[]) => {
       setVisible((prev) => {
-        const queue = queues[panelIndex]
-        if (!queue?.length) return prev
         const next = [...prev]
-        next[panelIndex] = pickNextMosaicAsset(panelIndex, prev, queue)
+        for (const panelIndex of panelIndices) {
+          const queue = queues[panelIndex]
+          if (!queue?.length || queue.length < 2) continue
+          next[panelIndex] = pickNextMosaicAsset(panelIndex, next, queue)
+        }
         return next
       })
     },
@@ -30,44 +33,38 @@ export function useHomeMosaicRotation(queues: MosaicImageAsset[][]) {
     const mobileMq = window.matchMedia('(max-width: 768px)')
     if (motionMq.matches || mobileMq.matches) return
 
-    const intervalIds: number[] = []
-    const timeoutIds: number[] = []
+    let intervalId: number | undefined
 
-    const stopAll = () => {
-      intervalIds.forEach(clearInterval)
-      intervalIds.length = 0
+    const stop = () => {
+      if (intervalId !== undefined) {
+        clearInterval(intervalId)
+        intervalId = undefined
+      }
     }
 
-    const startAll = () => {
-      stopAll()
-      queues.forEach((queue, panelIndex) => {
-        if (queue.length < 2) return
-        const timeoutId = window.setTimeout(() => {
-          intervalIds.push(
-            window.setInterval(
-              () => advancePanel(panelIndex),
-              MOSAIC_ROTATE_INTERVAL_MS
-            )
-          )
-        }, panelIndex * MOSAIC_STAGGER_MS)
-        timeoutIds.push(timeoutId)
-      })
+    const start = () => {
+      stop()
+      intervalId = window.setInterval(() => {
+        const pair =
+          MOSAIC_PAIR_SEQUENCE[pairIndexRef.current % MOSAIC_PAIR_SEQUENCE.length]
+        pairIndexRef.current += 1
+        advancePair(pair)
+      }, MOSAIC_ROTATE_INTERVAL_MS)
     }
 
     const onVisibility = () => {
-      if (document.hidden) stopAll()
-      else startAll()
+      if (document.hidden) stop()
+      else start()
     }
 
-    startAll()
+    start()
     document.addEventListener('visibilitychange', onVisibility)
 
     return () => {
-      timeoutIds.forEach(clearTimeout)
-      stopAll()
+      stop()
       document.removeEventListener('visibilitychange', onVisibility)
     }
-  }, [advancePanel, queues])
+  }, [advancePair])
 
   return visible
 }
