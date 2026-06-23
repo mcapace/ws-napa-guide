@@ -21,7 +21,7 @@ export function RegionPickAccordion({
   picks: RegionPick[]
   accent?: 'taste' | 'eat' | 'stay' | 'default'
 }) {
-  const [openKey, setOpenKey] = useState<string | null>(picks[0]?.key ?? null)
+  const [openKey, setOpenKey] = useState<string | null>(null)
 
   if (picks.length === 0) return null
 
@@ -49,7 +49,12 @@ export function RegionPickAccordion({
               <span className="region-pick-accordion__index">
                 {String(index + 1).padStart(2, '0')}
               </span>
-              <span className="region-pick-accordion__name">{pick.name}</span>
+              <span className="region-pick-accordion__trigger-main">
+                <span className="region-pick-accordion__name">{pick.name}</span>
+                {!isOpen ? (
+                  <div className="region-pick-accordion__preview">{pick.body}</div>
+                ) : null}
+              </span>
               <span className="region-pick-accordion__chevron" aria-hidden>
                 {isOpen ? '−' : '+'}
               </span>

@@ -67,39 +67,27 @@ export function RegionGuideChapters({ data }: { data: LoadedRegionMdx }) {
   return (
     <>
       {hasTaste ? (
-        <section
-          id="region-taste"
-          data-region-chapter="taste"
-          className="region-chapter region-chapter--taste region-guide-chapter"
-        >
+        <section id="region-taste" className="region-chapter region-chapter--taste">
           <SectionDivider label={phrases.taste ?? 'Where to taste'} />
-          <div className="region-guide-chapter__body">
+          <div className="region-chapter__picks">
             <RegionPickAccordion picks={tastePicks} accent="taste" />
           </div>
         </section>
       ) : null}
 
       {hasEat ? (
-        <section
-          id="region-eat"
-          data-region-chapter="eat"
-          className="region-chapter region-chapter--eat region-guide-chapter"
-        >
+        <section id="region-eat" className="region-chapter region-chapter--eat">
           <SectionDivider label={phrases.eat ?? 'Where to eat'} />
-          <div className="region-guide-chapter__body">
+          <div className="region-chapter__picks">
             <RegionPickAccordion picks={eatPicks} accent="eat" />
           </div>
         </section>
       ) : null}
 
       {hasStay ? (
-        <section
-          id="region-stay"
-          data-region-chapter="stay"
-          className="region-chapter region-chapter--stay region-guide-chapter"
-        >
+        <section id="region-stay" className="region-chapter region-chapter--stay">
           <SectionDivider label={phrases.stay ?? 'Where to stay'} />
-          <div className="region-guide-chapter__body">
+          <div className="region-chapter__picks">
             <RegionPickAccordion picks={stayPicks} accent="stay" />
           </div>
         </section>
