@@ -2,17 +2,10 @@ import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { getRegion } from '@/data/regions'
-import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
 import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { RegionHero } from './RegionHero'
 import { RegionIntro } from './RegionIntro'
-import { RegionGuideNav } from './RegionGuideNav'
-import {
-  RegionEditorialSections,
-  buildRegionGuideNavItems,
-} from './RegionEditorialSections'
-import { SidebarCallout } from './SidebarCallout'
-import { SectionDivider } from './SectionDivider'
+import { RegionGuideExperience } from './RegionGuideExperience'
 import { RelatedStoriesRail } from './RelatedStoriesRail'
 import { RegionAdventureBlock } from './RegionAdventureBlock'
 import { RegionMoreAppellations } from './RegionMoreAppellations'
@@ -24,7 +17,6 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
   const regionData = getRegion(slug)
   const regionPins = buildRegionExplorePins(slug, data)
   const regionName = frontmatter.region
-  const guideNav = buildRegionGuideNavItems(data, regionPins.length > 0)
 
   return (
     <div
@@ -36,40 +28,12 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
 
       <RegionIntro lede={data.lede} dek={frontmatter.dek} />
 
-      {guideNav.length > 0 ? (
-        <div className="region-guide-nav-bar">
-          <RegionGuideNav items={guideNav} />
-        </div>
-      ) : null}
-
-      {data.sidebarHeading ? (
-        <section id="region-sidebar" className="region-chapter region-chapter--sidebar">
-          {frontmatter.marqueePhrases?.sidebar ? (
-            <SectionDivider label={frontmatter.marqueePhrases.sidebar} />
-          ) : null}
-          <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
-        </section>
-      ) : null}
-
-      <RegionEditorialSections data={data} />
-
-      {regionPins.length > 0 ? (
-        <section id="region-map" className="region-directory-section">
-          <div className="region-directory-section__head">
-            <p className="region-directory-section__eyebrow">Interactive directory</p>
-            <h2 className="region-directory-section__title">Explore {regionName}</h2>
-            <p className="region-directory-section__dek">
-              Scroll the listings on the left or pan the map — filter by tasting rooms, dining, or
-              hotels. Photos appear where we have editorial art; icons mark the rest.
-            </p>
-          </div>
-          <ExploreMapSection
-            pins={regionPins}
-            scopedRegion={slug}
-            showRegionFilter={false}
-          />
-        </section>
-      ) : null}
+      <RegionGuideExperience
+        data={data}
+        pins={regionPins}
+        regionName={regionName}
+        slug={slug}
+      />
 
       {data.related.length > 0 ? (
         <RelatedStoriesRail cards={data.related} />

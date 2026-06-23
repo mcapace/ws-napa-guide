@@ -42,6 +42,9 @@ export interface ExploreMapProps {
   scopedRegion?: string
   showRegionFilter?: boolean
   pinnedCategory?: Category
+  /** Region embed: local selection, optional scroll-synced category filter. */
+  embedMode?: boolean
+  syncCategory?: ExploreCategoryFilter
 }
 
 type ClusterProps = Supercluster.ClusterProperties & { pin?: MapPin }
@@ -62,6 +65,8 @@ export function ExploreMap({
   scopedRegion,
   showRegionFilter = false,
   pinnedCategory,
+  embedMode = false,
+  syncCategory,
 }: ExploreMapProps) {
   const router = useRouter()
   const pathname = usePathname()
@@ -70,12 +75,22 @@ export function ExploreMap({
   const rowRefs = useRef<Record<string, HTMLButtonElement | null>>({})
   const listScrollRef = useRef<HTMLDivElement>(null)
 
-  const categoryFilter = pinnedCategory ?? urlParamToCategory(searchParams.get('category'))
+  const placeParam = embedMode ? null : searchParams.get('place')
+  const [embeddedPlace, setEmbeddedPlace] = useState<string | null>(null)
+  const [overrideCategory, setOverrideCategory] = useState<ExploreCategoryFilter | null>(null)
+  const activePlace = embedMode ? embeddedPlace : placeParam
+
+  const categoryFilter: ExploreCategoryFilter = embedMode
+    ? (overrideCategory ?? syncCategory ?? 'all')
+    : (pinnedCategory ?? urlParamToCategory(searchParams.get('category')))
+
   const regionFilter: string | 'all' = scopedRegion
     ? 'all'
     : searchParams.get('ava') || 'all'
-  const placeParam = searchParams.get('place')
 
+  useEffect(() => {
+    if (embedMode) setOverrideCategory(null)
+  }, [embedMode, syncCategory])
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null)
   const [scrollCenterSlug, setScrollCenterSlug] = useState<string | null>(null)
   const [mobileView, setMobileView] = useState<'list' | 'map'>('list')
@@ -123,8 +138,8 @@ export function ExploreMap({
     return supercluster.getClusters(mapBounds, Math.floor(mapZoom))
   }, [supercluster, mapBounds, mapZoom])
 
-  const selectedPin = placeParam
-    ? visiblePins.find((p) => p.slug === placeParam) ?? null
+  const selectedPin = activePlace
+    ? visiblePins.find((p) => p.slug === activePlace) ?? null
     : null
 
   const updateUrl = useCallback(
@@ -133,10 +148,15 @@ export function ExploreMap({
       ava?: string | 'all'
       place?: string | null
     }) => {
+      if (embedMode) {
+        if (opts.category !== undefined) setOverrideCategory(opts.category)
+        if (opts.place !== undefined) setEmbeddedPlace(opts.place)
+        return
+      }
       const params = new URLSearchParams(searchParams.toString())
       const cat = opts.category ?? categoryFilter
       const ava = opts.ava ?? regionFilter
-      const place = opts.place !== undefined ? opts.place : placeParam
+      const place = opts.place !== undefined ? opts.place : activePlace
 
       if (cat === 'all') params.delete('category')
       else params.set('category', cat)
@@ -152,7 +172,7 @@ export function ExploreMap({
       const q = params.toString()
       router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false })
     },
-    [categoryFilter, pathname, placeParam, regionFilter, router, scopedRegion, searchParams, showRegionFilter],
+    [categoryFilter, pathname, activePlace, regionFilter, router, scopedRegion, searchParams, showRegionFilter, embedMode],
   )
 
   const flyToPin = useCallback((pin: MapPin) => {
@@ -207,11 +227,11 @@ export function ExploreMap({
       mapRef.current?.flyTo({ center, zoom, duration: 0 })
       return
     }
-    if (placeParam) {
-      const pin = scopedPins.find((p) => p.slug === placeParam)
+    if (activePlace) {
+      const pin = scopedPins.find((p) => p.slug === activePlace)
       if (pin) flyToPin(pin)
     }
-  }, [scopedRegion, scopedPins, placeParam, flyToPin, onMapMove])
+  }, [scopedRegion, scopedPins, activePlace, flyToPin, onMapMove])
 
   const onCategoryChange = (cat: ExploreCategoryFilter) => {
     updateUrl({ category: cat, place: null })
@@ -231,7 +251,7 @@ export function ExploreMap({
   }
 
   const syncMapToListScroll = useCallback(() => {
-    if (placeParam) return
+    if (activePlace) return
     const root = listScrollRef.current
     if (!root || !isDesktop) return
 
@@ -259,13 +279,13 @@ export function ExploreMap({
     lastEaseSlugRef.current = bestSlug
     setScrollCenterSlug(bestSlug)
     easeToPin(pin)
-  }, [visiblePins, isDesktop, easeToPin, placeParam])
+  }, [visiblePins, isDesktop, easeToPin, activePlace])
 
   const handleListScroll = useCallback(() => {
-    if (!isDesktop || placeParam) return
+    if (!isDesktop || activePlace) return
     if (scrollSyncTimerRef.current) clearTimeout(scrollSyncTimerRef.current)
     scrollSyncTimerRef.current = setTimeout(syncMapToListScroll, 80)
-  }, [isDesktop, syncMapToListScroll, placeParam])
+  }, [isDesktop, syncMapToListScroll, activePlace])
 
   useEffect(() => {
     return () => {
@@ -294,7 +314,7 @@ export function ExploreMap({
   }
 
   return (
-    <div className={styles.exploreRoot}>
+    <div className={`${styles.exploreRoot} ${embedMode ? styles.exploreRootEmbed : ''}`}>
       <div className={styles.mobileToggle}>
         <button
           type="button"
@@ -376,7 +396,7 @@ export function ExploreMap({
                 const cfg = CATEGORY_CONFIG[pin.category]
                 const CatIcon = CATEGORY_ICONS[pin.category]
                 const isSelected =
-                  pin.slug === placeParam || pin.slug === scrollCenterSlug
+                  pin.slug === activePlace || pin.slug === scrollCenterSlug
                 return (
                   <button
                     key={pin.slug}
@@ -494,7 +514,7 @@ export function ExploreMap({
                 if (!pin) return null
                 const cfg = CATEGORY_CONFIG[pin.category]
                 const isSelected =
-                  pin.slug === placeParam || pin.slug === scrollCenterSlug
+                  pin.slug === activePlace || pin.slug === scrollCenterSlug
                 const isHovered = pin.slug === hoveredSlug
 
                 return (
