@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getAllRegionSlugs } from '@/data/regions'
-import { RegionEditorialPage } from '@/components/regions/RegionEditorialPage'
+import { getAllRegionSlugs, getRegion } from '@/data/regions'
+import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { getMdxRegionSlugs, loadRegionMdxCached } from '@/lib/content/loadRegionMdx'
+import RegionPageClient from './RegionPageClient'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -28,11 +29,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {}
 }
 
-/** All seven appellations render through the shared MDX editorial template. */
 export default async function RegionPage({ params }: Props) {
   const { slug } = await params
   const mdxDoc = await loadRegionMdxCached(slug)
   if (!mdxDoc) notFound()
 
-  return <RegionEditorialPage data={mdxDoc} />
+  const regionData = getRegion(slug)
+  const regionPins = buildRegionExplorePins(slug, mdxDoc)
+
+  return (
+    <RegionPageClient
+      slug={slug}
+      mdx={mdxDoc}
+      pins={regionPins}
+      adventure={regionData?.adventure}
+    />
+  )
 }
