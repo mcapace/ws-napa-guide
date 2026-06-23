@@ -1,5 +1,5 @@
 import type { MapPin, MapPinCategory } from '@/data/map-pins'
-import { mapPins, pinsByRegion } from '@/data/map-pins'
+import { pinsByRegion } from '@/data/map-pins'
 import type { DirectoryCategory, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
 import { pinHasListingImage } from '@/lib/explore'
@@ -53,23 +53,12 @@ function editorialImagePath(path?: string): string | undefined {
   return p
 }
 
-function findStaticPin(row: TastingDirectoryRow, regionSlug: string): MapPin | undefined {
-  const cat = directoryCategoryToPinCategory(row.category)
-  const candidates = mapPins.filter(
-    (p) => p.region === regionSlug && p.category === cat,
-  )
-  return candidates.find((p) => namesOverlap(p.name, row.name))
-}
-
 function directoryRowToMapPin(
   row: TastingDirectoryRow,
   regionSlug: string,
   featuredThumb?: string,
 ): MapPin | null {
   if (!row.coordinates) return null
-
-  const staticMatch = findStaticPin(row, regionSlug)
-  if (staticMatch) return null
 
   const category = directoryCategoryToPinCategory(row.category)
   const slug = directorySlug(regionSlug, row.name)
@@ -97,13 +86,22 @@ function directoryRowToMapPin(
   }
 }
 
-function mergeDirectoryPins(staticPins: MapPin[], directoryPins: MapPin[]): MapPin[] {
-  const merged = [...staticPins]
-  for (const pin of directoryPins) {
-    const dup = merged.some((p) => namesOverlap(p.name, pin.name))
-    if (!dup) merged.push(pin)
+function mergeEditorialThumb(staticPin: MapPin, editorialThumb?: string): MapPin {
+  const thumb = editorialImagePath(editorialThumb)
+  if (!thumb) return staticPin
+  return {
+    ...staticPin,
+    thumb,
+    images: [thumb, ...staticPin.images.filter((img) => img !== thumb)],
   }
-  return merged
+}
+
+function stripNonEditorialThumb(pin: MapPin): MapPin {
+  if (!pinHasListingImage(pin)) {
+    const { thumb: _t, ...rest } = pin
+    return { ...rest, thumb: undefined, images: [] }
+  }
+  return pin
 }
 
 function featuredThumbForName(data: LoadedRegionMdx, name: string): string | undefined {
@@ -114,31 +112,45 @@ function featuredThumbForName(data: LoadedRegionMdx, name: string): string | und
     ...data.featuredHotels,
   ]
   const match = all.find((f) => namesOverlap(f.name, name))
-  return editorialImagePath(match?.image)
+  return match?.image
 }
 
 /**
- * Region ExploreMap pins: static listings (wineries/restaurants/hotels.ts)
- * plus MDX directory + featured rows with geocodes (matches production region maps).
+ * Region ExploreMap pins: every MDX featured + directory row with a geocode,
+ * merged with static listings (wineries/restaurants/hotels.ts) — matches production maps.
  */
 export function buildRegionExplorePins(regionSlug: string, data: LoadedRegionMdx): MapPin[] {
-  const staticPins = pinsByRegion(regionSlug).map((pin) => {
-    if (!pinHasListingImage(pin)) {
-      const { thumb: _t, ...rest } = pin
-      return { ...rest, thumb: undefined, images: [] }
-    }
-    return pin
-  })
-
   const tasteRows = buildRegionTasteMapRows(data)
   const eatRows = buildRegionEatMapRows(data)
   const stayRows = buildRegionStayMapRows(data)
+  const allRows = [...tasteRows, ...eatRows, ...stayRows]
 
-  const directoryPins: MapPin[] = []
-  for (const row of [...tasteRows, ...eatRows, ...stayRows]) {
-    const pin = directoryRowToMapPin(row, regionSlug, featuredThumbForName(data, row.name))
-    if (pin) directoryPins.push(pin)
+  const staticPool = pinsByRegion(regionSlug)
+  const pins: MapPin[] = []
+
+  const alreadyAdded = (name: string) => pins.some((p) => namesOverlap(p.name, name))
+
+  const addPin = (pin: MapPin) => {
+    if (alreadyAdded(pin.name)) return
+    pins.push(stripNonEditorialThumb(pin))
   }
 
-  return mergeDirectoryPins(staticPins, directoryPins)
+  for (const row of allRows) {
+    const editorialThumb = featuredThumbForName(data, row.name)
+    const staticMatch = staticPool.find((p) => namesOverlap(p.name, row.name))
+
+    if (staticMatch) {
+      addPin(mergeEditorialThumb(staticMatch, editorialThumb))
+      continue
+    }
+
+    const fromRow = directoryRowToMapPin(row, regionSlug, editorialThumb)
+    if (fromRow) addPin(fromRow)
+  }
+
+  for (const staticPin of staticPool) {
+    addPin(staticPin)
+  }
+
+  return pins
 }

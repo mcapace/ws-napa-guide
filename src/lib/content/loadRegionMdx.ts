@@ -20,6 +20,7 @@ import {
   splitWhereToTaste,
 } from '@/lib/content/parseRegionMdxBody'
 import { attachDirectoryGeocodes } from '@/lib/content/directoryGeocode'
+import { mergeDedupedMapRows } from '@/lib/content/regionMapRows'
 import { TEST_IMAGES } from '@/lib/test-images'
 
 import { cache } from 'react'
@@ -177,9 +178,13 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   photoIdx += featuredRestaurants.length
 
   const restaurantDirSlice = sliceAfterH2Heading(eatMd, '## Restaurant Directory')
+  const breakfastDirSlice = sliceAfterH2Heading(eatMd, '## Breakfast, Coffee & Snacks Directory')
   const restaurantDirectory = attachDirectoryGeocodes(
     frontmatter.slug,
-    parseTastingDirectoryTable(extractGfmTable(restaurantDirSlice), 'restaurant'),
+    mergeDedupedMapRows([
+      ...parseTastingDirectoryTable(extractGfmTable(restaurantDirSlice), 'restaurant'),
+      ...parseTastingDirectoryTable(extractGfmTable(breakfastDirSlice), 'restaurant'),
+    ]),
   )
 
   let breakfast: EditorialFeature | null = null
