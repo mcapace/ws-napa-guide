@@ -13,7 +13,7 @@ function formatWebsiteLabel(url: string): string {
   return url.replace(/^https?:\/\//i, '').replace(/\/$/, '')
 }
 
-/** Editorial pick — prose only; photos appear in the map directory list. */
+/** Editorial pick — prose in the guide column; photos live in the directory map. */
 export function RegionStoryCard({
   name,
   address,
@@ -27,7 +27,7 @@ export function RegionStoryCard({
       : undefined
 
   return (
-    <article className="region-story-card region-story-card--text">
+    <article className="region-story-card">
       <h3 className="region-story-card__title">{name}</h3>
       <div className="region-story-card__prose">{children}</div>
       {(address || href) && (
