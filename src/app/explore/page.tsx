@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import { mapPins } from '@/data/map-pins'
 import { wineries } from '@/data/wineries'
@@ -20,7 +19,6 @@ export default function ExplorePage() {
 
   return (
     <div data-site-surface="light" style={{ minHeight: '100vh', background: '#FAF7F2' }}>
-      <Nav />
 
       <section
         style={{
@@ -29,7 +27,7 @@ export default function ExplorePage() {
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'center',
-          padding: '64px clamp(24px, 5vw, 48px) 32px',
+          padding: 'clamp(48px, 8vw, 64px) clamp(24px, 5vw, 48px) 24px',
           background: '#FAF7F2',
         }}
       >

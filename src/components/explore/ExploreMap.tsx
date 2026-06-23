@@ -1,11 +1,12 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, forwardRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import Map, { Marker, Popup, NavigationControl, type MapRef } from 'react-map-gl/mapbox'
+import Map, { Marker, NavigationControl, type MapRef } from 'react-map-gl/mapbox'
 import Supercluster from 'supercluster'
+import { Hotel, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
 import type { MapPin } from '@/data/map-pins'
 import {
   CATEGORY_CONFIG,
@@ -21,11 +22,13 @@ import {
 import {
   countByCategory,
   filterExplorePins,
+  pinHasListingImage,
   regionDisplayName,
   type ExploreCategoryFilter,
   urlParamToCategory,
 } from '@/lib/explore'
 import styles from './ExploreMap.module.css'
+import { ExploreMapPin } from './ExploreMapPin'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -33,45 +36,15 @@ export interface ExploreMapProps {
   pins: MapPin[]
   scopedRegion?: string
   showRegionFilter?: boolean
-  /** When set, only show this category and hide category pills. */
   pinnedCategory?: Category
 }
 
 type ClusterProps = Supercluster.ClusterProperties & { pin?: MapPin }
 
-function isExternalHref(href: string): boolean {
-  return href.startsWith('http://') || href.startsWith('https://')
-}
-
-function DetailsLink({
-  href,
-  className,
-  children,
-  onClick,
-}: {
-  href: string
-  className?: string
-  children: React.ReactNode
-  onClick?: (e: React.MouseEvent) => void
-}) {
-  if (isExternalHref(href)) {
-    return (
-      <a
-        href={href}
-        className={className}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={onClick}
-      >
-        {children}
-      </a>
-    )
-  }
-  return (
-    <Link href={href} className={className} onClick={onClick}>
-      {children}
-    </Link>
-  )
+const CATEGORY_ICONS: Record<Category, LucideIcon> = {
+  winery: Wine,
+  dining: UtensilsCrossed,
+  stay: Hotel,
 }
 
 const CATEGORY_ORDER: Category[] = ['winery', 'dining', 'stay']
@@ -84,6 +57,136 @@ const REGION_ORDER = [
   'pritchard-hill',
   'downtown-napa',
 ]
+
+const DESKTOP_MAP_OFFSET: [number, number] = [200, 0]
+
+function isExternalHref(href: string): boolean {
+  return href.startsWith('http://') || href.startsWith('https://')
+}
+
+function DetailsLink({
+  href,
+  className,
+  children,
+}: {
+  href: string
+  className?: string
+  children: React.ReactNode
+}) {
+  if (isExternalHref(href)) {
+    return (
+      <a
+        href={href}
+        className={className}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </a>
+    )
+  }
+  return (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  )
+}
+
+const ListingCard = forwardRef<
+  HTMLButtonElement,
+  {
+    pin: MapPin
+    isSelected: boolean
+    onSelect: () => void
+    onHover: (slug: string | null) => void
+  }
+>(function ListingCard({ pin, isSelected, onSelect, onHover }, ref) {
+  const cfg = CATEGORY_CONFIG[pin.category]
+  const hasImage = pinHasListingImage(pin)
+  const thumb = pin.thumb ?? pin.images[0]
+
+  return (
+    <button
+      ref={ref}
+      type="button"
+      className={`${styles.card} ${isSelected ? styles.cardSelected : ''}`}
+      onClick={onSelect}
+      onMouseEnter={() => onHover(pin.slug)}
+      onMouseLeave={() => onHover(null)}
+    >
+      {hasImage && thumb ? (
+        <div className={styles.cardThumb}>
+          <Image
+            src={thumb}
+            alt=""
+            width={68}
+            height={68}
+            sizes="68px"
+            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+          />
+        </div>
+      ) : (
+        <span className={styles.cardAccent} style={{ background: cfg.color }} aria-hidden />
+      )}
+      <div className={styles.cardBody}>
+        <span className={styles.cardCategory} style={{ color: cfg.color }}>
+          {cfg.label}
+        </span>
+        <span className={styles.cardName}>{pin.name}</span>
+        <span className={styles.cardMeta}>
+          {regionDisplayName(pin.region)} · {pin.excerpt}
+        </span>
+      </div>
+    </button>
+  )
+})
+
+function PlaceDetail({
+  pin,
+  onBack,
+}: {
+  pin: MapPin
+  onBack: () => void
+}) {
+  const cfg = CATEGORY_CONFIG[pin.category]
+  const hasImage = pinHasListingImage(pin)
+  const thumb = pin.thumb ?? pin.images[0]
+  const Icon = CATEGORY_ICONS[pin.category]
+
+  return (
+    <div className={styles.detailScroll} data-lenis-prevent>
+      <button type="button" className={styles.detailBack} onClick={onBack}>
+        ← All places
+      </button>
+      {hasImage && thumb ? (
+        <div className={styles.detailHero}>
+          <Image
+            src={thumb}
+            alt=""
+            fill
+            sizes="(max-width: 1023px) 100vw, 380px"
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
+      ) : (
+        <div className={styles.detailHeroAccent}>
+          <span className={styles.detailHeroGlyph} style={{ background: cfg.color }}>
+            <Icon size={20} color="#FAF7F2" strokeWidth={2} aria-hidden />
+          </span>
+        </div>
+      )}
+      <div className={styles.detailContent}>
+        <p className={styles.eyebrow} style={{ color: cfg.color }}>{cfg.label}</p>
+        <h3 className={styles.detailName}>{pin.name}</h3>
+        <p className={styles.detailRegion}>{regionDisplayName(pin.region)}</p>
+        <p className={styles.detailExcerpt}>{pin.excerpt}</p>
+        <DetailsLink href={pin.href} className={styles.detailsLink}>
+          View details →
+        </DetailsLink>
+      </div>
+    </div>
+  )
+}
 
 export function ExploreMap({
   pins,
@@ -106,7 +209,6 @@ export function ExploreMap({
 
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null)
   const [scrollCenterSlug, setScrollCenterSlug] = useState<string | null>(null)
-  const [mobileView, setMobileView] = useState<'list' | 'map'>('list')
   const [mapZoom, setMapZoom] = useState(NAPA_ZOOM)
   const [mapBounds, setMapBounds] = useState<[number, number, number, number] | null>(null)
   const [isDesktop, setIsDesktop] = useState(false)
@@ -185,32 +287,40 @@ export function ExploreMap({
     [categoryFilter, pathname, placeParam, regionFilter, router, scopedRegion, searchParams, showRegionFilter],
   )
 
-  const flyToPin = useCallback((pin: MapPin) => {
-    mapRef.current?.flyTo({
-      center: pin.coords,
-      zoom: 14,
-      duration: 900,
-      essential: false,
-    })
-  }, [])
+  const flyToPin = useCallback(
+    (pin: MapPin) => {
+      mapRef.current?.flyTo({
+        center: pin.coords,
+        zoom: 14,
+        duration: 900,
+        essential: false,
+        offset: isDesktop ? DESKTOP_MAP_OFFSET : [0, 0],
+      })
+    },
+    [isDesktop],
+  )
 
-  const easeToPin = useCallback((pin: MapPin) => {
-    const map = mapRef.current?.getMap()
-    if (!map) return
-    map.easeTo({
-      center: pin.coords,
-      zoom: Math.max(map.getZoom(), 13),
-      duration: 450,
-      essential: false,
-    })
-  }, [])
+  const easeToPin = useCallback(
+    (pin: MapPin) => {
+      const map = mapRef.current?.getMap()
+      if (!map) return
+      map.easeTo({
+        center: pin.coords,
+        zoom: Math.max(map.getZoom(), 13),
+        duration: 450,
+        essential: false,
+        offset: isDesktop ? DESKTOP_MAP_OFFSET : [0, 0],
+      })
+    },
+    [isDesktop],
+  )
 
   const selectPin = useCallback(
     (pin: MapPin, scrollList = true) => {
       flyToPin(pin)
       updateUrl({ place: pin.slug })
       if (scrollList && rowRefs.current[pin.slug]) {
-        rowRefs.current[pin.slug]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        rowRefs.current[pin.slug]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
       }
     },
     [flyToPin, updateUrl],
@@ -229,14 +339,19 @@ export function ExploreMap({
     onMapMove()
     if (scopedRegion && REGION_CENTERS[scopedRegion]) {
       const { center, zoom } = REGION_CENTERS[scopedRegion]
-      mapRef.current?.flyTo({ center, zoom, duration: 0 })
+      mapRef.current?.flyTo({
+        center,
+        zoom,
+        duration: 0,
+        offset: isDesktop ? DESKTOP_MAP_OFFSET : [0, 0],
+      })
       return
     }
     if (placeParam) {
       const pin = scopedPins.find((p) => p.slug === placeParam)
       if (pin) flyToPin(pin)
     }
-  }, [scopedRegion, scopedPins, placeParam, flyToPin, onMapMove])
+  }, [scopedRegion, scopedPins, placeParam, flyToPin, onMapMove, isDesktop])
 
   const onCategoryChange = (cat: ExploreCategoryFilter) => {
     updateUrl({ category: cat, place: null })
@@ -246,16 +361,27 @@ export function ExploreMap({
     updateUrl({ ava: region, place: null })
     if (region !== 'all' && REGION_CENTERS[region]) {
       const { center, zoom } = REGION_CENTERS[region]
-      mapRef.current?.flyTo({ center, zoom, duration: 1000 })
+      mapRef.current?.flyTo({
+        center,
+        zoom,
+        duration: 1000,
+        offset: isDesktop ? DESKTOP_MAP_OFFSET : [0, 0],
+      })
     }
   }
 
   const onClusterClick = (clusterId: number, lng: number, lat: number) => {
     const expansion = supercluster.getClusterExpansionZoom(clusterId)
-    mapRef.current?.flyTo({ center: [lng, lat], zoom: expansion + 1, duration: 600 })
+    mapRef.current?.flyTo({
+      center: [lng, lat],
+      zoom: expansion + 1,
+      duration: 600,
+      offset: isDesktop ? DESKTOP_MAP_OFFSET : [0, 0],
+    })
   }
 
   const syncMapToListScroll = useCallback(() => {
+    if (selectedPin) return
     const root = listScrollRef.current
     if (!root || !isDesktop) return
 
@@ -281,13 +407,13 @@ export function ExploreMap({
     lastEaseSlugRef.current = bestSlug
     setScrollCenterSlug(bestSlug)
     easeToPin(pin)
-  }, [visiblePins, isDesktop, easeToPin])
+  }, [visiblePins, isDesktop, easeToPin, selectedPin])
 
   const handleListScroll = useCallback(() => {
-    if (!isDesktop) return
+    if (!isDesktop || selectedPin) return
     if (scrollSyncTimerRef.current) clearTimeout(scrollSyncTimerRef.current)
     scrollSyncTimerRef.current = setTimeout(syncMapToListScroll, 80)
-  }, [isDesktop, syncMapToListScroll])
+  }, [isDesktop, syncMapToListScroll, selectedPin])
 
   useEffect(() => {
     return () => {
@@ -299,6 +425,16 @@ export function ExploreMap({
     lastEaseSlugRef.current = null
     setScrollCenterSlug(null)
   }, [visiblePins])
+
+  useEffect(() => {
+    const map = mapRef.current?.getMap()
+    if (!map) return
+    const id = requestAnimationFrame(() => {
+      map.resize()
+      onMapMove()
+    })
+    return () => cancelAnimationFrame(id)
+  }, [isDesktop, onMapMove])
 
   const initialCenter = scopedRegion && REGION_CENTERS[scopedRegion]
     ? REGION_CENTERS[scopedRegion].center
@@ -317,27 +453,83 @@ export function ExploreMap({
 
   return (
     <div className={styles.exploreRoot}>
-      <div className={styles.mobileToggle}>
-        <button
-          type="button"
-          className={`${styles.mobileToggleBtn} ${mobileView === 'list' ? styles.mobileToggleBtnActive : ''}`}
-          onClick={() => setMobileView('list')}
-        >
-          List
-        </button>
-        <button
-          type="button"
-          className={`${styles.mobileToggleBtn} ${mobileView === 'map' ? styles.mobileToggleBtnActive : ''}`}
-          onClick={() => setMobileView('map')}
-        >
-          Map
-        </button>
-      </div>
+      <div className={styles.exploreShell}>
+        <div className={styles.mapStage}>
+          <div className={styles.mapWrap}>
+            <Map
+              ref={mapRef}
+              mapboxAccessToken={MAPBOX_TOKEN}
+              initialViewState={{
+                longitude: initialCenter[0],
+                latitude: initialCenter[1],
+                zoom: initialZoom,
+              }}
+              style={{ width: '100%', height: '100%' }}
+              mapStyle={MAP_STYLE}
+              maxBounds={NAPA_BOUNDS}
+              attributionControl={false}
+              onLoad={handleMapLoad}
+              onMoveEnd={onMapMove}
+              onClick={() => updateUrl({ place: null })}
+            >
+              <NavigationControl position="top-right" showCompass={false} />
 
-      <div className={styles.explorePanel}>
-      <div className={styles.exploreGrid}>
-        <div className={styles.listColumn}>
-          <div className={styles.filtersSticky}>
+              {clusters.map((feature) => {
+                const [lng, lat] = feature.geometry.coordinates as [number, number]
+                const props = feature.properties as ClusterProps
+
+                if (props.cluster) {
+                  const clusterId = props.cluster_id
+                  if (clusterId == null) return null
+                  return (
+                    <Marker
+                      key={`cluster-${clusterId}`}
+                      longitude={lng}
+                      latitude={lat}
+                      anchor="center"
+                      onClick={(e) => {
+                        e.originalEvent.stopPropagation()
+                        onClusterClick(clusterId, lng, lat)
+                      }}
+                    >
+                      <div className={styles.cluster}>{props.point_count}</div>
+                    </Marker>
+                  )
+                }
+
+                const pin = props.pin
+                if (!pin) return null
+                const cfg = CATEGORY_CONFIG[pin.category]
+                const isSelected =
+                  pin.slug === placeParam || pin.slug === scrollCenterSlug
+                const isHovered = pin.slug === hoveredSlug
+
+                return (
+                  <Marker
+                    key={pin.slug}
+                    longitude={lng}
+                    latitude={lat}
+                    anchor="bottom"
+                    onClick={(e) => {
+                      e.originalEvent.stopPropagation()
+                      selectPin(pin, false)
+                    }}
+                  >
+                    <ExploreMapPin
+                      category={pin.category}
+                      color={cfg.color}
+                      selected={isSelected}
+                      hovered={isHovered}
+                    />
+                  </Marker>
+                )
+              })}
+            </Map>
+          </div>
+        </div>
+
+        <aside className={styles.directoryPanel}>
+          <div className={styles.directoryHeader}>
             {!pinnedCategory && (
               <div className={styles.filterRow}>
                 <button
@@ -380,211 +572,49 @@ export function ExploreMap({
                 ))}
               </div>
             )}
-          </div>
-
-          <div
-            ref={listScrollRef}
-            data-lenis-prevent
-            className={`${styles.listScroll} ${mobileView === 'map' ? styles.listScrollMobileHidden : ''}`}
-            onScroll={handleListScroll}
-          >
-            {visiblePins.length === 0 ? (
-              <p className={styles.emptyState}>No listings match these filters.</p>
-            ) : (
-              visiblePins.map((pin) => {
-                const cfg = CATEGORY_CONFIG[pin.category]
-                const isSelected =
-                  pin.slug === placeParam || pin.slug === scrollCenterSlug
-                return (
-                  <button
-                    key={pin.slug}
-                    type="button"
-                    ref={(el) => {
-                      rowRefs.current[pin.slug] = el
-                    }}
-                    className={`${styles.row} ${isSelected ? styles.rowSelected : ''}`}
-                    onClick={() => selectPin(pin, false)}
-                    onMouseEnter={() => setHoveredSlug(pin.slug)}
-                    onMouseLeave={() => setHoveredSlug(null)}
-                  >
-                    <div className={styles.thumb}>
-                      <Image
-                        src={pin.thumb}
-                        alt=""
-                        width={96}
-                        height={96}
-                        sizes="120px"
-                        style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                      />
-                    </div>
-                    <div>
-                      <p className={styles.eyebrow} style={{ color: cfg.color }}>
-                        {cfg.label}
-                      </p>
-                      <p className={styles.name}>{pin.name}</p>
-                      <p className={styles.meta}>
-                        {regionDisplayName(pin.region)} · {pin.excerpt}
-                      </p>
-                      <DetailsLink
-                        href={pin.href}
-                        className={styles.detailsLink}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        View details →
-                      </DetailsLink>
-                    </div>
-                  </button>
-                )
-              })
+            {!selectedPin && (
+              <p className={styles.resultCount}>
+                {visiblePins.length} {visiblePins.length === 1 ? 'place' : 'places'}
+              </p>
             )}
           </div>
-        </div>
 
-        <div
-          className={`${styles.mapColumn} ${mobileView === 'map' ? styles.mapColumnMobileOpen : ''}`}
-        >
-          {mobileView === 'map' && (
-            <button
-              type="button"
-              className={styles.mobileBack}
-              onClick={() => setMobileView('list')}
+          {selectedPin ? (
+            <PlaceDetail
+              pin={selectedPin}
+              onBack={() => updateUrl({ place: null })}
+            />
+          ) : (
+            <div
+              ref={listScrollRef}
+              data-lenis-prevent
+              className={styles.listScroll}
+              onScroll={handleListScroll}
             >
-              ← Back to list
-            </button>
-          )}
-          <div className={styles.mapWrap}>
-            <Map
-              ref={mapRef}
-              mapboxAccessToken={MAPBOX_TOKEN}
-              initialViewState={{
-                longitude: initialCenter[0],
-                latitude: initialCenter[1],
-                zoom: initialZoom,
-              }}
-              style={{ width: '100%', height: '100%' }}
-              mapStyle={MAP_STYLE}
-              maxBounds={NAPA_BOUNDS}
-              attributionControl={false}
-              onLoad={handleMapLoad}
-              onMoveEnd={onMapMove}
-              onClick={() => {
-                if (!isDesktop) return
-                updateUrl({ place: null })
-              }}
-            >
-              <NavigationControl position="top-right" showCompass={false} />
-
-              {clusters.map((feature) => {
-                const [lng, lat] = feature.geometry.coordinates as [number, number]
-                const props = feature.properties as ClusterProps
-
-                if (props.cluster) {
-                  const clusterId = props.cluster_id
-                  if (clusterId == null) return null
+              {visiblePins.length === 0 ? (
+                <p className={styles.emptyState}>No listings match these filters.</p>
+              ) : (
+                visiblePins.map((pin) => {
+                  const isSelected =
+                    pin.slug === placeParam || pin.slug === scrollCenterSlug
                   return (
-                    <Marker
-                      key={`cluster-${clusterId}`}
-                      longitude={lng}
-                      latitude={lat}
-                      anchor="center"
-                      onClick={(e) => {
-                        e.originalEvent.stopPropagation()
-                        onClusterClick(clusterId, lng, lat)
+                    <ListingCard
+                      key={pin.slug}
+                      ref={(el) => {
+                        rowRefs.current[pin.slug] = el
                       }}
-                    >
-                      <div className={styles.cluster}>{props.point_count}</div>
-                    </Marker>
+                      pin={pin}
+                      isSelected={isSelected}
+                      onSelect={() => selectPin(pin, false)}
+                      onHover={setHoveredSlug}
+                    />
                   )
-                }
-
-                const pin = props.pin
-                if (!pin) return null
-                const cfg = CATEGORY_CONFIG[pin.category]
-                const isSelected =
-                  pin.slug === placeParam || pin.slug === scrollCenterSlug
-                const isHovered = pin.slug === hoveredSlug
-
-                return (
-                  <Marker
-                    key={pin.slug}
-                    longitude={lng}
-                    latitude={lat}
-                    anchor="center"
-                    onClick={(e) => {
-                      e.originalEvent.stopPropagation()
-                      selectPin(pin)
-                      if (!isDesktop) setMobileView('map')
-                    }}
-                  >
-                    <div style={{ position: 'relative' }}>
-                      <div
-                        className={`${styles.marker} ${isHovered ? styles.markerHovered : ''} ${isSelected ? styles.markerSelected : ''}`}
-                        style={{ background: cfg.color }}
-                      >
-                        <span className={styles.markerGlyph}>{cfg.glyph}</span>
-                      </div>
-                      {isSelected && <span className={styles.markerLabel}>{pin.name}</span>}
-                    </div>
-                  </Marker>
-                )
-              })}
-
-              {selectedPin && isDesktop && (
-                <Popup
-                  longitude={selectedPin.coords[0]}
-                  latitude={selectedPin.coords[1]}
-                  anchor="bottom"
-                  offset={20}
-                  closeButton={false}
-                  closeOnClick={false}
-                  onClose={() => updateUrl({ place: null })}
-                >
-                  <div className={styles.popupCard}>
-                    <div className={styles.popupThumb}>
-                      <Image
-                        src={selectedPin.thumb}
-                        alt=""
-                        fill
-                        sizes="260px"
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </div>
-                    <p
-                      className={styles.eyebrow}
-                      style={{ color: CATEGORY_CONFIG[selectedPin.category].color }}
-                    >
-                      {CATEGORY_CONFIG[selectedPin.category].label}
-                    </p>
-                    <p className={styles.popupName}>{selectedPin.name}</p>
-                    <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
-                    <DetailsLink href={selectedPin.href} className={styles.detailsLink}>
-                      View details →
-                    </DetailsLink>
-                  </div>
-                </Popup>
+                })
               )}
-            </Map>
-            <p className={styles.mapAttribution}>© Mapbox © OpenStreetMap</p>
-          </div>
-        </div>
+            </div>
+          )}
+        </aside>
       </div>
-      </div>
-
-      {selectedPin && !isDesktop && mobileView === 'map' && (
-        <div className={`${styles.bottomSheet} ${styles.bottomSheetOpen}`}>
-          <p
-            className={styles.eyebrow}
-            style={{ color: CATEGORY_CONFIG[selectedPin.category].color }}
-          >
-            {CATEGORY_CONFIG[selectedPin.category].label}
-          </p>
-          <p className={styles.popupName}>{selectedPin.name}</p>
-          <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
-          <DetailsLink href={selectedPin.href} className={styles.detailsLink}>
-            View details →
-          </DetailsLink>
-        </div>
-      )}
 
       <style jsx global>{`
         .mapboxgl-popup-content {
@@ -599,11 +629,6 @@ export function ExploreMap({
         .mapboxgl-ctrl-group {
           background: rgba(255, 255, 255, 0.92) !important;
           border: 1px solid rgba(13, 11, 9, 0.1) !important;
-        }
-        .mapboxgl-ctrl-logo,
-        .mapboxgl-ctrl-attrib,
-        .mapboxgl-compact {
-          display: none !important;
         }
       `}</style>
     </div>

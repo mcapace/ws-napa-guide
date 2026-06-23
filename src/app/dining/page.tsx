@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import detailStyles from '@/app/regions/[slug]/regionDetail.module.css'
 import Footer from '@/components/ui/Footer'
-import Nav from '@/components/ui/Nav'
 import Newsletter from '@/components/ui/Newsletter'
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
 import { mapPins } from '@/data/map-pins'
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
 export default function DiningIndexPage() {
   return (
     <div className={detailStyles.page} data-site-surface="light">
-      <Nav />
 
       <header className={detailStyles.indexHero}>
         <span className={detailStyles.eyebrow}>Eat</span>

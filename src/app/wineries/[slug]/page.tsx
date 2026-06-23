@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
 import Newsletter from '@/components/ui/Newsletter'
@@ -39,10 +38,9 @@ export default async function WineryDetailPage({ params }: Props) {
 
   return (
     <div data-site-surface="light" style={{ minHeight: '100vh', background: '#FFFFFF' }}>
-      <Nav />
 
       {/* ── 1. HERO with title overlaid ── */}
-      <section data-nav-hero-root style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
+      <section data-nav-hero-root style={{ position: 'relative', height: '48vh', minHeight: 320, maxHeight: 520, overflow: 'hidden' }}>
         <Image src={winery.images[0]} alt={winery.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         <div style={{
           position: 'absolute', inset: 0,

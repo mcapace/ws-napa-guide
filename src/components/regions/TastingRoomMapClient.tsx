@@ -114,6 +114,7 @@ export function TastingRoomMapClient({ center, rows, regionName }: Props) {
         }}
         style={{ width: '100%', height: '100%', minHeight: 420 }}
         mapStyle="mapbox://styles/mapbox/outdoors-v12"
+        attributionControl={false}
       >
         <NavigationControl position="top-right" showCompass={false} />
         {showCenterPin && (

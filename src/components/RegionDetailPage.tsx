@@ -3,7 +3,6 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Nav from '@/components/ui/Nav';
 import Footer from '@/components/ui/Footer';
 import Newsletter from '@/components/ui/Newsletter';
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection';
@@ -60,10 +59,9 @@ export default function RegionDetailPage({ data }: { data: RegionData }) {
 
   return (
     <div data-site-surface="light" style={{ minHeight: '100vh', background: '#FFFFFF', WebkitFontSmoothing: 'antialiased' as unknown as string }}>
-      <Nav />
 
       {/* ── 1. HERO ── */}
-      <section data-nav-hero-root style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
+      <section data-nav-hero-root style={{ position: 'relative', height: '48vh', minHeight: 320, maxHeight: 520, overflow: 'hidden' }}>
         <Image src={data.heroImage} alt={data.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, transparent 60%)' }} />
         <div className="hero-top-scrim" aria-hidden />

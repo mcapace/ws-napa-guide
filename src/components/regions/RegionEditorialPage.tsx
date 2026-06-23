@@ -24,7 +24,6 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
       data-site-surface="light"
       style={{ minHeight: '100vh', background: '#FAF7F2', WebkitFontSmoothing: 'antialiased' as string }}
     >
-      <Nav />
       <RegionHero fm={frontmatter} />
       <RegionLede>{data.lede}</RegionLede>
 
@@ -37,7 +36,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
           style={{
             maxWidth: 1100,
             margin: '0 auto',
-            padding: '48px clamp(24px, 5vw, 40px) 24px',
+            padding: 'clamp(32px, 4vw, 48px) clamp(24px, 5vw, 40px) 16px',
           }}
         >
           <h2

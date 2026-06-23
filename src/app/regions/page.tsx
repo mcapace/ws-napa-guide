@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import ScrollReveal from '@/components/ui/ScrollReveal'
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
 export default function RegionsPage() {
   return (
     <div className="grain">
-      <Nav />
 
       {/* Page header */}
       <section

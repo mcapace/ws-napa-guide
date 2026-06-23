@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import { articles, featuredArticles } from '@/data/articles'
@@ -44,7 +43,6 @@ export default async function FeatureArticlePage({ params }: Props) {
 
   return (
     <div data-site-surface="dark" style={{ background: '#0D0B09', color: '#F7F3EC', minHeight: '100vh' }}>
-      <Nav />
 
       {/* ── HERO IMAGE ── */}
       <section data-nav-hero-root style={{ position: 'relative', height: '70vh', minHeight: 400, overflow: 'hidden' }}>

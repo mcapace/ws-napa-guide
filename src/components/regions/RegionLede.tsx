@@ -5,7 +5,7 @@ export function RegionLede({ children }: { children: ReactNode }) {
     <section
       style={{
         background: '#FAF7F2',
-        padding: 'clamp(72px, 12vw, 120px) clamp(24px, 5vw, 40px)',
+        padding: 'clamp(48px, 8vw, 80px) clamp(24px, 5vw, 40px)',
       }}
     >
       <div

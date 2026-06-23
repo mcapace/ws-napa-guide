@@ -1,14 +1,14 @@
 import type { MapPin, MapPinCategory } from '@/data/map-pins'
 import { mapPins, pinsByRegion } from '@/data/map-pins'
-import { getRegion } from '@/data/regions'
-import { TEST_IMAGES } from '@/lib/test-images'
 import type { DirectoryCategory, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
+import { pinHasListingImage } from '@/lib/explore'
 import {
   buildRegionEatMapRows,
   buildRegionStayMapRows,
   buildRegionTasteMapRows,
 } from '@/lib/content/regionMapRows'
+
 function pinExcerpt(text: string): string {
   const t = text.trim()
   if (t.length <= 90) return t
@@ -46,12 +46,11 @@ function directorySlug(region: string, name: string): string {
   return `${region}-${base}`
 }
 
-function directoryThumb(regionSlug: string, name: string): string {
-  const region = getRegion(regionSlug)
-  if (region?.heroImage) return region.heroImage
-  let hash = 0
-  for (let i = 0; i < name.length; i++) hash = (hash + name.charCodeAt(i)) % TEST_IMAGES.length
-  return TEST_IMAGES[hash]
+function editorialImagePath(path?: string): string | undefined {
+  if (!path?.trim()) return undefined
+  const p = path.trim()
+  if (!p.startsWith('/images/')) return undefined
+  return p
 }
 
 function findStaticPin(row: TastingDirectoryRow, regionSlug: string): MapPin | undefined {
@@ -78,7 +77,7 @@ function directoryRowToMapPin(
   const lat = row.coordinates.lat
   const website = normalizeWebsiteUrl(row.website)
   const excerpt = pinExcerpt(row.address)
-  const thumb = featuredThumb ?? directoryThumb(regionSlug, row.name)
+  const thumb = editorialImagePath(featuredThumb)
 
   const type = category === 'dining' ? 'restaurant' : category === 'stay' ? 'hotel' : 'winery'
 
@@ -93,7 +92,7 @@ function directoryRowToMapPin(
     thumb,
     id: slug,
     type,
-    images: [thumb],
+    images: thumb ? [thumb] : [],
     sponsorTier: null,
   }
 }
@@ -115,7 +114,7 @@ function featuredThumbForName(data: LoadedRegionMdx, name: string): string | und
     ...data.featuredHotels,
   ]
   const match = all.find((f) => namesOverlap(f.name, name))
-  return match?.image
+  return editorialImagePath(match?.image)
 }
 
 /**
@@ -123,7 +122,13 @@ function featuredThumbForName(data: LoadedRegionMdx, name: string): string | und
  * plus MDX directory + featured rows with geocodes (matches production region maps).
  */
 export function buildRegionExplorePins(regionSlug: string, data: LoadedRegionMdx): MapPin[] {
-  const staticPins = pinsByRegion(regionSlug)
+  const staticPins = pinsByRegion(regionSlug).map((pin) => {
+    if (!pinHasListingImage(pin)) {
+      const { thumb: _t, ...rest } = pin
+      return { ...rest, thumb: undefined, images: [] }
+    }
+    return pin
+  })
 
   const tasteRows = buildRegionTasteMapRows(data)
   const eatRows = buildRegionEatMapRows(data)

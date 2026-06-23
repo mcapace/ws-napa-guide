@@ -4,7 +4,6 @@ import { notFound, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/ui/Footer'
-import Nav from '@/components/ui/Nav'
 import Newsletter from '@/components/ui/Newsletter'
 import { motion } from 'framer-motion'
 import { useState, Suspense, type CSSProperties, type ReactNode } from 'react'
@@ -63,7 +62,6 @@ function RegionPageClientContent({ slug }: { slug: string }) {
 
   return (
     <div data-site-surface="light">
-      <Nav />
 
       {/* — therealhotels-style hero: absolute layers, italic Cormorant title, no parallax — */}
       <section data-nav-hero-root style={{ position: 'relative', height: '85vh', overflow: 'hidden' }}>

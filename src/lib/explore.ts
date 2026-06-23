@@ -67,3 +67,24 @@ export function regionDisplayName(slug: string): string {
 export function categoryEyebrow(category: MapPinCategory): string {
   return CATEGORY_CONFIG[category].label
 }
+
+/** True when the pin has real editorial photography (not stock test placeholders). */
+export function pinHasListingImage(pin: MapPin): boolean {
+  const src = pin.thumb ?? pin.images[0]
+  if (!src) return false
+  if (src.includes('/test-images/')) return false
+  return src.startsWith('/images/')
+}
+
+export function partitionPinsByImage(pins: MapPin[]): {
+  withImage: MapPin[]
+  withoutImage: MapPin[]
+} {
+  const withImage: MapPin[] = []
+  const withoutImage: MapPin[] = []
+  for (const pin of pins) {
+    if (pinHasListingImage(pin)) withImage.push(pin)
+    else withoutImage.push(pin)
+  }
+  return { withImage, withoutImage }
+}

@@ -18,7 +18,8 @@ export interface MapPin {
   coords: [number, number]
   excerpt: string
   href: string
-  thumb: string
+  /** Editorial photography only (`/images/…`); omit for directory rows without art. */
+  thumb?: string
   /** Legacy fields for NapaMap compatibility. */
   id: string
   type: PinType
