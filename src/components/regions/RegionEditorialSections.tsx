@@ -19,6 +19,14 @@ function storyProps(feature: LoadedRegionMdx['featuredWineries'][number]) {
   }
 }
 
+/** Short jump-nav labels; section dividers use full `marqueePhrases` from MDX. */
+const GUIDE_NAV_LABELS = {
+  taste: 'Taste',
+  eat: 'Eat',
+  stay: 'Stay',
+  sidebar: 'Aside',
+} as const
+
 export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
   const regionLabel = data.frontmatter.region
   const slug = data.frontmatter.slug
@@ -134,11 +142,11 @@ export function buildRegionGuideNavItems(data: LoadedRegionMdx): { id: string; l
   if (data.sidebarHeading) {
     items.push({
       id: 'region-sidebar',
-      label: phrases.sidebar ?? 'Aside',
+      label: GUIDE_NAV_LABELS.sidebar,
     })
   }
   if (data.featuredWineries.length > 0 || data.tastingDirectory.length > 0) {
-    items.push({ id: 'region-taste', label: phrases.taste ?? 'Taste' })
+    items.push({ id: 'region-taste', label: GUIDE_NAV_LABELS.taste })
   }
   if (
     data.featuredRestaurants.length > 0 ||
@@ -146,14 +154,14 @@ export function buildRegionGuideNavItems(data: LoadedRegionMdx): { id: string; l
     data.restaurantDirectory.length > 0 ||
     eatMapRows.length > 0
   ) {
-    items.push({ id: 'region-eat', label: phrases.eat ?? 'Eat' })
+    items.push({ id: 'region-eat', label: GUIDE_NAV_LABELS.eat })
   }
   if (
     data.featuredHotels.length > 0 ||
     data.lodgingDirectory.length > 0 ||
     stayMapRows.length > 0
   ) {
-    items.push({ id: 'region-stay', label: phrases.stay ?? 'Stay' })
+    items.push({ id: 'region-stay', label: GUIDE_NAV_LABELS.stay })
   }
 
   return items

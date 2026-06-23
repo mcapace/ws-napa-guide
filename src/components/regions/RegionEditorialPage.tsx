@@ -23,6 +23,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
 
   return (
     <div
+      className="region-editorial-page"
       data-site-surface="light"
       style={{ minHeight: '100vh', background: '#FAF7F2', WebkitFontSmoothing: 'antialiased' as string }}
     >
