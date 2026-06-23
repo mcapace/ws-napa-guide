@@ -2,25 +2,6 @@
 
 Use the **`staging`** branch for pre-production review. Production stays on **`main`** → [napatravel.winespectator.com](https://napatravel.winespectator.com).
 
-## Verify you're on staging (not production)
-
-| URL | What you get |
-|-----|----------------|
-| **https://ws-napa-guide-staging.vercel.app** | ✅ Staging (`staging` branch) |
-| **https://ws-napa-guide-git-staging-michael-capaces-projects-f6224d63.vercel.app** | ✅ Same staging branch |
-| **https://ws-napa-guide.vercel.app** | ❌ Redirects to **production** |
-| **https://napatravel.winespectator.com** | ❌ **Production** (`main` — no ExploreMap yet) |
-
-Preview deployments show a **burgundy staging bar** at the top with branch name and build SHA (e.g. `360b961`). If you don't see that bar, you're not on the staging preview.
-
-**Explore map pages (staging only):**
-
-- `/explore` — full directory + map
-- `/wineries`, `/dining`, `/stay` — category-scoped map+list
-- `/regions/oakville` (etc.) — region editorial + scoped map
-
-Hard refresh after deploy: **Cmd+Shift+R** (Mac) or clear cache. Try `/explore?v=1` to bypass cache.
-
 ## Workflow
 
 1. Check out `staging` and merge or cherry-pick your work there (or commit directly on `staging`).

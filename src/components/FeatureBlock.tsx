@@ -41,8 +41,7 @@ export function FeatureBlock({
 }: FeatureBlockProps) {
   const articleRef = useRef<HTMLElement | null>(null)
   const reduceMotion = useReducedMotion()
-  const isInView = useInView(articleRef, { once: true, amount: 0.05 })
-  const showContent = reduceMotion === true || isInView
+  const isInView = useInView(articleRef, { once: true, amount: 0.2 })
 
   const { scrollYProgress } = useScroll({
     target: articleRef,
@@ -93,7 +92,7 @@ export function FeatureBlock({
   }
 
   const copy = (
-    <div style={{ padding: 'clamp(36px, 5vw, 72px) clamp(24px, 5vw, 48px)' }}>
+    <div style={{ padding: 'clamp(48px, 8vw, 120px) clamp(24px, 5vw, 56px)' }}>
       {eyebrow && (
         <p
           style={{
@@ -112,7 +111,7 @@ export function FeatureBlock({
         style={{
           fontFamily: "'Cormorant Garamond', Georgia, serif",
           fontWeight: 400,
-          fontSize: 'clamp(36px, 4.5vw, 56px)',
+          fontSize: 'clamp(42px, 5.5vw, 72px)',
           lineHeight: 1.05,
           color: '#1A1614',
           margin: '0 0 20px',
@@ -208,7 +207,7 @@ export function FeatureBlock({
         className="feature-block-col-image"
         variants={imageVariants}
         initial="hidden"
-        animate={showContent ? 'visible' : 'hidden'}
+        animate={isInView ? 'visible' : 'hidden'}
       >
         <div className="feature-block-col-image__clip">{figure}</div>
       </motion.div>
@@ -216,7 +215,7 @@ export function FeatureBlock({
         className="feature-block-col-copy"
         variants={copyVariants}
         initial="hidden"
-        animate={showContent ? 'visible' : 'hidden'}
+        animate={isInView ? 'visible' : 'hidden'}
       >
         {copy}
       </motion.div>

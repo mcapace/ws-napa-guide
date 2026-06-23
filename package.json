@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "geocode": "node scripts/geocode-region-directories.mjs",
-    "geocode:listings": "node scripts/geocode-listings.mjs"
+    "geocode": "node scripts/geocode-region-directories.mjs"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^5.1.2",
@@ -25,8 +24,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-map-gl": "^8.1.0",
-    "remark-gfm": "^4.0.1",
-    "supercluster": "^8.0.1"
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

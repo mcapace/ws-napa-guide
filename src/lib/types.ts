@@ -141,6 +141,3 @@ export type MapPinType = 'winery' | 'restaurant' | 'hotel'
 export type MapPinFilterType = MapPinType | 'all'
 
 export type MapRegionFilter = string | 'all'
-
-/** Explore map listing category (winery / dining / stay). */
-export type MapListingCategory = 'winery' | 'dining' | 'stay'

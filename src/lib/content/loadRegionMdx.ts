@@ -9,7 +9,6 @@ import type { EditorialFeature, LoadedRegionMdx, RegionMdxFrontmatter, RelatedSt
 import {
   buildEditorialFeaturesFromH3,
   extractGfmTable,
-  markdownToPlainText,
   parseMetaLines,
   parseTastingDirectoryTable,
   resolveFeatureSlug,
@@ -21,13 +20,19 @@ import {
   splitWhereToTaste,
 } from '@/lib/content/parseRegionMdxBody'
 import { attachDirectoryGeocodes } from '@/lib/content/directoryGeocode'
-import { mergeDedupedMapRows } from '@/lib/content/regionMapRows'
-import { isEditorialListingImage } from '@/lib/explore'
+import { TEST_IMAGES } from '@/lib/test-images'
 
 import { cache } from 'react'
 
-function editorialOnlyImage(path?: string): string | undefined {
-  return isEditorialListingImage(path) ? path!.trim() : undefined
+function assignPlaceholderPhotos(list: EditorialFeature[], startIndex: number): EditorialFeature[] {
+  return list.map((item, i) =>
+    item.image
+      ? item
+      : {
+          ...item,
+          image: TEST_IMAGES[(startIndex + i) % TEST_IMAGES.length],
+        },
+  )
 }
 
 const CONTENT_DIR = join(process.cwd(), 'src/content/regions')
@@ -126,11 +131,9 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   const { featuredRaw, directoryRaw } = splitWhereToTaste(tasteMd)
   const wineryBlocks = splitH3Blocks(featuredRaw)
   const featuredWineriesBase = await buildEditorialFeaturesFromH3(wineryBlocks, compileMarkdown)
-  const featuredWineries = featuredWineriesBase.map((w) => ({
-    ...w,
-    image: editorialOnlyImage(w.image),
-    imagePortrait: editorialOnlyImage(w.imagePortrait),
-  }))
+  let photoIdx = 0
+  const featuredWineries = assignPlaceholderPhotos(featuredWineriesBase, photoIdx)
+  photoIdx += featuredWineries.length
 
   const tableText = extractGfmTable(directoryRaw)
   const tastingDirectory = attachDirectoryGeocodes(
@@ -163,24 +166,20 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
       name: b.title,
       address,
       website,
-      image: editorialOnlyImage(image),
-      imagePortrait: editorialOnlyImage(imagePortrait),
+      image,
+      imagePortrait,
       body: await compileMarkdown(bodyMd),
-      bodyPlain: markdownToPlainText(bodyMd),
       imagePosition: i % 2 === 0 ? 'left' : 'right',
     })
   }
 
-  const featuredRestaurantsWithPhotos = featuredRestaurants
+  const featuredRestaurantsWithPhotos = assignPlaceholderPhotos(featuredRestaurants, photoIdx)
+  photoIdx += featuredRestaurants.length
 
   const restaurantDirSlice = sliceAfterH2Heading(eatMd, '## Restaurant Directory')
-  const breakfastDirSlice = sliceAfterH2Heading(eatMd, '## Breakfast, Coffee & Snacks Directory')
   const restaurantDirectory = attachDirectoryGeocodes(
     frontmatter.slug,
-    mergeDedupedMapRows([
-      ...parseTastingDirectoryTable(extractGfmTable(restaurantDirSlice), 'restaurant'),
-      ...parseTastingDirectoryTable(extractGfmTable(breakfastDirSlice), 'restaurant'),
-    ]),
+    parseTastingDirectoryTable(extractGfmTable(restaurantDirSlice), 'restaurant'),
   )
 
   let breakfast: EditorialFeature | null = null
@@ -192,11 +191,11 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
       address,
       website,
       body: await compileMarkdown(bodyMd),
-      bodyPlain: markdownToPlainText(bodyMd),
       imagePosition: pos,
-      image: editorialOnlyImage(image),
-      imagePortrait: editorialOnlyImage(imagePortrait),
+      image: image ?? TEST_IMAGES[photoIdx % TEST_IMAGES.length],
+      imagePortrait,
     }
+    photoIdx += 1
   }
 
   let featuredHotels: EditorialFeature[] = []
@@ -205,11 +204,8 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     const { featuredRaw: stayFeaturedRaw, directoryRaw: stayDirectoryRaw } = splitWhereToStay(stayMd)
     const hotelBlocks = splitH3Blocks(stayFeaturedRaw)
     const featuredHotelsBase = await buildEditorialFeaturesFromH3(hotelBlocks, compileMarkdown)
-    featuredHotels = featuredHotelsBase.map((h) => ({
-      ...h,
-      image: editorialOnlyImage(h.image),
-      imagePortrait: editorialOnlyImage(h.imagePortrait),
-    }))
+    featuredHotels = assignPlaceholderPhotos(featuredHotelsBase, photoIdx)
+    photoIdx += featuredHotels.length
     const stayTable = extractGfmTable(stayDirectoryRaw)
     lodgingDirectory = attachDirectoryGeocodes(
       frontmatter.slug,
@@ -219,7 +215,6 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
 
   const lede = await compileLede(ledeMd)
   const sidebar = sidebarMd.trim() ? await compileSidebar(sidebarMd) : null
-  const sidebarPlain = sidebarMd.trim() ? markdownToPlainText(sidebarMd) : undefined
   const related = resolveRelatedStories(frontmatter.relatedFeatures ?? [])
 
   return {
@@ -234,7 +229,6 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     lodgingDirectory,
     restaurantDirectory,
     sidebar,
-    sidebarPlain,
     related,
   }
 }

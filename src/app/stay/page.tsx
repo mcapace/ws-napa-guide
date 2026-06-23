@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import detailStyles from '@/app/regions/[slug]/regionDetail.module.css'
 import Footer from '@/components/ui/Footer'
+import Nav from '@/components/ui/Nav'
 import Newsletter from '@/components/ui/Newsletter'
-import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
-import { mapPins } from '@/data/map-pins'
+import StayClient from './StayClient'
 
 export const metadata: Metadata = {
   title: 'Where to Stay in Napa — Wine Spectator Guide',
@@ -12,7 +12,8 @@ export const metadata: Metadata = {
 
 export default function StayIndexPage() {
   return (
-    <div className={detailStyles.page} data-site-surface="light">
+    <div className={`grain ${detailStyles.page}`}>
+      <Nav />
 
       <header className={detailStyles.indexHero}>
         <span className={detailStyles.eyebrow}>Rest</span>
@@ -22,7 +23,11 @@ export default function StayIndexPage() {
         </p>
       </header>
 
-      <ExploreMapSection pins={mapPins} pinnedCategory="stay" showRegionFilter={true} />
+      <section className={detailStyles.indexSection}>
+        <div className={detailStyles.indexSectionInner}>
+          <StayClient />
+        </div>
+      </section>
 
       <Newsletter />
       <Footer />

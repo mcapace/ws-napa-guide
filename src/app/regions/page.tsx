@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import ScrollReveal from '@/components/ui/ScrollReveal'
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 export default function RegionsPage() {
   return (
     <div className="grain">
+      <Nav />
 
       {/* Page header */}
       <section
@@ -174,7 +176,7 @@ export default function RegionsPage() {
                   Explore {region.name}
                 </Link>
                 <Link
-                  href={`/explore?ava=${region.slug}`}
+                  href={`/map?region=${region.slug}`}
                   className="btn-ghost"
                   style={{ color: region.accentColor, borderColor: region.accentColor }}
                 >
@@ -209,7 +211,7 @@ export default function RegionsPage() {
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/plan" className="btn-primary">Build My Itinerary</Link>
-            <Link href="/explore" className="btn-secondary">Open the Map</Link>
+            <Link href="/map" className="btn-secondary">Open the Map</Link>
           </div>
         </div>
       </section>

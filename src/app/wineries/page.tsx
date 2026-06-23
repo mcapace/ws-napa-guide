@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import detailStyles from '@/app/regions/[slug]/regionDetail.module.css'
 import Footer from '@/components/ui/Footer'
+import Nav from '@/components/ui/Nav'
 import Newsletter from '@/components/ui/Newsletter'
-import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
-import { mapPins } from '@/data/map-pins'
+import WineriesClient from './WineriesClient'
 
 export const metadata: Metadata = {
   title: 'Napa Valley Wineries — Wine Spectator Guide',
@@ -12,17 +12,22 @@ export const metadata: Metadata = {
 
 export default function WineriesIndexPage() {
   return (
-    <div className={detailStyles.page} data-site-surface="light">
+    <div className={`grain ${detailStyles.page}`}>
+      <Nav />
 
       <header className={detailStyles.indexHero}>
         <span className={detailStyles.eyebrow}>Taste</span>
         <h1 className={detailStyles.indexTitle}>Wineries</h1>
         <p className={detailStyles.indexIntro}>
-          Stone cellars, hillside Cabernets, and reservation-only salons — the valley&apos;s most memorable places to taste.
+          Stone cellars, hillside Cabernets, and reservation-only salons — the valley's most memorable places to taste.
         </p>
       </header>
 
-      <ExploreMapSection pins={mapPins} pinnedCategory="winery" showRegionFilter={true} />
+      <section className={detailStyles.indexSection}>
+        <div className={detailStyles.indexSectionInner}>
+          <WineriesClient />
+        </div>
+      </section>
 
       <Newsletter />
       <Footer />

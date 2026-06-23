@@ -48,8 +48,6 @@ export type EditorialFeature = {
   address?: string
   website?: string
   body: ReactNode
-  /** Plain-text body for directory excerpts */
-  bodyPlain?: string
   imagePosition: 'left' | 'right'
   /** From MDX `**Image:**` or placeholders */
   image?: string
@@ -77,8 +75,6 @@ export type LoadedRegionMdx = {
   restaurantDirectory: TastingDirectoryRow[]
   featuredHotels: EditorialFeature[]
   lodgingDirectory: TastingDirectoryRow[]
-  sidebar: ReactNode | null
-  /** Plain-text sidebar for teasers */
-  sidebarPlain?: string
+  sidebar: ReactNode
   related: RelatedStoryCard[]
 }

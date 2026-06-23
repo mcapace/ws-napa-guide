@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import { hotels } from '@/data/hotels'
 import { getRegion } from '@/data/regions'
-import { exploreMapUrl } from '@/lib/explore'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -36,9 +36,10 @@ export default async function HotelDetailPage({ params }: Props) {
 
   return (
     <div data-site-surface="light" style={{ minHeight: '100vh', background: '#FFFFFF' }}>
+      <Nav />
 
       {/* ── 1. HERO ── */}
-      <section data-nav-hero-root style={{ position: 'relative', height: '48vh', minHeight: 320, maxHeight: 520, overflow: 'hidden' }}>
+      <section data-nav-hero-root style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
         <Image src={place.images[0]} alt={place.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.15) 40%, transparent 60%)' }} />
         <div style={{ position: 'absolute', bottom: 48, left: 0, right: 0, textAlign: 'center', padding: '0 24px' }}>
@@ -115,15 +116,8 @@ export default async function HotelDetailPage({ params }: Props) {
                   Book Your Stay
                 </a>
               )}
-              <Link
-                href={exploreMapUrl({
-                  category: 'stay',
-                  ava: place.region,
-                  place: place.slug,
-                })}
-                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0D0B09', border: '1px solid #CCC', padding: '13px 24px', textDecoration: 'none' }}
-              >
-                Find it on the map
+              <Link href={`/map?region=${place.region}`} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0D0B09', border: '1px solid #CCC', padding: '13px 24px', textDecoration: 'none' }}>
+                Explore the Map
               </Link>
             </div>
           </div>

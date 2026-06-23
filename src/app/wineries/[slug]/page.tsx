@@ -2,12 +2,12 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
+import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
 import Newsletter from '@/components/ui/Newsletter'
 import { wineries } from '@/data/wineries'
 import { getRegion } from '@/data/regions'
-import { exploreMapUrl } from '@/lib/explore'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -38,9 +38,10 @@ export default async function WineryDetailPage({ params }: Props) {
 
   return (
     <div data-site-surface="light" style={{ minHeight: '100vh', background: '#FFFFFF' }}>
+      <Nav />
 
       {/* ── 1. HERO with title overlaid ── */}
-      <section data-nav-hero-root style={{ position: 'relative', height: '48vh', minHeight: 320, maxHeight: 520, overflow: 'hidden' }}>
+      <section data-nav-hero-root style={{ position: 'relative', height: '60vh', minHeight: 420, overflow: 'hidden' }}>
         <Image src={winery.images[0]} alt={winery.name} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
         <div style={{
           position: 'absolute', inset: 0,
@@ -190,20 +191,13 @@ export default async function WineryDetailPage({ params }: Props) {
                   Reserve a Visit
                 </a>
               )}
-              <Link
-                href={exploreMapUrl({
-                  category: 'winery',
-                  ava: winery.region,
-                  place: winery.slug,
-                })}
-                style={{
+              <Link href={`/map?region=${winery.region}`} style={{
                 fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600,
                 textTransform: 'uppercase', letterSpacing: '0.1em',
                 color: '#0D0B09', border: '1px solid #CCC', padding: '13px 24px',
                 textDecoration: 'none',
-              }}
-              >
-                Find it on the map
+              }}>
+                Explore the Map
               </Link>
             </div>
           </div>
