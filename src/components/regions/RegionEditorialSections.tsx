@@ -6,7 +6,7 @@ import {
 } from '@/lib/content/regionMapRows'
 import { FeatureBlock } from '@/components/FeatureBlock'
 import { SectionDivider } from './SectionDivider'
-import { DirectoryTextList } from './DirectoryTextList'
+import { RegionListingMapSection } from './RegionListingMapSection'
 
 function featureToBlockProps(feature: LoadedRegionMdx['featuredWineries'][number]) {
   return {
@@ -22,6 +22,7 @@ function featureToBlockProps(feature: LoadedRegionMdx['featuredWineries'][number
 
 export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
   const regionLabel = data.frontmatter.region
+  const slug = data.frontmatter.slug
   const phrases = data.frontmatter.marqueePhrases ?? {}
   const tasteMapRows = buildRegionTasteMapRows(data)
   const eatMapRows = buildRegionEatMapRows(data)
@@ -48,9 +49,12 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
             <FeatureBlock key={`winery-${feature.name}`} {...featureToBlockProps(feature)} />
           ))}
           {tasteMapRows.length > 0 && (
-            <DirectoryTextList
+            <RegionListingMapSection
               title={`More ${regionLabel} Tasting Rooms`}
-              rows={tasteMapRows}
+              regionSlug={slug}
+              data={data}
+              mapRows={tasteMapRows}
+              pinnedCategory="winery"
             />
           )}
         </>
@@ -62,10 +66,14 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
           {data.featuredRestaurants.map((feature) => (
             <FeatureBlock key={`restaurant-${feature.name}`} {...featureToBlockProps(feature)} />
           ))}
-          {(data.restaurantDirectory.length > 0 || eatMapRows.length > 0) && (
-            <DirectoryTextList
+          {data.restaurantDirectory.length > 0 && (
+            <RegionListingMapSection
               title={`More ${regionLabel} Dining`}
-              rows={data.restaurantDirectory}
+              regionSlug={slug}
+              data={data}
+              mapRows={eatMapRows}
+              listRows={data.restaurantDirectory}
+              pinnedCategory="dining"
             />
           )}
           {data.breakfast && (
@@ -81,9 +89,13 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
             <FeatureBlock key={`hotel-${feature.name}`} {...featureToBlockProps(feature)} />
           ))}
           {(data.lodgingDirectory.length > 0 || stayMapRows.length > 0) && (
-            <DirectoryTextList
+            <RegionListingMapSection
               title={`More ${regionLabel} Lodging`}
-              rows={data.lodgingDirectory}
+              regionSlug={slug}
+              data={data}
+              mapRows={stayMapRows}
+              listRows={data.lodgingDirectory}
+              pinnedCategory="stay"
             />
           )}
         </>

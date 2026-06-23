@@ -34,9 +34,13 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 export interface ExploreMapProps {
   pins: MapPin[]
+  /** When set, the scrollable list uses these pins; map markers use `pins`. */
+  listPins?: MapPin[]
   scopedRegion?: string
   showRegionFilter?: boolean
   pinnedCategory?: Category
+  /** Embedded on region pages: local selection only, no URL query params. */
+  embedMode?: boolean
 }
 
 type ClusterProps = Supercluster.ClusterProperties & { pin?: MapPin }
@@ -190,9 +194,11 @@ function PlaceDetail({
 
 export function ExploreMap({
   pins,
+  listPins,
   scopedRegion,
   showRegionFilter = false,
   pinnedCategory,
+  embedMode = false,
 }: ExploreMapProps) {
   const router = useRouter()
   const pathname = usePathname()
@@ -201,11 +207,15 @@ export function ExploreMap({
   const rowRefs = useRef<Record<string, HTMLButtonElement | null>>({})
   const listScrollRef = useRef<HTMLDivElement>(null)
 
-  const categoryFilter = urlParamToCategory(searchParams.get('category'))
+  const categoryFilter = embedMode
+    ? (pinnedCategory ?? 'all')
+    : urlParamToCategory(searchParams.get('category'))
   const regionFilter: string | 'all' = scopedRegion
     ? 'all'
     : searchParams.get('ava') || 'all'
-  const placeParam = searchParams.get('place')
+  const placeParam = embedMode ? null : searchParams.get('place')
+  const [embeddedPlace, setEmbeddedPlace] = useState<string | null>(null)
+  const activePlace = embedMode ? embeddedPlace : placeParam
 
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null)
   const [scrollCenterSlug, setScrollCenterSlug] = useState<string | null>(null)
@@ -223,41 +233,70 @@ export function ExploreMap({
     return () => mq.removeEventListener('change', update)
   }, [])
 
-  const scopedPins = useMemo(() => {
+  const scopedMapPins = useMemo(() => {
     let list = scopedRegion ? pins.filter((p) => p.region === scopedRegion) : pins
     if (pinnedCategory) list = list.filter((p) => p.category === pinnedCategory)
     return list
   }, [pins, scopedRegion, pinnedCategory])
 
+  const scopedListPins = useMemo(() => {
+    const source = listPins ?? pins
+    let list = scopedRegion ? source.filter((p) => p.region === scopedRegion) : source
+    if (pinnedCategory) list = list.filter((p) => p.category === pinnedCategory)
+    return list
+  }, [listPins, pins, scopedRegion, pinnedCategory])
+
   const effectiveCategoryFilter: ExploreCategoryFilter = pinnedCategory ?? categoryFilter
 
-  const visiblePins = useMemo(
-    () => filterExplorePins(scopedPins, effectiveCategoryFilter, regionFilter),
-    [scopedPins, effectiveCategoryFilter, regionFilter],
+  const visibleListPins = useMemo(
+    () => filterExplorePins(scopedListPins, effectiveCategoryFilter, regionFilter),
+    [scopedListPins, effectiveCategoryFilter, regionFilter],
   )
 
-  const counts = useMemo(() => countByCategory(scopedPins), [scopedPins])
+  const visibleMapPins = useMemo(
+    () => filterExplorePins(scopedMapPins, effectiveCategoryFilter, regionFilter),
+    [scopedMapPins, effectiveCategoryFilter, regionFilter],
+  )
+
+  const counts = useMemo(() => countByCategory(scopedListPins), [scopedListPins])
 
   const supercluster = useMemo(() => {
     const index = new Supercluster<{ pin: MapPin }>({ radius: 56, maxZoom: 15 })
     index.load(
-      visiblePins.map((pin) => ({
+      visibleMapPins.map((pin) => ({
         type: 'Feature',
         properties: { pin },
         geometry: { type: 'Point', coordinates: pin.coords },
       })),
     )
     return index
-  }, [visiblePins])
+  }, [visibleMapPins])
 
   const clusters = useMemo(() => {
     if (!mapBounds) return []
     return supercluster.getClusters(mapBounds, Math.floor(mapZoom))
   }, [supercluster, mapBounds, mapZoom])
 
-  const selectedPin = placeParam
-    ? visiblePins.find((p) => p.slug === placeParam) ?? null
+  const selectedPin = activePlace
+    ? visibleListPins.find((p) => p.slug === activePlace) ??
+      visibleMapPins.find((p) => p.slug === activePlace) ??
+      null
     : null
+
+  const resolveMapPin = useCallback(
+    (listPin: MapPin): MapPin | undefined => {
+      return (
+        visibleMapPins.find((p) => p.slug === listPin.slug) ??
+        visibleMapPins.find(
+          (p) =>
+            p.name.toLowerCase() === listPin.name.toLowerCase() ||
+            p.name.toLowerCase().includes(listPin.name.toLowerCase()) ||
+            listPin.name.toLowerCase().includes(p.name.toLowerCase()),
+        )
+      )
+    },
+    [visibleMapPins],
+  )
 
   const updateUrl = useCallback(
     (opts: {
@@ -265,6 +304,10 @@ export function ExploreMap({
       ava?: string | 'all'
       place?: string | null
     }) => {
+      if (embedMode) {
+        if (opts.place !== undefined) setEmbeddedPlace(opts.place)
+        return
+      }
       const params = new URLSearchParams(searchParams.toString())
       const cat = opts.category ?? categoryFilter
       const ava = opts.ava ?? regionFilter
@@ -284,7 +327,7 @@ export function ExploreMap({
       const q = params.toString()
       router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false })
     },
-    [categoryFilter, pathname, placeParam, regionFilter, router, scopedRegion, searchParams, showRegionFilter],
+    [categoryFilter, embedMode, pathname, placeParam, regionFilter, router, scopedRegion, searchParams, showRegionFilter],
   )
 
   const flyToPin = useCallback(
@@ -317,13 +360,14 @@ export function ExploreMap({
 
   const selectPin = useCallback(
     (pin: MapPin, scrollList = true) => {
-      flyToPin(pin)
+      const mapPin = resolveMapPin(pin) ?? pin
+      flyToPin(mapPin)
       updateUrl({ place: pin.slug })
       if (scrollList && rowRefs.current[pin.slug]) {
         rowRefs.current[pin.slug]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
       }
     },
-    [flyToPin, updateUrl],
+    [flyToPin, resolveMapPin, updateUrl],
   )
 
   const onMapMove = useCallback(() => {
@@ -348,10 +392,10 @@ export function ExploreMap({
       return
     }
     if (placeParam) {
-      const pin = scopedPins.find((p) => p.slug === placeParam)
+      const pin = scopedMapPins.find((p) => p.slug === placeParam)
       if (pin) flyToPin(pin)
     }
-  }, [scopedRegion, scopedPins, placeParam, flyToPin, onMapMove, isDesktop])
+  }, [scopedRegion, scopedMapPins, placeParam, flyToPin, onMapMove, isDesktop])
 
   const onCategoryChange = (cat: ExploreCategoryFilter) => {
     updateUrl({ category: cat, place: null })
@@ -389,7 +433,7 @@ export function ExploreMap({
     let bestSlug: string | null = null
     let bestDist = Infinity
 
-    for (const pin of visiblePins) {
+    for (const pin of visibleListPins) {
       const el = rowRefs.current[pin.slug]
       if (!el) continue
       const elCenter = el.offsetTop + el.offsetHeight / 2
@@ -401,13 +445,14 @@ export function ExploreMap({
     }
 
     if (!bestSlug || bestSlug === lastEaseSlugRef.current) return
-    const pin = visiblePins.find((p) => p.slug === bestSlug)
-    if (!pin) return
+    const listPin = visibleListPins.find((p) => p.slug === bestSlug)
+    const mapPin = listPin ? resolveMapPin(listPin) : undefined
+    if (!mapPin) return
 
     lastEaseSlugRef.current = bestSlug
     setScrollCenterSlug(bestSlug)
-    easeToPin(pin)
-  }, [visiblePins, isDesktop, easeToPin, selectedPin])
+    easeToPin(mapPin)
+  }, [visibleListPins, resolveMapPin, isDesktop, easeToPin, selectedPin])
 
   const handleListScroll = useCallback(() => {
     if (!isDesktop || selectedPin) return
@@ -424,7 +469,7 @@ export function ExploreMap({
   useEffect(() => {
     lastEaseSlugRef.current = null
     setScrollCenterSlug(null)
-  }, [visiblePins])
+  }, [visibleListPins, visibleMapPins])
 
   useEffect(() => {
     const map = mapRef.current?.getMap()
@@ -496,7 +541,7 @@ export function ExploreMap({
                 if (!pin) return null
                 const cfg = CATEGORY_CONFIG[pin.category]
                 const isSelected =
-                  pin.slug === placeParam || pin.slug === scrollCenterSlug
+                  pin.slug === activePlace || pin.slug === scrollCenterSlug
                 const isHovered = pin.slug === hoveredSlug
 
                 return (
@@ -538,7 +583,7 @@ export function ExploreMap({
                   className={`${styles.pill} ${categoryFilter === 'all' ? styles.pillActive : ''}`}
                   onClick={() => onCategoryChange('all')}
                 >
-                  All ({scopedPins.length})
+                  All ({scopedListPins.length})
                 </button>
                 {CATEGORY_ORDER.map((cat) => (
                   <button
@@ -575,7 +620,7 @@ export function ExploreMap({
             )}
             {!selectedPin && (
               <p className={styles.resultCount}>
-                {visiblePins.length} {visiblePins.length === 1 ? 'place' : 'places'}
+                {visibleListPins.length} {visibleListPins.length === 1 ? 'place' : 'places'}
               </p>
             )}
           </div>
@@ -592,12 +637,12 @@ export function ExploreMap({
               className={styles.listScroll}
               onScroll={handleListScroll}
             >
-              {visiblePins.length === 0 ? (
+              {visibleListPins.length === 0 ? (
                 <p className={styles.emptyState}>No listings match these filters.</p>
               ) : (
-                visiblePins.map((pin) => {
+                visibleListPins.map((pin) => {
                   const isSelected =
-                    pin.slug === placeParam || pin.slug === scrollCenterSlug
+                    pin.slug === activePlace || pin.slug === scrollCenterSlug
                   return (
                     <ListingCard
                       key={pin.slug}

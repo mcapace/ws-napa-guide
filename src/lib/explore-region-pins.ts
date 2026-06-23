@@ -115,16 +115,12 @@ function featuredThumbForName(data: LoadedRegionMdx, name: string): string | und
   return match?.image
 }
 
-/**
- * Region ExploreMap pins: every MDX featured + directory row with a geocode,
- * merged with static listings (wineries/restaurants/hotels.ts) — matches production maps.
- */
-export function buildRegionExplorePins(regionSlug: string, data: LoadedRegionMdx): MapPin[] {
-  const tasteRows = buildRegionTasteMapRows(data)
-  const eatRows = buildRegionEatMapRows(data)
-  const stayRows = buildRegionStayMapRows(data)
-  const allRows = [...tasteRows, ...eatRows, ...stayRows]
-
+function buildPinsFromRows(
+  regionSlug: string,
+  data: LoadedRegionMdx,
+  rows: TastingDirectoryRow[],
+  includeStaticFallback = true,
+): MapPin[] {
   const staticPool = pinsByRegion(regionSlug)
   const pins: MapPin[] = []
 
@@ -135,7 +131,7 @@ export function buildRegionExplorePins(regionSlug: string, data: LoadedRegionMdx
     pins.push(stripNonEditorialThumb(pin))
   }
 
-  for (const row of allRows) {
+  for (const row of rows) {
     const editorialThumb = featuredThumbForName(data, row.name)
     const staticMatch = staticPool.find((p) => namesOverlap(p.name, row.name))
 
@@ -148,9 +144,32 @@ export function buildRegionExplorePins(regionSlug: string, data: LoadedRegionMdx
     if (fromRow) addPin(fromRow)
   }
 
-  for (const staticPin of staticPool) {
-    addPin(staticPin)
+  if (includeStaticFallback) {
+    for (const staticPin of staticPool) {
+      const rowMatch = rows.some((r) => namesOverlap(r.name, staticPin.name))
+      if (rowMatch) addPin(staticPin)
+    }
   }
 
   return pins
+}
+
+/** Pins for a single section (taste / eat / stay) from MDX map rows. */
+export function buildRegionPinsFromRows(
+  regionSlug: string,
+  data: LoadedRegionMdx,
+  rows: TastingDirectoryRow[],
+): MapPin[] {
+  return buildPinsFromRows(regionSlug, data, rows, false)
+}
+
+/**
+ * Region ExploreMap pins: every MDX featured + directory row with a geocode,
+ * merged with static listings (wineries/restaurants/hotels.ts) — matches production maps.
+ */
+export function buildRegionExplorePins(regionSlug: string, data: LoadedRegionMdx): MapPin[] {
+  const tasteRows = buildRegionTasteMapRows(data)
+  const eatRows = buildRegionEatMapRows(data)
+  const stayRows = buildRegionStayMapRows(data)
+  return buildPinsFromRows(regionSlug, data, [...tasteRows, ...eatRows, ...stayRows], true)
 }
