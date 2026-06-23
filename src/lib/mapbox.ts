@@ -1,4 +1,5 @@
-export const MAP_STYLE = 'mapbox://styles/mapbox/light-v11'
+/** Full street + landmark labels (Mapbox Streets v12). */
+export const MAP_STYLE = 'mapbox://styles/mapbox/streets-v12'
 export const NAPA_CENTER: [number, number] = [-122.4194, 38.5]
 export const NAPA_ZOOM = 10.2
 

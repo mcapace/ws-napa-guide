@@ -197,6 +197,11 @@ export function ExploreMap({
 
   const handleMapLoad = useCallback(() => {
     onMapMove()
+    const map = mapRef.current?.getMap()
+    if (map) {
+      map.scrollZoom.enable()
+      map.doubleClickZoom.enable()
+    }
     if (scopedRegion && REGION_CENTERS[scopedRegion]) {
       const { center, zoom } = REGION_CENTERS[scopedRegion]
       mapRef.current?.flyTo({ center, zoom, duration: 0 })
@@ -426,6 +431,7 @@ export function ExploreMap({
 
         <div
           className={`${styles.mapColumn} ${mobileView === 'map' ? styles.mapColumnMobileOpen : ''}`}
+          data-lenis-prevent-wheel
         >
           {mobileView === 'map' && (
             <button
@@ -436,7 +442,7 @@ export function ExploreMap({
               ← Back to list
             </button>
           )}
-          <div className={styles.mapWrap}>
+          <div className={styles.mapWrap} data-lenis-prevent-wheel>
             <Map
               ref={mapRef}
               mapboxAccessToken={MAPBOX_TOKEN}
@@ -449,6 +455,9 @@ export function ExploreMap({
               mapStyle={MAP_STYLE}
               maxBounds={NAPA_BOUNDS}
               attributionControl={false}
+              scrollZoom
+              doubleClickZoom
+              cooperativeGestures={false}
               onLoad={handleMapLoad}
               onMoveEnd={onMapMove}
               onClick={() => {
@@ -579,8 +588,8 @@ export function ExploreMap({
           display: none !important;
         }
         .mapboxgl-ctrl-group {
-          background: rgba(13, 11, 9, 0.92) !important;
-          border: 1px solid rgba(247, 243, 236, 0.08) !important;
+          background: rgba(255, 255, 255, 0.94) !important;
+          border: 1px solid rgba(13, 11, 9, 0.12) !important;
         }
         .mapboxgl-ctrl-logo,
         .mapboxgl-ctrl-attrib,
