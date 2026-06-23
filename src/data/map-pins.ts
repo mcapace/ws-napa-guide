@@ -20,6 +20,8 @@ export interface MapPin {
   href: string
   /** Editorial photography only (`/images/…`); omit for directory rows without art. */
   thumb?: string
+  /** Featured in region MDX — larger card in directory list */
+  editorial?: boolean
   /** Legacy fields for NapaMap compatibility. */
   id: string
   type: PinType

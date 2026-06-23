@@ -4,15 +4,11 @@ import type { LoadedRegionMdx } from '@/lib/content/types'
 import { getRegion } from '@/data/regions'
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
 import { buildRegionExplorePins } from '@/lib/explore-region-pins'
+import { buildRegionGuideNavItems } from '@/lib/content/regionGuideNav'
 import { RegionHero } from './RegionHero'
 import { RegionIntro } from './RegionIntro'
 import { RegionGuideNav } from './RegionGuideNav'
-import {
-  RegionGuideChapters,
-  buildRegionGuideNavItems,
-} from './RegionGuideChapters'
-import { SidebarCallout } from './SidebarCallout'
-import { SectionDivider } from './SectionDivider'
+import { RegionStoryTeaser } from './RegionStoryTeaser'
 import { RelatedStoriesRail } from './RelatedStoriesRail'
 import { RegionAdventureBlock } from './RegionAdventureBlock'
 import { RegionMoreAppellations } from './RegionMoreAppellations'
@@ -42,20 +38,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
         </div>
       ) : null}
 
-      <div className="region-guide-body">
-        {data.sidebarHeading ? (
-          <section id="region-sidebar" className="region-chapter region-chapter--sidebar">
-            {frontmatter.marqueePhrases?.sidebar ? (
-              <SectionDivider label={frontmatter.marqueePhrases.sidebar} />
-            ) : null}
-            <div className="region-chapter__picks">
-              <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
-            </div>
-          </section>
-        ) : null}
-
-        <RegionGuideChapters data={data} />
-      </div>
+      <RegionStoryTeaser data={data} slug={slug} />
 
       {regionPins.length > 0 ? (
         <section id="region-map" className="region-directory-section">
@@ -63,7 +46,8 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
             <p className="region-directory-section__eyebrow">Interactive directory</p>
             <h2 className="region-directory-section__title">Explore {regionName}</h2>
             <p className="region-directory-section__dek">
-              Scroll the listings or pan the map — filter by tasting rooms, dining, or hotels.
+              Featured picks appear as larger cards with editorial photography. Scroll the list or
+              pan the map — filter by tasting rooms, dining, or hotels.
             </p>
           </div>
           <ExploreMapSection

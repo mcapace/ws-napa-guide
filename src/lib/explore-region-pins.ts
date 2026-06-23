@@ -1,6 +1,6 @@
 import type { MapPin, MapPinCategory } from '@/data/map-pins'
 import { pinsByRegion } from '@/data/map-pins'
-import type { DirectoryCategory, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
+import type { DirectoryCategory, EditorialFeature, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
 import { isEditorialListingImage, pinHasListingImage } from '@/lib/explore'
 import {
@@ -9,10 +9,14 @@ import {
   buildRegionTasteMapRows,
 } from '@/lib/content/regionMapRows'
 
-function pinExcerpt(text: string): string {
+function pinExcerpt(text: string, max = 90): string {
   const t = text.trim()
-  if (t.length <= 90) return t
-  return `${t.slice(0, 89).trimEnd()}…`
+  if (t.length <= max) return t
+  return `${t.slice(0, max - 1).trimEnd()}…`
+}
+
+function editorialExcerpt(text: string): string {
+  return pinExcerpt(text, 150)
 }
 
 function normalizeName(name: string): string {
@@ -29,6 +33,19 @@ function namesOverlap(a: string, b: string): boolean {
   if (na === nb) return true
   if (na.length >= 4 && nb.length >= 4 && (na.includes(nb) || nb.includes(na))) return true
   return false
+}
+
+function allEditorialFeatures(data: LoadedRegionMdx): EditorialFeature[] {
+  return [
+    ...data.featuredWineries,
+    ...data.featuredRestaurants,
+    ...(data.breakfast ? [data.breakfast] : []),
+    ...data.featuredHotels,
+  ]
+}
+
+function editorialFeatureForName(data: LoadedRegionMdx, name: string): EditorialFeature | undefined {
+  return allEditorialFeatures(data).find((f) => namesOverlap(f.name, name))
 }
 
 function directoryCategoryToPinCategory(category: DirectoryCategory): MapPinCategory {
@@ -51,13 +68,42 @@ function editorialImagePath(path?: string): string | undefined {
 }
 
 function featuredThumbForName(data: LoadedRegionMdx, name: string): string | undefined {
-  const match = [
-    ...data.featuredWineries,
-    ...data.featuredRestaurants,
-    ...(data.breakfast ? [data.breakfast] : []),
-    ...data.featuredHotels,
-  ].find((f) => namesOverlap(f.name, name))
+  const match = editorialFeatureForName(data, name)
   return editorialImagePath(match?.image)
+}
+
+function stripNonEditorialThumb(pin: MapPin): MapPin {
+  if (!pinHasListingImage(pin)) {
+    const { thumb: _t, ...rest } = pin
+    return { ...rest, thumb: undefined, images: [] }
+  }
+  const thumb = pin.thumb ?? pin.images[0]
+  return { ...pin, thumb, images: thumb ? [thumb] : [] }
+}
+
+function mergeEditorialThumb(staticPin: MapPin, editorialThumb?: string): MapPin {
+  const base = stripNonEditorialThumb(staticPin)
+  const thumb = editorialImagePath(editorialThumb)
+  if (!thumb) return base
+  return { ...base, thumb, images: [thumb] }
+}
+
+function applyEditorialPinFields(
+  pin: MapPin,
+  data: LoadedRegionMdx,
+  name: string,
+): MapPin {
+  const feature = editorialFeatureForName(data, name)
+  if (!feature) return pin
+
+  const excerpt = feature.bodyPlain ? editorialExcerpt(feature.bodyPlain) : pin.excerpt
+  return {
+    ...pin,
+    editorial: true,
+    excerpt,
+    thumb: editorialImagePath(feature.image) ?? pin.thumb,
+    images: editorialImagePath(feature.image) ? [editorialImagePath(feature.image)!] : pin.images,
+  }
 }
 
 function directoryRowToMapPin(
@@ -93,22 +139,6 @@ function directoryRowToMapPin(
   }
 }
 
-function stripNonEditorialThumb(pin: MapPin): MapPin {
-  if (!pinHasListingImage(pin)) {
-    const { thumb: _t, ...rest } = pin
-    return { ...rest, thumb: undefined, images: [] }
-  }
-  const thumb = pin.thumb ?? pin.images[0]
-  return { ...pin, thumb, images: thumb ? [thumb] : [] }
-}
-
-function mergeEditorialThumb(staticPin: MapPin, editorialThumb?: string): MapPin {
-  const base = stripNonEditorialThumb(staticPin)
-  const thumb = editorialImagePath(editorialThumb)
-  if (!thumb) return base
-  return { ...base, thumb, images: [thumb] }
-}
-
 function buildPinsFromRows(
   regionSlug: string,
   data: LoadedRegionMdx,
@@ -129,22 +159,36 @@ function buildPinsFromRows(
     const editorialThumb = featuredThumbForName(data, row.name)
     const staticMatch = staticPool.find((p) => namesOverlap(p.name, row.name))
 
+    let pin: MapPin | null = null
+
     if (staticMatch) {
-      addPin(mergeEditorialThumb(staticMatch, editorialThumb))
-      continue
+      pin = mergeEditorialThumb(staticMatch, editorialThumb)
+    } else {
+      pin = directoryRowToMapPin(row, regionSlug, editorialThumb)
     }
 
-    const fromRow = directoryRowToMapPin(row, regionSlug, editorialThumb)
-    if (fromRow) addPin(fromRow)
+    if (!pin) continue
+
+    pin = applyEditorialPinFields(pin, data, row.name)
+    if (staticMatch) {
+      pin = { ...pin, href: staticMatch.href }
+    }
+    addPin(pin)
   }
 
   if (includeAllStatic) {
     for (const staticPin of staticPool) {
-      addPin(staticPin)
+      let pin = mergeEditorialThumb(staticPin, featuredThumbForName(data, staticPin.name))
+      pin = applyEditorialPinFields(pin, data, staticPin.name)
+      addPin(pin)
     }
   }
 
-  return pins
+  return pins.sort((a, b) => {
+    const aRank = a.editorial ? 0 : 1
+    const bRank = b.editorial ? 0 : 1
+    return aRank - bRank
+  })
 }
 
 /** Pins for a single section (taste / eat / stay) from MDX map rows. */

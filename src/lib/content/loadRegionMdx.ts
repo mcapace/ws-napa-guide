@@ -9,6 +9,7 @@ import type { EditorialFeature, LoadedRegionMdx, RegionMdxFrontmatter, RelatedSt
 import {
   buildEditorialFeaturesFromH3,
   extractGfmTable,
+  markdownToPlainText,
   parseMetaLines,
   parseTastingDirectoryTable,
   resolveFeatureSlug,
@@ -165,6 +166,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
       image: editorialOnlyImage(image),
       imagePortrait: editorialOnlyImage(imagePortrait),
       body: await compileMarkdown(bodyMd),
+      bodyPlain: markdownToPlainText(bodyMd),
       imagePosition: i % 2 === 0 ? 'left' : 'right',
     })
   }
@@ -190,6 +192,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
       address,
       website,
       body: await compileMarkdown(bodyMd),
+      bodyPlain: markdownToPlainText(bodyMd),
       imagePosition: pos,
       image: editorialOnlyImage(image),
       imagePortrait: editorialOnlyImage(imagePortrait),
@@ -216,6 +219,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
 
   const lede = await compileLede(ledeMd)
   const sidebar = sidebarMd.trim() ? await compileSidebar(sidebarMd) : null
+  const sidebarPlain = sidebarMd.trim() ? markdownToPlainText(sidebarMd) : undefined
   const related = resolveRelatedStories(frontmatter.relatedFeatures ?? [])
 
   return {
@@ -230,6 +234,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     lodgingDirectory,
     restaurantDirectory,
     sidebar,
+    sidebarPlain,
     related,
   }
 }
