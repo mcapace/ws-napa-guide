@@ -8,6 +8,7 @@ import { HorizontalStrip } from '@/components/ui/HorizontalStrip'
 import Newsletter from '@/components/ui/Newsletter'
 import { wineries } from '@/data/wineries'
 import { getRegion } from '@/data/regions'
+import { exploreMapUrl } from '@/lib/explore'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -191,13 +192,20 @@ export default async function WineryDetailPage({ params }: Props) {
                   Reserve a Visit
                 </a>
               )}
-              <Link href={`/map?region=${winery.region}`} style={{
+              <Link
+                href={exploreMapUrl({
+                  category: 'winery',
+                  ava: winery.region,
+                  place: winery.slug,
+                })}
+                style={{
                 fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600,
                 textTransform: 'uppercase', letterSpacing: '0.1em',
                 color: '#0D0B09', border: '1px solid #CCC', padding: '13px 24px',
                 textDecoration: 'none',
-              }}>
-                Explore the Map
+              }}
+              >
+                Find it on the map
               </Link>
             </div>
           </div>

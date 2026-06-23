@@ -7,6 +7,7 @@ import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import { hotels } from '@/data/hotels'
 import { getRegion } from '@/data/regions'
+import { exploreMapUrl } from '@/lib/explore'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -116,8 +117,15 @@ export default async function HotelDetailPage({ params }: Props) {
                   Book Your Stay
                 </a>
               )}
-              <Link href={`/map?region=${place.region}`} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0D0B09', border: '1px solid #CCC', padding: '13px 24px', textDecoration: 'none' }}>
-                Explore the Map
+              <Link
+                href={exploreMapUrl({
+                  category: 'stay',
+                  ava: place.region,
+                  place: place.slug,
+                })}
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0D0B09', border: '1px solid #CCC', padding: '13px 24px', textDecoration: 'none' }}
+              >
+                Find it on the map
               </Link>
             </div>
           </div>
