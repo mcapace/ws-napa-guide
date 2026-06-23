@@ -16,6 +16,7 @@ import { TEST_IMAGES } from '@/lib/test-images'
 import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
 import Footer from '@/components/ui/Footer'
+import { NavMenuOverlay } from '@/components/ui/NavMenuOverlay'
 
 const featuredRegions = regions
 
@@ -70,11 +71,40 @@ export default function HomePage() {
   const fullscreenOverlayRef = useRef<HTMLDivElement>(null)
   const heroVideoRef = useRef<HTMLVideoElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [homeNavOverImagery, setHomeNavOverImagery] = useState(true)
   /** Slot-matched crops; rotation never shows the same still on two tiles at once */
   const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
   const mosaicVisible = useHomeMosaicRotation(mosaicPanelQueues)
   const heroCenterFallback =
     mosaicVisible[2]?.src ?? '/images/homepage/mosaic/collage-alila.jpg'
+
+  useLayoutEffect(() => {
+    const el = scrollContainerRef.current
+    if (!el) return
+
+    let ticking = false
+    const sync = () => {
+      ticking = false
+      const bottom = el.offsetTop + el.offsetHeight
+      setHomeNavOverImagery(window.scrollY < bottom)
+    }
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(sync)
+      }
+    }
+
+    sync()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [])
 
   useLayoutEffect(() => {
     const centerPanel = centerPanelRef.current
@@ -208,15 +238,44 @@ export default function HomePage() {
   }, [])
 
   return (
-    <>
-      {/* ── STICKY SCROLL HERO (400vh) — sits below layout site nav ── */}
+    <div data-page="home-hero">
+      {/* ── NAV (therealhotels: branded label left, hamburger right) ── */}
+      <nav
+        className={homeNavOverImagery ? 'home-nav home-nav--over-imagery' : 'home-nav'}
+      >
+        <Link href="/">
+          <span aria-hidden />
+          <div>
+            <Image
+              src="/logos/WS_logo__1_.png"
+              alt="Wine Spectator"
+              width={180}
+              height={36}
+              style={{ width: 'auto' }}
+            />
+            <span>Napa Valley Guide</span>
+          </div>
+        </Link>
+        <button
+          onClick={() => setMenuOpen(true)}
+          aria-label="Open menu"
+          type="button"
+        >
+          <span className="home-nav__hamburger-bar" />
+          <span className="home-nav__hamburger-bar" />
+          <span className="home-nav__hamburger-bar" />
+        </button>
+      </nav>
+
+      <NavMenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
+
+      {/* ── STICKY SCROLL HERO (400vh) — progress drives panel via JS, not React state ── */}
       <div ref={scrollContainerRef} style={{ position: 'relative', height: '400vh' }}>
         <div
-          className="home-hero-sticky-stage"
           style={{
             position: 'sticky',
             top: 0,
-            height: 'calc(100dvh - var(--ws-site-header-height, 0px))',
+            height: '100vh',
             overflow: 'hidden',
             background: '#0D0B09',
             zIndex: 10,
@@ -676,7 +735,7 @@ export default function HomePage() {
         <Footer />
       </div>
       </div>
-    </>
+    </div>
   )
 }
 

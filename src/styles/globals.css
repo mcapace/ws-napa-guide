@@ -397,6 +397,16 @@ body {
   background: #faf7f2;
 }
 
+/* Homepage scroll hero: overlay nav replaces layout site nav on desktop */
+body:has([data-page="home-hero"]) .ws-nav-shell {
+  display: none;
+}
+
+body:has([data-page="home-hero"]) {
+  --ws-persistent-nav-height: 0px;
+  --ws-nav-edge-padding-y: 0px;
+}
+
 .home-hero-fullscreen-overlay > div:first-child img {
   height: var(--ws-nav-logo-height) !important;
   width: auto !important;
@@ -977,6 +987,15 @@ html.lenis body {
   /* ── Homepage (src/app/page.tsx) mobile ── */
   .home-nav {
     display: none !important;
+  }
+
+  body:has([data-page="home-hero"]) .ws-nav-shell {
+    display: block;
+  }
+
+  body:has([data-page="home-hero"]) {
+    --ws-persistent-nav-height: 52px;
+    --ws-nav-edge-padding-y: 10px;
   }
 
   .ws-nav-shell {

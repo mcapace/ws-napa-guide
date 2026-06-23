@@ -50,13 +50,13 @@ function editorialImagePath(path?: string): string | undefined {
   return isEditorialListingImage(path) ? path!.trim() : undefined
 }
 
-function listingThumbForRow(data: LoadedRegionMdx, row: TastingDirectoryRow): string | undefined {
+function featuredThumbForName(data: LoadedRegionMdx, name: string): string | undefined {
   const match = [
     ...data.featuredWineries,
     ...data.featuredRestaurants,
     ...(data.breakfast ? [data.breakfast] : []),
     ...data.featuredHotels,
-  ].find((f) => namesOverlap(f.name, row.name))
+  ].find((f) => namesOverlap(f.name, name))
   return editorialImagePath(match?.image)
 }
 
@@ -113,7 +113,7 @@ function buildPinsFromRows(
   regionSlug: string,
   data: LoadedRegionMdx,
   rows: TastingDirectoryRow[],
-  includeStaticFallback = true,
+  includeAllStatic = false,
 ): MapPin[] {
   const staticPool = pinsByRegion(regionSlug)
   const pins: MapPin[] = []
@@ -126,22 +126,21 @@ function buildPinsFromRows(
   }
 
   for (const row of rows) {
-    const listingThumb = listingThumbForRow(data, row)
+    const editorialThumb = featuredThumbForName(data, row.name)
     const staticMatch = staticPool.find((p) => namesOverlap(p.name, row.name))
 
     if (staticMatch) {
-      addPin(mergeEditorialThumb(staticMatch, listingThumb))
+      addPin(mergeEditorialThumb(staticMatch, editorialThumb))
       continue
     }
 
-    const fromRow = directoryRowToMapPin(row, regionSlug, listingThumb)
+    const fromRow = directoryRowToMapPin(row, regionSlug, editorialThumb)
     if (fromRow) addPin(fromRow)
   }
 
-  if (includeStaticFallback) {
+  if (includeAllStatic) {
     for (const staticPin of staticPool) {
-      const rowMatch = rows.some((r) => namesOverlap(r.name, staticPin.name))
-      if (rowMatch) addPin(staticPin)
+      addPin(staticPin)
     }
   }
 
@@ -158,12 +157,17 @@ export function buildRegionPinsFromRows(
 }
 
 /**
- * Region ExploreMap pins: every MDX featured + directory row with a geocode,
- * merged with static listings (wineries/restaurants/hotels.ts) — matches production maps.
+ * Region ExploreMap pins: MDX featured + directory rows with geocodes,
+ * merged with every static listing for the AVA (wineries/restaurants/hotels.ts).
  */
 export function buildRegionExplorePins(regionSlug: string, data: LoadedRegionMdx): MapPin[] {
   const tasteRows = buildRegionTasteMapRows(data)
   const eatRows = buildRegionEatMapRows(data)
   const stayRows = buildRegionStayMapRows(data)
-  return buildPinsFromRows(regionSlug, data, [...tasteRows, ...eatRows, ...stayRows], true)
+  return buildPinsFromRows(
+    regionSlug,
+    data,
+    [...tasteRows, ...eatRows, ...stayRows],
+    true,
+  )
 }
