@@ -7,7 +7,6 @@ import Map, {
   Source,
   Layer,
   NavigationControl,
-  ScaleControl,
   type MapRef,
   type LayerProps,
 } from 'react-map-gl/mapbox'
@@ -138,6 +137,7 @@ export default function NapaMap() {
         style={{ width: '100%', height: '100%' }}
         mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
         maxBounds={NAPA_BOUNDS}
+        attributionControl={false}
         onLoad={handleMapLoad}
         onMove={() => { if (mapRef.current) setZoom(mapRef.current.getZoom()) }}
         terrain={{ source: 'mapbox-dem', exaggeration: 1.4 }}
@@ -164,7 +164,6 @@ export default function NapaMap() {
         )}
 
         <NavigationControl position="bottom-right" visualizePitch />
-        <ScaleControl position="bottom-left" />
 
         {visiblePins.map((pin) => (
           <Marker
@@ -314,7 +313,6 @@ export default function NapaMap() {
         .mapboxgl-popup-tip{display:none!important;}
         .mapboxgl-ctrl-group{background:rgba(13,11,9,0.92)!important;border:1px solid rgba(247,243,236,0.08)!important;backdrop-filter:blur(8px);box-shadow:0 2px 12px rgba(0,0,0,0.3)!important;}
         .mapboxgl-ctrl-group button{background:transparent!important;}
-        .mapboxgl-ctrl-scale{background:rgba(13,11,9,0.85)!important;border-color:rgba(247,243,236,0.08)!important;color:#9b9283!important;font-family:var(--font-body)!important;font-size:10px!important;}
       `}</style>
     </div>
   )

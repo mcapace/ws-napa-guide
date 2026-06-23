@@ -238,7 +238,7 @@ export default function HomePage() {
   }, [])
 
   return (
-    <>
+    <div data-page="home-hero">
       {/* ── NAV (therealhotels: branded label left, hamburger right) ── */}
       <nav
         className={homeNavOverImagery ? 'home-nav home-nav--over-imagery' : 'home-nav'}
@@ -735,7 +735,7 @@ export default function HomePage() {
         <Footer />
       </div>
       </div>
-    </>
+    </div>
   )
 }
 

@@ -2,7 +2,8 @@
 
 .shell {
   position: relative;
-  min-height: 92vh;
+  min-height: 58vh;
+  max-height: 640px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

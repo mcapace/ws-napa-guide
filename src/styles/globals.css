@@ -44,14 +44,22 @@
   --gold-pale:    rgba(196, 148, 58, 0.08);
   --sage-pale:    rgba(92, 107, 82, 0.08);
 
-  /* Persistent nav — wordmark + tagline (~1.5×; proportional) */
-  --ws-nav-logo-height: 36px;
-  --ws-nav-tagline-size: 0.825rem;
-  --ws-nav-brand-gap: 21px;
-  --ws-persistent-nav-height: 74px;
-  /* Match homepage `home-nav`: same inset from viewport edges */
-  --ws-nav-edge-padding-y: 24px;
-  --ws-nav-edge-padding-x: 36px;
+  /* Site header — refined sticky bar (sits above content, not over hero imagery) */
+  --ws-nav-logo-height: 28px;
+  --ws-nav-tagline-size: 0.625rem;
+  --ws-nav-brand-gap: 14px;
+  --ws-persistent-nav-height: 52px;
+  --ws-nav-edge-padding-y: 10px;
+  --ws-nav-edge-padding-x: clamp(20px, 4vw, 32px);
+  --ws-staging-banner-height: 0px;
+  --ws-site-header-height: calc(
+    var(--ws-staging-banner-height) + var(--ws-persistent-nav-height) +
+      var(--ws-nav-edge-padding-y) * 2 + env(safe-area-inset-top, 0px)
+  );
+}
+
+html[data-staging-preview] {
+  --ws-staging-banner-height: 34px;
 }
 
 /* ── Reset ── */
@@ -79,6 +87,12 @@ body {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.7;
+}
+
+/* Light editorial / directory surfaces */
+[data-site-surface='light'] {
+  background-color: #faf7f2;
+  color: #0d0b09;
 }
 
 /* Top fade on hero imagery — extra contrast under fixed nav (pointer-events safe) */
@@ -113,40 +127,95 @@ body {
 
 @media (max-width: 480px) {
   :root {
-    --ws-nav-logo-height: 32px;
-    --ws-nav-tagline-size: 0.78rem;
-    --ws-persistent-nav-height: 70px;
+    --ws-nav-logo-height: 26px;
+    --ws-nav-tagline-size: 0.58rem;
+    --ws-persistent-nav-height: 48px;
+    --ws-nav-edge-padding-y: 8px;
   }
 }
 
-/* ── Shared shell: homepage + persistent nav (identical viewport insets) ── */
+/* ── Staging banner (sticky above site nav) ── */
+.ws-staging-banner {
+  position: sticky;
+  top: 0;
+  z-index: 210;
+  background: #6b1c2a;
+  color: #f7f3ec;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  padding: 7px 16px;
+  border-bottom: 1px solid rgba(247, 243, 236, 0.2);
+}
+
+.ws-staging-banner__link {
+  color: #f7f3ec;
+  text-decoration: underline;
+}
+
+/* ── Site nav — sticky solid bar above content (not over hero photos) ── */
 .ws-nav-shell {
+  position: sticky;
+  top: var(--ws-staging-banner-height, 0px);
+  z-index: 200;
   padding: var(--ws-nav-edge-padding-y) var(--ws-nav-edge-padding-x);
+  padding-top: calc(var(--ws-nav-edge-padding-y) + env(safe-area-inset-top, 0px));
   box-sizing: border-box;
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.ws-nav-shell--scrolled {
+  box-shadow: 0 4px 24px rgba(13, 11, 9, 0.08);
+}
+
+.ws-nav--on-light-surface {
+  background: #faf7f2;
+  border-bottom-color: rgba(13, 11, 9, 0.08);
+}
+
+.ws-nav--on-light-surface.ws-nav-shell--scrolled {
+  background: rgba(250, 247, 242, 0.98);
+  backdrop-filter: blur(12px);
+}
+
+.ws-nav--on-dark-surface {
+  background: #0d0b09;
+  border-bottom-color: rgba(247, 243, 236, 0.08);
+}
+
+.ws-nav--on-dark-surface.ws-nav-shell--scrolled {
+  background: rgba(13, 11, 9, 0.97);
+  backdrop-filter: blur(12px);
 }
 
 .ws-persistent-nav-inner.ws-nav-inner {
-  max-width: none;
+  max-width: var(--container, 1280px);
+  margin: 0 auto;
   width: 100%;
-  margin: 0;
   padding: 0;
   height: auto;
   min-height: 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 }
 
-.ws-nav-inner > button:last-of-type {
-  padding: 4px;
+.ws-nav-menu-btn {
+  padding: 6px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   align-items: flex-end;
   background: none;
   border: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .ws-nav-brand {
@@ -164,7 +233,7 @@ body {
   content: '';
   display: block;
   width: 2px;
-  height: 48px;
+  height: 36px;
   background: var(--bordeaux);
   transition: background 0.28s ease;
   grid-column: 1;
@@ -172,14 +241,10 @@ body {
   align-self: center;
 }
 
-.ws-nav--over-hero-imagery .ws-nav-brand::before {
-  background: #faf7f2;
-}
-
 .ws-nav-brand__wordmark {
   grid-column: 2;
   grid-row: 1;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   align-self: end;
   height: var(--ws-nav-logo-height) !important;
   width: auto !important;
@@ -192,37 +257,23 @@ body {
   font-family: var(--font-body);
   font-size: var(--ws-nav-tagline-size) !important;
   font-weight: 500;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   transition: color 0.28s ease;
   align-self: start;
-  line-height: 1.2;
+  line-height: 1.15;
   display: block;
 }
 
-/* ── Persistent nav brand (regions, directories, features, Map, etc.) ── */
 .ws-persistent-nav-inner {
   height: var(--ws-persistent-nav-height);
 }
 
-/* Persistent nav: isolated scroll-driven chrome (not tied to GSAP homepage hero) */
 .ws-nav-hamburger-bar {
   display: block;
-  width: 28px;
+  width: 22px;
   height: 1.5px;
   transition: transform 0.3s ease, opacity 0.3s ease, background 0.28s ease;
-}
-
-.ws-nav--over-hero-imagery .ws-nav-brand__wordmark {
-  filter: invert(1);
-}
-
-.ws-nav--over-hero-imagery .ws-nav-brand__tagline {
-  color: rgba(250, 247, 242, 0.92);
-}
-
-.ws-nav--over-hero-imagery .ws-nav-hamburger-bar {
-  background: rgba(250, 247, 242, 0.92);
 }
 
 .ws-nav--on-light-surface .ws-nav-brand__wordmark {
@@ -246,17 +297,12 @@ body {
 }
 
 .ws-nav--on-dark-surface .ws-nav-hamburger-bar {
-  background: rgba(250, 247, 242, 0.85);
+  background: rgba(250, 247, 242, 0.9);
 }
 
-/* When a list/filter control sits in the nav rail, match hamburger treatment */
 .ws-nav-toolbar-icon {
   color: rgba(250, 247, 242, 0.88);
   transition: color 0.28s ease;
-}
-
-.ws-nav--over-hero-imagery .ws-nav-toolbar-icon {
-  color: rgba(250, 247, 242, 0.95);
 }
 
 .ws-nav--on-light-surface .ws-nav-toolbar-icon {
@@ -267,7 +313,7 @@ body {
   color: rgba(250, 247, 242, 0.88);
 }
 
-/* Homepage fixed nav — same shell insets + layout row as .ws-nav-shell / .ws-nav-inner */
+/* Homepage fixed nav — deprecated; layout Nav is used site-wide */
 .home-nav {
   position: fixed;
   top: 0;
@@ -349,6 +395,16 @@ body {
 
 .home-nav--over-imagery .home-nav__hamburger-bar {
   background: #faf7f2;
+}
+
+/* Homepage scroll hero: overlay nav replaces layout site nav on desktop */
+body:has([data-page="home-hero"]) .ws-nav-shell {
+  display: none;
+}
+
+body:has([data-page="home-hero"]) {
+  --ws-persistent-nav-height: 0px;
+  --ws-nav-edge-padding-y: 0px;
 }
 
 .home-hero-fullscreen-overlay > div:first-child img {
@@ -633,6 +689,15 @@ a, button, [role="button"] { cursor: pointer; }
 .nav-link:hover { color: var(--gold); }
 
 /* ── Mapbox overrides (dark theme) ── */
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib,
+.mapboxgl-compact,
+.mapboxgl-ctrl-attrib-button {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
 .mapboxgl-ctrl-group {
   background: rgba(13, 11, 9, 0.92) !important;
   border: 1px solid rgba(247, 243, 236, 0.08) !important;
@@ -876,7 +941,8 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
+.lenis.lenis-smooth [data-lenis-prevent],
+.lenis.lenis-smooth [data-lenis-prevent-wheel] {
   overscroll-behavior: contain;
 }
 
@@ -921,15 +987,24 @@ html.lenis body {
 
   /* ── Homepage (src/app/page.tsx) mobile ── */
   .home-nav {
-    padding: calc(10px + env(safe-area-inset-top, 0px)) 20px 12px !important;
+    display: none !important;
+  }
+
+  body:has([data-page="home-hero"]) .ws-nav-shell {
+    display: block;
+  }
+
+  body:has([data-page="home-hero"]) {
+    --ws-persistent-nav-height: 52px;
+    --ws-nav-edge-padding-y: 10px;
   }
 
   .ws-nav-shell {
-    padding: calc(10px + env(safe-area-inset-top, 0px)) 20px 12px !important;
+    padding: calc(8px + env(safe-area-inset-top, 0px)) 20px 8px !important;
   }
 
   section.home-intro {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 92px) !important;
+    padding-top: calc(var(--ws-site-header-height, 72px) + 24px) !important;
     padding-bottom: 48px !important;
   }
 

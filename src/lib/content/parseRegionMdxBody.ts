@@ -155,6 +155,17 @@ export function parseTastingDirectoryTable(tableMd: string, category: DirectoryC
   return rows
 }
 
+export function markdownToPlainText(md: string): string {
+  return md
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/^[-*]\s+/gm, '')
+    .replace(/\n+/g, ' ')
+    .trim()
+}
+
 export function normalizeWebsiteUrl(website: string | undefined): string | undefined {
   if (!website) return undefined
   const trimmed = website.trim()
@@ -177,6 +188,7 @@ export function buildEditorialFeaturesFromH3(
         image,
         imagePortrait,
         body,
+        bodyPlain: markdownToPlainText(bodyMd),
         imagePosition: i % 2 === 0 ? 'left' : 'right',
       }
     }),

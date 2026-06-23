@@ -1,129 +1,72 @@
-import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
-import { FeatureBlock } from '@/components/FeatureBlock'
 import type { LoadedRegionMdx } from '@/lib/content/types'
-import { buildRegionEatMapRows, buildRegionStayMapRows, buildRegionTasteMapRows } from '@/lib/content/regionMapRows'
+import { getRegion } from '@/data/regions'
+import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
+import { buildRegionExplorePins } from '@/lib/explore-region-pins'
+import { buildRegionGuideNavItems } from '@/lib/content/regionGuideNav'
 import { RegionHero } from './RegionHero'
-import { RegionLede } from './RegionLede'
-import { SectionDivider } from './SectionDivider'
-import { TastingDirectoryWithMap } from './TastingDirectoryWithMap'
-import { SidebarCallout } from './SidebarCallout'
+import { RegionIntro } from './RegionIntro'
+import { RegionGuideNav } from './RegionGuideNav'
+import { RegionStoryTeaser } from './RegionStoryTeaser'
+import { RelatedStoriesRail } from './RelatedStoriesRail'
+import { RegionAdventureBlock } from './RegionAdventureBlock'
+import { RegionMoreAppellations } from './RegionMoreAppellations'
 import './region-editorial.css'
 
 export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
   const { frontmatter } = data
-  const mq = frontmatter.marqueePhrases
-  const tasteMapRows = buildRegionTasteMapRows(data)
-  const eatMapRows = buildRegionEatMapRows(data)
-  const stayMapRows = buildRegionStayMapRows(data)
+  const slug = frontmatter.slug
+  const regionData = getRegion(slug)
+  const regionPins = buildRegionExplorePins(slug, data)
+  const regionName = frontmatter.region
+  const guideNav = buildRegionGuideNavItems(data, regionPins.length > 0)
 
   return (
     <div
+      className="region-editorial-page"
       data-site-surface="light"
       style={{ minHeight: '100vh', background: '#FAF7F2', WebkitFontSmoothing: 'antialiased' as string }}
     >
-      <Nav />
       <RegionHero fm={frontmatter} />
-      <RegionLede>{data.lede}</RegionLede>
-      <SectionDivider label={mq?.taste ?? 'Where to Taste'} />
-      {data.featuredWineries.map((f) => (
-        <FeatureBlock
-          key={f.name}
-          name={f.name}
-          address={f.address}
-          website={f.website}
-          image={f.image}
-          imagePortrait={f.imagePortrait}
-          imagePosition={f.imagePosition}
-        >
-          {f.body}
-        </FeatureBlock>
-      ))}
-      {tasteMapRows.length > 0 && (
-        <TastingDirectoryWithMap
-          regionLabel={frontmatter.region}
-          center={frontmatter.coordinates}
-          rows={tasteMapRows}
-        />
-      )}
-      {(data.featuredRestaurants.length > 0 ||
-        data.breakfast ||
-        data.restaurantDirectory.length > 0 ||
-        eatMapRows.length > 0) && (
-        <>
-          <SectionDivider label={mq?.eat ?? 'Where to Eat'} />
-          {data.featuredRestaurants.map((f) => (
-            <FeatureBlock
-              key={f.name}
-              name={f.name}
-              address={f.address}
-              website={f.website}
-              image={f.image}
-              imagePortrait={f.imagePortrait}
-              imagePosition={f.imagePosition}
-            >
-              {f.body}
-            </FeatureBlock>
-          ))}
-          {(data.restaurantDirectory.length > 0 || eatMapRows.length > 0) && (
-            <TastingDirectoryWithMap
-              regionLabel={frontmatter.region}
-              center={frontmatter.coordinates}
-              rows={data.restaurantDirectory}
-              mapRows={eatMapRows}
-              directoryTitle={`More ${frontmatter.region} Dining`}
-            />
-          )}
-          {data.breakfast && (
-            <FeatureBlock
-              name={data.breakfast.name}
-              address={data.breakfast.address}
-              website={data.breakfast.website}
-              image={data.breakfast.image}
-              imagePortrait={data.breakfast.imagePortrait}
-              imagePosition={data.breakfast.imagePosition}
-            >
-              {data.breakfast.body}
-            </FeatureBlock>
-          )}
-        </>
-      )}
-      {(data.featuredHotels.length > 0 ||
-        data.lodgingDirectory.length > 0 ||
-        stayMapRows.length > 0) && (
-        <>
-          <SectionDivider label={mq?.stay ?? 'Where to Stay'} />
-          {data.featuredHotels.map((f) => (
-            <FeatureBlock
-              key={f.name}
-              name={f.name}
-              address={f.address}
-              website={f.website}
-              image={f.image}
-              imagePortrait={f.imagePortrait}
-              imagePosition={f.imagePosition}
-            >
-              {f.body}
-            </FeatureBlock>
-          ))}
-          {(data.lodgingDirectory.length > 0 || stayMapRows.length > 0) && (
-            <TastingDirectoryWithMap
-              regionLabel={frontmatter.region}
-              center={frontmatter.coordinates}
-              rows={data.lodgingDirectory}
-              mapRows={stayMapRows}
-              directoryTitle={`More ${frontmatter.region} Lodging`}
-            />
-          )}
-        </>
-      )}
-      {data.sidebarHeading ? (
-        <>
-          <SectionDivider label={mq?.sidebar ?? data.sidebarHeading} />
-          <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
-        </>
+
+      <RegionIntro lede={data.lede} dek={frontmatter.dek} />
+
+      {guideNav.length > 0 ? (
+        <div className="region-guide-nav-bar">
+          <RegionGuideNav items={guideNav} />
+        </div>
       ) : null}
+
+      <RegionStoryTeaser data={data} slug={slug} />
+
+      {regionPins.length > 0 ? (
+        <section id="region-map" className="region-directory-section">
+          <div className="region-directory-section__head">
+            <p className="region-directory-section__eyebrow">Interactive directory</p>
+            <h2 className="region-directory-section__title">Explore {regionName}</h2>
+            <p className="region-directory-section__dek">
+              Featured picks appear as larger cards with editorial photography. Scroll the list or
+              pan the map — filter by tasting rooms, dining, or hotels.
+            </p>
+          </div>
+          <ExploreMapSection
+            pins={regionPins}
+            scopedRegion={slug}
+            showRegionFilter={false}
+          />
+        </section>
+      ) : null}
+
+      {data.related.length > 0 ? (
+        <RelatedStoriesRail cards={data.related} />
+      ) : null}
+
+      {regionData?.adventure ? (
+        <RegionAdventureBlock adventure={regionData.adventure} />
+      ) : null}
+
+      <RegionMoreAppellations slug={slug} />
       <Newsletter />
       <Footer />
     </div>
