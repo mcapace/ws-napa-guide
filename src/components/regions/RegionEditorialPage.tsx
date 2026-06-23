@@ -1,23 +1,22 @@
 import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
+import { FeatureBlock } from '@/components/FeatureBlock'
 import type { LoadedRegionMdx } from '@/lib/content/types'
-import { getRegion } from '@/data/regions'
-import { pinsByRegion } from '@/data/map-pins'
-import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
+import { buildRegionEatMapRows, buildRegionStayMapRows, buildRegionTasteMapRows } from '@/lib/content/regionMapRows'
 import { RegionHero } from './RegionHero'
 import { RegionLede } from './RegionLede'
+import { SectionDivider } from './SectionDivider'
+import { TastingDirectoryWithMap } from './TastingDirectoryWithMap'
 import { SidebarCallout } from './SidebarCallout'
-import { RegionAdventureBlock } from './RegionAdventureBlock'
-import { RegionMoreAppellations } from './RegionMoreAppellations'
 import './region-editorial.css'
 
 export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
   const { frontmatter } = data
-  const slug = frontmatter.slug
-  const regionData = getRegion(slug)
-  const regionPins = pinsByRegion(slug)
-  const regionName = frontmatter.region
+  const mq = frontmatter.marqueePhrases
+  const tasteMapRows = buildRegionTasteMapRows(data)
+  const eatMapRows = buildRegionEatMapRows(data)
+  const stayMapRows = buildRegionStayMapRows(data)
 
   return (
     <div
@@ -27,45 +26,104 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
       <Nav />
       <RegionHero fm={frontmatter} />
       <RegionLede>{data.lede}</RegionLede>
-
-      {data.sidebarHeading ? (
-        <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
-      ) : null}
-
-      <section style={{ background: '#0D0B09' }}>
-        <div
-          style={{
-            maxWidth: 1100,
-            margin: '0 auto',
-            padding: '48px clamp(24px, 5vw, 40px) 24px',
-          }}
+      <SectionDivider label={mq?.taste ?? 'Where to Taste'} />
+      {data.featuredWineries.map((f) => (
+        <FeatureBlock
+          key={f.name}
+          name={f.name}
+          address={f.address}
+          website={f.website}
+          image={f.image}
+          imagePortrait={f.imagePortrait}
+          imagePosition={f.imagePosition}
         >
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: 'italic',
-              fontWeight: 300,
-              fontSize: 'clamp(28px, 4vw, 40px)',
-              color: '#F7F3EC',
-              margin: 0,
-              lineHeight: 1.15,
-            }}
-          >
-            Where to taste, eat & stay in {regionName}
-          </h2>
-        </div>
-        <ExploreMapSection
-          pins={regionPins}
-          scopedRegion={slug}
-          showRegionFilter={false}
+          {f.body}
+        </FeatureBlock>
+      ))}
+      {tasteMapRows.length > 0 && (
+        <TastingDirectoryWithMap
+          regionLabel={frontmatter.region}
+          center={frontmatter.coordinates}
+          rows={tasteMapRows}
         />
-      </section>
-
-      {regionData?.adventure ? (
-        <RegionAdventureBlock adventure={regionData.adventure} />
+      )}
+      {(data.featuredRestaurants.length > 0 ||
+        data.breakfast ||
+        data.restaurantDirectory.length > 0 ||
+        eatMapRows.length > 0) && (
+        <>
+          <SectionDivider label={mq?.eat ?? 'Where to Eat'} />
+          {data.featuredRestaurants.map((f) => (
+            <FeatureBlock
+              key={f.name}
+              name={f.name}
+              address={f.address}
+              website={f.website}
+              image={f.image}
+              imagePortrait={f.imagePortrait}
+              imagePosition={f.imagePosition}
+            >
+              {f.body}
+            </FeatureBlock>
+          ))}
+          {(data.restaurantDirectory.length > 0 || eatMapRows.length > 0) && (
+            <TastingDirectoryWithMap
+              regionLabel={frontmatter.region}
+              center={frontmatter.coordinates}
+              rows={data.restaurantDirectory}
+              mapRows={eatMapRows}
+              directoryTitle={`More ${frontmatter.region} Dining`}
+            />
+          )}
+          {data.breakfast && (
+            <FeatureBlock
+              name={data.breakfast.name}
+              address={data.breakfast.address}
+              website={data.breakfast.website}
+              image={data.breakfast.image}
+              imagePortrait={data.breakfast.imagePortrait}
+              imagePosition={data.breakfast.imagePosition}
+            >
+              {data.breakfast.body}
+            </FeatureBlock>
+          )}
+        </>
+      )}
+      {(data.featuredHotels.length > 0 ||
+        data.lodgingDirectory.length > 0 ||
+        stayMapRows.length > 0) && (
+        <>
+          <SectionDivider label={mq?.stay ?? 'Where to Stay'} />
+          {data.featuredHotels.map((f) => (
+            <FeatureBlock
+              key={f.name}
+              name={f.name}
+              address={f.address}
+              website={f.website}
+              image={f.image}
+              imagePortrait={f.imagePortrait}
+              imagePosition={f.imagePosition}
+            >
+              {f.body}
+            </FeatureBlock>
+          ))}
+          {(data.lodgingDirectory.length > 0 || stayMapRows.length > 0) && (
+            <TastingDirectoryWithMap
+              regionLabel={frontmatter.region}
+              center={frontmatter.coordinates}
+              rows={data.lodgingDirectory}
+              mapRows={stayMapRows}
+              directoryTitle={`More ${frontmatter.region} Lodging`}
+            />
+          )}
+        </>
+      )}
+      {data.sidebarHeading ? (
+        <>
+          <SectionDivider label={mq?.sidebar ?? data.sidebarHeading} />
+          <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
+        </>
       ) : null}
-
-      <RegionMoreAppellations slug={slug} />
       <Newsletter />
       <Footer />
     </div>

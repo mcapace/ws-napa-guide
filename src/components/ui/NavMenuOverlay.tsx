@@ -29,8 +29,7 @@ const secondaryLinks = [
   { label: 'Wineries', href: '/wineries' },
   { label: 'Dining', href: '/dining' },
   { label: 'Stay', href: '/stay' },
-  { label: 'Explore', href: '/explore' },
-  { label: 'Map', href: '/explore' },
+  { label: 'Map', href: '/map' },
 ]
 
 const metaLinks = [
