@@ -140,10 +140,10 @@
 
 .card {
   display: flex;
-  gap: 12px;
-  align-items: stretch;
+  gap: 10px;
+  align-items: flex-start;
   width: 100%;
-  padding: 12px;
+  padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 3px;
   background: #fff;
@@ -172,23 +172,40 @@
   align-self: stretch;
 }
 
-.cardIcon {
-  width: 68px;
-  height: 68px;
+.cardVisual {
+  width: 56px;
+  height: 56px;
   flex-shrink: 0;
   border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardThumb,
+.cardIcon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.cardIcon {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .cardThumb {
-  position: relative;
-  width: 68px;
-  height: 68px;
-  flex-shrink: 0;
-  border-radius: 2px;
-  overflow: hidden;
+  display: block;
+}
+
+.cardThumb :global(img) {
+  object-fit: cover;
 }
 
 .cardBody {
@@ -258,24 +275,41 @@
 
 .detailHero {
   position: relative;
-  width: 100%;
-  height: 140px;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  overflow: hidden;
   background: rgba(13, 11, 9, 0.06);
 }
 
+.detailHeader {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 4px 16px 12px;
+}
+
+.detailHeaderCopy {
+  flex: 1;
+  min-width: 0;
+}
+
 .detailHeroAccent {
-  height: 72px;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(13, 11, 9, 0.04), rgba(13, 11, 9, 0.02));
-  border-bottom: 1px solid var(--line);
+  background: rgba(13, 11, 9, 0.04);
 }
 
 .detailHeroGlyph {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -283,7 +317,7 @@
 }
 
 .detailContent {
-  padding: 16px 16px 20px;
+  padding: 0 16px 20px;
 }
 
 .eyebrow {
@@ -439,17 +473,16 @@
   }
 
   .cardThumb,
-  .cardIcon {
-    width: 60px;
-    height: 60px;
+  .cardIcon,
+  .detailHero,
+  .detailHeroAccent,
+  .detailHeroGlyph {
+    width: 52px;
+    height: 52px;
   }
 
   .cardName {
     font-size: 16px;
-  }
-
-  .detailHero {
-    height: 120px;
   }
 
   .exploreRoot :global(.mapboxgl-ctrl-top-right) {

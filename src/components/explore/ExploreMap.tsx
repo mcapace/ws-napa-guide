@@ -124,15 +124,14 @@ const ListingCard = forwardRef<
           <Image
             src={thumb}
             alt=""
-            width={68}
-            height={68}
-            sizes="68px"
-            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+            fill
+            sizes="56px"
+            style={{ objectFit: 'cover' }}
           />
         </div>
       ) : (
         <div className={styles.cardIcon} style={{ background: cfg.color }} aria-hidden>
-          <Icon size={22} color="#FAF7F2" strokeWidth={2} />
+          <Icon size={20} color="#FAF7F2" strokeWidth={2} />
         </div>
       )}
       <div className={styles.cardBody}>
@@ -165,26 +164,30 @@ function PlaceDetail({
       <button type="button" className={styles.detailBack} onClick={onBack}>
         ← All places
       </button>
-      {hasImage && thumb ? (
-        <div className={styles.detailHero}>
-          <Image
-            src={thumb}
-            alt=""
-            fill
-            sizes="(max-width: 1023px) 100vw, 380px"
-            style={{ objectFit: 'cover' }}
-          />
+      <div className={styles.detailHeader}>
+        {hasImage && thumb ? (
+          <div className={styles.detailHero}>
+            <Image
+              src={thumb}
+              alt=""
+              fill
+              sizes="56px"
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+        ) : (
+          <div className={styles.detailHeroAccent}>
+            <span className={styles.detailHeroGlyph} style={{ background: cfg.color }}>
+              <Icon size={20} color="#FAF7F2" strokeWidth={2} aria-hidden />
+            </span>
+          </div>
+        )}
+        <div className={styles.detailHeaderCopy}>
+          <p className={styles.eyebrow} style={{ color: cfg.color }}>{cfg.label}</p>
+          <h3 className={styles.detailName}>{pin.name}</h3>
         </div>
-      ) : (
-        <div className={styles.detailHeroAccent}>
-          <span className={styles.detailHeroGlyph} style={{ background: cfg.color }}>
-            <Icon size={20} color="#FAF7F2" strokeWidth={2} aria-hidden />
-          </span>
-        </div>
-      )}
+      </div>
       <div className={styles.detailContent}>
-        <p className={styles.eyebrow} style={{ color: cfg.color }}>{cfg.label}</p>
-        <h3 className={styles.detailName}>{pin.name}</h3>
         <p className={styles.detailRegion}>{regionDisplayName(pin.region)}</p>
         <p className={styles.detailExcerpt}>{pin.excerpt}</p>
         <DetailsLink href={pin.href} className={styles.detailsLink}>
