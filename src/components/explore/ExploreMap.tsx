@@ -39,6 +39,41 @@ export interface ExploreMapProps {
 
 type ClusterProps = Supercluster.ClusterProperties & { pin?: MapPin }
 
+function isExternalHref(href: string): boolean {
+  return href.startsWith('http://') || href.startsWith('https://')
+}
+
+function DetailsLink({
+  href,
+  className,
+  children,
+  onClick,
+}: {
+  href: string
+  className?: string
+  children: React.ReactNode
+  onClick?: (e: React.MouseEvent) => void
+}) {
+  if (isExternalHref(href)) {
+    return (
+      <a
+        href={href}
+        className={className}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClick}
+      >
+        {children}
+      </a>
+    )
+  }
+  return (
+    <Link href={href} className={className} onClick={onClick}>
+      {children}
+    </Link>
+  )
+}
+
 const CATEGORY_ORDER: Category[] = ['winery', 'dining', 'stay']
 const REGION_ORDER = [
   'oakville',
@@ -390,9 +425,13 @@ export function ExploreMap({
                       <p className={styles.meta}>
                         {regionDisplayName(pin.region)} · {pin.excerpt}
                       </p>
-                      <Link href={pin.href} className={styles.detailsLink} onClick={(e) => e.stopPropagation()}>
+                      <DetailsLink
+                        href={pin.href}
+                        className={styles.detailsLink}
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         View details →
-                      </Link>
+                      </DetailsLink>
                     </div>
                   </button>
                 )
@@ -518,9 +557,9 @@ export function ExploreMap({
                     </p>
                     <p className={styles.popupName}>{selectedPin.name}</p>
                     <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
-                    <Link href={selectedPin.href} className={styles.detailsLink}>
+                    <DetailsLink href={selectedPin.href} className={styles.detailsLink}>
                       View details →
-                    </Link>
+                    </DetailsLink>
                   </div>
                 </Popup>
               )}
@@ -541,9 +580,9 @@ export function ExploreMap({
           </p>
           <p className={styles.popupName}>{selectedPin.name}</p>
           <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
-          <Link href={selectedPin.href} className={styles.detailsLink}>
+          <DetailsLink href={selectedPin.href} className={styles.detailsLink}>
             View details →
-          </Link>
+          </DetailsLink>
         </div>
       )}
 

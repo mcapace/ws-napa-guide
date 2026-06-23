@@ -3,7 +3,7 @@ import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { getRegion } from '@/data/regions'
-import { pinsByRegion } from '@/data/map-pins'
+import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
 import { RegionHero } from './RegionHero'
 import { RegionLede } from './RegionLede'
@@ -16,7 +16,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
   const { frontmatter } = data
   const slug = frontmatter.slug
   const regionData = getRegion(slug)
-  const regionPins = pinsByRegion(slug)
+  const regionPins = buildRegionExplorePins(slug, data)
   const regionName = frontmatter.region
 
   return (
