@@ -141,3 +141,23 @@ export type MapPinType = 'winery' | 'restaurant' | 'hotel'
 export type MapPinFilterType = MapPinType | 'all'
 
 export type MapRegionFilter = string | 'all'
+
+/** Explore map listing category (winery / dining / stay). */
+export type MapListingCategory = 'winery' | 'dining' | 'stay'
+
+export interface ItineraryStop {
+  order: number
+  name: string
+  category: 'winery' | 'dining' | 'stay' | 'sight'
+  coords: [number, number]
+  blurb: string
+  detailSlug?: string
+}
+
+export interface Itinerary {
+  id: string
+  title: string
+  intro: string
+  travelMode: 'driving' | 'walking'
+  stops: ItineraryStop[]
+}
