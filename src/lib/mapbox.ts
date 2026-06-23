@@ -3,9 +3,9 @@ export const NAPA_CENTER: [number, number] = [-122.4194, 38.5]
 export const NAPA_ZOOM = 10.2
 
 export const CATEGORY_CONFIG = {
-  winery: { label: 'Tasting Rooms', color: '#C4943A' },
-  dining: { label: 'Restaurants', color: '#6B1C2A' },
-  stay: { label: 'Hotels', color: '#5C6B52' },
+  winery: { label: 'Tasting Rooms', color: '#C4943A', glyph: '◆' },
+  dining: { label: 'Restaurants', color: '#6B1C2A', glyph: '●' },
+  stay: { label: 'Hotels', color: '#5C6B52', glyph: '■' },
 } as const
 
 export type Category = keyof typeof CATEGORY_CONFIG

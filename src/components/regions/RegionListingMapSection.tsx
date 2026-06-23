@@ -33,12 +33,10 @@ export function RegionListingMapSection({
         <h3 className="region-map-bleed__title">{title}</h3>
       </div>
       <ExploreMapSection
-        pins={mapPins.length > 0 ? mapPins : listPins}
-        listPins={listPins}
+        pins={listPins.length > 0 ? listPins : mapPins}
         scopedRegion={regionSlug}
         showRegionFilter={false}
         pinnedCategory={pinnedCategory}
-        embedMode
       />
     </section>
   )
