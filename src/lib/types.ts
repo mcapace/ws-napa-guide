@@ -160,4 +160,6 @@ export interface Itinerary {
   intro: string
   travelMode: 'driving' | 'walking'
   stops: ItineraryStop[]
+  /** Closing editorial copy after the last stop (when present in source adventure). */
+  outro?: string
 }

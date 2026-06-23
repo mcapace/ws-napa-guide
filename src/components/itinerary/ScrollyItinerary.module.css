@@ -170,6 +170,17 @@
   color: rgba(247, 243, 236, 0.75);
 }
 
+.outro {
+  max-width: 520px;
+  margin: 8px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(247, 243, 236, 0.1);
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 15px;
+  line-height: 1.85;
+  color: rgba(247, 243, 236, 0.72);
+}
+
 .stepLink {
   display: inline-block;
   margin-top: 16px;

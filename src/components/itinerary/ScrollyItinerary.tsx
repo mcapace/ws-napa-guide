@@ -349,6 +349,8 @@ export default function ScrollyItinerary({
             })}
           </ol>
 
+          {itinerary.outro ? <p className={styles.outro}>{itinerary.outro}</p> : null}
+
           <div className={styles.storyActions}>
             <button type="button" className={styles.primaryBtn} onClick={handleTakeRoute}>
               Take this route

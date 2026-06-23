@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getAllRegionSlugs } from '@/data/regions'
 import { getRegionItineraries } from '@/data/region-itineraries'
+import { enrichRegionItineraries } from '@/lib/enrich-region-itineraries'
 import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { getMdxRegionSlugs, loadRegionMdxCached } from '@/lib/content/loadRegionMdx'
 import RegionPageClient from './RegionPageClient'
@@ -36,7 +37,9 @@ export default async function RegionPage({ params }: Props) {
   if (!mdxDoc) notFound()
 
   const regionPins = buildRegionExplorePins(slug, mdxDoc)
-  const itineraries = getRegionItineraries(slug)
+  const itineraries = enrichRegionItineraries(slug, getRegionItineraries(slug), {
+    sidebarPlain: mdxDoc.sidebarPlain,
+  })
 
   return (
     <RegionPageClient
