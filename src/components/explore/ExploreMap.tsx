@@ -108,6 +108,7 @@ const ListingCard = forwardRef<
   const cfg = CATEGORY_CONFIG[pin.category]
   const hasImage = pinHasListingImage(pin)
   const thumb = pin.thumb ?? pin.images[0]
+  const Icon = CATEGORY_ICONS[pin.category]
 
   return (
     <button
@@ -130,7 +131,9 @@ const ListingCard = forwardRef<
           />
         </div>
       ) : (
-        <span className={styles.cardAccent} style={{ background: cfg.color }} aria-hidden />
+        <div className={styles.cardIcon} style={{ background: cfg.color }} aria-hidden>
+          <Icon size={22} color="#FAF7F2" strokeWidth={2} />
+        </div>
       )}
       <div className={styles.cardBody}>
         <span className={styles.cardCategory} style={{ color: cfg.color }}>

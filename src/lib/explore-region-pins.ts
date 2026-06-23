@@ -1,8 +1,8 @@
 import type { MapPin, MapPinCategory } from '@/data/map-pins'
 import { pinsByRegion } from '@/data/map-pins'
-import type { DirectoryCategory, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
+import type { DirectoryCategory, EditorialFeature, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
-import { pinHasListingImage } from '@/lib/explore'
+import { isEditorialListingImage, pinHasListingImage } from '@/lib/explore'
 import {
   buildRegionEatMapRows,
   buildRegionStayMapRows,
@@ -47,16 +47,32 @@ function directorySlug(region: string, name: string): string {
 }
 
 function editorialImagePath(path?: string): string | undefined {
-  if (!path?.trim()) return undefined
-  const p = path.trim()
-  if (!p.startsWith('/images/')) return undefined
-  return p
+  return isEditorialListingImage(path) ? path!.trim() : undefined
+}
+
+function isFeaturedStoryRow(row: TastingDirectoryRow, featured: EditorialFeature[]): boolean {
+  return featured.some((f) => namesOverlap(f.name, row.name))
+}
+
+function listingThumbForRow(
+  data: LoadedRegionMdx,
+  row: TastingDirectoryRow,
+  featuredStories: EditorialFeature[],
+): string | undefined {
+  if (isFeaturedStoryRow(row, featuredStories)) return undefined
+  const match = [
+    ...data.featuredWineries,
+    ...data.featuredRestaurants,
+    ...(data.breakfast ? [data.breakfast] : []),
+    ...data.featuredHotels,
+  ].find((f) => namesOverlap(f.name, row.name))
+  return editorialImagePath(match?.image)
 }
 
 function directoryRowToMapPin(
   row: TastingDirectoryRow,
   regionSlug: string,
-  featuredThumb?: string,
+  thumb?: string,
 ): MapPin | null {
   if (!row.coordinates) return null
 
@@ -66,7 +82,7 @@ function directoryRowToMapPin(
   const lat = row.coordinates.lat
   const website = normalizeWebsiteUrl(row.website)
   const excerpt = pinExcerpt(row.address)
-  const thumb = editorialImagePath(featuredThumb)
+  const editorialThumb = editorialImagePath(thumb)
 
   const type = category === 'dining' ? 'restaurant' : category === 'stay' ? 'hotel' : 'winery'
 
@@ -78,21 +94,11 @@ function directoryRowToMapPin(
     coords: [lng, lat],
     excerpt,
     href: website ?? `/explore?ava=${regionSlug}&place=${slug}`,
-    thumb,
+    thumb: editorialThumb,
     id: slug,
     type,
-    images: thumb ? [thumb] : [],
+    images: editorialThumb ? [editorialThumb] : [],
     sponsorTier: null,
-  }
-}
-
-function mergeEditorialThumb(staticPin: MapPin, editorialThumb?: string): MapPin {
-  const thumb = editorialImagePath(editorialThumb)
-  if (!thumb) return staticPin
-  return {
-    ...staticPin,
-    thumb,
-    images: [thumb, ...staticPin.images.filter((img) => img !== thumb)],
   }
 }
 
@@ -101,18 +107,24 @@ function stripNonEditorialThumb(pin: MapPin): MapPin {
     const { thumb: _t, ...rest } = pin
     return { ...rest, thumb: undefined, images: [] }
   }
-  return pin
+  const thumb = pin.thumb ?? pin.images[0]
+  return { ...pin, thumb, images: thumb ? [thumb] : [] }
 }
 
-function featuredThumbForName(data: LoadedRegionMdx, name: string): string | undefined {
-  const all = [
-    ...data.featuredWineries,
-    ...data.featuredRestaurants,
-    ...(data.breakfast ? [data.breakfast] : []),
-    ...data.featuredHotels,
-  ]
-  const match = all.find((f) => namesOverlap(f.name, name))
-  return match?.image
+function mergeEditorialThumb(staticPin: MapPin, editorialThumb?: string): MapPin {
+  const base = stripNonEditorialThumb(staticPin)
+  const thumb = editorialImagePath(editorialThumb)
+  if (!thumb) return base
+  return { ...base, thumb, images: [thumb] }
+}
+
+function featuredStoriesForCategory(
+  data: LoadedRegionMdx,
+  category: DirectoryCategory,
+): EditorialFeature[] {
+  if (category === 'winery') return data.featuredWineries
+  if (category === 'hotel') return data.featuredHotels
+  return [...data.featuredRestaurants, ...(data.breakfast ? [data.breakfast] : [])]
 }
 
 function buildPinsFromRows(
@@ -132,15 +144,16 @@ function buildPinsFromRows(
   }
 
   for (const row of rows) {
-    const editorialThumb = featuredThumbForName(data, row.name)
+    const featuredStories = featuredStoriesForCategory(data, row.category)
+    const listingThumb = listingThumbForRow(data, row, featuredStories)
     const staticMatch = staticPool.find((p) => namesOverlap(p.name, row.name))
 
     if (staticMatch) {
-      addPin(mergeEditorialThumb(staticMatch, editorialThumb))
+      addPin(mergeEditorialThumb(staticMatch, listingThumb))
       continue
     }
 
-    const fromRow = directoryRowToMapPin(row, regionSlug, editorialThumb)
+    const fromRow = directoryRowToMapPin(row, regionSlug, listingThumb)
     if (fromRow) addPin(fromRow)
   }
 

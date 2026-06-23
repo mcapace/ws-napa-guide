@@ -68,12 +68,16 @@ export function categoryEyebrow(category: MapPinCategory): string {
   return CATEGORY_CONFIG[category].label
 }
 
-/** True when the pin has real editorial photography (not stock test placeholders). */
-export function pinHasListingImage(pin: MapPin): boolean {
-  const src = pin.thumb ?? pin.images[0]
-  if (!src) return false
+/** True when src is real editorial photography under `/images/` (not stock placeholders). */
+export function isEditorialListingImage(src?: string): boolean {
+  if (!src?.trim()) return false
   if (src.includes('/test-images/')) return false
   return src.startsWith('/images/')
+}
+
+/** True when the pin has real editorial photography (not stock test placeholders). */
+export function pinHasListingImage(pin: MapPin): boolean {
+  return isEditorialListingImage(pin.thumb ?? pin.images[0])
 }
 
 export function partitionPinsByImage(pins: MapPin[]): {
