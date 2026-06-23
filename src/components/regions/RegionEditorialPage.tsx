@@ -1,4 +1,3 @@
-import Nav from '@/components/ui/Nav'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import type { LoadedRegionMdx } from '@/lib/content/types'
@@ -7,6 +6,7 @@ import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
 import { RegionHero } from './RegionHero'
 import { RegionLede } from './RegionLede'
+import { RegionEditorialSections } from './RegionEditorialSections'
 import { SidebarCallout } from './SidebarCallout'
 import { RegionAdventureBlock } from './RegionAdventureBlock'
 import { RegionMoreAppellations } from './RegionMoreAppellations'
@@ -30,6 +30,8 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
       {data.sidebarHeading ? (
         <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
       ) : null}
+
+      <RegionEditorialSections data={data} />
 
       <section style={{ background: '#FAF7F2', paddingBottom: 48 }}>
         <div

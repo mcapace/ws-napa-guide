@@ -443,19 +443,14 @@ export function ExploreMap({
     ? REGION_CENTERS[scopedRegion].zoom
     : NAPA_ZOOM
 
-  if (!MAPBOX_TOKEN) {
-    return (
-      <div className={styles.exploreRoot} style={{ padding: 48, textAlign: 'center' }}>
-        <p>Map unavailable — set NEXT_PUBLIC_MAPBOX_TOKEN.</p>
-      </div>
-    )
-  }
+  const mapAvailable = Boolean(MAPBOX_TOKEN)
 
   return (
     <div className={styles.exploreRoot}>
       <div className={styles.exploreShell}>
         <div className={styles.mapStage}>
           <div className={styles.mapWrap}>
+            {mapAvailable ? (
             <Map
               ref={mapRef}
               mapboxAccessToken={MAPBOX_TOKEN}
@@ -525,6 +520,12 @@ export function ExploreMap({
                 )
               })}
             </Map>
+            ) : (
+              <div className={styles.mapUnavailable}>
+                <p>Map preview unavailable.</p>
+                <p className={styles.mapUnavailableHint}>Browse the directory below.</p>
+              </div>
+            )}
           </div>
         </div>
 
