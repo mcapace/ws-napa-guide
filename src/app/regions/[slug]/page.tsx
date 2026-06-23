@@ -39,6 +39,10 @@ export default async function RegionPage({ params }: Props) {
   const regionPins = buildRegionExplorePins(slug, mdxDoc)
   const itineraries = enrichRegionItineraries(slug, getRegionItineraries(slug), {
     sidebarPlain: mdxDoc.sidebarPlain,
+    sidebarHeading: mdxDoc.sidebarHeading,
+    byline: mdxDoc.frontmatter.byline,
+    issue: mdxDoc.frontmatter.issue,
+    regionName: mdxDoc.frontmatter.region,
   })
 
   return (

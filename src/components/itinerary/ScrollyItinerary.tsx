@@ -24,6 +24,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 type ScrollyItineraryProps = {
   itineraries: Itinerary[]
   regionCenter: [number, number]
+  regionName?: string
   selectedItineraryId?: string
   onItineraryChange?: (id: string) => void
 }
@@ -71,9 +72,16 @@ function categoryLabel(category: ItineraryStop['category']): string {
   }
 }
 
+function formatEyebrow(itinerary: Itinerary, regionName?: string): string {
+  const label = itinerary.eyebrow ?? 'Itinerary'
+  if (label === 'Itinerary' && regionName) return `Itinerary · ${regionName}`
+  return label
+}
+
 export default function ScrollyItinerary({
   itineraries,
   regionCenter,
+  regionName,
   selectedItineraryId,
   onItineraryChange,
 }: ScrollyItineraryProps) {
@@ -280,6 +288,13 @@ export default function ScrollyItinerary({
     }
   }
 
+  const introParagraphs = useMemo(
+    () => itinerary?.introParagraphs ?? (itinerary?.intro ? [itinerary.intro] : []),
+    [itinerary],
+  )
+
+  const showCollectionHeader = itineraries.length > 1 && itinerary?.seriesTitle
+
   if (!itinerary || stops.length === 0) {
     return (
       <p className={styles.empty}>Itinerary stops are being prepared for this region.</p>
@@ -288,6 +303,22 @@ export default function ScrollyItinerary({
 
   return (
     <div className={styles.root}>
+      {showCollectionHeader ? (
+        <header className={styles.collectionHeader}>
+          <p className={styles.eyebrow}>{formatEyebrow(itinerary, regionName)}</p>
+          <h2 className={styles.collectionTitle}>{itinerary.seriesTitle}</h2>
+          {itinerary.byline ? (
+            <p className={styles.byline}>
+              By {itinerary.byline}
+              {itinerary.issue ? ` · ${itinerary.issue}` : ''}
+            </p>
+          ) : null}
+          {itinerary.seriesIntro ? (
+            <p className={styles.collectionIntro}>{itinerary.seriesIntro}</p>
+          ) : null}
+        </header>
+      ) : null}
+
       {itineraries.length > 1 ? (
         <div className={styles.selector} role="tablist" aria-label="Choose itinerary">
           {itineraries.map((it) => (
@@ -308,8 +339,35 @@ export default function ScrollyItinerary({
       <div className={styles.layout}>
         <div className={styles.storyColumn}>
           <header className={styles.storyHeader}>
+            {!showCollectionHeader ? (
+              <p className={styles.eyebrow}>{formatEyebrow(itinerary, regionName)}</p>
+            ) : null}
             <h2 className={styles.title}>{itinerary.title}</h2>
-            {itinerary.intro ? <p className={styles.intro}>{itinerary.intro}</p> : null}
+            {itinerary.sectionLabel ? (
+              <p className={styles.sectionLabel}>{itinerary.sectionLabel}</p>
+            ) : null}
+            {!showCollectionHeader && itinerary.byline ? (
+              <p className={styles.byline}>
+                By {itinerary.byline}
+                {itinerary.issue ? ` · ${itinerary.issue}` : ''}
+              </p>
+            ) : null}
+            {introParagraphs.length > 0 ? (
+              <div className={styles.introProse}>
+                {introParagraphs.map((paragraph, index) => (
+                  <p
+                    key={index}
+                    className={
+                      index === 0 && introParagraphs.length > 1
+                        ? styles.introLead
+                        : styles.introParagraph
+                    }
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            ) : null}
           </header>
 
           <ol className={styles.steps}>
@@ -349,7 +407,11 @@ export default function ScrollyItinerary({
             })}
           </ol>
 
-          {itinerary.outro ? <p className={styles.outro}>{itinerary.outro}</p> : null}
+          {itinerary.outro ? (
+            <div className={styles.outroBlock}>
+              <p className={styles.outro}>{itinerary.outro}</p>
+            </div>
+          ) : null}
 
           <div className={styles.storyActions}>
             <button type="button" className={styles.primaryBtn} onClick={handleTakeRoute}>

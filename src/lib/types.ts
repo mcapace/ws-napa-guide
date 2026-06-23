@@ -162,4 +162,16 @@ export interface Itinerary {
   stops: ItineraryStop[]
   /** Closing editorial copy after the last stop (when present in source adventure). */
   outro?: string
+  /** Magazine-style eyebrow (e.g. "An Oakville Adventure"). */
+  eyebrow?: string
+  byline?: string
+  issue?: string
+  /** Parent adventure title when the region has multiple routes. */
+  seriesTitle?: string
+  /** Parent adventure deck when the region has multiple routes. */
+  seriesIntro?: string
+  /** Section label from numbered adventure body (when distinct from title). */
+  sectionLabel?: string
+  /** Intro split into editorial paragraphs. */
+  introParagraphs?: string[]
 }

@@ -263,6 +263,7 @@ function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPa
               <ScrollyItinerary
                 itineraries={itineraries}
                 regionCenter={regionCenter}
+                regionName={frontmatter.region}
                 selectedItineraryId={selectedItineraryId}
                 onItineraryChange={setItinerary}
               />

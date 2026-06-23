@@ -136,6 +136,69 @@ function mergeIntro(adventureIntro: string, introExtra: string): string {
   return parts.join(' ')
 }
 
+function buildIntroParagraphs(adventureIntro: string, introExtra: string, mergedIntro: string): string[] {
+  const intro = adventureIntro.trim()
+  const extra = introExtra.trim()
+  if (intro && extra && intro !== extra) return [intro, extra]
+  return mergedIntro ? [mergedIntro] : []
+}
+
+function getSectionTitle(itineraryId: string, adventure: RegionAdventure): string | undefined {
+  const sectionNum = ITINERARY_SECTION_NUM[itineraryId]
+  if (sectionNum === undefined) return undefined
+  const parsed = parseItineraryBody(adventure.body)
+  return parsed.find((p) => p.number === sectionNum)?.title
+}
+
+type EnrichOptions = {
+  sidebarPlain?: string
+  sidebarHeading?: string
+  byline?: string
+  issue?: string
+  regionName?: string
+}
+
+function applyEditorialMeta(
+  itinerary: Itinerary,
+  slug: string,
+  adventure: RegionAdventure | undefined,
+  itineraryCount: number,
+  options?: EnrichOptions,
+): Itinerary {
+  const region = getRegion(slug)
+  const byline = options?.byline ?? region?.author
+  const issue = options?.issue ?? region?.issue
+
+  let eyebrow: string
+  if (slug === 'oakville') {
+    eyebrow = 'An Oakville Adventure'
+  } else if (options?.sidebarHeading) {
+    eyebrow = 'From the issue'
+  } else {
+    eyebrow = 'Itinerary'
+  }
+
+  const sectionTitle = adventure ? getSectionTitle(itinerary.id, adventure) : undefined
+  const sectionLabel =
+    sectionTitle && sectionTitle.toLowerCase() !== itinerary.title.toLowerCase() ? sectionTitle : undefined
+
+  const isMultiRoute = itineraryCount > 1 && adventure
+  const introParagraphs =
+    itinerary.introParagraphs ??
+    (itinerary.intro ? buildIntroParagraphs('', '', itinerary.intro) : undefined)
+
+  return {
+    ...itinerary,
+    eyebrow,
+    byline,
+    issue,
+    sectionLabel,
+    seriesTitle: isMultiRoute ? adventure.title : undefined,
+    seriesIntro: isMultiRoute ? adventure.intro : undefined,
+    introParagraphs,
+  }
+}
+
 function enrichOakvilleFromSidebar(
   itinerary: Itinerary,
   sidebarPlain: string,
@@ -153,10 +216,12 @@ function enrichOakvilleFromSidebar(
     paragraphs.find((p) => p.startsWith('When historic wineries')) ?? paragraphs[paragraphs.length - 1] ?? ''
 
   const bvBlurb = [bv, closing].filter(Boolean).join(' ')
+  const adventureIntro = adventure?.intro ?? itinerary.intro
 
   return {
     ...itinerary,
-    intro: mergeIntro(adventure?.intro ?? itinerary.intro, introParts.join(' ')),
+    intro: mergeIntro(adventureIntro, introParts.join(' ')),
+    introParagraphs: introParts.length > 0 ? introParts : buildIntroParagraphs(adventureIntro, '', adventureIntro),
     stops: itinerary.stops.map((stop, i) => {
       if (i === 0 && rmw) return { ...stop, blurb: rmw }
       if (i === 1 && bvBlurb) return { ...stop, blurb: bvBlurb }
@@ -165,13 +230,24 @@ function enrichOakvilleFromSidebar(
   }
 }
 
-function enrichFromAdventure(itinerary: Itinerary, adventure: RegionAdventure): Itinerary {
+function enrichFromAdventure(
+  itinerary: Itinerary,
+  adventure: RegionAdventure,
+  isMultiRoute: boolean,
+): Itinerary {
   const sectionText = pickSectionText(itinerary.id, adventure)
   const { introExtra, blurbs, outro } = splitTextByStops(sectionText, itinerary.stops)
+  const mergedIntro = isMultiRoute ? introExtra.trim() : mergeIntro(adventure.intro, introExtra)
+  const introParagraphs = isMultiRoute
+    ? introExtra.trim()
+      ? [introExtra.trim()]
+      : []
+    : buildIntroParagraphs(adventure.intro, introExtra, mergedIntro)
 
   return {
     ...itinerary,
-    intro: mergeIntro(adventure.intro, introExtra),
+    intro: mergedIntro,
+    introParagraphs,
     outro: outro || undefined,
     stops: itinerary.stops.map((stop, i) => ({
       ...stop,
@@ -183,16 +259,19 @@ function enrichFromAdventure(itinerary: Itinerary, adventure: RegionAdventure): 
 export function enrichRegionItineraries(
   slug: string,
   itineraries: Itinerary[],
-  options?: { sidebarPlain?: string },
+  options?: EnrichOptions,
 ): Itinerary[] {
   const region = getRegion(slug)
   const adventure = region?.adventure
+  const count = itineraries.length
 
   return itineraries.map((it) => {
+    let result = it
     if (slug === 'oakville' && options?.sidebarPlain) {
-      return enrichOakvilleFromSidebar(it, options.sidebarPlain, adventure)
+      result = enrichOakvilleFromSidebar(it, options.sidebarPlain, adventure)
+    } else if (adventure) {
+      result = enrichFromAdventure(it, adventure, count > 1)
     }
-    if (!adventure) return it
-    return enrichFromAdventure(it, adventure)
+    return applyEditorialMeta(result, slug, adventure, count, options)
   })
 }
