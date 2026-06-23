@@ -32,7 +32,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
         <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
       ) : null}
 
-      <section style={{ background: '#0D0B09' }}>
+      <section style={{ background: '#FAF7F2', paddingBottom: 48 }}>
         <div
           style={{
             maxWidth: 1100,
@@ -46,7 +46,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
               fontStyle: 'italic',
               fontWeight: 300,
               fontSize: 'clamp(28px, 4vw, 40px)',
-              color: '#F7F3EC',
+              color: '#0D0B09',
               margin: 0,
               lineHeight: 1.15,
             }}

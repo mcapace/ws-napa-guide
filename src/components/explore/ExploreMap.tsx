@@ -67,10 +67,13 @@ export function ExploreMap({
   const placeParam = searchParams.get('place')
 
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null)
+  const [scrollCenterSlug, setScrollCenterSlug] = useState<string | null>(null)
   const [mobileView, setMobileView] = useState<'list' | 'map'>('list')
   const [mapZoom, setMapZoom] = useState(NAPA_ZOOM)
   const [mapBounds, setMapBounds] = useState<[number, number, number, number] | null>(null)
   const [isDesktop, setIsDesktop] = useState(false)
+  const scrollSyncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const lastEaseSlugRef = useRef<string | null>(null)
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1024px)')
@@ -146,7 +149,18 @@ export function ExploreMap({
       center: pin.coords,
       zoom: 14,
       duration: 900,
-      essential: true,
+      essential: false,
+    })
+  }, [])
+
+  const easeToPin = useCallback((pin: MapPin) => {
+    const map = mapRef.current?.getMap()
+    if (!map) return
+    map.easeTo({
+      center: pin.coords,
+      zoom: Math.max(map.getZoom(), 13),
+      duration: 450,
+      essential: false,
     })
   }, [])
 
@@ -199,6 +213,51 @@ export function ExploreMap({
     const expansion = supercluster.getClusterExpansionZoom(clusterId)
     mapRef.current?.flyTo({ center: [lng, lat], zoom: expansion + 1, duration: 600 })
   }
+
+  const syncMapToListScroll = useCallback(() => {
+    const root = listScrollRef.current
+    if (!root || !isDesktop) return
+
+    const centerY = root.scrollTop + root.clientHeight / 2
+    let bestSlug: string | null = null
+    let bestDist = Infinity
+
+    for (const pin of visiblePins) {
+      const el = rowRefs.current[pin.slug]
+      if (!el) continue
+      const elCenter = el.offsetTop + el.offsetHeight / 2
+      const dist = Math.abs(elCenter - centerY)
+      if (dist < bestDist) {
+        bestDist = dist
+        bestSlug = pin.slug
+      }
+    }
+
+    if (!bestSlug || bestSlug === lastEaseSlugRef.current) return
+    const pin = visiblePins.find((p) => p.slug === bestSlug)
+    if (!pin) return
+
+    lastEaseSlugRef.current = bestSlug
+    setScrollCenterSlug(bestSlug)
+    easeToPin(pin)
+  }, [visiblePins, isDesktop, easeToPin])
+
+  const handleListScroll = useCallback(() => {
+    if (!isDesktop) return
+    if (scrollSyncTimerRef.current) clearTimeout(scrollSyncTimerRef.current)
+    scrollSyncTimerRef.current = setTimeout(syncMapToListScroll, 80)
+  }, [isDesktop, syncMapToListScroll])
+
+  useEffect(() => {
+    return () => {
+      if (scrollSyncTimerRef.current) clearTimeout(scrollSyncTimerRef.current)
+    }
+  }, [])
+
+  useEffect(() => {
+    lastEaseSlugRef.current = null
+    setScrollCenterSlug(null)
+  }, [visiblePins])
 
   const initialCenter = scopedRegion && REGION_CENTERS[scopedRegion]
     ? REGION_CENTERS[scopedRegion].center
@@ -282,13 +341,15 @@ export function ExploreMap({
           <div
             ref={listScrollRef}
             className={`${styles.listScroll} ${mobileView === 'map' ? styles.listScrollMobileHidden : ''}`}
+            onScroll={handleListScroll}
           >
             {visiblePins.length === 0 ? (
               <p className={styles.emptyState}>No listings match these filters.</p>
             ) : (
               visiblePins.map((pin) => {
                 const cfg = CATEGORY_CONFIG[pin.category]
-                const isSelected = pin.slug === placeParam
+                const isSelected =
+                  pin.slug === placeParam || pin.slug === scrollCenterSlug
                 return (
                   <button
                     key={pin.slug}
@@ -354,6 +415,7 @@ export function ExploreMap({
               style={{ width: '100%', height: '100%' }}
               mapStyle={MAP_STYLE}
               maxBounds={NAPA_BOUNDS}
+              attributionControl={false}
               onLoad={handleMapLoad}
               onMoveEnd={onMapMove}
               onClick={() => {
@@ -389,7 +451,8 @@ export function ExploreMap({
                 const pin = props.pin
                 if (!pin) return null
                 const cfg = CATEGORY_CONFIG[pin.category]
-                const isSelected = pin.slug === placeParam
+                const isSelected =
+                  pin.slug === placeParam || pin.slug === scrollCenterSlug
                 const isHovered = pin.slug === hoveredSlug
 
                 return (
@@ -452,6 +515,7 @@ export function ExploreMap({
                 </Popup>
               )}
             </Map>
+            <p className={styles.mapAttribution}>© Mapbox © OpenStreetMap</p>
           </div>
         </div>
       </div>
@@ -485,6 +549,11 @@ export function ExploreMap({
         .mapboxgl-ctrl-group {
           background: rgba(13, 11, 9, 0.92) !important;
           border: 1px solid rgba(247, 243, 236, 0.08) !important;
+        }
+        .mapboxgl-ctrl-logo,
+        .mapboxgl-ctrl-attrib,
+        .mapboxgl-compact {
+          display: none !important;
         }
       `}</style>
     </div>

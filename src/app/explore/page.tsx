@@ -19,19 +19,18 @@ export default function ExplorePage() {
   const hotelCount = hotels.length
 
   return (
-    <div data-site-surface="dark" style={{ minHeight: '100vh', background: '#0D0B09' }}>
+    <div data-site-surface="light" style={{ minHeight: '100vh', background: '#FAF7F2' }}>
       <Nav />
 
       <section
         style={{
-          minHeight: '40vh',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'center',
-          padding: '80px clamp(24px, 5vw, 48px) 48px',
-          background: 'linear-gradient(180deg, #1A1612 0%, #0D0B09 100%)',
+          padding: '64px clamp(24px, 5vw, 48px) 32px',
+          background: '#FAF7F2',
         }}
       >
         <h1
@@ -40,7 +39,7 @@ export default function ExplorePage() {
             fontStyle: 'italic',
             fontWeight: 300,
             fontSize: 'clamp(40px, 6vw, 72px)',
-            color: '#F7F3EC',
+            color: '#0D0B09',
             margin: '0 0 16px',
             lineHeight: 1.05,
           }}
@@ -52,7 +51,7 @@ export default function ExplorePage() {
             fontFamily: "'DM Sans', sans-serif",
             fontSize: 15,
             lineHeight: 1.6,
-            color: '#9B9283',
+            color: '#6B6560',
             maxWidth: 520,
             margin: '0 0 24px',
           }}
