@@ -204,7 +204,7 @@ function RegionPageClientContent({ slug }: { slug: string }) {
           }}
         >
           <Link
-            href="/map"
+            href={`/explore?ava=${slug}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',

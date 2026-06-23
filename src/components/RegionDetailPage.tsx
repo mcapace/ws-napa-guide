@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Nav from '@/components/ui/Nav';
 import Footer from '@/components/ui/Footer';
 import Newsletter from '@/components/ui/Newsletter';
+import { ExploreMapSection } from '@/components/explore/ExploreMapSection';
+import { pinsByRegion } from '@/data/map-pins';
 
 export type RegionData = {
   slug: string;
@@ -49,78 +51,6 @@ function parseSections(body: string) {
   return { lede, tasteIntro, eatIntro, stayIntro };
 }
 
-/* ── Listing Row ── */
-function ListingRow({ name, subtitle, excerpt, image, href, ctaLabel }: {
-  name: string; subtitle?: string; excerpt: string; image: string; href: string; ctaLabel: string;
-}) {
-  return (
-    <div style={{
-      display: 'grid', gridTemplateColumns: '120px 200px 1fr auto',
-      gap: 24, alignItems: 'center', padding: '22px 0',
-      borderBottom: '1px solid #DEDAD4',
-    }}>
-      <div style={{ position: 'relative', width: 120, height: 80, overflow: 'hidden' }}>
-        <Image src={image} alt={name} fill sizes="120px" style={{ objectFit: 'cover' }} />
-      </div>
-      <div>
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(18px, 2vw, 24px)', fontStyle: 'italic', fontWeight: 400, color: '#0D0B09', margin: '0 0 3px', lineHeight: 1.2 }}>{name}</p>
-        {subtitle && <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#999', margin: 0 }}>{subtitle}</p>}
-      </div>
-      <p style={{
-        fontFamily: "'DM Sans', sans-serif", fontSize: 13, lineHeight: 1.55,
-        color: '#777', margin: 0, overflow: 'hidden',
-        display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const,
-      }}>{excerpt}</p>
-      <div style={{ display: 'flex', gap: 8 }}>
-        <Link href={href} style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: 9, fontWeight: 600,
-          textTransform: 'uppercase', letterSpacing: '0.1em',
-          color: '#0D0B09', background: '#F7F3EC', padding: '10px 16px',
-          textDecoration: 'none', border: '1px solid #0D0B09',
-        }}>{ctaLabel}</Link>
-        <Link href={href} style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: 9, fontWeight: 600,
-          textTransform: 'uppercase', letterSpacing: '0.1em',
-          color: '#0D0B09', padding: '10px 16px',
-          textDecoration: 'none', border: '1px solid #CCC',
-        }}>Read More</Link>
-      </div>
-    </div>
-  );
-}
-
-/* ── Section with intro + listings ── */
-function ListingSection({ title, intro, children }: {
-  title: string; intro: string; children: React.ReactNode;
-}) {
-  return (
-    <div style={{ marginBottom: 64 }}>
-      {/* Section header */}
-      <h2 style={{
-        fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontWeight: 300,
-        fontSize: 'clamp(32px, 4vw, 52px)', color: '#0D0B09',
-        margin: '0 0 16px',
-      }}>
-        {title}
-      </h2>
-
-      {/* Section intro */}
-      {intro && (
-        <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 300,
-          color: 'rgba(13,11,9,0.6)', lineHeight: 1.8,
-          margin: '0 0 32px', maxWidth: 800,
-        }}>
-          {intro}
-        </p>
-      )}
-
-      {/* Listing rows */}
-      {children}
-    </div>
-  );
-}
-
 /* ══════════════════════════════════════════════════════════════════ */
 export default function RegionDetailPage({ data }: { data: RegionData }) {
   const { lede, tasteIntro, eatIntro, stayIntro } = parseSections(data.body);
@@ -157,8 +87,8 @@ export default function RegionDetailPage({ data }: { data: RegionData }) {
           {data.tagline} · By {data.author}
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
-          <Link href="/map" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#FFFFFF', background: '#0D0B09', padding: '12px 24px', textDecoration: 'none' }}>Explore the Map</Link>
-          <Link href="#listings" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0D0B09', border: '1px solid #CCC', padding: '12px 24px', textDecoration: 'none' }}>Read More</Link>
+          <Link href={`/explore?ava=${data.slug}`} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#FFFFFF', background: '#0D0B09', padding: '12px 24px', textDecoration: 'none' }}>Explore the Map</Link>
+          <Link href="#directory" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0D0B09', border: '1px solid #CCC', padding: '12px 24px', textDecoration: 'none' }}>View Directory</Link>
         </div>
       </section>
 
@@ -227,39 +157,82 @@ export default function RegionDetailPage({ data }: { data: RegionData }) {
 
         {/* CTAs */}
         <div style={{ display: 'flex', gap: 10 }}>
-          <Link href="/map" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#FFFFFF', background: '#0D0B09', padding: '14px 28px', textDecoration: 'none' }}>Explore the Map</Link>
+          <Link href={`/explore?ava=${data.slug}`} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#FFFFFF', background: '#0D0B09', padding: '14px 28px', textDecoration: 'none' }}>Explore the Map</Link>
           <Link href="/regions" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0D0B09', border: '1px solid #CCC', padding: '14px 28px', textDecoration: 'none' }}>Explore Another Region</Link>
         </div>
       </section>
 
-      {/* ── 5. LISTINGS — each section with intro + rows ── */}
-      <section id="listings" style={{ background: '#F5F3EE', padding: '56px clamp(24px, 5vw, 80px)' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-
-          {data.wineries.length > 0 && (
-            <ListingSection title={`Where to Taste in ${data.name}`} intro={tasteIntro}>
-              {data.wineries.map((w) => (
-                <ListingRow key={w.slug} name={w.name} subtitle={w.address} excerpt={w.excerpt} image={w.images[0]} href={`/wineries/${w.slug}`} ctaLabel="Reserve" />
-              ))}
-            </ListingSection>
-          )}
-
-          {data.restaurants.length > 0 && (
-            <ListingSection title={`Where to Eat in ${data.name}`} intro={eatIntro}>
-              {data.restaurants.map((r) => (
-                <ListingRow key={r.slug} name={r.name} subtitle={[r.cuisine, r.priceRange].filter(Boolean).join(' · ')} excerpt={r.excerpt} image={r.images[0]} href={`/dining/${r.slug}`} ctaLabel="Reserve" />
-              ))}
-            </ListingSection>
-          )}
-
-          {data.hotels.length > 0 && (
-            <ListingSection title={`Where to Stay in ${data.name}`} intro={stayIntro}>
-              {data.hotels.map((h) => (
-                <ListingRow key={h.slug} name={h.name} subtitle={[h.category, h.priceRange].filter(Boolean).join(' · ')} excerpt={h.excerpt} image={h.images[0]} href={`/stay/${h.slug}`} ctaLabel="Book Now" />
-              ))}
-            </ListingSection>
+      {/* ── 5. DIRECTORY — synced map + list ── */}
+      <section id="directory" style={{ background: '#FAF7F2', paddingTop: 48 }}>
+        <div
+          style={{
+            maxWidth: 1100,
+            margin: '0 auto',
+            padding: '0 clamp(24px, 5vw, 80px) 24px',
+          }}
+        >
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontStyle: 'italic',
+              fontWeight: 300,
+              fontSize: 'clamp(28px, 4vw, 40px)',
+              color: '#0D0B09',
+              margin: '0 0 16px',
+              lineHeight: 1.15,
+            }}
+          >
+            Where to taste, eat & stay in {data.name}
+          </h2>
+          {(tasteIntro || eatIntro || stayIntro) && (
+            <div style={{ maxWidth: 760, marginBottom: 8 }}>
+              {tasteIntro && (
+                <p
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 15,
+                    lineHeight: 1.75,
+                    color: '#6B6560',
+                    margin: '0 0 14px',
+                  }}
+                >
+                  {tasteIntro}
+                </p>
+              )}
+              {eatIntro && (
+                <p
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 15,
+                    lineHeight: 1.75,
+                    color: '#6B6560',
+                    margin: '0 0 14px',
+                  }}
+                >
+                  {eatIntro}
+                </p>
+              )}
+              {stayIntro && (
+                <p
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 15,
+                    lineHeight: 1.75,
+                    color: '#6B6560',
+                    margin: 0,
+                  }}
+                >
+                  {stayIntro}
+                </p>
+              )}
+            </div>
           )}
         </div>
+        <ExploreMapSection
+          pins={pinsByRegion(data.slug)}
+          scopedRegion={data.slug}
+          showRegionFilter={false}
+        />
       </section>
 
       {/* ── 6. NEWSLETTER + FOOTER ── */}

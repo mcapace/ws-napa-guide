@@ -3,7 +3,16 @@ import { ExploreMap, type ExploreMapProps } from './ExploreMap'
 
 function ExploreMapFallback() {
   return (
-    <div style={{ minHeight: 480, background: '#0D0B09', color: '#9B9283', padding: 48, textAlign: 'center' }}>
+    <div
+      style={{
+        minHeight: 480,
+        background: '#FAF7F2',
+        color: '#6B6560',
+        padding: 48,
+        textAlign: 'center',
+        fontFamily: "'DM Sans', sans-serif",
+      }}
+    >
       Loading map…
     </div>
   )

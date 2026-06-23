@@ -33,6 +33,8 @@ export interface ExploreMapProps {
   pins: MapPin[]
   scopedRegion?: string
   showRegionFilter?: boolean
+  /** When set, only show this category and hide category pills. */
+  pinnedCategory?: Category
 }
 
 type ClusterProps = Supercluster.ClusterProperties & { pin?: MapPin }
@@ -52,6 +54,7 @@ export function ExploreMap({
   pins,
   scopedRegion,
   showRegionFilter = false,
+  pinnedCategory,
 }: ExploreMapProps) {
   const router = useRouter()
   const pathname = usePathname()
@@ -83,14 +86,17 @@ export function ExploreMap({
     return () => mq.removeEventListener('change', update)
   }, [])
 
-  const scopedPins = useMemo(
-    () => (scopedRegion ? pins.filter((p) => p.region === scopedRegion) : pins),
-    [pins, scopedRegion],
-  )
+  const scopedPins = useMemo(() => {
+    let list = scopedRegion ? pins.filter((p) => p.region === scopedRegion) : pins
+    if (pinnedCategory) list = list.filter((p) => p.category === pinnedCategory)
+    return list
+  }, [pins, scopedRegion, pinnedCategory])
+
+  const effectiveCategoryFilter: ExploreCategoryFilter = pinnedCategory ?? categoryFilter
 
   const visiblePins = useMemo(
-    () => filterExplorePins(scopedPins, categoryFilter, regionFilter),
-    [scopedPins, categoryFilter, regionFilter],
+    () => filterExplorePins(scopedPins, effectiveCategoryFilter, regionFilter),
+    [scopedPins, effectiveCategoryFilter, regionFilter],
   )
 
   const counts = useMemo(() => countByCategory(scopedPins), [scopedPins])
@@ -296,25 +302,27 @@ export function ExploreMap({
       <div className={styles.exploreGrid}>
         <div className={styles.listColumn}>
           <div className={styles.filtersSticky}>
-            <div className={styles.filterRow}>
-              <button
-                type="button"
-                className={`${styles.pill} ${categoryFilter === 'all' ? styles.pillActive : ''}`}
-                onClick={() => onCategoryChange('all')}
-              >
-                All ({scopedPins.length})
-              </button>
-              {CATEGORY_ORDER.map((cat) => (
+            {!pinnedCategory && (
+              <div className={styles.filterRow}>
                 <button
-                  key={cat}
                   type="button"
-                  className={`${styles.pill} ${categoryFilter === cat ? styles.pillActive : ''}`}
-                  onClick={() => onCategoryChange(cat)}
+                  className={`${styles.pill} ${categoryFilter === 'all' ? styles.pillActive : ''}`}
+                  onClick={() => onCategoryChange('all')}
                 >
-                  {CATEGORY_CONFIG[cat].label} ({counts[cat]})
+                  All ({scopedPins.length})
                 </button>
-              ))}
-            </div>
+                {CATEGORY_ORDER.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    className={`${styles.pill} ${categoryFilter === cat ? styles.pillActive : ''}`}
+                    onClick={() => onCategoryChange(cat)}
+                  >
+                    {CATEGORY_CONFIG[cat].label} ({counts[cat]})
+                  </button>
+                ))}
+              </div>
+            )}
             {showRegionFilter && (
               <div className={styles.filterRow}>
                 <button
@@ -547,8 +555,8 @@ export function ExploreMap({
           display: none !important;
         }
         .mapboxgl-ctrl-group {
-          background: rgba(13, 11, 9, 0.92) !important;
-          border: 1px solid rgba(247, 243, 236, 0.08) !important;
+          background: rgba(255, 255, 255, 0.92) !important;
+          border: 1px solid rgba(13, 11, 9, 0.1) !important;
         }
         .mapboxgl-ctrl-logo,
         .mapboxgl-ctrl-attrib,
