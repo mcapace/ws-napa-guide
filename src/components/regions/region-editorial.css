@@ -414,3 +414,259 @@ a.tasting-directory-url:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* ── Guide layout: intro, jump nav, story cards, chapters ─────────── */
+.region-intro {
+  background: #faf7f2;
+  padding: clamp(40px, 6vw, 64px) clamp(24px, 4vw, 40px) clamp(32px, 5vw, 48px);
+  border-bottom: 1px solid rgba(26, 22, 20, 0.06);
+}
+
+.region-intro__inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.region-intro__dek {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(22px, 2.8vw, 28px);
+  line-height: 1.45;
+  color: rgba(26, 22, 20, 0.78);
+  margin: 0 0 clamp(28px, 4vw, 40px);
+  text-align: center;
+}
+
+.region-intro__lede {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(18px, 2vw, 20px);
+  line-height: 1.68;
+  color: #1a1614;
+}
+
+.region-guide-nav {
+  margin-top: clamp(32px, 5vw, 48px);
+  padding-top: 24px;
+  border-top: 1px solid rgba(26, 22, 20, 0.1);
+}
+
+.region-guide-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  justify-content: center;
+}
+
+.region-guide-nav__link {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 1px solid rgba(26, 22, 20, 0.12);
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(26, 22, 20, 0.62);
+  background: #fff;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.region-guide-nav__link:hover {
+  color: #1a1614;
+  border-color: rgba(114, 47, 55, 0.35);
+}
+
+.region-guide-nav__link--active {
+  color: #1a1614;
+  border-color: rgba(114, 47, 55, 0.45);
+  background: rgba(114, 47, 55, 0.06);
+}
+
+.region-guide-body {
+  background: #faf7f2;
+}
+
+.region-chapter[id] {
+  scroll-margin-top: calc(var(--ws-site-header-height, 72px) + 48px);
+}
+
+.region-chapter--eat {
+  background: #f5f0e8;
+}
+
+.region-chapter--stay {
+  background: #faf7f2;
+}
+
+.region-chapter--sidebar {
+  background: linear-gradient(180deg, #ede5d8 0%, #e8dfd0 100%);
+}
+
+.region-chapter .region-section-divider {
+  padding: clamp(36px, 5vw, 56px) clamp(24px, 4vw, 40px) clamp(20px, 3vw, 28px);
+  background: transparent;
+}
+
+.region-chapter--eat .region-section-divider__label,
+.region-chapter--eat .region-section-divider__rule {
+  background: #f5f0e8;
+}
+
+.region-chapter__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 40px) clamp(40px, 6vw, 64px);
+}
+
+.region-story-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vw, 28px);
+  margin-bottom: clamp(32px, 5vw, 48px);
+}
+
+.region-story-stack--single {
+  margin-top: clamp(24px, 4vw, 36px);
+  margin-bottom: 0;
+}
+
+.region-story-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  background: #fff;
+  border: 1px solid rgba(26, 22, 20, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(26, 22, 20, 0.04);
+}
+
+.region-chapter--eat .region-story-card {
+  background: #faf7f2;
+}
+
+.region-story-card__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 280px;
+  background: linear-gradient(145deg, rgba(26, 22, 20, 0.05) 0%, rgba(114, 47, 55, 0.1) 100%);
+}
+
+.region-story-card__media--empty {
+  aspect-ratio: unset;
+  max-height: none;
+  height: 4px;
+  background: linear-gradient(90deg, #722f37 0%, rgba(114, 47, 55, 0.2) 100%);
+}
+
+.region-story-card__img--landscape {
+  display: block;
+}
+
+.region-story-card__img--portrait {
+  display: none;
+}
+
+.region-story-card__body {
+  padding: clamp(24px, 3.5vw, 32px) clamp(24px, 3.5vw, 36px);
+}
+
+.region-story-card__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(28px, 3.5vw, 36px);
+  line-height: 1.12;
+  color: #1a1614;
+  margin: 0 0 16px;
+}
+
+.region-story-card__prose {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: #1a1614;
+}
+
+.region-story-card__meta {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(26, 22, 20, 0.08);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(26, 22, 20, 0.62);
+  line-height: 1.6;
+}
+
+.region-story-card__address {
+  margin: 0 0 8px;
+}
+
+.region-chapter__map {
+  margin-top: clamp(8px, 2vw, 16px);
+}
+
+.region-chapter__map-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(24px, 3vw, 32px);
+  color: #1a1614;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.region-chapter__map .exploreRoot {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+.region-chapter--sidebar .region-sidebar-callout {
+  padding: clamp(40px, 6vw, 64px) clamp(24px, 4vw, 40px);
+  border-top: none;
+  background: transparent;
+}
+
+@media (min-width: 900px) {
+  .region-story-card {
+    grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .region-story-card__media {
+    aspect-ratio: unset;
+    max-height: none;
+    min-height: 100%;
+  }
+
+  .region-story-card__media--empty {
+    height: auto;
+    min-height: 4px;
+  }
+
+  .region-story-card__img--landscape {
+    display: block;
+  }
+
+  .region-story-card__img--portrait {
+    display: none;
+  }
+}
+
+@media (max-width: 899px) {
+  .region-story-card__img--landscape {
+    display: none;
+  }
+
+  .region-story-card__img--portrait {
+    display: block;
+  }
+}

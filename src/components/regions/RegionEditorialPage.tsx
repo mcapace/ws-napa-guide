@@ -3,9 +3,12 @@ import Newsletter from '@/components/ui/Newsletter'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { getRegion } from '@/data/regions'
 import { RegionHero } from './RegionHero'
-import { RegionLede } from './RegionLede'
+import { RegionIntro } from './RegionIntro'
 import { SectionDivider } from './SectionDivider'
-import { RegionEditorialSections } from './RegionEditorialSections'
+import {
+  RegionEditorialSections,
+  buildRegionGuideNavItems,
+} from './RegionEditorialSections'
 import { SidebarCallout } from './SidebarCallout'
 import { RelatedStoriesRail } from './RelatedStoriesRail'
 import { RegionAdventureBlock } from './RegionAdventureBlock'
@@ -16,6 +19,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
   const { frontmatter } = data
   const slug = frontmatter.slug
   const regionData = getRegion(slug)
+  const guideNav = buildRegionGuideNavItems(data)
 
   return (
     <div
@@ -23,18 +27,19 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
       style={{ minHeight: '100vh', background: '#FAF7F2', WebkitFontSmoothing: 'antialiased' as string }}
     >
       <RegionHero fm={frontmatter} />
-      <RegionLede>{data.lede}</RegionLede>
 
-      <RegionEditorialSections data={data} />
+      <RegionIntro lede={data.lede} dek={frontmatter.dek} navItems={guideNav} />
 
       {data.sidebarHeading ? (
-        <>
-          {data.frontmatter.marqueePhrases?.sidebar ? (
-            <SectionDivider label={data.frontmatter.marqueePhrases.sidebar} />
+        <section id="region-sidebar" className="region-chapter region-chapter--sidebar">
+          {frontmatter.marqueePhrases?.sidebar ? (
+            <SectionDivider label={frontmatter.marqueePhrases.sidebar} />
           ) : null}
           <SidebarCallout heading={data.sidebarHeading}>{data.sidebar}</SidebarCallout>
-        </>
+        </section>
       ) : null}
+
+      <RegionEditorialSections data={data} />
 
       {data.related.length > 0 ? (
         <RelatedStoriesRail cards={data.related} />

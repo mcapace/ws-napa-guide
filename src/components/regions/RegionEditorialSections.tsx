@@ -4,18 +4,17 @@ import {
   buildRegionStayMapRows,
   buildRegionTasteMapRows,
 } from '@/lib/content/regionMapRows'
-import { FeatureBlock } from '@/components/FeatureBlock'
 import { SectionDivider } from './SectionDivider'
+import { RegionStoryCard } from './RegionStoryCard'
 import { RegionListingMapSection } from './RegionListingMapSection'
 
-function featureToBlockProps(feature: LoadedRegionMdx['featuredWineries'][number]) {
+function storyProps(feature: LoadedRegionMdx['featuredWineries'][number]) {
   return {
     name: feature.name,
     address: feature.address,
     website: feature.website,
     image: feature.image,
     imagePortrait: feature.imagePortrait,
-    imagePosition: feature.imagePosition,
     children: feature.body,
   }
 }
@@ -41,65 +40,121 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
     stayMapRows.length > 0
 
   return (
-    <>
+    <div className="region-guide-body">
       {hasTaste && (
-        <>
+        <section id="region-taste" className="region-chapter region-chapter--taste">
           <SectionDivider label={phrases.taste ?? 'Where to taste'} />
-          {data.featuredWineries.map((feature) => (
-            <FeatureBlock key={`winery-${feature.name}`} {...featureToBlockProps(feature)} />
-          ))}
-          {tasteMapRows.length > 0 && (
-            <RegionListingMapSection
-              title={`More ${regionLabel} Tasting Rooms`}
-              regionSlug={slug}
-              data={data}
-              mapRows={tasteMapRows}
-              pinnedCategory="winery"
-            />
-          )}
-        </>
+          <div className="region-chapter__inner">
+            {data.featuredWineries.length > 0 && (
+              <div className="region-story-stack">
+                {data.featuredWineries.map((feature) => (
+                  <RegionStoryCard key={`winery-${feature.name}`} {...storyProps(feature)} />
+                ))}
+              </div>
+            )}
+            {tasteMapRows.length > 0 && (
+              <RegionListingMapSection
+                title={`More ${regionLabel} Tasting Rooms`}
+                regionSlug={slug}
+                data={data}
+                mapRows={tasteMapRows}
+                pinnedCategory="winery"
+              />
+            )}
+          </div>
+        </section>
       )}
 
       {hasEat && (
-        <>
+        <section id="region-eat" className="region-chapter region-chapter--eat">
           <SectionDivider label={phrases.eat ?? 'Where to eat'} />
-          {data.featuredRestaurants.map((feature) => (
-            <FeatureBlock key={`restaurant-${feature.name}`} {...featureToBlockProps(feature)} />
-          ))}
-          {data.restaurantDirectory.length > 0 && (
-            <RegionListingMapSection
-              title={`More ${regionLabel} Dining`}
-              regionSlug={slug}
-              data={data}
-              mapRows={eatMapRows}
-              listRows={data.restaurantDirectory}
-              pinnedCategory="dining"
-            />
-          )}
-          {data.breakfast && (
-            <FeatureBlock key={`breakfast-${data.breakfast.name}`} {...featureToBlockProps(data.breakfast)} />
-          )}
-        </>
+          <div className="region-chapter__inner">
+            {data.featuredRestaurants.length > 0 && (
+              <div className="region-story-stack">
+                {data.featuredRestaurants.map((feature) => (
+                  <RegionStoryCard key={`restaurant-${feature.name}`} {...storyProps(feature)} />
+                ))}
+              </div>
+            )}
+            {data.restaurantDirectory.length > 0 && (
+              <RegionListingMapSection
+                title={`More ${regionLabel} Dining`}
+                regionSlug={slug}
+                data={data}
+                mapRows={eatMapRows}
+                listRows={data.restaurantDirectory}
+                pinnedCategory="dining"
+              />
+            )}
+            {data.breakfast && (
+              <div className="region-story-stack region-story-stack--single">
+                <RegionStoryCard key={`breakfast-${data.breakfast.name}`} {...storyProps(data.breakfast)} />
+              </div>
+            )}
+          </div>
+        </section>
       )}
 
       {hasStay && (
-        <>
+        <section id="region-stay" className="region-chapter region-chapter--stay">
           <SectionDivider label={phrases.stay ?? 'Where to stay'} />
-          {data.featuredHotels.map((feature) => (
-            <FeatureBlock key={`hotel-${feature.name}`} {...featureToBlockProps(feature)} />
-          ))}
-          {(data.lodgingDirectory.length > 0 || stayMapRows.length > 0) && (
-            <RegionListingMapSection
-              title={`More ${regionLabel} Lodging`}
-              regionSlug={slug}
-              data={data}
-              mapRows={stayMapRows}
-              listRows={data.lodgingDirectory}
-              pinnedCategory="stay"
-            />
-          )}
-        </>
+          <div className="region-chapter__inner">
+            {data.featuredHotels.length > 0 && (
+              <div className="region-story-stack">
+                {data.featuredHotels.map((feature) => (
+                  <RegionStoryCard key={`hotel-${feature.name}`} {...storyProps(feature)} />
+                ))}
+              </div>
+            )}
+            {(data.lodgingDirectory.length > 0 || stayMapRows.length > 0) && (
+              <RegionListingMapSection
+                title={`More ${regionLabel} Lodging`}
+                regionSlug={slug}
+                data={data}
+                mapRows={stayMapRows}
+                listRows={data.lodgingDirectory}
+                pinnedCategory="stay"
+              />
+            )}
+          </div>
+        </section>
       )}
-    </>
+    </div>
   )
+}
+
+/** Nav anchor targets for sticky section jump links. */
+export function buildRegionGuideNavItems(data: LoadedRegionMdx): { id: string; label: string }[] {
+  const phrases = data.frontmatter.marqueePhrases ?? {}
+  const tasteMapRows = buildRegionTasteMapRows(data)
+  const eatMapRows = buildRegionEatMapRows(data)
+  const stayMapRows = buildRegionStayMapRows(data)
+  const items: { id: string; label: string }[] = []
+
+  if (data.sidebarHeading) {
+    items.push({
+      id: 'region-sidebar',
+      label: phrases.sidebar ?? 'Aside',
+    })
+  }
+  if (data.featuredWineries.length > 0 || data.tastingDirectory.length > 0) {
+    items.push({ id: 'region-taste', label: phrases.taste ?? 'Taste' })
+  }
+  if (
+    data.featuredRestaurants.length > 0 ||
+    data.breakfast ||
+    data.restaurantDirectory.length > 0 ||
+    eatMapRows.length > 0
+  ) {
+    items.push({ id: 'region-eat', label: phrases.eat ?? 'Eat' })
+  }
+  if (
+    data.featuredHotels.length > 0 ||
+    data.lodgingDirectory.length > 0 ||
+    stayMapRows.length > 0
+  ) {
+    items.push({ id: 'region-stay', label: phrases.stay ?? 'Stay' })
+  }
+
+  return items
 }
