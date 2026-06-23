@@ -80,5 +80,7 @@ export type LoadedRegionMdx = {
   sidebar: ReactNode | null
   /** Plain-text sidebar for teasers */
   sidebarPlain?: string
+  /** Raw sidebar MDX body (server-side itinerary enrichment) */
+  sidebarMd?: string
   related: RelatedStoryCard[]
 }

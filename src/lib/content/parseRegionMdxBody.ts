@@ -166,6 +166,23 @@ export function markdownToPlainText(md: string): string {
     .trim()
 }
 
+/** Plain-text paragraphs preserving MDX paragraph breaks (for itinerary sidebar parsing). */
+export function markdownToPlainParagraphs(md: string): string[] {
+  return md
+    .replace(/^#{1,6}\s+/gm, '')
+    .split(/\n\s*\n+/)
+    .map((block) =>
+      block
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/\*([^*]+)\*/g, '$1')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/^[-*]\s+/gm, '')
+        .replace(/\s+/g, ' ')
+        .trim(),
+    )
+    .filter((p) => p.length > 20)
+}
+
 export function normalizeWebsiteUrl(website: string | undefined): string | undefined {
   if (!website) return undefined
   const trimmed = website.trim()

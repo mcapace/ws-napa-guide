@@ -235,6 +235,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     restaurantDirectory,
     sidebar,
     sidebarPlain,
+    sidebarMd: sidebarMd.trim() || undefined,
     related,
   }
 }
