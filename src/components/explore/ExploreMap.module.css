@@ -19,10 +19,15 @@
   max-height: 920px;
 }
 
+.exploreGrid > * {
+  min-height: 0;
+}
+
 .listColumn {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  height: 100%;
   border-right: 1px solid var(--line);
   background: var(--paper);
 }
@@ -59,7 +64,19 @@
   background: #fff;
   color: var(--meta);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.pillIcon {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.pillActive .pillIcon {
+  opacity: 1;
 }
 
 .pill:hover {
@@ -125,10 +142,9 @@
   justify-content: center;
 }
 
-.thumbGlyph {
-  font-size: 22px;
-  line-height: 1;
-  color: rgba(247, 243, 236, 0.92);
+.thumbIcon {
+  color: rgba(247, 243, 236, 0.95);
+  flex-shrink: 0;
 }
 
 .eyebrow {
@@ -138,6 +154,13 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.eyebrowIcon {
+  flex-shrink: 0;
 }
 
 .name {
@@ -180,10 +203,9 @@
 }
 
 .mapColumn {
-  position: sticky;
-  top: 0;
+  position: relative;
   height: 100%;
-  min-height: 480px;
+  min-height: 0;
   background: var(--ink);
 }
 

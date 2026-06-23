@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Map, { Marker, Popup, NavigationControl, type MapRef } from 'react-map-gl/mapbox'
 import Supercluster from 'supercluster'
+import { Hotel, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
 import type { MapPin } from '@/data/map-pins'
 import {
   CATEGORY_CONFIG,
@@ -26,8 +27,15 @@ import {
   urlParamToCategory,
 } from '@/lib/explore'
 import styles from './ExploreMap.module.css'
+import { ExploreMapPin } from './ExploreMapPin'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
+
+const CATEGORY_ICONS: Record<Category, LucideIcon> = {
+  winery: Wine,
+  dining: UtensilsCrossed,
+  stay: Hotel,
+}
 
 export interface ExploreMapProps {
   pins: MapPin[]
@@ -218,6 +226,7 @@ export function ExploreMap({
   }
 
   const syncMapToListScroll = useCallback(() => {
+    if (placeParam) return
     const root = listScrollRef.current
     if (!root || !isDesktop) return
 
@@ -228,7 +237,9 @@ export function ExploreMap({
     for (const pin of visiblePins) {
       const el = rowRefs.current[pin.slug]
       if (!el) continue
-      const elCenter = el.offsetTop + el.offsetHeight / 2
+      const elRect = el.getBoundingClientRect()
+      const rootRect = root.getBoundingClientRect()
+      const elCenter = elRect.top - rootRect.top + root.scrollTop + el.offsetHeight / 2
       const dist = Math.abs(elCenter - centerY)
       if (dist < bestDist) {
         bestDist = dist
@@ -243,13 +254,13 @@ export function ExploreMap({
     lastEaseSlugRef.current = bestSlug
     setScrollCenterSlug(bestSlug)
     easeToPin(pin)
-  }, [visiblePins, isDesktop, easeToPin])
+  }, [visiblePins, isDesktop, easeToPin, placeParam])
 
   const handleListScroll = useCallback(() => {
-    if (!isDesktop) return
+    if (!isDesktop || placeParam) return
     if (scrollSyncTimerRef.current) clearTimeout(scrollSyncTimerRef.current)
     scrollSyncTimerRef.current = setTimeout(syncMapToListScroll, 80)
-  }, [isDesktop, syncMapToListScroll])
+  }, [isDesktop, syncMapToListScroll, placeParam])
 
   useEffect(() => {
     return () => {
@@ -308,16 +319,20 @@ export function ExploreMap({
                 >
                   All ({scopedPins.length})
                 </button>
-                {CATEGORY_ORDER.map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    className={`${styles.pill} ${categoryFilter === cat ? styles.pillActive : ''}`}
-                    onClick={() => onCategoryChange(cat)}
-                  >
-                    {CATEGORY_CONFIG[cat].label} ({counts[cat]})
-                  </button>
-                ))}
+                {CATEGORY_ORDER.map((cat) => {
+                  const CatIcon = CATEGORY_ICONS[cat]
+                  return (
+                    <button
+                      key={cat}
+                      type="button"
+                      className={`${styles.pill} ${categoryFilter === cat ? styles.pillActive : ''}`}
+                      onClick={() => onCategoryChange(cat)}
+                    >
+                      <CatIcon className={styles.pillIcon} size={13} strokeWidth={2} aria-hidden />
+                      {CATEGORY_CONFIG[cat].label} ({counts[cat]})
+                    </button>
+                  )
+                })}
               </div>
             )}
             {showRegionFilter && (
@@ -345,6 +360,7 @@ export function ExploreMap({
 
           <div
             ref={listScrollRef}
+            data-lenis-prevent
             className={`${styles.listScroll} ${mobileView === 'map' ? styles.listScrollMobileHidden : ''}`}
             onScroll={handleListScroll}
           >
@@ -353,6 +369,7 @@ export function ExploreMap({
             ) : (
               visiblePins.map((pin) => {
                 const cfg = CATEGORY_CONFIG[pin.category]
+                const CatIcon = CATEGORY_ICONS[pin.category]
                 const isSelected =
                   pin.slug === placeParam || pin.slug === scrollCenterSlug
                 return (
@@ -383,12 +400,13 @@ export function ExploreMap({
                           style={{ background: cfg.color }}
                           aria-hidden
                         >
-                          <span className={styles.thumbGlyph}>{cfg.glyph}</span>
+                          <CatIcon className={styles.thumbIcon} size={28} strokeWidth={1.75} />
                         </div>
                       )}
                     </div>
                     <div>
                       <p className={styles.eyebrow} style={{ color: cfg.color }}>
+                        <CatIcon className={styles.eyebrowIcon} size={11} strokeWidth={2.25} aria-hidden />
                         {cfg.label}
                       </p>
                       <p className={styles.name}>{pin.name}</p>
@@ -475,22 +493,19 @@ export function ExploreMap({
                     key={pin.slug}
                     longitude={lng}
                     latitude={lat}
-                    anchor="center"
+                    anchor="bottom"
                     onClick={(e) => {
                       e.originalEvent.stopPropagation()
                       selectPin(pin)
                       if (!isDesktop) setMobileView('map')
                     }}
                   >
-                    <div style={{ position: 'relative' }}>
-                      <div
-                        className={`${styles.marker} ${isHovered ? styles.markerHovered : ''} ${isSelected ? styles.markerSelected : ''}`}
-                        style={{ background: cfg.color }}
-                      >
-                        <span className={styles.markerGlyph}>{cfg.glyph}</span>
-                      </div>
-                      {isSelected && <span className={styles.markerLabel}>{pin.name}</span>}
-                    </div>
+                    <ExploreMapPin
+                      category={pin.category}
+                      color={cfg.color}
+                      selected={isSelected}
+                      hovered={isHovered}
+                    />
                   </Marker>
                 )
               })}
