@@ -24,29 +24,30 @@ const featuredRegions = regions
 const HERO_VIDEO = '/images/homepage/hero/video.mp4'
 const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
-// ── Mosaic panel positions (TRH perimeter — spread around center, not clustered)
+// ── Mosaic panel positions (TRH: small tiles on the perimeter, open center) ──
 const PANELS = [
-  { id: 1, style: { width: 190, height: 245, top: '9%', left: '7%' } },
-  { id: 2, style: { width: 155, height: 200, top: '31%', left: '9%' } },
-  { id: 3, style: { width: 210, height: 150, top: '6%', left: '50%' } },
-  { id: 4, style: { width: 175, height: 230, bottom: '12%', left: '7%' } },
-  { id: 5, style: { width: 165, height: 205, bottom: '22%', right: '8%' } },
+  { id: 1, style: { width: 148, height: 190, top: '11%', left: '7%' } },
+  { id: 2, style: { width: 118, height: 152, top: '29%', left: '12%' } },
+  { id: 3, style: { width: 168, height: 112, top: '7%', left: '50%' } },
+  { id: 4, style: { width: 188, height: 158, bottom: '15%', left: '6%' } },
+  { id: 5, style: { width: 132, height: 172, top: '40%', right: '7%' } },
+  { id: 6, style: { width: 128, height: 168, bottom: '19%', right: '8%', zIndex: 14 } },
 ]
 
-const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
-const PANEL_ROTS = ['-1.5deg', '1deg', '0.5deg', '-0.8deg', '1.2deg'] as const
+const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05, 0.06] as const
+const PANEL_ROTS = ['-1.5deg', '1deg', '0.5deg', '-0.8deg', '1.2deg', '-0.6deg'] as const
 
 /** Pixel geometry for hero video panel — always position with `left`, never `right` (avoids GSAP horizontal bounce). */
 function heroPanelStart() {
   const narrow = window.innerWidth <= 768
-  const width = narrow ? Math.min(280, window.innerWidth - 28) : 280
+  const width = narrow ? Math.min(260, window.innerWidth - 28) : 220
   const height = narrow
-    ? Math.min(200, Math.round((width * 200) / 280))
-    : 200
-  const top = narrow ? window.innerHeight * 0.12 : window.innerHeight * 0.08
-  const rightInset = narrow ? window.innerWidth * 0.04 : window.innerWidth * 0.05
+    ? Math.min(188, Math.round((width * 165) / 220))
+    : 165
+  const top = narrow ? window.innerHeight * 0.11 : window.innerHeight * 0.09
+  const rightInset = narrow ? window.innerWidth * 0.05 : window.innerWidth * 0.07
   const left = window.innerWidth - width - rightInset
-  return { width, height, top, left, borderRadius: 0 }
+  return { width, height, top, left, borderRadius: 3 }
 }
 
 function heroPanelEnd() {
@@ -123,9 +124,9 @@ export default function HomePage() {
     const fitTitle = () => {
       title.style.fontSize = ''
       const maxWidth = container.clientWidth
-      const maxHeight = window.innerHeight * 0.2
+      const maxHeight = window.innerHeight * 0.28
       let size = parseFloat(getComputedStyle(title).fontSize)
-      const minSize = window.innerWidth <= 768 ? 36 : 64
+      const minSize = window.innerWidth <= 768 ? 40 : 88
       while (
         (title.scrollWidth > maxWidth || title.scrollHeight > maxHeight) &&
         size > minSize
@@ -345,6 +346,7 @@ export default function HomePage() {
                 ref={(el) => {
                   panelRefs.current[i] = el
                 }}
+                className="home-hero-mosaic-panel"
                 style={{
                   position: 'absolute',
                   width: panel.style.width,
@@ -353,7 +355,7 @@ export default function HomePage() {
                   left: (panel.style as { left?: string; right?: string; bottom?: string }).left,
                   right: (panel.style as { right?: string }).right,
                   bottom: (panel.style as { bottom?: string }).bottom,
-                  borderRadius: 0,
+                  zIndex: (panel.style as { zIndex?: number }).zIndex ?? 1,
                   overflow: 'hidden',
                   willChange: 'transform',
                   transform: i === 2 ? 'translateX(-50%)' : undefined,
@@ -372,9 +374,9 @@ export default function HomePage() {
             className="home-hero-center"
             style={{
               position: 'absolute',
-              width: 280,
-              height: 200,
-              borderRadius: 0,
+              width: 220,
+              height: 165,
+              borderRadius: 3,
               overflow: 'hidden',
               zIndex: 20,
               willChange: 'width, height, top, left',

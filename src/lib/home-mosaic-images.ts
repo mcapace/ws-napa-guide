@@ -12,14 +12,15 @@ export type MosaicImageAsset = {
 
 /**
  * Panel slot orientations (index matches `PANELS` in page.tsx).
- * Ratios: ~0.77 portrait (×4), ~1.27 landscape (center wide tile).
+ * TRH-style mix: portrait edge tiles + wide landscape top / bottom-left.
  */
 export const MOSAIC_PANEL_SLOT_ORIENTATIONS: MosaicOrientation[] = [
-  'portrait', // 200×260
-  'portrait', // 160×210
-  'landscape', // 280×220
-  'portrait', // 180×240
-  'portrait', // 160×200
+  'portrait', // 148×190 top-left
+  'portrait', // 118×152 mid-left
+  'landscape', // 168×112 top-center
+  'landscape', // 188×158 bottom-left
+  'portrait', // 132×172 mid-right
+  'portrait', // 128×168 bottom-right
 ]
 
 /** Catalog keyed to on-disk crops (5:4 landscape vs 5:7 portrait deliverables). */
@@ -60,15 +61,16 @@ export const MOSAIC_CROSSFADE_MS = 1000
 /** Two panels advance together each tick; sequence spreads changes across the grid. */
 export const MOSAIC_PAIR_SEQUENCE: readonly [number, number][] = [
   [0, 2],
-  [1, 4],
+  [1, 5],
   [0, 3],
-  [1, 2],
-  [3, 4],
+  [1, 4],
+  [3, 5],
   [0, 1],
   [2, 4],
-  [0, 4],
+  [0, 5],
   [1, 3],
-  [2, 3],
+  [2, 5],
+  [4, 5],
 ]
 
 const MOSAIC_BY_ORIENTATION = {
