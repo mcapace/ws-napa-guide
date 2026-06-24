@@ -10,7 +10,6 @@ import styles from './HomeStoriesSection.module.css'
 
 type Props = {
   stories: Article[]
-  showViewAll?: boolean
 }
 
 function StoryCard({
@@ -53,7 +52,7 @@ function StoryCard({
   )
 }
 
-export function HomeStoriesSection({ stories, showViewAll = true }: Props) {
+export function HomeStoriesSection({ stories }: Props) {
   if (stories.length === 0) return null
 
   const spotlightSet = new Set<string>(STORY_SPOTLIGHT_SLUGS)
@@ -88,13 +87,6 @@ export function HomeStoriesSection({ stories, showViewAll = true }: Props) {
         </div>
       )}
 
-      {showViewAll ? (
-        <div className={styles.footer}>
-          <Link href="/features" className={styles.allLink}>
-            All stories from the issue
-          </Link>
-        </div>
-      ) : null}
     </section>
   )
 }

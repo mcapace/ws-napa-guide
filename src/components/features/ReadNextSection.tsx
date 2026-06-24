@@ -53,12 +53,6 @@ export function ReadNextSection({ slug }: { slug: string }) {
             <ReadNextCard key={article.slug} article={article} />
           ))}
         </ul>
-
-        <div className={styles.footer}>
-          <Link href="/features" className={styles.allLink}>
-            All stories from the issue
-          </Link>
-        </div>
       </div>
     </section>
   )

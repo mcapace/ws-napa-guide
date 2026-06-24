@@ -22,7 +22,7 @@ export default function FeaturesIndexPage() {
         paddingTop: 'calc(var(--ws-site-header-height, 72px) + 8px)',
       }}
     >
-      <HomeStoriesSection stories={stories} showViewAll={false} />
+      <HomeStoriesSection stories={stories} />
       <Newsletter />
       <Footer />
     </div>
