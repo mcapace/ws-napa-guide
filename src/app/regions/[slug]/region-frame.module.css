@@ -480,6 +480,17 @@
   flex-direction: column;
 }
 
+.frame[data-scroll-unified] .itineraryEmbedPanel :global(.scrollyRootEmbed) {
+  flex: 1;
+  min-height: 0;
+}
+
+.frame[data-scroll-unified] .itineraryEmbedPanel :global(.selectorEmbed) {
+  position: relative;
+  z-index: 8;
+  flex-shrink: 0;
+}
+
 /* ── Itinerary panel ── */
 .itineraryPanel {
   max-width: 680px;

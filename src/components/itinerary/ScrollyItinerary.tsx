@@ -97,8 +97,27 @@ export default function ScrollyItinerary({
   onItineraryChange,
   embedMode = false,
 }: ScrollyItineraryProps) {
+  const defaultItineraryId = itineraries[0]?.id
+  const [activeItineraryId, setActiveItineraryId] = useState(
+    selectedItineraryId ?? defaultItineraryId,
+  )
+
+  useEffect(() => {
+    if (selectedItineraryId) {
+      setActiveItineraryId(selectedItineraryId)
+    }
+  }, [selectedItineraryId])
+
   const itinerary =
-    itineraries.find((it) => it.id === selectedItineraryId) ?? itineraries[0]
+    itineraries.find((it) => it.id === activeItineraryId) ?? itineraries[0]
+
+  const selectItinerary = useCallback(
+    (id: string) => {
+      setActiveItineraryId(id)
+      onItineraryChange?.(id)
+    },
+    [onItineraryChange],
+  )
 
   const mapRef = useRef<MapRef>(null)
   const stepRefs = useRef<(HTMLElement | null)[]>([])
@@ -366,7 +385,7 @@ export default function ScrollyItinerary({
               role="tab"
               aria-selected={it.id === itinerary.id}
               className={`${styles.selectorBtn}${it.id === itinerary.id ? ` ${styles.selectorBtnActive}` : ''}`}
-              onClick={() => onItineraryChange?.(it.id)}
+              onClick={() => selectItinerary(it.id)}
             >
               {it.title}
             </button>

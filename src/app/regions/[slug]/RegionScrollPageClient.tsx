@@ -109,8 +109,16 @@ function RegionScrollPageClientContent({
   const tabFromUrl = parseTab(searchParams.get('tab'), hasItinerary)
   const jumpLinks = useMemo(() => buildJumpLinks(mdx, hasItinerary), [mdx, hasItinerary])
   const [activeSectionId, setActiveSectionId] = useState(jumpLinks[0]?.id ?? 'region-story')
-  const selectedItineraryId =
-    itineraries.find((it) => it.id === searchParams.get('itinerary'))?.id ?? itineraries[0]?.id
+  const itineraryIdFromUrl = searchParams.get('itinerary')
+  const [selectedItineraryId, setSelectedItineraryId] = useState(
+    () =>
+      itineraries.find((it) => it.id === itineraryIdFromUrl)?.id ?? itineraries[0]?.id,
+  )
+
+  useEffect(() => {
+    const fromUrl = itineraries.find((it) => it.id === searchParams.get('itinerary'))?.id
+    if (fromUrl) setSelectedItineraryId(fromUrl)
+  }, [searchParams, itineraries])
 
   const regionCenter = REGION_CENTERS[slug]?.center ?? [-122.4194, 38.5]
   const regionName = frontmatter.region
@@ -147,6 +155,7 @@ function RegionScrollPageClientContent({
 
   const setItinerary = useCallback(
     (itineraryId: string) => {
+      setSelectedItineraryId(itineraryId)
       const params = new URLSearchParams(searchParams.toString())
       params.set('tab', 'itinerary')
       params.set('itinerary', itineraryId)
