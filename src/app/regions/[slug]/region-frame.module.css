@@ -141,22 +141,6 @@
   }
 }
 
-/* Compact hero when map/itinerary is primary */
-.frame[data-active-tab='explore'] .hero,
-.frame[data-active-tab='itinerary'] .hero {
-  height: 28vh;
-  min-height: 200px;
-  max-height: 320px;
-}
-
-.frame[data-active-tab='explore'] .heroTitle {
-  font-size: clamp(36px, 6vw, 64px);
-}
-
-.frame[data-active-tab='itinerary'] .heroTitle {
-  font-size: clamp(40px, 6.5vw, 72px);
-}
-
 /* ── Tab bar ── */
 .tabBar {
   position: sticky;
@@ -607,12 +591,5 @@
     left: 20px;
     right: 20px;
     justify-content: center;
-  }
-
-  .frame[data-active-tab='explore'] .hero,
-  .frame[data-active-tab='itinerary'] .hero {
-    height: 24vh;
-    min-height: 180px;
-    max-height: 260px;
   }
 }
