@@ -166,7 +166,7 @@ function GenericFeatureLayout({
   const midpoint = Math.floor(bodyParagraphs.length / 2)
 
   return (
-    <div className={featureStyles.page} data-site-surface="dark">
+    <div className={featureStyles.page} data-site-surface="dark" data-editorial-content>
       <section className={featureStyles.hero} data-nav-hero-root>
         <Image
           src={article.images[0]}
@@ -181,26 +181,15 @@ function GenericFeatureLayout({
           <p className={featureStyles.kicker}>
             {article.section === 'feature' ? 'Feature' : article.section === 'dining' ? 'Dining' : 'Wine Spectator'} &middot; June 2026
           </p>
-          <h1 className={featureStyles.title} data-text-split="" data-letters-rotate-in="">
-            {article.title}
-          </h1>
+          <h1 className={featureStyles.title}>{article.title}</h1>
           {article.author && <p className={featureStyles.author}>By {article.author}</p>}
-          <p className={featureStyles.heroDeck} data-text-split="" data-lines-slide-up="">
-            {article.excerpt}
-          </p>
+          <p className={featureStyles.heroDeck}>{article.excerpt}</p>
         </div>
       </section>
 
       <section className={featureStyles.bodySection}>
         {bodyParagraphs.slice(0, midpoint).map((para, i) => (
-          <p
-            key={i}
-            className={featureStyles.paragraph}
-            data-text-split=""
-            data-lines-slide-up=""
-          >
-            {para}
-          </p>
+          <p key={i} className={featureStyles.paragraph}>{para}</p>
         ))}
       </section>
 
@@ -214,14 +203,7 @@ function GenericFeatureLayout({
 
       <section className={featureStyles.bodySection}>
         {bodyParagraphs.slice(midpoint).map((para, i) => (
-          <p
-            key={i}
-            className={featureStyles.paragraph}
-            data-text-split=""
-            data-lines-slide-up=""
-          >
-            {para}
-          </p>
+          <p key={i} className={featureStyles.paragraph}>{para}</p>
         ))}
       </section>
     </div>

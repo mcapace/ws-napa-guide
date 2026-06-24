@@ -137,7 +137,8 @@ export interface FeatureArticleContent {
   heroImage: string
   heroObjectPosition?: string
   secondaryImage?: string
-  /** Side-by-side editorial strips (e.g. Judgment bottle point scores). */
+  /** Optional caption below secondary image group (e.g. Judgment bottle stills). */
+  secondaryImagesCaption?: string
   secondaryImages?: Array<{ src: string; alt?: string; width?: number; height?: number }>
 }
 

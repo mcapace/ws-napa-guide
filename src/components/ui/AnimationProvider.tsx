@@ -58,8 +58,6 @@ export default function AnimationProvider({ children }: { children?: ReactNode }
 
     lenisInstance.on('scroll', ScrollTrigger.update)
 
-    initAnimations()
-
     return () => {
       gsap.ticker.remove(lenisRaf)
       triggersRef.current.forEach((t) => t.kill())
@@ -70,11 +68,20 @@ export default function AnimationProvider({ children }: { children?: ReactNode }
     }
   }, [])
 
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      initAnimations()
+      ScrollTrigger.refresh()
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [pathname])
+
   function initAnimations() {
     triggersRef.current.forEach((t) => t.kill())
     triggersRef.current = []
 
     document.querySelectorAll<HTMLElement>('[data-text-split]').forEach((el) => {
+      if (el.closest('[data-editorial-content]')) return
       const existing = (el as unknown as { _split?: SplitText })._split
       if (existing) existing.revert()
       ;(el as unknown as { _split: SplitText })._split = new SplitText(el, {
@@ -86,6 +93,7 @@ export default function AnimationProvider({ children }: { children?: ReactNode }
     })
 
     document.querySelectorAll<HTMLElement>('[data-letters-rotate-in]').forEach((el) => {
+      if (el.closest('[data-editorial-content]')) return
       const split = (el as unknown as { _split?: SplitText })._split
       if (!split) return
       const chars = split.chars
@@ -109,6 +117,7 @@ export default function AnimationProvider({ children }: { children?: ReactNode }
     })
 
     document.querySelectorAll<HTMLElement>('[data-lines-slide-up]').forEach((el) => {
+      if (el.closest('[data-editorial-content]')) return
       const split = (el as unknown as { _split?: SplitText })._split
       if (!split) return
       const lines = split.lines

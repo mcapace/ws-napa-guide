@@ -13,6 +13,8 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       'its world-class potential',
     ],
     heroImage: `${JUDGMENT}/hero.jpg`,
+    secondaryImagesCaption:
+      'California wineries Chateau Montelena and Stag’s Leap were among the labels to earn acclaim in the much-touted tasting.',
     secondaryImages: [
       {
         src: `${JUDGMENT}/points-montelena.jpg`,

@@ -29,7 +29,7 @@ export default function FeatureArticleLayout({
   const showDeckOnHero = article.excerpt && !content.pullQuoteLines
 
   return (
-    <div className={styles.page} data-site-surface="dark">
+    <div className={styles.page} data-site-surface="dark" data-editorial-content>
       <section
         className={`${styles.hero} ${hasVenues ? styles.heroEditorial : ''}`}
         data-nav-hero-root
@@ -51,15 +51,9 @@ export default function FeatureArticleLayout({
           <p className={styles.kicker}>
             {content.kicker ?? sectionLabel} &middot; June 2026
           </p>
-          <h1 className={styles.title} data-text-split="" data-letters-rotate-in="">
-            {article.title}
-          </h1>
+          <h1 className={styles.title}>{article.title}</h1>
           {article.author && <p className={styles.author}>By {article.author}</p>}
-          {showDeckOnHero && (
-            <p className={styles.heroDeck} data-text-split="" data-lines-slide-up="">
-              {article.excerpt}
-            </p>
-          )}
+          {showDeckOnHero && <p className={styles.heroDeck}>{article.excerpt}</p>}
         </div>
       </section>
 
@@ -67,47 +61,38 @@ export default function FeatureArticleLayout({
         <blockquote className={styles.pullQuote}>
           {content.pullQuote && <p className={styles.pullQuoteLead}>{content.pullQuote}</p>}
           {content.pullQuoteLines && (
-            <p className={styles.pullQuoteLines} data-text-split="" data-lines-slide-up="">
-              {content.pullQuoteLines.join(' ')}
+            <p className={styles.pullQuoteLines}>
+              {content.pullQuoteLines.map((line) => (
+                <span key={line} className={styles.pullQuoteLine}>{line}</span>
+              ))}
             </p>
           )}
         </blockquote>
       )}
 
-      {article.excerpt && content.pullQuoteLines && (
-        <p className={styles.deck} data-text-split="" data-lines-slide-up="">
-          {article.excerpt}
-        </p>
-      )}
-
       <section className={styles.bodySection}>
         {firstHalf.map((para, i) => (
-          <p
-            key={i}
-            className={styles.paragraph}
-            data-text-split=""
-            data-lines-slide-up=""
-          >
-            {para}
-          </p>
+          <p key={i} className={styles.paragraph}>{para}</p>
         ))}
       </section>
 
       {content.secondaryImages && content.secondaryImages.length > 0 && (
         <section className={styles.pointsSection}>
           <p className={styles.sectionLabel}>Points of interest</p>
+          {content.secondaryImagesCaption && (
+            <p className={styles.pointsIntro}>{content.secondaryImagesCaption}</p>
+          )}
           <div className={styles.midImagePair}>
             {content.secondaryImages.map((img) => (
               <figure key={img.src} className={styles.midImageStrip}>
                 <Image
                   src={img.src}
-                  alt={img.alt ?? ''}
+                  alt=""
                   width={img.width ?? 224}
                   height={img.height ?? 550}
                   sizes="220px"
                   className={styles.midImageStripImg}
                 />
-                {img.alt && <figcaption className={styles.stripCaption}>{img.alt}</figcaption>}
               </figure>
             ))}
           </div>
@@ -131,23 +116,14 @@ export default function FeatureArticleLayout({
       {secondHalf.length > 0 && (
         <section className={styles.bodySection}>
           {secondHalf.map((para, i) => (
-            <p
-              key={i}
-              className={styles.paragraph}
-              data-text-split=""
-              data-lines-slide-up=""
-            >
-              {para}
-            </p>
+            <p key={i} className={styles.paragraph}>{para}</p>
           ))}
         </section>
       )}
 
       {content.outroParagraphs?.map((para, i) => (
         <section key={i} className={styles.bodySection}>
-          <p className={styles.paragraph} data-text-split="" data-lines-slide-up="">
-            {para}
-          </p>
+          <p className={styles.paragraph}>{para}</p>
         </section>
       ))}
 

@@ -982,6 +982,11 @@ a, button, [role="button"] { cursor: pointer; }
   visibility: hidden;
 }
 
+[data-editorial-content],
+[data-editorial-content] [data-text-split] {
+  visibility: visible;
+}
+
 .line {
   display: block;
 }
