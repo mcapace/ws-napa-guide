@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import Lenis from 'lenis'
+import { LenisContext } from '@/lib/smooth-scroll'
 
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
@@ -15,49 +16,46 @@ gsap.registerPlugin(ScrollTrigger, SplitText)
  * - [data-letters-rotate-in]: chars rotate from -90deg (headlines)
  * - [data-lines-slide-up]: lines slide from yPercent:100 (body text)
  * - [data-letters-slide-up]: chars slide up with back.out ease (CTAs)
- *
- * Place <AnimationProvider /> once in layout.tsx or page root.
  */
-export default function AnimationProvider() {
+export default function AnimationProvider({ children }: { children?: ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null)
   const triggersRef = useRef<ScrollTrigger[]>([])
+  const [lenis, setLenis] = useState<Lenis | null>(null)
 
   useEffect(() => {
-    // ── Lenis smooth scroll ──
-    const lenis = new Lenis({
+    const lenisInstance = new Lenis({
       lerp: 0.08,
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     })
-    lenisRef.current = lenis
+    lenisRef.current = lenisInstance
+    setLenis(lenisInstance)
 
     const lenisRaf = (time: number) => {
-      lenis.raf(time * 1000)
+      lenisInstance.raf(time * 1000)
     }
     gsap.ticker.add(lenisRaf)
     gsap.ticker.lagSmoothing(0)
 
-    lenis.on('scroll', ScrollTrigger.update)
+    lenisInstance.on('scroll', ScrollTrigger.update)
 
-    // ── Initialize text animations ──
     initAnimations()
 
     return () => {
       gsap.ticker.remove(lenisRaf)
       triggersRef.current.forEach((t) => t.kill())
       triggersRef.current = []
-      lenis.destroy()
+      lenisInstance.destroy()
       lenisRef.current = null
+      setLenis(null)
     }
   }, [])
 
   function initAnimations() {
-    // Kill old triggers
     triggersRef.current.forEach((t) => t.kill())
     triggersRef.current = []
 
-    // Split text on all marked elements
     document.querySelectorAll<HTMLElement>('[data-text-split]').forEach((el) => {
       const existing = (el as unknown as { _split?: SplitText })._split
       if (existing) existing.revert()
@@ -69,8 +67,6 @@ export default function AnimationProvider() {
       })
     })
 
-    // ANIMATION 1: Letters Rotate In
-    // Used on: hero headlines, large display text
     document.querySelectorAll<HTMLElement>('[data-letters-rotate-in]').forEach((el) => {
       const split = (el as unknown as { _split?: SplitText })._split
       if (!split) return
@@ -94,8 +90,6 @@ export default function AnimationProvider() {
       if (tl.scrollTrigger) triggersRef.current.push(tl.scrollTrigger)
     })
 
-    // ANIMATION 2: Lines Slide Up
-    // Used on: body text, descriptions, metadata
     document.querySelectorAll<HTMLElement>('[data-lines-slide-up]').forEach((el) => {
       const split = (el as unknown as { _split?: SplitText })._split
       if (!split) return
@@ -118,8 +112,6 @@ export default function AnimationProvider() {
       if (tl.scrollTrigger) triggersRef.current.push(tl.scrollTrigger)
     })
 
-    // ANIMATION 3: Letters Slide Up
-    // Used on: CTAs, smaller text elements
     document.querySelectorAll<HTMLElement>('[data-letters-slide-up]').forEach((el) => {
       const split = (el as unknown as { _split?: SplitText })._split
       if (!split) return
@@ -142,8 +134,6 @@ export default function AnimationProvider() {
       if (tl.scrollTrigger) triggersRef.current.push(tl.scrollTrigger)
     })
 
-    // ANIMATION 4: Image Reveal (therealhotels clip-path swipe)
-    // Used on: smaller image elements within content
     document.querySelectorAll<HTMLElement>('[data-image-reveal]').forEach((el) => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -156,7 +146,7 @@ export default function AnimationProvider() {
       tl.fromTo(
         el,
         { clipPath: 'inset(0% 100% 0% 0%)' },
-        { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'power2.out' }
+        { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'power2.out' },
       )
       const img = el.querySelector('img')
       if (img) {
@@ -165,8 +155,6 @@ export default function AnimationProvider() {
       if (tl.scrollTrigger) triggersRef.current.push(tl.scrollTrigger)
     })
 
-    // ANIMATION 5: Image Scale (therealhotels 20649.js pattern)
-    // Used on: full-viewport featured sections - image zooms from 1.3 to 1.0
     document.querySelectorAll<HTMLElement>('[data-image-scale]').forEach((el) => {
       const trigger = ScrollTrigger.create({
         trigger: el,
@@ -182,11 +170,9 @@ export default function AnimationProvider() {
       triggersRef.current.push(trigger)
     })
 
-    // ANIMATION 6: Pin sections (therealhotels stacking card scroll)
-    // Each [data-pin-section] pins at top while the next one scrolls up over it
     const pinSections = document.querySelectorAll<HTMLElement>('[data-pin-section]')
     pinSections.forEach((el, i) => {
-      if (i >= pinSections.length - 1) return // don't pin the last one
+      if (i >= pinSections.length - 1) return
       const st = ScrollTrigger.create({
         trigger: el,
         start: 'top top',
@@ -198,5 +184,5 @@ export default function AnimationProvider() {
     })
   }
 
-  return null // No DOM output, just initializes animations
+  return <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>
 }

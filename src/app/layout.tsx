@@ -43,25 +43,26 @@ export default function RootLayout({
   return (
     <html lang="en" className="grain">
       <body>
-        <AnimationProvider />
-        <Nav />
-        {shouldLoadGA ? (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga-init" strategy="afterInteractive">
-              {`
+        <AnimationProvider>
+          <Nav />
+          {shouldLoadGA ? (
+            <>
+              <Script
+                src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+                strategy="afterInteractive"
+              />
+              <Script id="ga-init" strategy="afterInteractive">
+                {`
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', '${gaMeasurementId}');
       `}
-            </Script>
-          </>
-        ) : null}
-        {children}
+              </Script>
+            </>
+          ) : null}
+          {children}
+        </AnimationProvider>
       </body>
     </html>
   )

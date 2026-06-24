@@ -11,6 +11,7 @@ import { RegionMoreAppellations } from '@/components/regions/RegionMoreAppellati
 import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { REGION_CENTERS } from '@/lib/mapbox'
+import { useLenis, scrollToTarget } from '@/lib/smooth-scroll'
 import type { Itinerary } from '@/lib/types'
 import styles from './region-frame.module.css'
 
@@ -43,13 +44,53 @@ function parseTab(param: string | null, hasItinerary: boolean): RegionTab {
   return 'story'
 }
 
+function buildTabSearchParams(
+  tab: RegionTab,
+  current: URLSearchParams,
+  selectedItineraryId?: string,
+  exploreOpts?: { route?: string[]; place?: string },
+): URLSearchParams {
+  const params = new URLSearchParams()
+
+  if (tab === 'story') {
+    return params
+  }
+
+  params.set('tab', tab)
+
+  if (tab === 'itinerary' && selectedItineraryId) {
+    params.set('itinerary', selectedItineraryId)
+  }
+
+  if (tab === 'explore') {
+    const category = current.get('category')
+    if (category && category !== 'all') params.set('category', category)
+
+    if (exploreOpts?.place) {
+      params.set('place', exploreOpts.place)
+    } else if (exploreOpts?.route && exploreOpts.route.length > 0) {
+      params.set('route', exploreOpts.route.join(','))
+    } else {
+      const place = current.get('place')
+      const route = current.get('route')
+      if (place) params.set('place', place)
+      else if (route) params.set('route', route)
+    }
+  }
+
+  return params
+}
+
 function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPageClientProps) {
   const { frontmatter } = mdx
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const lenis = useLenis()
   const hasItinerary = itineraries.length > 0
-  const activeTab = parseTab(searchParams.get('tab'), hasItinerary)
+  const tabFromUrl = parseTab(searchParams.get('tab'), hasItinerary)
+  const [pendingTab, setPendingTab] = useState<RegionTab | null>(null)
+  const activeTab = pendingTab ?? tabFromUrl
   const selectedItineraryId =
     itineraries.find((it) => it.id === searchParams.get('itinerary'))?.id ?? itineraries[0]?.id
 
@@ -59,46 +100,23 @@ function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPa
 
   const setTab = useCallback(
     (tab: RegionTab, exploreOpts?: { route?: string[]; place?: string }) => {
-      const params = new URLSearchParams(searchParams.toString())
+      setPendingTab(tab)
 
-      if (tab === 'story') {
-        params.delete('tab')
-        params.delete('category')
-        params.delete('place')
-        params.delete('route')
-        params.delete('itinerary')
-      } else {
-        params.set('tab', tab)
-        if (tab !== 'explore') {
-          params.delete('category')
-          params.delete('place')
-          params.delete('route')
-        }
-        if (tab === 'itinerary' && selectedItineraryId) {
-          params.set('itinerary', selectedItineraryId)
-        } else if (tab !== 'itinerary') {
-          params.delete('itinerary')
-        }
-      }
-
-      if (tab === 'explore') {
-        if (exploreOpts?.place) {
-          params.set('place', exploreOpts.place)
-          params.delete('route')
-        } else if (exploreOpts?.route && exploreOpts.route.length > 0) {
-          params.set('route', exploreOpts.route.join(','))
-          params.delete('place')
-        } else {
-          params.delete('place')
-          params.delete('route')
-        }
-      }
-
+      const params = buildTabSearchParams(
+        tab,
+        new URLSearchParams(searchParams.toString()),
+        selectedItineraryId,
+        exploreOpts,
+      )
       const q = params.toString()
       router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false })
     },
     [pathname, router, searchParams, selectedItineraryId],
   )
+
+  useEffect(() => {
+    setPendingTab(null)
+  }, [searchParams])
 
   const setItinerary = useCallback(
     (itineraryId: string) => {
@@ -111,16 +129,14 @@ function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPa
   )
 
   const scrollToPanel = useCallback(() => {
-    document.getElementById('region-panel-content')?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
-  }, [])
+    const panel = document.getElementById('region-panel-content')
+    scrollToTarget(panel, lenis)
+  }, [lenis])
 
   const scrollToBottom = useCallback(() => {
     const el = document.getElementById('region-bottom')
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, [])
+    scrollToTarget(el, lenis)
+  }, [lenis])
 
   const [showScrollHint, setShowScrollHint] = useState(true)
   const skipInitialScrollRef = useRef(true)
@@ -138,7 +154,10 @@ function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPa
       return
     }
     if (activeTab === 'story' || activeTab === 'itinerary') {
-      requestAnimationFrame(scrollToPanel)
+      const id = window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(scrollToPanel)
+      })
+      return () => window.cancelAnimationFrame(id)
     }
   }, [activeTab, scrollToPanel])
 
@@ -220,7 +239,7 @@ function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPa
               : ` ${styles.panelZoneScroll}`
         }`}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync" initial={false}>
           {activeTab === 'story' ? (
             <motion.div key="story" className={styles.panel} {...PANEL_MOTION}>
               <StoryPanel mdx={mdx} />
