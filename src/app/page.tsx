@@ -27,10 +27,10 @@ const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 // ── Mosaic panel positions (mirroring therealhotels) ─────────────────
 const PANELS = [
   { id: 1, style: { width: 200, height: 260, top: '8%', left: '5%' } },
-  { id: 2, style: { width: 160, height: 210, top: '30%', left: '12%' } },
-  { id: 3, style: { width: 280, height: 220, top: '15%', left: '38%' } },
-  { id: 4, style: { width: 180, height: 240, bottom: '15%', right: '12%' } },
-  { id: 5, style: { width: 160, height: 200, bottom: '25%', left: '50%' } },
+  { id: 2, style: { width: 160, height: 210, top: '28%', left: '10%' } },
+  { id: 3, style: { width: 260, height: 200, top: '10%', left: '28%' } },
+  { id: 4, style: { width: 180, height: 240, bottom: '14%', right: '10%' } },
+  { id: 5, style: { width: 160, height: 200, bottom: '30%', left: '62%' } },
 ]
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
@@ -358,35 +358,8 @@ export default function HomePage() {
             />
           </div>
 
-          <div
-            ref={heroCopyRef}
-            className="home-hero-tagline"
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '34%',
-              transform: 'translate(-50%, -50%)',
-              textAlign: 'center',
-              zIndex: 15,
-              width: '100%',
-              maxWidth: 600,
-              padding: '0 20px',
-              pointerEvents: 'none',
-              willChange: 'opacity',
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontWeight: 300,
-                fontSize: 'clamp(24px, 3vw, 40px)',
-                color: '#F7F3EC',
-                lineHeight: 1.25,
-                letterSpacing: '-0.01em',
-                marginBottom: 16,
-              }}
-            >
+          <div ref={heroCopyRef} className="home-hero-tagline">
+            <p className="home-hero-tagline__text">
               The valley that changed
               <br />
               American wine forever.

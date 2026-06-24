@@ -288,7 +288,7 @@ body {
   color: rgba(250, 247, 242, 0.88);
 }
 
-/* Homepage fixed nav — deprecated; layout Nav is used site-wide */
+/* Homepage fixed nav — TRH-style: logo left, menu right, generous top inset */
 .home-nav {
   position: fixed;
   top: 0;
@@ -297,8 +297,8 @@ body {
   z-index: 1000;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: var(--ws-nav-edge-padding-y) var(--ws-nav-edge-padding-x);
+  align-items: center;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) clamp(20px, 4vw, 36px) 14px;
   box-sizing: border-box;
 }
 
@@ -312,7 +312,7 @@ body {
 .home-nav a[href='/'] > span:first-of-type {
   display: block;
   width: 2px;
-  height: 48px;
+  height: 36px;
   flex-shrink: 0;
   background: var(--bordeaux);
   transition: background 0.28s ease;
@@ -379,7 +379,49 @@ body:has([data-page="home-hero"]) .ws-nav-shell {
 
 body:has([data-page="home-hero"]) {
   --ws-persistent-nav-height: 0px;
-  --ws-nav-edge-padding-y: 0px;
+}
+
+/* Hero quote — centered in open mosaic space (TRH pattern), not over tiles */
+.home-hero-tagline {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 18;
+  width: min(100%, 560px);
+  padding: 0 clamp(20px, 4vw, 32px);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.home-hero-tagline::before {
+  content: '';
+  position: absolute;
+  inset: -40px -56px;
+  background: radial-gradient(
+    ellipse 85% 70% at center,
+    rgba(13, 11, 9, 0.82) 0%,
+    rgba(13, 11, 9, 0.45) 45%,
+    rgba(13, 11, 9, 0) 72%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+.home-hero-tagline p {
+  color: #faf7f2 !important;
+  text-shadow: 0 2px 24px rgba(13, 11, 9, 0.65);
+  margin: 0;
+}
+
+.home-hero-tagline__text {
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(22px, 2.8vw, 38px);
+  line-height: 1.28;
+  letter-spacing: -0.01em;
 }
 
 .home-hero-fullscreen-overlay > div:first-child img {
@@ -390,11 +432,6 @@ body:has([data-page="home-hero"]) {
 /* Homepage + pinned region cards: eyebrow / taglines legible on warm, bright imagery */
 .home-region-pin-label p,
 .home-region-pin-copy > p {
-  color: #faf7f2 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.home-hero-tagline p {
   color: #faf7f2 !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -1002,7 +1039,7 @@ html.lenis body {
   }
 
   .home-hero-tagline {
-    top: 26% !important;
+    top: 44% !important;
     z-index: 22 !important;
     max-width: min(100%, 92vw) !important;
   }
