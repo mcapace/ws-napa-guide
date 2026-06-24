@@ -412,9 +412,9 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  transform: scale(1);
-  transition: transform 0.35s ease, opacity 0.35s ease;
+  transition: opacity 0.35s ease;
   opacity: 0.65;
+  pointer-events: none;
 }
 
 .markerPast {
@@ -422,22 +422,7 @@
 }
 
 .markerActive {
-  transform: scale(1.4);
   opacity: 1;
-}
-
-.markerDot {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--marker-color, #c4943a);
-  border: 2px solid var(--cream);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
-}
-
-.markerActive .markerDot {
-  border-color: #fff;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35), 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 .markerLabel {
@@ -490,11 +475,6 @@
   .step {
     min-height: 70vh;
   }
-
-  .markerDot {
-    width: 26px;
-    height: 26px;
-  }
 }
 
 @media (max-width: 1023px) {
@@ -512,10 +492,5 @@
   .summaryText {
     white-space: normal;
     font-size: 9px;
-  }
-
-  .markerDot {
-    width: 20px;
-    height: 20px;
   }
 }

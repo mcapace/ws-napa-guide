@@ -1,14 +1,16 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Map, { Marker, Source, Layer, type MapRef, type LayerProps } from 'react-map-gl/mapbox'
 import {
   CATEGORY_COLORS,
+  CATEGORY_CONFIG,
   MAPBOX_TOKEN,
   NAPA_BOUNDS,
   SCROLLY_MAP_STYLE,
   TERRAIN_CONFIG,
 } from '@/lib/mapbox'
+import { ExploreMapPin } from '@/components/explore/ExploreMapPin'
 import {
   buildGoogleMapsRouteUrl,
   fetchItineraryDirections,
@@ -70,6 +72,11 @@ function categoryLabel(category: ItineraryStop['category']): string {
     default:
       return 'Landmark'
   }
+}
+
+function markerColor(category: ItineraryStop['category']): string {
+  if (category === 'sight') return CATEGORY_COLORS.sight
+  return CATEGORY_CONFIG[category].color
 }
 
 function formatEyebrow(itinerary: Itinerary, regionName?: string): string {
@@ -491,24 +498,32 @@ export default function ScrollyItinerary({
                     </Source>
                   ) : null}
 
-                  {stops.map((stop, index) => (
+                  {stops.map((stop, index) => {
+                    const isActive = index === activeIndex
+                    const isPast = index < activeIndex
+                    return (
                     <Marker
                       key={stop.order}
                       longitude={stop.coords[0]}
                       latitude={stop.coords[1]}
-                      anchor="center"
+                      anchor="bottom"
                     >
                       <div
-                        className={`${styles.marker}${index === activeIndex ? ` ${styles.markerActive}` : ''}${index < activeIndex ? ` ${styles.markerPast}` : ''}`}
-                        style={{ '--marker-color': CATEGORY_COLORS[stop.category] } as CSSProperties}
+                        className={`${styles.marker}${isActive ? ` ${styles.markerActive}` : ''}${isPast ? ` ${styles.markerPast}` : ''}`}
                       >
-                        <span className={styles.markerDot} />
-                        {index === activeIndex ? (
+                        <ExploreMapPin
+                          category={stop.category}
+                          color={markerColor(stop.category)}
+                          selected={isActive}
+                          hovered={isPast && !isActive}
+                        />
+                        {isActive ? (
                           <span className={styles.markerLabel}>{stop.name}</span>
                         ) : null}
                       </div>
                     </Marker>
-                  ))}
+                    )
+                  })}
                 </Map>
               ) : (
                 <p className={styles.mapFallback}>Map unavailable — configure Mapbox token.</p>

@@ -1,15 +1,18 @@
-import { Hotel, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
-import type { Category } from '@/lib/mapbox'
+import { Hotel, MapPin, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
+import { type Category } from '@/lib/mapbox'
 import styles from './ExploreMapPin.module.css'
 
-const CATEGORY_ICONS: Record<Category, LucideIcon> = {
+export type MapMarkerCategory = Category | 'sight'
+
+const CATEGORY_ICONS: Record<MapMarkerCategory, LucideIcon> = {
   winery: Wine,
   dining: UtensilsCrossed,
   stay: Hotel,
+  sight: MapPin,
 }
 
 export interface ExploreMapPinProps {
-  category: Category
+  category: MapMarkerCategory
   color: string
   selected?: boolean
   hovered?: boolean
