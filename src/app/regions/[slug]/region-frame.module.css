@@ -8,6 +8,10 @@
   --dust: #2a2520;
   --ink-mid: #1a1612;
   --region-tab-bar-height: 52px;
+  --region-subnav-height: 40px;
+  --region-scroll-offset: calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height) + 8px
+  );
   background: var(--ink);
   color: var(--cream);
   min-height: 100vh;
@@ -611,9 +615,115 @@
 
 .bottom {
   background: var(--ink);
-  scroll-margin-top: calc(
+  scroll-margin-top: var(--region-scroll-offset);
+}
+
+/* ── Unified scroll page (St. Helena trial) ── */
+.frame[data-scroll-unified] {
+  --region-scroll-offset: calc(
     var(--ws-site-header-height, 72px) + var(--region-tab-bar-height) + 8px
   );
+}
+
+.frame[data-scroll-unified][data-has-subnav] {
+  --region-scroll-offset: calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height) +
+      var(--region-subnav-height) + 8px
+  );
+}
+
+.scrollPage {
+  position: relative;
+}
+
+.scrollSection {
+  scroll-margin-top: var(--region-scroll-offset);
+}
+
+.scrollSectionHead {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 24px 24px;
+  background: #faf7f2;
+}
+
+.scrollSectionEyebrow {
+  margin: 0 0 8px;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(26, 22, 20, 0.5);
+}
+
+.scrollSectionTitle {
+  margin: 0 0 12px;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-weight: 400;
+  font-size: clamp(32px, 4vw, 42px);
+  line-height: 1.1;
+  color: #1a1614;
+}
+
+.scrollSectionDek {
+  margin: 0;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(26, 22, 20, 0.62);
+}
+
+.scrollSectionEmpty {
+  padding: 48px 24px;
+  text-align: center;
+  color: #6b6560;
+}
+
+.editorialBand {
+  background: #faf7f2;
+}
+
+.frame[data-scroll-unified] .editorialBand :global(.region-chapter[id]) {
+  scroll-margin-top: var(--region-scroll-offset);
+}
+
+.scrollSubNav {
+  position: sticky;
+  top: calc(var(--ws-site-header-height, 72px) + var(--region-tab-bar-height));
+  z-index: 39;
+  display: flex;
+  justify-content: center;
+  background: var(--ink);
+  border-bottom: 1px solid rgba(247, 243, 236, 0.08);
+  height: var(--region-subnav-height);
+  box-shadow: 0 -4px 0 4px var(--ink);
+}
+
+.scrollSubNavList {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 16px;
+  list-style: none;
+}
+
+.scrollSubNavLink {
+  display: block;
+  padding: 10px 14px;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.55);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.scrollSubNavLink:hover {
+  color: var(--gold);
 }
 
 .scrollDock {

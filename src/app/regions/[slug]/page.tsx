@@ -10,6 +10,7 @@ import {
 import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { getMdxRegionSlugs, loadRegionMdxCached } from '@/lib/content/loadRegionMdx'
 import RegionPageClient from './RegionPageClient'
+import RegionScrollPageClient from './RegionScrollPageClient'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -65,13 +66,17 @@ export default async function RegionPage({ params }: Props) {
 
   const storyImages = collectRegionStoryImages(mdxDoc)
 
-  return (
-    <RegionPageClient
-      slug={slug}
-      mdx={mdxDoc}
-      pins={regionPins}
-      itineraries={itineraries}
-      storyImages={storyImages}
-    />
-  )
+  const clientProps = {
+    slug,
+    mdx: mdxDoc,
+    pins: regionPins,
+    itineraries,
+    storyImages,
+  }
+
+  if (slug === 'st-helena') {
+    return <RegionScrollPageClient {...clientProps} />
+  }
+
+  return <RegionPageClient {...clientProps} />
 }

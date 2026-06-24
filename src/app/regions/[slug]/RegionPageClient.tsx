@@ -253,7 +253,7 @@ function RegionPageClientContent({
         <AnimatePresence mode="sync" initial={false}>
           {activeTab === 'story' ? (
             <motion.div key="story" className={styles.panel} {...PANEL_MOTION}>
-              <StoryPanel mdx={mdx} hideCompanionFeature={hasItinerary} storyImages={storyImages} />
+              <RegionStoryPanel mdx={mdx} hideCompanionFeature={hasItinerary} storyImages={storyImages} />
             </motion.div>
           ) : null}
 
@@ -339,7 +339,7 @@ function RegionPageClientContent({
   )
 }
 
-function StoryPanel({
+export function RegionStoryPanel({
   mdx,
   hideCompanionFeature = false,
   storyImages = [],
