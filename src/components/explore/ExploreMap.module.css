@@ -224,63 +224,6 @@
   object-fit: cover;
 }
 
-.thumbPopout {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 280px;
-  height: 210px;
-  margin-left: -140px;
-  margin-top: -105px;
-  border-radius: 2px;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 30;
-  opacity: 0;
-  visibility: hidden;
-  transform: scale(0.88);
-  transform-origin: center center;
-  box-shadow:
-    0 20px 50px rgba(13, 11, 9, 0.28),
-    0 4px 12px rgba(13, 11, 9, 0.12);
-  border: 1px solid rgba(247, 243, 236, 0.35);
-  transition:
-    opacity 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    visibility 0s linear 0.38s;
-}
-
-.rowEditorial .thumbPopout {
-  width: 300px;
-  height: 225px;
-  margin-left: -150px;
-  margin-top: -112px;
-}
-
-.row:hover .thumbPopout,
-.rowThumbActive .thumbPopout {
-  opacity: 1;
-  visibility: visible;
-  transform: scale(1);
-  transition-delay: 0s;
-}
-
-.thumbPopoutImage {
-  object-fit: cover;
-  object-position: center;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .thumbPopout {
-    transition: none;
-  }
-
-  .row:hover .thumbPopout,
-  .rowThumbActive .thumbPopout {
-    transform: none;
-  }
-}
-
 .thumbPlaceholder {
   width: 100%;
   height: 100%;
@@ -555,20 +498,31 @@
 }
 
 .popupCard {
-  display: grid;
-  grid-template-columns: 72px 1fr;
-  gap: 10px;
-  align-items: start;
+  display: block;
+  width: 300px;
+  max-width: min(300px, calc(100vw - 40px));
   background: var(--ink-mid);
   border: 1px solid rgba(247, 243, 236, 0.12);
   border-radius: 2px;
-  padding: 10px;
-  max-width: 220px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+}
+
+.popupHero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: rgba(247, 243, 236, 0.06);
+}
+
+.popupHeroImage {
+  object-fit: cover;
+  object-position: center;
 }
 
 .popupBody {
   min-width: 0;
+  padding: 12px 14px 14px;
 }
 
 .popupThumb {
@@ -589,20 +543,20 @@
 .popupName {
   font-family: var(--font-display, 'Cormorant Garamond', serif);
   font-style: italic;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.15;
-  margin: 0 0 4px;
+  margin: 0 0 6px;
   color: var(--cream);
 }
 
 .popupExcerpt {
   font-family: var(--font-body, 'DM Sans', sans-serif);
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 12px;
+  line-height: 1.45;
   color: var(--mist);
   margin: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -665,33 +619,21 @@
 }
 
 .bottomSheetInner {
-  display: grid;
-  grid-template-columns: 96px 1fr;
-  gap: 12px;
-  align-items: start;
+  display: block;
   max-width: 100%;
 }
 
-.bottomSheet .popupName {
-  color: var(--ink);
-  font-size: 18px;
-}
-
-.bottomSheet .popupExcerpt {
-  color: var(--meta);
-}
-
-.bottomSheetThumb {
+.bottomSheetMedia {
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  margin-bottom: 12px;
   border-radius: 2px;
   overflow: hidden;
   background: rgba(13, 11, 9, 0.04);
-  flex-shrink: 0;
 }
 
-.bottomSheetThumbImage {
+.bottomSheetMediaImage {
   object-fit: cover;
   object-position: center;
 }
@@ -700,9 +642,19 @@
   min-width: 0;
 }
 
+.bottomSheet .popupName {
+  color: var(--ink);
+  font-size: 20px;
+}
+
+.bottomSheet .popupExcerpt {
+  color: var(--meta);
+  -webkit-line-clamp: 3;
+}
+
 .bottomSheet .detailsLink {
   color: var(--ink);
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .emptyState {
@@ -766,10 +718,6 @@
   .rowEditorial .thumbWrap {
     width: 88px;
     height: 88px;
-  }
-
-  .thumbPopout {
-    display: none;
   }
 
   .row {

@@ -29,6 +29,7 @@ import {
 } from '@/lib/explore'
 import styles from './ExploreMap.module.css'
 import { ExploreMapPin } from './ExploreMapPin'
+import { ListThumbPreview } from './ListThumbPreview'
 import { MapWheelScrollBridge } from '@/components/map/MapWheelScrollBridge'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -117,6 +118,7 @@ export function ExploreMap({
   const [isDesktop, setIsDesktop] = useState(false)
   const scrollSyncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastEaseSlugRef = useRef<string | null>(null)
+  const thumbAnchorRef = useRef<HTMLElement | null>(null)
 
   const toggleListingCopy = useCallback((slug: string) => {
     setExpandedCopySlugs((prev) => {
@@ -184,6 +186,10 @@ export function ExploreMap({
 
   const selectedPin = activePlace
     ? visiblePins.find((p) => p.slug === activePlace) ?? null
+    : null
+
+  const hoveredPin = hoveredSlug
+    ? visiblePins.find((p) => p.slug === hoveredSlug) ?? null
     : null
 
   const updateUrl = useCallback(
@@ -525,8 +531,16 @@ export function ExploreMap({
                       isHovered ? ` ${styles.rowThumbActive}` : ''
                     }`}
                     onClick={() => selectPin(pin, false)}
-                    onMouseEnter={() => setHoveredSlug(pin.slug)}
-                    onMouseLeave={() => setHoveredSlug(null)}
+                    onMouseEnter={(e) => {
+                      setHoveredSlug(pin.slug)
+                      thumbAnchorRef.current = e.currentTarget.querySelector(
+                        `.${styles.thumbWrap}`,
+                      ) as HTMLElement
+                    }}
+                    onMouseLeave={() => {
+                      setHoveredSlug(null)
+                      thumbAnchorRef.current = null
+                    }}
                   >
                     <div className={styles.thumbWrap}>
                       <div className={styles.thumb}>
@@ -552,17 +566,6 @@ export function ExploreMap({
                           </div>
                         )}
                       </div>
-                      {pin.thumb ? (
-                        <div className={styles.thumbPopout} aria-hidden>
-                          <Image
-                            src={pin.thumb}
-                            alt=""
-                            fill
-                            sizes="320px"
-                            className={styles.thumbPopoutImage}
-                          />
-                        </div>
-                      ) : null}
                     </div>
                     <div className={styles.rowCopy}>
                       {isEditorial ? (
@@ -701,20 +704,21 @@ export function ExploreMap({
                   longitude={selectedPin.coords[0]}
                   latitude={selectedPin.coords[1]}
                   anchor="bottom"
-                  offset={20}
+                  offset={16}
+                  maxWidth="320"
                   closeButton={false}
                   closeOnClick={false}
                   onClose={() => updateUrl({ place: null })}
                 >
                   <div className={styles.popupCard}>
                     {selectedPin.thumb ? (
-                      <div className={styles.popupThumb}>
+                      <div className={styles.popupHero}>
                         <Image
                           src={selectedPin.thumb}
                           alt=""
                           fill
-                          sizes="80px"
-                          className={styles.popupThumbImage}
+                          sizes="300px"
+                          className={styles.popupHeroImage}
                         />
                       </div>
                     ) : null}
@@ -745,17 +749,23 @@ export function ExploreMap({
         </div>
       </div>
 
+      <ListThumbPreview
+        src={hoveredPin?.thumb ?? ''}
+        anchorEl={thumbAnchorRef.current}
+        visible={Boolean(isDesktop && hoveredPin?.thumb && thumbAnchorRef.current)}
+      />
+
       {selectedPin && !isDesktop && mobileView === 'map' && (
         <div className={`${styles.bottomSheet} ${styles.bottomSheetOpen}`}>
           <div className={styles.bottomSheetInner}>
             {selectedPin.thumb ? (
-              <div className={styles.bottomSheetThumb}>
+              <div className={styles.bottomSheetMedia}>
                 <Image
                   src={selectedPin.thumb}
                   alt=""
                   fill
-                  sizes="120px"
-                  className={styles.bottomSheetThumbImage}
+                  sizes="100vw"
+                  className={styles.bottomSheetMediaImage}
                 />
               </div>
             ) : null}
@@ -777,6 +787,10 @@ export function ExploreMap({
       )}
 
       <style jsx global>{`
+        .mapboxgl-popup {
+          max-width: min(300px, calc(100vw - 40px)) !important;
+          z-index: 6;
+        }
         .mapboxgl-popup-content {
           background: transparent !important;
           padding: 0 !important;
