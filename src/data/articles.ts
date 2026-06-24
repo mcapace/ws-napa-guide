@@ -24,7 +24,6 @@ export const articles: Article[] = [
     title: 'Napa Valley Taco Tour',
     section: 'dining',
     author: 'Chris Cardoso',
-    relatedRestaurants: ['la-luna-market-taqueria', 'el-taco-feliz'],
     excerpt:
       "Napa Valley and Mexico have a long-entwined history. Twelve taquerias — from Calistoga to downtown Napa — that prove the valley's best casual meal comes on a tortilla.",
     sponsorTier: null,
