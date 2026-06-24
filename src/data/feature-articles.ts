@@ -48,7 +48,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
     heroObjectPosition: 'center 42%',
     introParagraphs: [
       'Napa Valley and Mexico have a long-entwined history reflected in language, culture and food. Tacos and other Mexican staples have become go-to meals in the valley, beloved by all. Today, taquerias dot the region, whether brick-and-mortar restaurants or food trucks. Most specialize in classic “street tacos,” plates of smothered tortillas that are typically prepared quickly, packed with flavor in an array of combinations and able to be eaten handily. Originally an easy meal for workers, they can be enjoyed in any setting.',
-      'A proper street taco, at its simplest, needs just five ingredients: tortilla, meat, sauce, cilantro and raw onion. The best tortillas, based on masa harina de maíz, are handmade to order and warmed on a grill before being piled high with your choice of meats, sauces and more. (See “Taco Terms” below.) Vegan and vegetarian selections, as well as seafood versions, can also be found. Be mindful of levels of spiciness and your tolerance to them—the radish or cucumber slices typically served on the side are there to help if you take one of those too-hot bites. Some taquerias include carrots or grilled onions on the side for a sweet counterpoint.',
+      'A proper street taco, at its simplest, needs just five ingredients: tortilla, meat, sauce, cilantro and raw onion. The best tortillas, based on masa harina de maíz, are handmade to order and warmed on a grill before being piled high with your choice of meats, sauces and more. Vegan and vegetarian selections, as well as seafood versions, can also be found. Be mindful of levels of spiciness and your tolerance to them—the radish or cucumber slices typically served on the side are there to help if you take one of those too-hot bites. Some taquerias include carrots or grilled onions on the side for a sweet counterpoint.',
       'When pairing wine with tacos, look for something with freshness and bright acidity, which cuts through the richness of the proteins and seasonings. A lower alcohol wine allows the taco’s flavors to shine and keeps spice in the background. Sparkling wines are also a great option. Rich white wines can stand up to the complexity of the taco, while lightly tannic red wines complement the seasonings without accentuating spice. If you love a big red wine, though, go ahead and have it with your tacos. And don’t forget about canned wines, an easily transportable option for a taco picnic.',
     ],
     venues: [
@@ -158,48 +158,6 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         coords: [-122.2548, 38.2688],
         description:
           'In business in Napa since the 1990s, this outfit sports a brick-and-mortar along with two trucks. With house-made tortillas, traditional meats and three sauces on offer, Michoacan puts out archetypal Mexican street food. Their carnitas are spot on, with an intensity of saltiness and fattiness. Don’t overlook the carrot side; it adds just the right sweetness to the finish.',
-      },
-    ],
-    winePicks: [
-      { name: 'HYDE Pinot Noir Napa Valley Larry Hyde 2022', detail: '91 points, $90' },
-      { name: 'KINSMAN EADES Chenin Blanc Diamond Mountain District Aberro 2024', detail: '93, $55' },
-      { name: 'LOS CUERNOS Chardonnay California NV', detail: 'NR, $30/4 250ml cans' },
-      { name: 'NEWFOUND Grenache Napa Valley Yount Mill Vineyard 2022', detail: '93, $55' },
-      { name: 'NOMADICA California Bubbly White NV', detail: 'NR, $28/4 250ml cans' },
-      { name: 'SCHRAMSBERG Brut Rosé Napa Valley Querencia 2021', detail: '93, $80' },
-      { name: 'SPHAERICS Chardonnay Napa Valley Carneros Overline 2024', detail: '94, $65' },
-      { name: 'UNTI Vermentino Dry Creek Valley 2024', detail: '89, $38' },
-    ],
-    termGroups: [
-      {
-        title: 'Meats & more',
-        intro: 'Seasonings may include guajillo, ancho and chipotle chiles, achiote, cumin, garlic, onion and oregano.',
-        items: [
-          'Pollo adobado: Adobo-marinated baked chicken',
-          'Pollo asado: Grilled chicken',
-          'Carne asada: Grilled sliced steak',
-          'Carne suadero: Braised steak',
-          'Carne cabeza: Beef cheek',
-          'Carne lengua: Beef tongue',
-          'Al pastor: Seasoned spit-roasted pork with sliced pineapple',
-          'Carnitas: Braised pork',
-          'Chorizo: Seasoned sausage',
-          'Chicharrón: Pork rind',
-          'Tripa: Intestine',
-          'Buche: Pork stomach',
-          'Gobernadora: Shrimp and cheese',
-          'Pulpo: Octopus',
-        ],
-      },
-      {
-        title: 'Salsas',
-        intro: 'Sauces add flavors that bring spice and acidity.',
-        items: [
-          'Salsa roja: Spicy and smoky, made with tomatillos and chiles',
-          'Salsa verde: Mild and tangy, made with tomatillos, cilantro and lime juice',
-          'Salsa aguacate: A creamy version of salsa verde with avocado',
-          'Salsa macha: Oily, spicy and crisp, made with chiles, nuts and seeds',
-        ],
       },
     ],
   },
