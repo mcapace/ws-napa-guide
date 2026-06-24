@@ -4,6 +4,7 @@ import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import ScrollReveal from '@/components/ui/ScrollReveal'
 import { regions } from '@/data/regions'
+import styles from './regions.module.css'
 
 export const metadata: Metadata = {
   title: 'Regions',
@@ -40,7 +41,7 @@ export default function RegionsPage() {
             Seven <em style={{ fontStyle: 'italic' }}>distinct</em> appellations
           </h1>
           <span className="rule" style={{ background: 'rgba(247,243,236,0.15)', margin: '1.5rem 0' }} />
-          <p className="body-lg" style={{ maxWidth: '55ch' }}>
+          <p className={styles.pageIntro}>
             Each of Napa Valley&apos;s principal growing regions has a distinct character shaped by
             soil, elevation, and climate. Understanding their differences is understanding Napa itself.
           </p>
@@ -57,14 +58,7 @@ export default function RegionsPage() {
           }}
         >
           <div
-            className="container"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '5rem',
-              alignItems: 'center',
-              direction: i % 2 !== 0 ? 'rtl' : 'ltr',
-            }}
+            className={`container ${styles.regionGrid}${i % 2 !== 0 ? ` ${styles.regionGridAlt}` : ''}`}
           >
             {/* Image */}
             <div style={{ direction: 'ltr' }}>
@@ -77,15 +71,8 @@ export default function RegionsPage() {
                   }}
                 >
                   <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      backgroundImage: `url(${region.heroImage})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      transition: 'transform 0.7s cubic-bezier(0.4,0,0.2,1)',
-                    }}
-                    className="region-img"
+                    style={{ backgroundImage: `url(${region.heroImage})` }}
+                    className={styles.regionImg}
                   />
                   {/* Number overlay */}
                   <div
@@ -108,62 +95,24 @@ export default function RegionsPage() {
 
             {/* Text */}
             <div style={{ direction: 'ltr' }}>
-              <span
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.62rem',
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  color: region.accentColor,
-                  display: 'block',
-                  marginBottom: '0.75rem',
-                }}
-              >
+              <span className={styles.appellationEyebrow}>
                 Appellation 0{i + 1}
               </span>
               <h2 className="display-lg" style={{ color: 'var(--cream)', marginBottom: '0.25rem' }}>
                 {region.name}
               </h2>
-              <p
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '1.2rem',
-                  fontStyle: 'italic',
-                  color: region.accentColor,
-                  marginBottom: '1.5rem',
-                }}
-              >
+              <p className={styles.tagline}>
                 {region.tagline}
               </p>
-              <span className="rule" style={{ background: region.accentColor, opacity: 0.4 }} />
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '1rem',
-                  fontWeight: 300,
-                  lineHeight: 1.85,
-                  color: 'rgba(247,243,236,0.55)',
-                  marginBottom: '1.5rem',
-                }}
-              >
+              <span className="rule" style={{ background: 'var(--gold)', opacity: 0.55 }} />
+              <p className={styles.intro}>
                 {region.intro}
               </p>
 
               {/* Best for tags */}
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+              <div className={styles.tagList}>
                 {region.bestFor.map((tag) => (
-                  <span
-                    key={tag}
-                    style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: '0.65rem',
-                      letterSpacing: '0.1em',
-                      color: 'rgba(247,243,236,0.4)',
-                      background: 'rgba(247,243,236,0.04)',
-                      padding: '0.3rem 0.75rem',
-                      border: '1px solid rgba(247,243,236,0.08)',
-                    }}
-                  >
+                  <span key={tag} className={styles.tag}>
                     {tag}
                   </span>
                 ))}
@@ -173,11 +122,7 @@ export default function RegionsPage() {
                 <Link href={`/regions/${region.slug}`} className="btn-primary">
                   Explore {region.name}
                 </Link>
-                <Link
-                  href={`/explore?ava=${region.slug}`}
-                  className="btn-ghost"
-                  style={{ color: region.accentColor, borderColor: region.accentColor }}
-                >
+                <Link href={`/explore?ava=${region.slug}`} className="btn-ghost">
                   View on map &rarr;
                 </Link>
               </div>
@@ -203,7 +148,7 @@ export default function RegionsPage() {
           <h2 className="display-lg" style={{ color: 'var(--cream)', marginBottom: '1.5rem' }}>
             Build your <em style={{ color: 'var(--gold)', fontStyle: 'italic' }}>perfect itinerary</em>
           </h2>
-          <p className="body-lg" style={{ maxWidth: '50ch', margin: '0 auto 2.5rem' }}>
+          <p className={`${styles.pageIntro} ${styles.pageIntroCentered}`}>
             Tell us your dates, interests, and how many days you have — our planner will
             build a day-by-day Napa itinerary from the guide.
           </p>
@@ -217,16 +162,6 @@ export default function RegionsPage() {
       <Newsletter />
       <Footer />
 
-      <style>{`
-        .region-img:hover { transform: scale(1.04); }
-        @media (max-width: 768px) {
-          .container > div[style*="grid-template-columns"] {
-            grid-template-columns: 1fr !important;
-            direction: ltr !important;
-            gap: 2rem !important;
-          }
-        }
-      `}</style>
     </div>
   )
 }

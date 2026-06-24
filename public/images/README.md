@@ -65,7 +65,7 @@ Property-level images are **not** nested in per-property subfolders: both crops 
 |------|------|
 | `homepage/hero/` | Full-bleed hero: `video.mp4`, `poster.jpg` (plus any schema-defined stills) |
 | `homepage/mosaic/` | Mosaic stills (`collage-*.jpg`): **portrait** (5:7) for 4 tall tiles, **landscape** (5:4) for center-wide tile; rotation is slot-filtered in `home-mosaic-images.ts` |
-| `homepage/region-scroll-reveals/` | Appellation list hover stills: up to 3 per region (`src/lib/region-scroll-reveals.ts`) |
+| `homepage/region-scroll-reveals/` | Appellation hover: two Drive stills per region on the right (`src/lib/region-scroll-reveals.ts`; hero is separate on the left) |
 | `homepage/cards/` | Pinned region cards: 7 regions × 2 crops each |
 | `{region-slug}/hero/` | Region hero: landscape + portrait pair per schema |
 | `{region-slug}/wineries/` | Winery section images (N × 2 crops) |

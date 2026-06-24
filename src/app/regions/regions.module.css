@@ -1,0 +1,89 @@
+.pageIntro {
+  max-width: 55ch;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: rgba(247, 243, 236, 0.85);
+}
+
+.pageIntroCentered {
+  max-width: 50ch;
+  margin: 0 auto 2.5rem;
+}
+
+.appellationEyebrow {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: rgba(247, 243, 236, 0.9);
+  margin-bottom: 1.5rem;
+}
+
+.intro {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: rgba(247, 243, 236, 0.82);
+  margin-bottom: 1.5rem;
+}
+
+.tagList {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.tag {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: rgba(247, 243, 236, 0.78);
+  background: rgba(247, 243, 236, 0.06);
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(247, 243, 236, 0.2);
+}
+
+.regionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.regionGridAlt {
+  direction: rtl;
+}
+
+.regionImg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.regionImg:hover {
+  transform: scale(1.04);
+}
+
+@media (max-width: 768px) {
+  .regionGrid,
+  .regionGridAlt {
+    grid-template-columns: 1fr;
+    direction: ltr;
+    gap: 2rem;
+  }
+}

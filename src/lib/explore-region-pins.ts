@@ -96,11 +96,18 @@ function applyEditorialPinFields(
   const feature = editorialFeatureForName(data, name)
   if (!feature) return pin
 
-  const excerpt = feature.bodyPlain ? editorialExcerpt(feature.bodyPlain) : pin.excerpt
+  const bodyPlain = feature.bodyPlain?.trim()
+  const excerpt = bodyPlain ? editorialExcerpt(bodyPlain) : pin.excerpt
+  const excerptFull =
+    bodyPlain && bodyPlain.length > excerpt.replace(/…$/, '').trim().length
+      ? bodyPlain
+      : undefined
+
   return {
     ...pin,
     editorial: true,
     excerpt,
+    excerptFull,
     thumb: editorialImagePath(feature.image) ?? pin.thumb,
     images: editorialImagePath(feature.image) ? [editorialImagePath(feature.image)!] : pin.images,
   }

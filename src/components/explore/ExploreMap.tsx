@@ -61,6 +61,15 @@ const REGION_ORDER = [
   'downtown-napa',
 ]
 
+function listingCopyCanExpand(pin: MapPin): boolean {
+  return Boolean(pin.excerptFull && pin.excerptFull.length > pin.excerpt.length + 4)
+}
+
+function listingDisplayCopy(pin: MapPin, expanded: boolean): string {
+  if (expanded && pin.excerptFull) return pin.excerptFull
+  return pin.excerpt
+}
+
 export function ExploreMap({
   pins,
   scopedRegion,
@@ -99,6 +108,7 @@ export function ExploreMap({
     if (embedMode) setOverrideCategory(null)
   }, [embedMode, syncCategory])
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null)
+  const [expandedCopySlugs, setExpandedCopySlugs] = useState<Set<string>>(() => new Set())
   const [scrollCenterSlug, setScrollCenterSlug] = useState<string | null>(null)
   const [mobileView, setMobileView] = useState<'list' | 'map'>('list')
   const [mapZoom, setMapZoom] = useState(NAPA_ZOOM)
@@ -106,6 +116,15 @@ export function ExploreMap({
   const [isDesktop, setIsDesktop] = useState(false)
   const scrollSyncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastEaseSlugRef = useRef<string | null>(null)
+
+  const toggleListingCopy = useCallback((slug: string) => {
+    setExpandedCopySlugs((prev) => {
+      const next = new Set(prev)
+      if (next.has(slug)) next.delete(slug)
+      else next.add(slug)
+      return next
+    })
+  }, [])
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1024px)')
@@ -488,6 +507,10 @@ export function ExploreMap({
                 const routeStop = routeIndexBySlug[pin.slug]
                 const isSelected =
                   pin.slug === activePlace || pin.slug === scrollCenterSlug
+                const isHovered = pin.slug === hoveredSlug
+                const copyExpanded = expandedCopySlugs.has(pin.slug)
+                const canExpandCopy = listingCopyCanExpand(pin)
+                const displayCopy = listingDisplayCopy(pin, copyExpanded)
                 return (
                   <button
                     key={pin.slug}
@@ -497,7 +520,9 @@ export function ExploreMap({
                     }}
                     className={`${styles.row} ${isSelected ? styles.rowSelected : ''}${
                       isEditorial ? ` ${styles.rowEditorial}` : ''
-                    }${routeStop ? ` ${styles.rowRouteStop}` : ''}`}
+                    }${routeStop ? ` ${styles.rowRouteStop}` : ''}${
+                      isHovered ? ` ${styles.rowThumbActive}` : ''
+                    }`}
                     onClick={() => selectPin(pin, false)}
                     onMouseEnter={() => setHoveredSlug(pin.slug)}
                     onMouseLeave={() => setHoveredSlug(null)}
@@ -513,7 +538,7 @@ export function ExploreMap({
                           width={isEditorial ? 128 : 96}
                           height={isEditorial ? 128 : 96}
                           sizes={isEditorial ? '160px' : '120px'}
-                          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                          className={styles.thumbImage}
                         />
                       ) : (
                         <div
@@ -534,9 +559,27 @@ export function ExploreMap({
                         {cfg.label}
                       </p>
                       <p className={styles.name}>{pin.name}</p>
-                      <p className={`${styles.meta}${isEditorial ? ` ${styles.metaEditorial}` : ''}`}>
-                        {isEditorial ? pin.excerpt : `${regionDisplayName(pin.region)} · ${pin.excerpt}`}
+                      <p
+                        className={`${styles.meta}${isEditorial ? ` ${styles.metaEditorial}` : ''}${
+                          copyExpanded ? ` ${styles.metaExpanded}` : ''
+                        }`}
+                      >
+                        {isEditorial
+                          ? displayCopy
+                          : `${regionDisplayName(pin.region)} · ${displayCopy}`}
                       </p>
+                      {canExpandCopy ? (
+                        <button
+                          type="button"
+                          className={styles.copyToggle}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            toggleListingCopy(pin.slug)
+                          }}
+                        >
+                          {copyExpanded ? 'Show less' : 'Read more'}
+                        </button>
+                      ) : null}
                       <Link href={pin.href} className={styles.detailsLink} onClick={(e) => e.stopPropagation()}>
                         {isEditorial ? 'Read full profile →' : 'View details →'}
                       </Link>
@@ -655,8 +698,8 @@ export function ExploreMap({
                           src={selectedPin.thumb}
                           alt=""
                           fill
-                          sizes="260px"
-                          style={{ objectFit: 'cover' }}
+                          sizes="280px"
+                          className={styles.popupThumbImage}
                         />
                       </div>
                     ) : null}
@@ -667,7 +710,9 @@ export function ExploreMap({
                       {CATEGORY_CONFIG[selectedPin.category].label}
                     </p>
                     <p className={styles.popupName}>{selectedPin.name}</p>
-                    <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
+                    <p className={styles.popupExcerpt}>
+                      {selectedPin.excerptFull ?? selectedPin.excerpt}
+                    </p>
                     <Link href={selectedPin.href} className={styles.detailsLink}>
                       View details →
                     </Link>
@@ -682,6 +727,17 @@ export function ExploreMap({
 
       {selectedPin && !isDesktop && mobileView === 'map' && (
         <div className={`${styles.bottomSheet} ${styles.bottomSheetOpen}`}>
+          {selectedPin.thumb ? (
+            <div className={styles.bottomSheetThumb}>
+              <Image
+                src={selectedPin.thumb}
+                alt=""
+                fill
+                sizes="100vw"
+                className={styles.bottomSheetThumbImage}
+              />
+            </div>
+          ) : null}
           <p
             className={styles.eyebrow}
             style={{ color: CATEGORY_CONFIG[selectedPin.category].color }}
@@ -689,7 +745,9 @@ export function ExploreMap({
             {CATEGORY_CONFIG[selectedPin.category].label}
           </p>
           <p className={styles.popupName}>{selectedPin.name}</p>
-          <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
+          <p className={styles.popupExcerpt}>
+            {selectedPin.excerptFull ?? selectedPin.excerpt}
+          </p>
           <Link href={selectedPin.href} className={styles.detailsLink}>
             View details →
           </Link>

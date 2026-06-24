@@ -152,6 +152,8 @@ export interface ItineraryStop {
   coords: [number, number]
   blurb: string
   detailSlug?: string
+  /** Editorial listing still (`/images/...` from Drive import). */
+  image?: string
 }
 
 export interface Itinerary {

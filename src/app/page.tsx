@@ -690,11 +690,8 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
   const [hovered, setHovered] = useState(false)
   const RegionMark = getRegionEditorialMark(region.slug)
 
-  // Drive 02_Region_Scroll_Reveals — left: [0], right top: [1], right bottom: [2]
-  const revealImages = getAppellationRevealImages(region.slug)
-  const imgLeft = revealImages[0]
-  const imgRightTop = revealImages[1]
-  const imgRightBottom = revealImages[2]
+  // Hero left; Drive 02_Region_Scroll_Reveals stills on the right (top + bottom)
+  const [imgLeft, imgRightTop, imgRightBottom] = getAppellationRevealImages(region, index)
   const st = APP_MARK_STAGGER[index % APP_MARK_STAGGER.length]
   const hoverTilt = st.deg + (st.deg >= 0 ? 5 : -5)
 
@@ -716,7 +713,6 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
       }}
     >
       {/* Image 1: left side */}
-      {imgLeft ? (
       <div
         className="home-appellation-reveal"
         style={{
@@ -737,10 +733,8 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
       >
         <Image src={imgLeft} alt="" fill sizes="220px" style={{ objectFit: 'cover' }} />
       </div>
-      ) : null}
 
       {/* Image 2: right side, offset up */}
-      {imgRightTop ? (
       <div
         className="home-appellation-reveal"
         style={{
@@ -761,10 +755,8 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
       >
         <Image src={imgRightTop} alt="" fill sizes="180px" style={{ objectFit: 'cover' }} />
       </div>
-      ) : null}
 
       {/* Image 3: right side, offset down */}
-      {imgRightBottom ? (
       <div
         className="home-appellation-reveal"
         style={{
@@ -785,7 +777,6 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
       >
         <Image src={imgRightBottom} alt="" fill sizes="150px" style={{ objectFit: 'cover' }} />
       </div>
-      ) : null}
 
       {/* Name + staggered sticker — mark overlaps type at varied heights / tilts (therealhotels) */}
       <span

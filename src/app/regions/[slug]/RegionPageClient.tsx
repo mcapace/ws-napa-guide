@@ -22,6 +22,7 @@ type RegionPageClientProps = {
   mdx: LoadedRegionMdx
   pins: MapPin[]
   itineraries?: Itinerary[]
+  storyImages?: string[]
 }
 
 const PANEL_MOTION = {
@@ -81,7 +82,13 @@ function buildTabSearchParams(
   return params
 }
 
-function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPageClientProps) {
+function RegionPageClientContent({
+  slug,
+  mdx,
+  pins,
+  itineraries = [],
+  storyImages = [],
+}: RegionPageClientProps) {
   const { frontmatter } = mdx
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -242,7 +249,7 @@ function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPa
         <AnimatePresence mode="sync" initial={false}>
           {activeTab === 'story' ? (
             <motion.div key="story" className={styles.panel} {...PANEL_MOTION}>
-              <StoryPanel mdx={mdx} />
+              <StoryPanel mdx={mdx} hideCompanionFeature={hasItinerary} storyImages={storyImages} />
             </motion.div>
           ) : null}
 
@@ -299,14 +306,64 @@ function RegionPageClientContent({ slug, mdx, pins, itineraries = [] }: RegionPa
   )
 }
 
-function StoryPanel({ mdx }: { mdx: LoadedRegionMdx }) {
+function StoryPanel({
+  mdx,
+  hideCompanionFeature = false,
+  storyImages = [],
+}: {
+  mdx: LoadedRegionMdx
+  /** Sidebar adventures duplicate the Itinerary tab — hide there when routes exist. */
+  hideCompanionFeature?: boolean
+  storyImages?: string[]
+}) {
+  const showSidebar = !hideCompanionFeature && mdx.sidebar && mdx.sidebarHeading
+  const paragraphs = mdx.ledePlain ?? []
+  const mediaImages = storyImages.length > 0 ? storyImages : [mdx.frontmatter.heroImage]
+
   return (
     <article className={styles.storyPanel}>
       {mdx.frontmatter.dek ? (
         <p className={styles.storyDek}>{mdx.frontmatter.dek}</p>
       ) : null}
-      <div className={styles.storyProse}>{mdx.lede}</div>
-      {mdx.sidebar && mdx.sidebarHeading ? (
+
+      {paragraphs.length > 0 ? (
+        <div className={styles.storyBody}>
+          {Array.from({ length: Math.ceil(paragraphs.length / 2) }, (_, blockIndex) => {
+            const start = blockIndex * 2
+            const pair = paragraphs.slice(start, start + 2)
+            const imageRight = blockIndex % 2 === 1
+            const image = mediaImages[blockIndex]
+
+            return (
+              <div
+                key={start}
+                className={`${styles.storyBlock}${imageRight ? ` ${styles.storyBlockReverse}` : ''}`}
+              >
+                <div className={styles.storyProse}>
+                  {pair.map((paragraph, j) => (
+                    <p key={j}>{paragraph}</p>
+                  ))}
+                </div>
+                {image ? (
+                  <div className={styles.storyMedia}>
+                    <Image
+                      src={image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 768px) 100vw, 42vw"
+                      className={styles.storyMediaImg}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            )
+          })}
+        </div>
+      ) : (
+        <div className={styles.storyProse}>{mdx.lede}</div>
+      )}
+
+      {showSidebar ? (
         <aside className={styles.storyPullout}>
           <p className={styles.pulloutEyebrow}>From the issue</p>
           <h2 className={styles.pulloutTitle}>{mdx.sidebarHeading}</h2>

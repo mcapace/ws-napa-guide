@@ -107,7 +107,11 @@ export const restaurants: Restaurant[] = [
     description: `It would be easy to simply think of Rutherford Grill as the best place to pair expertly crafted barbeque with rich Napa Cabernets. But there's so much more to enjoy, including deviled eggs, a generous iceberg wedge salad, oak-grilled salmon and iron skillet cornbread bites. The staff is friendly and the patio seating is popular when weather permits.`,
     excerpt: 'BBQ, deviled eggs, and Oakville-adjacent Cab on the Rutherford patio.',
     sponsorTier: null,
-    images: imgs(0),
+    images: [
+      '/images/rutherford/restaurants/rutherford-restaurant-rutherford-grill-landscape.jpg',
+      '/images/rutherford/restaurants/rutherford-restaurant-rutherford-grill-portrait.jpg',
+    ],
+    featured: true,
   },
   {
     slug: 'charlies-napa-valley',

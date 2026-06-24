@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
 import Map, { Marker, Source, Layer, type MapRef, type LayerProps } from 'react-map-gl/mapbox'
 import {
   CATEGORY_COLORS,
@@ -301,6 +302,7 @@ export default function ScrollyItinerary({
   )
 
   const showCollectionHeader = itineraries.length > 1 && itinerary?.seriesTitle
+  const introImage = useMemo(() => stops.find((s) => s.image)?.image, [stops])
 
   if (!itinerary || stops.length === 0) {
     return (
@@ -381,6 +383,17 @@ export default function ScrollyItinerary({
                 ))}
               </div>
             ) : null}
+            {introImage ? (
+              <div className={styles.introMedia}>
+                <Image
+                  src={introImage}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 100vw, 520px"
+                  className={styles.introMediaImg}
+                />
+              </div>
+            ) : null}
           </header>
 
           <ol className={styles.steps}>
@@ -408,6 +421,17 @@ export default function ScrollyItinerary({
                       {categoryLabel(stop.category)}
                     </p>
                     <h3 className={styles.stepName}>{stop.name}</h3>
+                    {stop.image ? (
+                      <div className={styles.stepMedia}>
+                        <Image
+                          src={stop.image}
+                          alt=""
+                          fill
+                          sizes="(max-width: 768px) 100vw, 520px"
+                          className={styles.stepMediaImg}
+                        />
+                      </div>
+                    ) : null}
                     <p className={styles.stepBlurb}>{stop.blurb}</p>
                     {href ? (
                       <a className={styles.stepLink} href={href}>

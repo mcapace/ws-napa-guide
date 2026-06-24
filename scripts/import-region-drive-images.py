@@ -298,7 +298,7 @@ def import_region_scroll_reveals(source_dir: Path) -> int:
         dest_dir = SCROLL_REVEALS_DIR / slug
         dest_dir.mkdir(parents=True, exist_ok=True)
         jpgs = sorted(folder.glob("*.jpg"))
-        for jpg in jpgs[:3]:
+        for jpg in jpgs[:2]:
             dest_name = f"{slugify_stem(jpg.stem)}.jpg"
             shutil.copy2(jpg, dest_dir / dest_name)
             copied += 1

@@ -3,6 +3,10 @@ import { notFound } from 'next/navigation'
 import { getAllRegionSlugs } from '@/data/regions'
 import { getRegionItineraries } from '@/data/region-itineraries'
 import { enrichRegionItineraries } from '@/lib/enrich-region-itineraries'
+import {
+  collectRegionStoryImages,
+  enrichItinerariesWithImages,
+} from '@/lib/region-editorial-images'
 import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { getMdxRegionSlugs, loadRegionMdxCached } from '@/lib/content/loadRegionMdx'
 import RegionPageClient from './RegionPageClient'
@@ -43,16 +47,23 @@ export default async function RegionPage({ params }: Props) {
       .map((w) => [w.name, w.bodyPlain!]),
   )
 
-  const itineraries = enrichRegionItineraries(slug, getRegionItineraries(slug), {
-    sidebarMd: mdxDoc.sidebarMd,
-    sidebarHeading: mdxDoc.sidebarHeading,
-    byline: mdxDoc.frontmatter.byline,
-    issue: mdxDoc.frontmatter.issue,
-    regionName: mdxDoc.frontmatter.region,
-    regionTagline: mdxDoc.frontmatter.tagline,
-    ledeParagraphs: mdxDoc.ledePlain,
-    featuredListingPlain,
-  })
+  const itineraries = enrichItinerariesWithImages(
+    enrichRegionItineraries(slug, getRegionItineraries(slug), {
+      sidebarMd: mdxDoc.sidebarMd,
+      sidebarHeading: mdxDoc.sidebarHeading,
+      byline: mdxDoc.frontmatter.byline,
+      issue: mdxDoc.frontmatter.issue,
+      regionName: mdxDoc.frontmatter.region,
+      regionTagline: mdxDoc.frontmatter.tagline,
+      ledeParagraphs: mdxDoc.ledePlain,
+      featuredListingPlain,
+    }),
+    slug,
+    mdxDoc,
+    regionPins,
+  )
+
+  const storyImages = collectRegionStoryImages(mdxDoc)
 
   return (
     <RegionPageClient
@@ -60,6 +71,7 @@ export default async function RegionPage({ params }: Props) {
       mdx={mdxDoc}
       pins={regionPins}
       itineraries={itineraries}
+      storyImages={storyImages}
     />
   )
 }

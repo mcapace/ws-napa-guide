@@ -17,6 +17,8 @@ export interface MapPin {
   region: string
   coords: [number, number]
   excerpt: string
+  /** Full listing copy when excerpt is truncated (featured MDX listings). */
+  excerptFull?: string
   href: string
   /** Editorial photography only (`/images/…`); omit for directory rows without art. */
   thumb?: string
@@ -33,10 +35,18 @@ export interface MapPin {
   sponsorTier: null | 'standard' | 'featured' | 'presenting'
 }
 
-function pinExcerpt(text: string): string {
+function pinExcerpt(text: string, max = 90): string {
   const t = text.trim()
-  if (t.length <= 90) return t
-  return `${t.slice(0, 89).trimEnd()}…`
+  if (t.length <= max) return t
+  return `${t.slice(0, max - 1).trimEnd()}…`
+}
+
+function pinCopyFields(short: string, long?: string): { excerpt: string; excerptFull?: string } {
+  const excerpt = pinExcerpt(short)
+  const full = (long ?? short).trim()
+  const excerptFull =
+    full.length > excerpt.replace(/…$/, '').trim().length ? full : undefined
+  return { excerpt, excerptFull }
 }
 
 export const mapPins: MapPin[] = [
@@ -46,7 +56,7 @@ export const mapPins: MapPin[] = [
     category: 'winery' as const,
     region: w.region,
     coords: w.coords,
-    excerpt: pinExcerpt(w.excerpt),
+    ...pinCopyFields(w.excerpt, w.description),
     href: `/wineries/${w.slug}`,
     thumb: w.images[0],
     id: w.slug,
@@ -61,7 +71,7 @@ export const mapPins: MapPin[] = [
     category: 'dining' as const,
     region: r.region,
     coords: r.coords,
-    excerpt: pinExcerpt(r.excerpt),
+    ...pinCopyFields(r.excerpt, r.description),
     href: `/dining/${r.slug}`,
     thumb: r.images[0],
     id: r.slug,
@@ -77,7 +87,7 @@ export const mapPins: MapPin[] = [
     category: 'stay' as const,
     region: h.region,
     coords: h.coords,
-    excerpt: pinExcerpt(h.excerpt),
+    ...pinCopyFields(h.excerpt, h.description),
     href: `/stay/${h.slug}`,
     thumb: h.images[0],
     id: h.slug,
