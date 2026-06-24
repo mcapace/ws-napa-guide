@@ -25,6 +25,18 @@ DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1TQXS-Rr5zRgoQnsUItks
 IMAGES = ROOT / "public" / "images"
 MDX_DIR = ROOT / "src" / "content" / "regions"
 MOSAIC_DIR = IMAGES / "homepage" / "mosaic"
+SCROLL_REVEALS_DIR = IMAGES / "homepage" / "region-scroll-reveals"
+
+# 00_Homepage/02_Region_Scroll_Reveals/{folder}
+SCROLL_REVEAL_FOLDER_SLUG: dict[str, str] = {
+    "Calistoga": "calistoga",
+    "Downtown_Napa": "downtown-napa",
+    "Oakville": "oakville",
+    "Pritchard_Hill": "pritchard-hill",
+    "Rutherford": "rutherford",
+    "St_Helena": "st-helena",
+    "Yountville": "yountville",
+}
 
 REGION_PREFIX = {
     "01_Oakville": "oakville",
@@ -255,6 +267,42 @@ def import_homepage_mosaic(source_dir: Path) -> int:
         shutil.copy2(jpg, MOSAIC_DIR / dest_name)
         copied += 1
         print(f"  mosaic: {dest_name}")
+
+    return copied
+
+
+def slugify_stem(stem: str) -> str:
+    s = stem.lower().replace("_", "-")
+    s = re.sub(r"[^a-z0-9-]+", "-", s)
+    return re.sub(r"-+", "-", s).strip("-")
+
+
+def import_region_scroll_reveals(source_dir: Path) -> int:
+    """Sync homepage appellation hover stills from 00_Homepage/02_Region_Scroll_Reveals."""
+    reveals_root = source_dir / "00_Homepage" / "02_Region_Scroll_Reveals"
+    if not reveals_root.is_dir():
+        print(f"  scroll-reveals: no folder at {reveals_root}")
+        return 0
+
+    copied = 0
+    for folder in sorted(reveals_root.iterdir()):
+        if not folder.is_dir():
+            continue
+
+        prefix = folder.name.split("_(")[0]
+        slug = SCROLL_REVEAL_FOLDER_SLUG.get(prefix)
+        if not slug:
+            print(f"  scroll-reveals: unmapped folder {folder.name}")
+            continue
+
+        dest_dir = SCROLL_REVEALS_DIR / slug
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        jpgs = sorted(folder.glob("*.jpg"))
+        for jpg in jpgs[:3]:
+            dest_name = f"{slugify_stem(jpg.stem)}.jpg"
+            shutil.copy2(jpg, dest_dir / dest_name)
+            copied += 1
+            print(f"  scroll-reveals: {slug}/{dest_name}")
 
     return copied
 
@@ -509,6 +557,11 @@ def main() -> None:
         help="Only refresh homepage hero mosaic tiles from 00_Homepage",
     )
     parser.add_argument(
+        "--scroll-reveals-only",
+        action="store_true",
+        help="Only refresh homepage region scroll-reveal stills from 00_Homepage",
+    )
+    parser.add_argument(
         "--skip-mdx",
         action="store_true",
         help="Copy files only; do not update region MDX image paths",
@@ -522,6 +575,12 @@ def main() -> None:
         print(f"Mosaic: {count} files updated. Drive: {DRIVE_FOLDER_URL}")
         return
 
+    if args.scroll_reveals_only:
+        print(f"Refreshing homepage scroll-reveals from {source_dir}...")
+        count = import_region_scroll_reveals(source_dir)
+        print(f"Scroll-reveals: {count} files updated.")
+        return
+
     imported: dict[str, dict[str, tuple[str, str]]] = {}
     if args.dir:
         print(f"Importing regions from folder: {args.dir}")
@@ -533,6 +592,8 @@ def main() -> None:
     if source_dir.is_dir():
         print(f"\nRefreshing homepage mosaic from {source_dir}...")
         import_homepage_mosaic(source_dir)
+        print(f"\nRefreshing homepage scroll-reveals from {source_dir}...")
+        import_region_scroll_reveals(source_dir)
 
     if not args.skip_mdx:
         print("\nUpdating MDX...")

@@ -78,6 +78,14 @@ const MOSAIC_BY_ORIENTATION = {
   landscape: MOSAIC_IMAGE_CATALOG.filter((img) => img.orientation === 'landscape'),
 } as const
 
+export function pickHeroVideoFallback(visible: MosaicImageAsset[]): string {
+  const used = new Set(visible.map((img) => img.src))
+  const landscapePick = MOSAIC_BY_ORIENTATION.landscape.find((img) => !used.has(img.src))
+  if (landscapePick) return landscapePick.src
+  const anyPick = MOSAIC_IMAGE_CATALOG.find((img) => !used.has(img.src))
+  return anyPick?.src ?? MOSAIC_IMAGE_CATALOG[0]?.src ?? '/images/homepage/mosaic/collage-alila.jpg'
+}
+
 function shuffle<T>(items: T[]): T[] {
   const pool = [...items]
   for (let i = pool.length - 1; i > 0; i--) {
@@ -105,32 +113,28 @@ export function buildMosaicPanelQueues(panelCount: number): MosaicImageAsset[][]
 
 /** Initial frame: one unique still per visible tile (no duplicates on load). */
 export function pickInitialMosaicAssets(
-  queues: MosaicImageAsset[][]
+  queues: MosaicImageAsset[][],
 ): MosaicImageAsset[] {
   const used = new Set<string>()
-  return queues.map((queue) => {
-    const pick = queue.find((img) => !used.has(img.src)) ?? queue[0]
+  return queues.map((queue, panelIndex) => {
+    const pool = poolForSlot(panelIndex)
+    const pick =
+      queue.find((img) => !used.has(img.src)) ??
+      pool.find((img) => !used.has(img.src)) ??
+      queue.find((img) => !used.has(img.src)) ??
+      pool[0]
     used.add(pick.src)
     return pick
   })
 }
 
-/** Next still for a tile: slot-matched pool, never duplicates another visible tile. */
-export function pickNextMosaicAsset(
+function pickNextFromQueue(
   panelIndex: number,
-  visible: MosaicImageAsset[],
-  queue: MosaicImageAsset[]
+  current: MosaicImageAsset | undefined,
+  used: Set<string>,
+  queue: MosaicImageAsset[],
 ): MosaicImageAsset {
-  const used = new Set(
-    visible
-      .filter((_, i) => i !== panelIndex)
-      .map((img) => img.src)
-  )
-  const current = visible[panelIndex]
-  const curIdx = Math.max(
-    0,
-    queue.findIndex((img) => img.src === current?.src)
-  )
+  const curIdx = Math.max(0, queue.findIndex((img) => img.src === current?.src))
 
   const candidates: MosaicImageAsset[] = []
   for (let step = 1; step <= queue.length; step++) {
@@ -141,9 +145,55 @@ export function pickNextMosaicAsset(
     return candidates[Math.floor(Math.random() * candidates.length)]
   }
 
+  const pool = poolForSlot(panelIndex)
+  const poolCandidates = pool.filter(
+    (img) => !used.has(img.src) && img.src !== current?.src,
+  )
+  if (poolCandidates.length > 0) {
+    return poolCandidates[Math.floor(Math.random() * poolCandidates.length)]
+  }
+
   for (let step = 1; step <= queue.length; step++) {
     const candidate = queue[(curIdx + step) % queue.length]
     if (candidate.src !== current?.src) return candidate
   }
-  return current
+  return current ?? queue[0]
+}
+
+/** Next still for a tile: slot-matched pool, never duplicates another visible tile. */
+export function pickNextMosaicAsset(
+  panelIndex: number,
+  visible: MosaicImageAsset[],
+  queue: MosaicImageAsset[],
+): MosaicImageAsset {
+  const used = new Set(
+    visible
+      .filter((_, i) => i !== panelIndex)
+      .map((img) => img.src),
+  )
+  return pickNextFromQueue(panelIndex, visible[panelIndex], used, queue)
+}
+
+/** Advance multiple tiles in one tick — each pick respects the others in the batch. */
+export function pickMosaicAssetsForPanels(
+  panelIndices: readonly number[],
+  visible: MosaicImageAsset[],
+  queues: MosaicImageAsset[][],
+): MosaicImageAsset[] {
+  const next = [...visible]
+  const used = new Set(
+    visible
+      .filter((_, i) => !panelIndices.includes(i))
+      .map((img) => img.src),
+  )
+
+  for (const panelIndex of panelIndices) {
+    const queue = queues[panelIndex]
+    if (!queue?.length || queue.length < 2) continue
+    const pick = pickNextFromQueue(panelIndex, visible[panelIndex], used, queue)
+    next[panelIndex] = pick
+    used.add(pick.src)
+  }
+
+  return next
 }

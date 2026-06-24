@@ -18,6 +18,9 @@ python3 scripts/import-region-drive-images.py --dir .tmp-drive-import
 
 # Homepage mosaic only
 python3 scripts/import-region-drive-images.py --mosaic-only --dir .tmp-drive-import
+
+# Homepage appellation hover stills only
+python3 scripts/import-region-drive-images.py --scroll-reveals-only --dir .tmp-drive-import
 ```
 
 Maps `01_Oakville` … `06_Downtown_Napa` into `public/images/{slug}/` and updates `src/content/regions/*.mdx` image paths.
@@ -62,6 +65,7 @@ Property-level images are **not** nested in per-property subfolders: both crops 
 |------|------|
 | `homepage/hero/` | Full-bleed hero: `video.mp4`, `poster.jpg` (plus any schema-defined stills) |
 | `homepage/mosaic/` | Mosaic stills (`collage-*.jpg`): **portrait** (5:7) for 4 tall tiles, **landscape** (5:4) for center-wide tile; rotation is slot-filtered in `home-mosaic-images.ts` |
+| `homepage/region-scroll-reveals/` | Appellation list hover stills: up to 3 per region (`src/lib/region-scroll-reveals.ts`) |
 | `homepage/cards/` | Pinned region cards: 7 regions × 2 crops each |
 | `{region-slug}/hero/` | Region hero: landscape + portrait pair per schema |
 | `{region-slug}/wineries/` | Winery section images (N × 2 crops) |

@@ -9,19 +9,16 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { regions, type RegionData } from '@/data/regions'
 import { wineries } from '@/data/wineries'
-import { buildMosaicPanelQueues } from '@/lib/home-mosaic-images'
+import { buildMosaicPanelQueues, pickHeroVideoFallback } from '@/lib/home-mosaic-images'
+import { getAppellationRevealImages } from '@/lib/region-scroll-reveals'
 import { HomeMosaicRotatingPanel } from '@/components/home/HomeMosaicRotatingPanel'
-import { HomeStoriesSection } from '@/components/home/HomeStoriesSection'
 import { useHomeMosaicRotation } from '@/components/home/useHomeMosaicRotation'
-import { getStoryArticles } from '@/data/site-stories'
-import { TEST_IMAGES } from '@/lib/test-images'
 import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
 import Footer from '@/components/ui/Footer'
 import { NavMenuOverlay } from '@/components/ui/NavMenuOverlay'
 
 const featuredRegions = regions
-const storyArticles = getStoryArticles()
 
 // ── Homepage hero video (4 Adobe Stock clips stitched with crossfades) ──
 const HERO_VIDEO = '/images/homepage/hero/video.mp4'
@@ -80,8 +77,7 @@ export default function HomePage() {
   /** Slot-matched crops; rotation never shows the same still on two tiles at once */
   const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
   const mosaicVisible = useHomeMosaicRotation(mosaicPanelQueues)
-  const heroCenterFallback =
-    mosaicVisible[2]?.src ?? '/images/homepage/mosaic/collage-alila.jpg'
+  const heroCenterFallback = pickHeroVideoFallback(mosaicVisible)
 
   useLayoutEffect(() => {
     const centerPanel = centerPanelRef.current
@@ -518,11 +514,6 @@ export default function HomePage() {
         </section>
       </RevealSection>
 
-      {/* ── FROM THE ISSUE (Judgment, tacos, landmarks, calendar, etc.) ── */}
-      <RevealSection>
-        <HomeStoriesSection stories={storyArticles} />
-      </RevealSection>
-
       {/* ── BROWSE BY APPELLATION (therealhotels vertical list with huge serif names) ── */}
       <RevealSection>
         <section className="home-appellation-wrap" style={{ padding: '80px 0 100px' }}>
@@ -700,11 +691,11 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
   const [hovered, setHovered] = useState(false)
   const RegionMark = getRegionEditorialMark(region.slug)
 
-  // Get 2-3 images for this region from its wineries
-  const regionWineries = wineries.filter((w) => w.region === region.slug)
-  const img1 = region.heroImage
-  const img2 = regionWineries[0]?.images[0] ?? TEST_IMAGES[(index + 1) % TEST_IMAGES.length]
-  const img3 = regionWineries[1]?.images[0] ?? TEST_IMAGES[(index + 3) % TEST_IMAGES.length]
+  // Editorial stills from Drive 02_Region_Scroll_Reveals (3 per region when available)
+  const regionWineryImages = wineries
+    .filter((w) => w.region === region.slug)
+    .flatMap((w) => w.images)
+  const [img1, img2, img3] = getAppellationRevealImages(region, index, regionWineryImages)
   const st = APP_MARK_STAGGER[index % APP_MARK_STAGGER.length]
   const hoverTilt = st.deg + (st.deg >= 0 ? 5 : -5)
 
