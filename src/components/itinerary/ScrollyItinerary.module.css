@@ -104,6 +104,14 @@
   color: rgba(247, 243, 236, 0.78);
 }
 
+.collectionIntroProse .collectionIntro:first-child {
+  margin-top: 16px;
+}
+
+.collectionIntroProse .collectionIntro + .collectionIntro {
+  margin-top: 12px;
+}
+
 .byline {
   margin: 0 0 20px;
   font-family: var(--font-body, 'DM Sans', sans-serif);

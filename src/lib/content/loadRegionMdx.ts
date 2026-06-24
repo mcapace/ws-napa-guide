@@ -10,6 +10,7 @@ import {
   buildEditorialFeaturesFromH3,
   extractGfmTable,
   markdownToPlainText,
+  markdownToPlainParagraphs,
   parseMetaLines,
   parseTastingDirectoryTable,
   resolveFeatureSlug,
@@ -218,6 +219,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   }
 
   const lede = await compileLede(ledeMd)
+  const ledePlain = ledeMd.trim() ? markdownToPlainParagraphs(ledeMd) : undefined
   const sidebar = sidebarMd.trim() ? await compileSidebar(sidebarMd) : null
   const sidebarPlain = sidebarMd.trim() ? markdownToPlainText(sidebarMd) : undefined
   const related = resolveRelatedStories(frontmatter.relatedFeatures ?? [])
@@ -226,6 +228,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     sidebarHeading,
     frontmatter,
     lede,
+    ledePlain,
     featuredWineries,
     tastingDirectory,
     featuredRestaurants: featuredRestaurantsWithPhotos,

@@ -37,12 +37,21 @@ export default async function RegionPage({ params }: Props) {
   if (!mdxDoc) notFound()
 
   const regionPins = buildRegionExplorePins(slug, mdxDoc)
+  const featuredListingPlain = Object.fromEntries(
+    mdxDoc.featuredWineries
+      .filter((w) => w.bodyPlain && w.bodyPlain.length > 40)
+      .map((w) => [w.name, w.bodyPlain!]),
+  )
+
   const itineraries = enrichRegionItineraries(slug, getRegionItineraries(slug), {
     sidebarMd: mdxDoc.sidebarMd,
     sidebarHeading: mdxDoc.sidebarHeading,
     byline: mdxDoc.frontmatter.byline,
     issue: mdxDoc.frontmatter.issue,
     regionName: mdxDoc.frontmatter.region,
+    regionTagline: mdxDoc.frontmatter.tagline,
+    ledeParagraphs: mdxDoc.ledePlain,
+    featuredListingPlain,
   })
 
   return (

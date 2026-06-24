@@ -170,6 +170,8 @@ export interface Itinerary {
   seriesTitle?: string
   /** Parent adventure deck when the region has multiple routes. */
   seriesIntro?: string
+  /** Parent adventure deck paragraphs (sidebar preamble when present). */
+  seriesIntroParagraphs?: string[]
   /** Section label from numbered adventure body (when distinct from title). */
   sectionLabel?: string
   /** Intro split into editorial paragraphs. */

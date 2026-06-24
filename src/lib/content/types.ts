@@ -82,5 +82,7 @@ export type LoadedRegionMdx = {
   sidebarPlain?: string
   /** Raw sidebar MDX body (server-side itinerary enrichment) */
   sidebarMd?: string
+  /** Plain-text lede paragraphs */
+  ledePlain?: string[]
   related: RelatedStoryCard[]
 }

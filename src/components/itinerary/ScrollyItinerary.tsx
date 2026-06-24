@@ -313,7 +313,13 @@ export default function ScrollyItinerary({
               {itinerary.issue ? ` · ${itinerary.issue}` : ''}
             </p>
           ) : null}
-          {itinerary.seriesIntro ? (
+          {itinerary.seriesIntroParagraphs && itinerary.seriesIntroParagraphs.length > 0 ? (
+            <div className={styles.collectionIntroProse}>
+              {itinerary.seriesIntroParagraphs.map((paragraph, index) => (
+                <p key={index} className={styles.collectionIntro}>{paragraph}</p>
+              ))}
+            </div>
+          ) : itinerary.seriesIntro ? (
             <p className={styles.collectionIntro}>{itinerary.seriesIntro}</p>
           ) : null}
         </header>

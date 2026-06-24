@@ -183,9 +183,104 @@ const ST_HELENA_OFF_GRID: Itinerary = {
       order: 3,
       name: 'The Charter Oak',
       category: 'dining',
-      coords: [-122.453057, 38.488972],
+      coords: [-122.4608, 38.50322],
       blurb:
         'From there you’re barely 10 minutes back to town. After all that tannin and Cab, the smash burger at the Charter Oak makes for a perfect lazy lunch. Grab some outdoor seating if it’s not too hot—the patio is well-shaded.',
+    },
+  ],
+}
+
+const ST_HELENA_WEST_SIDE: Itinerary = {
+  id: 'west-side-family-wineries',
+  title: 'West Side Family Wineries',
+  intro:
+    'The west side of St. Helena is the tony residential area—or at least that’s what denizens of the western side of Highway 29 will tell you. This jaunt stays on the west side while introducing multi-generational family-owned wineries.',
+  travelMode: 'driving',
+  stops: [
+    {
+      order: 1,
+      name: 'Salvestrin Winery',
+      category: 'winery',
+      coords: [-122.46127, 38.496729],
+      blurb:
+        'Head south and you’ll be barely out of town when you’ll see a vineyard on your right with a small shingle sign that says Salvestrin Winery, est. 1932. Rich Salvestrin represents the third generation on the property, along with his wife and daughters.',
+    },
+    {
+      order: 2,
+      name: 'Corison Winery',
+      category: 'winery',
+      coords: [-122.447409, 38.484996],
+      blurb:
+        'From there, it’s not even three minutes to Corison Winery, marked by a pair of tall palm trees at the driveway entrance. Here you’ll find Cathy Corison and her nearly 50 vintages of winemaking experience.',
+    },
+    {
+      order: 3,
+      name: 'Under-Study',
+      category: 'dining',
+      coords: [-122.450479, 38.488773],
+      blurb:
+        'For lunch, try Under-Study, from PRESS chef Philip Tessier. A bakery/coffee stop, it turns into a café with small plates for lunch.',
+    },
+  ],
+}
+
+const ST_HELENA_HISTORY: Itinerary = {
+  id: 'st-helena-history-lesson',
+  title: 'A St. Helena History Lesson',
+  intro:
+    'With this year marking the 50th anniversary of the Judgment of Paris tasting, what better time to stop in and check on how a few of the wineries that were involved are doing today?',
+  travelMode: 'driving',
+  stops: [
+    {
+      order: 1,
+      name: 'Freemark Abbey',
+      category: 'winery',
+      coords: [-122.49643, 38.525635],
+      blurb:
+        'Freemark Abbey’s history goes way back before the 1976 event, starting in 1881 with Josephine Tychon. In the 1940s and 1950s, the winery opened a “sampling room”—basically the region’s first tasting room.',
+    },
+    {
+      order: 2,
+      name: 'Spring Mountain Vineyard',
+      category: 'winery',
+      coords: [-122.48985, 38.50607],
+      blurb:
+        'Spring Mountain Vineyard, which had its 1973 Chardonnay in the Paris tasting, is going through yet another awakening. Part of an experience here can include a tour of the property, well worth it.',
+    },
+    {
+      order: 3,
+      name: "Charlie's Napa Valley",
+      category: 'dining',
+      coords: [-122.468853, 38.505038],
+      detailSlug: 'charlies-napa-valley',
+      blurb:
+        'After the tasting, buy a bottle from the extensive library inventory and take it to Charlie’s to have alongside lunch. Chef Elliott Bell manages a culinary garden on the Spring Mountain Vineyard property for his St. Helena restaurant.',
+    },
+  ],
+}
+
+const ST_HELENA_SALONS: Itinerary = {
+  id: 'modern-tasting-salons',
+  title: 'Modern Tasting Salons',
+  intro:
+    'These modern-day stops will give you a refined wine experience, defined by hosts with sommelier-level knowledge in a tasting setting that feels educational and curated.',
+  travelMode: 'driving',
+  stops: [
+    {
+      order: 1,
+      name: 'Royal We Wines',
+      category: 'winery',
+      coords: [-122.464995, 38.501492],
+      blurb:
+        'Start your morning at Royal We Wines, a tasting salon from winemaker Thomas Rivers Brown and partner Matt Hardin. The space is comfy/swanky with a bar counter and side rooms that offer varying seating configurations.',
+    },
+    {
+      order: 2,
+      name: 'Wheeler Farms',
+      category: 'winery',
+      coords: [-122.437614, 38.487375],
+      blurb:
+        'Drive a few minutes farther south and turn left down Zinfandel Lane to Wheeler Farms. Winemaker Nigel Kinsman makes Accendo here, along with Kinsman Eades, Bella Oaks, Annulus and other labels.',
     },
   ],
 }
@@ -339,7 +434,12 @@ export const REGION_ITINERARIES: Partial<Record<Region | string, Itinerary[]>> =
   oakville: [OAKVILLE_TOUR],
   rutherford: [RUTHERFORD_SAUVIGNON],
   yountville: [YOUNTVILLE_CULINARY, YOUNTVILLE_STAGS_LEAP, YOUNTVILLE_HILLS],
-  'st-helena': [ST_HELENA_OFF_GRID],
+  'st-helena': [
+    ST_HELENA_OFF_GRID,
+    ST_HELENA_WEST_SIDE,
+    ST_HELENA_HISTORY,
+    ST_HELENA_SALONS,
+  ],
   calistoga: [CALISTOGA_WALKABLE, CALISTOGA_MOUNTAIN],
   'pritchard-hill': [PRITCHARD_HILL],
   'downtown-napa': [DOWNTOWN_CARNEROS],

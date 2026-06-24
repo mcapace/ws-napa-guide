@@ -16,6 +16,9 @@ const ITINERARY_SECTION_NUM: Record<string, number> = {
   'walkable-tasting-tour': 1,
   'mountain-getaway': 2,
   'off-the-grid-cabernets': 1,
+  'west-side-family-wineries': 2,
+  'st-helena-history-lesson': 3,
+  'modern-tasting-salons': 4,
 }
 
 const STOP_ANCHORS: Record<string, string[]> = {
@@ -48,6 +51,14 @@ const STOP_ANCHORS: Record<string, string[]> = {
   'Boon Fly Café': ['Boon Fly Café', 'Boon Fly Cafe', 'famous ones at Boon Fly'],
   'Bouchaine Vineyards': ['Bouchaine Winery', 'Bouchaine Vineyards', 'to Bouchaine Winery'],
   'Domaine Carneros': ['Domaine Carneros', 'five minutes away, Domaine Carneros'],
+  'Salvestrin Winery': ['Salvestrin Winery', 'sign that says Salvestrin'],
+  'Corison Winery': ['Corison Winery', 'to Corison Winery', 'minutes to Corison'],
+  'Under-Study': ['Under-Study', 'try Under-Study'],
+  'Freemark Abbey': ["Freemark Abbey's history", 'Freemark Abbey'],
+  'Spring Mountain Vineyard': ['Spring Mountain Vineyard', 'Spring Mountain, which had'],
+  "Charlie's Napa Valley": ["take it to Charlie", "Charlie's to have"],
+  'Royal We Wines': ['Royal We Wines', 'Start your morning at Royal We', 'Royal We, a tasting salon'],
+  'Wheeler Farms': ['Wheeler Farms', 'to Wheeler Farms', 'down Zinfandel Lane'],
 }
 
 function anchorsForStop(stop: ItineraryStop): string[] {
@@ -232,6 +243,34 @@ type EnrichOptions = {
   byline?: string
   issue?: string
   regionName?: string
+  regionTagline?: string
+  ledeParagraphs?: string[]
+  featuredListingPlain?: Record<string, string>
+}
+
+function findListingProse(stopName: string, listings: Record<string, string>): string | undefined {
+  if (listings[stopName]) return listings[stopName]
+  const stopKey = stopName.toLowerCase().replace(/^the /, '')
+  for (const [name, prose] of Object.entries(listings)) {
+    const listingKey = name.toLowerCase().replace(/^the /, '')
+    if (listingKey === stopKey || listingKey.includes(stopKey) || stopKey.includes(listingKey)) {
+      return prose
+    }
+  }
+  return undefined
+}
+
+function enrichFromFeaturedListings(
+  itinerary: Itinerary,
+  listings: Record<string, string>,
+): Itinerary {
+  return {
+    ...itinerary,
+    stops: itinerary.stops.map((stop) => {
+      const prose = findListingProse(stop.name, listings)
+      return prose && prose.length > 40 ? { ...stop, blurb: prose } : stop
+    }),
+  }
 }
 
 function resolveEyebrow(
@@ -248,6 +287,8 @@ function resolveEyebrow(
   if (parsed?.tourTitle) return parsed.tourTitle
 
   if (heading) return 'From the issue'
+
+  if (options?.regionTagline) return options.regionTagline
 
   return 'Itinerary'
 }
@@ -274,6 +315,15 @@ function applyEditorialMeta(
     itinerary.introParagraphs ??
     (itinerary.intro ? buildIntroParagraphs('', '', itinerary.intro) : undefined)
 
+  const preamble = parsedSidebar?.preambleParagraphs ?? []
+  const seriesIntroParagraphs = isMultiRoute
+    ? preamble.length > 0
+      ? preamble
+      : adventure.intro
+        ? [adventure.intro]
+        : undefined
+    : undefined
+
   return {
     ...itinerary,
     eyebrow,
@@ -281,7 +331,8 @@ function applyEditorialMeta(
     issue,
     sectionLabel,
     seriesTitle: isMultiRoute ? adventure.title : undefined,
-    seriesIntro: isMultiRoute ? adventure.intro : undefined,
+    seriesIntro: seriesIntroParagraphs?.join(' ') ?? (isMultiRoute ? adventure.intro : undefined),
+    seriesIntroParagraphs,
     introParagraphs,
   }
 }
@@ -337,6 +388,17 @@ export function enrichRegionItineraries(
       }
     } else if (adventure) {
       result = enrichFromAdventure(it, adventure, count > 1)
+    }
+
+    if (slug === 'pritchard-hill' && options?.featuredListingPlain) {
+      result = enrichFromFeaturedListings(result, options.featuredListingPlain)
+    }
+    if (slug === 'pritchard-hill' && options?.ledeParagraphs?.length) {
+      result = {
+        ...result,
+        intro: options.ledeParagraphs.join(' '),
+        introParagraphs: options.ledeParagraphs,
+      }
     }
 
     return applyEditorialMeta(result, slug, adventure, count, options, parsedSidebar)
