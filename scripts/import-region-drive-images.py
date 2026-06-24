@@ -160,6 +160,8 @@ PROPERTY_MAP: dict[str, dict[str, tuple[str, str]]] = {
         "StHelena_Cook": ("restaurants", "cook"),
         "StHelena_Gelato": ("breakfast", "roman-holiday-gelato"),
         "StHelena_ModelBakery": ("breakfast", "model-bakery"),
+        "StHelena_Erosion": ("breakfast", "erosion-creamery-cafe"),
+        "StHelena_SalvestrinInn": ("hotels", "inn-at-salvestrin"),
         "StHelena_HarvestInn": ("hotels", "harvest-inn"),
         "StHelena_Alila": ("hotels", "alila-napa-valley"),
         "StHelena_Wydown": ("hotels", "wydown-hotel"),
