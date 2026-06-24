@@ -460,6 +460,34 @@ body:has([data-page="home-hero"]) {
   opacity: 1;
 }
 
+/* Bottom display title — keep descenders (y, g) inside the sticky viewport */
+.home-hero-display {
+  position: absolute;
+  bottom: clamp(14px, 2.8vh, 36px);
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 12;
+  pointer-events: none;
+  overflow: visible;
+  will-change: opacity;
+  padding: 0 clamp(8px, 2vw, 24px);
+  box-sizing: border-box;
+}
+
+.home-hero-display span {
+  display: block;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(112px, 19vw, 340px);
+  color: var(--cream, #f7f3ec);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  white-space: nowrap;
+  padding-bottom: 0.12em;
+}
+
 /* Homepage + pinned region cards: eyebrow / taglines legible on warm, bright imagery */
 .home-region-pin-label p,
 .home-region-pin-copy > p {
@@ -1086,8 +1114,9 @@ html.lenis body {
   .home-hero-display span {
     font-size: clamp(40px, 11vw, 88px) !important;
     white-space: normal !important;
-    line-height: 0.95 !important;
+    line-height: 1.05 !important;
     letter-spacing: -0.04em !important;
+    padding-bottom: 0.08em !important;
   }
 
   .home-newsletter-form {

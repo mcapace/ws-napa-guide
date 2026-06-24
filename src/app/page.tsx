@@ -369,36 +369,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div
-            ref={heroDisplayRef}
-            className="home-hero-display"
-            style={{
-              position: 'absolute',
-              bottom: '-0.08em',
-              left: '-2%',
-              right: '-2%',
-              textAlign: 'center',
-              zIndex: 12,
-              pointerEvents: 'none',
-              overflow: 'hidden',
-              willChange: 'opacity',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontWeight: 300,
-                fontSize: 'clamp(140px, 22vw, 380px)',
-                color: '#F7F3EC',
-                letterSpacing: '-0.03em',
-                lineHeight: 0.82,
-                whiteSpace: 'nowrap',
-                display: 'block',
-              }}
-            >
-              Napa Valley
-            </span>
+          <div ref={heroDisplayRef} className="home-hero-display">
+            <span>Napa Valley</span>
           </div>
 
           <div
