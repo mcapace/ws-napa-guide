@@ -5,13 +5,14 @@ import Link from 'next/link'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import FeatureArticleLayout from '@/components/features/FeatureArticleLayout'
+import { FeaturePlacesMentioned } from '@/components/features/FeaturePlacesMentioned'
 import featureStyles from '@/components/features/FeatureArticleLayout.module.css'
 import { articles, featuredArticles } from '@/data/articles'
 import { getFeatureArticleContent } from '@/data/feature-articles'
 import { getStoryHeroImage, STORY_SLUGS } from '@/data/site-stories'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
-import { HorizontalStrip, type HorizontalStripItem } from '@/components/ui/HorizontalStrip'
+import type { HorizontalStripItem } from '@/components/ui/HorizontalStrip'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -52,36 +53,7 @@ function RelatedListings({ article }: { article: NonNullable<ReturnType<typeof a
   }
   if (relatedItems.length === 0) return null
 
-  return (
-    <section style={{ padding: '60px 0 80px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
-      <div style={{ padding: '0 60px', marginBottom: 32 }}>
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 10,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: '#C4943A',
-            marginBottom: 12,
-          }}
-        >
-          From this story
-        </p>
-        <h3
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 'clamp(24px, 3vw, 36px)',
-            color: '#F7F3EC',
-          }}
-        >
-          Places mentioned
-        </h3>
-      </div>
-      <HorizontalStrip entries={relatedItems} />
-    </section>
-  )
+  return <FeaturePlacesMentioned entries={relatedItems} />
 }
 
 function ReadNext({ slug }: { slug: string }) {
