@@ -5,13 +5,14 @@ import Link from 'next/link'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import { articles, featuredArticles } from '@/data/articles'
+import { STORY_SLUGS } from '@/data/site-stories'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { HorizontalStrip, type HorizontalStripItem } from '@/components/ui/HorizontalStrip'
 
 type Props = { params: Promise<{ slug: string }> }
 
-const featureSlugs = ['judgment-of-paris', 'napa-taco-tour', 'napa-landmarks', 'napa-calendar', 'napa-valley-guide']
+const featureSlugs: string[] = [...STORY_SLUGS]
 
 export async function generateStaticParams() {
   return articles

@@ -1,5 +1,5 @@
 import { regions } from '@/data/regions'
-import { articles } from '@/data/articles'
+import { getStoryArticles } from '@/data/site-stories'
 
 export type SiteNavLink = {
   label: string
@@ -10,6 +10,7 @@ export type SiteNavLink = {
 /** Large display links — primary journeys through the guide */
 export const navPrimaryLinks: SiteNavLink[] = [
   { label: 'Appellations', href: '/regions' },
+  { label: 'From the Issue', href: '/features' },
   { label: 'Explore the Map', href: '/explore' },
   { label: 'Wineries', href: '/wineries' },
   { label: 'Dining', href: '/dining' },
@@ -22,22 +23,11 @@ export const navAppellationLinks: SiteNavLink[] = regions.map((region) => ({
   href: `/regions/${region.slug}`,
 }))
 
-const storySlugs = [
-  'napa-valley-guide',
-  'judgment-of-paris',
-  'napa-landmarks',
-  'napa-taco-tour',
-  'napa-calendar',
-] as const
-
 /** Magazine features with live article pages */
-export const navStoryLinks: SiteNavLink[] = storySlugs
-  .map((slug) => articles.find((a) => a.slug === slug))
-  .filter((article): article is NonNullable<typeof article> => Boolean(article))
-  .map((article) => ({
-    label: article.title,
-    href: `/features/${article.slug}`,
-  }))
+export const navStoryLinks: SiteNavLink[] = getStoryArticles().map((article) => ({
+  label: article.title,
+  href: `/features/${article.slug}`,
+}))
 
 export const navMetaLinks: SiteNavLink[] = [
   { label: 'Wine Spectator', href: 'https://www.winespectator.com', external: true },

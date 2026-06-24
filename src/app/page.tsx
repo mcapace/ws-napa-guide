@@ -11,7 +11,9 @@ import { regions, type RegionData } from '@/data/regions'
 import { wineries } from '@/data/wineries'
 import { buildMosaicPanelQueues } from '@/lib/home-mosaic-images'
 import { HomeMosaicRotatingPanel } from '@/components/home/HomeMosaicRotatingPanel'
+import { HomeStoriesSection } from '@/components/home/HomeStoriesSection'
 import { useHomeMosaicRotation } from '@/components/home/useHomeMosaicRotation'
+import { getStoryArticles } from '@/data/site-stories'
 import { TEST_IMAGES } from '@/lib/test-images'
 import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
@@ -19,6 +21,7 @@ import Footer from '@/components/ui/Footer'
 import { NavMenuOverlay } from '@/components/ui/NavMenuOverlay'
 
 const featuredRegions = regions
+const storyArticles = getStoryArticles()
 
 // ── Homepage hero video (4 Adobe Stock clips stitched with crossfades) ──
 const HERO_VIDEO = '/images/homepage/hero/video.mp4'
@@ -515,6 +518,11 @@ export default function HomePage() {
         </section>
       </RevealSection>
 
+      {/* ── FROM THE ISSUE (Judgment, tacos, landmarks, calendar, etc.) ── */}
+      <RevealSection>
+        <HomeStoriesSection stories={storyArticles} />
+      </RevealSection>
+
       {/* ── BROWSE BY APPELLATION (therealhotels vertical list with huge serif names) ── */}
       <RevealSection>
         <section className="home-appellation-wrap" style={{ padding: '80px 0 100px' }}>
@@ -605,47 +613,6 @@ export default function HomePage() {
       </div>
 
       <div style={{ position: 'relative', zIndex: 5, background: '#0D0B09' }}>
-
-      {/* ── "IN THE WILD" / FROM THE JUNE ISSUE ── */}
-      <RevealSection>
-        <section className="home-wild-section" style={{ padding: '120px 60px', textAlign: 'center', maxWidth: 700, margin: '0 auto' }}>
-          <p
-            data-text-split=""
-            data-lines-slide-up=""
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12,
-              fontWeight: 400,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: 'rgba(247,243,236,0.7)',
-              lineHeight: 2.2,
-              marginBottom: 40,
-            }}
-          >
-            From vineyard to table, the definitive companion to Wine Spectator&apos;s June 2026 special issue.
-            Wineries, restaurants, hotels, and the roads less traveled.
-          </p>
-          <Link
-            href="/features/napa-judgment"
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 11,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#F7F3EC',
-              textDecoration: 'none',
-              border: '1px solid rgba(247,243,236,0.25)',
-              borderRadius: 40,
-              padding: '16px 36px',
-              display: 'inline-block',
-              transition: 'border-color 0.6s',
-            }}
-          >
-            Read the features
-          </Link>
-        </section>
-      </RevealSection>
 
       {/* ── NEWSLETTER (therealhotels style: massive serif heading + full-width input) ── */}
       <section className="home-newsletter-section" style={{ padding: '120px 60px 100px', borderTop: '1px solid rgba(247,243,236,0.06)', textAlign: 'center' }}>
