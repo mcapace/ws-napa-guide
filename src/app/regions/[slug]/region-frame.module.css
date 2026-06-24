@@ -165,10 +165,11 @@
   display: flex;
   justify-content: center;
   gap: 0;
-  background: rgba(13, 11, 9, 0.92);
-  backdrop-filter: blur(12px);
+  background: var(--ink);
   border-bottom: 1px solid rgba(247, 243, 236, 0.08);
   height: var(--region-tab-bar-height);
+  /* Cover subpixel gap between site nav and tab bar while scrolling */
+  box-shadow: 0 -6px 0 6px var(--ink);
 }
 
 .tab {
