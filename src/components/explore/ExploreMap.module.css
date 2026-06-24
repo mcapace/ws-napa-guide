@@ -127,7 +127,8 @@
   background: rgba(196, 148, 58, 0.08);
 }
 
-.rowEditorial {
+.rowEditorial,
+.rowWithPhoto {
   grid-template-columns: 128px 1fr;
   min-height: 148px;
   padding: 20px;
@@ -135,7 +136,8 @@
   border-bottom: 1px solid rgba(13, 11, 9, 0.1);
 }
 
-.rowEditorial:hover {
+.rowEditorial:hover,
+.rowWithPhoto:hover {
   background: rgba(255, 255, 255, 0.98);
 }
 
@@ -192,7 +194,8 @@
   opacity: 1;
 }
 
-.rowEditorial .thumbWrap {
+.rowEditorial .thumbWrap,
+.rowWithPhoto .thumbWrap {
   width: 128px;
   height: 128px;
 }
@@ -783,13 +786,15 @@
     display: block;
   }
 
-  .rowEditorial {
+  .rowEditorial,
+  .rowWithPhoto {
     grid-template-columns: 88px 1fr;
     min-height: 120px;
     padding: 16px;
   }
 
-  .rowEditorial .thumbWrap {
+  .rowEditorial .thumbWrap,
+  .rowWithPhoto .thumbWrap {
     width: 88px;
     height: 88px;
   }

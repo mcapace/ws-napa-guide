@@ -1,6 +1,7 @@
 import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { isEditorialListingImage } from '@/lib/explore'
+import { resolveItineraryStopImage } from '@/lib/region-itinerary-images'
 import type { Itinerary, ItineraryStop } from '@/lib/types'
 
 function normalizeName(name: string): string {
@@ -79,7 +80,9 @@ export function enrichItinerariesWithImages(
   return itineraries.map((itinerary) => ({
     ...itinerary,
     stops: itinerary.stops.map((stop) => {
-      const image = resolveStopEditorialImage(regionSlug, stop, mdx, pins)
+      const image =
+        resolveItineraryStopImage(regionSlug, itinerary.id, stop) ??
+        resolveStopEditorialImage(regionSlug, stop, mdx, pins)
       return image ? { ...stop, image } : stop
     }),
   }))

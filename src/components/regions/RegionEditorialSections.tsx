@@ -84,7 +84,8 @@ export function RegionEditorialSections({
       key: `restaurant-${feature.name}`,
       props: featureProps(feature),
     })),
-    ...(data.breakfast
+    ...(data.breakfast &&
+    !data.featuredRestaurants.some((r) => r.name === data.breakfast!.name)
       ? [{ key: `breakfast-${data.breakfast.name}`, props: featureProps(data.breakfast) }]
       : []),
   ]

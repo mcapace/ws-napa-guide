@@ -14,6 +14,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import shutil
 import zipfile
@@ -26,6 +27,8 @@ IMAGES = ROOT / "public" / "images"
 MDX_DIR = ROOT / "src" / "content" / "regions"
 MOSAIC_DIR = IMAGES / "homepage" / "mosaic"
 SCROLL_REVEALS_DIR = IMAGES / "homepage" / "region-scroll-reveals"
+ITINERARY_MANIFEST = ROOT / "src" / "data" / "region-itinerary-images.json"
+ITINERARY_TS = ROOT / "src" / "data" / "region-itineraries.ts"
 
 # Removed from hero mosaic rotation (duplicate / editorial request)
 MOSAIC_EXCLUDED_FILES = frozenset({"collage-charlies.jpg"})
@@ -48,6 +51,63 @@ REGION_PREFIX = {
     "04_St_Helena": "st-helena",
     "05_Calistoga": "calistoga",
     "06_Downtown_Napa": "downtown-napa",
+    "07_Beyond Downtown": "pritchard-hill",
+    "08_Pritchard_Hill": "pritchard-hill",
+}
+
+# Drive itinerary folder names vary (Itinerary / Itinieries / Itineraries).
+ITINERARY_FOLDER_NAMES = frozenset(
+    {"itinerary", "itinieries", "itineraries", "itinerarys"}
+)
+
+# Filename stem aliases when Drive labels differ from itinerary stop names.
+ITINERARY_STEM_ALIASES: dict[str, str] = {
+    "bv": "beaulieu vineyard",
+    "mondavi": "robert mondavi winery",
+    "shafer": "shafer vineyards",
+    "clifflede": "cliff lede vineyards",
+    "clifflede2": "cliff lede vineyards",
+    "chandon": "chandon napa valley",
+    "antinori": "antinori napa valley",
+    "bouchon": "bouchon bistro",
+    "mayacamas": "mayacamas",
+    "seavey": "seavey vineyard",
+    "forman": "forman vineyard",
+    "charteroak": "the charter oak",
+    "charter": "the charter oak",
+    "salvestrin": "salvestrin winery",
+    "corison": "corison winery",
+    "understudy": "under-study",
+    "freemark": "freemark abbey",
+    "freemarkabbey": "freemark abbey",
+    "springmountain": "spring mountain vineyard",
+    "charlies": "charlies napa valley",
+    "royalwe": "royal we wines",
+    "wheeler": "wheeler farms",
+    "wheelerfarms": "wheeler farms",
+    "riversmarie": "rivers-marie",
+    "lola": "lola wines",
+    "tankgarage": "tank garage winery",
+    "tank": "tank garage winery",
+    "busters": "busters southern bbq",
+    "buster": "busters southern bbq",
+    "cade": "cade estate",
+    "outpost": "outpost wines",
+    "chappellet": "chappellet winery",
+    "continuum": "continuum estate",
+    "davidarthur": "david arthur vineyards",
+    "howardbacken": "the howard backen estate",
+    "backen": "the howard backen estate",
+    "boonfly": "boon fly cafe",
+    "bouchaine": "bouchaine vineyards",
+    "domainecarneros": "domaine carneros",
+    "carneros": "domaine carneros",
+    "groth": "groth vineyards winery",
+    "stsupery": "st supery estate vineyards winery",
+    "supery": "st supery estate vineyards winery",
+    "mustards": "mustards grill",
+    "grgich": "grgich hills estate",
+    "grgichhills": "grgich hills estate",
 }
 
 # zip stem (without extension) -> (section folder, property slug)
@@ -280,6 +340,218 @@ def slugify_stem(stem: str) -> str:
     s = stem.lower().replace("_", "-")
     s = re.sub(r"[^a-z0-9-]+", "-", s)
     return re.sub(r"-+", "-", s).strip("-")
+
+
+def normalize_match_text(text: str) -> str:
+    s = text.lower().replace("'", "").replace("’", "")
+    s = re.sub(r"[^a-z0-9]+", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def itinerary_stop_slug(name: str) -> str:
+    s = name.lower().replace("'", "").replace("’", "")
+    s = re.sub(r"[^a-z0-9]+", "-", s)
+    return re.sub(r"-+", "-", s).strip("-")[:60]
+
+
+def load_itinerary_catalog() -> dict[str, list[dict]]:
+    """Parse region-itineraries.ts into region -> [{id, stops: [{order, name}]}]."""
+    if not ITINERARY_TS.exists():
+        return {}
+
+    text = ITINERARY_TS.read_text()
+    itineraries: dict[str, dict] = {}
+
+    for block in re.finditer(
+        r"const \w+: Itinerary = \{([\s\S]*?)\n\}",
+        text,
+    ):
+        body = block.group(1)
+        id_match = re.search(r"id: '([^']+)'", body)
+        if not id_match:
+            continue
+        it_id = id_match.group(1)
+        stops: list[dict] = []
+        for stop_match in re.finditer(
+            r"order: (\d+),\s*name: (?:'([^']*)'|\"([^\"]*)\")",
+            body,
+        ):
+            order = int(stop_match.group(1))
+            name = stop_match.group(2) or stop_match.group(3)
+            stops.append({"order": order, "name": name})
+        if stops:
+            itineraries[it_id] = {"id": it_id, "stops": stops}
+
+    region_map: dict[str, list[dict]] = {}
+    region_block = re.search(
+        r"export const REGION_ITINERARIES[^=]*=\s*\{([\s\S]*?)\n\}",
+        text,
+    )
+    if not region_block:
+        return region_map
+
+    for region_match in re.finditer(
+        r"(?:'([^']+)'|(\w+)):\s*\[([^\]]+)\]",
+        region_block.group(1),
+    ):
+        region = region_match.group(1) or region_match.group(2)
+        ids = re.findall(r"\w+", region_match.group(3))
+        catalog: list[dict] = []
+        for const_name in ids:
+            # const names like ST_HELENA_OFF_GRID -> find matching itinerary id
+            for it in itineraries.values():
+                if const_name.replace("_", "-").lower() in it["id"].replace("_", "-"):
+                    catalog.append(it)
+                    break
+            else:
+                # fallback: match by const suffix against id tokens
+                for it in itineraries.values():
+                    if any(
+                        token in it["id"]
+                        for token in re.findall(r"[A-Z][a-z]+", const_name)
+                    ):
+                        catalog.append(it)
+                        break
+        if catalog:
+            region_map[region] = catalog
+
+    # Explicit map for const names that regex may miss
+    explicit: dict[str, list[str]] = {
+        "oakville": ["everything-old-new"],
+        "rutherford": ["sauvignon-blanc-discovery"],
+        "yountville": ["culinary-delights", "stags-leap-splendor", "into-the-hills"],
+        "st-helena": [
+            "off-the-grid-cabernets",
+            "west-side-family-wineries",
+            "st-helena-history-lesson",
+            "modern-tasting-salons",
+        ],
+        "calistoga": ["walkable-tasting-tour", "mountain-getaway"],
+        "pritchard-hill": ["pritchard-hill-pilgrimage"],
+        "downtown-napa": ["wind-in-your-hair"],
+    }
+    for region, ids in explicit.items():
+        region_map[region] = [itineraries[id] for id in ids if id in itineraries]
+
+    return region_map
+
+
+def itinerary_folder_for_region(region_dir: Path) -> Path | None:
+    for child in region_dir.iterdir():
+        if child.is_dir() and child.name.lower().replace("_", "") in ITINERARY_FOLDER_NAMES:
+            return child
+    return None
+
+
+def match_itinerary_stop(
+    region: str,
+    file_stem: str,
+    catalog: dict[str, list[dict]],
+) -> tuple[str, int, str] | None:
+    """Return (itinerary_id, order, stop_name) for a Drive filename stem."""
+    region_itins = catalog.get(region, [])
+    if not region_itins:
+        return None
+
+    stem = file_stem.lower()
+    stem = re.sub(r"_?\d{3,4}$", "", stem)  # strip _1200 size suffix
+    stem_compact = re.sub(r"[^a-z0-9]", "", stem)
+    alias = ITINERARY_STEM_ALIASES.get(stem_compact)
+    stem_norm = normalize_match_text(alias or stem.replace("_", " "))
+
+    candidates: list[tuple[str, int, str, int]] = []
+    for it in region_itins:
+        for stop in it["stops"]:
+            stop_norm = normalize_match_text(stop["name"])
+            stop_compact = re.sub(r"[^a-z0-9]", "", stop_norm)
+            score = 0
+            if stem_norm == stop_norm:
+                score = 100
+            elif stem_compact and stem_compact == stop_compact:
+                score = 95
+            elif len(stem_compact) >= 4 and stem_compact in stop_compact:
+                score = 80 + len(stem_compact)
+            elif len(stop_compact) >= 4 and stop_compact in stem_compact:
+                score = 70 + len(stop_compact)
+            else:
+                # token overlap (e.g. davidarthur vs david arthur vineyards)
+                stem_tokens = set(stem_norm.split())
+                stop_tokens = set(stop_norm.split())
+                overlap = stem_tokens & stop_tokens
+                if overlap and len(overlap) >= 2:
+                    score = 50 + len(overlap) * 10
+                elif overlap:
+                    score = 30 + len(overlap) * 10
+
+            if score > 0:
+                candidates.append((it["id"], stop["order"], stop["name"], score))
+
+    if not candidates:
+        return None
+
+    candidates.sort(key=lambda c: c[3], reverse=True)
+    best = candidates[0]
+    if len(candidates) > 1 and candidates[1][3] == best[3]:
+        return None  # ambiguous
+    return best[0], best[1], best[2]
+
+
+def copy_itinerary_stop_image(
+    src: Path,
+    region: str,
+    itinerary_id: str,
+    stop_name: str,
+) -> str:
+    dest_dir = IMAGES / region / "itineraries" / itinerary_id
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    slug = itinerary_stop_slug(stop_name)
+    landscape = dest_dir / f"{slug}-landscape.jpg"
+    portrait = dest_dir / f"{slug}-portrait.jpg"
+    shutil.copy2(src, landscape)
+    shutil.copy2(src, portrait)
+    return f"/images/{region}/itineraries/{itinerary_id}/{slug}-landscape.jpg"
+
+
+def import_itinerary_images(source_dir: Path) -> dict[str, str]:
+    """Import Drive itinerary stills; returns manifest key -> landscape URL."""
+    catalog = load_itinerary_catalog()
+    manifest: dict[str, str] = {}
+
+    for prefix, region in REGION_PREFIX.items():
+        region_dir = source_dir / prefix
+        if not region_dir.is_dir():
+            continue
+
+        itin_dir = itinerary_folder_for_region(region_dir)
+        if not itin_dir:
+            continue
+
+        for jpg in sorted(itin_dir.glob("*.jpg")):
+            match = match_itinerary_stop(region, jpg.stem, catalog)
+            if not match:
+                print(f"  itinerary unmapped: {region}/{jpg.name}")
+                continue
+
+            it_id, order, stop_name = match
+            url = copy_itinerary_stop_image(jpg, region, it_id, stop_name)
+            key = f"{region}|{it_id}|{order}"
+            manifest[key] = url
+            print(f"  itinerary: {region}/{it_id}/{stop_name}")
+
+    return manifest
+
+
+def write_itinerary_manifest(
+    new_entries: dict[str, str],
+    merge_existing: bool = True,
+) -> None:
+    existing: dict[str, str] = {}
+    if merge_existing and ITINERARY_MANIFEST.exists():
+        existing = json.loads(ITINERARY_MANIFEST.read_text())
+
+    merged = {**existing, **new_entries}
+    ITINERARY_MANIFEST.write_text(json.dumps(merged, indent=2) + "\n")
+    print(f"\nItinerary manifest: {len(new_entries)} new, {len(merged)} total keys")
 
 
 def import_region_scroll_reveals(source_dir: Path) -> int:
@@ -567,6 +839,11 @@ def main() -> None:
         help="Only refresh homepage region scroll-reveal stills from 00_Homepage",
     )
     parser.add_argument(
+        "--itinerary-only",
+        action="store_true",
+        help="Only import itinerary stop stills from Drive Itinerary/Itinieries folders",
+    )
+    parser.add_argument(
         "--skip-mdx",
         action="store_true",
         help="Copy files only; do not update region MDX image paths",
@@ -586,6 +863,15 @@ def main() -> None:
         print(f"Scroll-reveals: {count} files updated.")
         return
 
+    if args.itinerary_only:
+        if not source_dir.is_dir():
+            raise SystemExit(f"Drive folder not found: {source_dir}")
+        print(f"Importing itinerary stills from {source_dir}...")
+        manifest = import_itinerary_images(source_dir)
+        write_itinerary_manifest(manifest)
+        print(f"\nDone. Drive source: {DRIVE_FOLDER_URL}")
+        return
+
     imported: dict[str, dict[str, tuple[str, str]]] = {}
     if args.dir:
         print(f"Importing regions from folder: {args.dir}")
@@ -599,6 +885,8 @@ def main() -> None:
         import_homepage_mosaic(source_dir)
         print(f"\nRefreshing homepage scroll-reveals from {source_dir}...")
         import_region_scroll_reveals(source_dir)
+        print(f"\nImporting itinerary stills from {source_dir}...")
+        write_itinerary_manifest(import_itinerary_images(source_dir))
 
     if not args.skip_mdx:
         print("\nUpdating MDX...")

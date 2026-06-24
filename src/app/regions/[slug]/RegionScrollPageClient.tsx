@@ -59,6 +59,40 @@ function buildJumpLinks(mdx: LoadedRegionMdx, hasItinerary: boolean): JumpLink[]
   return links
 }
 
+type ScrollSectionMarkerProps = {
+  variant: 'dark' | 'light' | 'cue'
+  title: string
+  eyebrow?: string
+  dek?: string
+}
+
+function ScrollSectionMarker({ eyebrow, title, dek, variant }: ScrollSectionMarkerProps) {
+  if (variant === 'cue') {
+    return (
+      <div className={styles.scrollMarkerCue} aria-hidden>
+        <span className={styles.scrollMarkerCueLine} />
+        <span className={styles.scrollMarkerCueLabel}>{title}</span>
+        <span className={styles.scrollMarkerCueLine} />
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className={`${styles.scrollMarker} ${
+        variant === 'light' ? styles.scrollMarkerLight : styles.scrollMarkerDark
+      }`}
+    >
+      <div className={styles.scrollMarkerInner}>
+        <div className={styles.scrollMarkerRule} aria-hidden />
+        {eyebrow ? <p className={styles.scrollMarkerEyebrow}>{eyebrow}</p> : null}
+        <h2 className={styles.scrollMarkerTitle}>{title}</h2>
+        {dek ? <p className={styles.scrollMarkerDek}>{dek}</p> : null}
+      </div>
+    </div>
+  )
+}
+
 function RegionScrollPageClientContent({
   slug,
   mdx,
@@ -180,6 +214,12 @@ function RegionScrollPageClientContent({
   const scrollAfterExplore = hasItinerary ? 'region-itinerary' : 'region-bottom'
   const storyLinks = jumpLinks.filter((l) => l.tab === 'story')
   const utilityLinks = jumpLinks.filter((l) => l.tab !== 'story')
+  const phrases = frontmatter.marqueePhrases ?? {}
+  const hasGuidePicks =
+    mdx.featuredWineries.length > 0 ||
+    mdx.featuredRestaurants.length > 0 ||
+    mdx.breakfast ||
+    mdx.featuredHotels.length > 0
 
   return (
     <div
@@ -267,21 +307,33 @@ function RegionScrollPageClientContent({
             mdx={mdx}
             hideCompanionFeature={hasItinerary}
             storyImages={storyImages}
-            refined
           />
+          {hasGuidePicks ? (
+            <ScrollSectionMarker
+              variant="dark"
+              eyebrow="In this guide"
+              title="Where to taste, eat & stay"
+              dek={
+                phrases.taste
+                  ? `${phrases.taste}. Scroll for long-form profiles — the alphabetical directory follows.`
+                  : 'Editorial profiles from the guide. The full alphabetical directory follows below.'
+              }
+            />
+          ) : null}
           <div className={styles.editorialBand} data-site-surface="light">
-            <RegionEditorialSections data={mdx} layout="refined" />
+            <RegionEditorialSections data={mdx} layout="classic" />
           </div>
+          <ScrollSectionMarker variant="cue" title="The full list below ↓" />
         </section>
 
-        <section id="region-explore" className={styles.scrollSection}>
+        <section id="region-explore" className={`${styles.scrollSection} ${styles.scrollSectionExplore}`}>
           <div className={styles.directoryBand}>
             <div className={styles.directoryBandInner}>
               <p className={styles.directoryBandEyebrow}>Quick reference</p>
               <h2 className={styles.directoryBandTitle}>The full list</h2>
               <p className={styles.directoryBandDek}>
-                Filter tastings, dining, or hotels — or pan the map. Featured guide picks lead
-                the list; every other listing in {regionName} follows.
+                Filter tastings, dining, or hotels — or pan the map. Every listing in {regionName},
+                sorted alphabetically.
               </p>
             </div>
           </div>
@@ -307,7 +359,19 @@ function RegionScrollPageClientContent({
         </section>
 
         {hasItinerary ? (
-          <section id="region-itinerary" className={styles.scrollSection}>
+          <section id="region-itinerary" className={`${styles.scrollSection} ${styles.scrollSectionItinerary}`}>
+            <div className={styles.directoryBand}>
+              <div className={styles.directoryBandInner}>
+                <p className={styles.directoryBandEyebrow}>Itinerary</p>
+                <h2 className={styles.directoryBandTitle}>
+                  {phrases.sidebar ?? `Plan your day in ${regionName}`}
+                </h2>
+                <p className={styles.directoryBandDek}>
+                  Half-day routes with map and stops — scroll through each leg or open the
+                  full route in Google Maps.
+                </p>
+              </div>
+            </div>
             <div
               className={`${styles.mapEmbedPanel} ${styles.itineraryEmbedPanel} ${styles.itineraryScrollyPanel}`}
             >

@@ -46,8 +46,7 @@ export function RegionEditorialPage({ data }: { data: LoadedRegionMdx }) {
             <p className="region-directory-section__eyebrow">Interactive directory</p>
             <h2 className="region-directory-section__title">Explore {regionName}</h2>
             <p className="region-directory-section__dek">
-              Featured picks appear as larger cards with editorial photography. Scroll the list or
-              pan the map — filter by tasting rooms, dining, or hotels.
+              Scroll the list or pan the map — filter by tasting rooms, dining, or hotels.
             </p>
           </div>
           <ExploreMapSection

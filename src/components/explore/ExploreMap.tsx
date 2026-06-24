@@ -503,7 +503,8 @@ export function ExploreMap({
               visiblePins.map((pin) => {
                 const cfg = CATEGORY_CONFIG[pin.category]
                 const CatIcon = CATEGORY_ICONS[pin.category]
-                const isEditorial = pin.editorial
+                const hasListingPhoto = Boolean(pin.thumb)
+                const showLongCopy = pin.editorial && pin.excerptFull
                 const routeStop = routeIndexBySlug[pin.slug]
                 const isSelected =
                   pin.slug === activePlace || pin.slug === scrollCenterSlug
@@ -518,7 +519,7 @@ export function ExploreMap({
                       rowRefs.current[pin.slug] = el
                     }}
                     className={`${styles.row} ${isSelected ? styles.rowSelected : ''}${
-                      isEditorial ? ` ${styles.rowEditorial}` : ''
+                      hasListingPhoto ? ` ${styles.rowWithPhoto}` : ''
                     }${routeStop ? ` ${styles.rowRouteStop}` : ''}`}
                     onClick={() => selectPin(pin, false)}
                     onMouseEnter={() => setHoveredSlug(pin.slug)}
@@ -533,9 +534,9 @@ export function ExploreMap({
                           <Image
                             src={pin.thumb}
                             alt=""
-                            width={isEditorial ? 128 : 96}
-                            height={isEditorial ? 128 : 96}
-                            sizes={isEditorial ? '160px' : '120px'}
+                            width={hasListingPhoto ? 112 : 96}
+                            height={hasListingPhoto ? 112 : 96}
+                            sizes={hasListingPhoto ? '140px' : '120px'}
                             className={styles.thumbImage}
                           />
                         ) : (
@@ -550,20 +551,17 @@ export function ExploreMap({
                       </div>
                     </div>
                     <div className={styles.rowCopy}>
-                      {isEditorial ? (
-                        <p className={styles.editorialBadge}>Featured in this guide</p>
-                      ) : null}
                       <p className={styles.eyebrow} style={{ color: cfg.color }}>
                         <CatIcon className={styles.eyebrowIcon} size={11} strokeWidth={2.25} aria-hidden />
                         {cfg.label}
                       </p>
                       <p className={styles.name}>{pin.name}</p>
                       <p
-                        className={`${styles.meta}${isEditorial ? ` ${styles.metaEditorial}` : ''}${
+                        className={`${styles.meta}${showLongCopy ? ` ${styles.metaEditorial}` : ''}${
                           copyExpanded ? ` ${styles.metaExpanded}` : ''
                         }`}
                       >
-                        {isEditorial
+                        {showLongCopy
                           ? displayCopy
                           : `${regionDisplayName(pin.region)} · ${displayCopy}`}
                       </p>
@@ -580,7 +578,7 @@ export function ExploreMap({
                         </button>
                       ) : null}
                       <Link href={pin.href} className={styles.detailsLink} onClick={(e) => e.stopPropagation()}>
-                        {isEditorial ? 'Read full profile →' : 'View details →'}
+                        View details →
                       </Link>
                     </div>
                   </button>

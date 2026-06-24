@@ -21,9 +21,12 @@ python3 scripts/import-region-drive-images.py --mosaic-only --dir .tmp-drive-imp
 
 # Homepage appellation hover stills only
 python3 scripts/import-region-drive-images.py --scroll-reveals-only --dir .tmp-drive-import
+
+# Itinerary stop stills only (Drive `Itinerary` / `Itinieries` folders per region)
+python3 scripts/import-region-drive-images.py --itinerary-only --dir .tmp-drive-import
 ```
 
-Maps `01_Oakville` … `06_Downtown_Napa` into `public/images/{slug}/` and updates `src/content/regions/*.mdx` image paths.
+Maps `01_Oakville` … `06_Downtown_Napa` (and `07`/`08` for Pritchard Hill) into `public/images/{slug}/` and updates `src/content/regions/*.mdx` image paths. Itinerary stills land in `{slug}/itineraries/{itinerary-id}/` and keys are written to `src/data/region-itinerary-images.json`.
 
 **Not in the default zip:** `07_Beyond Downtown` (Pritchard Hill) — pull from Drive separately when available.
 
@@ -73,6 +76,7 @@ Property-level images are **not** nested in per-property subfolders: both crops 
 | `{region-slug}/breakfast/` | Breakfast section hero (where applicable) |
 | `{region-slug}/hotels/` | Hotel section images |
 | `{region-slug}/sidebar/` | Sidebar callout imagery |
+| `{region-slug}/itineraries/{itinerary-id}/` | Itinerary stop stills (`{stop-slug}-landscape.jpg` + portrait pair) |
 
 **Region slugs in this repo:** `yountville`, `oakville`, `rutherford`, `st-helena`, `calistoga`, `pritchard-hill`, `downtown-napa`.
 

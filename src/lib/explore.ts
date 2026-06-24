@@ -100,7 +100,7 @@ function comparePinsByName(a: MapPin, b: MapPin): number {
   return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
 }
 
-/** Featured editorial picks with photography, then the rest — each bucket alpha by name. */
+/** Alphabetical within category: tastings → hotels → dining. */
 export function sortExploreListPins(pins: MapPin[]): MapPin[] {
   const byCategory = new Map<MapPinCategory, MapPin[]>()
 
@@ -116,17 +116,8 @@ export function sortExploreListPins(pins: MapPin[]): MapPin[] {
     const categoryPins = byCategory.get(category)
     if (!categoryPins?.length) continue
 
-    const featuredWithImage: MapPin[] = []
-    const rest: MapPin[] = []
-
-    for (const pin of categoryPins) {
-      if (pin.editorial && pinHasListingImage(pin)) featuredWithImage.push(pin)
-      else rest.push(pin)
-    }
-
-    featuredWithImage.sort(comparePinsByName)
-    rest.sort(comparePinsByName)
-    sorted.push(...featuredWithImage, ...rest)
+    categoryPins.sort(comparePinsByName)
+    sorted.push(...categoryPins)
     byCategory.delete(category)
   }
 

@@ -141,24 +141,36 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
 
   const eatBlocks = splitH2Blocks(eatMd)
   const restaurantBlocks: { title: string; body: string }[] = []
+  const coffeeSnackBlocks: { title: string; body: string }[] = []
   let breakfastInner: { title: string; body: string } | null = null
 
   const skipEatDirectoryH2 = new Set(['Restaurant Directory', 'Breakfast, Coffee & Snacks Directory'])
 
-  for (const b of eatBlocks) {
-    if (skipEatDirectoryH2.has(b.title.trim())) continue
-    if (b.title.toLowerCase().includes('breakfast')) {
-      const trimmed = b.body.trim()
-      const m = trimmed.match(/^### ([^\n]+)\n([\s\S]*)$/m)
-      if (m) breakfastInner = { title: m[1].trim(), body: m[2].trim() }
-    } else {
-      restaurantBlocks.push(b)
-    }
+  const isCoffeeSnackSection = (title: string) => {
+    const t = title.trim().toLowerCase()
+    if (t.includes('directory')) return false
+    return t.includes('breakfast') || (t.includes('coffee') && t.includes('snack'))
   }
 
+  for (const b of eatBlocks) {
+    if (skipEatDirectoryH2.has(b.title.trim())) continue
+    if (isCoffeeSnackSection(b.title)) {
+      const h3Blocks = splitH3Blocks(b.body)
+      if (h3Blocks.length > 0) {
+        coffeeSnackBlocks.push(...h3Blocks)
+      } else if (b.body.trim()) {
+        coffeeSnackBlocks.push({ title: b.title.trim(), body: b.body })
+      }
+      continue
+    }
+    restaurantBlocks.push(b)
+  }
+
+  const allEatBlocks = [...restaurantBlocks, ...coffeeSnackBlocks]
+
   const featuredRestaurants: EditorialFeature[] = []
-  for (let i = 0; i < restaurantBlocks.length; i++) {
-    const b = restaurantBlocks[i]
+  for (let i = 0; i < allEatBlocks.length; i++) {
+    const b = allEatBlocks[i]
     const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(b.body)
     featuredRestaurants.push({
       name: b.title,
@@ -185,20 +197,6 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   )
 
   let breakfast: EditorialFeature | null = null
-  if (breakfastInner) {
-    const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(breakfastInner.body)
-    const pos = restaurantBlocks.length % 2 === 0 ? 'left' : 'right'
-    breakfast = {
-      name: breakfastInner.title,
-      address,
-      website,
-      body: await compileMarkdown(bodyMd),
-      bodyPlain: markdownToPlainText(bodyMd),
-      imagePosition: pos,
-      image: editorialOnlyImage(image),
-      imagePortrait: editorialOnlyImage(imagePortrait),
-    }
-  }
 
   let featuredHotels: EditorialFeature[] = []
   let lodgingDirectory: TastingDirectoryRow[] = []
