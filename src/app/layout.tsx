@@ -10,6 +10,10 @@ const siteUrl = getSiteUrl()
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  icons: {
+    icon: [{ url: '/favicon.png', type: 'image/png', sizes: '32x32' }],
+    apple: [{ url: '/apple-touch-icon.png', type: 'image/png' }],
+  },
   title: {
     default: 'Napa Valley | Wine Spectator\'s Ultimate Guide',
     template: '%s | Napa Valley Guide — Wine Spectator',
