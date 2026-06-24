@@ -288,7 +288,7 @@ body {
   color: rgba(250, 247, 242, 0.88);
 }
 
-/* Homepage fixed nav — TRH-style: logo left, menu right, generous top inset */
+/* Homepage fixed nav — TRH-style: compact label left, thin hamburger right */
 .home-nav {
   position: fixed;
   top: 0;
@@ -298,74 +298,63 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: calc(14px + env(safe-area-inset-top, 0px)) clamp(20px, 4vw, 36px) 14px;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) clamp(24px, 4.5vw, 40px) 18px;
   box-sizing: border-box;
+  will-change: opacity;
 }
 
-.home-nav a[href='/'] {
+.home-nav-brand {
   display: flex;
   align-items: center;
+  gap: clamp(10px, 1.1vw, 14px);
   text-decoration: none;
-  gap: var(--ws-nav-brand-gap);
+  max-width: min(100%, 72vw);
 }
 
-.home-nav a[href='/'] > span:first-of-type {
-  display: block;
-  width: 2px;
-  height: 36px;
+.home-nav-brand__part {
+  font-family: var(--font-body);
+  font-size: clamp(9px, 0.72vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bordeaux);
+  transition: color 0.28s ease;
+  line-height: 1.2;
+}
+
+.home-nav-brand__rule {
+  width: 1px;
+  height: 11px;
   flex-shrink: 0;
-  background: var(--bordeaux);
+  background: rgba(107, 45, 45, 0.45);
   transition: background 0.28s ease;
 }
 
 .home-nav > button {
-  padding: 4px;
+  padding: 6px 2px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 9px;
   align-items: flex-end;
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.home-nav a[href='/'] > div > img {
-  height: var(--ws-nav-logo-height) !important;
-  width: auto !important;
-  margin-bottom: 6px !important;
-  filter: invert(1);
-  transition: filter 0.28s ease;
-}
-
-.home-nav a[href='/'] > div > span {
-  display: block;
-  font-family: var(--font-body);
-  font-size: var(--ws-nav-tagline-size) !important;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--bordeaux);
-  transition: color 0.28s ease;
-}
-
 .home-nav__hamburger-bar {
   display: block;
   transition: background 0.28s ease;
   background: var(--bordeaux);
-  width: 28px;
-  height: 1.5px;
+  width: 30px;
+  height: 1px;
 }
 
-.home-nav--over-imagery a[href='/'] > div > img {
-  filter: invert(1);
+.home-nav--over-imagery .home-nav-brand__part {
+  color: rgba(250, 247, 242, 0.9);
 }
 
-.home-nav--over-imagery a[href='/'] > div > span {
-  color: rgba(250, 247, 242, 0.92);
-}
-
-.home-nav--over-imagery a[href='/'] > span:first-of-type {
-  background: #faf7f2;
+.home-nav--over-imagery .home-nav-brand__rule {
+  background: rgba(250, 247, 242, 0.38);
 }
 
 .home-nav--over-imagery .home-nav__hamburger-bar {
@@ -381,15 +370,15 @@ body:has([data-page="home-hero"]) {
   --ws-persistent-nav-height: 0px;
 }
 
-/* Hero quote — centered in open mosaic space (TRH pattern), not over tiles */
+/* Hero quote — centered in open mosaic band (TRH), above tiles */
 .home-hero-tagline {
   position: absolute;
   left: 50%;
-  top: 46%;
+  top: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  z-index: 18;
-  width: min(100%, 560px);
+  z-index: 22;
+  width: min(100%, 480px);
   padding: 0 clamp(20px, 4vw, 32px);
   pointer-events: none;
   will-change: opacity;
@@ -398,12 +387,12 @@ body:has([data-page="home-hero"]) {
 .home-hero-tagline::before {
   content: '';
   position: absolute;
-  inset: -40px -56px;
+  inset: -48px -72px;
   background: radial-gradient(
-    ellipse 85% 70% at center,
-    rgba(13, 11, 9, 0.82) 0%,
-    rgba(13, 11, 9, 0.45) 45%,
-    rgba(13, 11, 9, 0) 72%
+    ellipse 90% 75% at center,
+    rgba(13, 11, 9, 0.9) 0%,
+    rgba(13, 11, 9, 0.55) 42%,
+    rgba(13, 11, 9, 0) 70%
   );
   z-index: -1;
   pointer-events: none;
@@ -422,11 +411,6 @@ body:has([data-page="home-hero"]) {
   font-size: clamp(22px, 2.8vw, 38px);
   line-height: 1.28;
   letter-spacing: -0.01em;
-}
-
-.home-hero-fullscreen-overlay > div:first-child img {
-  height: var(--ws-nav-logo-height) !important;
-  width: auto !important;
 }
 
 .home-hero-center {
@@ -460,32 +444,35 @@ body:has([data-page="home-hero"]) {
   opacity: 1;
 }
 
-/* Bottom display title — keep descenders (y, g) inside the sticky viewport */
+.home-hero-sticky {
+  overflow: hidden;
+}
+
+/* Bottom display title — TRH scale, fitted to viewport width */
 .home-hero-display {
   position: absolute;
-  bottom: clamp(14px, 2.8vh, 36px);
+  bottom: 0;
   left: 0;
   right: 0;
   text-align: center;
   z-index: 12;
   pointer-events: none;
-  overflow: visible;
   will-change: opacity;
-  padding: 0 clamp(8px, 2vw, 24px);
+  padding: 0 clamp(20px, 4vw, 48px) max(12px, env(safe-area-inset-bottom, 0px));
   box-sizing: border-box;
 }
 
-.home-hero-display span {
+.home-hero-display__title {
   display: block;
   font-family: var(--font-display, 'Cormorant Garamond', serif);
   font-style: italic;
   font-weight: 300;
-  font-size: clamp(112px, 19vw, 340px);
+  font-size: min(clamp(88px, 14.5vw, 300px), calc((100vw - 4rem) / 5.6));
   color: var(--cream, #f7f3ec);
   letter-spacing: -0.03em;
-  line-height: 1.02;
+  line-height: 0.92;
   white-space: nowrap;
-  padding-bottom: 0.12em;
+  padding-bottom: 0.06em;
 }
 
 /* Homepage + pinned region cards: eyebrow / taglines legible on warm, bright imagery */
@@ -495,7 +482,7 @@ body:has([data-page="home-hero"]) {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.home-hero-fullscreen-overlay > div:nth-child(2) > div:first-child > p {
+.home-hero-fullscreen-overlay__footer > div:first-child > p {
   color: rgba(250, 247, 242, 0.92) !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -1098,20 +1085,19 @@ html.lenis body {
   }
 
   .home-hero-tagline {
-    top: 44% !important;
+    top: 48% !important;
     z-index: 22 !important;
     max-width: min(100%, 92vw) !important;
   }
 
   .home-hero-display {
-    bottom: max(16px, env(safe-area-inset-bottom, 0px)) !important;
+    bottom: max(12px, env(safe-area-inset-bottom, 0px)) !important;
     left: 0 !important;
     right: 0 !important;
-    padding: 0 12px !important;
-    overflow: visible !important;
+    padding: 0 16px max(12px, env(safe-area-inset-bottom, 0px)) !important;
   }
 
-  .home-hero-display span {
+  .home-hero-display__title {
     font-size: clamp(40px, 11vw, 88px) !important;
     white-space: normal !important;
     line-height: 1.05 !important;

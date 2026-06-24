@@ -26,11 +26,11 @@ const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
 // ── Mosaic panel positions (mirroring therealhotels) ─────────────────
 const PANELS = [
-  { id: 1, style: { width: 200, height: 260, top: '8%', left: '5%' } },
-  { id: 2, style: { width: 160, height: 210, top: '28%', left: '10%' } },
-  { id: 3, style: { width: 260, height: 200, top: '10%', left: '28%' } },
-  { id: 4, style: { width: 180, height: 240, bottom: '14%', right: '10%' } },
-  { id: 5, style: { width: 160, height: 200, bottom: '30%', left: '62%' } },
+  { id: 1, style: { width: 200, height: 260, top: '5%', left: '3%' } },
+  { id: 2, style: { width: 160, height: 210, top: '32%', left: '6%' } },
+  { id: 3, style: { width: 240, height: 190, top: '6%', left: '18%' } },
+  { id: 4, style: { width: 180, height: 240, bottom: '10%', right: '6%' } },
+  { id: 5, style: { width: 150, height: 190, bottom: '22%', right: '24%' } },
 ]
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
@@ -67,6 +67,8 @@ export default function HomePage() {
   const heroCopyRef = useRef<HTMLDivElement>(null)
   const heroDisplayRef = useRef<HTMLDivElement>(null)
   const fullscreenOverlayRef = useRef<HTMLDivElement>(null)
+  const homeNavRef = useRef<HTMLElement>(null)
+  const heroTopScrimRef = useRef<HTMLDivElement>(null)
   const heroVideoRef = useRef<HTMLVideoElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
@@ -112,6 +114,28 @@ export default function HomePage() {
     gsap.set(centerPanel, { ...start, right: 'auto' })
   }, [])
 
+  /** Shrink display title so "Napa Valley" never clips inside overflow:hidden sticky hero */
+  useLayoutEffect(() => {
+    const container = heroDisplayRef.current
+    const title = container?.querySelector<HTMLSpanElement>('.home-hero-display__title')
+    if (!container || !title) return
+
+    const fitTitle = () => {
+      title.style.fontSize = ''
+      const maxWidth = container.clientWidth
+      let size = parseFloat(getComputedStyle(title).fontSize)
+      const minSize = window.innerWidth <= 768 ? 36 : 72
+      while (title.scrollWidth > maxWidth && size > minSize) {
+        size -= 1
+        title.style.fontSize = `${size}px`
+      }
+    }
+
+    fitTitle()
+    window.addEventListener('resize', fitTitle)
+    return () => window.removeEventListener('resize', fitTitle)
+  }, [])
+
   useEffect(() => {
     const video = heroVideoRef.current
     if (!video) return
@@ -145,6 +169,8 @@ export default function HomePage() {
     const heroCopy = heroCopyRef.current
     const heroDisplay = heroDisplayRef.current
     const fullscreenOverlay = fullscreenOverlayRef.current
+    const homeNav = homeNavRef.current
+    const heroTopScrim = heroTopScrimRef.current
     const panels = panelRefs.current
 
     if (!scrollContainer || !centerPanel) return
@@ -205,6 +231,24 @@ export default function HomePage() {
       heroTl.to(heroDisplay, { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0.15)
     }
 
+    // Hide fixed nav + top scrim during fullscreen video (avoids double-nav with overlay logo)
+    if (homeNav) {
+      heroTl.to(
+        homeNav,
+        { opacity: 0, pointerEvents: 'none', duration: 0.18, ease: 'power2.out' },
+        0.15,
+      )
+      heroTl.to(
+        homeNav,
+        { opacity: 1, pointerEvents: 'auto', duration: 0.18, ease: 'power2.out' },
+        0.82,
+      )
+    }
+    if (heroTopScrim) {
+      heroTl.to(heroTopScrim, { opacity: 0, duration: 0.18, ease: 'power2.out' }, 0.15)
+      heroTl.to(heroTopScrim, { opacity: 1, duration: 0.18, ease: 'power2.out' }, 0.82)
+    }
+
     // Fullscreen overlay fade in (after the dead-air pause beat)
     if (fullscreenOverlay) {
       heroTl.fromTo(
@@ -246,29 +290,21 @@ export default function HomePage() {
 
   return (
     <div data-page="home-hero">
-      {/* ── NAV (therealhotels: branded label left, hamburger right) ── */}
+      {/* ── NAV (TRH: compact uppercase label + hamburger) ── */}
       <nav
+        ref={homeNavRef}
         className={homeNavOverImagery ? 'home-nav home-nav--over-imagery' : 'home-nav'}
       >
-        <Link href="/">
-          <span aria-hidden />
-          <div>
-            <Image
-              src="/logos/WS_logo__1_.png"
-              alt="Wine Spectator"
-              width={180}
-              height={36}
-              style={{ width: 'auto' }}
-            />
-            <span>Napa Valley Guide</span>
-          </div>
+        <Link href="/" className="home-nav-brand">
+          <span className="home-nav-brand__part">Wine Spectator</span>
+          <span className="home-nav-brand__rule" aria-hidden="true" />
+          <span className="home-nav-brand__part">Napa Valley Guide</span>
         </Link>
         <button
           onClick={() => setMenuOpen(true)}
           aria-label="Open menu"
           type="button"
         >
-          <span className="home-nav__hamburger-bar" />
           <span className="home-nav__hamburger-bar" />
           <span className="home-nav__hamburger-bar" />
         </button>
@@ -279,16 +315,16 @@ export default function HomePage() {
       {/* ── STICKY SCROLL HERO (400vh) — progress drives panel via JS, not React state ── */}
       <div ref={scrollContainerRef} style={{ position: 'relative', height: '400vh' }}>
         <div
+          className="home-hero-sticky"
           style={{
             position: 'sticky',
             top: 0,
             height: '100vh',
-            overflow: 'hidden',
             background: '#0D0B09',
             zIndex: 10,
           }}
         >
-          <div className="hero-top-scrim hero-top-scrim--home-sticky" aria-hidden />
+          <div className="hero-top-scrim hero-top-scrim--home-sticky" ref={heroTopScrimRef} aria-hidden />
           <div
             ref={mosaicRef}
             className="home-hero-mosaic"
@@ -370,7 +406,7 @@ export default function HomePage() {
           </div>
 
           <div ref={heroDisplayRef} className="home-hero-display">
-            <span>Napa Valley</span>
+            <span className="home-hero-display__title">Napa Valley</span>
           </div>
 
           <div
@@ -385,16 +421,8 @@ export default function HomePage() {
               willChange: 'opacity',
             }}
           >
-            <div style={{ position: 'absolute', top: 28, left: 36 }}>
-              <Image
-                src="/logos/WS_logo__1_.png"
-                alt="Wine Spectator"
-                width={171}
-                height={36}
-                style={{ filter: 'invert(1)', width: 'auto' }}
-              />
-            </div>
             <div
+              className="home-hero-fullscreen-overlay__footer"
               style={{
                 position: 'absolute',
                 bottom: 60,
