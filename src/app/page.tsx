@@ -70,6 +70,7 @@ export default function HomePage() {
   const heroVideoRef = useRef<HTMLVideoElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
+  const [heroVideoReady, setHeroVideoReady] = useState(false)
   const [homeNavOverImagery, setHomeNavOverImagery] = useState(true)
   /** Slot-matched crops; rotation never shows the same still on two tiles at once */
   const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
@@ -109,6 +110,30 @@ export default function HomePage() {
     if (!centerPanel) return
     const start = heroPanelStart()
     gsap.set(centerPanel, { ...start, right: 'auto' })
+  }, [])
+
+  useEffect(() => {
+    const video = heroVideoRef.current
+    if (!video) return
+
+    const markReadyAndPlay = () => {
+      setHeroVideoReady(true)
+      video.muted = true
+      video.play().catch(() => {
+        /* autoplay blocked — poster / fallback remain */
+      })
+    }
+
+    video.addEventListener('loadeddata', markReadyAndPlay)
+    video.addEventListener('playing', markReadyAndPlay)
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      markReadyAndPlay()
+    }
+
+    return () => {
+      video.removeEventListener('loadeddata', markReadyAndPlay)
+      video.removeEventListener('playing', markReadyAndPlay)
+    }
   }, [])
 
   useEffect(() => {
@@ -204,21 +229,6 @@ export default function HomePage() {
       )
     })
 
-    // ── Lazy-load the hero video after first paint ──
-    // Defers video network request so it doesn't compete with critical assets
-    // (mosaic images, fonts, JS bundles). Video starts playing once loaded —
-    // user sees the poster during the brief load window. Saves ~200ms TTI.
-    const videoLoadTimer = window.setTimeout(() => {
-      const video = heroVideoRef.current
-      if (video && !video.src) {
-        video.src = HERO_VIDEO
-        video.load()
-        video.play().catch(() => {
-          // Autoplay blocked; poster remains visible — acceptable fallback
-        })
-      }
-    }, 400)
-
     const onResize = () => {
       gsap.set(centerPanel, { ...heroPanelStart(), right: 'auto' })
       ScrollTrigger.refresh()
@@ -228,7 +238,6 @@ export default function HomePage() {
     return () => {
       window.removeEventListener('resize', onResize)
       heroTl.kill()
-      window.clearTimeout(videoLoadTimer)
       ScrollTrigger.getAll().forEach((st) => {
         if (st.trigger === scrollContainer) st.kill()
       })
@@ -331,7 +340,7 @@ export default function HomePage() {
             }}
           >
             <Image
-              className="home-hero-center-fallback"
+              className={`home-hero-center-fallback${heroVideoReady ? ' home-hero-center-fallback--hidden' : ''}`}
               src={heroCenterFallback}
               alt=""
               fill
@@ -341,20 +350,14 @@ export default function HomePage() {
             />
             <video
               ref={heroVideoRef}
-              className="home-hero-video"
+              className={`home-hero-video${heroVideoReady ? ' home-hero-video--ready' : ''}`}
+              src={HERO_VIDEO}
               poster={HERO_POSTER}
               muted
               loop
+              autoPlay
               playsInline
-              preload="none"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                filter: 'brightness(1.3) contrast(1.1)',
-              }}
+              preload="auto"
             />
           </div>
 
