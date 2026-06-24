@@ -74,39 +74,11 @@ export default function HomePage() {
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
   const [heroVideoReady, setHeroVideoReady] = useState(false)
-  const [homeNavOverImagery, setHomeNavOverImagery] = useState(true)
   /** Slot-matched crops; rotation never shows the same still on two tiles at once */
   const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
   const mosaicVisible = useHomeMosaicRotation(mosaicPanelQueues)
   const heroCenterFallback =
     mosaicVisible[2]?.src ?? '/images/homepage/mosaic/collage-alila.jpg'
-
-  useLayoutEffect(() => {
-    const el = scrollContainerRef.current
-    if (!el) return
-
-    let ticking = false
-    const sync = () => {
-      ticking = false
-      const bottom = el.offsetTop + el.offsetHeight
-      setHomeNavOverImagery(window.scrollY < bottom)
-    }
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true
-        requestAnimationFrame(sync)
-      }
-    }
-
-    sync()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-    }
-  }, [])
 
   useLayoutEffect(() => {
     const centerPanel = centerPanelRef.current
@@ -296,10 +268,7 @@ export default function HomePage() {
   return (
     <div data-page="home-hero">
       {/* ── NAV (TRH: compact uppercase label + hamburger) ── */}
-      <nav
-        ref={homeNavRef}
-        className={homeNavOverImagery ? 'home-nav home-nav--over-imagery' : 'home-nav'}
-      >
+      <nav ref={homeNavRef} className="home-nav">
         <Link href="/" className="home-nav-brand">
           <span className="home-nav-brand__part">Wine Spectator</span>
           <span className="home-nav-brand__rule" aria-hidden="true" />

@@ -349,15 +349,16 @@ body {
   height: 1px;
 }
 
-.home-nav--over-imagery .home-nav-brand__part {
+/* Homepage nav stays light on dark — entire page is #0D0B09 below hero too */
+body:has([data-page="home-hero"]) .home-nav-brand__part {
   color: rgba(250, 247, 242, 0.9);
 }
 
-.home-nav--over-imagery .home-nav-brand__rule {
+body:has([data-page="home-hero"]) .home-nav-brand__rule {
   background: rgba(250, 247, 242, 0.38);
 }
 
-.home-nav--over-imagery .home-nav__hamburger-bar {
+body:has([data-page="home-hero"]) .home-nav__hamburger-bar {
   background: #faf7f2;
 }
 
