@@ -27,6 +27,9 @@ MDX_DIR = ROOT / "src" / "content" / "regions"
 MOSAIC_DIR = IMAGES / "homepage" / "mosaic"
 SCROLL_REVEALS_DIR = IMAGES / "homepage" / "region-scroll-reveals"
 
+# Removed from hero mosaic rotation (duplicate / editorial request)
+MOSAIC_EXCLUDED_FILES = frozenset({"collage-charlies.jpg"})
+
 # 00_Homepage/02_Region_Scroll_Reveals/{folder}
 SCROLL_REVEAL_FOLDER_SLUG: dict[str, str] = {
     "Calistoga": "calistoga",
@@ -251,7 +254,9 @@ def import_homepage_mosaic(source_dir: Path) -> int:
 
     MOSAIC_DIR.mkdir(parents=True, exist_ok=True)
     targets = {
-        p.stem.lower().replace("-", "_"): p.name for p in MOSAIC_DIR.glob("collage-*.jpg")
+        p.stem.lower().replace("-", "_"): p.name
+        for p in MOSAIC_DIR.glob("collage-*.jpg")
+        if p.name not in MOSAIC_EXCLUDED_FILES
     }
     copied = 0
     candidates: list[Path] = sorted(collage_root.glob("*.jpg"))

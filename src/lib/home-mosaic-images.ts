@@ -30,7 +30,6 @@ export const MOSAIC_IMAGE_CATALOG: MosaicImageAsset[] = [
   { src: '/images/homepage/mosaic/collage-bella.jpg', orientation: 'portrait' },
   { src: '/images/homepage/mosaic/collage-bike.jpg', orientation: 'landscape' },
   { src: '/images/homepage/mosaic/collage-calistoga.jpg', orientation: 'landscape' },
-  { src: '/images/homepage/mosaic/collage-charlies.jpg', orientation: 'portrait' },
   { src: '/images/homepage/mosaic/collage-clementine-nhr.jpg', orientation: 'portrait' },
   { src: '/images/homepage/mosaic/collage-grgich.jpg', orientation: 'landscape' },
   { src: '/images/homepage/mosaic/collage-grigich.jpg', orientation: 'portrait' },
