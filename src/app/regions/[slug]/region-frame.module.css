@@ -367,9 +367,24 @@
 /* ── Explore panel ── */
 .explorePanel {
   position: relative;
-  height: calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height));
-  min-height: 480px;
+  height: min(
+    82vh,
+    calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height))
+  );
+  min-height: 420px;
   background: #faf7f2;
+}
+
+.explorePanel::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(250, 247, 242, 0.92));
+  z-index: 12;
 }
 
 .exploreScrollMore {
@@ -582,6 +597,68 @@
   );
 }
 
+.scrollDock {
+  position: fixed;
+  right: clamp(12px, 2vw, 20px);
+  bottom: clamp(20px, 4vh, 36px);
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 6px;
+  border: 1px solid rgba(247, 243, 236, 0.14);
+  border-radius: 999px;
+  background: rgba(13, 11, 9, 0.82);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.scrollDockLabel {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.45);
+  padding: 2px 0;
+}
+
+.scrollDockBtn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--cream);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.scrollDockBtn:hover {
+  background: rgba(196, 148, 58, 0.2);
+  color: var(--gold);
+}
+
+@media (max-width: 1023px) {
+  .scrollDock {
+    right: 12px;
+    bottom: 16px;
+    padding: 6px 4px;
+  }
+
+  .scrollDockBtn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 1023px) {
   .hero {
     height: 38vh;
@@ -630,7 +707,10 @@
   }
 
   .explorePanel {
-    height: calc(100dvh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height));
+    height: min(
+      78dvh,
+      calc(100dvh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height))
+    );
   }
 
   .heroScrollHint {

@@ -16,6 +16,11 @@ function cssVarPx(name: string, fallback: number): number {
   return Number.isFinite(n) ? n : fallback
 }
 
+function regionUsesNativeScroll(): boolean {
+  return typeof document !== 'undefined' &&
+    document.documentElement.hasAttribute('data-region-native-scroll')
+}
+
 /** Reset document scroll (Lenis-aware). Use on route changes so new pages open at the top. */
 export function resetScrollToTop(lenis: Lenis | null): void {
   if (lenis) {
@@ -38,6 +43,12 @@ export function scrollToTarget(
     -(cssVarPx('--ws-site-header-height', 72) +
       cssVarPx('--region-tab-bar-height', 52) +
       extraOffset)
+
+  if (regionUsesNativeScroll() || !lenis) {
+    const top = target.getBoundingClientRect().top + window.scrollY - Math.abs(offset)
+    window.scrollTo({ top, behavior: 'smooth' })
+    return
+  }
 
   if (lenis) {
     lenis.scrollTo(target, { offset, duration: 0.85, force: true })

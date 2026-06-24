@@ -149,6 +149,11 @@ function RegionPageClientContent({
   const skipInitialScrollRef = useRef(true)
 
   useEffect(() => {
+    document.documentElement.setAttribute('data-region-native-scroll', '')
+    return () => document.documentElement.removeAttribute('data-region-native-scroll')
+  }, [])
+
+  useEffect(() => {
     const onScroll = () => setShowScrollHint(window.scrollY < 100)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -179,6 +184,7 @@ function RegionPageClientContent({
       className={styles.frame}
       data-site-surface="dark"
       data-region-frame=""
+      data-lenis-prevent=""
       data-active-tab={activeTab}
     >
       <header className={styles.hero}>
@@ -264,6 +270,7 @@ function RegionPageClientContent({
                   pins={explorePins}
                   scopedRegion={slug}
                   showRegionFilter={false}
+                  embedMode
                 />
               ) : (
                 <p style={{ padding: 48, textAlign: 'center', color: '#6b6560' }}>
@@ -302,6 +309,26 @@ function RegionPageClientContent({
         <RegionMoreAppellations slug={slug} />
         <Footer />
       </div>
+
+      <nav className={styles.scrollDock} aria-label="Page scroll">
+        <button
+          type="button"
+          className={styles.scrollDockBtn}
+          onClick={scrollToPanel}
+          aria-label="Back to section top"
+        >
+          <span aria-hidden>↑</span>
+        </button>
+        <span className={styles.scrollDockLabel}>Scroll</span>
+        <button
+          type="button"
+          className={styles.scrollDockBtn}
+          onClick={scrollToBottom}
+          aria-label="Continue to more appellations"
+        >
+          <span aria-hidden>↓</span>
+        </button>
+      </nav>
     </div>
   )
 }

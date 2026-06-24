@@ -29,6 +29,7 @@ import {
 } from '@/lib/explore'
 import styles from './ExploreMap.module.css'
 import { ExploreMapPin } from './ExploreMapPin'
+import { MapWheelScrollBridge } from '@/components/map/MapWheelScrollBridge'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -527,28 +528,41 @@ export function ExploreMap({
                     onMouseEnter={() => setHoveredSlug(pin.slug)}
                     onMouseLeave={() => setHoveredSlug(null)}
                   >
-                    <div className={styles.thumb}>
-                      {routeStop ? (
-                        <span className={styles.routeStopBadge}>{routeStop}</span>
-                      ) : null}
+                    <div className={styles.thumbWrap}>
+                      <div className={styles.thumb}>
+                        {routeStop ? (
+                          <span className={styles.routeStopBadge}>{routeStop}</span>
+                        ) : null}
+                        {pin.thumb ? (
+                          <Image
+                            src={pin.thumb}
+                            alt=""
+                            width={isEditorial ? 128 : 96}
+                            height={isEditorial ? 128 : 96}
+                            sizes={isEditorial ? '160px' : '120px'}
+                            className={styles.thumbImage}
+                          />
+                        ) : (
+                          <div
+                            className={styles.thumbPlaceholder}
+                            style={{ background: cfg.color }}
+                            aria-hidden
+                          >
+                            <CatIcon className={styles.thumbIcon} size={28} strokeWidth={1.75} />
+                          </div>
+                        )}
+                      </div>
                       {pin.thumb ? (
-                        <Image
-                          src={pin.thumb}
-                          alt=""
-                          width={isEditorial ? 128 : 96}
-                          height={isEditorial ? 128 : 96}
-                          sizes={isEditorial ? '160px' : '120px'}
-                          className={styles.thumbImage}
-                        />
-                      ) : (
-                        <div
-                          className={styles.thumbPlaceholder}
-                          style={{ background: cfg.color }}
-                          aria-hidden
-                        >
-                          <CatIcon className={styles.thumbIcon} size={28} strokeWidth={1.75} />
+                        <div className={styles.thumbPopout} aria-hidden>
+                          <Image
+                            src={pin.thumb}
+                            alt=""
+                            fill
+                            sizes="320px"
+                            className={styles.thumbPopoutImage}
+                          />
                         </div>
-                      )}
+                      ) : null}
                     </div>
                     <div className={styles.rowCopy}>
                       {isEditorial ? (
@@ -592,8 +606,9 @@ export function ExploreMap({
         </div>
 
         <div
-          className={`${styles.mapColumn} ${mobileView === 'map' ? styles.mapColumnMobileOpen : ''}`}
-          data-lenis-prevent-wheel
+          className={`${styles.mapColumn} ${mobileView === 'map' ? styles.mapColumnMobileOpen : ''}${
+            embedMode ? ` ${styles.mapColumnEmbed}` : ''
+          }`}
         >
           {mobileView === 'map' && (
             <button
@@ -604,7 +619,7 @@ export function ExploreMap({
               ← Back to list
             </button>
           )}
-          <div className={styles.mapWrap} data-lenis-prevent-wheel>
+          <MapWheelScrollBridge className={styles.mapWrap}>
             <Map
               ref={mapRef}
               mapboxAccessToken={MAPBOX_TOKEN}
@@ -619,7 +634,7 @@ export function ExploreMap({
               attributionControl={false}
               scrollZoom
               doubleClickZoom
-              cooperativeGestures={false}
+              cooperativeGestures
               onLoad={handleMapLoad}
               onMoveEnd={onMapMove}
               onClick={() => {
@@ -698,59 +713,66 @@ export function ExploreMap({
                           src={selectedPin.thumb}
                           alt=""
                           fill
-                          sizes="280px"
+                          sizes="80px"
                           className={styles.popupThumbImage}
                         />
                       </div>
                     ) : null}
-                    <p
-                      className={styles.eyebrow}
-                      style={{ color: CATEGORY_CONFIG[selectedPin.category].color }}
-                    >
-                      {CATEGORY_CONFIG[selectedPin.category].label}
-                    </p>
-                    <p className={styles.popupName}>{selectedPin.name}</p>
-                    <p className={styles.popupExcerpt}>
-                      {selectedPin.excerptFull ?? selectedPin.excerpt}
-                    </p>
-                    <Link href={selectedPin.href} className={styles.detailsLink}>
-                      View details →
-                    </Link>
+                    <div className={styles.popupBody}>
+                      <p
+                        className={styles.eyebrow}
+                        style={{ color: CATEGORY_CONFIG[selectedPin.category].color }}
+                      >
+                        {CATEGORY_CONFIG[selectedPin.category].label}
+                      </p>
+                      <p className={styles.popupName}>{selectedPin.name}</p>
+                      <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
+                      <Link href={selectedPin.href} className={styles.popupLink}>
+                        View details →
+                      </Link>
+                    </div>
                   </div>
                 </Popup>
               )}
             </Map>
             <p className={styles.mapAttribution}>© Mapbox © OpenStreetMap</p>
-          </div>
+            {embedMode ? (
+              <p className={styles.mapScrollHint} aria-hidden>
+                Scroll to explore · Ctrl + scroll to zoom map
+              </p>
+            ) : null}
+          </MapWheelScrollBridge>
         </div>
       </div>
 
       {selectedPin && !isDesktop && mobileView === 'map' && (
         <div className={`${styles.bottomSheet} ${styles.bottomSheetOpen}`}>
-          {selectedPin.thumb ? (
-            <div className={styles.bottomSheetThumb}>
-              <Image
-                src={selectedPin.thumb}
-                alt=""
-                fill
-                sizes="100vw"
-                className={styles.bottomSheetThumbImage}
-              />
+          <div className={styles.bottomSheetInner}>
+            {selectedPin.thumb ? (
+              <div className={styles.bottomSheetThumb}>
+                <Image
+                  src={selectedPin.thumb}
+                  alt=""
+                  fill
+                  sizes="120px"
+                  className={styles.bottomSheetThumbImage}
+                />
+              </div>
+            ) : null}
+            <div className={styles.bottomSheetCopy}>
+              <p
+                className={styles.eyebrow}
+                style={{ color: CATEGORY_CONFIG[selectedPin.category].color }}
+              >
+                {CATEGORY_CONFIG[selectedPin.category].label}
+              </p>
+              <p className={styles.popupName}>{selectedPin.name}</p>
+              <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
+              <Link href={selectedPin.href} className={styles.detailsLink}>
+                View details →
+              </Link>
             </div>
-          ) : null}
-          <p
-            className={styles.eyebrow}
-            style={{ color: CATEGORY_CONFIG[selectedPin.category].color }}
-          >
-            {CATEGORY_CONFIG[selectedPin.category].label}
-          </p>
-          <p className={styles.popupName}>{selectedPin.name}</p>
-          <p className={styles.popupExcerpt}>
-            {selectedPin.excerptFull ?? selectedPin.excerpt}
-          </p>
-          <Link href={selectedPin.href} className={styles.detailsLink}>
-            View details →
-          </Link>
+          </div>
         </div>
       )}
 

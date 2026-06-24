@@ -1005,9 +1005,13 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
-.lenis.lenis-smooth [data-lenis-prevent],
-.lenis.lenis-smooth [data-lenis-prevent-wheel] {
-  overscroll-behavior: contain;
+html[data-region-native-scroll] .lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent],
+html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent-wheel] {
+  overscroll-behavior: auto;
 }
 
 .lenis.lenis-stopped {

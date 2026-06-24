@@ -12,6 +12,7 @@ import {
   TERRAIN_CONFIG,
 } from '@/lib/mapbox'
 import { ExploreMapPin } from '@/components/explore/ExploreMapPin'
+import { MapWheelScrollBridge } from '@/components/map/MapWheelScrollBridge'
 import {
   buildGoogleMapsRouteUrl,
   fetchItineraryDirections,
@@ -474,7 +475,7 @@ export default function ScrollyItinerary({
               </div>
             ) : null}
 
-            <div className={styles.mapCanvas}>
+            <MapWheelScrollBridge className={styles.mapCanvas}>
               {MAPBOX_TOKEN ? (
                 <Map
                   ref={mapRef}
@@ -490,6 +491,7 @@ export default function ScrollyItinerary({
                   mapStyle={SCROLLY_MAP_STYLE}
                   maxBounds={NAPA_BOUNDS}
                   attributionControl={false}
+                  cooperativeGestures
                   terrain={{
                     source: TERRAIN_CONFIG.source,
                     exaggeration: TERRAIN_CONFIG.exaggeration,
@@ -552,7 +554,10 @@ export default function ScrollyItinerary({
               ) : (
                 <p className={styles.mapFallback}>Map unavailable — configure Mapbox token.</p>
               )}
-            </div>
+              <p className={styles.mapScrollHint} aria-hidden>
+                Scroll the story · Ctrl + scroll to zoom map
+              </p>
+            </MapWheelScrollBridge>
           </div>
         </div>
       </div>
