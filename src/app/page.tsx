@@ -16,6 +16,8 @@ import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
 import Footer from '@/components/ui/Footer'
 import { NavMenuOverlay } from '@/components/ui/NavMenuOverlay'
+import { HomeStoriesSection } from '@/components/home/HomeStoriesSection'
+import { getStoryArticles } from '@/data/site-stories'
 
 const featuredRegions = regions
 
@@ -77,6 +79,7 @@ export default function HomePage() {
   const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
   const mosaicVisible = useHomeMosaicRotation(mosaicPanelQueues)
   const heroCenterFallback = pickHeroVideoFallback(mosaicVisible)
+  const storyArticles = useMemo(() => getStoryArticles(), [])
 
   useLayoutEffect(() => {
     const centerPanel = centerPanelRef.current
@@ -637,6 +640,8 @@ export default function HomePage() {
         </p>
         <NewsletterSubscribeForm variant="hero" />
         </section>
+
+      <HomeStoriesSection stories={storyArticles} />
 
       <div style={{ position: 'relative', zIndex: 1 }}>
         <Footer />

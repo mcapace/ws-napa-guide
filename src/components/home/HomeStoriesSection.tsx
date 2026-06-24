@@ -1,7 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Article } from '@/lib/types'
-import { storySectionLabel } from '@/data/site-stories'
+import {
+  STORY_SPOTLIGHT_SLUGS,
+  getStoryHeroImage,
+  storySectionLabel,
+} from '@/data/site-stories'
 import styles from './HomeStoriesSection.module.css'
 
 type Props = {
@@ -9,8 +13,52 @@ type Props = {
   showViewAll?: boolean
 }
 
+function StoryCard({
+  article,
+  variant = 'default',
+}: {
+  article: Article
+  variant?: 'default' | 'spotlight' | 'compact'
+}) {
+  return (
+    <Link
+      href={`/features/${article.slug}`}
+      className={`${styles.card} ${styles[`card_${variant}`]}`}
+    >
+      <div className={styles.imageWrap}>
+        <Image
+          src={getStoryHeroImage(article)}
+          alt=""
+          fill
+          sizes={
+            variant === 'spotlight'
+              ? '(max-width: 768px) 100vw, 50vw'
+              : variant === 'compact'
+                ? '(max-width: 768px) 100vw, 33vw'
+                : '(max-width: 768px) 100vw, 50vw'
+          }
+          className={styles.image}
+        />
+        <div className={styles.imageScrim} />
+      </div>
+      <div className={styles.body}>
+        <p className={styles.cardEyebrow}>{storySectionLabel(article.section)}</p>
+        <h3 className={styles.cardTitle}>{article.title}</h3>
+        {variant !== 'compact' && (
+          <p className={styles.cardExcerpt}>{article.excerpt}</p>
+        )}
+        <span className={styles.readLink}>Read story →</span>
+      </div>
+    </Link>
+  )
+}
+
 export function HomeStoriesSection({ stories, showViewAll = true }: Props) {
   if (stories.length === 0) return null
+
+  const spotlightSet = new Set<string>(STORY_SPOTLIGHT_SLUGS)
+  const spotlight = stories.filter((s) => spotlightSet.has(s.slug))
+  const rest = stories.filter((s) => !spotlightSet.has(s.slug))
 
   return (
     <section className={styles.section} aria-labelledby="home-stories-heading">
@@ -24,31 +72,21 @@ export function HomeStoriesSection({ stories, showViewAll = true }: Props) {
         </p>
       </header>
 
-      <div className={`${styles.grid} dim-siblings`}>
-        {stories.map((article) => (
-          <Link
-            key={article.slug}
-            href={`/features/${article.slug}`}
-            className={styles.card}
-          >
-            <div className={styles.imageWrap}>
-              <Image
-                src={article.images[0]}
-                alt=""
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className={styles.image}
-              />
-            </div>
-            <div className={styles.body}>
-              <p className={styles.cardEyebrow}>{storySectionLabel(article.section)}</p>
-              <h3 className={styles.cardTitle}>{article.title}</h3>
-              <p className={styles.cardExcerpt}>{article.excerpt}</p>
-              <span className={styles.readLink}>Read story →</span>
-            </div>
-          </Link>
-        ))}
-      </div>
+      {spotlight.length > 0 && (
+        <div className={`${styles.spotlightGrid} dim-siblings`}>
+          {spotlight.map((article) => (
+            <StoryCard key={article.slug} article={article} variant="spotlight" />
+          ))}
+        </div>
+      )}
+
+      {rest.length > 0 && (
+        <div className={`${styles.grid} ${styles.gridCompact} dim-siblings`}>
+          {rest.map((article) => (
+            <StoryCard key={article.slug} article={article} variant="compact" />
+          ))}
+        </div>
+      )}
 
       {showViewAll ? (
         <div className={styles.footer}>

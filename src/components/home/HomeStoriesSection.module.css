@@ -38,12 +38,24 @@
   color: rgba(247, 243, 236, 0.58);
 }
 
+.spotlightGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2.5vw, 24px);
+  max-width: 1100px;
+  margin: 0 auto clamp(24px, 4vw, 32px);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(16px, 2.5vw, 24px);
   max-width: 1100px;
   margin: 0 auto;
+}
+
+.gridCompact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .card {
@@ -61,6 +73,14 @@
   background: rgba(26, 22, 20, 0.82);
 }
 
+.card_spotlight .imageWrap {
+  aspect-ratio: 16 / 11;
+}
+
+.card_compact .imageWrap {
+  aspect-ratio: 16 / 10;
+}
+
 .imageWrap {
   position: relative;
   aspect-ratio: 16 / 10;
@@ -70,6 +90,18 @@
 .image {
   object-fit: cover;
   transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.imageScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(13, 11, 9, 0.55) 0%,
+    rgba(13, 11, 9, 0.08) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
 }
 
 .card:hover .image {
@@ -99,6 +131,15 @@
   line-height: 1.12;
   letter-spacing: -0.02em;
   color: #f7f3ec;
+}
+
+.card_spotlight .cardTitle {
+  font-size: clamp(26px, 3.2vw, 36px);
+}
+
+.card_compact .cardTitle {
+  font-size: clamp(20px, 2.4vw, 24px);
+  margin-bottom: 8px;
 }
 
 .cardExcerpt {
@@ -147,8 +188,16 @@
   color: var(--gold, #c4943a);
 }
 
+@media (max-width: 900px) {
+  .gridCompact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
-  .grid {
+  .spotlightGrid,
+  .grid,
+  .gridCompact {
     grid-template-columns: 1fr;
   }
 }

@@ -5,9 +5,10 @@ import Link from 'next/link'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import FeatureArticleLayout from '@/components/features/FeatureArticleLayout'
+import featureStyles from '@/components/features/FeatureArticleLayout.module.css'
 import { articles, featuredArticles } from '@/data/articles'
 import { getFeatureArticleContent } from '@/data/feature-articles'
-import { STORY_SLUGS } from '@/data/site-stories'
+import { getStoryHeroImage, STORY_SLUGS } from '@/data/site-stories'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { HorizontalStrip, type HorizontalStripItem } from '@/components/ui/HorizontalStrip'
@@ -116,7 +117,7 @@ function ReadNext({ slug }: { slug: string }) {
           >
             <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
               <Image
-                src={a.images[0]}
+                src={getStoryHeroImage(a)}
                 alt={a.title}
                 fill
                 sizes="33vw"
@@ -165,96 +166,38 @@ function GenericFeatureLayout({
   const midpoint = Math.floor(bodyParagraphs.length / 2)
 
   return (
-    <div data-site-surface="dark" style={{ background: '#0D0B09', color: '#F7F3EC', minHeight: '100vh' }}>
-      <section data-nav-hero-root style={{ position: 'relative', height: '70vh', minHeight: 400, overflow: 'hidden' }}>
+    <div className={featureStyles.page} data-site-surface="dark">
+      <section className={featureStyles.hero} data-nav-hero-root>
         <Image
           src={article.images[0]}
           alt={article.title}
           fill
           priority
           sizes="100vw"
-          style={{ objectFit: 'cover' }}
+          className={featureStyles.heroImage}
         />
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '50%',
-            background: 'linear-gradient(to bottom, transparent, #0D0B09)',
-          }}
-        />
-      </section>
-
-      <section style={{ padding: '48px 60px 40px', maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 10,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: '#C4943A',
-            marginBottom: 20,
-          }}
-        >
-          {article.section === 'feature' ? 'Feature' : article.section === 'dining' ? 'Dining' : 'Wine Spectator'} &middot; June 2026
-        </p>
-        <h1
-          data-text-split=""
-          data-letters-rotate-in=""
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 'clamp(40px, 7vw, 80px)',
-            color: '#F7F3EC',
-            lineHeight: 0.95,
-            letterSpacing: '-0.03em',
-            marginBottom: 20,
-          }}
-        >
-          {article.title}
-        </h1>
-        {article.author && (
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: '#9B9283', marginBottom: 8 }}>
-            By {article.author}
+        <div className={featureStyles.heroGradient} />
+        <div className={featureStyles.heroContent}>
+          <p className={featureStyles.kicker}>
+            {article.section === 'feature' ? 'Feature' : article.section === 'dining' ? 'Dining' : 'Wine Spectator'} &middot; June 2026
           </p>
-        )}
+          <h1 className={featureStyles.title} data-text-split="" data-letters-rotate-in="">
+            {article.title}
+          </h1>
+          {article.author && <p className={featureStyles.author}>By {article.author}</p>}
+          <p className={featureStyles.heroDeck} data-text-split="" data-lines-slide-up="">
+            {article.excerpt}
+          </p>
+        </div>
       </section>
 
-      <section style={{ padding: '0 60px 60px', maxWidth: 800, margin: '0 auto' }}>
-        <p
-          data-text-split=""
-          data-lines-slide-up=""
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: 'italic',
-            fontWeight: 300,
-            fontSize: 'clamp(22px, 3vw, 36px)',
-            color: 'rgba(247,243,236,0.9)',
-            lineHeight: 1.35,
-            textAlign: 'center',
-          }}
-        >
-          {article.excerpt}
-        </p>
-      </section>
-
-      <section style={{ padding: '40px 60px', maxWidth: 760, margin: '0 auto' }}>
+      <section className={featureStyles.bodySection}>
         {bodyParagraphs.slice(0, midpoint).map((para, i) => (
           <p
             key={i}
+            className={featureStyles.paragraph}
             data-text-split=""
             data-lines-slide-up=""
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 16,
-              fontWeight: 300,
-              color: 'rgba(247,243,236,0.7)',
-              lineHeight: 1.9,
-              marginBottom: 28,
-            }}
           >
             {para}
           </p>
@@ -262,27 +205,20 @@ function GenericFeatureLayout({
       </section>
 
       {article.images[1] && (
-        <section style={{ padding: '20px 60px' }}>
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+        <section className={featureStyles.midImage}>
+          <div className={featureStyles.midImageInner}>
             <Image src={article.images[1]} alt="" fill sizes="calc(100vw - 120px)" style={{ objectFit: 'cover' }} />
           </div>
         </section>
       )}
 
-      <section style={{ padding: '40px 60px', maxWidth: 760, margin: '0 auto' }}>
+      <section className={featureStyles.bodySection}>
         {bodyParagraphs.slice(midpoint).map((para, i) => (
           <p
             key={i}
+            className={featureStyles.paragraph}
             data-text-split=""
             data-lines-slide-up=""
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 16,
-              fontWeight: 300,
-              color: 'rgba(247,243,236,0.7)',
-              lineHeight: 1.9,
-              marginBottom: 28,
-            }}
           >
             {para}
           </p>

@@ -43,6 +43,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
   'napa-taco-tour': {
     kicker: 'Napa Valley Taco Tour',
     heroImage: `${TACO}/hero.jpg`,
+    heroObjectPosition: 'center 42%',
     introParagraphs: [
       'Napa Valley and Mexico have a long-entwined history reflected in language, culture and food. Tacos and other Mexican staples have become go-to meals in the valley, beloved by all. Today, taquerias dot the region, whether brick-and-mortar restaurants or food trucks. Most specialize in classic “street tacos,” plates of smothered tortillas that are typically prepared quickly, packed with flavor in an array of combinations and able to be eaten handily. Originally an easy meal for workers, they can be enjoyed in any setting.',
       'A proper street taco, at its simplest, needs just five ingredients: tortilla, meat, sauce, cilantro and raw onion. The best tortillas, based on masa harina de maíz, are handmade to order and warmed on a grill before being piled high with your choice of meats, sauces and more. (See “Taco Terms” below.) Vegan and vegetarian selections, as well as seafood versions, can also be found. Be mindful of levels of spiciness and your tolerance to them—the radish or cucumber slices typically served on the side are there to help if you take one of those too-hot bites. Some taquerias include carrots or grilled onions on the side for a sweet counterpoint.',

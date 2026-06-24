@@ -20,39 +20,48 @@ export default function FeatureArticleLayout({
   const sectionLabel =
     article.section === 'feature' ? 'Feature' : article.section === 'dining' ? 'Dining' : 'Wine Spectator'
 
-  const midpoint = Math.ceil(content.introParagraphs.length / 2)
+  const hasVenues = Boolean(content.venues?.length)
+  const splitIntro = !hasVenues && content.introParagraphs.length > 1
+  const midpoint = splitIntro ? Math.ceil(content.introParagraphs.length / 2) : content.introParagraphs.length
   const firstHalf = content.introParagraphs.slice(0, midpoint)
-  const secondHalf = content.introParagraphs.slice(midpoint)
+  const secondHalf = splitIntro ? content.introParagraphs.slice(midpoint) : []
+
+  const showDeckOnHero = article.excerpt && !content.pullQuoteLines
 
   return (
     <div className={styles.page} data-site-surface="dark">
-      <section className={styles.hero} data-nav-hero-root>
+      <section
+        className={`${styles.hero} ${hasVenues ? styles.heroEditorial : ''}`}
+        data-nav-hero-root
+      >
         <Image
           src={content.heroImage}
           alt={article.title}
           fill
           priority
           sizes="100vw"
-          style={{ objectFit: 'cover' }}
+          className={styles.heroImage}
+          style={{
+            objectFit: 'cover',
+            objectPosition: content.heroObjectPosition ?? 'center center',
+          }}
         />
-        <div className={styles.heroOverlay} />
+        <div className={styles.heroGradient} />
+        <div className={styles.heroContent}>
+          <p className={styles.kicker}>
+            {content.kicker ?? sectionLabel} &middot; June 2026
+          </p>
+          <h1 className={styles.title} data-text-split="" data-letters-rotate-in="">
+            {article.title}
+          </h1>
+          {article.author && <p className={styles.author}>By {article.author}</p>}
+          {showDeckOnHero && (
+            <p className={styles.heroDeck} data-text-split="" data-lines-slide-up="">
+              {article.excerpt}
+            </p>
+          )}
+        </div>
       </section>
-
-      <section className={styles.header}>
-        <p className={styles.kicker}>
-          {content.kicker ?? sectionLabel} &middot; June 2026
-        </p>
-        <h1 className={styles.title} data-text-split="" data-letters-rotate-in="">
-          {article.title}
-        </h1>
-        {article.author && <p className={styles.author}>By {article.author}</p>}
-      </section>
-
-      {article.excerpt && (
-        <p className={styles.excerpt} data-text-split="" data-lines-slide-up="">
-          {article.excerpt}
-        </p>
-      )}
 
       {(content.pullQuote || content.pullQuoteLines) && (
         <blockquote className={styles.pullQuote}>
@@ -63,6 +72,12 @@ export default function FeatureArticleLayout({
             </p>
           )}
         </blockquote>
+      )}
+
+      {article.excerpt && content.pullQuoteLines && (
+        <p className={styles.deck} data-text-split="" data-lines-slide-up="">
+          {article.excerpt}
+        </p>
       )}
 
       <section className={styles.bodySection}>
@@ -79,19 +94,23 @@ export default function FeatureArticleLayout({
       </section>
 
       {content.secondaryImages && content.secondaryImages.length > 0 && (
-        <section className={styles.midImagePair}>
-          {content.secondaryImages.map((img) => (
-            <div key={img.src} className={styles.midImageStrip}>
-              <Image
-                src={img.src}
-                alt={img.alt ?? ''}
-                width={img.width ?? 224}
-                height={img.height ?? 550}
-                sizes="220px"
-                className={styles.midImageStripImg}
-              />
-            </div>
-          ))}
+        <section className={styles.pointsSection}>
+          <p className={styles.sectionLabel}>Points of interest</p>
+          <div className={styles.midImagePair}>
+            {content.secondaryImages.map((img) => (
+              <figure key={img.src} className={styles.midImageStrip}>
+                <Image
+                  src={img.src}
+                  alt={img.alt ?? ''}
+                  width={img.width ?? 224}
+                  height={img.height ?? 550}
+                  sizes="220px"
+                  className={styles.midImageStripImg}
+                />
+                {img.alt && <figcaption className={styles.stripCaption}>{img.alt}</figcaption>}
+              </figure>
+            ))}
+          </div>
         </section>
       )}
 
@@ -138,96 +157,98 @@ export default function FeatureArticleLayout({
             <p className={styles.sectionLabel}>Where to eat</p>
             <h2 className={styles.sectionTitle}>Taquerias worth the line</h2>
           </div>
-          <div className={styles.venueGrid}>
-            {content.venues.map((venue) => (
-              <article key={venue.name} className={styles.venueCard}>
-                {venue.image && (
-                  <div className={styles.venueImage}>
-                    <Image
-                      src={venue.image}
-                      alt={venue.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </div>
-                )}
-                <div className={styles.venueBody}>
-                  <h3 className={styles.venueName}>{venue.name}</h3>
-                  <p className={styles.venueMeta}>
-                    {venue.addressLines.map((line) => (
-                      <span key={line}>
-                        {line}
-                        <br />
-                      </span>
-                    ))}
-                    {venue.website && (
-                      <a
-                        href={formatWebsite(venue.website).href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {formatWebsite(venue.website).label}
-                      </a>
-                    )}
-                    {venue.phone && (
-                      <>
-                        {venue.website && <br />}
-                        {venue.phone}
-                      </>
-                    )}
-                  </p>
-                  <p className={styles.venueDesc}>{venue.description}</p>
-                  {venue.restaurantSlug && (
-                    <Link
-                      href={`/dining/${venue.restaurantSlug}`}
-                      className={styles.venueLink}
-                    >
-                      View in guide
-                    </Link>
+          <ol className={styles.venueList}>
+            {content.venues.map((venue, index) => (
+              <li key={venue.name} className={styles.venueRow}>
+                <span className={styles.venueIndex}>{index + 1}</span>
+                <article className={styles.venueArticle}>
+                  {venue.image && (
+                    <div className={styles.venueThumb}>
+                      <Image
+                        src={venue.image}
+                        alt={venue.name}
+                        fill
+                        sizes="200px"
+                        className={styles.venueThumbImg}
+                      />
+                    </div>
                   )}
-                </div>
-              </article>
+                  <div className={styles.venueCopy}>
+                    <h3 className={styles.venueName}>{venue.name}</h3>
+                    <p className={styles.venueMeta}>
+                      {venue.addressLines.map((line) => (
+                        <span key={line}>
+                          {line}
+                          <br />
+                        </span>
+                      ))}
+                      {venue.website && (
+                        <a
+                          href={formatWebsite(venue.website).href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {formatWebsite(venue.website).label}
+                        </a>
+                      )}
+                      {venue.phone && (
+                        <>
+                          {venue.website && <br />}
+                          {venue.phone}
+                        </>
+                      )}
+                    </p>
+                    <p className={styles.venueDesc}>{venue.description}</p>
+                    {venue.restaurantSlug && (
+                      <Link
+                        href={`/dining/${venue.restaurantSlug}`}
+                        className={styles.venueLink}
+                      >
+                        View in guide
+                      </Link>
+                    )}
+                  </div>
+                </article>
+              </li>
             ))}
-          </div>
+          </ol>
         </section>
       )}
 
-      {content.winePicks && content.winePicks.length > 0 && (
-        <section className={styles.wineSection}>
-          <div className={styles.wineInner}>
-            <p className={styles.sectionLabel}>Pairing picks</p>
-            <h2 className={styles.sectionTitle}>Recommended wines to pair</h2>
-            <ul className={styles.wineList}>
-              {content.winePicks.map((wine) => (
-                <li key={wine.name} className={styles.wineItem}>
-                  <span className={styles.wineName}>{wine.name}</span>
-                  <span className={styles.wineDetail}>{wine.detail}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
-
-      {content.termGroups && content.termGroups.length > 0 && (
-        <section className={styles.termsSection}>
-          <div className={styles.venuesHead}>
-            <p className={styles.sectionLabel}>Reference</p>
-            <h2 className={styles.sectionTitle}>Taco terms</h2>
-          </div>
-          <div className={styles.termsGrid}>
-            {content.termGroups.map((group) => (
-              <div key={group.title} className={styles.termGroup}>
-                <h3 className={styles.termTitle}>{group.title}</h3>
-                {group.intro && <p className={styles.termIntro}>{group.intro}</p>}
-                <ul className={styles.termList}>
-                  {group.items.map((item) => (
-                    <li key={item} className={styles.termItem}>{item}</li>
+      {(content.winePicks?.length || content.termGroups?.length) && (
+        <section className={styles.referenceSection}>
+          <div className={styles.referenceGrid}>
+            {content.winePicks && content.winePicks.length > 0 && (
+              <div className={styles.referenceBlock}>
+                <p className={styles.sectionLabel}>Pairing picks</p>
+                <h2 className={styles.referenceTitle}>Wines to pair</h2>
+                <ul className={styles.wineList}>
+                  {content.winePicks.map((wine) => (
+                    <li key={wine.name} className={styles.wineItem}>
+                      <span className={styles.wineName}>{wine.name}</span>
+                      <span className={styles.wineDetail}>{wine.detail}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
-            ))}
+            )}
+            {content.termGroups && content.termGroups.length > 0 && (
+              <div className={styles.referenceBlock}>
+                <p className={styles.sectionLabel}>Reference</p>
+                <h2 className={styles.referenceTitle}>Taco terms</h2>
+                {content.termGroups.map((group) => (
+                  <div key={group.title} className={styles.termGroup}>
+                    <h3 className={styles.termTitle}>{group.title}</h3>
+                    {group.intro && <p className={styles.termIntro}>{group.intro}</p>}
+                    <ul className={styles.termList}>
+                      {group.items.map((item) => (
+                        <li key={item} className={styles.termItem}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}

@@ -135,6 +135,7 @@ export interface FeatureArticleContent {
   winePicks?: FeatureWinePick[]
   termGroups?: FeatureTermGroup[]
   heroImage: string
+  heroObjectPosition?: string
   secondaryImage?: string
   /** Side-by-side editorial strips (e.g. Judgment bottle point scores). */
   secondaryImages?: Array<{ src: string; alt?: string; width?: number; height?: number }>
