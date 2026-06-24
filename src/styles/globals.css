@@ -375,7 +375,7 @@ body:has([data-page="home-hero"]) {
 .home-hero-tagline {
   position: absolute;
   left: 50%;
-  top: 44%;
+  top: 42%;
   transform: translate(-50%, -50%);
   text-align: center;
   z-index: 22;
@@ -457,7 +457,7 @@ body:has([data-page="home-hero"]) {
 /* Bottom display title — TRH oversized wordmark, lifted with subtle bottom bleed */
 .home-hero-display {
   position: absolute;
-  bottom: clamp(12px, 2.5vh, 28px);
+  bottom: clamp(28px, 5vh, 56px);
   left: 0;
   right: 0;
   text-align: center;
@@ -478,7 +478,7 @@ body:has([data-page="home-hero"]) {
   letter-spacing: -0.03em;
   line-height: 0.84;
   white-space: nowrap;
-  transform: translateY(7%);
+  transform: translateY(4%);
   padding-bottom: 0;
 }
 
@@ -1111,7 +1111,7 @@ html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent-wheel] {
   }
 
   .home-hero-display {
-    bottom: clamp(8px, 1.5vh, 16px) !important;
+    bottom: clamp(18px, 3.5vh, 32px) !important;
     padding: 0 8px 0 !important;
   }
 
@@ -1120,7 +1120,7 @@ html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent-wheel] {
     white-space: nowrap !important;
     line-height: 0.84 !important;
     letter-spacing: -0.035em !important;
-    transform: translateY(7%) !important;
+    transform: translateY(4%) !important;
   }
 
   .home-newsletter-form {

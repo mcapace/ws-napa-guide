@@ -27,12 +27,12 @@ const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
 // ── Mosaic panel positions (TRH: perimeter tiles, open center, lifted off bottom edge) ──
 const PANELS = [
-  { id: 1, style: { width: 148, height: 190, top: '7%', left: '5%' } },
-  { id: 2, style: { width: 118, height: 152, top: '20%', left: '10%' } },
-  { id: 3, style: { width: 168, height: 112, top: '4%', left: '50%' } },
-  { id: 4, style: { width: 188, height: 158, bottom: '28%', left: '4%', zIndex: 13 } },
-  { id: 5, style: { width: 132, height: 172, top: '30%', right: '5%' } },
-  { id: 6, style: { width: 128, height: 168, bottom: '30%', right: '6%', zIndex: 15 } },
+  { id: 1, style: { width: 148, height: 190, top: '5%', left: '5%' } },
+  { id: 2, style: { width: 118, height: 152, top: '18%', left: '10%' } },
+  { id: 3, style: { width: 168, height: 112, top: '3%', left: '50%' } },
+  { id: 4, style: { width: 188, height: 158, bottom: '32%', left: '4%', zIndex: 13 } },
+  { id: 5, style: { width: 132, height: 172, top: '28%', right: '5%' } },
+  { id: 6, style: { width: 128, height: 168, bottom: '34%', right: '6%', zIndex: 15 } },
 ]
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05, 0.06] as const
@@ -45,7 +45,7 @@ function heroPanelStart() {
   const height = narrow
     ? Math.min(188, Math.round((width * 165) / 220))
     : 165
-  const top = narrow ? window.innerHeight * 0.09 : window.innerHeight * 0.07
+  const top = narrow ? window.innerHeight * 0.08 : window.innerHeight * 0.06
   const rightInset = narrow ? window.innerWidth * 0.05 : window.innerWidth * 0.07
   const left = window.innerWidth - width - rightInset
   return { width, height, top, left, borderRadius: 3 }
@@ -94,14 +94,14 @@ export default function HomePage() {
     const title = container?.querySelector<HTMLSpanElement>('.home-hero-display__title')
     if (!container || !title) return
 
-    const bleedRatio = 0.07
+    const bleedRatio = 0.05
 
     const fitTitle = () => {
       title.style.fontSize = ''
       title.style.transform = `translateY(${bleedRatio * 100}%)`
 
       const maxWidth = container.clientWidth
-      const maxVisibleHeight = window.innerHeight * (window.innerWidth <= 768 ? 0.24 : 0.27)
+      const maxVisibleHeight = window.innerHeight * (window.innerWidth <= 768 ? 0.22 : 0.25)
       let size = parseFloat(getComputedStyle(title).fontSize)
       const minSize = window.innerWidth <= 768 ? 56 : 88
 
