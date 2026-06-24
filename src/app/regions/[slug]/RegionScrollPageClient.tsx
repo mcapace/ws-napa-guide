@@ -276,12 +276,12 @@ function RegionScrollPageClientContent({
         <section id="region-explore" className={styles.scrollSection}>
           <div className={styles.directoryBand}>
             <div className={styles.directoryBandInner}>
-              <p className={styles.directoryBandEyebrow}>Complete directory</p>
-              <h2 className={styles.directoryBandTitle}>Every listing in {regionName}</h2>
+              <p className={styles.directoryBandEyebrow}>Directory</p>
+              <h2 className={styles.directoryBandTitle}>Browse {regionName}</h2>
               <p className={styles.directoryBandDek}>
-                Browse the full alphabetical list — tasting rooms, restaurants, and hotels.
-                Our featured guide picks appear first with photography; everything else follows
-                in order below.
+                Need an address without reading every profile? Filter by tastings, dining, or
+                hotels — or use the map to see what&apos;s nearby. Our featured picks from this
+                guide appear first; the rest of the appellation&apos;s listings follow below.
               </p>
             </div>
           </div>
