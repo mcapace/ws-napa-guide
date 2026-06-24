@@ -22,6 +22,7 @@ import {
 import {
   countByCategory,
   filterExplorePins,
+  sortExploreListPins,
   regionDisplayName,
   type ExploreCategoryFilter,
   urlParamToCategory,
@@ -121,7 +122,7 @@ export function ExploreMap({
   }, [pins, scopedRegion, pinnedCategory])
 
   const filteredPins = useMemo(
-    () => filterExplorePins(scopedPins, categoryFilter, regionFilter),
+    () => sortExploreListPins(filterExplorePins(scopedPins, categoryFilter, regionFilter)),
     [scopedPins, categoryFilter, regionFilter],
   )
 

@@ -2,7 +2,7 @@ import type { MapPin, MapPinCategory } from '@/data/map-pins'
 import { pinsByRegion } from '@/data/map-pins'
 import type { DirectoryCategory, EditorialFeature, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
-import { isEditorialListingImage, pinHasListingImage } from '@/lib/explore'
+import { isEditorialListingImage, pinHasListingImage, sortExploreListPins } from '@/lib/explore'
 import {
   buildRegionEatMapRows,
   buildRegionStayMapRows,
@@ -184,11 +184,7 @@ function buildPinsFromRows(
     }
   }
 
-  return pins.sort((a, b) => {
-    const aRank = a.editorial ? 0 : 1
-    const bRank = b.editorial ? 0 : 1
-    return aRank - bRank
-  })
+  return sortExploreListPins(pins)
 }
 
 /** Pins for a single section (taste / eat / stay) from MDX map rows. */

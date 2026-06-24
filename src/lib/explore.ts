@@ -92,3 +92,48 @@ export function partitionPinsByImage(pins: MapPin[]): {
   }
   return { withImage, withoutImage }
 }
+
+/** Directory list order: tastings → hotels → dining within each section. */
+export const EXPLORE_LIST_CATEGORY_ORDER: MapPinCategory[] = ['winery', 'stay', 'dining']
+
+function comparePinsByName(a: MapPin, b: MapPin): number {
+  return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
+}
+
+/** Featured editorial picks with photography, then the rest — each bucket alpha by name. */
+export function sortExploreListPins(pins: MapPin[]): MapPin[] {
+  const byCategory = new Map<MapPinCategory, MapPin[]>()
+
+  for (const pin of pins) {
+    const bucket = byCategory.get(pin.category) ?? []
+    bucket.push(pin)
+    byCategory.set(pin.category, bucket)
+  }
+
+  const sorted: MapPin[] = []
+
+  for (const category of EXPLORE_LIST_CATEGORY_ORDER) {
+    const categoryPins = byCategory.get(category)
+    if (!categoryPins?.length) continue
+
+    const featuredWithImage: MapPin[] = []
+    const rest: MapPin[] = []
+
+    for (const pin of categoryPins) {
+      if (pin.editorial && pinHasListingImage(pin)) featuredWithImage.push(pin)
+      else rest.push(pin)
+    }
+
+    featuredWithImage.sort(comparePinsByName)
+    rest.sort(comparePinsByName)
+    sorted.push(...featuredWithImage, ...rest)
+    byCategory.delete(category)
+  }
+
+  for (const categoryPins of byCategory.values()) {
+    categoryPins.sort(comparePinsByName)
+    sorted.push(...categoryPins)
+  }
+
+  return sorted
+}
