@@ -56,6 +56,8 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         name: 'Azteca Market & Taqueria',
         addressLines: ['789 Main St., St. Helena', '2995 Jefferson St., Napa'],
         website: 'aztecanapavalley.com',
+        coords: [-122.4695, 38.5052],
+        extraMapLocations: [{ coords: [-122.2985, 38.3128], label: 'Napa location' }],
         description:
           'This Mexican grocery store holds one of the valley’s most popular taco counters. The lineup includes basics such as pollo asado, carnitas and chorizo, along with traditional buche, lengua and suadero. There’s a second location in Napa.',
       },
@@ -63,6 +65,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         name: 'El Rodeo',
         addressLines: ['1850 Soscol Ave., Napa'],
         phone: '(707) 415-9800',
+        coords: [-122.2855, 38.2988],
         description:
           'This truck specializes in fresh seafood tacos like shrimp and fish, alongside aguachile and seafood cocktail. Try the tripa for an authentic and adventurous bite. The taco gobernadora, with shrimp, cheese and grilled onions, is a hearty choice.',
       },
@@ -71,6 +74,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         addressLines: ['1017 Coombsville Road, Suite B, Napa'],
         website: 'elsaborserano.com',
         image: `${TACO}/venue-el-sabor-serano.jpg`,
+        coords: [-122.2685, 38.2912],
         description:
           'Take time to sit down at this restaurant to enjoy your meal. The suadero gets top points for its juicy and tender beef. You’re going to want as much salsa verde as possible—it is made with fire-roasted tomatillos that add a smoky depth to the sauce.',
       },
@@ -86,6 +90,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         name: 'La Condesa Taqueria',
         addressLines: ['1745 Soscol Ave., Napa'],
         website: 'lacondesataquerianapa.com',
+        coords: [-122.2848, 38.2975],
         description:
           'Open early, La Condesa offers breakfast tacos and licuados (smoothies) along with traditional street tacos. The chorizo taco is well-seasoned and served on a toasted tortilla that holds it together nicely.',
       },
@@ -101,6 +106,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         name: 'La Taquiza Fish Tacos',
         addressLines: ['2007 Redwood Road, Napa'],
         website: 'lataquizafishtacos.com',
+        coords: [-122.2682, 38.3258],
         description:
           'This brick-and-mortar is known for fresh seafood options. The shrimp, fish and octopus come in various formats, including ceviche or seafood cocktail. The fish taco can be battered and fried, or seasoned and grilled, then topped with pico de gallo, cabbage and chipotle crema. Try the octopus—grilled fresh, it’s tender and meaty.',
       },
@@ -109,6 +115,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         addressLines: ['3150 A Jefferson St., Napa'],
         phone: '(707) 927-5196',
         image: `${TACO}/venue-mothers-tacos.jpg`,
+        coords: [-122.2965, 38.3085],
         description:
           'The house-made tortillas at Napa’s newest taco joint provide the perfect platform for traditional carne asada, suadero or pollo asado. The mushroom taco outperforms for its melt-in-your-mouth sweetness. Mother’s offers four sauces at the table; try the oil-based macha for great acidity and crunch.',
       },
@@ -116,6 +123,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         name: 'Ray Ray’s Tacos',
         addressLines: ['1304 Main St., St. Helena'],
         website: 'rayrays.com',
+        coords: [-122.4692, 38.5048],
         description:
           'Ray Ray’s offers convenience with its various tacos-to-go kits, designed for building your own. A tray of 16 street tacos makes things even easier—all you have to do is pick the meat. The spiced carrot taco should not be missed, either. There is plenty of seating for dining in.',
       },
@@ -123,6 +131,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         name: 'Tacos El Muchacho Alegre',
         addressLines: ['751 Jackson St., Napa'],
         website: 'tacoselmuchachoalegre.com',
+        coords: [-122.2905, 38.3015],
         description:
           'This truck has plenty of parking spaces and picnic tables nearby. The spiced shrimp taco here is filled to capacity, with fresh slaw, pico de gallo and creamy aioli. Traditional meats, like the al pastor, are good choices too.',
       },
@@ -130,6 +139,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         name: 'Tacos Garcia',
         addressLines: ['6792 Washington St., Yountville'],
         phone: '(707) 980-4896',
+        coords: [-122.3615, 38.4012],
         description:
           'The tortillas from this truck (the only one in Yountville) are lightly toasted on the grill to create a firm base for the ample fillings, such as their specialty: lengua. Be sure to top any taco with the to-die-for salsa roja.',
       },
@@ -137,6 +147,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         name: 'Tacos Los Compadres',
         addressLines: ['Claremont Way, Napa'],
         phone: '(707) 339-2305',
+        coords: [-122.2785, 38.3142],
         description:
           'Tacos Los Compadres’ al pastor is one of the best in the valley. A trompo is used to spin the layered meat around a flame, crisping it until ready to be sliced, after which it is topped with slices of grilled pineapple. A salad bar on the outside of the truck allows you to conveniently top your tacos with as much cilantro, onions and sauce as you’d like. Hungry late? It’s open until midnight.',
       },
@@ -144,6 +155,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         name: 'Tacos Michoacan',
         addressLines: ['1800 Pueblo Ave., Napa'],
         phone: '(707) 812-9963',
+        coords: [-122.2548, 38.2688],
         description:
           'In business in Napa since the 1990s, this outfit sports a brick-and-mortar along with two trucks. With house-made tortillas, traditional meats and three sauces on offer, Michoacan puts out archetypal Mexican street food. Their carnitas are spot on, with an intensity of saltiness and fattiness. Don’t overlook the carrot side; it adds just the right sweetness to the finish.',
       },

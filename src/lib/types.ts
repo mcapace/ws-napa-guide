@@ -112,6 +112,10 @@ export interface FeatureVenue {
   description: string
   restaurantSlug?: string
   image?: string
+  /** Map pin — [lng, lat]. Falls back to `restaurantSlug` in restaurants data when omitted. */
+  coords?: [number, number]
+  /** Additional pins for multi-location venues (e.g. Azteca). */
+  extraMapLocations?: Array<{ coords: [number, number]; label?: string }>
 }
 
 export interface FeatureWinePick {

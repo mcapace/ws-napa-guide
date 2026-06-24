@@ -1,0 +1,98 @@
+.wrap {
+  margin-bottom: clamp(32px, 5vw, 48px);
+}
+
+.mapShell {
+  position: relative;
+  height: clamp(320px, 42vw, 480px);
+  border: 1px solid rgba(247, 243, 236, 0.1);
+  overflow: hidden;
+  background: #141210;
+}
+
+.marker {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #f7f3ec;
+  background: #6b1c2a;
+  color: #f7f3ec;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.marker:hover {
+  transform: scale(1.08);
+  background: #c4943a;
+}
+
+.hint {
+  margin: 12px 0 0;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: rgba(247, 243, 236, 0.45);
+}
+
+.popup :global(.mapboxgl-popup-content) {
+  padding: 16px 18px;
+  background: #141210;
+  border: 1px solid rgba(247, 243, 236, 0.12);
+  border-radius: 2px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  min-width: 200px;
+}
+
+.popup :global(.mapboxgl-popup-close-button) {
+  color: rgba(247, 243, 236, 0.55);
+  font-size: 18px;
+  padding: 4px 8px;
+}
+
+.popupIndex {
+  margin: 0 0 6px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c4943a;
+}
+
+.popupName {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 1.15;
+  color: #f7f3ec;
+}
+
+.popupMeta {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(247, 243, 236, 0.62);
+}
+
+.popupLink {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c4943a;
+  text-decoration: none;
+}
+
+.popupLink:hover {
+  text-decoration: underline;
+}

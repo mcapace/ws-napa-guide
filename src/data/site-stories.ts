@@ -4,11 +4,8 @@ import { getFeatureArticleContent } from '@/data/feature-articles'
 
 /** Magazine features with live `/features/[slug]` pages — order is editorial. */
 export const STORY_SLUGS = [
-  'napa-valley-guide',
   'judgment-of-paris',
   'napa-taco-tour',
-  'napa-landmarks',
-  'napa-calendar',
 ] as const
 
 /** Homepage spotlight pair — large cards above the rest of the issue grid. */

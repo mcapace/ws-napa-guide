@@ -8,7 +8,6 @@ import type {
 
 /** Map short references in MDX to CMS feature slugs. */
 const FEATURE_SLUG_ALIASES: Record<string, string> = {
-  landmarks: 'napa-landmarks',
   tacos: 'napa-taco-tour',
 }
 

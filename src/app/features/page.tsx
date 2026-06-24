@@ -7,7 +7,7 @@ import { getStoryArticles } from '@/data/site-stories'
 export const metadata: Metadata = {
   title: 'From the Issue',
   description:
-    'Magazine features from Wine Spectator\'s June 2026 Napa Valley guide — Judgment of Paris, landmarks, taco tour, and more.',
+    'Magazine features from Wine Spectator\'s June 2026 Napa Valley guide — Judgment of Paris and taco tour.',
 }
 
 export default function FeaturesIndexPage() {

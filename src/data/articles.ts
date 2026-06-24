@@ -3,19 +3,6 @@ import { TEST_IMAGES } from '@/lib/test-images'
 
 export const articles: Article[] = [
   {
-    slug: 'napa-valley-guide',
-    title: 'The Ultimate Travel Guide to Napa Valley',
-    section: 'lede',
-    author: 'Wine Spectator Staff',
-    excerpt:
-      "From landmark Cabernets to world-class kitchens, geothermal spas to hillside trails — Wine Spectator's definitive guide to America's most celebrated wine region.",
-    body: "From landmark Cabernets to world-class kitchens, geothermal spas to hillside trails — Wine Spectator's definitive companion to America's most celebrated wine region. This digital guide expands on the June 2026 special issue with itineraries, maps, and the estates and tables our critics return to year after year.",
-    sponsorTier: null,
-    featured: true,
-    images: [TEST_IMAGES[0], TEST_IMAGES[1]],
-    publishedAt: '2026-06-15',
-  },
-  {
     slug: 'judgment-of-paris',
     title: 'The Judgment at 50',
     section: 'feature',
@@ -33,36 +20,6 @@ export const articles: Article[] = [
     publishedAt: '2026-06-15',
   },
   {
-    slug: 'napa-landmarks',
-    title: 'Napa Valley Landmarks',
-    section: 'feature',
-    author: 'Chris Cardoso',
-    excerpt:
-      'The Welcome Sign. The Grape Crusher. The icons that define a place before you even taste a drop.',
-    body: `“Welcome to this world famous winegrowing region” reads the sign sitting off Highway 29. The sign is on redwood panels resembling barrel staves, with large block letters spelling “NAPA VALLEY” underneath. A grape cluster adorns the left side of the sign, a barrel head the right. Located in Oakville at the southern end of the valley, the marker has become as famous as the region it touts, and today is one of the valley’s most popular tourist attractions. Many people who visit the spot are likely unaware that there is twin signage located at the northern end of the valley, with an arguably better vantage point. The signs were erected in 1949 by Napa Valley Vintners (NVV), an association formed in 1944 by leaders of Napa’s then-nascent modern wine industry, including Robert Mondavi, Fernande de Latour, Elmer Salmina, Charles Forni, John Daniel Jr., Louis M. Martini and Louis Stralla. NVV’s mission was to implement initiatives to support the growth of Napa Valley.
-
-Among its first acts was to commission local artist Roland Hauck to design the signs. In their original form, the signs listed the names of nine wineries on the barrel head portion: Beringer, Louis M. Martini, Inglenook, Freemark Abbey, Beaulieu Vineyard, Napa Cooperative Vineyard, Vin-Mont Wines, The Christian Brothers and C. Mondavi & Sons. In 1966 the barrel head portion was changed to its current iteration, with a quotation from author Robert Louis Stevenson: “… And the wine is bottled poetry … .”
-
-The quote is taken from Stevenson’s 1883 memoir, The Silverado Squatters, in which the author travels to Napa Valley on a honeymoon with his wife, Fanny. When unable to afford a hotel, they ended up squatting at a mini camp named Silverado near Mount St. Helena for two months. Stevenson’s experiences with vintners lead to his penning a lengthy passage explaining the wines of California, with that quote becoming one of his most famous. The author’s works can be found at his namesake museum in St. Helena. Both the Oakville and Calistoga signs have vineyards and mountains as backdrops, providing lovely photo opportunities. Be sure to stop at the signs safely; it’s best to avoid crossing Highway 29, so visit the southern sign on your way down valley, the northern sign while traveling up valley. The signs are also nonfunctional, meant for taking pictures with subjects in front of (not on top of ) them. And please do not enter the vineyards that sit behind them.
-
-—Chris Cardoso
-
-CRUSHIN' IT
-
-Along with the “Welcome” sign, “The Grape Crusher” sculpture is one of Napa Valley’s best-known landmarks. Erected in May 1988 at the southern gateway to Napa Valley, the statue of a vineyard worker pressing grapes is a symbol of the agriculture that is intertwined with the community.
-
-The eye-catching statue, perched on a hill just east of the Napa River Bridge, is visible from Highway 29. The farm worker is depicted in a wide brim hat, sleeves and pant legs rolled up, barefoot, and operating a grape press by hand. Visibly strained, he’s tightly gripping the screw handle with one foot anchored on the basket for leverage.
-
-Santa Fe-based sculptor Gino Miles designed and cast the bronze statue using the cire-perdue (lost wax) method. A wax model inside a one-time-use mold is replaced by molten metal. Miles cast 137 individual bronze pieces that way, then welded them together to create the 15-foot-tall sculpture, which weighs over 6,000 pounds.
-
-The figure actually started as the logo for the Napa Valley Corporate Park, built in 1983 by developer Peter Bedford. The statue is accessible at the Vista Point Park, just behind the Meritage Resort.
-
-—Chris Cardoso`,
-    sponsorTier: null,
-    images: [TEST_IMAGES[3]],
-    publishedAt: '2026-06-15',
-  },
-  {
     slug: 'napa-taco-tour',
     title: 'Napa Valley Taco Tour',
     section: 'dining',
@@ -77,76 +34,6 @@ The figure actually started as the logo for the Napa Valley Corporate Park, buil
       '/images/features/napa-taco-tour/venue-el-sabor-serano.jpg',
       '/images/features/napa-taco-tour/venue-mothers-tacos.jpg',
     ],
-    publishedAt: '2026-06-15',
-  },
-  {
-    slug: 'napa-calendar',
-    title: 'The Napa Valley Calendar',
-    section: 'calendar',
-    author: 'MaryAnn Worobiec',
-    excerpt:
-      "Harvest brings the drama — but every season in Napa has its pleasures. Here's how the valley's year unfolds and the events worth planning around.",
-    body: `January/February
-
-Napa Valley tends to be tranquil at the beginning of the year, making it an ideal time to visit without crowds. While January and February are some of the coldest and wettest months, the vineyards and landscape are verdant, with the region’s adored canary-yellow mustard flowers popping up amid the vine rows.
-
-It’s also an excellent time to study terroir. A simple ripple in a vineyard can reveal where the water is retained versus better-drained soils. It’s also fascinating to see the vines before and after their pruning haircuts. Before, they appear wild and tell the story of the previous growing season. Afterward, they are tidy and uniform, ready for the next growing season.
-
-Damp weather outside is a good reason to do cozy things inside. January is Napa Valley Restaurant Month, with many venues offering special pricing and prix fixe menus. Some restaurants might tighten up service times with off season days and hours, but overall it will be easier to get reservations. The Napa Valley Truffle Festival offers another opportunity to indulge.
-
-Indoor activities include the Napa Asian American Film Festival and Yountville International Short Film Festival. An outdoor option that’s popular with the locals is the Napa Lighted Art Festival–a walkable tour of downtown Napa with dramatic light sculptures. You can also hop aboard the Napa Valley Wine Train as a relaxed way to explore the valley.
-
-Downtown Napa coffee shops are warming and welcoming stops, too: Naysayer, Ohm, Moulin, and Ritual are among the best. There’s also Ohm’s Roastery and Coffee Lab in the Rail Arts District of downtown Napa, where you can get a private lesson on brewing methods, latte art or coffee cupping.
-
-And if you need an excuse to eat more chocolate, regional chocolatiers will be happy to help you and your Valentine. Anette’s, a local favorite, serves the best hot chocolate in town. Le Belge creates chocolates specifically to pair with wines; their Cabernet Sauvignon offerings include a dark chocolate/lavender/black currant and a dark chocolate/espresso. Kollar and Earth & Sky craft dramatic and beautiful bonbons, petite works of art that taste even better than they look. Woodhouse in St. Helena is known for its version of s’mores, a homemade marshmallow dipped in either milk or dark chocolate and sandwiched between house-made graham crackers.
-
-March/April
-
-The first half of spring in Napa Valley brings the first signs of grapevine activity. Dormant vines awaken and have their budbreak, when the first leaves swell and burst open. Rains taper off and the weather steadily improves. Skies tend to be filled with dramatic changes in weather; dark clouds, bouts of intense sunshine and rainbows are common.
-
-This time of year is ideal for getting in some fresh air activities before it gets too warm. There’s the Napa Valley Marathon (along with a half marathon and 5k) if you need a challenge. Bicycle rentals are plentiful, and Vine Trail Napa Valley from downtown Napa to Yountville is a particularly beautiful stretch of paved paths. The Old Faithful Geyser of California just north of Calistoga goes off every 45 minutes or so and is a relaxing spot for a picnic with BYOB wine. Skyline Ridge Park, Robert Louis Stevenson State Park and Bothe State Park offer hiking. Adjacent to Bothe is the Bale Grist Mill State Park, where a fully restored 19th century water mill recalls a fascinating bit of history. The Rector Reservoir Wildlife Area trail is a little-known hiking trail in the middle of the valley.
-
-There are two reservoirs east of the valley: Lake Berryessa and Lake Hennessey. Berryessa is better for boating and fishing for bass and trout, while Hennessey is smaller and quieter, with mostly bank-fishing for bass and catfish.
-
-May/June
-
-As summer nears, the grapevines have flowered and through self-pollination are then fertilized, revealing small, green berries. The transformation, known as “fruit set,” gives the first indication of the crop to come. Warmer weather and clear skies also means the music scene kicks into full gear around the valley. The largest festival is BottleRock, with multiple stages featuring a variety of live music, plus cooking demonstrations and local food and wine purveyors. Look to the Napa Valley Jazz Getaway and concert series at Meritage Resort and the Oxbow RiverStage for additional live music.
-
-Along with the seasonal performances, there are live music venues open year-round, including the Uptown Theater, the JaM Cellars Ballroom, Jarvis Music Conservatory, The Fink and the Napa Valley Performing Arts Center.
-
-June begins with plenty of excitement via Auction Napa Valley, the original wine charity event created by Robert and Margrit Mondavi along with other dedicated vintners in 1981. The Friday barrel auction brings the community out en masse, while the main auction on Saturday is among the poshest events of the year.
-
-Note that this is also high season for tourism. Hotels book up quickly, and traffic and parking congestion starts to amp up. Consider starting your day early, and avoid Highway 29 between 4 p.m. and 7 p.m. when it’s most busy. With the extra daylight, 8 p.m. becomes prime time for a dinner reservation.
-
-July/August
-
-Through summer, grapevines will show off a splendor of big green leaves hiding plump bunches of grapes that are nearing full size. Wine grape bunches are much smaller than those of table grapes, sometimes small enough to fit in your palm, even though a single bunch could have 250 berries on it. By late July, you might notice veraison, when grapes stop growing and start to turn color from green to their purple hues for red wine grapes and golden yellow for white wine grapes. This marks the final ripening stage, and the countdown to harvest is on. You’ll also notice a dramatic diurnal shift—hot days are followed by cool or cold nights. A temperature swing of 50 degrees is common. If you’re dining al fresco you might need a shawl or light sweater. Activity starts to ramp up in both the vineyards and cellars. Leaves might be pulled to give grapes exposure to sun for ripening. If it’s a vigorous growing season, workers may be seen “dropping fruit” or “thinning” bunches to get better vine balance and improve the quality of the grapes. Cellar workers will be move things around to make room for impending harvest. There’s often a rush of bottling, in order to empty tanks.
-
-The 4th of July brings fireworks, parades and family events in various towns around the valley. Held in August, the Napa Town and Country Fair is a quintessential small town fair with livestock, arts and crafts, carnival rides and monster truck racing.
-
-There is still plenty of live music to enjoy, particularly in the towns of Napa and Calistoga, with concerts in local parks and Music in the Vineyards, a chamber music festival.
-
-To cool off, consider some of the many local breweries and tap houses in the area, including Fieldwork Napa, Armistice Brewery, Tannery Bend Beerworks, Trade Brewing, Napa Palisades Saloon, Napa Valley Brewing and Mad Fritz. Erosion Tap House, in downtown St. Helena, offers not only beer, but homemade ice cream.
-
-There’s more to Napa Valley than just growing grapes. Summer means farmers markets are at their peak. You can rub shoulders with winemakers and local chefs if you make an early morning stroll through the weekly rotation of Napa, St. Helena, Calistoga and Yountville markets.
-
-September/October
-
-Harvest starts rolling after Labor Day weekend. In the mornings, keep an eye out for trucks hauling grapes from overnight or early morning picks. Traffic will be tougher and, ironically, it’s also the time of year most county road improvements occur (before the rainy season starts again). Harvest traffic, construction and extra tourists means allowing extra time to reach your destinations.
-
-There are plenty of harvest parties at wineries, with various events and dinners, grape blessings and crush parties; the Calistoga Harvest Party is among the largest.
-
-September used to mean the PGA Tour’s Procore Championship at the Silverado Country Club (the event is not returning for 2026). But if you’re a golfer, there are a handful of additional clubs to consider: Napa Valley Country Club, Vintners Golf Club, Eagle Vines Golf Club, Chardonnay Golf Club and the public Napa Golf Course at Kennedy Park.
-
-A gathering of 75 artists in more than 40 locations, the seasonal Napa Open Studios draws art lovers in September. Among year-round galleries, check out Jessel, Aerena, Art Gallery Napa Valley, Caldwell Snyder, The Christopher Hill Gallery, Vonsaal Design, Meuse Gallery, Sofie Contemporary Arts, Yager Galerie and others. Gordon Huether is perhaps the most prolific artist in the area and his sculptures are on display in multiple venues. There’s plenty of public art to take in as well, including the Rail Arts District and Yountville Art Walk, as well as the Napa Art Walk.
-
-November/December
-
-As the year winds down, vineyard leaves turn color, offering a feast for the eyes. The rains eventually return as well, offering a welcome excuse to cuddle up with some red wine. Calistoga, St. Helena, Yountville and Napa will be decorated in holiday lights and offer various events, parades, visits from Santa, ice rinks and more. The Calistoga Lighted Tractor Parade is a local favorite. For indoor activities, consider the local museums, including the brand new The MAC (Museum of Arts & Culture), with locations in both Yountville and St. Helena. Most of the museums are small and quaint, including the Chuck Williams Culinary Arts Museum, the Goodman Library, which is home to the Napa County Historical Society, the Sharpsteen Museum and the Robert Louis Stevenson Museum. Not technically a museum, the castlelike Culinary Institute of America at Greystone is home to a collection of more than a thousand antique corkscrews. CIA at Copia offers cooking classes and kitchen boot camps. Napa Cigars and Napa Wine and Cigars cater to those who enjoy a quality smoke.
-
-If pampering is part of your year-end celebrations, check out the terrific spas located at the top-end resorts and hotels around the valley. Some of them are exclusive to guests, but others offer day passes to access spa services. A local highlight is the geothermal mineral pools and mud baths in Calistoga. Standalone spas include Greenhaus Day Spa and Napa Valley Massage & Wellness Spa. For a relaxing meditation, consider the sound baths at Studio Be Napa.`,
-    sponsorTier: null,
-    images: [TEST_IMAGES[5]],
     publishedAt: '2026-06-15',
   },
   {

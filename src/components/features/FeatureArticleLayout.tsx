@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Article } from '@/lib/types'
 import type { FeatureArticleContent } from '@/lib/types'
+import { FeatureVenueMap } from '@/components/features/FeatureVenueMap'
 import styles from './FeatureArticleLayout.module.css'
 
 function formatWebsite(url: string) {
@@ -133,6 +134,7 @@ export default function FeatureArticleLayout({
             <p className={styles.sectionLabel}>Where to eat</p>
             <h2 className={styles.sectionTitle}>Taquerias worth the line</h2>
           </div>
+          <FeatureVenueMap venues={content.venues} />
           <ol className={styles.venueList}>
             {content.venues.map((venue, index) => (
               <li key={venue.name} className={styles.venueRow}>

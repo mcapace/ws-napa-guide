@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import Link from 'next/link'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import FeatureArticleLayout from '@/components/features/FeatureArticleLayout'
 import { FeaturePlacesMentioned } from '@/components/features/FeaturePlacesMentioned'
+import { ReadNextSection } from '@/components/features/ReadNextSection'
 import featureStyles from '@/components/features/FeatureArticleLayout.module.css'
-import { articles, featuredArticles } from '@/data/articles'
+import { articles } from '@/data/articles'
 import { getFeatureArticleContent } from '@/data/feature-articles'
-import { getStoryHeroImage, STORY_SLUGS } from '@/data/site-stories'
+import { STORY_SLUGS } from '@/data/site-stories'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import type { HorizontalStripItem } from '@/components/ui/HorizontalStrip'
@@ -54,79 +54,6 @@ function RelatedListings({ article }: { article: NonNullable<ReturnType<typeof a
   if (relatedItems.length === 0) return null
 
   return <FeaturePlacesMentioned entries={relatedItems} />
-}
-
-function ReadNext({ slug }: { slug: string }) {
-  const related = featuredArticles.filter((a) => a.slug !== slug).slice(0, 3)
-  if (related.length === 0) return null
-
-  return (
-    <section style={{ padding: '60px 60px 80px', borderTop: '1px solid rgba(247,243,236,0.06)' }}>
-      <p
-        style={{
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: 10,
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          color: '#C4943A',
-          marginBottom: 32,
-        }}
-      >
-        Read next
-      </p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
-        {related.map((a) => (
-          <Link
-            key={a.slug}
-            href={`/features/${a.slug}`}
-            style={{
-              textDecoration: 'none',
-              display: 'block',
-              background: '#141210',
-              overflow: 'hidden',
-              transition: 'background 0.3s',
-            }}
-          >
-            <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
-              <Image
-                src={getStoryHeroImage(a)}
-                alt={a.title}
-                fill
-                sizes="33vw"
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            <div style={{ padding: '20px' }}>
-              <p
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 9,
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  color: '#9B9283',
-                  marginBottom: 8,
-                }}
-              >
-                {a.author ?? 'Wine Spectator'} &middot; June 2026
-              </p>
-              <h3
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontStyle: 'italic',
-                  fontWeight: 300,
-                  fontSize: 20,
-                  color: '#F7F3EC',
-                  lineHeight: 1.15,
-                }}
-              >
-                {a.title}
-              </h3>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </section>
-  )
 }
 
 function GenericFeatureLayout({
@@ -199,7 +126,7 @@ export default async function FeatureArticlePage({ params }: Props) {
 
       <div data-site-surface="dark" style={{ background: '#0D0B09', color: '#F7F3EC' }}>
         <RelatedListings article={article} />
-        <ReadNext slug={slug} />
+        <ReadNextSection slug={slug} />
         <Newsletter />
         <Footer />
       </div>
