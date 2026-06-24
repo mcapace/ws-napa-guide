@@ -343,18 +343,41 @@ export function RegionStoryPanel({
   mdx,
   hideCompanionFeature = false,
   storyImages = [],
+  refined = false,
 }: {
   mdx: LoadedRegionMdx
   /** Sidebar adventures duplicate the Itinerary tab — hide there when routes exist. */
   hideCompanionFeature?: boolean
   storyImages?: string[]
+  refined?: boolean
 }) {
   const showSidebar = !hideCompanionFeature && mdx.sidebar && mdx.sidebarHeading
   const paragraphs = mdx.ledePlain ?? []
   const mediaImages = storyImages.length > 0 ? storyImages : [mdx.frontmatter.heroImage]
 
+  const panelClass = refined
+    ? `${styles.storyPanel} ${styles.storyPanelRefined}`
+    : styles.storyPanel
+
+  if (refined) {
+    return (
+      <article className={panelClass}>
+        {mdx.frontmatter.dek ? <p className={styles.storyDek}>{mdx.frontmatter.dek}</p> : null}
+        {paragraphs.length > 0 ? (
+          <div className={styles.storyProseRefined}>
+            {paragraphs.map((paragraph, j) => (
+              <p key={j}>{paragraph}</p>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.storyProseRefined}>{mdx.lede}</div>
+        )}
+      </article>
+    )
+  }
+
   return (
-    <article className={styles.storyPanel}>
+    <article className={panelClass}>
       {mdx.frontmatter.dek ? (
         <p className={styles.storyDek}>{mdx.frontmatter.dek}</p>
       ) : null}

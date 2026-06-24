@@ -277,6 +277,199 @@
   }
 }
 
+.region-section-divider--compact {
+  padding: clamp(28px, 4vw, 40px) clamp(20px, 4vw, 32px) clamp(12px, 2vw, 18px);
+}
+
+.region-chapter--refined.region-chapter--taste,
+.region-chapter--refined.region-chapter--eat,
+.region-chapter--refined.region-chapter--stay {
+  background: #faf7f2;
+}
+
+/* Refined featured picks (scroll page) */
+.region-refined-picks {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 32px) clamp(28px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.region-refined-pick {
+  background: #fff;
+  border: 1px solid rgba(26, 22, 20, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(26, 22, 20, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.region-refined-pick--open {
+  border-color: rgba(26, 22, 20, 0.12);
+  box-shadow: 0 8px 28px rgba(26, 22, 20, 0.06);
+}
+
+.region-refined-picks--taste .region-refined-pick {
+  border-left: 3px solid #722f37;
+}
+
+.region-refined-picks--eat .region-refined-pick {
+  border-left: 3px solid #8b6914;
+}
+
+.region-refined-picks--stay .region-refined-pick {
+  border-left: 3px solid #3d4f5f;
+}
+
+.region-refined-pick__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-height: min(52vw, 300px);
+  background: linear-gradient(145deg, #ede5d8 0%, #e8dfd0 100%);
+}
+
+.region-refined-pick__img {
+  object-fit: cover;
+}
+
+.region-refined-pick__img--landscape {
+  display: none;
+}
+
+.region-refined-pick__img--portrait {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .region-refined-pick__img--landscape {
+    display: block;
+  }
+
+  .region-refined-pick__img--portrait {
+    display: none;
+  }
+}
+
+.region-refined-pick__body {
+  padding: clamp(18px, 3vw, 22px) clamp(20px, 3.5vw, 26px) clamp(20px, 3vw, 24px);
+}
+
+.region-refined-pick__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.region-refined-pick__index {
+  flex-shrink: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(26, 22, 20, 0.28);
+  padding-top: 2px;
+}
+
+.region-refined-pick__headline {
+  flex: 1;
+  min-width: 0;
+}
+
+.region-refined-pick__eyebrow {
+  margin: 0 0 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(114, 47, 55, 0.72);
+}
+
+.region-refined-pick__title {
+  margin: 0 0 8px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(22px, 2.6vw, 28px);
+  line-height: 1.15;
+  color: #1a1614;
+}
+
+.region-refined-pick__meta {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  line-height: 1.55;
+  color: rgba(26, 22, 20, 0.52);
+}
+
+.region-refined-pick__metaSep {
+  margin: 0 6px;
+  opacity: 0.45;
+}
+
+.region-refined-pick__link {
+  color: #722f37;
+  text-decoration: none;
+}
+
+.region-refined-pick__link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.region-refined-pick__preview {
+  margin: 14px 0 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.58;
+  color: rgba(26, 22, 20, 0.72);
+}
+
+.region-refined-pick__prose {
+  margin-top: 14px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.62;
+  color: #1a1614;
+}
+
+.region-refined-pick__prose p {
+  margin: 0 0 14px;
+}
+
+.region-refined-pick__prose p:last-child {
+  margin-bottom: 0;
+}
+
+.region-refined-pick__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #722f37;
+}
+
+.region-refined-pick__toggle:hover {
+  color: #4a1a22;
+}
+
+.region-refined-pick__toggleIcon {
+  font-size: 12px;
+  line-height: 1;
+}
+
 .tasting-map-sticky {
   position: sticky;
   top: 88px;

@@ -267,9 +267,10 @@ function RegionScrollPageClientContent({
             mdx={mdx}
             hideCompanionFeature={hasItinerary}
             storyImages={storyImages}
+            refined
           />
           <div className={styles.editorialBand} data-site-surface="light">
-            <RegionEditorialSections data={mdx} />
+            <RegionEditorialSections data={mdx} layout="refined" />
           </div>
         </section>
 

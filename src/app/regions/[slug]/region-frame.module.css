@@ -229,6 +229,32 @@
   padding: 64px 24px;
 }
 
+.storyPanelRefined {
+  max-width: 720px;
+  padding: 48px 24px 36px;
+}
+
+.storyPanelRefined .storyDek {
+  margin-bottom: 24px;
+  font-size: clamp(18px, 2.2vw, 22px);
+  line-height: 1.55;
+}
+
+.storyProseRefined {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 16px;
+  line-height: 1.85;
+  color: rgba(247, 243, 236, 0.76);
+}
+
+.storyProseRefined p {
+  margin: 0 0 20px;
+}
+
+.storyProseRefined p:last-child {
+  margin-bottom: 0;
+}
+
 .storyDek {
   margin: 0 0 32px;
   font-family: var(--font-display, 'Cormorant Garamond', serif);
@@ -763,6 +789,7 @@
 
 .editorialBand {
   background: #faf7f2;
+  border-top: 1px solid rgba(247, 243, 236, 0.06);
 }
 
 .frame[data-scroll-unified] .editorialBand :global(.region-chapter[id]) {

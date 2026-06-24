@@ -1,8 +1,11 @@
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { FeatureBlock } from '@/components/FeatureBlock'
+import { RegionRefinedPick } from './RegionRefinedPick'
 import { SectionDivider } from './SectionDivider'
 
-function featureProps(feature: LoadedRegionMdx['featuredWineries'][number]) {
+type EditorialFeature = LoadedRegionMdx['featuredWineries'][number]
+
+function featureProps(feature: EditorialFeature) {
   return {
     name: feature.name,
     address: feature.address,
@@ -10,6 +13,7 @@ function featureProps(feature: LoadedRegionMdx['featuredWineries'][number]) {
     image: feature.image,
     imagePortrait: feature.imagePortrait,
     imagePosition: feature.imagePosition,
+    bodyPlain: feature.bodyPlain,
     children: feature.body,
   }
 }
@@ -30,6 +34,26 @@ function RegionChapterFeatures({
   )
 }
 
+type RefinedChapterVariant = 'taste' | 'eat' | 'stay'
+
+function RegionChapterRefinedPicks({
+  stories,
+  variant,
+}: {
+  stories: Array<{ key: string; props: ReturnType<typeof featureProps> }>
+  variant: RefinedChapterVariant
+}) {
+  if (stories.length === 0) return null
+
+  return (
+    <div className={`region-refined-picks region-refined-picks--${variant}`}>
+      {stories.map((story, index) => (
+        <RegionRefinedPick key={story.key} index={index} {...story.props} />
+      ))}
+    </div>
+  )
+}
+
 /** Short jump-nav labels; section dividers use full `marqueePhrases` from MDX. */
 const GUIDE_NAV_LABELS = {
   taste: 'Taste',
@@ -39,8 +63,16 @@ const GUIDE_NAV_LABELS = {
   map: 'Directory',
 } as const
 
-export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
+export function RegionEditorialSections({
+  data,
+  layout = 'classic',
+}: {
+  data: LoadedRegionMdx
+  layout?: 'classic' | 'refined'
+}) {
   const phrases = data.frontmatter.marqueePhrases ?? {}
+  const refined = layout === 'refined'
+  const chapterClass = refined ? 'region-chapter region-chapter--refined' : 'region-chapter'
 
   const tastePicks = data.featuredWineries.map((feature) => ({
     key: `winery-${feature.name}`,
@@ -71,23 +103,35 @@ export function RegionEditorialSections({ data }: { data: LoadedRegionMdx }) {
   return (
     <div className="region-guide-body">
       {hasTaste && (
-        <section id="region-taste" className="region-chapter region-chapter--taste">
-          <SectionDivider label={phrases.taste ?? 'Where to taste'} />
-          <RegionChapterFeatures stories={tastePicks} />
+        <section id="region-taste" className={`${chapterClass} region-chapter--taste`}>
+          <SectionDivider label={phrases.taste ?? 'Where to taste'} compact={refined} />
+          {refined ? (
+            <RegionChapterRefinedPicks stories={tastePicks} variant="taste" />
+          ) : (
+            <RegionChapterFeatures stories={tastePicks} />
+          )}
         </section>
       )}
 
       {hasEat && (
-        <section id="region-eat" className="region-chapter region-chapter--eat">
-          <SectionDivider label={phrases.eat ?? 'Where to eat'} />
-          <RegionChapterFeatures stories={eatPicks} />
+        <section id="region-eat" className={`${chapterClass} region-chapter--eat`}>
+          <SectionDivider label={phrases.eat ?? 'Where to eat'} compact={refined} />
+          {refined ? (
+            <RegionChapterRefinedPicks stories={eatPicks} variant="eat" />
+          ) : (
+            <RegionChapterFeatures stories={eatPicks} />
+          )}
         </section>
       )}
 
       {hasStay && (
-        <section id="region-stay" className="region-chapter region-chapter--stay">
-          <SectionDivider label={phrases.stay ?? 'Where to stay'} />
-          <RegionChapterFeatures stories={stayPicks} />
+        <section id="region-stay" className={`${chapterClass} region-chapter--stay`}>
+          <SectionDivider label={phrases.stay ?? 'Where to stay'} compact={refined} />
+          {refined ? (
+            <RegionChapterRefinedPicks stories={stayPicks} variant="stay" />
+          ) : (
+            <RegionChapterFeatures stories={stayPicks} />
+          )}
         </section>
       )}
     </div>
