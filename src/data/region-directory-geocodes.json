@@ -587,6 +587,14 @@
     "lat": 38.581952,
     "lng": -122.575168
   },
+  "calistoga|El Taco Feliz|Lake Street, Calistoga": {
+    "lat": 38.5851,
+    "lng": -122.5805
+  },
+  "calistoga|Café Sarafornia|1413 Lincoln Avenue": {
+    "lat": 38.578972,
+    "lng": -122.579087
+  },
   "calistoga|Auro|400 Silverado Trail N.": {
     "lat": 38.584627,
     "lng": -122.567835
@@ -870,6 +878,10 @@
   "rutherford|Staglin Family Vineyard|1570 Bella Oaks Lane": {
     "lat": 38.441587,
     "lng": -122.429201
+  },
+  "rutherford|Bella Union Winery|1350 Acacia Drive": {
+    "lat": 38.42572,
+    "lng": -122.40317
   },
   "rutherford|Rutherford Grill|1180 Rutherford Road": {
     "lat": 38.459187,
