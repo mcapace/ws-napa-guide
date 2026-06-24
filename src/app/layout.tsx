@@ -4,7 +4,6 @@ import '@/styles/globals.css'
 import { WS_LOGO_OG_STROKE_ONLY_SRC } from '@/lib/ws-logo'
 import AnimationProvider from '@/components/ui/AnimationProvider'
 import Nav from '@/components/ui/Nav'
-import { StagingBanner } from '@/components/ui/StagingBanner'
 import { getSiteUrl } from '@/lib/site-url'
 
 const siteUrl = getSiteUrl()
@@ -42,14 +41,9 @@ export default function RootLayout({
   const shouldLoadGA = process.env.NODE_ENV === 'production' && Boolean(gaMeasurementId)
 
   return (
-    <html
-      lang="en"
-      className="grain"
-      data-staging-preview={process.env.VERCEL_ENV === 'preview' ? '' : undefined}
-    >
+    <html lang="en" className="grain">
       <body>
         <AnimationProvider />
-        <StagingBanner />
         <Nav />
         {shouldLoadGA ? (
           <>

@@ -51,15 +51,10 @@
   --ws-persistent-nav-height: 52px;
   --ws-nav-edge-padding-y: 10px;
   --ws-nav-edge-padding-x: clamp(20px, 4vw, 32px);
-  --ws-staging-banner-height: 0px;
   --ws-site-header-height: calc(
-    var(--ws-staging-banner-height) + var(--ws-persistent-nav-height) +
-      var(--ws-nav-edge-padding-y) * 2 + env(safe-area-inset-top, 0px)
+    var(--ws-persistent-nav-height) + var(--ws-nav-edge-padding-y) * 2 +
+      env(safe-area-inset-top, 0px)
   );
-}
-
-html[data-staging-preview] {
-  --ws-staging-banner-height: 34px;
 }
 
 /* ── Reset ── */
@@ -134,30 +129,10 @@ body {
   }
 }
 
-/* ── Staging banner (sticky above site nav) ── */
-.ws-staging-banner {
-  position: sticky;
-  top: 0;
-  z-index: 210;
-  background: #6b1c2a;
-  color: #f7f3ec;
-  font-family: var(--font-body);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-align: center;
-  padding: 7px 16px;
-  border-bottom: 1px solid rgba(247, 243, 236, 0.2);
-}
-
-.ws-staging-banner__link {
-  color: #f7f3ec;
-  text-decoration: underline;
-}
-
 /* ── Site nav — sticky solid bar above content (not over hero photos) ── */
 .ws-nav-shell {
   position: sticky;
-  top: var(--ws-staging-banner-height, 0px);
+  top: 0;
   z-index: 200;
   padding: var(--ws-nav-edge-padding-y) var(--ws-nav-edge-padding-x);
   padding-top: calc(var(--ws-nav-edge-padding-y) + env(safe-area-inset-top, 0px));
