@@ -88,7 +88,7 @@ export default function HomePage() {
     gsap.set(centerPanel, { ...start, right: 'auto' })
   }, [])
 
-  /** Shrink display title so "Napa Valley" never clips inside overflow:hidden sticky hero */
+  /** Fit width only — TRH wordmark bleeds below the fold; do not cap height */
   useLayoutEffect(() => {
     const container = heroDisplayRef.current
     const title = container?.querySelector<HTMLSpanElement>('.home-hero-display__title')
@@ -97,13 +97,9 @@ export default function HomePage() {
     const fitTitle = () => {
       title.style.fontSize = ''
       const maxWidth = container.clientWidth
-      const maxHeight = window.innerHeight * 0.28
       let size = parseFloat(getComputedStyle(title).fontSize)
-      const minSize = window.innerWidth <= 768 ? 40 : 88
-      while (
-        (title.scrollWidth > maxWidth || title.scrollHeight > maxHeight) &&
-        size > minSize
-      ) {
+      const minSize = window.innerWidth <= 768 ? 72 : 120
+      while (title.scrollWidth > maxWidth && size > minSize) {
         size -= 1
         title.style.fontSize = `${size}px`
       }

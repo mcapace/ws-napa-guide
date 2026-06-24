@@ -454,7 +454,7 @@ body:has([data-page="home-hero"]) {
   overflow: hidden;
 }
 
-/* Bottom display title — TRH oversized wordmark at viewport base */
+/* Bottom display title — TRH oversized wordmark bleeding off viewport base */
 .home-hero-display {
   position: absolute;
   bottom: 0;
@@ -464,7 +464,7 @@ body:has([data-page="home-hero"]) {
   z-index: 12;
   pointer-events: none;
   will-change: opacity;
-  padding: 0 clamp(16px, 3vw, 40px) max(10px, env(safe-area-inset-bottom, 0px));
+  padding: 0 clamp(8px, 2vw, 24px) 0;
   box-sizing: border-box;
 }
 
@@ -473,12 +473,13 @@ body:has([data-page="home-hero"]) {
   font-family: var(--font-display, 'Cormorant Garamond', serif);
   font-style: italic;
   font-weight: 300;
-  font-size: clamp(104px, 19vw, 320px);
+  font-size: clamp(132px, 26vw, 480px);
   color: var(--cream, #f7f3ec);
-  letter-spacing: -0.03em;
-  line-height: 0.88;
+  letter-spacing: -0.035em;
+  line-height: 0.82;
   white-space: nowrap;
-  padding-bottom: 0.04em;
+  transform: translateY(22%);
+  padding-bottom: 0;
 }
 
 /* Homepage + pinned region cards: eyebrow / taglines legible on warm, bright imagery */
@@ -1110,15 +1111,16 @@ html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent-wheel] {
   }
 
   .home-hero-display {
-    bottom: max(8px, env(safe-area-inset-bottom, 0px)) !important;
-    padding: 0 16px max(8px, env(safe-area-inset-bottom, 0px)) !important;
+    bottom: 0 !important;
+    padding: 0 8px 0 !important;
   }
 
   .home-hero-display__title {
-    font-size: clamp(44px, 12vw, 96px) !important;
-    white-space: normal !important;
-    line-height: 0.92 !important;
+    font-size: clamp(88px, 24vw, 160px) !important;
+    white-space: nowrap !important;
+    line-height: 0.82 !important;
     letter-spacing: -0.04em !important;
+    transform: translateY(20%) !important;
   }
 
   .home-newsletter-form {
