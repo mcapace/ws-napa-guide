@@ -280,8 +280,8 @@ function RegionScrollPageClientContent({
               <h2 className={styles.directoryBandTitle}>Browse {regionName}</h2>
               <p className={styles.directoryBandDek}>
                 Need an address without reading every profile? Filter by tastings, dining, or
-                hotels — or use the map to see what&apos;s nearby. Our featured picks from this
-                guide appear first; the rest of the appellation&apos;s listings follow below.
+                hotels — or use the map to see what&apos;s nearby. Featured guide picks are mixed
+                into the full list, sorted alphabetically within each category.
               </p>
             </div>
           </div>
