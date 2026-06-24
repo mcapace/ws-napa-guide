@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import Map, { Marker, Popup, NavigationControl, type MapRef } from 'react-map-gl/mapbox'
+import Map, { Marker, NavigationControl, type MapRef } from 'react-map-gl/mapbox'
 import Supercluster from 'supercluster'
 import { Hotel, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
 import type { MapPin } from '@/data/map-pins'
@@ -698,49 +698,48 @@ export function ExploreMap({
                   </Marker>
                 )
               })}
-
-              {selectedPin && isDesktop && (
-                <Popup
-                  longitude={selectedPin.coords[0]}
-                  latitude={selectedPin.coords[1]}
-                  anchor="bottom"
-                  offset={16}
-                  maxWidth="320"
-                  closeButton={false}
-                  closeOnClick={false}
-                  onClose={() => updateUrl({ place: null })}
-                >
-                  <div className={styles.popupCard}>
-                    {selectedPin.thumb ? (
-                      <div className={styles.popupHero}>
-                        <Image
-                          src={selectedPin.thumb}
-                          alt=""
-                          fill
-                          sizes="300px"
-                          className={styles.popupHeroImage}
-                        />
-                      </div>
-                    ) : null}
-                    <div className={styles.popupBody}>
-                      <p
-                        className={styles.eyebrow}
-                        style={{ color: CATEGORY_CONFIG[selectedPin.category].color }}
-                      >
-                        {CATEGORY_CONFIG[selectedPin.category].label}
-                      </p>
-                      <p className={styles.popupName}>{selectedPin.name}</p>
-                      <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
-                      <Link href={selectedPin.href} className={styles.popupLink}>
-                        View details →
-                      </Link>
-                    </div>
-                  </div>
-                </Popup>
-              )}
             </Map>
+            {selectedPin && isDesktop ? (
+              <div
+                className={styles.mapDetailCard}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  type="button"
+                  className={styles.mapDetailClose}
+                  onClick={() => updateUrl({ place: null })}
+                  aria-label="Close listing details"
+                >
+                  ×
+                </button>
+                {selectedPin.thumb ? (
+                  <div className={styles.mapDetailHero}>
+                    <Image
+                      src={selectedPin.thumb}
+                      alt=""
+                      fill
+                      sizes="300px"
+                      className={styles.mapDetailHeroImage}
+                    />
+                  </div>
+                ) : null}
+                <div className={styles.mapDetailBody}>
+                  <p
+                    className={styles.eyebrow}
+                    style={{ color: CATEGORY_CONFIG[selectedPin.category].color }}
+                  >
+                    {CATEGORY_CONFIG[selectedPin.category].label}
+                  </p>
+                  <p className={styles.popupName}>{selectedPin.name}</p>
+                  <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
+                  <Link href={selectedPin.href} className={styles.popupLink}>
+                    View details →
+                  </Link>
+                </div>
+              </div>
+            ) : null}
             <p className={styles.mapAttribution}>© Mapbox © OpenStreetMap</p>
-            {embedMode ? (
+            {embedMode && !selectedPin ? (
               <p className={styles.mapScrollHint} aria-hidden>
                 Scroll to explore · Ctrl + scroll to zoom map
               </p>
@@ -787,19 +786,6 @@ export function ExploreMap({
       )}
 
       <style jsx global>{`
-        .mapboxgl-popup {
-          max-width: min(300px, calc(100vw - 40px)) !important;
-          z-index: 6;
-        }
-        .mapboxgl-popup-content {
-          background: transparent !important;
-          padding: 0 !important;
-          box-shadow: none !important;
-          border-radius: 0 !important;
-        }
-        .mapboxgl-popup-tip {
-          display: none !important;
-        }
         .mapboxgl-ctrl-group {
           background: rgba(255, 255, 255, 0.94) !important;
           border: 1px solid rgba(13, 11, 9, 0.12) !important;
