@@ -103,6 +103,43 @@ export interface Article {
   publishedAt: string
 }
 
+/** Magazine-style feature layout blocks (Judgment of Paris, Taco Tour, etc.). */
+export interface FeatureVenue {
+  name: string
+  addressLines: string[]
+  website?: string
+  phone?: string
+  description: string
+  restaurantSlug?: string
+  image?: string
+}
+
+export interface FeatureWinePick {
+  name: string
+  detail: string
+}
+
+export interface FeatureTermGroup {
+  title: string
+  intro?: string
+  items: string[]
+}
+
+export interface FeatureArticleContent {
+  kicker?: string
+  pullQuote?: string
+  pullQuoteLines?: string[]
+  introParagraphs: string[]
+  outroParagraphs?: string[]
+  venues?: FeatureVenue[]
+  winePicks?: FeatureWinePick[]
+  termGroups?: FeatureTermGroup[]
+  heroImage: string
+  secondaryImage?: string
+  /** Side-by-side editorial strips (e.g. Judgment bottle point scores). */
+  secondaryImages?: Array<{ src: string; alt?: string; width?: number; height?: number }>
+}
+
 export interface Event {
   slug: string
   name: string

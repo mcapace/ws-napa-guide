@@ -119,11 +119,6 @@
   z-index: 1;
 }
 
-.row:hover,
-.rowThumbActive {
-  z-index: 8;
-}
-
 .row:hover {
   background: rgba(13, 11, 9, 0.03);
 }

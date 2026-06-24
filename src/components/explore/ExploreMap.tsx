@@ -29,7 +29,6 @@ import {
 } from '@/lib/explore'
 import styles from './ExploreMap.module.css'
 import { ExploreMapPin } from './ExploreMapPin'
-import { ListThumbPreview } from './ListThumbPreview'
 import { MapWheelScrollBridge } from '@/components/map/MapWheelScrollBridge'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -118,8 +117,6 @@ export function ExploreMap({
   const [isDesktop, setIsDesktop] = useState(false)
   const scrollSyncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastEaseSlugRef = useRef<string | null>(null)
-  const thumbAnchorRef = useRef<HTMLElement | null>(null)
-
   const toggleListingCopy = useCallback((slug: string) => {
     setExpandedCopySlugs((prev) => {
       const next = new Set(prev)
@@ -186,10 +183,6 @@ export function ExploreMap({
 
   const selectedPin = activePlace
     ? visiblePins.find((p) => p.slug === activePlace) ?? null
-    : null
-
-  const hoveredPin = hoveredSlug
-    ? visiblePins.find((p) => p.slug === hoveredSlug) ?? null
     : null
 
   const updateUrl = useCallback(
@@ -514,7 +507,6 @@ export function ExploreMap({
                 const routeStop = routeIndexBySlug[pin.slug]
                 const isSelected =
                   pin.slug === activePlace || pin.slug === scrollCenterSlug
-                const isHovered = pin.slug === hoveredSlug
                 const copyExpanded = expandedCopySlugs.has(pin.slug)
                 const canExpandCopy = listingCopyCanExpand(pin)
                 const displayCopy = listingDisplayCopy(pin, copyExpanded)
@@ -527,20 +519,10 @@ export function ExploreMap({
                     }}
                     className={`${styles.row} ${isSelected ? styles.rowSelected : ''}${
                       isEditorial ? ` ${styles.rowEditorial}` : ''
-                    }${routeStop ? ` ${styles.rowRouteStop}` : ''}${
-                      isHovered ? ` ${styles.rowThumbActive}` : ''
-                    }`}
+                    }${routeStop ? ` ${styles.rowRouteStop}` : ''}`}
                     onClick={() => selectPin(pin, false)}
-                    onMouseEnter={(e) => {
-                      setHoveredSlug(pin.slug)
-                      thumbAnchorRef.current = e.currentTarget.querySelector(
-                        `.${styles.thumbWrap}`,
-                      ) as HTMLElement
-                    }}
-                    onMouseLeave={() => {
-                      setHoveredSlug(null)
-                      thumbAnchorRef.current = null
-                    }}
+                    onMouseEnter={() => setHoveredSlug(pin.slug)}
+                    onMouseLeave={() => setHoveredSlug(null)}
                   >
                     <div className={styles.thumbWrap}>
                       <div className={styles.thumb}>
@@ -747,12 +729,6 @@ export function ExploreMap({
           </MapWheelScrollBridge>
         </div>
       </div>
-
-      <ListThumbPreview
-        src={hoveredPin?.thumb ?? ''}
-        anchorEl={thumbAnchorRef.current}
-        visible={Boolean(isDesktop && hoveredPin?.thumb && thumbAnchorRef.current)}
-      />
 
       {selectedPin && !isDesktop && mobileView === 'map' && (
         <div className={`${styles.bottomSheet} ${styles.bottomSheetOpen}`}>

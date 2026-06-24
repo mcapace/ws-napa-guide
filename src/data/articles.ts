@@ -23,30 +23,13 @@ export const articles: Article[] = [
     relatedWineries: ['opus-one', 'inglenook', 'clos-du-val', 'schramsberg'],
     excerpt:
       'Fifty years after the 1976 Paris tasting that shocked the wine world, we revisit the wines, the wineries, and what it all means for Napa today.',
-    body: `THE JUDGMENT OF CALIFORNIA Fifty years ago, a blind tasting in Paris opened the world’s eyes to California wine. Today, the wine world is a different place
-
-Visitors to Napa Valley this year will arrive amidst a pair of important anniversaries. While America celebrates its 250th birthday, California wine is celebrating 50 years since a certain tasting opened the world’s eyes to its wines. Held on May 24, 1976, the tasting arranged flights of California Chardonnay and Cabernet Sauvignon-based blends and lined them up against their counterparts from France’s Burgundy and Bordeaux regions. The results came to be known as the “Judgment of Paris.”
-
-The late Steven Spurrier, who organized the tasting, often said he wasn’t trying to change the wine world. He was hoping for a fun event to show the French how good California wines were. A carefree Englishman, Spurrier fell in love with France and built a successful wine shop in Paris catering to fellow ex-pats. As the French tended to drink what they already knew, while the ex-pat community wanted to learn more, Spurrier then opened a wine school, L’Académie du Vin, which thrived.
-
-That educational spirit inspired the tasting. Spurrier kept hearing that California wines were improving, particularly from his American co-worker Patricia Gallagher. As a publicity exercise for the school and shop, they decided to host a tasting of California wines timed in 1976 to celebrate the U.S. bicentennial— after all, France had helped America win its independence. They invited leading Parisian media organizations and local wine writers. Only George Taber, Time’s Paris bureau chief (who had taken a course at L’Académie), showed up. The French, with their view of wine frozen in amber, weren’t interested. But that would soon change.
-
-The tasting was blind, to avoid inherent bias, but the setup itself was fundamentally flawed. Spurrier originally told the judges they would be tasting only California wines—then he threw a curveball, mentioning as the tasting was about to begin that there would be French wines too. The judges spent most of the tasting debating the origins of the wines, rather than their quality.
-
-There was also the panel format, with each judge rating wines on a 20-point scale, after which their scores were averaged. This obscured the wildly different rankings from each judge. Stag’s Leap earned only two first-place scores, but averaging in its multiple third and fourth places was enough to put it on top. Odette Kahn, the editor of Le Revue du Vin, who did[NOT?] rank Stag’s Leap first, unsuccessfully demanded her scorecard back, upset with the results (she reportedly never spoke to Spurrier again).
-
-Afterwards, most wine experts saw the tasting as intellectually interesting, but being aware of its consensus aspect, they also felt its results were hardly earth shattering. American media, however, knowing a good story when they saw one, picked up on Taber’s article. Even this magazine, less than three months old at the time, reported the results with the headline, “California Wines Top French.”
-
-There’s no denying the tasting was a moment. But crediting it as putting California wine on the map is the same unfair leap as singularly crediting Sideways for the quality revolution of California Pinot Noir in the past 40 years. The reality is that the Judgment of Paris merely called attention to a seismic change that had been building for decades.
-
-Starting after Prohibition, stubborn rebels including Louis Martini, Leland Stewart and John Daniel persevered in rebooting California’s wine industry. Then there was innovator Robert Mondavi, who looked at a valley filled with plum and walnut trees and envisioned an American wine landscape. Following Mondavi’s lead came a new wave, including Warren Winiarksi and Mike Grgich. Both previously worked for Mondavi before establishing their own wineries with a dream of making the wine revolution happen (perhaps not coincidentally, their wines won the tasting). Baron Philippe de Rothschild first discussed forming a joint California venture with Mondavi in 1970, six years before the tasting—a strong murmur that the idea of a wine world beyond France had been quietly building among the cognoscenti.
-
-The Paris tasting provided a kinetic spark. Opus One formed in 1978. Christian Moueix arrived in Napa around the same time. Soon, other regions in addition to California, including Australia, Chile and Argentina, were being recognized and collaborated with. The through lines continue into California’s modern era. In 2007, Italy’s Antinori family purchased a 15% stake in Stag’s Leap. In 2023, they took full ownership.
-
-History shows how much California wine has changed in the past 50 years. The Judgment of Paris was one key step—but just one—in helping the wine evolution succeed. Today the wine world still has its appellations, but it doesn’t have borders anymore.`,
     sponsorTier: null,
     featured: true,
-    images: [TEST_IMAGES[2]],
+    images: [
+      '/images/features/judgment-of-paris/hero.jpg',
+      '/images/features/judgment-of-paris/points-montelena.jpg',
+      '/images/features/judgment-of-paris/points-stags-leap.jpg',
+    ],
     publishedAt: '2026-06-15',
   },
   {
@@ -87,83 +70,13 @@ The figure actually started as the logo for the Napa Valley Corporate Park, buil
     relatedRestaurants: ['la-luna-market-taqueria', 'el-taco-feliz'],
     excerpt:
       "Napa Valley and Mexico have a long-entwined history. Twelve taquerias — from Calistoga to downtown Napa — that prove the valley's best casual meal comes on a tortilla.",
-    body: `Napa Valley and Mexico have a long-entwined history that has blended their cultures together along the way. Street tacos, once serving mainly as an easy meal for workers, have become a go-to food option beloved by all. Today, taquerias are located all over the valley, whether brick-and-mortar restaurants or food trucks. Most specialize in classic “street tacos,” plates of smothered tortillas that are typically prepared quickly, packed with flavor in an array of combinations and able to be eaten handily.
-
-A proper street taco needs just five ingredients: tortilla, meat, sauce, cilantro and onion. The magic happens in high-quality ingredients.
-
-It all starts with the tortilla. Dough made of masa harina de maíz and water is pressed flatly and cooked to form the base of a taco dish. The best tortillas are handmade to order and warmed on a grill. Then the meat gets added.
-
-Any taco spot worth its salt offers pollo asado (grilled chicken). Carne (steak) is also a staple protein, often coming in multiple options such as asada (grilled slices), suadero (braised), cabeza (beef cheeks) or lengua (beef tongue). Pork rounds out the big three, with al pastor (seasoned and topped with a pineapple slice), carnitas (braised) and chorizo (seasoned sausage), perhaps the most popular. More adventurous palates can go for chicharrón (pork rind), tripa (intestine) or buche (pork stomach). The proteins may be simply grilled or seasoned with a mix of guajillo, ancho and chipotle chiles, achiote, cumin, garlic, onion and oregano.
-
-Sauces add flavors that bring spice and acidity to the taco, usually as salsa roja, verde or aguacate. Roja is spicy and smoky, made with tomatillos and chiles. Verde is mild and tangy, made with tomatillo, cilantro and lime juice. Aguacate is a creamy version of salsa verde with avocado. Some places specialize in habanero for ultimate spice, or macha for an oily crispness. The street taco’s final garnish is cilantro for freshness and chopped raw onion for a bitter crunch.
-
-There are also seafood tacos which typically come with pico de gallo, cabbage and chipotle aioli. Vegan and vegetarian selections can also be found. Be mindful of levels of spiciness and your tolerance to them—the radish or cucumber slices typically served on the side are there to help if you take one of those too
-
-hot bites. Some taquerias include carrots or grilled onions on the side for a sweet counterpoint.
-
-When pairing wine with tacos, look for something with freshness and bright acidity, which cuts through the richness of the proteins and seasonings. A lower alcohol wine allows the taco’s flavors to shine and keeps spice in the background. Sparkling wines are also a great option. Rich white wines can stand up to the complexity of the taco, while lightly tannic red wines compliment the seasonings without accentuating spice. If you love a big red wine though, go ahead and have it with your tacos. Don’t forget about canned wines, an easily transportable option if you’re having a picnic.
-
-Azteca Market & Taqueria
-789 Main St., St. Helena
-2995 Jefferson St., Napa
-aztecanapavalley.com
-This Mexican grocery store in St. Helena is home to one of the valley’s most popular taco counters (there’s a second location in Napa). The hedonistic street-style taco lineup includes basics such as pollo asado, carnitas and chorizo, along with traditional buche, lengua and suadero.
-
-El Rodeo
-1850 Soscol Ave., Napa
-(707) 415-9800
-This truck specializes in fresh seafood offerings like shrimp or fish tacos alongside with aguachile and seafood cocktail[UNCLEAR]. Try the tripa for an authentic and adventurous street taco bite. The taco gobernadora, with shrimp, cheese and grilled onions, is a heartier choice.
-
-El Sabor Serano 1017 Coombsville Road, Suite B, Napa
-elsaborserano.com
-El Sabor Serano is located on the east side of Napa heading to Coombsville, next to the Fairview Market and not far from the Napa Valley Exposition. It’s best to sit down at this restaurant for your meal. The suadero stands out for its juicy and tender beef. You’re going to want as much salsa verde as possible as it is made with fire roasted tomatillos that add a smoky depth to the sauce.
-
-El Taco Feliz
-Lake Street, Calistoga
-This taco truck is just past the intersection of Silverado Trail and Lake Street. The lines are long for a reason—it’s among the best spots in the valley and the service is always friendly. Their carnes are tender, juicy and packed with flavor. The cabeza stands out for its generosity of seasonings and melt-in-your-mouth braised beef.
-
-La Condesa Taqueria
-1745 Soscol Ave., Napa
-lacondesataquerianapa.com Open early, La Condesa offers breakfast tacos and licuados (smoothies) along with traditional street tacos. The chorizo stands out for its seasoning and spices and is served on a toasted tortilla that holds together nicely. There may not be a better way to start the day than at this taqueria.
-
-La Luna Market & Taqueria
-1153 Rutherford Road, Rutherford lalunamarket.com
-Right in front of the Rancho Caymus Inn, this market and taqueria provides one-stop shopping for a taco picnic. The pastor and pollo adobado tacos shine here, with excellent seasonings and juicy meat. Conveniently, picnic tables surround the exterior of the market.
-
-La Taquiza Fish Tacos
-2007 Redwood Road, Napa lataquizafishtacos.com
-In the Redwood Plaza, this brick-and-mortar taqueria is known for its fresh seafood options. Shrimp, fish and octopus come in various formats such as ceviche or seafood cocktail. The fish taco can be battered and fried or seasoned and grilled, then topped with pico de gallo, cabbage and chipotle crema. The octopus is a standout—grilled fresh, tender and meaty.
-
-Mother’s Tacos
-3150 A Jefferson St., Napa
-madebymothers.com
-Napa’s newest taco joint is a fast casual restaurant located in the Grape Yard shopping center. The tortillas are made in-house and provide the perfect platform for the traditional carne asada, suadero or pollo asado. The mushroom taco outperforms for its melt-in-your-mouth sweetness. Mother’s offers four sauces at the table; be sure to try the oil-based macha sauce for great acidity and crunch.
-
-Ray Ray’s Tacos
-1304 Main St., St. Helena
-rayrays.com
-Ray Ray’s offers convenience with its tacos to go. Choose from various kits designed so you can build your own tacos. A tray of 16 street tacos tray makes things even easier—all you have to do is pick the meat. The spiced carrot taco here should not be missed, either. There is also plenty of seating for dining in.
-
-Tacos El Muchacho Alegre
-751 Jackson St., Napa
-tacoselmuchachoalegre.com This truck is just off Soscol where there are plenty of parking spaces and picnic tables. The spiced shrimp taco here is filled to capacity, with fresh slaw, pico de gallo and creamy aioli. Traditional meats, like the al pastor, are also seasoned perfectly.
-
-Tacos Garcia (Truck) 6792 Washington St., Yountville (707) 980-4896
-Yountville’s only taco truck is on the corner of Washington Street and Champagne Drive, one block from picnic tables, bocce and volleyball courts. The tortillas are lightly toasted on the grill, making them a firm base for the fillings (which are ample). Tacos Garcia specializes in the tender lengua. Be sure to top any taco with the to-die-for red tomatillo sauce.
-
-Tacos Los Compadres
-Claremont Way, Napa
-(707) 339-2305
-Open until midnight, Tacos Los Compadres is a great spot for late-night munchies. The al pastor is one of the best in the valley. A trompo is used to spin the layered meat around a flame, crisping it until ready to be sliced, after which it is topped with slices of grilled pineapple that rotate on the trompo, above the carne. A salad bar on the outside of the truck allows you to conveniently top your tacos with as much cilantro, onions and sauce as you’d like.
-
-Tacos Michoacan 1800 Pueblo Ave., Napa
-(707) 812-9963
-One of the longest-running taquerias in Napa (since the 1990s) this outfit sports a brick-and-mortar along with two trucks. With house-made tortillas, traditional meats and three sauces, Michoacan offers the archetypal Mexican street food. Their carnitas are spot on, with an intensity of saltiness and fattiness. Don’t overlook their carrot side either, as it adds just the right sweetness to finish.
-
-—Chris Cardoso`,
     sponsorTier: null,
     featured: true,
-    images: [TEST_IMAGES[4]],
+    images: [
+      '/images/features/napa-taco-tour/hero.jpg',
+      '/images/features/napa-taco-tour/venue-el-sabor-serano.jpg',
+      '/images/features/napa-taco-tour/venue-mothers-tacos.jpg',
+    ],
     publishedAt: '2026-06-15',
   },
   {
