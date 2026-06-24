@@ -377,9 +377,9 @@ export default function HomePage() {
 
           <div ref={heroCopyRef} className="home-hero-tagline">
             <p className="home-hero-tagline__text">
-              The valley that changed
+              Our guide to exploring
               <br />
-              American wine forever.
+              America&apos;s most famous wine region
             </p>
           </div>
 
@@ -493,26 +493,23 @@ export default function HomePage() {
       <div id="main-content" style={{ position: 'relative', zIndex: 5, background: '#0D0B09' }}>
       {/* ── INTRO ── */}
       <RevealSection>
-        <section
-          ref={avaRef}
-          className="home-intro"
-          style={{ padding: '120px 60px 80px', maxWidth: 800, margin: '0 auto', textAlign: 'center' }}
-        >
-          <p
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: 'italic',
-              fontWeight: 300,
-              fontSize: 'clamp(22px, 2.8vw, 36px)',
-              color: 'rgba(247,243,236,0.85)',
-              lineHeight: 1.5,
-              letterSpacing: '-0.01em',
-              marginBottom: 48,
-            }}
-          >
-            No wine region on earth compresses so much ambition, beauty, and sensory pleasure into so small a space.
-            Fifty miles of valley floor and mountain slope — and yet Napa Valley has become the benchmark against
-            which the world measures itself.
+        <section ref={avaRef} className="home-intro">
+          <p className="home-intro__eyebrow">Wine Spectator · June 2026</p>
+          <p className="home-intro__lead">
+            Drawing on five decades of experience covering Napa, we&apos;ve created the definitive guide
+            to help you explore, navigate, and make the most of your visit.
+          </p>
+          <p className="home-intro__body">
+            No wine region on earth compresses so much ambition, beauty and sensual pleasure into so
+            small a space.
+          </p>
+          <p className="home-intro__service">
+            Our tips on wineries, restaurants and accommodations will let you experience the best of
+            what Napa has to offer.
+          </p>
+          <p className="home-intro__closing">
+            Fifty miles of valley floor and mountain slope — and yet Napa Valley has become the
+            benchmark against which the world measures itself.
           </p>
         </section>
       </RevealSection>

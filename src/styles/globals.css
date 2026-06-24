@@ -380,7 +380,7 @@ body:has([data-page="home-hero"]) {
   transform: translate(-50%, -50%);
   text-align: center;
   z-index: 22;
-  width: min(100%, 560px);
+  width: min(100%, 620px);
   padding: 0 clamp(20px, 4vw, 32px);
   pointer-events: none;
   will-change: opacity;
@@ -413,6 +413,69 @@ body:has([data-page="home-hero"]) {
   font-size: clamp(26px, 3.4vw, 44px);
   line-height: 1.22;
   letter-spacing: -0.015em;
+}
+
+/* Homepage intro — WS editorial voice below hero */
+.home-intro {
+  padding: 120px 60px 80px;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-intro__eyebrow {
+  margin: 0 0 28px;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold, #c4943a);
+}
+
+.home-intro__lead {
+  margin: 0 0 28px;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(24px, 3vw, 38px);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  color: rgba(247, 243, 236, 0.92);
+}
+
+.home-intro__body {
+  margin: 0 0 24px;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(20px, 2.4vw, 30px);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: rgba(247, 243, 236, 0.78);
+}
+
+.home-intro__service {
+  margin: 0 0 36px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(247, 243, 236, 0.1);
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: clamp(13px, 1.4vw, 15px);
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  color: rgba(247, 243, 236, 0.68);
+}
+
+.home-intro__closing {
+  margin: 0;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(17px, 2vw, 24px);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: rgba(247, 243, 236, 0.55);
 }
 
 .home-hero-mosaic-panel {
@@ -1079,8 +1142,21 @@ html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent-wheel] {
   }
 
   section.home-intro {
-    padding-top: calc(var(--ws-site-header-height, 72px) + 24px) !important;
-    padding-bottom: 48px !important;
+    padding: calc(var(--ws-site-header-height, 72px) + 48px) 24px 48px !important;
+  }
+
+  .home-intro__lead {
+    font-size: clamp(22px, 5.5vw, 30px);
+    margin-bottom: 24px;
+  }
+
+  .home-intro__body {
+    font-size: clamp(18px, 4.5vw, 24px);
+  }
+
+  .home-intro__service {
+    padding-top: 20px;
+    margin-bottom: 28px;
   }
 
   .home-hero-mosaic {

@@ -31,6 +31,8 @@ type ScrollyItineraryProps = {
   regionName?: string
   selectedItineraryId?: string
   onItineraryChange?: (id: string) => void
+  /** Region tab embed: fixed panel height, story scrolls inside list column (matches Explore). */
+  embedMode?: boolean
 }
 
 const ROUTE_GLOW_LAYER: LayerProps = {
@@ -93,12 +95,14 @@ export default function ScrollyItinerary({
   regionName,
   selectedItineraryId,
   onItineraryChange,
+  embedMode = false,
 }: ScrollyItineraryProps) {
   const itinerary =
     itineraries.find((it) => it.id === selectedItineraryId) ?? itineraries[0]
 
   const mapRef = useRef<MapRef>(null)
   const stepRefs = useRef<(HTMLElement | null)[]>([])
+  const storyScrollRef = useRef<HTMLDivElement>(null)
   const flyTokenRef = useRef(0)
   const animFrameRef = useRef<number | null>(null)
 
@@ -204,6 +208,9 @@ export default function ScrollyItinerary({
   useEffect(() => {
     if (stops.length === 0) return
 
+    const scrollRoot = embedMode ? storyScrollRef.current : null
+    if (embedMode && !scrollRoot) return
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -223,7 +230,11 @@ export default function ScrollyItinerary({
           })
         })
       },
-      { threshold: 0.55, rootMargin: '-12% 0px -28% 0px' },
+      {
+        threshold: embedMode ? 0.45 : 0.55,
+        root: scrollRoot ?? undefined,
+        rootMargin: embedMode ? '-10% 0px -22% 0px' : '-12% 0px -28% 0px',
+      },
     )
 
     stepRefs.current.forEach((el) => {
@@ -231,7 +242,12 @@ export default function ScrollyItinerary({
     })
 
     return () => observer.disconnect()
-  }, [stops, flyToStop, animateLeg])
+  }, [stops, flyToStop, animateLeg, embedMode, itinerary?.id])
+
+  useEffect(() => {
+    if (!embedMode || !storyScrollRef.current) return
+    storyScrollRef.current.scrollTop = 0
+  }, [embedMode, itinerary?.id])
 
   useEffect(() => {
     return () => {
@@ -312,8 +328,10 @@ export default function ScrollyItinerary({
   }
 
   return (
-    <div className={styles.root}>
-      {showCollectionHeader ? (
+    <div
+      className={`${styles.root}${embedMode ? ` ${styles.rootEmbed} scrollyRootEmbed` : ''}`}
+    >
+      {showCollectionHeader && !embedMode ? (
         <header className={styles.collectionHeader}>
           <p className={styles.eyebrow}>{formatEyebrow(itinerary, regionName)}</p>
           <h2 className={styles.collectionTitle}>{itinerary.seriesTitle}</h2>
@@ -336,7 +354,11 @@ export default function ScrollyItinerary({
       ) : null}
 
       {itineraries.length > 1 ? (
-        <div className={styles.selector} role="tablist" aria-label="Choose itinerary">
+        <div
+          className={`${styles.selector}${embedMode ? ` ${styles.selectorEmbed}` : ''}`}
+          role="tablist"
+          aria-label="Choose itinerary"
+        >
           {itineraries.map((it) => (
             <button
               key={it.id}
@@ -352,52 +374,81 @@ export default function ScrollyItinerary({
         </div>
       ) : null}
 
-      <div className={styles.layout}>
-        <div className={styles.storyColumn}>
-          <header className={styles.storyHeader}>
-            {!showCollectionHeader ? (
-              <p className={styles.eyebrow}>{formatEyebrow(itinerary, regionName)}</p>
-            ) : null}
-            <h2 className={styles.title}>{itinerary.title}</h2>
-            {itinerary.sectionLabel ? (
-              <p className={styles.sectionLabel}>{itinerary.sectionLabel}</p>
-            ) : null}
-            {!showCollectionHeader && itinerary.byline ? (
-              <p className={styles.byline}>
-                By {itinerary.byline}
-                {itinerary.issue ? ` · ${itinerary.issue}` : ''}
-              </p>
-            ) : null}
-            {introParagraphs.length > 0 ? (
-              <div className={styles.introProse}>
-                {introParagraphs.map((paragraph, index) => (
-                  <p
-                    key={index}
-                    className={
-                      index === 0 && introParagraphs.length > 1
-                        ? styles.introLead
-                        : styles.introParagraph
-                    }
-                  >
-                    {paragraph}
+      <div className={`${styles.layout}${embedMode ? ` ${styles.layoutEmbed}` : ''}`}>
+        <div
+          className={`${styles.storyColumnWrap}${embedMode ? ` ${styles.storyColumnWrapEmbed}` : ''}`}
+        >
+          <div
+            ref={embedMode ? storyScrollRef : undefined}
+            data-lenis-prevent={embedMode ? true : undefined}
+            className={embedMode ? styles.storyScroll : undefined}
+          >
+            <div className={styles.storyColumn}>
+              {showCollectionHeader && embedMode ? (
+                <header className={styles.collectionHeader}>
+                  <p className={styles.eyebrow}>{formatEyebrow(itinerary, regionName)}</p>
+                  <h2 className={styles.collectionTitle}>{itinerary.seriesTitle}</h2>
+                  {itinerary.byline ? (
+                    <p className={styles.byline}>
+                      By {itinerary.byline}
+                      {itinerary.issue ? ` · ${itinerary.issue}` : ''}
+                    </p>
+                  ) : null}
+                  {itinerary.seriesIntroParagraphs && itinerary.seriesIntroParagraphs.length > 0 ? (
+                    <div className={styles.collectionIntroProse}>
+                      {itinerary.seriesIntroParagraphs.map((paragraph, index) => (
+                        <p key={index} className={styles.collectionIntro}>{paragraph}</p>
+                      ))}
+                    </div>
+                  ) : itinerary.seriesIntro ? (
+                    <p className={styles.collectionIntro}>{itinerary.seriesIntro}</p>
+                  ) : null}
+                </header>
+              ) : null}
+              <header className={styles.storyHeader}>
+                {!showCollectionHeader ? (
+                  <p className={styles.eyebrow}>{formatEyebrow(itinerary, regionName)}</p>
+                ) : null}
+                <h2 className={styles.title}>{itinerary.title}</h2>
+                {itinerary.sectionLabel ? (
+                  <p className={styles.sectionLabel}>{itinerary.sectionLabel}</p>
+                ) : null}
+                {!showCollectionHeader && itinerary.byline ? (
+                  <p className={styles.byline}>
+                    By {itinerary.byline}
+                    {itinerary.issue ? ` · ${itinerary.issue}` : ''}
                   </p>
-                ))}
-              </div>
-            ) : null}
-            {introImage ? (
-              <div className={styles.introMedia}>
-                <Image
-                  src={introImage}
-                  alt=""
-                  fill
-                  sizes="(max-width: 768px) 100vw, 520px"
-                  className={styles.introMediaImg}
-                />
-              </div>
-            ) : null}
-          </header>
+                ) : null}
+                {introParagraphs.length > 0 ? (
+                  <div className={styles.introProse}>
+                    {introParagraphs.map((paragraph, index) => (
+                      <p
+                        key={index}
+                        className={
+                          index === 0 && introParagraphs.length > 1
+                            ? styles.introLead
+                            : styles.introParagraph
+                        }
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                ) : null}
+                {introImage ? (
+                  <div className={styles.introMedia}>
+                    <Image
+                      src={introImage}
+                      alt=""
+                      fill
+                      sizes="(max-width: 768px) 100vw, 520px"
+                      className={styles.introMediaImg}
+                    />
+                  </div>
+                ) : null}
+              </header>
 
-          <ol className={styles.steps}>
+              <ol className={styles.steps}>
             {stops.map((stop, index) => {
               const href = detailHref(stop)
               const isActive = index === activeIndex
@@ -451,17 +502,21 @@ export default function ScrollyItinerary({
             </div>
           ) : null}
 
-          <div className={styles.storyActions}>
-            <button type="button" className={styles.primaryBtn} onClick={handleTakeRoute}>
-              Take this route
-            </button>
-            <button type="button" className={styles.secondaryBtn} onClick={handleCopyLink}>
-              {copyStatus === 'copied' ? 'Link copied' : copyStatus === 'error' ? 'Copy failed' : 'Copy shareable link'}
-            </button>
+              <div className={styles.storyActions}>
+                <button type="button" className={styles.primaryBtn} onClick={handleTakeRoute}>
+                  Take this route
+                </button>
+                <button type="button" className={styles.secondaryBtn} onClick={handleCopyLink}>
+                  {copyStatus === 'copied' ? 'Link copied' : copyStatus === 'error' ? 'Copy failed' : 'Copy shareable link'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className={styles.mapColumn}>
+        <div
+          className={`${styles.mapColumn}${embedMode ? ` ${styles.mapColumnEmbed}` : ''}`}
+        >
           <div className={styles.mapSticky}>
             {summaryText ? (
               <div className={styles.summaryBar}>

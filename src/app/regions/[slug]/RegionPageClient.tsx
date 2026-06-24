@@ -165,7 +165,7 @@ function RegionPageClientContent({
       skipInitialScrollRef.current = false
       return
     }
-    if (activeTab === 'story' || activeTab === 'itinerary') {
+    if (activeTab === 'story') {
       const id = window.requestAnimationFrame(() => {
         window.requestAnimationFrame(scrollToPanel)
       })
@@ -245,11 +245,9 @@ function RegionPageClientContent({
       <div
         id="region-panel-content"
         className={`${styles.panelZone}${
-          activeTab === 'explore'
-            ? ` ${styles.panelZoneExplore}`
-            : activeTab === 'itinerary'
-              ? ` ${styles.panelZoneItinerary}`
-              : ` ${styles.panelZoneScroll}`
+          activeTab === 'explore' || activeTab === 'itinerary'
+            ? ` ${styles.panelZoneEmbed}`
+            : ` ${styles.panelZoneScroll}`
         }`}
       >
         <AnimatePresence mode="sync" initial={false}>
@@ -262,7 +260,7 @@ function RegionPageClientContent({
           {activeTab === 'explore' ? (
             <motion.div
               key="explore"
-              className={`${styles.panel} ${styles.explorePanel}`}
+              className={`${styles.panel} ${styles.mapEmbedPanel} ${styles.explorePanel}`}
               {...PANEL_MOTION}
             >
               {explorePins.length > 0 ? (
@@ -279,7 +277,7 @@ function RegionPageClientContent({
               )}
               <button
                 type="button"
-                className={styles.exploreScrollMore}
+                className={styles.embedScrollMore}
                 onClick={scrollToBottom}
               >
                 More appellations below ↓
@@ -290,7 +288,7 @@ function RegionPageClientContent({
           {activeTab === 'itinerary' && hasItinerary ? (
             <motion.div
               key="itinerary"
-              className={`${styles.panel} ${styles.itineraryScrollyPanel}`}
+              className={`${styles.panel} ${styles.mapEmbedPanel} ${styles.itineraryEmbedPanel} ${styles.itineraryScrollyPanel}`}
               {...ITINERARY_PANEL_MOTION}
             >
               <ScrollyItinerary
@@ -299,7 +297,15 @@ function RegionPageClientContent({
                 regionName={frontmatter.region}
                 selectedItineraryId={selectedItineraryId}
                 onItineraryChange={setItinerary}
+                embedMode
               />
+              <button
+                type="button"
+                className={styles.embedScrollMore}
+                onClick={scrollToBottom}
+              >
+                More appellations below ↓
+              </button>
             </motion.div>
           ) : null}
         </AnimatePresence>

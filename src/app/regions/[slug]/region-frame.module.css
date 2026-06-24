@@ -203,12 +203,8 @@
   min-height: auto;
 }
 
-.panelZoneExplore {
+.panelZoneEmbed {
   min-height: calc(100vh - var(--region-tab-bar-height));
-}
-
-.panelZoneItinerary {
-  min-height: auto;
 }
 
 .itineraryScrollyPanel {
@@ -364,18 +360,26 @@
   margin-bottom: 0;
 }
 
-/* ── Explore panel ── */
-.explorePanel {
+/* ── Explore / Itinerary embed panels (fixed viewport, internal scroll) ── */
+.mapEmbedPanel {
   position: relative;
   height: min(
     82vh,
     calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height))
   );
   min-height: 420px;
+}
+
+.explorePanel {
   background: #faf7f2;
 }
 
-.explorePanel::after {
+.itineraryEmbedPanel {
+  background: #0d0b09;
+}
+
+.explorePanel::after,
+.itineraryEmbedPanel::after {
   content: '';
   position: absolute;
   left: 0;
@@ -383,11 +387,18 @@
   bottom: 0;
   height: 72px;
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent, rgba(250, 247, 242, 0.92));
   z-index: 12;
 }
 
-.exploreScrollMore {
+.explorePanel::after {
+  background: linear-gradient(to bottom, transparent, rgba(250, 247, 242, 0.92));
+}
+
+.itineraryEmbedPanel::after {
+  background: linear-gradient(to bottom, transparent, rgba(13, 11, 9, 0.92));
+}
+
+.embedScrollMore {
   position: absolute;
   left: 50%;
   bottom: 12px;
@@ -412,7 +423,7 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.exploreScrollMore:hover {
+.embedScrollMore:hover {
   border-color: rgba(196, 148, 58, 0.45);
   box-shadow: 0 6px 24px rgba(13, 11, 9, 0.16);
 }
@@ -429,6 +440,14 @@
   height: 100%;
   min-height: 0;
   max-height: none;
+}
+
+.itineraryEmbedPanel :global(.scrollyRootEmbed) {
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ── Itinerary panel ── */
@@ -706,7 +725,8 @@
     padding: 40px 20px 64px;
   }
 
-  .explorePanel {
+  .explorePanel,
+  .itineraryEmbedPanel {
     height: min(
       78dvh,
       calc(100dvh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height))
