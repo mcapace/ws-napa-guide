@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { usePathname } from 'next/navigation'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import Lenis from 'lenis'
-import { LenisContext } from '@/lib/smooth-scroll'
+import { LenisContext, resetScrollToTop } from '@/lib/smooth-scroll'
 
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
@@ -21,6 +22,23 @@ export default function AnimationProvider({ children }: { children?: ReactNode }
   const lenisRef = useRef<Lenis | null>(null)
   const triggersRef = useRef<ScrollTrigger[]>([])
   const [lenis, setLenis] = useState<Lenis | null>(null)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (typeof history !== 'undefined' && 'scrollRestoration' in history) {
+      history.scrollRestoration = 'manual'
+    }
+  }, [])
+
+  useEffect(() => {
+    resetScrollToTop(lenisRef.current)
+    const raf = requestAnimationFrame(() => {
+      resetScrollToTop(lenisRef.current)
+      ScrollTrigger.update()
+      requestAnimationFrame(() => ScrollTrigger.refresh())
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [pathname])
 
   useEffect(() => {
     const lenisInstance = new Lenis({

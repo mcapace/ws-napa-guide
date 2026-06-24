@@ -16,6 +16,16 @@ function cssVarPx(name: string, fallback: number): number {
   return Number.isFinite(n) ? n : fallback
 }
 
+/** Reset document scroll (Lenis-aware). Use on route changes so new pages open at the top. */
+export function resetScrollToTop(lenis: Lenis | null): void {
+  if (lenis) {
+    lenis.scrollTo(0, { immediate: true, force: true })
+  }
+  window.scrollTo(0, 0)
+  document.documentElement.scrollTop = 0
+  document.body.scrollTop = 0
+}
+
 /** Scroll so `target` sits below the site nav + region tab bar (Lenis-aware). */
 export function scrollToTarget(
   target: HTMLElement | null,
