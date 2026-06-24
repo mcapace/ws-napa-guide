@@ -1,6 +1,28 @@
 # Image assets (`public/images/`)
 
-On-disk layout for homepage and region editorial imagery. Region heroes and featured property stills live under `{region-slug}/`; re-import from a drive zip via `scripts/import-region-drive-images.py`.
+On-disk layout for homepage and region editorial imagery. Region heroes and featured property stills live under `{region-slug}/`.
+
+**Drive source (canonical):** [Napa Guide Digital — Image Assets](https://drive.google.com/drive/folders/1TQXS-Rr5zRgoQnsUItksSMhquZ0yE1aT)
+
+## Import workflow
+
+1. Download the Drive folder (browser “Download” → zip, or `gdown --folder` into `.tmp-drive-import`).
+2. Run from repo root:
+
+```bash
+# Regions 01–06 from Desktop zip (default path in script)
+python3 scripts/import-region-drive-images.py
+
+# Or from an unzipped Drive folder (includes 00_Homepage mosaic refresh)
+python3 scripts/import-region-drive-images.py --dir .tmp-drive-import
+
+# Homepage mosaic only
+python3 scripts/import-region-drive-images.py --mosaic-only --dir .tmp-drive-import
+```
+
+Maps `01_Oakville` … `06_Downtown_Napa` into `public/images/{slug}/` and updates `src/content/regions/*.mdx` image paths.
+
+**Not in the default zip:** `07_Beyond Downtown` (Pritchard Hill) — pull from Drive separately when available.
 
 ## Canonical schema
 

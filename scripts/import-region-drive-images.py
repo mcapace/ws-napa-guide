@@ -1,17 +1,30 @@
 #!/usr/bin/env python3
-"""Import region hero + property JPGs from Wine Spectator drive zip."""
+"""Import region + homepage JPGs from the Napa Guide Digital Drive export.
+
+Source folder layout matches:
+https://drive.google.com/drive/folders/1TQXS-Rr5zRgoQnsUItksSMhquZ0yE1aT
+
+Usage:
+  python3 scripts/import-region-drive-images.py
+  python3 scripts/import-region-drive-images.py --dir .tmp-drive-import
+  python3 scripts/import-region-drive-images.py --zip ~/Desktop/drive-download.zip
+  python3 scripts/import-region-drive-images.py --mosaic-only --dir .tmp-drive-import
+"""
 
 from __future__ import annotations
 
+import argparse
 import re
 import shutil
 import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ZIP_PATH = Path("/Users/mcapace/Desktop/drive-download-20260522T124716Z-3-001.zip")
+DEFAULT_ZIP = Path("/Users/mcapace/Desktop/drive-download-20260522T124716Z-3-001.zip")
+DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1TQXS-Rr5zRgoQnsUItksSMhquZ0yE1aT"
 IMAGES = ROOT / "public" / "images"
 MDX_DIR = ROOT / "src" / "content" / "regions"
+MOSAIC_DIR = IMAGES / "homepage" / "mosaic"
 
 REGION_PREFIX = {
     "01_Oakville": "oakville",
@@ -212,6 +225,91 @@ def slug_for_path(region: str, section: str, prop_slug: str) -> str:
     return f"{region}-{kind}-{prop_slug}"
 
 
+def is_original_path(path_str: str) -> bool:
+    lower = path_str.lower()
+    return "/original" in lower or "/originals/" in lower
+
+
+def import_homepage_mosaic(source_dir: Path) -> int:
+    """Sync hero mosaic tiles from 00_Homepage/01_Hero_Collage/Still_Tiles_(5)."""
+    collage_root = source_dir / "00_Homepage" / "01_Hero_Collage" / "Still_Tiles_(5)"
+    if not collage_root.is_dir():
+        print(f"  mosaic: no collage folder at {collage_root}")
+        return 0
+
+    MOSAIC_DIR.mkdir(parents=True, exist_ok=True)
+    targets = {
+        p.stem.lower().replace("-", "_"): p.name for p in MOSAIC_DIR.glob("collage-*.jpg")
+    }
+    copied = 0
+    candidates: list[Path] = sorted(collage_root.glob("*.jpg"))
+    replacements = collage_root / "new replacements"
+    if replacements.is_dir():
+        candidates.extend(sorted(replacements.glob("*.jpg")))
+
+    for jpg in candidates:
+        key = jpg.stem.lower().replace("-", "_")
+        dest_name = targets.get(key)
+        if not dest_name:
+            continue
+        shutil.copy2(jpg, MOSAIC_DIR / dest_name)
+        copied += 1
+        print(f"  mosaic: {dest_name}")
+
+    return copied
+
+
+def import_region_file(
+    file_path: Path,
+    rel_parts: list[str],
+    imported: dict[str, dict[str, tuple[str, str]]],
+) -> None:
+    if len(rel_parts) < 2:
+        return
+
+    prefix = rel_parts[0]
+    region = REGION_PREFIX.get(prefix)
+    if not region:
+        return
+
+    name = str(file_path)
+    stem = file_path.stem
+    imported.setdefault(region, {})
+
+    if "Hero_" in name or "hero_" in name:
+        hero_dir = IMAGES / region / "hero"
+        hero_dir.mkdir(parents=True, exist_ok=True)
+        if "16x9" in stem or "16X9" in stem:
+            dest = hero_dir / f"{region}-hero-landscape.jpg"
+            imported[region]["__hero__"] = (
+                f"/images/{region}/hero/{region}-hero-landscape.jpg",
+                "",
+            )
+        elif "2x3" in stem or "2X3" in stem:
+            dest = hero_dir / f"{region}-hero-portrait.jpg"
+        else:
+            return
+        shutil.copy2(file_path, dest)
+        return
+
+    if "Properties_" not in name:
+        return
+
+    mapping = PROPERTY_MAP.get(region, {})
+    entry = mapping.get(stem)
+    if not entry:
+        print(f"  unmapped: {'/'.join(rel_parts)}")
+        return
+
+    section, prop_slug = entry
+    if prop_slug.endswith("-alt"):
+        return
+
+    urls = copy_pair(file_path, region, section, prop_slug)
+    imported[region][prop_slug] = urls
+    print(f"  {region}/{section}/{prop_slug}")
+
+
 def copy_pair(src: Path, region: str, section: str, prop_slug: str) -> tuple[str, str]:
     dest_dir = IMAGES / region / section
     dest_dir.mkdir(parents=True, exist_ok=True)
@@ -226,29 +324,60 @@ def copy_pair(src: Path, region: str, section: str, prop_slug: str) -> tuple[str
     )
 
 
-def import_from_zip() -> dict[str, dict[str, tuple[str, str]]]:
+def finalize_hero_imported(
+    imported: dict[str, dict[str, tuple[str, str]]],
+) -> dict[str, dict[str, tuple[str, str]]]:
+    for region in REGION_PREFIX.values():
+        hero_p = IMAGES / region / "hero" / f"{region}-hero-portrait.jpg"
+        hero_l = IMAGES / region / "hero" / f"{region}-hero-landscape.jpg"
+        if hero_l.exists() and region in imported:
+            imported[region]["__hero__"] = (
+                f"/images/{region}/hero/{region}-hero-landscape.jpg",
+                f"/images/{region}/hero/{region}-hero-portrait.jpg"
+                if hero_p.exists()
+                else f"/images/{region}/hero/{region}-hero-landscape.jpg",
+            )
+    return imported
+
+
+def import_from_dir(source_dir: Path) -> dict[str, dict[str, tuple[str, str]]]:
+    imported: dict[str, dict[str, tuple[str, str]]] = {}
+    if not source_dir.is_dir():
+        raise SystemExit(f"Drive folder not found: {source_dir}")
+
+    for jpg in sorted(source_dir.rglob("*.jpg")):
+        rel = jpg.relative_to(source_dir)
+        if is_original_path(str(rel)):
+            continue
+        import_region_file(jpg, list(rel.parts), imported)
+
+    return finalize_hero_imported(imported)
+
+
+def import_from_zip(zip_path: Path) -> dict[str, dict[str, tuple[str, str]]]:
     """Returns region -> prop_slug -> (landscape_url, portrait_url). Use primary slug only."""
     imported: dict[str, dict[str, tuple[str, str]]] = {}
-    if not ZIP_PATH.exists():
-        raise SystemExit(f"Zip not found: {ZIP_PATH}")
+    if not zip_path.exists():
+        raise SystemExit(f"Zip not found: {zip_path}")
 
-    with zipfile.ZipFile(ZIP_PATH) as zf:
+    with zipfile.ZipFile(zip_path) as zf:
         for name in zf.namelist():
             lower = name.lower()
             if not lower.endswith(".jpg"):
                 continue
-            if "/original" in lower or "/originals/" in lower:
+            if is_original_path(name):
                 continue
 
             parts = name.split("/")
             if len(parts) < 2:
                 continue
+
+            stem = Path(name).stem
             prefix = parts[0]
             region = REGION_PREFIX.get(prefix)
             if not region:
                 continue
 
-            stem = Path(name).stem
             imported.setdefault(region, {})
 
             if "Hero_" in name or "hero_" in name:
@@ -279,7 +408,7 @@ def import_from_zip() -> dict[str, dict[str, tuple[str, str]]]:
 
             section, prop_slug = entry
             if prop_slug.endswith("-alt"):
-                continue  # skip duplicate zip; primary handles lewis/quintessa/scala
+                continue
 
             tmp = ROOT / ".tmp-import" / f"{stem}.jpg"
             tmp.parent.mkdir(parents=True, exist_ok=True)
@@ -290,20 +419,7 @@ def import_from_zip() -> dict[str, dict[str, tuple[str, str]]]:
             print(f"  {region}/{section}/{prop_slug}")
 
     shutil.rmtree(ROOT / ".tmp-import", ignore_errors=True)
-
-    # Fix hero portrait paths in imported
-    for region in REGION_PREFIX.values():
-        hero_p = IMAGES / region / "hero" / f"{region}-hero-portrait.jpg"
-        hero_l = IMAGES / region / "hero" / f"{region}-hero-landscape.jpg"
-        if hero_l.exists() and region in imported:
-            imported[region]["__hero__"] = (
-                f"/images/{region}/hero/{region}-hero-landscape.jpg",
-                f"/images/{region}/hero/{region}-hero-portrait.jpg"
-                if hero_p.exists()
-                else f"/images/{region}/hero/{region}-hero-landscape.jpg",
-            )
-
-    return imported
+    return finalize_hero_imported(imported)
 
 
 def inject_mdx(region: str, urls_by_slug: dict[str, tuple[str, str]]) -> None:
@@ -374,13 +490,57 @@ def inject_mdx(region: str, urls_by_slug: dict[str, tuple[str, str]]) -> None:
 
 
 def main() -> None:
-    print("Importing from zip...")
-    imported = import_from_zip()
-    print("\nUpdating MDX...")
-    for region in REGION_PREFIX.values():
-        if region in imported:
-            inject_mdx(region, imported[region])
-    print("Done.")
+    parser = argparse.ArgumentParser(description="Import Napa Guide Digital Drive image assets")
+    parser.add_argument(
+        "--zip",
+        type=Path,
+        default=DEFAULT_ZIP,
+        help="Path to Drive export zip (regions 01–06)",
+    )
+    parser.add_argument(
+        "--dir",
+        type=Path,
+        default=None,
+        help="Unzipped Drive folder (e.g. .tmp-drive-import)",
+    )
+    parser.add_argument(
+        "--mosaic-only",
+        action="store_true",
+        help="Only refresh homepage hero mosaic tiles from 00_Homepage",
+    )
+    parser.add_argument(
+        "--skip-mdx",
+        action="store_true",
+        help="Copy files only; do not update region MDX image paths",
+    )
+    args = parser.parse_args()
+
+    source_dir = args.dir or ROOT / ".tmp-drive-import"
+    if args.mosaic_only:
+        print(f"Refreshing homepage mosaic from {source_dir}...")
+        count = import_homepage_mosaic(source_dir)
+        print(f"Mosaic: {count} files updated. Drive: {DRIVE_FOLDER_URL}")
+        return
+
+    imported: dict[str, dict[str, tuple[str, str]]] = {}
+    if args.dir:
+        print(f"Importing regions from folder: {args.dir}")
+        imported = import_from_dir(args.dir)
+    else:
+        print(f"Importing regions from zip: {args.zip}")
+        imported = import_from_zip(args.zip)
+
+    if source_dir.is_dir():
+        print(f"\nRefreshing homepage mosaic from {source_dir}...")
+        import_homepage_mosaic(source_dir)
+
+    if not args.skip_mdx:
+        print("\nUpdating MDX...")
+        for region in REGION_PREFIX.values():
+            if region in imported:
+                inject_mdx(region, imported[region])
+
+    print(f"\nDone. Drive source: {DRIVE_FOLDER_URL}")
 
 
 if __name__ == "__main__":

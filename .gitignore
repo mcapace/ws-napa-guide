@@ -46,3 +46,6 @@ public/PDFs/*.pdf
 PR_DESCRIPTION.md
 .verify-screenshots/
 proof-screens/
+.tmp-drive-import/
+.tmp-import/
+.venv-gdown/
