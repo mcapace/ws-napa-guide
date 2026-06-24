@@ -1,5 +1,3 @@
-import { existsSync, readdirSync } from 'fs'
-import { join } from 'path'
 import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { isEditorialListingImage } from '@/lib/explore'
@@ -42,48 +40,13 @@ function pinImageForName(pins: MapPin[], name: string): string | undefined {
   return isEditorialListingImage(src) ? src!.trim() : undefined
 }
 
-function sectionFolderForCategory(category: ItineraryStop['category']): string {
-  if (category === 'dining') return 'restaurants'
-  if (category === 'stay') return 'hotels'
-  return 'wineries'
-}
-
-/** Match imported Drive filenames under `public/images/{region}/{section}/`. */
-function filesystemImageForStop(regionSlug: string, stop: ItineraryStop): string | undefined {
-  const section = sectionFolderForCategory(stop.category)
-  const dir = join(process.cwd(), 'public', 'images', regionSlug, section)
-  if (!existsSync(dir)) return undefined
-
-  const stopNorm = normalizeName(stop.name)
-  const keywords = stopNorm.split(' ').filter((w) => w.length >= 4)
-
-  for (const file of readdirSync(dir)) {
-    if (!file.endsWith('-landscape.jpg')) continue
-    const stem = file.replace(/-landscape\.jpg$/, '').toLowerCase()
-    const stemWords = normalizeName(stem.replace(/-/g, ' '))
-
-    if (
-      namesOverlap(stemWords, stopNorm) ||
-      namesOverlap(stem, stop.name) ||
-      keywords.some((word) => stem.includes(word))
-    ) {
-      return `/images/${regionSlug}/${section}/${file}`
-    }
-  }
-  return undefined
-}
-
 export function resolveStopEditorialImage(
-  regionSlug: string,
+  _regionSlug: string,
   stop: ItineraryStop,
   mdx: LoadedRegionMdx,
   pins: MapPin[],
 ): string | undefined {
-  return (
-    editorialImageForName(mdx, stop.name) ??
-    pinImageForName(pins, stop.name) ??
-    filesystemImageForStop(regionSlug, stop)
-  )
+  return editorialImageForName(mdx, stop.name) ?? pinImageForName(pins, stop.name)
 }
 
 /** Hero + featured listing stills from MDX (Drive-imported `/images/` paths). */
