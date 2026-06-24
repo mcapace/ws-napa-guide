@@ -114,6 +114,7 @@ body {
 
 .home-mosaic-panel-layer {
   opacity: 0;
+  pointer-events: none;
 }
 
 .home-mosaic-panel-layer.is-top {
