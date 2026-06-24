@@ -1,6 +1,3 @@
-import type { RegionData } from '@/data/regions'
-import { TEST_IMAGES } from '@/lib/test-images'
-
 /**
  * Homepage appellation hover stills — `public/images/homepage/region-scroll-reveals/`.
  * Source: Drive `00_Homepage/02_Region_Scroll_Reveals` (3 stills per region when available).
@@ -33,17 +30,6 @@ export const REGION_SCROLL_REVEAL_IMAGES: Record<string, readonly string[]> = {
 }
 
 /** Three images for the browse-by-appellation hover reveal (left + two on right). */
-export function getAppellationRevealImages(
-  region: RegionData,
-  index: number,
-  wineryImages: string[],
-): [string, string, string] {
-  const reveals = REGION_SCROLL_REVEAL_IMAGES[region.slug] ?? []
-  const fallback = (offset: number) => TEST_IMAGES[(index + offset) % TEST_IMAGES.length]
-
-  return [
-    reveals[0] ?? region.heroImage,
-    reveals[1] ?? wineryImages[0] ?? fallback(1),
-    reveals[2] ?? wineryImages[1] ?? fallback(3),
-  ]
+export function getAppellationRevealImages(slug: string): readonly string[] {
+  return REGION_SCROLL_REVEAL_IMAGES[slug] ?? []
 }

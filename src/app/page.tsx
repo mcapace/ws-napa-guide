@@ -8,7 +8,6 @@ import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { regions, type RegionData } from '@/data/regions'
-import { wineries } from '@/data/wineries'
 import { buildMosaicPanelQueues, pickHeroVideoFallback } from '@/lib/home-mosaic-images'
 import { getAppellationRevealImages } from '@/lib/region-scroll-reveals'
 import { HomeMosaicRotatingPanel } from '@/components/home/HomeMosaicRotatingPanel'
@@ -691,18 +690,18 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
   const [hovered, setHovered] = useState(false)
   const RegionMark = getRegionEditorialMark(region.slug)
 
-  // Editorial stills from Drive 02_Region_Scroll_Reveals (3 per region when available)
-  const regionWineryImages = wineries
-    .filter((w) => w.region === region.slug)
-    .flatMap((w) => w.images)
-  const [img1, img2, img3] = getAppellationRevealImages(region, index, regionWineryImages)
+  // Drive 02_Region_Scroll_Reveals — left: [0], right top: [1], right bottom: [2]
+  const revealImages = getAppellationRevealImages(region.slug)
+  const imgLeft = revealImages[0]
+  const imgRightTop = revealImages[1]
+  const imgRightBottom = revealImages[2]
   const st = APP_MARK_STAGGER[index % APP_MARK_STAGGER.length]
   const hoverTilt = st.deg + (st.deg >= 0 ? 5 : -5)
 
   return (
     <Link
       href={`/regions/${region.slug}`}
-      className="home-appellation-link"
+      className={`home-appellation-link${hovered ? ' home-appellation-link--active' : ''}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -717,7 +716,9 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
       }}
     >
       {/* Image 1: left side */}
+      {imgLeft ? (
       <div
+        className="home-appellation-reveal"
         style={{
           position: 'absolute',
           left: 'clamp(30px, 5vw, 80px)',
@@ -727,17 +728,21 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           aspectRatio: '4/3',
           overflow: 'hidden',
           opacity: hovered ? 1 : 0,
+          visibility: hovered ? 'visible' : 'hidden',
           clipPath: hovered ? 'inset(0% 0% 0% 0%)' : 'inset(0% 100% 0% 0%)',
-          transition: 'clip-path 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, transform 0.5s ease',
+          transition: `clip-path 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, transform 0.5s ease, visibility 0s linear ${hovered ? '0s' : '0.4s'}`,
           pointerEvents: 'none',
           borderRadius: 2,
         }}
       >
-        <Image src={img1} alt="" fill sizes="220px" style={{ objectFit: 'cover' }} />
+        <Image src={imgLeft} alt="" fill sizes="220px" style={{ objectFit: 'cover' }} />
       </div>
+      ) : null}
 
       {/* Image 2: right side, offset up */}
+      {imgRightTop ? (
       <div
+        className="home-appellation-reveal"
         style={{
           position: 'absolute',
           right: 'clamp(30px, 5vw, 80px)',
@@ -747,17 +752,21 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           aspectRatio: '3/4',
           overflow: 'hidden',
           opacity: hovered ? 1 : 0,
+          visibility: hovered ? 'visible' : 'hidden',
           clipPath: hovered ? 'inset(0% 0% 0% 0%)' : 'inset(0% 0% 0% 100%)',
-          transition: 'clip-path 0.5s cubic-bezier(0.4,0,0.2,1) 0.08s, opacity 0.4s ease 0.08s, transform 0.5s ease',
+          transition: `clip-path 0.5s cubic-bezier(0.4,0,0.2,1) 0.08s, opacity 0.4s ease 0.08s, transform 0.5s ease, visibility 0s linear ${hovered ? '0s' : '0.48s'}`,
           pointerEvents: 'none',
           borderRadius: 2,
         }}
       >
-        <Image src={img2} alt="" fill sizes="180px" style={{ objectFit: 'cover' }} />
+        <Image src={imgRightTop} alt="" fill sizes="180px" style={{ objectFit: 'cover' }} />
       </div>
+      ) : null}
 
       {/* Image 3: right side, offset down */}
+      {imgRightBottom ? (
       <div
+        className="home-appellation-reveal"
         style={{
           position: 'absolute',
           right: 'clamp(180px, 22vw, 340px)',
@@ -767,14 +776,16 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           aspectRatio: '1/1',
           overflow: 'hidden',
           opacity: hovered ? 1 : 0,
+          visibility: hovered ? 'visible' : 'hidden',
           clipPath: hovered ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)',
-          transition: 'clip-path 0.5s cubic-bezier(0.4,0,0.2,1) 0.15s, opacity 0.4s ease 0.15s, transform 0.5s ease',
+          transition: `clip-path 0.5s cubic-bezier(0.4,0,0.2,1) 0.15s, opacity 0.4s ease 0.15s, transform 0.5s ease, visibility 0s linear ${hovered ? '0s' : '0.55s'}`,
           pointerEvents: 'none',
           borderRadius: 2,
         }}
       >
-        <Image src={img3} alt="" fill sizes="150px" style={{ objectFit: 'cover' }} />
+        <Image src={imgRightBottom} alt="" fill sizes="150px" style={{ objectFit: 'cover' }} />
       </div>
+      ) : null}
 
       {/* Name + staggered sticker — mark overlaps type at varied heights / tilts (therealhotels) */}
       <span

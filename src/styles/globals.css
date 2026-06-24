@@ -1147,7 +1147,24 @@ html.lenis body {
 /* Homepage appellation row: readable without hover (touch); desktop keeps dim idle state */
 .home-appellation-name {
   color: rgba(247, 243, 236, 0.52);
-  transition: color 0.4s ease;
+  transition: color 0.4s ease, opacity 0.6s var(--ease-out);
+}
+
+/* Dim sibling labels only — not whole rows (overflow images must not bleed at 20% opacity) */
+.home-appellation-wrap .dim-siblings:has(> .home-appellation-link:hover) > .home-appellation-link:not(:hover) {
+  opacity: 1;
+}
+
+.home-appellation-wrap .dim-siblings:has(> .home-appellation-link:hover) > .home-appellation-link:not(:hover) .home-appellation-name {
+  opacity: 0.22;
+}
+
+.home-appellation-link {
+  isolation: isolate;
+}
+
+.home-appellation-link--active {
+  z-index: 5;
 }
 
 @media (hover: hover) and (pointer: fine) {
