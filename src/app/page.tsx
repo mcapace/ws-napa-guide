@@ -20,11 +20,9 @@ import { NavMenuOverlay } from '@/components/ui/NavMenuOverlay'
 
 const featuredRegions = regions
 
-// ── JW Player (test media; swap IDs when final assets land) ───────────
-// Catalog also in src/components/video/JWVideo.tsx STATIC_MP4_720
-const HERO_MEDIA_ID = 'sVn1cQyI'
-const HERO_MP4 = `https://cdn.jwplayer.com/videos/${HERO_MEDIA_ID}-WBFwZoOE.mp4`
-const HERO_POSTER = `https://cdn.jwplayer.com/v2/media/${HERO_MEDIA_ID}/poster.jpg`
+// ── Homepage hero video (4 Adobe Stock clips stitched with crossfades) ──
+const HERO_VIDEO = '/images/homepage/hero/video.mp4'
+const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
 // ── Mosaic panel positions (mirroring therealhotels) ─────────────────
 const PANELS = [
@@ -213,7 +211,7 @@ export default function HomePage() {
     const videoLoadTimer = window.setTimeout(() => {
       const video = heroVideoRef.current
       if (video && !video.src) {
-        video.src = HERO_MP4
+        video.src = HERO_VIDEO
         video.load()
         video.play().catch(() => {
           // Autoplay blocked; poster remains visible — acceptable fallback
