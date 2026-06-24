@@ -454,10 +454,10 @@ body:has([data-page="home-hero"]) {
   overflow: hidden;
 }
 
-/* Bottom display title — TRH oversized wordmark, lifted with subtle bottom bleed */
+/* Bottom display title — TRH oversized wordmark, fully readable above viewport edge */
 .home-hero-display {
   position: absolute;
-  bottom: clamp(28px, 5vh, 56px);
+  bottom: clamp(40px, 7vh, 80px);
   left: 0;
   right: 0;
   text-align: center;
@@ -476,10 +476,10 @@ body:has([data-page="home-hero"]) {
   font-size: clamp(96px, 17vw, 280px);
   color: var(--cream, #f7f3ec);
   letter-spacing: -0.03em;
-  line-height: 0.84;
+  line-height: 0.9;
   white-space: nowrap;
-  transform: translateY(4%);
-  padding-bottom: 0;
+  transform: none;
+  padding-bottom: 0.02em;
 }
 
 /* Homepage + pinned region cards: eyebrow / taglines legible on warm, bright imagery */
@@ -1111,16 +1111,16 @@ html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent-wheel] {
   }
 
   .home-hero-display {
-    bottom: clamp(18px, 3.5vh, 32px) !important;
+    bottom: clamp(28px, 5.5vh, 48px) !important;
     padding: 0 8px 0 !important;
   }
 
   .home-hero-display__title {
     font-size: clamp(64px, 17vw, 120px) !important;
     white-space: nowrap !important;
-    line-height: 0.84 !important;
+    line-height: 0.9 !important;
     letter-spacing: -0.035em !important;
-    transform: translateY(4%) !important;
+    transform: none !important;
   }
 
   .home-newsletter-form {

@@ -88,17 +88,15 @@ export default function HomePage() {
     gsap.set(centerPanel, { ...start, right: 'auto' })
   }, [])
 
-  /** TRH wordmark: full width, modest bottom bleed, ~32vh visible height */
+  /** TRH wordmark: full width; keep full letterforms visible (no bottom clip on descenders) */
   useLayoutEffect(() => {
     const container = heroDisplayRef.current
     const title = container?.querySelector<HTMLSpanElement>('.home-hero-display__title')
     if (!container || !title) return
 
-    const bleedRatio = 0.05
-
     const fitTitle = () => {
       title.style.fontSize = ''
-      title.style.transform = `translateY(${bleedRatio * 100}%)`
+      title.style.transform = 'none'
 
       const maxWidth = container.clientWidth
       const maxVisibleHeight = window.innerHeight * (window.innerWidth <= 768 ? 0.22 : 0.25)
@@ -107,9 +105,7 @@ export default function HomePage() {
 
       while (size > minSize) {
         title.style.fontSize = `${size}px`
-        const textHeight = title.offsetHeight
-        const visibleHeight = textHeight * (1 - bleedRatio)
-        if (title.scrollWidth <= maxWidth && visibleHeight <= maxVisibleHeight) break
+        if (title.scrollWidth <= maxWidth && title.offsetHeight <= maxVisibleHeight) break
         size -= 1
       }
     }
