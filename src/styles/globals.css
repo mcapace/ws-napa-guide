@@ -448,17 +448,17 @@ body:has([data-page="home-hero"]) {
   overflow: hidden;
 }
 
-/* Bottom display title — TRH scale, fitted to viewport width */
+/* Bottom display title — TRH scale, inset so descenders stay inside sticky viewport */
 .home-hero-display {
   position: absolute;
-  bottom: 0;
+  bottom: clamp(28px, 5vh, 56px);
   left: 0;
   right: 0;
   text-align: center;
   z-index: 12;
   pointer-events: none;
   will-change: opacity;
-  padding: 0 clamp(20px, 4vw, 48px) max(12px, env(safe-area-inset-bottom, 0px));
+  padding: 0 clamp(24px, 5vw, 56px);
   box-sizing: border-box;
 }
 
@@ -467,12 +467,12 @@ body:has([data-page="home-hero"]) {
   font-family: var(--font-display, 'Cormorant Garamond', serif);
   font-style: italic;
   font-weight: 300;
-  font-size: min(clamp(88px, 14.5vw, 300px), calc((100vw - 4rem) / 5.6));
+  font-size: min(clamp(80px, 12.5vw, 240px), calc((100vw - 5rem) / 5.8));
   color: var(--cream, #f7f3ec);
-  letter-spacing: -0.03em;
-  line-height: 0.92;
+  letter-spacing: -0.025em;
+  line-height: 1;
   white-space: nowrap;
-  padding-bottom: 0.06em;
+  padding-bottom: 0.1em;
 }
 
 /* Homepage + pinned region cards: eyebrow / taglines legible on warm, bright imagery */
@@ -1091,18 +1091,18 @@ html.lenis body {
   }
 
   .home-hero-display {
-    bottom: max(12px, env(safe-area-inset-bottom, 0px)) !important;
+    bottom: max(28px, env(safe-area-inset-bottom, 0px) + 20px) !important;
     left: 0 !important;
     right: 0 !important;
-    padding: 0 16px max(12px, env(safe-area-inset-bottom, 0px)) !important;
+    padding: 0 20px !important;
   }
 
   .home-hero-display__title {
-    font-size: clamp(40px, 11vw, 88px) !important;
+    font-size: clamp(40px, 10.5vw, 84px) !important;
     white-space: normal !important;
-    line-height: 1.05 !important;
+    line-height: 1.08 !important;
     letter-spacing: -0.04em !important;
-    padding-bottom: 0.08em !important;
+    padding-bottom: 0.1em !important;
   }
 
   .home-newsletter-form {

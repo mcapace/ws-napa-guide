@@ -24,13 +24,13 @@ const featuredRegions = regions
 const HERO_VIDEO = '/images/homepage/hero/video.mp4'
 const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
-// ── Mosaic panel positions (mirroring therealhotels) ─────────────────
+// ── Mosaic panel positions (TRH perimeter — spread around center, not clustered)
 const PANELS = [
-  { id: 1, style: { width: 200, height: 260, top: '5%', left: '3%' } },
-  { id: 2, style: { width: 160, height: 210, top: '32%', left: '6%' } },
-  { id: 3, style: { width: 240, height: 190, top: '6%', left: '18%' } },
-  { id: 4, style: { width: 180, height: 240, bottom: '10%', right: '6%' } },
-  { id: 5, style: { width: 150, height: 190, bottom: '22%', right: '24%' } },
+  { id: 1, style: { width: 190, height: 245, top: '9%', left: '7%' } },
+  { id: 2, style: { width: 155, height: 200, top: '31%', left: '9%' } },
+  { id: 3, style: { width: 210, height: 150, top: '6%', left: '50%' } },
+  { id: 4, style: { width: 175, height: 230, bottom: '12%', left: '7%' } },
+  { id: 5, style: { width: 165, height: 205, bottom: '22%', right: '8%' } },
 ]
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
@@ -123,9 +123,13 @@ export default function HomePage() {
     const fitTitle = () => {
       title.style.fontSize = ''
       const maxWidth = container.clientWidth
+      const maxHeight = window.innerHeight * 0.2
       let size = parseFloat(getComputedStyle(title).fontSize)
-      const minSize = window.innerWidth <= 768 ? 36 : 72
-      while (title.scrollWidth > maxWidth && size > minSize) {
+      const minSize = window.innerWidth <= 768 ? 36 : 64
+      while (
+        (title.scrollWidth > maxWidth || title.scrollHeight > maxHeight) &&
+        size > minSize
+      ) {
         size -= 1
         title.style.fontSize = `${size}px`
       }
@@ -352,6 +356,7 @@ export default function HomePage() {
                   borderRadius: 0,
                   overflow: 'hidden',
                   willChange: 'transform',
+                  transform: i === 2 ? 'translateX(-50%)' : undefined,
                 }}
               >
                 <HomeMosaicRotatingPanel
