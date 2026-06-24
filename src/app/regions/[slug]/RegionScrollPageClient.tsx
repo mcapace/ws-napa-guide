@@ -276,12 +276,11 @@ function RegionScrollPageClientContent({
         <section id="region-explore" className={styles.scrollSection}>
           <div className={styles.directoryBand}>
             <div className={styles.directoryBandInner}>
-              <p className={styles.directoryBandEyebrow}>Directory</p>
-              <h2 className={styles.directoryBandTitle}>Browse {regionName}</h2>
+              <p className={styles.directoryBandEyebrow}>Quick reference</p>
+              <h2 className={styles.directoryBandTitle}>The full list</h2>
               <p className={styles.directoryBandDek}>
-                Need an address without reading every profile? Filter by tastings, dining, or
-                hotels — or use the map to see what&apos;s nearby. Featured guide picks are mixed
-                into the full list, sorted alphabetically within each category.
+                Filter tastings, dining, or hotels — or pan the map. Featured guide picks lead
+                the list; every other listing in {regionName} follows.
               </p>
             </div>
           </div>
