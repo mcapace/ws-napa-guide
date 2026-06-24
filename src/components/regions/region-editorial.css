@@ -534,6 +534,12 @@ a.tasting-directory-url:hover {
   background: #ede5d8;
 }
 
+.region-chapter__features {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
 .region-chapter__picks {
   max-width: 680px;
   margin: 0 auto;

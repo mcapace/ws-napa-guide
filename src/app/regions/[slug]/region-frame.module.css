@@ -632,6 +632,82 @@
   );
 }
 
+/* Unified jump nav (replaces separate tab + sub-nav rows) */
+.jumpNav {
+  position: sticky;
+  top: var(--ws-site-header-height, 72px);
+  z-index: 40;
+  background: var(--ink);
+  border-bottom: 1px solid rgba(247, 243, 236, 0.08);
+  height: var(--region-tab-bar-height);
+  box-shadow: 0 -6px 0 6px var(--ink);
+}
+
+.jumpNavInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 12px;
+  height: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.jumpNavInner::-webkit-scrollbar {
+  display: none;
+}
+
+.jumpNavGroup {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.jumpNavRule {
+  flex-shrink: 0;
+  width: 1px;
+  height: 18px;
+  margin: 0 10px;
+  background: rgba(247, 243, 236, 0.14);
+}
+
+.jumpLink {
+  position: relative;
+  flex-shrink: 0;
+  padding: 16px 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.48);
+  transition: color 0.2s ease;
+}
+
+.jumpLink:hover {
+  color: rgba(247, 243, 236, 0.88);
+}
+
+.jumpLinkActive {
+  color: var(--cream);
+}
+
+.jumpLinkActive::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 2px;
+  background: var(--gold);
+}
+
 .scrollPage {
   position: relative;
 }
@@ -640,38 +716,43 @@
   scroll-margin-top: var(--region-scroll-offset);
 }
 
-.scrollSectionHead {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 48px 24px 24px;
-  background: #faf7f2;
+.directoryBand {
+  background: var(--ink);
+  border-top: 1px solid rgba(247, 243, 236, 0.06);
+  padding: clamp(36px, 5vw, 48px) clamp(20px, 4vw, 32px) clamp(28px, 4vw, 36px);
 }
 
-.scrollSectionEyebrow {
-  margin: 0 0 8px;
+.directoryBandInner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.directoryBandEyebrow {
+  margin: 0 0 10px;
   font-family: var(--font-body, 'DM Sans', sans-serif);
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(26, 22, 20, 0.5);
+  color: var(--gold);
 }
 
-.scrollSectionTitle {
+.directoryBandTitle {
   margin: 0 0 12px;
   font-family: var(--font-display, 'Cormorant Garamond', serif);
   font-weight: 400;
-  font-size: clamp(32px, 4vw, 42px);
-  line-height: 1.1;
-  color: #1a1614;
+  font-size: clamp(28px, 3.8vw, 40px);
+  line-height: 1.12;
+  color: var(--cream);
 }
 
-.scrollSectionDek {
+.directoryBandDek {
   margin: 0;
+  max-width: 52ch;
   font-family: var(--font-body, 'DM Sans', sans-serif);
   font-size: 15px;
   line-height: 1.65;
-  color: rgba(26, 22, 20, 0.62);
+  color: rgba(247, 243, 236, 0.58);
 }
 
 .scrollSectionEmpty {
@@ -686,44 +767,6 @@
 
 .frame[data-scroll-unified] .editorialBand :global(.region-chapter[id]) {
   scroll-margin-top: var(--region-scroll-offset);
-}
-
-.scrollSubNav {
-  position: sticky;
-  top: calc(var(--ws-site-header-height, 72px) + var(--region-tab-bar-height));
-  z-index: 39;
-  display: flex;
-  justify-content: center;
-  background: var(--ink);
-  border-bottom: 1px solid rgba(247, 243, 236, 0.08);
-  height: var(--region-subnav-height);
-  box-shadow: 0 -4px 0 4px var(--ink);
-}
-
-.scrollSubNavList {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin: 0;
-  padding: 0 16px;
-  list-style: none;
-}
-
-.scrollSubNavLink {
-  display: block;
-  padding: 10px 14px;
-  font-family: var(--font-body, 'DM Sans', sans-serif);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(247, 243, 236, 0.55);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.scrollSubNavLink:hover {
-  color: var(--gold);
 }
 
 .scrollDock {
