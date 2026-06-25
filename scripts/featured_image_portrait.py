@@ -41,8 +41,15 @@ def copy_featured_pair(
     portrait: Path,
     *,
     top_bias: float = 0.0,
+    max_width: int = 2800,
+    quality: int = 88,
 ) -> None:
-    import shutil
+    img = Image.open(src).convert("RGB")
+    w, h = img.size
+    if max_width and w > max_width:
+        new_h = round(h * max_width / w)
+        img = img.resize((max_width, new_h), Image.Resampling.LANCZOS)
 
-    shutil.copy2(src, landscape)
-    portrait_crop(src, portrait, top_bias=top_bias)
+    landscape.parent.mkdir(parents=True, exist_ok=True)
+    img.save(landscape, "JPEG", quality=quality, optimize=True)
+    portrait_crop(landscape, portrait, top_bias=top_bias, quality=quality)
