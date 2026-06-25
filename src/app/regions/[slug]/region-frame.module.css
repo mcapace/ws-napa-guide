@@ -736,7 +736,7 @@
   scroll-margin-top: var(--region-scroll-offset);
 }
 
-/* ── Unified scroll page (St. Helena trial) ── */
+/* ── Unified scroll page (all region guides) ── */
 .frame[data-scroll-unified] {
   --region-scroll-offset: calc(
     var(--ws-site-header-height, 72px) + var(--region-tab-bar-height) + 8px

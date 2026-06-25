@@ -57,7 +57,7 @@ export default async function RegionStoryPage({ params }: Props) {
       </article>
 
       <div className="region-story-page__footer-cta">
-        <Link href={`/regions/${slug}#region-map`} className="region-story-page__map-link">
+        <Link href={`/regions/${slug}#region-explore`} className="region-story-page__map-link">
           Explore the {regionName} directory →
         </Link>
       </div>

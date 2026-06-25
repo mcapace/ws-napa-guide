@@ -9,7 +9,6 @@ import {
 } from '@/lib/region-editorial-images'
 import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { getMdxRegionSlugs, loadRegionMdxCached } from '@/lib/content/loadRegionMdx'
-import RegionPageClient from './RegionPageClient'
 import RegionScrollPageClient from './RegionScrollPageClient'
 
 type Props = {
@@ -93,9 +92,5 @@ export default async function RegionPage({ params }: Props) {
     storyImages,
   }
 
-  if (slug === 'st-helena') {
-    return <RegionScrollPageClient {...clientProps} />
-  }
-
-  return <RegionPageClient {...clientProps} />
+  return <RegionScrollPageClient {...clientProps} />
 }

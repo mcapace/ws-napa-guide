@@ -332,7 +332,11 @@ function RegionScrollPageClientContent({
             By {frontmatter.byline} · {frontmatter.issue}
           </p>
           <h1 className={styles.heroTitle}>{frontmatter.region}</h1>
-          <p className={styles.heroAva}>{frontmatter.region.toUpperCase()} AVA</p>
+          {frontmatter.exclusiveToOnline ? (
+            <p className={styles.heroAva}>Online exclusive</p>
+          ) : (
+            <p className={styles.heroAva}>{frontmatter.region.toUpperCase()} AVA</p>
+          )}
           <p className={styles.heroTagline}>{frontmatter.tagline}</p>
           {frontmatter.dek ? (
             <p className={styles.heroDeck}>{frontmatter.dek}</p>
