@@ -20,9 +20,9 @@
 /* ── Hero ── */
 .hero {
   position: relative;
-  height: 45vh;
-  min-height: 280px;
-  max-height: 520px;
+  height: 48vh;
+  min-height: 300px;
+  max-height: 560px;
   overflow: hidden;
 }
 
@@ -1098,9 +1098,9 @@
 
 @media (max-width: 1023px) {
   .hero {
-    height: 38vh;
-    min-height: 240px;
-    max-height: 400px;
+    height: 42vh;
+    min-height: 260px;
+    max-height: 440px;
   }
 
   .heroLandscape {

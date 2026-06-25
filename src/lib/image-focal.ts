@@ -22,7 +22,7 @@ export function getImageFocalPoint(
 ): string {
   if (!src) return 'center'
 
-  if (manifest[src]) return manifest[src]
+  if (manifest[src]) return parseFocalEntry(manifest[src]).objectPosition
 
   if (hint === 'showcase') return SHOWCASE_SAFE_TOP
   if (hint === 'portrait' || hint === 'architecture') return PORTRAIT_SAFE_TOP
