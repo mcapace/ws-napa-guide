@@ -809,6 +809,46 @@
   color: rgba(247, 243, 236, 0.52);
 }
 
+/* Featured / editorial rows keep a light card — reset text to dark ink for contrast */
+.exploreRootDark .rowWithPhoto,
+.exploreRootDark .rowEditorial {
+  background: #faf7f2;
+  border-bottom-color: rgba(13, 11, 9, 0.1);
+  color: var(--ink);
+}
+
+.exploreRootDark .rowWithPhoto:hover,
+.exploreRootDark .rowEditorial:hover {
+  background: #fff;
+}
+
+.exploreRootDark .rowWithPhoto.rowSelected,
+.exploreRootDark .rowEditorial.rowSelected {
+  background: #f3ead8;
+}
+
+.exploreRootDark .rowWithPhoto .name,
+.exploreRootDark .rowEditorial .name {
+  color: var(--ink);
+}
+
+.exploreRootDark .rowWithPhoto .meta,
+.exploreRootDark .rowEditorial .meta {
+  color: var(--meta);
+}
+
+.exploreRootDark .rowWithPhoto .editorialBadge,
+.exploreRootDark .rowEditorial .editorialBadge {
+  color: rgba(13, 11, 9, 0.45);
+}
+
+.exploreRootDark .rowWithPhoto .copyToggle,
+.exploreRootDark .rowEditorial .copyToggle,
+.exploreRootDark .rowWithPhoto .detailsLink,
+.exploreRootDark .rowEditorial .detailsLink {
+  color: var(--ink);
+}
+
 .exploreRootDark .mobileToggleBtn {
   background: #1a1612;
   border-color: rgba(247, 243, 236, 0.12);
