@@ -142,8 +142,44 @@ body {
 /* Region scroll pages: keep site nav + jump nav pinned while long-form scroll */
 html:has([data-region-frame]) .ws-nav-shell {
   position: sticky;
-  top: 0;
+  top: var(--ws-staging-banner-height, 0px);
   z-index: 200;
+}
+
+/* Native document scroll on region pages (Lenis disabled — required for sticky UI) */
+html[data-region-native-scroll],
+html[data-region-native-scroll] body {
+  overflow: auto !important;
+  height: auto !important;
+}
+
+/* Split-panel map/list: fixed viewport height, internal list scroll */
+[data-scroll-unified] .region-explore-embed-panel,
+[data-scroll-unified] .region-itinerary-embed-panel {
+  height: min(
+    82vh,
+    calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 8px)
+  ) !important;
+  min-height: 480px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+[data-scroll-unified] .region-explore-embed-panel .explore-embed-root,
+[data-scroll-unified] .region-itinerary-embed-panel .scrollyRootEmbed {
+  flex: 1 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+[data-scroll-unified] .region-explore-embed-panel .explore-embed-grid {
+  flex: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
 }
 
 /* ── Site nav — sticky solid bar above content (not over hero photos) ── */

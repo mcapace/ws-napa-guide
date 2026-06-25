@@ -422,7 +422,7 @@ function RegionScrollPageClientContent({
             title="The full list"
             dek={`Filter tastings, dining, or hotels — or pan the map. Every listing in ${regionName}, sorted alphabetically.`}
           />
-          <div className={styles.exploreFlowWrap}>
+          <div className={`${styles.exploreFlowWrap} region-explore-embed-panel`}>
             {pins.length > 0 ? (
               <ExploreMapSection
                 pins={pins}
@@ -450,7 +450,7 @@ function RegionScrollPageClientContent({
               title={phrases.sidebar ?? `Plan your day in ${regionName}`}
               dek="Half-day routes with map and stops — scroll through each leg or open the full route in Google Maps."
             />
-            <div className={styles.itineraryFlowWrap}>
+            <div className={`${styles.itineraryFlowWrap} region-itinerary-embed-panel`}>
               <ScrollyItinerary
                 itineraries={itineraries}
                 regionCenter={regionCenter}

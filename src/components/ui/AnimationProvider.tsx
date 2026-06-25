@@ -18,11 +18,30 @@ gsap.registerPlugin(ScrollTrigger, SplitText)
  * - [data-lines-slide-up]: lines slide from yPercent:100 (body text)
  * - [data-letters-slide-up]: chars slide up with back.out ease (CTAs)
  */
+function destroyLenisInstance(
+  lenisRef: { current: Lenis | null },
+  lenisRafRef: { current: ((time: number) => void) | null },
+  setLenis: (lenis: Lenis | null) => void,
+) {
+  if (lenisRafRef.current) {
+    gsap.ticker.remove(lenisRafRef.current)
+    lenisRafRef.current = null
+  }
+  if (lenisRef.current) {
+    lenisRef.current.destroy()
+    lenisRef.current = null
+    setLenis(null)
+    document.documentElement.classList.remove('lenis', 'lenis-smooth', 'lenis-stopped')
+  }
+}
+
 export default function AnimationProvider({ children }: { children?: ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null)
+  const lenisRafRef = useRef<((time: number) => void) | null>(null)
   const triggersRef = useRef<ScrollTrigger[]>([])
   const [lenis, setLenis] = useState<Lenis | null>(null)
   const pathname = usePathname()
+  const isRegionRoute = Boolean(pathname?.startsWith('/regions/'))
 
   useEffect(() => {
     if (typeof history !== 'undefined' && 'scrollRestoration' in history) {
@@ -41,6 +60,16 @@ export default function AnimationProvider({ children }: { children?: ReactNode }
   }, [pathname])
 
   useEffect(() => {
+    if (isRegionRoute) {
+      destroyLenisInstance(lenisRef, lenisRafRef, setLenis)
+      document.documentElement.setAttribute('data-region-native-scroll', '')
+      return () => {
+        document.documentElement.removeAttribute('data-region-native-scroll')
+      }
+    }
+
+    document.documentElement.removeAttribute('data-region-native-scroll')
+
     const lenisInstance = new Lenis({
       lerp: 0.08,
       duration: 1.2,
@@ -53,20 +82,16 @@ export default function AnimationProvider({ children }: { children?: ReactNode }
     const lenisRaf = (time: number) => {
       lenisInstance.raf(time * 1000)
     }
+    lenisRafRef.current = lenisRaf
     gsap.ticker.add(lenisRaf)
     gsap.ticker.lagSmoothing(0)
 
     lenisInstance.on('scroll', ScrollTrigger.update)
 
     return () => {
-      gsap.ticker.remove(lenisRaf)
-      triggersRef.current.forEach((t) => t.kill())
-      triggersRef.current = []
-      lenisInstance.destroy()
-      lenisRef.current = null
-      setLenis(null)
+      destroyLenisInstance(lenisRef, lenisRafRef, setLenis)
     }
-  }, [])
+  }, [isRegionRoute])
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -79,6 +104,10 @@ export default function AnimationProvider({ children }: { children?: ReactNode }
   function initAnimations() {
     triggersRef.current.forEach((t) => t.kill())
     triggersRef.current = []
+
+    if (document.querySelector('[data-region-frame]')) {
+      return
+    }
 
     document.querySelectorAll<HTMLElement>('[data-text-split]').forEach((el) => {
       if (el.closest('[data-editorial-content]')) return
