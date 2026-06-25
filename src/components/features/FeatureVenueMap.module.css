@@ -2,12 +2,61 @@
   margin-bottom: clamp(32px, 5vw, 48px);
 }
 
+.tourRoot {
+  width: 100%;
+}
+
+.tourGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 42%) minmax(0, 58%);
+  align-items: start;
+  gap: 0;
+  min-height: 72vh;
+}
+
+.listColumn {
+  min-width: 0;
+  border-right: 1px solid rgba(247, 243, 236, 0.08);
+}
+
+.tourVenueList {
+  margin: 0;
+  max-width: none;
+}
+
+.venueRowActive {
+  background: rgba(196, 148, 58, 0.06);
+}
+
+.mapColumn {
+  align-self: start;
+}
+
 .mapShell {
   position: relative;
   height: clamp(320px, 42vw, 480px);
   border: 1px solid rgba(247, 243, 236, 0.1);
   overflow: hidden;
   background: #141210;
+}
+
+.mapBridge {
+  width: 100%;
+  height: 100%;
+}
+
+.tourGrid .mapColumn {
+  position: sticky;
+  top: calc(var(--ws-site-header-height, 72px) + 8px);
+  height: min(75vh, calc(100vh - var(--ws-site-header-height, 72px) - 16px));
+  min-height: 480px;
+}
+
+.tourGrid .mapShell {
+  height: 100%;
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
 }
 
 .marker {
@@ -31,12 +80,23 @@
   background: #c4943a;
 }
 
-.hint {
+.markerActive {
+  background: #c4943a;
+  transform: scale(1.1);
+  border-color: #f7f3ec;
+}
+
+.hint,
+.tourHint {
   margin: 12px 0 0;
   font-family: var(--font-body);
   font-size: 11px;
   letter-spacing: 0.06em;
   color: rgba(247, 243, 236, 0.45);
+}
+
+.tourHint {
+  margin-top: 20px;
 }
 
 .popup :global(.mapboxgl-popup-content) {
@@ -95,4 +155,30 @@
 
 .popupLink:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 1023px) {
+  .tourGrid {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .listColumn {
+    order: 2;
+    border-right: none;
+  }
+
+  .tourGrid .mapColumn {
+    order: 1;
+    position: sticky;
+    top: var(--ws-site-header-height, 72px);
+    height: 55vh;
+    min-height: 280px;
+    z-index: 5;
+  }
+
+  .tourGrid .mapShell {
+    border: 1px solid rgba(247, 243, 236, 0.1);
+  }
 }

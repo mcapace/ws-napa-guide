@@ -130,6 +130,13 @@ body {
   }
 }
 
+/* Region scroll pages: keep site nav + jump nav pinned while long-form scroll */
+html:has([data-region-frame]) .ws-nav-shell {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
 /* ── Site nav — sticky solid bar above content (not over hero photos) ── */
 .ws-nav-shell {
   position: sticky;

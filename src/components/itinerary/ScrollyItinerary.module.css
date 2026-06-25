@@ -606,15 +606,14 @@
 .mapColumnPageFlow {
   order: unset;
   position: sticky;
-  top: calc(
-    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) + 8px
-  );
+  top: var(--region-map-sticky-top, var(--scrolly-sticky-top));
   height: min(
     75vh,
-    calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 16px)
+    var(--region-map-sticky-max-height, calc(100vh - var(--scrolly-sticky-top) - 16px))
   );
   min-height: 480px;
   align-self: start;
+  z-index: 4;
 }
 
 .mapColumnPageFlow .mapSticky {

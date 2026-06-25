@@ -96,6 +96,7 @@ export function ExploreMap({
   const mapColumnRef = useRef<HTMLDivElement>(null)
   const rowRefs = useRef<Record<string, HTMLButtonElement | null>>({})
   const listScrollRef = useRef<HTMLDivElement>(null)
+  const exploreRootRef = useRef<HTMLDivElement>(null)
   const [mapMounted, setMapMounted] = useState(!lazyMap)
 
   const placeParam = embedMode ? null : searchParams.get('place')
@@ -368,20 +369,44 @@ export function ExploreMap({
 
   const syncMapToListScroll = useCallback(() => {
     if (activePlace) return
-    const root = listScrollRef.current
-    if (!root || !isDesktop) return
+    if (!isDesktop) return
 
-    const centerY = root.scrollTop + root.clientHeight / 2
+    const listRoot = listScrollRef.current
+    if (!pageFlow && !listRoot) return
+
+    if (pageFlow) {
+      let anyRowVisible = false
+      for (const pin of visiblePins) {
+        const el = rowRefs.current[pin.slug]
+        if (!el) continue
+        const r = el.getBoundingClientRect()
+        if (r.bottom > 0 && r.top < window.innerHeight) {
+          anyRowVisible = true
+          break
+        }
+      }
+      if (!anyRowVisible) return
+    }
+
+    const viewportCenterY = pageFlow
+      ? window.innerHeight / 2
+      : listRoot!.scrollTop + listRoot!.clientHeight / 2
+
     let bestSlug: string | null = null
     let bestDist = Infinity
 
     for (const pin of visiblePins) {
       const el = rowRefs.current[pin.slug]
       if (!el) continue
+
       const elRect = el.getBoundingClientRect()
-      const rootRect = root.getBoundingClientRect()
-      const elCenter = elRect.top - rootRect.top + root.scrollTop + el.offsetHeight / 2
-      const dist = Math.abs(elCenter - centerY)
+      const elCenter = pageFlow
+        ? elRect.top + elRect.height / 2
+        : elRect.top -
+          listRoot!.getBoundingClientRect().top +
+          listRoot!.scrollTop +
+          el.offsetHeight / 2
+      const dist = Math.abs(elCenter - viewportCenterY)
       if (dist < bestDist) {
         bestDist = dist
         bestSlug = pin.slug
@@ -395,7 +420,7 @@ export function ExploreMap({
     lastEaseSlugRef.current = bestSlug
     setScrollCenterSlug(bestSlug)
     easeToPin(pin)
-  }, [visiblePins, isDesktop, easeToPin, activePlace])
+  }, [visiblePins, isDesktop, easeToPin, activePlace, pageFlow])
 
   const handleListScroll = useCallback(() => {
     if (!isDesktop || activePlace) return
@@ -408,6 +433,24 @@ export function ExploreMap({
       if (scrollSyncTimerRef.current) clearTimeout(scrollSyncTimerRef.current)
     }
   }, [])
+
+  useEffect(() => {
+    if (!pageFlow || !isDesktop) return
+
+    const onWindowScroll = () => {
+      if (activePlace) return
+      if (scrollSyncTimerRef.current) clearTimeout(scrollSyncTimerRef.current)
+      scrollSyncTimerRef.current = setTimeout(syncMapToListScroll, 80)
+    }
+
+    window.addEventListener('scroll', onWindowScroll, { passive: true })
+    onWindowScroll()
+
+    return () => {
+      window.removeEventListener('scroll', onWindowScroll)
+      if (scrollSyncTimerRef.current) clearTimeout(scrollSyncTimerRef.current)
+    }
+  }, [pageFlow, isDesktop, syncMapToListScroll, activePlace])
 
   useEffect(() => {
     lastEaseSlugRef.current = null
@@ -439,6 +482,7 @@ export function ExploreMap({
 
   return (
     <div
+      ref={exploreRootRef}
       className={`${styles.exploreRoot} ${embedMode ? styles.exploreRootEmbed : ''}${
         theme === 'dark' ? ` ${styles.exploreRootDark}` : ''
       }${pageFlow ? ` ${styles.exploreRootPageFlow}` : ''}`}
@@ -630,7 +674,7 @@ export function ExploreMap({
           ref={mapColumnRef}
           className={`${styles.mapColumn} ${mobileView === 'map' ? styles.mapColumnMobileOpen : ''}${
             embedMode ? ` ${styles.mapColumnEmbed}` : ''
-          }`}
+          }${pageFlow ? ` ${styles.mapColumnPageFlow}` : ''}`}
         >
           {mobileView === 'map' && (
             <button

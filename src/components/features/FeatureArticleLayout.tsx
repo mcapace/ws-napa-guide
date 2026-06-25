@@ -1,15 +1,8 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import type { Article } from '@/lib/types'
 import type { FeatureArticleContent } from '@/lib/types'
 import { FeatureVenueMap } from '@/components/features/FeatureVenueMap'
 import styles from './FeatureArticleLayout.module.css'
-
-function formatWebsite(url: string) {
-  const href = url.startsWith('http') ? url : `https://${url}`
-  const label = url.replace(/^https?:\/\/(www\.)?/, '')
-  return { href, label }
-}
 
 export default function FeatureArticleLayout({
   article,
@@ -78,25 +71,57 @@ export default function FeatureArticleLayout({
       </section>
 
       {content.secondaryImages && content.secondaryImages.length > 0 && (
-        <section className={styles.pointsSection}>
+        <section
+          className={`${styles.pointsSection}${
+            content.secondaryImages.some((img) => img.transparent)
+              ? ` ${styles.pointsSectionTransparent}`
+              : ''
+          }`}
+        >
           <p className={styles.sectionLabel}>Points of interest</p>
           {content.secondaryImagesCaption && (
             <p className={styles.pointsIntro}>{content.secondaryImagesCaption}</p>
           )}
           <div className={styles.midImagePair}>
             {content.secondaryImages.map((img) => (
-              <figure key={img.src} className={styles.midImageStrip}>
+              <figure
+                key={img.src}
+                className={`${styles.midImageStrip}${
+                  img.transparent ? ` ${styles.midImageStripTransparent}` : ''
+                }`}
+              >
                 <Image
                   src={img.src}
-                  alt=""
+                  alt={img.alt ?? ''}
                   width={img.width ?? 224}
                   height={img.height ?? 550}
                   sizes="220px"
-                  className={styles.midImageStripImg}
+                  className={
+                    img.transparent
+                      ? `${styles.midImageStripImg} ${styles.midImageStripImgTransparent}`
+                      : styles.midImageStripImg
+                  }
                 />
               </figure>
             ))}
           </div>
+        </section>
+      )}
+
+      {content.midArticleImage && (
+        <section className={styles.editorialPhotoSection}>
+          <div className={styles.editorialPhotoInner}>
+            <Image
+              src={content.midArticleImage.src}
+              alt={content.midArticleImage.alt ?? ''}
+              fill
+              sizes="(max-width: 900px) 100vw, 900px"
+              className={styles.editorialPhotoImg}
+            />
+          </div>
+          {content.midArticleImage.caption && (
+            <p className={styles.editorialPhotoCaption}>{content.midArticleImage.caption}</p>
+          )}
         </section>
       )}
 
@@ -130,66 +155,12 @@ export default function FeatureArticleLayout({
 
       {content.venues && content.venues.length > 0 && (
         <section className={styles.venuesSection}>
-          <div className={styles.venuesHead}>
-            <p className={styles.sectionLabel}>Where to eat</p>
-            <h2 className={styles.sectionTitle}>Taquerias worth the line</h2>
-          </div>
-          <FeatureVenueMap venues={content.venues} />
-          <ol className={styles.venueList}>
-            {content.venues.map((venue, index) => (
-              <li key={venue.name} className={styles.venueRow}>
-                <span className={styles.venueIndex}>{index + 1}</span>
-                <article className={styles.venueArticle}>
-                  {venue.image && (
-                    <div className={styles.venueThumb}>
-                      <Image
-                        src={venue.image}
-                        alt={venue.name}
-                        fill
-                        sizes="200px"
-                        className={styles.venueThumbImg}
-                      />
-                    </div>
-                  )}
-                  <div className={styles.venueCopy}>
-                    <h3 className={styles.venueName}>{venue.name}</h3>
-                    <p className={styles.venueMeta}>
-                      {venue.addressLines.map((line) => (
-                        <span key={line}>
-                          {line}
-                          <br />
-                        </span>
-                      ))}
-                      {venue.website && (
-                        <a
-                          href={formatWebsite(venue.website).href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {formatWebsite(venue.website).label}
-                        </a>
-                      )}
-                      {venue.phone && (
-                        <>
-                          {venue.website && <br />}
-                          {venue.phone}
-                        </>
-                      )}
-                    </p>
-                    <p className={styles.venueDesc}>{venue.description}</p>
-                    {venue.restaurantSlug && (
-                      <Link
-                        href={`/dining/${venue.restaurantSlug}`}
-                        className={styles.venueLink}
-                      >
-                        View in guide
-                      </Link>
-                    )}
-                  </div>
-                </article>
-              </li>
-            ))}
-          </ol>
+          <FeatureVenueMap
+            tourLayout
+            venues={content.venues}
+            sectionLabel="Where to eat"
+            sectionTitle="Taquerias worth the line"
+          />
         </section>
       )}
 

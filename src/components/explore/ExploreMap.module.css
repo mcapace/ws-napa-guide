@@ -822,14 +822,30 @@
   min-height: 0;
 }
 
+.exploreRootPageFlow.exploreRootEmbed {
+  display: block;
+  height: auto;
+  min-height: 0;
+}
+
 .exploreRootPageFlow .exploreGrid {
   height: auto;
   min-height: 72vh;
   max-height: none;
+  align-items: start;
 }
 
 .exploreRootPageFlow .listColumn {
   min-height: auto;
+  height: auto;
+  display: block;
+}
+
+.exploreRootPageFlow .filtersSticky {
+  top: calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px)
+  );
+  z-index: 6;
 }
 
 .exploreRootPageFlow .listScrollPageFlow {
@@ -840,14 +856,31 @@
 
 .exploreRootPageFlow .mapColumnEmbed {
   position: sticky;
-  top: calc(
+  top: var(--region-map-sticky-top, calc(
     var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) + 8px
-  );
+  ));
   height: min(
     75vh,
-    calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 16px)
+    var(--region-map-sticky-max-height, calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 16px))
   );
   align-self: start;
+}
+
+.mapColumnPageFlow {
+  position: sticky;
+  top: var(--region-map-sticky-top, calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) + 8px
+  ));
+  height: min(
+    75vh,
+    var(--region-map-sticky-max-height, calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 16px))
+  );
+  align-self: start;
+  z-index: 4;
+}
+
+.mapColumnPageFlow .mapWrap {
+  touch-action: pan-y;
 }
 
 .mapPlaceholder {

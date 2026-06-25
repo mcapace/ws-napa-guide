@@ -238,6 +238,8 @@ export default function ScrollyItinerary({
     const scrollRoot = embedMode ? storyScrollRef.current : null
     if (embedMode && !scrollRoot) return
 
+    const viewportSync = pageFlow || !embedMode
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -258,9 +260,9 @@ export default function ScrollyItinerary({
         })
       },
       {
-        threshold: embedMode ? 0.45 : 0.55,
+        threshold: viewportSync ? 0.45 : 0.55,
         root: scrollRoot ?? undefined,
-        rootMargin: embedMode ? '-10% 0px -22% 0px' : '-12% 0px -28% 0px',
+        rootMargin: viewportSync ? '-10% 0px -22% 0px' : '-12% 0px -28% 0px',
       },
     )
 
@@ -269,7 +271,7 @@ export default function ScrollyItinerary({
     })
 
     return () => observer.disconnect()
-  }, [stops, flyToStop, animateLeg, embedMode, itinerary?.id])
+  }, [stops, flyToStop, animateLeg, embedMode, pageFlow, itinerary?.id])
 
   useEffect(() => {
     if (!embedMode || !storyScrollRef.current) return

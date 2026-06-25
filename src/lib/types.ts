@@ -143,7 +143,20 @@ export interface FeatureArticleContent {
   secondaryImage?: string
   /** Optional caption below secondary image group (e.g. Judgment bottle stills). */
   secondaryImagesCaption?: string
-  secondaryImages?: Array<{ src: string; alt?: string; width?: number; height?: number }>
+  secondaryImages?: Array<{
+    src: string
+    alt?: string
+    width?: number
+    height?: number
+    /** Bottle cutouts on transparent PNG — no white box on dark pages. */
+    transparent?: boolean
+  }>
+  /** Full-width editorial photo between body sections (e.g. historical tasting photo). */
+  midArticleImage?: {
+    src: string
+    alt?: string
+    caption?: string
+  }
 }
 
 export interface Event {

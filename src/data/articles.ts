@@ -14,8 +14,9 @@ export const articles: Article[] = [
     featured: true,
     images: [
       '/images/features/judgment-of-paris/hero.jpg',
-      '/images/features/judgment-of-paris/points-montelena.jpg',
-      '/images/features/judgment-of-paris/points-stags-leap.jpg',
+      '/images/features/judgment-of-paris/points-montelena.png',
+      '/images/features/judgment-of-paris/points-stags-leap.png',
+      '/images/features/judgment-of-paris/tasting-judges.png',
     ],
     publishedAt: '2026-06-15',
   },

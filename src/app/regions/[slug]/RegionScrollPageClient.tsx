@@ -303,6 +303,7 @@ function RegionScrollPageClientContent({
       data-site-surface="dark"
       data-region-frame=""
       data-scroll-unified=""
+      {...(hasItinerary && itineraries.length > 1 ? { 'data-has-itinerary-selector': '' } : {})}
     >
       <header className={styles.hero}>
         <Image

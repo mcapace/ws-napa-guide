@@ -124,16 +124,6 @@
   display: block;
 }
 
-.pointsIntro {
-  font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 1.7;
-  color: rgba(247, 243, 236, 0.62);
-  margin: 12px auto 0;
-  max-width: 42ch;
-}
-
 .bodySection {
   padding: clamp(32px, 5vw, 48px) clamp(24px, 5vw, 60px);
   max-width: 680px;
@@ -160,6 +150,90 @@
   text-align: center;
 }
 
+.pointsSectionTransparent {
+  max-width: 900px;
+}
+
+.pointsIntro {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(247, 243, 236, 0.58);
+  margin: 0 auto 8px;
+  max-width: 52ch;
+}
+
+.midImagePair {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(20px, 4vw, 48px);
+  margin-top: 24px;
+}
+
+.pointsSectionTransparent .midImagePair {
+  align-items: center;
+  padding: clamp(28px, 5vw, 48px) clamp(16px, 4vw, 32px);
+  margin-top: 16px;
+  border-radius: 2px;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(196, 148, 58, 0.08), transparent 70%),
+    rgba(247, 243, 236, 0.03);
+  border: 1px solid rgba(247, 243, 236, 0.06);
+}
+
+.midImageStrip {
+  flex: 0 1 auto;
+  max-width: min(224px, 42vw);
+  margin: 0;
+}
+
+.midImageStripTransparent {
+  max-width: min(260px, 44vw);
+}
+
+.midImageStripImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.midImageStripImgTransparent {
+  object-fit: contain;
+  filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.45));
+}
+
+.editorialPhotoSection {
+  padding: clamp(32px, 5vw, 56px) clamp(24px, 5vw, 60px);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.editorialPhotoInner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid rgba(247, 243, 236, 0.08);
+  background: rgba(247, 243, 236, 0.03);
+}
+
+.editorialPhotoImg {
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+.editorialPhotoCaption {
+  margin: 14px 0 0;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.55;
+  color: rgba(247, 243, 236, 0.52);
+  text-align: center;
+}
+
 .midImage {
   padding: 20px clamp(24px, 5vw, 60px);
 }
@@ -171,26 +245,6 @@
   margin: 0 auto;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-}
-
-.midImagePair {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: clamp(20px, 4vw, 48px);
-  margin-top: 24px;
-}
-
-.midImageStrip {
-  flex: 0 1 auto;
-  max-width: min(224px, 42vw);
-  margin: 0;
-}
-
-.midImageStripImg {
-  width: 100%;
-  height: auto;
-  display: block;
 }
 
 .stripCaption {
@@ -245,6 +299,7 @@
   gap: clamp(16px, 3vw, 28px);
   padding: clamp(28px, 4vw, 40px) 0;
   border-bottom: 1px solid rgba(247, 243, 236, 0.08);
+  min-height: min(52vh, 520px);
 }
 
 .venueIndex {

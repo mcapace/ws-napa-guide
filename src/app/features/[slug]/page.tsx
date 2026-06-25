@@ -125,8 +125,12 @@ export default async function FeatureArticlePage({ params }: Props) {
       )}
 
       <div data-site-surface="dark" style={{ background: '#0D0B09', color: '#F7F3EC' }}>
-        <RelatedListings article={article} />
-        <ReadNextSection slug={slug} />
+        {slug !== 'judgment-of-paris' && slug !== 'napa-taco-tour' && (
+          <RelatedListings article={article} />
+        )}
+        {slug !== 'judgment-of-paris' && slug !== 'napa-taco-tour' && (
+          <ReadNextSection slug={slug} />
+        )}
         <Newsletter />
         <Footer />
       </div>

@@ -17,18 +17,26 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       'California wineries Chateau Montelena and Stag’s Leap were among the labels to earn acclaim in the much-touted tasting.',
     secondaryImages: [
       {
-        src: `${JUDGMENT}/points-montelena.jpg`,
+        src: `${JUDGMENT}/points-montelena.png`,
         alt: '1973 Chateau Montelena Chardonnay',
         width: 224,
         height: 550,
+        transparent: true,
       },
       {
-        src: `${JUDGMENT}/points-stags-leap.jpg`,
+        src: `${JUDGMENT}/points-stags-leap.png`,
         alt: '1973 Stag’s Leap Wine Cellars Cabernet Sauvignon',
         width: 182,
         height: 546,
+        transparent: true,
       },
     ],
+    midArticleImage: {
+      src: `${JUDGMENT}/tasting-judges.png`,
+      alt: 'Judges at the 1976 Paris tasting',
+      caption:
+        'The judges included French vintners, sommeliers and wine writers.',
+    },
     introParagraphs: [
       'Visitors to Napa Valley this year will arrive amidst a pair of important anniversaries. While America celebrates its 250th birthday, California wine is celebrating 50 years since the tasting that became known as the “Judgment of Paris” shined a light on the state’s progress and promise.',
       'Held on May 24, 1976, the tasting arranged flights of California Chardonnays and Cabernet Sauvignon–based blends and lined them up against counterparts from Burgundy and Bordeaux. The late Steven Spurrier, who organized the tasting, often said he wasn’t trying to change the wine world. He was hoping for a fun event to show the French how good California wines were. Spurrier, an Englishman, fell in love with France and built a successful wineshop in Paris catering to fellow ex-pats, then opened a wine school, L’Académie du Vin, which thrived. (Still open, L’Academie is releasing a book on the Judgment this year.)',

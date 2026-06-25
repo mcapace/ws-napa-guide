@@ -709,6 +709,13 @@
     var(--ws-site-header-height, 72px) + var(--region-tab-bar-height) + 8px
   );
   --region-section-pad: clamp(56px, 8vw, 96px);
+  --region-itinerary-selector-height: 56px;
+  --region-map-sticky-top: calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) + 8px
+  );
+  --region-map-sticky-max-height: calc(
+    100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 16px
+  );
 }
 
 .frame[data-scroll-unified][data-has-subnav] {
@@ -796,6 +803,14 @@
 
 .scrollPage {
   position: relative;
+  overflow: visible;
+}
+
+.frame[data-scroll-unified] .scrollSectionExplore,
+.frame[data-scroll-unified] .scrollSectionItinerary,
+.frame[data-scroll-unified] .exploreFlowWrap,
+.frame[data-scroll-unified] .itineraryFlowWrap {
+  overflow: visible;
 }
 
 .scrollSection {
@@ -1023,15 +1038,108 @@
 
 .frame[data-scroll-unified] .itineraryFlowWrap {
   background: #0d0b09;
+  --region-map-sticky-top: calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) +
+      var(--region-itinerary-selector-height, 56px) + 4px
+  );
+  --region-map-sticky-max-height: calc(
+    100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) -
+      var(--region-itinerary-selector-height, 56px) - 12px
+  );
 }
 
 .frame[data-scroll-unified] .itineraryFlowWrap :global(.root) {
   background: #0d0b09;
 }
 
+.frame[data-scroll-unified]:not([data-has-itinerary-selector]) .itineraryFlowWrap {
+  --region-map-sticky-top: calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) + 8px
+  );
+  --region-map-sticky-max-height: calc(
+    100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 16px
+  );
+}
+
 .frame[data-scroll-unified] .itineraryFlowWrap :global(.rootPageFlow) {
   height: auto;
   min-height: 0;
+}
+
+/* ── Unified scroll: sticky map + document scroll (not trapped list panels) ── */
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow) {
+  display: block !important;
+  flex: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .exploreGrid) {
+  display: grid !important;
+  grid-template-columns: minmax(0, 45%) minmax(0, 55%) !important;
+  flex: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  align-items: start !important;
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .listColumn) {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .listScroll),
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .listScrollPageFlow) {
+  overflow: visible !important;
+  overflow-y: visible !important;
+  flex: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overscroll-behavior: auto !important;
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .filtersSticky) {
+  position: sticky;
+  top: calc(var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px));
+  z-index: 8;
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .mapColumnEmbed),
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .mapColumnPageFlow) {
+  position: sticky !important;
+  top: var(--region-map-sticky-top) !important;
+  height: min(75vh, var(--region-map-sticky-max-height)) !important;
+  min-height: 480px;
+  align-self: start !important;
+  z-index: 4;
+}
+
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.rootPageFlow .selector) {
+  position: sticky;
+  top: calc(var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px));
+  z-index: 8;
+  box-shadow: 0 -8px 0 8px #0d0b09;
+}
+
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.layoutPageFlow) {
+  display: grid !important;
+  grid-template-columns: minmax(0, 42%) minmax(0, 58%) !important;
+  align-items: start !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.mapColumnPageFlow) {
+  position: sticky !important;
+  top: var(--region-map-sticky-top) !important;
+  height: min(75vh, var(--region-map-sticky-max-height)) !important;
+  min-height: 480px;
+  align-self: start !important;
+  z-index: 4;
 }
 
 .scrollDock {
