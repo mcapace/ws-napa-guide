@@ -52,6 +52,8 @@ export interface ExploreMapProps {
   theme?: 'light' | 'dark'
   /** Defer Mapbox init until the map column is near the viewport. */
   lazyMap?: boolean
+  /** Unified scroll page: list grows with page, map column sticky (no nested scroll trap). */
+  pageFlow?: boolean
 }
 
 type ClusterProps = Supercluster.ClusterProperties & { pin?: MapPin }
@@ -85,6 +87,7 @@ export function ExploreMap({
   syncCategory,
   theme = 'light',
   lazyMap = false,
+  pageFlow = false,
 }: ExploreMapProps) {
   const router = useRouter()
   const pathname = usePathname()
@@ -438,7 +441,7 @@ export function ExploreMap({
     <div
       className={`${styles.exploreRoot} ${embedMode ? styles.exploreRootEmbed : ''}${
         theme === 'dark' ? ` ${styles.exploreRootDark}` : ''
-      }`}
+      }${pageFlow ? ` ${styles.exploreRootPageFlow}` : ''}`}
     >
       <div className={styles.mobileToggle}>
         <button
@@ -524,8 +527,11 @@ export function ExploreMap({
 
           <div
             ref={listScrollRef}
-            data-lenis-prevent
-            className={`${styles.listScroll} ${mobileView === 'map' ? styles.listScrollMobileHidden : ''}`}
+            data-lenis-prevent={pageFlow ? undefined : true}
+            data-scroll-container={pageFlow ? true : undefined}
+            className={`${styles.listScroll} ${mobileView === 'map' ? styles.listScrollMobileHidden : ''}${
+              pageFlow ? ` ${styles.listScrollPageFlow}` : ''
+            }`}
             onScroll={handleListScroll}
           >
             {visiblePins.length === 0 ? (

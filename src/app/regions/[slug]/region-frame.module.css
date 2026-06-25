@@ -1011,6 +1011,24 @@
   scroll-margin-top: var(--region-scroll-offset);
 }
 
+.exploreFlowWrap,
+.itineraryFlowWrap {
+  background: var(--ink);
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRoot) {
+  height: auto;
+  min-height: 0;
+}
+
+.frame[data-scroll-unified] .itineraryFlowWrap {
+  background: #0d0b09;
+}
+
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.root) {
+  background: #0d0b09;
+}
+
 .scrollDock {
   position: fixed;
   right: clamp(12px, 2vw, 20px);

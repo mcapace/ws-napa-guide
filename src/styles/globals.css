@@ -1077,11 +1077,13 @@ html.lenis body {
 
 html[data-region-native-scroll] .lenis.lenis-smooth {
   scroll-behavior: auto !important;
+  pointer-events: none;
 }
 
 html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent],
 html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent-wheel] {
   overscroll-behavior: auto;
+  pointer-events: auto;
 }
 
 .lenis.lenis-stopped {

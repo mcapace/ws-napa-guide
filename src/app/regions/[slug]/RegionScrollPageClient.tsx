@@ -71,6 +71,43 @@ type ScrollSectionMarkerProps = {
   dek?: string
 }
 
+function regionScrollSpyOffset(): number {
+  if (typeof document === 'undefined') return 132
+  const root = document.documentElement
+  const header = parseFloat(
+    getComputedStyle(root).getPropertyValue('--ws-site-header-height').trim(),
+  )
+  const tabs = parseFloat(
+    getComputedStyle(root).getPropertyValue('--region-tab-bar-height').trim(),
+  )
+  return (Number.isFinite(header) ? header : 72) + (Number.isFinite(tabs) ? tabs : 52) + 12
+}
+
+function pickActiveJumpSection(links: JumpLink[]): string {
+  const offset = regionScrollSpyOffset()
+  let bestId = links[0]?.id ?? 'region-story'
+  let bestScore = -1
+
+  for (const link of links) {
+    const el = document.getElementById(link.id)
+    if (!el) continue
+
+    const rect = el.getBoundingClientRect()
+    const visibleTop = Math.max(rect.top, offset)
+    const visibleBottom = Math.min(rect.bottom, window.innerHeight)
+    const visible = Math.max(0, visibleBottom - visibleTop)
+    const inReadingBand = rect.top <= offset + 96 && rect.bottom > offset + 48
+    const score = inReadingBand ? visible * 1.35 : visible
+
+    if (score > bestScore) {
+      bestScore = score
+      bestId = link.id
+    }
+  }
+
+  return bestId
+}
+
 function ScrollSectionMarker({ eyebrow, title, dek, variant }: ScrollSectionMarkerProps) {
   if (variant === 'transition') {
     return (
@@ -117,7 +154,6 @@ function RegionScrollPageClientContent({
 }: RegionScrollPageClientProps) {
   const { frontmatter } = mdx
   const searchParams = useSearchParams()
-  const router = useRouter()
   const pathname = usePathname()
   const lenis = useLenis()
   const hasItinerary = itineraries.length > 0
@@ -160,17 +196,21 @@ function RegionScrollPageClientContent({
       setActiveSectionId(link.id)
       scrollToSection(link.id)
 
-      const params = new URLSearchParams()
-      if (link.tab !== 'story') {
+      const params = new URLSearchParams(window.location.search)
+      if (link.tab === 'story') {
+        params.delete('tab')
+        params.delete('itinerary')
+      } else {
         params.set('tab', link.tab)
         if (link.tab === 'itinerary' && selectedItineraryId) {
           params.set('itinerary', selectedItineraryId)
+        } else {
+          params.delete('itinerary')
         }
       }
-      const q = params.toString()
-      router.replace(q ? `${pathname}?${q}` : pathname, { scroll: false })
+      replaceUrlQuery(pathname, params)
     },
-    [pathname, router, scrollToSection, selectedItineraryId],
+    [pathname, scrollToSection, selectedItineraryId],
   )
 
   const setItinerary = useCallback(
@@ -194,8 +234,12 @@ function RegionScrollPageClientContent({
 
   useEffect(() => {
     document.documentElement.setAttribute('data-region-native-scroll', '')
-    return () => document.documentElement.removeAttribute('data-region-native-scroll')
-  }, [])
+    lenis?.stop()
+    return () => {
+      document.documentElement.removeAttribute('data-region-native-scroll')
+      lenis?.start()
+    }
+  }, [lenis])
 
   useEffect(() => {
     const onScroll = () => {
@@ -234,25 +278,20 @@ function RegionScrollPageClientContent({
   }, [pathname, tabFromUrl, scrollToSection])
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = []
+    let ticking = false
 
-    for (const link of jumpLinks) {
-      const el = document.getElementById(link.id)
-      if (!el) continue
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) setActiveSectionId(link.id)
-          }
-        },
-        { rootMargin: '-32% 0px -48% 0px', threshold: 0 },
-      )
-      observer.observe(el)
-      observers.push(observer)
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(() => {
+        setActiveSectionId(pickActiveJumpSection(jumpLinks))
+        ticking = false
+      })
     }
 
-    return () => observers.forEach((o) => o.disconnect())
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [jumpLinks])
 
   const storyLinks = jumpLinks.filter((l) => l.tab === 'story')
@@ -384,7 +423,7 @@ function RegionScrollPageClientContent({
             title="The full list"
             dek={`Filter tastings, dining, or hotels — or pan the map. Every listing in ${regionName}, sorted alphabetically.`}
           />
-          <div className={`${styles.mapEmbedPanel} ${styles.explorePanel} ${styles.explorePanelDark}`}>
+          <div className={styles.exploreFlowWrap}>
             {pins.length > 0 ? (
               <ExploreMapSection
                 pins={pins}
@@ -393,6 +432,7 @@ function RegionScrollPageClientContent({
                 embedMode
                 theme="dark"
                 lazyMap
+                pageFlow
               />
             ) : (
               <p className={styles.scrollSectionEmpty}>No listings for this region yet.</p>
@@ -413,16 +453,14 @@ function RegionScrollPageClientContent({
               title={phrases.sidebar ?? `Plan your day in ${regionName}`}
               dek="Half-day routes with map and stops — scroll through each leg or open the full route in Google Maps."
             />
-            <div
-              className={`${styles.mapEmbedPanel} ${styles.itineraryEmbedPanel} ${styles.itineraryScrollyPanel}`}
-            >
+            <div className={styles.itineraryFlowWrap}>
               <ScrollyItinerary
                 itineraries={itineraries}
                 regionCenter={regionCenter}
                 regionName={regionName}
                 selectedItineraryId={selectedItineraryId}
                 onItineraryChange={setItinerary}
-                embedMode
+                hideSeriesHeader
               />
             </div>
             <ScrollSectionMarker variant="transition" title="More towns & areas" />
@@ -435,7 +473,9 @@ function RegionScrollPageClientContent({
         <Footer />
       </div>
 
-      {(!dockAtTop || !dockAtBottom) && activeSectionId !== 'region-itinerary' ? (
+      {(!dockAtTop || !dockAtBottom) &&
+      activeSectionId !== 'region-itinerary' &&
+      activeSectionId !== 'region-explore' ? (
         <nav className={styles.scrollDock} aria-label="Page scroll">
           {!dockAtTop ? (
             <button

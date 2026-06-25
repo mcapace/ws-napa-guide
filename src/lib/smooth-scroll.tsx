@@ -45,16 +45,13 @@ export function scrollToTarget(
       extraOffset)
 
   if (regionUsesNativeScroll() || !lenis) {
-    const top = target.getBoundingClientRect().top + window.scrollY - Math.abs(offset)
+    const top = Math.max(
+      0,
+      target.getBoundingClientRect().top + window.scrollY + offset,
+    )
     window.scrollTo({ top, behavior: 'smooth' })
     return
   }
 
-  if (lenis) {
-    lenis.scrollTo(target, { offset, duration: 0.85, force: true })
-    return
-  }
-
-  const top = target.getBoundingClientRect().top + window.scrollY - Math.abs(offset)
-  window.scrollTo({ top, behavior: 'smooth' })
+  lenis.scrollTo(target, { offset, duration: 0.85, force: true })
 }

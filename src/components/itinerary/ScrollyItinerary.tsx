@@ -34,6 +34,8 @@ type ScrollyItineraryProps = {
   onItineraryChange?: (id: string) => void
   /** Region tab embed: fixed panel height, story scrolls inside list column (matches Explore). */
   embedMode?: boolean
+  /** Hide duplicate series header when the parent page already has a section intro. */
+  hideSeriesHeader?: boolean
 }
 
 const ROUTE_GLOW_LAYER: LayerProps = {
@@ -97,6 +99,7 @@ export default function ScrollyItinerary({
   selectedItineraryId,
   onItineraryChange,
   embedMode = false,
+  hideSeriesHeader = false,
 }: ScrollyItineraryProps) {
   const defaultItineraryId = itineraries[0]?.id
   const [activeItineraryId, setActiveItineraryId] = useState(
@@ -351,7 +354,7 @@ export default function ScrollyItinerary({
     <div
       className={`${styles.root}${embedMode ? ` ${styles.rootEmbed} scrollyRootEmbed` : ''}`}
     >
-      {showCollectionHeader && !embedMode ? (
+      {showCollectionHeader && !embedMode && !hideSeriesHeader ? (
         <header className={styles.collectionHeader}>
           <p className={styles.eyebrow}>{formatEyebrow(itinerary, regionName)}</p>
           <h2 className={styles.collectionTitle}>{itinerary.seriesTitle}</h2>
