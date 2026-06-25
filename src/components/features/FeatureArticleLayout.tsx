@@ -96,6 +96,7 @@ export default function FeatureArticleLayout({
                   width={img.width ?? 224}
                   height={img.height ?? 550}
                   sizes="220px"
+                  unoptimized={img.transparent}
                   className={
                     img.transparent
                       ? `${styles.midImageStripImg} ${styles.midImageStripImgTransparent}`
