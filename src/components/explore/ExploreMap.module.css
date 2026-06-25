@@ -366,7 +366,8 @@
 .mapScrollHint {
   position: absolute;
   left: 50%;
-  bottom: 10px;
+  top: 12px;
+  bottom: auto;
   z-index: 4;
   transform: translateX(-50%);
   padding: 6px 12px;

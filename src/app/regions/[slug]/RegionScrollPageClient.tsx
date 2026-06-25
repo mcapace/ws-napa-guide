@@ -83,10 +83,27 @@ function regionScrollSpyOffset(): number {
   return (Number.isFinite(header) ? header : 72) + (Number.isFinite(tabs) ? tabs : 52) + 12
 }
 
+function sectionCoversViewportFraction(id: string, minFraction = 0.3): boolean {
+  const el = document.getElementById(id)
+  if (!el) return false
+  const rect = el.getBoundingClientRect()
+  const vh = window.innerHeight
+  const visible = Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0))
+  return visible / vh >= minFraction
+}
+
+const STORY_SECTION_IDS = new Set([
+  'region-story',
+  'region-taste',
+  'region-eat',
+  'region-stay',
+])
+
 function pickActiveJumpSection(links: JumpLink[]): string {
   const offset = regionScrollSpyOffset()
   let bestId = links[0]?.id ?? 'region-story'
   let bestScore = -1
+  const vh = window.innerHeight
 
   for (const link of links) {
     const el = document.getElementById(link.id)
@@ -94,10 +111,16 @@ function pickActiveJumpSection(links: JumpLink[]): string {
 
     const rect = el.getBoundingClientRect()
     const visibleTop = Math.max(rect.top, offset)
-    const visibleBottom = Math.min(rect.bottom, window.innerHeight)
+    const visibleBottom = Math.min(rect.bottom, vh)
     const visible = Math.max(0, visibleBottom - visibleTop)
     const inReadingBand = rect.top <= offset + 96 && rect.bottom > offset + 48
-    const score = inReadingBand ? visible * 1.35 : visible
+    let score = inReadingBand ? visible * 1.35 : visible
+
+    if (link.id === 'region-explore' || link.id === 'region-itinerary') {
+      const viewportFraction = visible / vh
+      if (viewportFraction > 0.28) score *= 2.5
+      if (rect.top < vh * 0.55 && rect.bottom > vh * 0.45) score *= 1.2
+    }
 
     if (score > bestScore) {
       bestScore = score
@@ -228,6 +251,7 @@ function RegionScrollPageClientContent({
   const [showScrollHint, setShowScrollHint] = useState(true)
   const [dockAtTop, setDockAtTop] = useState(true)
   const [dockAtBottom, setDockAtBottom] = useState(false)
+  const [mapPanelVisible, setMapPanelVisible] = useState(false)
   const initialScrollDone = useRef(false)
   const heroLandscapeFocal = getImageFocalPoint(frontmatter.heroImage, 'hero')
   const heroPortraitFocal = getImageFocalPoint(frontmatter.heroImagePortrait, 'portrait')
@@ -240,6 +264,10 @@ function RegionScrollPageClientContent({
       const max = document.documentElement.scrollHeight - window.innerHeight
       setDockAtTop(window.scrollY < 160)
       setDockAtBottom(window.scrollY > max - 160)
+      setMapPanelVisible(
+        sectionCoversViewportFraction('region-explore') ||
+          sectionCoversViewportFraction('region-itinerary'),
+      )
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -296,6 +324,12 @@ function RegionScrollPageClientContent({
     mdx.coffeeSnackFeatures.length > 0 ||
     mdx.breakfast ||
     mdx.featuredHotels.length > 0
+
+  const showScrollDock =
+    STORY_SECTION_IDS.has(activeSectionId) &&
+    !mapPanelVisible &&
+    !dockAtTop &&
+    !dockAtBottom
 
   return (
     <div
@@ -475,9 +509,7 @@ function RegionScrollPageClientContent({
         <Footer />
       </div>
 
-      {(!dockAtTop || !dockAtBottom) &&
-      activeSectionId !== 'region-itinerary' &&
-      activeSectionId !== 'region-explore' ? (
+      {showScrollDock ? (
         <nav className={styles.scrollDock} aria-label="Page scroll">
           {!dockAtTop ? (
             <button

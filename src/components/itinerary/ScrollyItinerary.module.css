@@ -380,18 +380,30 @@
 
 .summaryBar {
   position: absolute;
-  left: 16px;
-  bottom: 16px;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: auto;
   z-index: 10;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  border-radius: 999px;
+  border-radius: 14px;
   background: rgba(13, 11, 9, 0.88);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(247, 243, 236, 0.12);
-  max-width: calc(100% - 32px);
+  max-width: none;
+}
+
+@media (min-width: 720px) {
+  .summaryBar {
+    top: 14px;
+    left: 14px;
+    right: auto;
+    max-width: calc(100% - 28px);
+    border-radius: 999px;
+  }
 }
 
 .summaryIcon {
@@ -407,6 +419,13 @@
   text-transform: uppercase;
   color: rgba(247, 243, 236, 0.88);
   white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.mapColumnEmbed .summaryText {
+  white-space: normal;
+  line-height: 1.35;
 }
 
 .summaryRouteBtn {

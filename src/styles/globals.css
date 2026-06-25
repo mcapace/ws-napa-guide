@@ -896,6 +896,11 @@ a, button, [role="button"] { cursor: pointer; }
   font-family: var(--font-body) !important;
   font-size: 10px !important;
 }
+
+/* Cooperative-gesture hints (Ctrl+scroll / two-finger pan) sit at map bottom */
+.mapboxgl-cooperative-gesture-screen {
+  z-index: 6;
+}
 .mapboxgl-popup-content {
   background: transparent !important;
   padding: 0 !important;
