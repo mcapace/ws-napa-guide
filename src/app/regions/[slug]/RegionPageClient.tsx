@@ -11,7 +11,7 @@ import { RegionMoreAppellations } from '@/components/regions/RegionMoreAppellati
 import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { REGION_CENTERS } from '@/lib/mapbox'
-import { useLenis, scrollToTarget } from '@/lib/smooth-scroll'
+import { useLenis, scrollToTarget, enableRegionNativeScroll } from '@/lib/smooth-scroll'
 import { replaceUrlQuery } from '@/lib/update-url-query'
 import type { Itinerary } from '@/lib/types'
 import styles from './region-frame.module.css'
@@ -163,10 +163,7 @@ function RegionPageClientContent({
   const [showScrollHint, setShowScrollHint] = useState(true)
   const skipInitialScrollRef = useRef(true)
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-region-native-scroll', '')
-    return () => document.documentElement.removeAttribute('data-region-native-scroll')
-  }, [])
+  useEffect(() => enableRegionNativeScroll(lenis), [lenis])
 
   useEffect(() => {
     const onScroll = () => setShowScrollHint(window.scrollY < 100)

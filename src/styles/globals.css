@@ -1075,15 +1075,13 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
-html[data-region-native-scroll] .lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-  pointer-events: none;
+html[data-region-native-scroll].lenis,
+html[data-region-native-scroll].lenis body {
+  overflow: auto !important;
 }
 
-html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent],
-html[data-region-native-scroll] .lenis.lenis-smooth [data-lenis-prevent-wheel] {
-  overscroll-behavior: auto;
-  pointer-events: auto;
+html[data-region-native-scroll].lenis.lenis-stopped {
+  overflow: auto !important;
 }
 
 .lenis.lenis-stopped {

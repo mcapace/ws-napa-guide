@@ -21,6 +21,30 @@ function regionUsesNativeScroll(): boolean {
     document.documentElement.hasAttribute('data-region-native-scroll')
 }
 
+/**
+ * Region scroll pages use native document scroll (long panels, sticky map, itinerary).
+ * Do not call lenis.stop() — it sets overflow:hidden and preventDefault on wheel.
+ */
+export function enableRegionNativeScroll(lenis: Lenis | null): () => void {
+  if (typeof document === 'undefined') return () => {}
+
+  document.documentElement.setAttribute('data-region-native-scroll', '')
+
+  let prevSmoothWheel: boolean | undefined
+  if (lenis) {
+    prevSmoothWheel = lenis.options.smoothWheel
+    lenis.options.smoothWheel = false
+    if (lenis.isStopped) lenis.start()
+  }
+
+  return () => {
+    document.documentElement.removeAttribute('data-region-native-scroll')
+    if (lenis && prevSmoothWheel !== undefined) {
+      lenis.options.smoothWheel = prevSmoothWheel
+    }
+  }
+}
+
 /** Reset document scroll (Lenis-aware). Use on route changes so new pages open at the top. */
 export function resetScrollToTop(lenis: Lenis | null): void {
   if (lenis) {

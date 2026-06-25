@@ -12,7 +12,7 @@ import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { getImageFocalPoint } from '@/lib/image-focal'
 import { REGION_CENTERS } from '@/lib/mapbox'
-import { useLenis, scrollToTarget } from '@/lib/smooth-scroll'
+import { useLenis, scrollToTarget, enableRegionNativeScroll } from '@/lib/smooth-scroll'
 import { replaceUrlQuery } from '@/lib/update-url-query'
 import type { Itinerary } from '@/lib/types'
 import { RegionStoryPanel, type RegionTab } from './RegionPageClient'
@@ -232,14 +232,7 @@ function RegionScrollPageClientContent({
   const heroLandscapeFocal = getImageFocalPoint(frontmatter.heroImage, 'hero')
   const heroPortraitFocal = getImageFocalPoint(frontmatter.heroImagePortrait, 'portrait')
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-region-native-scroll', '')
-    lenis?.stop()
-    return () => {
-      document.documentElement.removeAttribute('data-region-native-scroll')
-      lenis?.start()
-    }
-  }, [lenis])
+  useEffect(() => enableRegionNativeScroll(lenis), [lenis])
 
   useEffect(() => {
     const onScroll = () => {
