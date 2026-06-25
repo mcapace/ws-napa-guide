@@ -424,7 +424,6 @@ function RegionScrollPageClientContent({
                 pins={pins}
                 scopedRegion={slug}
                 showRegionFilter={false}
-                embedMode
                 theme="dark"
                 lazyMap
                 pageFlow

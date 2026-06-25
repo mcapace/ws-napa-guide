@@ -34,11 +34,20 @@ export function MapWheelScrollBridge({ children, className }: MapWheelScrollBrid
         '[data-scroll-container]',
       )
       if (scrollable && scrollable !== root) {
-        const { scrollTop, scrollHeight, clientHeight } = scrollable
-        const goingDown = e.deltaY > 0
-        const goingUp = e.deltaY < 0
-        if (goingDown && scrollTop + clientHeight < scrollHeight - 2) return
-        if (goingUp && scrollTop > 2) return
+        const style = getComputedStyle(scrollable)
+        const overflowY = style.overflowY
+        const canScrollInternally =
+          (overflowY === 'auto' || overflowY === 'scroll') &&
+          scrollable.scrollHeight > scrollable.clientHeight + 2
+        if (!canScrollInternally) {
+          // overflow:visible list — let wheel scroll the page
+        } else {
+          const { scrollTop, scrollHeight, clientHeight } = scrollable
+          const goingDown = e.deltaY > 0
+          const goingUp = e.deltaY < 0
+          if (goingDown && scrollTop + clientHeight < scrollHeight - 2) return
+          if (goingUp && scrollTop > 2) return
+        }
       }
 
       e.preventDefault()

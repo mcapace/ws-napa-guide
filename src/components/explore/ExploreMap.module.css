@@ -829,16 +829,17 @@
 }
 
 .exploreRootPageFlow .exploreGrid {
-  height: auto;
-  min-height: 72vh;
-  max-height: none;
+  height: auto !important;
+  min-height: 0;
+  max-height: none !important;
   align-items: start;
 }
 
 .exploreRootPageFlow .listColumn {
   min-height: auto;
-  height: auto;
-  display: block;
+  height: auto !important;
+  display: block !important;
+  overflow: visible !important;
 }
 
 .exploreRootPageFlow .filtersSticky {
@@ -848,34 +849,28 @@
   z-index: 6;
 }
 
+.exploreRootPageFlow .listScroll,
 .exploreRootPageFlow .listScrollPageFlow {
-  overflow-y: visible;
-  flex: none;
-  overscroll-behavior: auto;
+  overflow: visible !important;
+  overflow-y: visible !important;
+  flex: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overscroll-behavior: auto !important;
 }
 
-.exploreRootPageFlow .mapColumnEmbed {
-  position: sticky;
+.exploreRootPageFlow .mapColumn,
+.exploreRootPageFlow .mapColumnEmbed,
+.exploreRootPageFlow .mapColumnPageFlow {
+  position: sticky !important;
   top: var(--region-map-sticky-top, calc(
     var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) + 8px
   ));
   height: min(
     75vh,
     var(--region-map-sticky-max-height, calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 16px))
-  );
-  align-self: start;
-}
-
-.mapColumnPageFlow {
-  position: sticky;
-  top: var(--region-map-sticky-top, calc(
-    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) + 8px
-  ));
-  height: min(
-    75vh,
-    var(--region-map-sticky-max-height, calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 16px))
-  );
-  align-self: start;
+  ) !important;
+  align-self: start !important;
   z-index: 4;
 }
 

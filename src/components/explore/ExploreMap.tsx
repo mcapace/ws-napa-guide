@@ -28,6 +28,7 @@ import {
   urlParamToCategory,
 } from '@/lib/explore'
 import { getImageFocalPoint } from '@/lib/image-focal'
+import { useLenis } from '@/lib/smooth-scroll'
 import styles from './ExploreMap.module.css'
 import { ExploreMapPin } from './ExploreMapPin'
 import { MapWheelScrollBridge } from '@/components/map/MapWheelScrollBridge'
@@ -92,6 +93,7 @@ export function ExploreMap({
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const lenis = useLenis()
   const mapRef = useRef<MapRef>(null)
   const mapColumnRef = useRef<HTMLDivElement>(null)
   const rowRefs = useRef<Record<string, HTMLButtonElement | null>>({})
@@ -444,13 +446,43 @@ export function ExploreMap({
     }
 
     window.addEventListener('scroll', onWindowScroll, { passive: true })
+    document.addEventListener('scroll', onWindowScroll, { passive: true })
     onWindowScroll()
+
+    if (lenis) {
+      lenis.on('scroll', onWindowScroll)
+    }
 
     return () => {
       window.removeEventListener('scroll', onWindowScroll)
+      document.removeEventListener('scroll', onWindowScroll)
+      if (lenis) lenis.off('scroll', onWindowScroll)
       if (scrollSyncTimerRef.current) clearTimeout(scrollSyncTimerRef.current)
     }
-  }, [pageFlow, isDesktop, syncMapToListScroll, activePlace])
+  }, [pageFlow, isDesktop, syncMapToListScroll, activePlace, lenis])
+
+  useEffect(() => {
+    if (!pageFlow || !isDesktop || visiblePins.length === 0) return
+
+    const observer = new IntersectionObserver(
+      () => {
+        if (activePlace) return
+        syncMapToListScroll()
+      },
+      {
+        root: null,
+        rootMargin: '-18% 0px -32% 0px',
+        threshold: [0, 0.15, 0.35, 0.55, 0.75, 1],
+      },
+    )
+
+    visiblePins.forEach((pin) => {
+      const el = rowRefs.current[pin.slug]
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [pageFlow, isDesktop, visiblePins, syncMapToListScroll, activePlace, categoryFilter])
 
   useEffect(() => {
     lastEaseSlugRef.current = null
@@ -485,7 +517,8 @@ export function ExploreMap({
       ref={exploreRootRef}
       className={`${styles.exploreRoot} ${embedMode ? styles.exploreRootEmbed : ''}${
         theme === 'dark' ? ` ${styles.exploreRootDark}` : ''
-      }${pageFlow ? ` ${styles.exploreRootPageFlow}` : ''}`}
+      }${pageFlow ? ` ${styles.exploreRootPageFlow} explore-page-flow` : ''}`}
+      data-explore-page-flow={pageFlow ? true : undefined}
     >
       <div className={styles.mobileToggle}>
         <button
@@ -504,9 +537,9 @@ export function ExploreMap({
         </button>
       </div>
 
-      <div className={styles.exploreGrid}>
-        <div className={styles.listColumn}>
-          <div className={styles.filtersSticky}>
+      <div className={`${styles.exploreGrid}${pageFlow ? ' explore-grid' : ''}`}>
+        <div className={`${styles.listColumn}${pageFlow ? ' explore-list-column' : ''}`}>
+          <div className={`${styles.filtersSticky}${pageFlow ? ' explore-filters-sticky' : ''}`}>
             {routeSlugs.length > 0 ? (
               <div className={styles.routeBanner}>
                 <span className={styles.routeBannerLabel}>
@@ -572,9 +605,8 @@ export function ExploreMap({
           <div
             ref={listScrollRef}
             data-lenis-prevent={pageFlow ? undefined : true}
-            data-scroll-container={pageFlow ? true : undefined}
             className={`${styles.listScroll} ${mobileView === 'map' ? styles.listScrollMobileHidden : ''}${
-              pageFlow ? ` ${styles.listScrollPageFlow}` : ''
+              pageFlow ? ` ${styles.listScrollPageFlow} explore-list-scroll` : ''
             }`}
             onScroll={handleListScroll}
           >
@@ -674,7 +706,8 @@ export function ExploreMap({
           ref={mapColumnRef}
           className={`${styles.mapColumn} ${mobileView === 'map' ? styles.mapColumnMobileOpen : ''}${
             embedMode ? ` ${styles.mapColumnEmbed}` : ''
-          }${pageFlow ? ` ${styles.mapColumnPageFlow}` : ''}`}
+          }${pageFlow ? ` ${styles.mapColumnPageFlow} explore-map-panel` : ''}`}
+          data-explore-map-panel={pageFlow ? true : undefined}
         >
           {mobileView === 'map' && (
             <button

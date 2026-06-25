@@ -1067,7 +1067,8 @@
 }
 
 /* ── Unified scroll: sticky map + document scroll (not trapped list panels) ── */
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow) {
+.frame[data-scroll-unified] .exploreFlowWrap :global(.explore-page-flow),
+.frame[data-scroll-unified] .exploreFlowWrap :global([data-explore-page-flow]) {
   display: block !important;
   flex: none !important;
   height: auto !important;
@@ -1075,7 +1076,8 @@
   overflow: visible !important;
 }
 
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .exploreGrid) {
+.frame[data-scroll-unified] .exploreFlowWrap :global(.explore-page-flow .explore-grid),
+.frame[data-scroll-unified] .exploreFlowWrap :global([data-explore-page-flow] .explore-grid) {
   display: grid !important;
   grid-template-columns: minmax(0, 45%) minmax(0, 55%) !important;
   flex: none !important;
@@ -1085,31 +1087,29 @@
   align-items: start !important;
 }
 
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .listColumn) {
+.frame[data-scroll-unified] .exploreFlowWrap :global(.explore-list-scroll) {
+  overflow: visible !important;
+  overflow-y: visible !important;
+  flex: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.explore-filters-sticky) {
+  position: sticky;
+  top: calc(var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px));
+  z-index: 8;
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.explore-list-column) {
   display: block !important;
   height: auto !important;
   min-height: 0 !important;
   overflow: visible !important;
 }
 
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .listScroll),
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .listScrollPageFlow) {
-  overflow: visible !important;
-  overflow-y: visible !important;
-  flex: none !important;
-  height: auto !important;
-  min-height: 0 !important;
-  overscroll-behavior: auto !important;
-}
-
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .filtersSticky) {
-  position: sticky;
-  top: calc(var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px));
-  z-index: 8;
-}
-
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .mapColumnEmbed),
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootPageFlow .mapColumnPageFlow) {
+.frame[data-scroll-unified] .exploreFlowWrap :global(.explore-map-panel),
+.frame[data-scroll-unified] .exploreFlowWrap :global([data-explore-map-panel]) {
   position: sticky !important;
   top: var(--region-map-sticky-top) !important;
   height: min(75vh, var(--region-map-sticky-max-height)) !important;
@@ -1118,14 +1118,16 @@
   z-index: 4;
 }
 
-.frame[data-scroll-unified] .itineraryFlowWrap :global(.rootPageFlow .selector) {
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-page-flow .selector),
+.frame[data-scroll-unified] .itineraryFlowWrap :global([data-scrolly-page-flow] .selector) {
   position: sticky;
   top: calc(var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px));
   z-index: 8;
   box-shadow: 0 -8px 0 8px #0d0b09;
 }
 
-.frame[data-scroll-unified] .itineraryFlowWrap :global(.layoutPageFlow) {
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-grid),
+.frame[data-scroll-unified] .itineraryFlowWrap :global([data-scrolly-page-flow] .scrolly-grid) {
   display: grid !important;
   grid-template-columns: minmax(0, 42%) minmax(0, 58%) !important;
   align-items: start !important;
@@ -1133,7 +1135,8 @@
   min-height: 0 !important;
 }
 
-.frame[data-scroll-unified] .itineraryFlowWrap :global(.mapColumnPageFlow) {
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-map-panel),
+.frame[data-scroll-unified] .itineraryFlowWrap :global([data-scrolly-map-panel]) {
   position: sticky !important;
   top: var(--region-map-sticky-top) !important;
   height: min(75vh, var(--region-map-sticky-max-height)) !important;

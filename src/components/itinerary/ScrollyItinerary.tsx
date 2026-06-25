@@ -358,8 +358,9 @@ export default function ScrollyItinerary({
   return (
     <div
       className={`${styles.root}${embedMode ? ` ${styles.rootEmbed} scrollyRootEmbed` : ''}${
-        pageFlow ? ` ${styles.rootPageFlow}` : ''
+        pageFlow ? ` ${styles.rootPageFlow} scrolly-page-flow` : ''
       }`}
+      data-scrolly-page-flow={pageFlow ? true : undefined}
     >
       {showCollectionHeader && !embedMode && !hideSeriesHeader ? (
         <header className={styles.collectionHeader}>
@@ -407,7 +408,7 @@ export default function ScrollyItinerary({
 
       <div
         className={`${styles.layout}${embedMode ? ` ${styles.layoutEmbed}` : ''}${
-          pageFlow ? ` ${styles.layoutPageFlow}` : ''
+          pageFlow ? ` ${styles.layoutPageFlow} scrolly-grid` : ''
         }`}
       >
         <div
@@ -545,8 +546,9 @@ export default function ScrollyItinerary({
 
         <div
           className={`${styles.mapColumn}${embedMode ? ` ${styles.mapColumnEmbed}` : ''}${
-            pageFlow ? ` ${styles.mapColumnPageFlow}` : ''
+            pageFlow ? ` ${styles.mapColumnPageFlow} scrolly-map-panel` : ''
           }`}
+          data-scrolly-map-panel={pageFlow ? true : undefined}
         >
           <div className={styles.mapSticky}>
             {summaryText ? (
