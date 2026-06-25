@@ -40,7 +40,6 @@ ST_HELENA_FEATURED: dict[str, tuple[str, str]] = {
 # Alternate Drive filenames for the same deliverable
 STEM_ALIASES: dict[str, list[str]] = {
     "StHelena_Erosion": ["erosion_1600", "erosion_900", "StHelena_Erosion"],
-    "Understudy": ["Understudy", "UnderStudy"],
     "SalvestrinInn_1200": ["SalvestrinInn_1200", "StHelena_SalvestrinInn"],
 }
 
