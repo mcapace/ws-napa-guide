@@ -158,6 +158,7 @@ PROPERTY_MAP: dict[str, dict[str, tuple[str, str]]] = {
         "StHelena_Whitehall2": ("wineries", "whitehall-lane-alt"),
         "StHelena_Charlies": ("restaurants", "charlies-napa-valley"),
         "StHelena_Cook": ("restaurants", "cook"),
+        "Understudy": ("restaurants", "under-study"),
         "StHelena_Gelato": ("breakfast", "roman-holiday-gelato"),
         "StHelena_ModelBakery": ("breakfast", "model-bakery"),
         "StHelena_Erosion": ("breakfast", "erosion-creamery-cafe"),
@@ -644,8 +645,9 @@ def copy_pair(src: Path, region: str, section: str, prop_slug: str) -> tuple[str
     base = slug_for_path(region, section, prop_slug)
     landscape = dest_dir / f"{base}-landscape.jpg"
     portrait = dest_dir / f"{base}-portrait.jpg"
-    shutil.copy2(src, landscape)
-    shutil.copy2(src, portrait)
+    from featured_image_portrait import copy_featured_pair
+
+    copy_featured_pair(src, landscape, portrait)
     return (
         f"/images/{region}/{section}/{base}-landscape.jpg",
         f"/images/{region}/{section}/{base}-portrait.jpg",
