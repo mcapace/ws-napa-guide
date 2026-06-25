@@ -620,10 +620,12 @@ export function ExploreMap({
 
           <div
             ref={listScrollRef}
-            data-lenis-prevent={pageFlow ? undefined : true}
+            data-scroll-container={embedMode || pageFlow ? true : undefined}
+            data-region-embed-scroll={embedMode ? true : undefined}
+            data-lenis-prevent={embedMode && !pageFlow ? true : undefined}
             className={`${styles.listScroll} ${mobileView === 'map' ? styles.listScrollMobileHidden : ''}${
               pageFlow ? ` ${styles.listScrollPageFlow} explore-list-scroll` : ''
-            }`}
+            }${embedMode && !pageFlow ? ' explore-embed-list-scroll' : ''}`}
             onScroll={handleListScroll}
           >
             {visiblePins.length === 0 ? (

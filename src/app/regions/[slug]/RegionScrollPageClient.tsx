@@ -462,14 +462,17 @@ function RegionScrollPageClientContent({
             title="The full list"
             dek={`Filter tastings, dining, or hotels — or pan the map. Every listing in ${regionName}, sorted alphabetically.`}
           />
-          <div className={`${styles.exploreFlowWrap} region-page-flow-panel`}>
+          <div
+            className={`${styles.exploreFlowWrap} region-explore-embed-panel`}
+            data-region-embed-panel=""
+          >
             {pins.length > 0 ? (
               <ExploreMapSection
                 pins={pins}
                 scopedRegion={slug}
                 showRegionFilter={false}
                 theme="dark"
-                pageFlow
+                embedMode
               />
             ) : (
               <p className={styles.scrollSectionEmpty}>No listings for this region yet.</p>
@@ -508,7 +511,10 @@ function RegionScrollPageClientContent({
               title={phrases.sidebar ?? `Plan your day in ${regionName}`}
               dek="Half-day routes with map and stops — scroll through each leg or open the full route in Google Maps."
             />
-            <div className={`${styles.itineraryFlowWrap} region-page-flow-panel`}>
+            <div
+              className={`${styles.itineraryFlowWrap} region-itinerary-embed-panel`}
+              data-region-embed-panel=""
+            >
               <ScrollyItinerary
                 itineraries={itineraries}
                 regionCenter={regionCenter}
@@ -516,7 +522,7 @@ function RegionScrollPageClientContent({
                 selectedItineraryId={selectedItineraryId}
                 onItineraryChange={setItinerary}
                 hideSeriesHeader
-                pageFlow
+                embedMode
               />
             </div>
             <div className={styles.scrollContinueCta}>

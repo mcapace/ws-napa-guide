@@ -17,9 +17,14 @@ function findScrollableAncestor(start: Element | null): HTMLElement | null {
   return null
 }
 
+function scrollPageBy(deltaY: number): void {
+  window.scrollBy({ top: deltaY, left: 0 })
+}
+
 /**
- * On region scroll pages, forward wheel events at the edges of nested scroll
- * containers to the document so users never get stuck in list/map embed traps.
+ * Split-panel region embeds trap wheel events in list/story columns. At scroll
+ * edges (or over non-scrollable embed chrome), forward movement to the document
+ * so users can always scroll past the map section.
  */
 export function useRegionDocumentScrollBridge(): void {
   useEffect(() => {
@@ -31,18 +36,26 @@ export function useRegionDocumentScrollBridge(): void {
       const target = e.target as Element | null
       if (target?.closest('.mapboxgl-canvas-container')) return
 
+      const embedPanel = target?.closest<HTMLElement>('[data-region-embed-panel]')
       const scrollable = findScrollableAncestor(target)
-      if (!scrollable) return
 
-      const { scrollTop, scrollHeight, clientHeight } = scrollable
-      const goingDown = e.deltaY > 0
-      const goingUp = e.deltaY < 0
+      if (scrollable) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollable
+        const goingDown = e.deltaY > 0
+        const goingUp = e.deltaY < 0
 
-      if (goingDown && scrollTop + clientHeight < scrollHeight - 2) return
-      if (goingUp && scrollTop > 2) return
+        if (goingDown && scrollTop + clientHeight < scrollHeight - 2) return
+        if (goingUp && scrollTop > 2) return
 
-      e.preventDefault()
-      window.scrollBy({ top: e.deltaY, left: 0 })
+        e.preventDefault()
+        scrollPageBy(e.deltaY)
+        return
+      }
+
+      if (embedPanel) {
+        e.preventDefault()
+        scrollPageBy(e.deltaY)
+      }
     }
 
     document.addEventListener('wheel', onWheel, { passive: false, capture: true })

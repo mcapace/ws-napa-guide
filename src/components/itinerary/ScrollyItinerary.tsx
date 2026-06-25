@@ -420,8 +420,10 @@ export default function ScrollyItinerary({
         >
           <div
             ref={embedMode ? storyScrollRef : undefined}
+            data-scroll-container={embedMode ? true : undefined}
+            data-region-embed-scroll={embedMode ? true : undefined}
             data-lenis-prevent={embedMode ? true : undefined}
-            className={embedMode ? styles.storyScroll : undefined}
+            className={embedMode ? `${styles.storyScroll} scrolly-embed-story-scroll` : undefined}
           >
             <div className={styles.storyColumn}>
               {showCollectionHeader && embedMode ? (

@@ -1064,14 +1064,20 @@
   background: var(--ink);
 }
 
-/* Full list + itinerary: document scroll — panels grow with content */
-.frame[data-scroll-unified] .exploreFlowWrap,
-.frame[data-scroll-unified] .itineraryFlowWrap {
+/* Split-panel embeds: fixed height, list/story scroll inside, map pinned */
+.frame[data-scroll-unified] .exploreFlowWrap.region-explore-embed-panel,
+.frame[data-scroll-unified] .itineraryFlowWrap.region-itinerary-embed-panel {
   position: relative;
-  height: auto;
-  min-height: 0;
-  display: block;
-  overflow: visible;
+  height: min(
+    82vh,
+    calc(
+      100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 8px
+    )
+  );
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   transform: none !important;
 }
 
@@ -1108,20 +1114,6 @@
   border-color: rgba(196, 148, 58, 0.45);
   background: rgba(196, 148, 58, 0.1);
   color: var(--cream);
-}
-
-/* Legacy embed height (tab-based RegionPageClient only) */
-.frame[data-scroll-unified] .exploreFlowWrap.region-explore-embed-panel,
-.frame[data-scroll-unified] .itineraryFlowWrap.region-itinerary-embed-panel {
-  height: min(
-    82vh,
-    calc(
-      100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 8px
-    )
-  );
-  min-height: 480px;
-  display: flex;
-  flex-direction: column;
 }
 
 .frame[data-scroll-unified] .exploreFlowWrap :global(.explore-embed-root) {
