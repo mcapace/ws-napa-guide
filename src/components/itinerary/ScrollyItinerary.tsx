@@ -34,6 +34,8 @@ type ScrollyItineraryProps = {
   onItineraryChange?: (id: string) => void
   /** Region tab embed: fixed panel height, story scrolls inside list column (matches Explore). */
   embedMode?: boolean
+  /** Unified scroll page: document scroll, sticky map on the right (matches Explore pageFlow). */
+  pageFlow?: boolean
   /** Hide duplicate series header when the parent page already has a section intro. */
   hideSeriesHeader?: boolean
 }
@@ -99,6 +101,7 @@ export default function ScrollyItinerary({
   selectedItineraryId,
   onItineraryChange,
   embedMode = false,
+  pageFlow = false,
   hideSeriesHeader = false,
 }: ScrollyItineraryProps) {
   const defaultItineraryId = itineraries[0]?.id
@@ -352,7 +355,9 @@ export default function ScrollyItinerary({
 
   return (
     <div
-      className={`${styles.root}${embedMode ? ` ${styles.rootEmbed} scrollyRootEmbed` : ''}`}
+      className={`${styles.root}${embedMode ? ` ${styles.rootEmbed} scrollyRootEmbed` : ''}${
+        pageFlow ? ` ${styles.rootPageFlow}` : ''
+      }`}
     >
       {showCollectionHeader && !embedMode && !hideSeriesHeader ? (
         <header className={styles.collectionHeader}>
@@ -398,9 +403,15 @@ export default function ScrollyItinerary({
         </div>
       ) : null}
 
-      <div className={`${styles.layout}${embedMode ? ` ${styles.layoutEmbed}` : ''}`}>
+      <div
+        className={`${styles.layout}${embedMode ? ` ${styles.layoutEmbed}` : ''}${
+          pageFlow ? ` ${styles.layoutPageFlow}` : ''
+        }`}
+      >
         <div
-          className={`${styles.storyColumnWrap}${embedMode ? ` ${styles.storyColumnWrapEmbed}` : ''}`}
+          className={`${styles.storyColumnWrap}${embedMode ? ` ${styles.storyColumnWrapEmbed}` : ''}${
+            pageFlow ? ` ${styles.storyColumnWrapPageFlow}` : ''
+          }`}
         >
           <div
             ref={embedMode ? storyScrollRef : undefined}
@@ -531,7 +542,9 @@ export default function ScrollyItinerary({
         </div>
 
         <div
-          className={`${styles.mapColumn}${embedMode ? ` ${styles.mapColumnEmbed}` : ''}`}
+          className={`${styles.mapColumn}${embedMode ? ` ${styles.mapColumnEmbed}` : ''}${
+            pageFlow ? ` ${styles.mapColumnPageFlow}` : ''
+          }`}
         >
           <div className={styles.mapSticky}>
             {summaryText ? (

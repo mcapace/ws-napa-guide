@@ -454,6 +454,7 @@ function RegionScrollPageClientContent({
                 selectedItineraryId={selectedItineraryId}
                 onItineraryChange={setItinerary}
                 hideSeriesHeader
+                pageFlow
               />
             </div>
             <ScrollSectionMarker variant="transition" title="More towns & areas" />

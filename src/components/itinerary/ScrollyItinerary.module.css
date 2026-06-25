@@ -572,6 +572,83 @@
   touch-action: pan-y;
 }
 
+/* Unified scroll page: left story column grows, sticky map on the right */
+.rootPageFlow {
+  height: auto;
+  min-height: 0;
+}
+
+.layoutPageFlow {
+  display: grid;
+  grid-template-columns: minmax(0, 42%) minmax(0, 58%);
+  align-items: start;
+  gap: 0;
+  height: auto;
+  min-height: 72vh;
+}
+
+.storyColumnWrapPageFlow {
+  min-width: 0;
+  border-right: 1px solid rgba(247, 243, 236, 0.08);
+}
+
+.layoutPageFlow .storyColumn {
+  order: unset;
+  grid-column: unset;
+  width: auto;
+  padding: 0 clamp(24px, 3vw, 48px) 64px;
+}
+
+.layoutPageFlow .step {
+  min-height: min(68vh, 720px);
+}
+
+.mapColumnPageFlow {
+  order: unset;
+  position: sticky;
+  top: calc(
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) + 8px
+  );
+  height: min(
+    75vh,
+    calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 16px)
+  );
+  min-height: 480px;
+  align-self: start;
+}
+
+.mapColumnPageFlow .mapSticky {
+  height: 100%;
+  min-height: 0;
+}
+
+.mapColumnPageFlow .mapCanvas {
+  touch-action: pan-y;
+}
+
+@media (max-width: 1023px) {
+  .layoutPageFlow {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: unset;
+    min-height: auto;
+  }
+
+  .storyColumnWrapPageFlow {
+    order: 2;
+    border-right: none;
+  }
+
+  .mapColumnPageFlow {
+    order: 1;
+    position: sticky;
+    top: var(--scrolly-sticky-top);
+    height: 55vh;
+    min-height: 280px;
+    z-index: 5;
+  }
+}
+
 @media (min-width: 1024px) {
   .layout {
     display: grid;

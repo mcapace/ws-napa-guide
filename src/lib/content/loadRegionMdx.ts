@@ -141,8 +141,6 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
 
   const eatBlocks = splitH2Blocks(eatMd)
   const restaurantBlocks: { title: string; body: string }[] = []
-  const coffeeSnackBlocks: { title: string; body: string }[] = []
-  let breakfastInner: { title: string; body: string } | null = null
 
   const skipEatDirectoryH2 = new Set(['Restaurant Directory', 'Breakfast, Coffee & Snacks Directory'])
 
@@ -152,25 +150,22 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     return t.includes('breakfast') || (t.includes('coffee') && t.includes('snack'))
   }
 
+  const isFeaturedRestaurantsHeading = (title: string) =>
+    title.trim().toLowerCase() === 'featured restaurants'
+
   for (const b of eatBlocks) {
     if (skipEatDirectoryH2.has(b.title.trim())) continue
-    if (isCoffeeSnackSection(b.title)) {
-      const h3Blocks = splitH3Blocks(b.body)
-      if (h3Blocks.length > 0) {
-        coffeeSnackBlocks.push(...h3Blocks)
-      } else if (b.body.trim()) {
-        coffeeSnackBlocks.push({ title: b.title.trim(), body: b.body })
-      }
+    if (isCoffeeSnackSection(b.title)) continue
+    if (isFeaturedRestaurantsHeading(b.title)) {
+      restaurantBlocks.push(...splitH3Blocks(b.body))
       continue
     }
     restaurantBlocks.push(b)
   }
 
-  const allEatBlocks = [...restaurantBlocks, ...coffeeSnackBlocks]
-
   const featuredRestaurants: EditorialFeature[] = []
-  for (let i = 0; i < allEatBlocks.length; i++) {
-    const b = allEatBlocks[i]
+  for (let i = 0; i < restaurantBlocks.length; i++) {
+    const b = restaurantBlocks[i]
     const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(b.body)
     featuredRestaurants.push({
       name: b.title,
@@ -184,7 +179,11 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     })
   }
 
-  const featuredRestaurantsWithPhotos = featuredRestaurants
+  const featuredRestaurantsWithPhotos = featuredRestaurants.filter(
+    (r) =>
+      !r.image?.includes('/breakfast/') &&
+      !r.imagePortrait?.includes('/breakfast/'),
+  )
 
   const restaurantDirSlice = sliceAfterH2Heading(eatMd, '## Restaurant Directory')
   const breakfastDirSlice = sliceAfterH2Heading(eatMd, '## Breakfast, Coffee & Snacks Directory')

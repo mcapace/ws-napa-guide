@@ -83,6 +83,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         addressLines: ['Lake Street, Calistoga'],
         phone: '(707) 870-9129',
         restaurantSlug: 'el-taco-feliz',
+        image: `${TACO}/venue-el-taco-feliz.jpg`,
         description:
           'The lines here are long for a reason—it’s among the best spots in the valley and the service is always friendly. The cabeza stands out for its generosity of seasonings and melt-in-your-mouth braised beef.',
       },
@@ -124,6 +125,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         addressLines: ['1304 Main St., St. Helena'],
         website: 'rayrays.com',
         coords: [-122.4692, 38.5048],
+        image: `${TACO}/venue-ray-rays-tacos.jpg`,
         description:
           'Ray Ray’s offers convenience with its various tacos-to-go kits, designed for building your own. A tray of 16 street tacos makes things even easier—all you have to do is pick the meat. The spiced carrot taco should not be missed, either. There is plenty of seating for dining in.',
       },
@@ -132,6 +134,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         addressLines: ['751 Jackson St., Napa'],
         website: 'tacoselmuchachoalegre.com',
         coords: [-122.2905, 38.3015],
+        image: `${TACO}/venue-tacos-el-muchacho-alegre.jpg`,
         description:
           'This truck has plenty of parking spaces and picnic tables nearby. The spiced shrimp taco here is filled to capacity, with fresh slaw, pico de gallo and creamy aioli. Traditional meats, like the al pastor, are good choices too.',
       },

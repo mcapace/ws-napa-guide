@@ -1029,6 +1029,11 @@
   background: #0d0b09;
 }
 
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.rootPageFlow) {
+  height: auto;
+  min-height: 0;
+}
+
 .scrollDock {
   position: fixed;
   right: clamp(12px, 2vw, 20px);
