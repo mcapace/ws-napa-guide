@@ -339,7 +339,6 @@ export default function ScrollyItinerary({
   )
 
   const showCollectionHeader = itineraries.length > 1 && itinerary?.seriesTitle
-  const introImage = useMemo(() => stops.find((s) => s.image)?.image, [stops])
 
   if (!itinerary || stops.length === 0) {
     return (
@@ -455,18 +454,6 @@ export default function ScrollyItinerary({
                     ))}
                   </div>
                 ) : null}
-                {introImage ? (
-                  <div className={styles.introMedia}>
-                    <Image
-                      src={introImage}
-                      alt=""
-                      fill
-                      sizes="(max-width: 768px) 100vw, 520px"
-                      className={styles.introMediaImg}
-                      style={{ objectPosition: getImageFocalPoint(introImage, 'landscape') }}
-                    />
-                  </div>
-                ) : null}
               </header>
 
               <ol className={styles.steps}>
@@ -502,7 +489,7 @@ export default function ScrollyItinerary({
                           fill
                           sizes="(max-width: 768px) 100vw, 520px"
                           className={styles.stepMediaImg}
-                          style={{ objectPosition: getImageFocalPoint(stop.image, 'landscape') }}
+                          style={{ objectPosition: getImageFocalPoint(stop.image, 'showcase') }}
                         />
                       </div>
                     ) : null}

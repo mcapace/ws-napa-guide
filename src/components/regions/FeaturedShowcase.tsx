@@ -10,7 +10,7 @@ import {
 } from 'framer-motion'
 import type { MapPin } from '@/data/map-pins'
 import { editorialDetailHref } from '@/lib/editorial-detail-link'
-import { getImageFocalPoint } from '@/lib/image-focal'
+import { focalToTransformOrigin, getImageFocalPoint } from '@/lib/image-focal'
 import styles from './FeaturedShowcase.module.css'
 
 export type ShowcaseCategory = 'taste' | 'eat' | 'stay'
@@ -82,8 +82,10 @@ export function FeaturedShowcasePanel({
   const blurb = truncateBlurb(pick.bodyPlain ?? '')
   const eyebrow = `${CATEGORY_EYEBROW[pick.category]} · ${regionLabel}`
 
-  const landscapeFocal = getImageFocalPoint(pick.image, 'landscape')
+  const landscapeFocal = getImageFocalPoint(pick.image, 'showcase')
   const portraitFocal = getImageFocalPoint(pick.imagePortrait, 'portrait')
+  const landscapeOrigin = focalToTransformOrigin(landscapeFocal)
+  const portraitOrigin = focalToTransformOrigin(portraitFocal)
 
   return (
     <article
@@ -97,8 +99,9 @@ export function FeaturedShowcasePanel({
             {pick.image ? (
               <motion.div
                 className={styles.imageWrap}
-                initial={reduceMotion ? false : { scale: 1.08 }}
-                animate={showMotion || reduceMotion ? { scale: 1 } : { scale: 1.08 }}
+                style={{ transformOrigin: landscapeOrigin }}
+                initial={reduceMotion ? false : { scale: 1.04 }}
+                animate={showMotion || reduceMotion ? { scale: 1 } : { scale: 1.04 }}
                 transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
               >
                 <Image
@@ -115,8 +118,9 @@ export function FeaturedShowcasePanel({
             {pick.imagePortrait ? (
               <motion.div
                 className={styles.imageWrap}
-                initial={reduceMotion ? false : { scale: 1.08 }}
-                animate={showMotion || reduceMotion ? { scale: 1 } : { scale: 1.08 }}
+                style={{ transformOrigin: portraitOrigin }}
+                initial={reduceMotion ? false : { scale: 1.04 }}
+                animate={showMotion || reduceMotion ? { scale: 1 } : { scale: 1.04 }}
                 transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
               >
                 <Image

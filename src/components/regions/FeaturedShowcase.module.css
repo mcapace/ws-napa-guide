@@ -20,7 +20,6 @@
 .imageWrap {
   position: absolute;
   inset: 0;
-  transform-origin: center center;
   will-change: transform;
 }
 
