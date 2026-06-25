@@ -10,7 +10,7 @@ import {
 } from 'framer-motion'
 import type { MapPin } from '@/data/map-pins'
 import { editorialDetailHref } from '@/lib/editorial-detail-link'
-import { focalToTransformOrigin, getImageFocalPoint } from '@/lib/image-focal'
+import { getShowcaseFocalPoint } from '@/lib/image-focal'
 import styles from './FeaturedShowcase.module.css'
 
 export type ShowcaseCategory = 'taste' | 'eat' | 'stay'
@@ -82,10 +82,8 @@ export function FeaturedShowcasePanel({
   const blurb = truncateBlurb(pick.bodyPlain ?? '')
   const eyebrow = `${CATEGORY_EYEBROW[pick.category]} · ${regionLabel}`
 
-  const landscapeFocal = getImageFocalPoint(pick.image, 'showcase')
-  const portraitFocal = getImageFocalPoint(pick.imagePortrait, 'portrait')
-  const landscapeOrigin = focalToTransformOrigin(landscapeFocal)
-  const portraitOrigin = focalToTransformOrigin(portraitFocal)
+  const landscapeFocal = getShowcaseFocalPoint(pick.image, pick.imagePortrait, false)
+  const portraitFocal = getShowcaseFocalPoint(pick.image, pick.imagePortrait, true)
 
   return (
     <article
@@ -97,13 +95,7 @@ export function FeaturedShowcasePanel({
         {imageSrc ? (
           <>
             {pick.image ? (
-              <motion.div
-                className={styles.imageWrap}
-                style={{ transformOrigin: landscapeOrigin }}
-                initial={reduceMotion ? false : { scale: 1.04 }}
-                animate={showMotion || reduceMotion ? { scale: 1 } : { scale: 1.04 }}
-                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              >
+              <div className={styles.imageWrap}>
                 <Image
                   src={pick.image}
                   alt=""
@@ -113,16 +105,10 @@ export function FeaturedShowcasePanel({
                   className={`${styles.image} ${styles.imageLandscape}`}
                   style={{ objectPosition: landscapeFocal }}
                 />
-              </motion.div>
+              </div>
             ) : null}
             {pick.imagePortrait ? (
-              <motion.div
-                className={styles.imageWrap}
-                style={{ transformOrigin: portraitOrigin }}
-                initial={reduceMotion ? false : { scale: 1.04 }}
-                animate={showMotion || reduceMotion ? { scale: 1 } : { scale: 1.04 }}
-                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              >
+              <div className={styles.imageWrap}>
                 <Image
                   src={pick.imagePortrait}
                   alt=""
@@ -132,7 +118,7 @@ export function FeaturedShowcasePanel({
                   className={`${styles.image} ${styles.imagePortrait}`}
                   style={{ objectPosition: portraitFocal }}
                 />
-              </motion.div>
+              </div>
             ) : null}
           </>
         ) : (

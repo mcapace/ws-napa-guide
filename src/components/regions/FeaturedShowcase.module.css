@@ -19,8 +19,12 @@
 
 .imageWrap {
   position: absolute;
-  inset: 0;
-  will-change: transform;
+  left: -3%;
+  right: -3%;
+  top: 0;
+  width: 106%;
+  height: 118%;
+  transform-origin: center top;
 }
 
 .image {

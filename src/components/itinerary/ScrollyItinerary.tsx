@@ -21,7 +21,7 @@ import {
   type DirectionsResult,
 } from '@/lib/itinerary-directions'
 import type { Itinerary, ItineraryStop } from '@/lib/types'
-import { getImageFocalPoint } from '@/lib/image-focal'
+import { getShowcaseFocalPoint } from '@/lib/image-focal'
 import styles from './ScrollyItinerary.module.css'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -488,14 +488,16 @@ export default function ScrollyItinerary({
                     <h3 className={styles.stepName}>{stop.name}</h3>
                     {stop.image ? (
                       <div className={styles.stepMedia}>
-                        <Image
-                          src={stop.image}
-                          alt=""
-                          fill
-                          sizes="(max-width: 768px) 100vw, 520px"
-                          className={styles.stepMediaImg}
-                          style={{ objectPosition: getImageFocalPoint(stop.image, 'showcase') }}
-                        />
+                        <div className={styles.stepMediaWrap}>
+                          <Image
+                            src={stop.image}
+                            alt=""
+                            fill
+                            sizes="(max-width: 768px) 100vw, 520px"
+                            className={styles.stepMediaImg}
+                            style={{ objectPosition: getShowcaseFocalPoint(stop.image) }}
+                          />
+                        </div>
                       </div>
                     ) : null}
                     <p className={styles.stepBlurb}>{stop.blurb}</p>

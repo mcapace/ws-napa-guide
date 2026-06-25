@@ -273,6 +273,15 @@
   background: rgba(247, 243, 236, 0.04);
 }
 
+.stepMediaWrap {
+  position: absolute;
+  left: -3%;
+  right: -3%;
+  top: 0;
+  width: 106%;
+  height: 115%;
+}
+
 .stepMediaImg {
   object-fit: cover;
 }

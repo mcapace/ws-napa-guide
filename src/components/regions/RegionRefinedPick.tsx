@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from 'react'
 import Image from 'next/image'
 import { isEditorialListingImage } from '@/lib/explore'
+import { getShowcaseFocalPoint } from '@/lib/image-focal'
 
 type RegionRefinedPickProps = {
   name: string
@@ -57,32 +58,43 @@ export function RegionRefinedPick({
     >
       {showImage ? (
         <div className="region-refined-pick__media">
-          {landscape && portrait ? (
-            <>
+          <div className="region-refined-pick__mediaWrap">
+            {landscape && portrait ? (
+              <>
+                <Image
+                  src={landscape}
+                  alt=""
+                  fill
+                  sizes="(min-width: 960px) 800px, 100vw"
+                  className="region-refined-pick__img region-refined-pick__img--landscape"
+                  style={{ objectPosition: getShowcaseFocalPoint(landscape, portrait, false) }}
+                />
+                <Image
+                  src={portrait}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className="region-refined-pick__img region-refined-pick__img--portrait"
+                  style={{ objectPosition: getShowcaseFocalPoint(landscape, portrait, true) }}
+                />
+              </>
+            ) : (
               <Image
-                src={landscape}
+                src={fallback!}
                 alt=""
                 fill
                 sizes="(min-width: 960px) 800px, 100vw"
-                className="region-refined-pick__img region-refined-pick__img--landscape"
+                className="region-refined-pick__img"
+                style={{
+                  objectPosition: getShowcaseFocalPoint(
+                    landscape ?? fallback,
+                    portrait ?? fallback,
+                    Boolean(portrait && !landscape),
+                  ),
+                }}
               />
-              <Image
-                src={portrait}
-                alt=""
-                fill
-                sizes="100vw"
-                className="region-refined-pick__img region-refined-pick__img--portrait"
-              />
-            </>
-          ) : (
-            <Image
-              src={fallback!}
-              alt=""
-              fill
-              sizes="(min-width: 960px) 800px, 100vw"
-              className="region-refined-pick__img"
-            />
-          )}
+            )}
+          </div>
         </div>
       ) : null}
 

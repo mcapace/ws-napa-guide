@@ -327,7 +327,17 @@
   position: relative;
   aspect-ratio: 16 / 9;
   max-height: min(52vw, 300px);
+  overflow: hidden;
   background: linear-gradient(145deg, #ede5d8 0%, #e8dfd0 100%);
+}
+
+.region-refined-pick__mediaWrap {
+  position: absolute;
+  left: -3%;
+  right: -3%;
+  top: 0;
+  width: 106%;
+  height: 115%;
 }
 
 .region-refined-pick__img {
