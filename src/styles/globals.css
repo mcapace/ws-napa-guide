@@ -153,7 +153,15 @@ html[data-region-native-scroll] body {
   height: auto !important;
 }
 
-/* Split-panel map/list: fixed viewport height, internal list scroll */
+/* Page-flow panels: full document scroll, sticky map column (no nested scroll traps) */
+[data-scroll-unified] .region-page-flow-panel {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+/* Legacy embed panels (RegionPageClient tab embeds) */
 [data-scroll-unified] .region-explore-embed-panel,
 [data-scroll-unified] .region-itinerary-embed-panel {
   height: min(

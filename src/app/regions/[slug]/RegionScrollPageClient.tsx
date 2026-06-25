@@ -13,6 +13,7 @@ import type { LoadedRegionMdx } from '@/lib/content/types'
 import { getImageFocalPoint } from '@/lib/image-focal'
 import { REGION_CENTERS } from '@/lib/mapbox'
 import { useLenis, scrollToTarget, enableRegionNativeScroll } from '@/lib/smooth-scroll'
+import { useRegionDocumentScrollBridge } from '@/lib/region-document-scroll'
 import { replaceUrlQuery } from '@/lib/update-url-query'
 import type { Itinerary } from '@/lib/types'
 import { RegionStoryPanel, type RegionTab } from './RegionPageClient'
@@ -257,6 +258,7 @@ function RegionScrollPageClientContent({
   const heroPortraitFocal = getImageFocalPoint(frontmatter.heroImagePortrait, 'portrait')
 
   useEffect(() => enableRegionNativeScroll(lenis), [lenis])
+  useRegionDocumentScrollBridge()
 
   useEffect(() => {
     const onScroll = () => {
@@ -460,23 +462,41 @@ function RegionScrollPageClientContent({
             title="The full list"
             dek={`Filter tastings, dining, or hotels — or pan the map. Every listing in ${regionName}, sorted alphabetically.`}
           />
-          <div className={`${styles.exploreFlowWrap} region-explore-embed-panel`}>
+          <div className={`${styles.exploreFlowWrap} region-page-flow-panel`}>
             {pins.length > 0 ? (
               <ExploreMapSection
                 pins={pins}
                 scopedRegion={slug}
                 showRegionFilter={false}
                 theme="dark"
-                embedMode
+                pageFlow
               />
             ) : (
               <p className={styles.scrollSectionEmpty}>No listings for this region yet.</p>
             )}
           </div>
           {hasItinerary ? (
-            <ScrollSectionMarker variant="transition" title="Editor's picks" />
+            <>
+              <div className={styles.scrollContinueCta}>
+                <button
+                  type="button"
+                  className={styles.scrollContinueBtn}
+                  onClick={() => {
+                    const link = jumpLinks.find((l) => l.id === 'region-itinerary')
+                    if (link) jumpTo(link)
+                  }}
+                >
+                  Continue to Editor&apos;s picks ↓
+                </button>
+              </div>
+              <ScrollSectionMarker variant="transition" title="Editor's picks" />
+            </>
           ) : (
-            <ScrollSectionMarker variant="transition" title="More towns & areas" />
+            <div className={styles.scrollContinueCta}>
+              <button type="button" className={styles.scrollContinueBtn} onClick={scrollToBottom}>
+                More towns & areas below ↓
+              </button>
+            </div>
           )}
         </section>
 
@@ -488,7 +508,7 @@ function RegionScrollPageClientContent({
               title={phrases.sidebar ?? `Plan your day in ${regionName}`}
               dek="Half-day routes with map and stops — scroll through each leg or open the full route in Google Maps."
             />
-            <div className={`${styles.itineraryFlowWrap} region-itinerary-embed-panel`}>
+            <div className={`${styles.itineraryFlowWrap} region-page-flow-panel`}>
               <ScrollyItinerary
                 itineraries={itineraries}
                 regionCenter={regionCenter}
@@ -496,8 +516,13 @@ function RegionScrollPageClientContent({
                 selectedItineraryId={selectedItineraryId}
                 onItineraryChange={setItinerary}
                 hideSeriesHeader
-                embedMode
+                pageFlow
               />
+            </div>
+            <div className={styles.scrollContinueCta}>
+              <button type="button" className={styles.scrollContinueBtn} onClick={scrollToBottom}>
+                More towns & areas below ↓
+              </button>
             </div>
             <ScrollSectionMarker variant="transition" title="More towns & areas" />
           </section>

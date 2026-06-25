@@ -386,7 +386,9 @@ export default function ScrollyItinerary({
 
       {itineraries.length > 1 ? (
         <div
-          className={`${styles.selector}${embedMode ? ` ${styles.selectorEmbed}` : ''}`}
+          className={`${styles.selector}${embedMode ? ` ${styles.selectorEmbed}` : ''}${
+            pageFlow ? ' scrolly-selector' : ''
+          }`}
           role="tablist"
           aria-label="Choose itinerary"
         >

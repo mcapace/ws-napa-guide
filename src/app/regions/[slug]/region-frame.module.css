@@ -1064,10 +1064,55 @@
   background: var(--ink);
 }
 
-/* Full list + itinerary: fixed-height split panels (list scrolls, map stays pinned) */
+/* Full list + itinerary: document scroll — panels grow with content */
 .frame[data-scroll-unified] .exploreFlowWrap,
 .frame[data-scroll-unified] .itineraryFlowWrap {
   position: relative;
+  height: auto;
+  min-height: 0;
+  display: block;
+  overflow: visible;
+  transform: none !important;
+}
+
+.scrollContinueCta {
+  display: flex;
+  justify-content: center;
+  padding: 28px 20px 12px;
+  background: var(--ink);
+}
+
+.scrollContinueBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border: 1px solid rgba(247, 243, 236, 0.16);
+  border-radius: 999px;
+  background: rgba(247, 243, 236, 0.06);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.88);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.scrollContinueBtn:hover {
+  border-color: rgba(196, 148, 58, 0.45);
+  background: rgba(196, 148, 58, 0.1);
+  color: var(--cream);
+}
+
+/* Legacy embed height (tab-based RegionPageClient only) */
+.frame[data-scroll-unified] .exploreFlowWrap.region-explore-embed-panel,
+.frame[data-scroll-unified] .itineraryFlowWrap.region-itinerary-embed-panel {
   height: min(
     82vh,
     calc(
@@ -1077,7 +1122,6 @@
   min-height: 480px;
   display: flex;
   flex-direction: column;
-  transform: none !important;
 }
 
 .frame[data-scroll-unified] .exploreFlowWrap :global(.explore-embed-root) {
@@ -1168,6 +1212,8 @@
   z-index: 4;
 }
 
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-page-flow .scrolly-selector),
+.frame[data-scroll-unified] .itineraryFlowWrap :global([data-scrolly-page-flow] .scrolly-selector),
 .frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-page-flow .selector),
 .frame[data-scroll-unified] .itineraryFlowWrap :global([data-scrolly-page-flow] .selector) {
   position: sticky;

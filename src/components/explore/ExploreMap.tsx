@@ -856,9 +856,11 @@ export function ExploreMap({
               </div>
             ) : null}
             <p className={styles.mapAttribution}>© Mapbox © OpenStreetMap</p>
-            {embedMode && !selectedPin ? (
+            {(embedMode || pageFlow) && !selectedPin ? (
               <p className={styles.mapScrollHint} aria-hidden>
-                Scroll to explore · Ctrl + scroll to zoom map
+                {pageFlow
+                  ? 'Scroll the page · Ctrl + scroll to zoom map'
+                  : 'Scroll to explore · Ctrl + scroll to zoom map'}
               </p>
             ) : null}
           </MapWheelScrollBridge>
