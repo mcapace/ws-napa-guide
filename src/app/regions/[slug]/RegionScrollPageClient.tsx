@@ -48,7 +48,7 @@ function buildJumpLinks(mdx: LoadedRegionMdx, hasItinerary: boolean): JumpLink[]
   if (mdx.featuredWineries.length > 0) {
     links.push({ id: 'region-taste', label: 'Taste', tab: 'story' })
   }
-  if (mdx.featuredRestaurants.length > 0 || mdx.breakfast) {
+  if (mdx.featuredRestaurants.length > 0 || mdx.coffeeSnackFeatures.length > 0 || mdx.breakfast) {
     links.push({ id: 'region-eat', label: 'Eat', tab: 'story' })
   }
   if (mdx.featuredHotels.length > 0) {
@@ -293,6 +293,7 @@ function RegionScrollPageClientContent({
   const hasGuidePicks =
     mdx.featuredWineries.length > 0 ||
     mdx.featuredRestaurants.length > 0 ||
+    mdx.coffeeSnackFeatures.length > 0 ||
     mdx.breakfast ||
     mdx.featuredHotels.length > 0
 

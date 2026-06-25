@@ -24,7 +24,7 @@ function allEditorialFeatures(mdx: LoadedRegionMdx) {
   return [
     ...mdx.featuredWineries,
     ...mdx.featuredRestaurants,
-    ...(mdx.breakfast ? [mdx.breakfast] : []),
+    ...mdx.coffeeSnackFeatures,
     ...mdx.featuredHotels,
   ]
 }

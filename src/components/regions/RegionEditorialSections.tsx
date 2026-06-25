@@ -139,7 +139,15 @@ export function RegionEditorialSections({
   }))
 
   const hasTaste = tastePicks.length > 0
-  const hasEat = eatPicks.length > 0
+  const hasEat =
+    eatPicks.length > 0 || data.coffeeSnackFeatures.length > 0
+
+  const coffeeSnackPicks = data.coffeeSnackFeatures.map((feature, index) => ({
+    key: `coffee-${feature.name}`,
+    props: featureProps(feature),
+    showcase: toShowcasePick(feature, 'eat', `coffee-${feature.name}`),
+    index,
+  }))
   const hasStay = stayPicks.length > 0
 
   if (!hasTaste && !hasEat && !hasStay) return null
@@ -173,17 +181,49 @@ export function RegionEditorialSections({
         <section id="region-eat" className={`${chapterClass} region-chapter--eat`}>
           <SectionDivider label={phrases.eat ?? 'Where to eat'} compact={refined || showcase} />
           {showcase ? (
-            <FeaturedShowcase
-              picks={eatPicks.map((p) => p.showcase)}
-              regionSlug={regionSlug ?? data.frontmatter.slug}
-              regionLabel={label}
-              pins={pins}
-              startIndex={eatStart}
-            />
+            <>
+              {eatPicks.length > 0 ? (
+                <FeaturedShowcase
+                  picks={eatPicks.map((p) => p.showcase)}
+                  regionSlug={regionSlug ?? data.frontmatter.slug}
+                  regionLabel={label}
+                  pins={pins}
+                  startIndex={eatStart}
+                />
+              ) : null}
+              {coffeeSnackPicks.length > 0 ? (
+                <>
+                  <SectionDivider
+                    label="Breakfast, coffee & snacks"
+                    compact={refined || showcase}
+                  />
+                  <FeaturedShowcase
+                    picks={coffeeSnackPicks.map((p) => p.showcase)}
+                    regionSlug={regionSlug ?? data.frontmatter.slug}
+                    regionLabel={label}
+                    pins={pins}
+                    startIndex={eatStart + eatPicks.length}
+                  />
+                </>
+              ) : null}
+            </>
           ) : refined ? (
-            <RegionChapterRefinedPicks stories={eatPicks} variant="eat" />
+            <>
+              <RegionChapterRefinedPicks stories={eatPicks} variant="eat" />
+              {coffeeSnackPicks.length > 0 ? (
+                <RegionChapterRefinedPicks
+                  stories={coffeeSnackPicks}
+                  variant="eat"
+                />
+              ) : null}
+            </>
           ) : (
-            <RegionChapterFeatures stories={eatPicks} />
+            <>
+              <RegionChapterFeatures stories={eatPicks} />
+              {coffeeSnackPicks.length > 0 ? (
+                <RegionChapterFeatures stories={coffeeSnackPicks} />
+              ) : null}
+            </>
           )}
         </section>
       )}
@@ -225,7 +265,7 @@ export function buildRegionGuideNavItems(
   if (data.featuredWineries.length > 0) {
     items.push({ id: 'region-taste', label: GUIDE_NAV_LABELS.taste })
   }
-  if (data.featuredRestaurants.length > 0 || data.breakfast) {
+  if (data.featuredRestaurants.length > 0 || data.coffeeSnackFeatures.length > 0 || data.breakfast) {
     items.push({ id: 'region-eat', label: GUIDE_NAV_LABELS.eat })
   }
   if (data.featuredHotels.length > 0) {

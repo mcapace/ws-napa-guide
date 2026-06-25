@@ -35,17 +35,22 @@ function namesOverlap(a: string, b: string): boolean {
   return false
 }
 
-function allEditorialFeatures(data: LoadedRegionMdx): EditorialFeature[] {
-  return [
-    ...data.featuredWineries,
-    ...data.featuredRestaurants,
-    ...(data.breakfast ? [data.breakfast] : []),
-    ...data.featuredHotels,
-  ]
+/** MDX editorial picks only — matches production featured blocks, not directory tables. */
+function editorialFeaturesForCategory(
+  data: LoadedRegionMdx,
+  category: MapPinCategory,
+): EditorialFeature[] {
+  if (category === 'dining') return data.featuredRestaurants
+  if (category === 'stay') return data.featuredHotels
+  return data.featuredWineries
 }
 
-function editorialFeatureForName(data: LoadedRegionMdx, name: string): EditorialFeature | undefined {
-  return allEditorialFeatures(data).find((f) => namesOverlap(f.name, name))
+function editorialFeatureForName(
+  data: LoadedRegionMdx,
+  name: string,
+  category: MapPinCategory,
+): EditorialFeature | undefined {
+  return editorialFeaturesForCategory(data, category).find((f) => namesOverlap(f.name, name))
 }
 
 function directoryCategoryToPinCategory(category: DirectoryCategory): MapPinCategory {
@@ -69,11 +74,6 @@ function editorialImagePath(path?: string): string | undefined {
   return isEditorialListingImage(path) ? path!.trim() : undefined
 }
 
-function featuredThumbForName(data: LoadedRegionMdx, name: string): string | undefined {
-  const match = editorialFeatureForName(data, name)
-  return editorialImagePath(match?.image)
-}
-
 function stripNonEditorialThumb(pin: MapPin): MapPin {
   if (!pinHasListingImage(pin)) {
     const { thumb: _t, ...rest } = pin
@@ -83,20 +83,20 @@ function stripNonEditorialThumb(pin: MapPin): MapPin {
   return { ...pin, thumb, images: thumb ? [thumb] : [] }
 }
 
-function mergeEditorialThumb(staticPin: MapPin, editorialThumb?: string): MapPin {
-  const base = stripNonEditorialThumb(staticPin)
-  const thumb = editorialImagePath(editorialThumb)
-  if (!thumb) return base
-  return { ...base, thumb, images: [thumb] }
+function pinWithoutListingPhoto(pin: MapPin): MapPin {
+  const base = stripNonEditorialThumb(pin)
+  return {
+    ...base,
+    thumb: undefined,
+    images: [],
+    editorial: undefined,
+    excerptFull: undefined,
+  }
 }
 
-function applyEditorialPinFields(
-  pin: MapPin,
-  data: LoadedRegionMdx,
-  name: string,
-): MapPin {
-  const feature = editorialFeatureForName(data, name)
-  if (!feature) return pin
+function applyEditorialPinFields(pin: MapPin, data: LoadedRegionMdx): MapPin {
+  const feature = editorialFeatureForName(data, pin.name, pin.category)
+  if (!feature) return pinWithoutListingPhoto(pin)
 
   const bodyPlain = feature.bodyPlain?.trim()
   const excerpt = bodyPlain ? editorialExcerpt(bodyPlain) : pin.excerpt
@@ -104,22 +104,24 @@ function applyEditorialPinFields(
     bodyPlain && bodyPlain.length > excerpt.replace(/…$/, '').trim().length
       ? bodyPlain
       : undefined
+  const thumb = editorialImagePath(feature.image)
 
   return {
     ...pin,
     editorial: true,
     excerpt,
     excerptFull,
-    thumb: editorialImagePath(feature.image) ?? pin.thumb,
-    images: editorialImagePath(feature.image) ? [editorialImagePath(feature.image)!] : pin.images,
+    thumb,
+    images: thumb ? [thumb] : [],
   }
 }
 
-function directoryRowToMapPin(
-  row: TastingDirectoryRow,
-  regionSlug: string,
-  thumb?: string,
-): MapPin | null {
+/** Listing photos only for MDX featured picks (production editorial blocks). */
+function finalizeExplorePin(pin: MapPin, data: LoadedRegionMdx): MapPin {
+  return applyEditorialPinFields(stripNonEditorialThumb(pin), data)
+}
+
+function directoryRowToMapPin(row: TastingDirectoryRow, regionSlug: string): MapPin | null {
   if (!row.coordinates) return null
 
   const category = directoryCategoryToPinCategory(row.category)
@@ -128,7 +130,6 @@ function directoryRowToMapPin(
   const lat = row.coordinates.lat
   const website = normalizeWebsiteUrl(row.website)
   const excerpt = pinExcerpt(row.address)
-  const editorialThumb = editorialImagePath(thumb)
 
   const type = category === 'dining' ? 'restaurant' : category === 'stay' ? 'hotel' : 'winery'
 
@@ -140,10 +141,9 @@ function directoryRowToMapPin(
     coords: [lng, lat],
     excerpt,
     href: website ?? `/explore?ava=${regionSlug}&place=${slug}`,
-    thumb: editorialThumb,
     id: slug,
     type,
-    images: editorialThumb ? [editorialThumb] : [],
+    images: [],
     sponsorTier: null,
   }
 }
@@ -161,24 +161,22 @@ function buildPinsFromRows(
 
   const addPin = (pin: MapPin) => {
     if (alreadyAdded(pin.name)) return
-    pins.push(stripNonEditorialThumb(pin))
+    pins.push(finalizeExplorePin(pin, data))
   }
 
   for (const row of rows) {
-    const editorialThumb = featuredThumbForName(data, row.name)
     const staticMatch = staticPool.find((p) => namesOverlap(p.name, row.name))
 
     let pin: MapPin | null = null
 
     if (staticMatch) {
-      pin = mergeEditorialThumb(staticMatch, editorialThumb)
+      pin = { ...stripNonEditorialThumb(staticMatch) }
     } else {
-      pin = directoryRowToMapPin(row, regionSlug, editorialThumb)
+      pin = directoryRowToMapPin(row, regionSlug)
     }
 
     if (!pin) continue
 
-    pin = applyEditorialPinFields(pin, data, row.name)
     if (staticMatch) {
       pin = { ...pin, href: staticMatch.href }
     }
@@ -187,9 +185,7 @@ function buildPinsFromRows(
 
   if (includeAllStatic) {
     for (const staticPin of staticPool) {
-      let pin = mergeEditorialThumb(staticPin, featuredThumbForName(data, staticPin.name))
-      pin = applyEditorialPinFields(pin, data, staticPin.name)
-      addPin(pin)
+      addPin(stripNonEditorialThumb(staticPin))
     }
   }
 

@@ -44,12 +44,18 @@ export function buildRegionTasteMapRows(data: LoadedRegionMdx): TastingDirectory
 
 export function buildRegionEatMapRows(data: LoadedRegionMdx): TastingDirectoryRow[] {
   const fromFeatured = editorialFeaturesToRows(data.featuredRestaurants, 'restaurant')
+  const fromCoffeeSnack = editorialFeaturesToRows(data.coffeeSnackFeatures, 'restaurant')
   const fromBreakfast = data.breakfast?.address?.trim()
     ? editorialFeaturesToRows([data.breakfast], 'restaurant')
     : []
   return attachDirectoryGeocodes(
     data.frontmatter.slug,
-    mergeDedupedMapRows([...fromFeatured, ...fromBreakfast, ...data.restaurantDirectory]),
+    mergeDedupedMapRows([
+      ...fromFeatured,
+      ...fromCoffeeSnack,
+      ...fromBreakfast,
+      ...data.restaurantDirectory,
+    ]),
   )
 }
 

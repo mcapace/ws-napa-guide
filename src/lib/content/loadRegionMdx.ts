@@ -141,6 +141,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
 
   const eatBlocks = splitH2Blocks(eatMd)
   const restaurantBlocks: { title: string; body: string }[] = []
+  const coffeeSnackBlocks: { title: string; body: string }[] = []
 
   const skipEatDirectoryH2 = new Set(['Restaurant Directory', 'Breakfast, Coffee & Snacks Directory'])
 
@@ -155,7 +156,10 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
 
   for (const b of eatBlocks) {
     if (skipEatDirectoryH2.has(b.title.trim())) continue
-    if (isCoffeeSnackSection(b.title)) continue
+    if (isCoffeeSnackSection(b.title)) {
+      coffeeSnackBlocks.push(...splitH3Blocks(b.body))
+      continue
+    }
     if (isFeaturedRestaurantsHeading(b.title)) {
       restaurantBlocks.push(...splitH3Blocks(b.body))
       continue
@@ -163,21 +167,29 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     restaurantBlocks.push(b)
   }
 
-  const featuredRestaurants: EditorialFeature[] = []
-  for (let i = 0; i < restaurantBlocks.length; i++) {
-    const b = restaurantBlocks[i]
-    const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(b.body)
-    featuredRestaurants.push({
-      name: b.title,
-      address,
-      website,
-      image: editorialOnlyImage(image),
-      imagePortrait: editorialOnlyImage(imagePortrait),
-      body: await compileMarkdown(bodyMd),
-      bodyPlain: markdownToPlainText(bodyMd),
-      imagePosition: i % 2 === 0 ? 'left' : 'right',
-    })
+  async function buildEditorialFeaturesFromBlocks(
+    blocks: { title: string; body: string }[],
+  ): Promise<EditorialFeature[]> {
+    const features: EditorialFeature[] = []
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i]
+      const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(b.body)
+      features.push({
+        name: b.title,
+        address,
+        website,
+        image: editorialOnlyImage(image),
+        imagePortrait: editorialOnlyImage(imagePortrait),
+        body: await compileMarkdown(bodyMd),
+        bodyPlain: markdownToPlainText(bodyMd),
+        imagePosition: i % 2 === 0 ? 'left' : 'right',
+      })
+    }
+    return features
   }
+
+  const featuredRestaurants = await buildEditorialFeaturesFromBlocks(restaurantBlocks)
+  const coffeeSnackFeatures = await buildEditorialFeaturesFromBlocks(coffeeSnackBlocks)
 
   const featuredRestaurantsWithPhotos = featuredRestaurants.filter(
     (r) =>
@@ -229,6 +241,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     featuredWineries,
     tastingDirectory,
     featuredRestaurants: featuredRestaurantsWithPhotos,
+    coffeeSnackFeatures,
     breakfast,
     featuredHotels,
     lodgingDirectory,

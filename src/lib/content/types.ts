@@ -73,6 +73,8 @@ export type LoadedRegionMdx = {
   featuredWineries: EditorialFeature[]
   tastingDirectory: TastingDirectoryRow[]
   featuredRestaurants: EditorialFeature[]
+  /** Breakfast / coffee / snacks H3 blocks (not main restaurant picks). */
+  coffeeSnackFeatures: EditorialFeature[]
   breakfast: EditorialFeature | null
   restaurantDirectory: TastingDirectoryRow[]
   featuredHotels: EditorialFeature[]
