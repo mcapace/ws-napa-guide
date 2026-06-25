@@ -539,14 +539,14 @@
   box-shadow: 0 6px 24px rgba(13, 11, 9, 0.16);
 }
 
-.explorePanel :global(.exploreRoot) {
+.explorePanel :global(.explore-embed-root) {
   height: 100%;
   min-height: 0;
   display: flex;
   flex-direction: column;
 }
 
-.explorePanel :global(.exploreGrid) {
+.explorePanel :global(.explore-embed-grid) {
   flex: 1;
   height: 100%;
   min-height: 0;
@@ -1080,16 +1080,16 @@
   transform: none !important;
 }
 
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRoot),
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootEmbed) {
+.frame[data-scroll-unified] .exploreFlowWrap :global(.explore-embed-root) {
   flex: 1;
   min-height: 0;
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreGrid) {
+.frame[data-scroll-unified] .exploreFlowWrap :global(.explore-embed-grid) {
   flex: 1;
   height: 100%;
   min-height: 0;

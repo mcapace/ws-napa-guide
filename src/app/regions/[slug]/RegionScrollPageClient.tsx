@@ -429,7 +429,6 @@ function RegionScrollPageClientContent({
                 scopedRegion={slug}
                 showRegionFilter={false}
                 theme="dark"
-                lazyMap
                 embedMode
               />
             ) : (

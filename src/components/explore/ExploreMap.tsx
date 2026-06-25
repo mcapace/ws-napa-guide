@@ -99,7 +99,7 @@ export function ExploreMap({
   const rowRefs = useRef<Record<string, HTMLButtonElement | null>>({})
   const listScrollRef = useRef<HTMLDivElement>(null)
   const exploreRootRef = useRef<HTMLDivElement>(null)
-  const [mapMounted, setMapMounted] = useState(!lazyMap)
+  const [mapMounted, setMapMounted] = useState(!lazyMap || embedMode)
 
   const placeParam = embedMode ? null : searchParams.get('place')
   const [embeddedPlace, setEmbeddedPlace] = useState<string | null>(null)
@@ -150,7 +150,7 @@ export function ExploreMap({
   }, [])
 
   useEffect(() => {
-    if (!lazyMap || mapMounted) return
+    if (!lazyMap || mapMounted || embedMode) return
     const el = mapColumnRef.current
     if (!el) return
 
@@ -165,7 +165,22 @@ export function ExploreMap({
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [lazyMap, mapMounted])
+  }, [lazyMap, mapMounted, embedMode])
+
+  useEffect(() => {
+    if (!mapMounted) return
+    const el = mapColumnRef.current
+    if (!el) return
+
+    const resizeMap = () => {
+      mapRef.current?.getMap()?.resize()
+    }
+
+    resizeMap()
+    const ro = new ResizeObserver(() => resizeMap())
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [mapMounted])
 
   const scopedPins = useMemo(() => {
     let list = scopedRegion ? pins.filter((p) => p.region === scopedRegion) : pins
@@ -332,6 +347,7 @@ export function ExploreMap({
     if (map) {
       map.scrollZoom.enable()
       map.doubleClickZoom.enable()
+      requestAnimationFrame(() => map.resize())
     }
     if (scopedRegion && REGION_CENTERS[scopedRegion]) {
       const { center, zoom } = REGION_CENTERS[scopedRegion]
@@ -515,7 +531,7 @@ export function ExploreMap({
   return (
     <div
       ref={exploreRootRef}
-      className={`${styles.exploreRoot} ${embedMode ? styles.exploreRootEmbed : ''}${
+      className={`${styles.exploreRoot} ${embedMode ? ` ${styles.exploreRootEmbed} explore-embed-root` : ''}${
         theme === 'dark' ? ` ${styles.exploreRootDark}` : ''
       }${pageFlow ? ` ${styles.exploreRootPageFlow} explore-page-flow` : ''}`}
       data-explore-page-flow={pageFlow ? true : undefined}
@@ -537,7 +553,7 @@ export function ExploreMap({
         </button>
       </div>
 
-      <div className={`${styles.exploreGrid}${pageFlow ? ' explore-grid' : ''}`}>
+      <div className={`${styles.exploreGrid}${embedMode ? ' explore-embed-grid' : ''}${pageFlow ? ' explore-grid' : ''}`}>
         <div className={`${styles.listColumn}${pageFlow ? ' explore-list-column' : ''}`}>
           <div className={`${styles.filtersSticky}${pageFlow ? ' explore-filters-sticky' : ''}`}>
             {routeSlugs.length > 0 ? (

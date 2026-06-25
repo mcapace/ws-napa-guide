@@ -750,6 +750,15 @@
   max-height: none;
 }
 
+.exploreRootEmbed .mapColumn,
+.exploreRootEmbed .mapColumnEmbed {
+  min-height: 360px;
+}
+
+.exploreRootEmbed .mapWrap {
+  min-height: 360px;
+}
+
 .exploreRootDark {
   --paper: #1a1612;
   --line: rgba(247, 243, 236, 0.08);
