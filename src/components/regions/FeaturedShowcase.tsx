@@ -10,7 +10,7 @@ import {
 } from 'framer-motion'
 import type { MapPin } from '@/data/map-pins'
 import { editorialDetailHref } from '@/lib/editorial-detail-link'
-import { getShowcaseFocalPoint } from '@/lib/image-focal'
+import { getShowcaseImageStyle } from '@/lib/image-focal'
 import styles from './FeaturedShowcase.module.css'
 
 export type ShowcaseCategory = 'taste' | 'eat' | 'stay'
@@ -82,8 +82,8 @@ export function FeaturedShowcasePanel({
   const blurb = truncateBlurb(pick.bodyPlain ?? '')
   const eyebrow = `${CATEGORY_EYEBROW[pick.category]} · ${regionLabel}`
 
-  const landscapeFocal = getShowcaseFocalPoint(pick.image, pick.imagePortrait, false)
-  const portraitFocal = getShowcaseFocalPoint(pick.image, pick.imagePortrait, true)
+  const landscapeStyle = getShowcaseImageStyle(pick.image, pick.imagePortrait, false)
+  const portraitStyle = getShowcaseImageStyle(pick.image, pick.imagePortrait, true)
 
   return (
     <article
@@ -103,7 +103,12 @@ export function FeaturedShowcasePanel({
                   priority={index < 2}
                   sizes="100vw"
                   className={`${styles.image} ${styles.imageLandscape}`}
-                  style={{ objectPosition: landscapeFocal }}
+                  style={{
+                    objectPosition: landscapeStyle.objectPosition,
+                    ...(landscapeStyle.shiftY
+                      ? { transform: `translateY(${landscapeStyle.shiftY})` }
+                      : {}),
+                  }}
                 />
               </div>
             ) : null}
@@ -116,7 +121,12 @@ export function FeaturedShowcasePanel({
                   priority={index < 2}
                   sizes="100vw"
                   className={`${styles.image} ${styles.imagePortrait}`}
-                  style={{ objectPosition: portraitFocal }}
+                  style={{
+                    objectPosition: portraitStyle.objectPosition,
+                    ...(portraitStyle.shiftY
+                      ? { transform: `translateY(${portraitStyle.shiftY})` }
+                      : {}),
+                  }}
                 />
               </div>
             ) : null}

@@ -29,6 +29,7 @@
 
 .image {
   object-fit: cover;
+  transform-origin: center top;
 }
 
 .imageLandscape {

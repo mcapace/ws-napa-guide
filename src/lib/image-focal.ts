@@ -40,16 +40,47 @@ export function getImageFocalPoint(
   return 'center 22%'
 }
 
+export type ShowcaseImageStyle = {
+  objectPosition: string
+  /** Nudge image down inside the frame to raise the visible crop (e.g. shift:6%). */
+  shiftY?: string
+}
+
+function parseFocalEntry(raw: string): ShowcaseImageStyle {
+  const [position, modifier] = raw.split('|').map((part) => part.trim())
+  const objectPosition = position || SHOWCASE_SAFE_TOP
+  if (!modifier?.startsWith('shift:')) {
+    return { objectPosition }
+  }
+  return { objectPosition, shiftY: modifier.slice('shift:'.length) }
+}
+
+function showcaseStyleForSrc(
+  src: string | undefined,
+  fallback: string,
+): ShowcaseImageStyle {
+  if (!src) return { objectPosition: fallback }
+  const raw = manifest[src] ?? fallback
+  return parseFocalEntry(raw)
+}
+
 /** Showcase panels always bias to the top of the frame (people-safe). */
 export function getShowcaseFocalPoint(
   landscapeSrc: string | undefined,
   portraitSrc?: string,
   usePortrait = false,
 ): string {
+  return getShowcaseImageStyle(landscapeSrc, portraitSrc, usePortrait).objectPosition
+}
+
+export function getShowcaseImageStyle(
+  landscapeSrc: string | undefined,
+  portraitSrc?: string,
+  usePortrait = false,
+): ShowcaseImageStyle {
   const src = usePortrait ? portraitSrc ?? landscapeSrc : landscapeSrc
-  if (!src) return SHOWCASE_SAFE_TOP
-  if (manifest[src]) return manifest[src]
-  return usePortrait ? PORTRAIT_SAFE_TOP : SHOWCASE_SAFE_TOP
+  const fallback = usePortrait ? PORTRAIT_SAFE_TOP : SHOWCASE_SAFE_TOP
+  return showcaseStyleForSrc(src, fallback)
 }
 
 /** Transform-origin for any optional motion — always top-centered on showcase. */
