@@ -63,6 +63,8 @@ function directorySlug(region: string, name: string): string {
   return `${region}-${base}`
 }
 
+export { directorySlug }
+
 function editorialImagePath(path?: string): string | undefined {
   return isEditorialListingImage(path) ? path!.trim() : undefined
 }

@@ -10,6 +10,9 @@ import styles from './HomeStoriesSection.module.css'
 
 type Props = {
   stories: Article[]
+  eyebrow?: string
+  title?: string
+  intro?: string
 }
 
 function StoryCard({
@@ -52,7 +55,12 @@ function StoryCard({
   )
 }
 
-export function HomeStoriesSection({ stories }: Props) {
+export function HomeStoriesSection({
+  stories,
+  eyebrow = 'Wine Spectator · Napa Valley Guide',
+  title = 'Features',
+  intro = 'Stories and tastings beyond the town guides.',
+}: Props) {
   if (stories.length === 0) return null
 
   const spotlightSet = new Set<string>(STORY_SPOTLIGHT_SLUGS)
@@ -62,13 +70,11 @@ export function HomeStoriesSection({ stories }: Props) {
   return (
     <section className={styles.section} aria-labelledby="home-stories-heading">
       <header className={styles.header}>
-        <p className={styles.eyebrow}>Wine Spectator · June 2026</p>
+        <p className={styles.eyebrow}>{eyebrow}</p>
         <h2 id="home-stories-heading" className={styles.title}>
-          From the issue
+          {title}
         </h2>
-        <p className={styles.intro}>
-          Features, history, and the stories behind the valley — beyond the appellations and listings.
-        </p>
+        <p className={styles.intro}>{intro}</p>
       </header>
 
       {spotlight.length > 0 && (

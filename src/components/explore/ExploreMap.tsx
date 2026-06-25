@@ -27,6 +27,7 @@ import {
   type ExploreCategoryFilter,
   urlParamToCategory,
 } from '@/lib/explore'
+import { getImageFocalPoint } from '@/lib/image-focal'
 import styles from './ExploreMap.module.css'
 import { ExploreMapPin } from './ExploreMapPin'
 import { MapWheelScrollBridge } from '@/components/map/MapWheelScrollBridge'
@@ -47,6 +48,10 @@ export interface ExploreMapProps {
   /** Region embed: local selection, optional scroll-synced category filter. */
   embedMode?: boolean
   syncCategory?: ExploreCategoryFilter
+  /** Dark ink surface for region scroll embeds. */
+  theme?: 'light' | 'dark'
+  /** Defer Mapbox init until the map column is near the viewport. */
+  lazyMap?: boolean
 }
 
 type ClusterProps = Supercluster.ClusterProperties & { pin?: MapPin }
@@ -78,13 +83,17 @@ export function ExploreMap({
   pinnedCategory,
   embedMode = false,
   syncCategory,
+  theme = 'light',
+  lazyMap = false,
 }: ExploreMapProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const mapRef = useRef<MapRef>(null)
+  const mapColumnRef = useRef<HTMLDivElement>(null)
   const rowRefs = useRef<Record<string, HTMLButtonElement | null>>({})
   const listScrollRef = useRef<HTMLDivElement>(null)
+  const [mapMounted, setMapMounted] = useState(!lazyMap)
 
   const placeParam = embedMode ? null : searchParams.get('place')
   const [embeddedPlace, setEmbeddedPlace] = useState<string | null>(null)
@@ -133,6 +142,24 @@ export function ExploreMap({
     mq.addEventListener('change', update)
     return () => mq.removeEventListener('change', update)
   }, [])
+
+  useEffect(() => {
+    if (!lazyMap || mapMounted) return
+    const el = mapColumnRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setMapMounted(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '240px 0px', threshold: 0 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [lazyMap, mapMounted])
 
   const scopedPins = useMemo(() => {
     let list = scopedRegion ? pins.filter((p) => p.region === scopedRegion) : pins
@@ -408,7 +435,11 @@ export function ExploreMap({
   }
 
   return (
-    <div className={`${styles.exploreRoot} ${embedMode ? styles.exploreRootEmbed : ''}`}>
+    <div
+      className={`${styles.exploreRoot} ${embedMode ? styles.exploreRootEmbed : ''}${
+        theme === 'dark' ? ` ${styles.exploreRootDark}` : ''
+      }`}
+    >
       <div className={styles.mobileToggle}>
         <button
           type="button"
@@ -538,6 +569,7 @@ export function ExploreMap({
                             height={hasListingPhoto ? 112 : 96}
                             sizes={hasListingPhoto ? '140px' : '120px'}
                             className={styles.thumbImage}
+                            style={{ objectPosition: getImageFocalPoint(pin.thumb, 'thumb') }}
                           />
                         ) : (
                           <div
@@ -589,6 +621,7 @@ export function ExploreMap({
         </div>
 
         <div
+          ref={mapColumnRef}
           className={`${styles.mapColumn} ${mobileView === 'map' ? styles.mapColumnMobileOpen : ''}${
             embedMode ? ` ${styles.mapColumnEmbed}` : ''
           }`}
@@ -603,7 +636,8 @@ export function ExploreMap({
             </button>
           )}
           <MapWheelScrollBridge className={styles.mapWrap}>
-            <Map
+            {mapMounted ? (
+              <Map
               ref={mapRef}
               mapboxAccessToken={MAPBOX_TOKEN}
               initialViewState={{
@@ -679,6 +713,9 @@ export function ExploreMap({
                 )
               })}
             </Map>
+            ) : (
+              <div className={styles.mapPlaceholder} aria-hidden />
+            )}
             {selectedPin && isDesktop ? (
               <div
                 className={styles.mapDetailCard}
@@ -700,6 +737,7 @@ export function ExploreMap({
                       fill
                       sizes="300px"
                       className={styles.mapDetailHeroImage}
+                      style={{ objectPosition: getImageFocalPoint(selectedPin.thumb, 'thumb') }}
                     />
                   </div>
                 ) : null}

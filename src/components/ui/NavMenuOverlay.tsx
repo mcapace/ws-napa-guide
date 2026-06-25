@@ -11,10 +11,9 @@ import {
   FooterYoutubeIcon,
 } from './FooterSocialLucide'
 import {
-  navAppellationLinks,
   navMetaLinks,
   navPrimaryLinks,
-  navStoryLinks,
+  navTownLinks,
   type SiteNavLink,
 } from '@/data/site-nav'
 import styles from './NavMenuOverlay.module.css'
@@ -112,35 +111,24 @@ export function NavMenuOverlay({ open, onClose }: NavMenuOverlayProps) {
               </button>
             </header>
 
-            <ul className={styles.primaryList}>
-              {navPrimaryLinks.map((item, i) => (
-                <motion.li
-                  key={item.href}
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.04 + i * 0.045, duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <OverlayLink item={item} className={styles.primaryLink} onClose={onClose} />
-                </motion.li>
-              ))}
-            </ul>
-
             <div className={styles.columns}>
               <section className={styles.column}>
-                <p className={styles.sectionLabel}>Appellations</p>
+                <p className={styles.sectionLabel}>Towns &amp; areas</p>
                 <ul className={styles.columnList}>
-                  {navAppellationLinks.map((item) => (
+                  {navTownLinks.map((item) => (
                     <li key={item.href}>
                       <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
                     </li>
                   ))}
                 </ul>
-              </section>
+                <OverlayLink
+                  item={{ label: 'All towns & areas', href: '/regions' }}
+                  className={styles.columnLinkMuted}
+                  onClose={onClose}
+                />
 
-              <section className={styles.column}>
-                <p className={styles.sectionLabel}>Stories</p>
-                <ul className={styles.columnList}>
-                  {navStoryLinks.map((item) => (
+                <ul className={`${styles.columnList} ${styles.columnListSpaced}`}>
+                  {navPrimaryLinks.map((item) => (
                     <li key={item.href}>
                       <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
                     </li>

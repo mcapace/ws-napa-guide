@@ -3,13 +3,17 @@ import Link from 'next/link'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import ScrollReveal from '@/components/ui/ScrollReveal'
+import { sortRegionsSouthToNorth } from '@/data/region-order'
 import { regions } from '@/data/regions'
 import styles from './regions.module.css'
 
 export const metadata: Metadata = {
-  title: 'Regions',
-  description: 'Explore all seven Napa Valley appellations — from Oakville\'s Cabernet heartland to Calistoga\'s volcanic north.',
+  title: 'Towns & Areas',
+  description:
+    'Explore Napa Valley town and area guides — from downtown Napa to Calistoga, with taste, dine, and stay listings from Wine Spectator.',
 }
+
+const guideRegions = sortRegionsSouthToNorth(regions)
 
 export default function RegionsPage() {
   return (
@@ -38,18 +42,14 @@ export default function RegionsPage() {
             Wine Spectator — Napa Valley Guide
           </span>
           <h1 className="display-xl" style={{ color: 'var(--cream)', maxWidth: '16ch' }}>
-            Seven <em style={{ fontStyle: 'italic' }}>distinct</em> appellations
+            Towns &amp; <em style={{ fontStyle: 'italic' }}>areas</em>
           </h1>
           <span className="rule" style={{ background: 'rgba(247,243,236,0.15)', margin: '1.5rem 0' }} />
-          <p className={styles.pageIntro}>
-            Each of Napa Valley&apos;s principal growing regions has a distinct character shaped by
-            soil, elevation, and climate. Understanding their differences is understanding Napa itself.
-          </p>
         </div>
       </section>
 
       {/* Regions list — alternating layout on dark */}
-      {regions.map((region, i) => (
+      {guideRegions.map((region, i) => (
         <ScrollReveal key={region.slug}>
         <section
           style={{

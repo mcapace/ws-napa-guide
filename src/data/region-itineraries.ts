@@ -354,48 +354,6 @@ const CALISTOGA_MOUNTAIN: Itinerary = {
   ],
 }
 
-const PRITCHARD_HILL: Itinerary = {
-  id: 'pritchard-hill-pilgrimage',
-  title: 'The Pritchard Hill Pilgrimage',
-  intro:
-    'A morning drive up the eastern hills rewards with some of Napa’s most singular wines and views that stretch across the entire valley.',
-  travelMode: 'driving',
-  stops: [
-    {
-      order: 1,
-      name: 'Chappellet Winery',
-      category: 'winery',
-      coords: [-122.32931, 38.47934],
-      blurb:
-        'Begin at Chappellet, one of the valley’s most storied mountain estates, founded in 1967 by Donn and Molly Chappellet. Early vintages were made by the legendary Philip Togni, followed by Tony Soter and Cathy Corison.',
-    },
-    {
-      order: 2,
-      name: 'Continuum Estate',
-      category: 'winery',
-      coords: [-122.33645, 38.46717],
-      blurb:
-        'Then to Continuum, Tim Mondavi’s family project, where the elevation and rocky soils produce wines of extraordinary precision. Today, Tim’s children Dante, Carlo, Chiara and Carissa all pitch in.',
-    },
-    {
-      order: 3,
-      name: 'David Arthur Vineyards',
-      category: 'winery',
-      coords: [-122.34869, 38.46776],
-      blurb:
-        'David Arthur follows—among the most consistent producers on the hill. Don Long purchased 1,000 acres on Pritchard Hill in the 1950s and was among the first to plant vines in the 1970s. Winemaker Nile Zacherle fashions muscular, mineral-accented wines.',
-    },
-    {
-      order: 4,
-      name: 'The Howard Backen Estate',
-      category: 'sight',
-      coords: [-122.34005, 38.45921],
-      blurb:
-        'End at the Howard Backen Estate, the architect who designed many of Napa’s great wineries having now created his own. The sweeping panoramic view of the valley below is so stunning it might make you forget the pool, yoga room and open chef’s kitchens.',
-    },
-  ],
-}
-
 const DOWNTOWN_CARNEROS: Itinerary = {
   id: 'wind-in-your-hair',
   title: 'The Wind in Your Hair Tour',
@@ -441,7 +399,6 @@ export const REGION_ITINERARIES: Partial<Record<Region | string, Itinerary[]>> =
     ST_HELENA_SALONS,
   ],
   calistoga: [CALISTOGA_WALKABLE, CALISTOGA_MOUNTAIN],
-  'pritchard-hill': [PRITCHARD_HILL],
   'downtown-napa': [DOWNTOWN_CARNEROS],
 }
 

@@ -7,6 +7,7 @@ import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { sortRegionsSouthToNorth } from '@/data/region-order'
 import { regions, type RegionData } from '@/data/regions'
 import { buildMosaicPanelQueues, pickHeroVideoFallback } from '@/lib/home-mosaic-images'
 import { getAppellationRevealImages } from '@/lib/region-scroll-reveals'
@@ -16,10 +17,9 @@ import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
 import Footer from '@/components/ui/Footer'
 import { NavMenuOverlay } from '@/components/ui/NavMenuOverlay'
-import { HomeStoriesSection } from '@/components/home/HomeStoriesSection'
-import { getStoryArticles } from '@/data/site-stories'
 
-const featuredRegions = regions
+const featuredRegions = sortRegionsSouthToNorth(regions)
+const browseRegions = sortRegionsSouthToNorth(regions)
 
 // ── Homepage hero video (4 Adobe Stock clips stitched with crossfades) ──
 const HERO_VIDEO = '/images/homepage/hero/video.mp4'
@@ -79,7 +79,6 @@ export default function HomePage() {
   const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
   const mosaicVisible = useHomeMosaicRotation(mosaicPanelQueues)
   const heroCenterFallback = pickHeroVideoFallback(mosaicVisible)
-  const storyArticles = useMemo(() => getStoryArticles(), [])
 
   useLayoutEffect(() => {
     const centerPanel = centerPanelRef.current
@@ -518,7 +517,7 @@ export default function HomePage() {
       <RevealSection>
         <section className="home-appellation-wrap" style={{ padding: '80px 0 100px' }}>
           <div className="dim-siblings" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
-            {regions.map((region, i) => (
+            {browseRegions.map((region, i) => (
               <AppellationLink key={region.slug} region={region} index={i} />
             ))}
           </div>
@@ -638,8 +637,6 @@ export default function HomePage() {
         </p>
         <NewsletterSubscribeForm variant="hero" />
         </section>
-
-      <HomeStoriesSection stories={storyArticles} />
 
       <div style={{ position: 'relative', zIndex: 1 }}>
         <Footer />

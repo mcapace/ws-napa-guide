@@ -1,5 +1,5 @@
+import { sortRegionsSouthToNorth } from '@/data/region-order'
 import { regions } from '@/data/regions'
-import { getStoryArticles } from '@/data/site-stories'
 
 export type SiteNavLink = {
   label: string
@@ -7,26 +7,20 @@ export type SiteNavLink = {
   external?: boolean
 }
 
-/** Large display links — primary journeys through the guide */
+/** Hamburger menu — mirrors June issue structure (James / edit team). */
 export const navPrimaryLinks: SiteNavLink[] = [
-  { label: 'Appellations', href: '/regions' },
-  { label: 'From the Issue', href: '/features' },
   { label: 'Explore the Map', href: '/explore' },
-  { label: 'Wineries', href: '/wineries' },
-  { label: 'Dining', href: '/dining' },
+  { label: 'Where to Taste', href: '/wineries' },
+  { label: 'Where to Dine', href: '/dining' },
   { label: 'Where to Stay', href: '/stay' },
+  { label: 'Where to Taco', href: '/features/napa-taco-tour' },
+  { label: 'The Judgement of Paris Tasting', href: '/features/judgment-of-paris' },
 ]
 
-/** Seven AVAs — same order as the homepage appellation list */
-export const navAppellationLinks: SiteNavLink[] = regions.map((region) => ({
+/** Towns & areas — south to north, same order as the print guide. */
+export const navTownLinks: SiteNavLink[] = sortRegionsSouthToNorth(regions).map((region) => ({
   label: region.name,
   href: `/regions/${region.slug}`,
-}))
-
-/** Magazine features with live article pages */
-export const navStoryLinks: SiteNavLink[] = getStoryArticles().map((article) => ({
-  label: article.title,
-  href: `/features/${article.slug}`,
 }))
 
 export const navMetaLinks: SiteNavLink[] = [

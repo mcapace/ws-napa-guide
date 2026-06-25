@@ -290,7 +290,7 @@ function resolveEyebrow(
 
   if (options?.regionTagline) return options.regionTagline
 
-  return 'Itinerary'
+  return 'Editor\'s picks'
 }
 
 function applyEditorialMeta(
@@ -388,17 +388,6 @@ export function enrichRegionItineraries(
       }
     } else if (adventure) {
       result = enrichFromAdventure(it, adventure, count > 1)
-    }
-
-    if (slug === 'pritchard-hill' && options?.featuredListingPlain) {
-      result = enrichFromFeaturedListings(result, options.featuredListingPlain)
-    }
-    if (slug === 'pritchard-hill' && options?.ledeParagraphs?.length) {
-      result = {
-        ...result,
-        intro: options.ledeParagraphs.join(' '),
-        introParagraphs: options.ledeParagraphs,
-      }
     }
 
     return applyEditorialMeta(result, slug, adventure, count, options, parsedSidebar)

@@ -23,14 +23,33 @@ export async function generateStaticParams() {
   return merged.map((slug) => ({ slug }))
 }
 
+import { getSiteUrl } from '@/lib/site-url'
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const mdxDoc = await loadRegionMdxCached(slug)
   if (mdxDoc) {
+    const siteUrl = getSiteUrl()
+    const canonical = `${siteUrl}/regions/${slug}`
+    const heroPath = mdxDoc.frontmatter.heroImage
+    const imageUrl = heroPath.startsWith('http') ? heroPath : `${siteUrl}${heroPath}`
+
     return {
       title: `${mdxDoc.frontmatter.region} — ${mdxDoc.frontmatter.tagline}`,
       description: mdxDoc.frontmatter.dek,
-      openGraph: { images: [mdxDoc.frontmatter.heroImage] },
+      alternates: { canonical },
+      openGraph: {
+        url: canonical,
+        title: `${mdxDoc.frontmatter.region} — ${mdxDoc.frontmatter.tagline}`,
+        description: mdxDoc.frontmatter.dek,
+        images: [{ url: imageUrl, width: 1200, height: 630, alt: mdxDoc.frontmatter.region }],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${mdxDoc.frontmatter.region} — ${mdxDoc.frontmatter.tagline}`,
+        description: mdxDoc.frontmatter.dek,
+        images: [imageUrl],
+      },
     }
   }
   return {}

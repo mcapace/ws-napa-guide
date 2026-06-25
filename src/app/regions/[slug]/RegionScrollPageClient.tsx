@@ -10,6 +10,7 @@ import { RegionMoreAppellations } from '@/components/regions/RegionMoreAppellati
 import { RegionEditorialSections } from '@/components/regions/RegionEditorialSections'
 import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
+import { getImageFocalPoint } from '@/lib/image-focal'
 import { REGION_CENTERS } from '@/lib/mapbox'
 import { useLenis, scrollToTarget } from '@/lib/smooth-scroll'
 import type { Itinerary } from '@/lib/types'
@@ -53,20 +54,30 @@ function buildJumpLinks(mdx: LoadedRegionMdx, hasItinerary: boolean): JumpLink[]
   links.push({ id: 'region-explore', label: 'Full list', tab: 'explore' })
 
   if (hasItinerary) {
-    links.push({ id: 'region-itinerary', label: 'Itinerary', tab: 'itinerary' })
+    links.push({ id: 'region-itinerary', label: "Editor's picks", tab: 'itinerary' })
   }
 
   return links
 }
 
 type ScrollSectionMarkerProps = {
-  variant: 'dark' | 'light' | 'cue'
+  variant: 'dark' | 'light' | 'cue' | 'transition'
   title: string
   eyebrow?: string
   dek?: string
 }
 
 function ScrollSectionMarker({ eyebrow, title, dek, variant }: ScrollSectionMarkerProps) {
+  if (variant === 'transition') {
+    return (
+      <div className={styles.sectionTransition} aria-hidden>
+        <span className={styles.sectionTransitionRule} />
+        <span className={styles.sectionTransitionLabel}>{title}</span>
+        <span className={styles.sectionTransitionRule} />
+      </div>
+    )
+  }
+
   if (variant === 'cue') {
     return (
       <div className={styles.scrollMarkerCue} aria-hidden>
@@ -165,7 +176,11 @@ function RegionScrollPageClientContent({
   )
 
   const [showScrollHint, setShowScrollHint] = useState(true)
+  const [dockAtTop, setDockAtTop] = useState(true)
+  const [dockAtBottom, setDockAtBottom] = useState(false)
   const initialScrollDone = useRef(false)
+  const heroLandscapeFocal = getImageFocalPoint(frontmatter.heroImage, 'hero')
+  const heroPortraitFocal = getImageFocalPoint(frontmatter.heroImagePortrait, 'portrait')
 
   useEffect(() => {
     document.documentElement.setAttribute('data-region-native-scroll', '')
@@ -173,7 +188,12 @@ function RegionScrollPageClientContent({
   }, [])
 
   useEffect(() => {
-    const onScroll = () => setShowScrollHint(window.scrollY < 100)
+    const onScroll = () => {
+      setShowScrollHint(window.scrollY < 100)
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      setDockAtTop(window.scrollY < 160)
+      setDockAtBottom(window.scrollY > max - 160)
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -220,7 +240,6 @@ function RegionScrollPageClientContent({
     return () => observers.forEach((o) => o.disconnect())
   }, [jumpLinks])
 
-  const scrollAfterExplore = hasItinerary ? 'region-itinerary' : 'region-bottom'
   const storyLinks = jumpLinks.filter((l) => l.tab === 'story')
   const utilityLinks = jumpLinks.filter((l) => l.tab !== 'story')
   const phrases = frontmatter.marqueePhrases ?? {}
@@ -245,6 +264,7 @@ function RegionScrollPageClientContent({
           priority
           sizes="100vw"
           className={`${styles.heroImage} ${styles.heroLandscape}`}
+          style={{ objectPosition: heroLandscapeFocal }}
         />
         {frontmatter.heroImagePortrait ? (
           <Image
@@ -254,6 +274,7 @@ function RegionScrollPageClientContent({
             priority
             sizes="100vw"
             className={`${styles.heroImage} ${styles.heroPortrait}`}
+            style={{ objectPosition: heroPortraitFocal }}
           />
         ) : null}
         <div className={styles.heroOverlay} aria-hidden />
@@ -311,11 +332,11 @@ function RegionScrollPageClientContent({
       </nav>
 
       <div id="region-panel-content" className={styles.scrollPage}>
-        <section id="region-story" className={styles.scrollSection}>
+        <section id="region-story" className={styles.scrollSectionStory}>
           <RegionStoryPanel
             mdx={mdx}
             hideCompanionFeature={hasItinerary}
-            storyImages={storyImages}
+            textOnly
           />
           {hasGuidePicks ? (
             <ScrollSectionMarker
@@ -329,58 +350,54 @@ function RegionScrollPageClientContent({
               }
             />
           ) : null}
-          <div className={styles.editorialBand} data-site-surface="light">
-            <RegionEditorialSections data={mdx} layout="classic" />
+          <div className={styles.showcaseRegion}>
+            <RegionEditorialSections
+              data={mdx}
+              layout="showcase"
+              regionSlug={slug}
+              regionLabel={regionName}
+              pins={pins}
+            />
           </div>
-          <ScrollSectionMarker variant="cue" title="The full list below ↓" />
+          <ScrollSectionMarker variant="transition" title="The full list" />
         </section>
 
         <section id="region-explore" className={`${styles.scrollSection} ${styles.scrollSectionExplore}`}>
-          <div className={styles.directoryBand}>
-            <div className={styles.directoryBandInner}>
-              <p className={styles.directoryBandEyebrow}>Quick reference</p>
-              <h2 className={styles.directoryBandTitle}>The full list</h2>
-              <p className={styles.directoryBandDek}>
-                Filter tastings, dining, or hotels — or pan the map. Every listing in {regionName},
-                sorted alphabetically.
-              </p>
-            </div>
-          </div>
-          <div className={`${styles.mapEmbedPanel} ${styles.explorePanel}`}>
+          <ScrollSectionMarker
+            variant="dark"
+            eyebrow="Quick reference"
+            title="The full list"
+            dek={`Filter tastings, dining, or hotels — or pan the map. Every listing in ${regionName}, sorted alphabetically.`}
+          />
+          <div className={`${styles.mapEmbedPanel} ${styles.explorePanel} ${styles.explorePanelDark}`}>
             {pins.length > 0 ? (
               <ExploreMapSection
                 pins={pins}
                 scopedRegion={slug}
                 showRegionFilter={false}
                 embedMode
+                theme="dark"
+                lazyMap
               />
             ) : (
               <p className={styles.scrollSectionEmpty}>No listings for this region yet.</p>
             )}
-            <button
-              type="button"
-              className={styles.embedScrollMore}
-              onClick={() => scrollToSection(scrollAfterExplore)}
-            >
-              {hasItinerary ? 'Itinerary below ↓' : 'More appellations below ↓'}
-            </button>
           </div>
+          {hasItinerary ? (
+            <ScrollSectionMarker variant="transition" title="Editor's picks" />
+          ) : (
+            <ScrollSectionMarker variant="transition" title="More towns & areas" />
+          )}
         </section>
 
         {hasItinerary ? (
           <section id="region-itinerary" className={`${styles.scrollSection} ${styles.scrollSectionItinerary}`}>
-            <div className={styles.directoryBand}>
-              <div className={styles.directoryBandInner}>
-                <p className={styles.directoryBandEyebrow}>Itinerary</p>
-                <h2 className={styles.directoryBandTitle}>
-                  {phrases.sidebar ?? `Plan your day in ${regionName}`}
-                </h2>
-                <p className={styles.directoryBandDek}>
-                  Half-day routes with map and stops — scroll through each leg or open the
-                  full route in Google Maps.
-                </p>
-              </div>
-            </div>
+            <ScrollSectionMarker
+              variant="dark"
+              eyebrow="Editor's picks"
+              title={phrases.sidebar ?? `Plan your day in ${regionName}`}
+              dek="Half-day routes with map and stops — scroll through each leg or open the full route in Google Maps."
+            />
             <div
               className={`${styles.mapEmbedPanel} ${styles.itineraryEmbedPanel} ${styles.itineraryScrollyPanel}`}
             >
@@ -392,14 +409,8 @@ function RegionScrollPageClientContent({
                 onItineraryChange={setItinerary}
                 embedMode
               />
-              <button
-                type="button"
-                className={styles.embedScrollMore}
-                onClick={scrollToBottom}
-              >
-                More appellations below ↓
-              </button>
             </div>
+            <ScrollSectionMarker variant="transition" title="More towns & areas" />
           </section>
         ) : null}
       </div>
@@ -409,25 +420,31 @@ function RegionScrollPageClientContent({
         <Footer />
       </div>
 
-      <nav className={styles.scrollDock} aria-label="Page scroll">
-        <button
-          type="button"
-          className={styles.scrollDockBtn}
-          onClick={() => jumpTo(jumpLinks[0])}
-          aria-label="Back to story"
-        >
-          <span aria-hidden>↑</span>
-        </button>
-        <span className={styles.scrollDockLabel}>Scroll</span>
-        <button
-          type="button"
-          className={styles.scrollDockBtn}
-          onClick={scrollToBottom}
-          aria-label="Continue to more appellations"
-        >
-          <span aria-hidden>↓</span>
-        </button>
-      </nav>
+      {(!dockAtTop || !dockAtBottom) && activeSectionId !== 'region-itinerary' ? (
+        <nav className={styles.scrollDock} aria-label="Page scroll">
+          {!dockAtTop ? (
+            <button
+              type="button"
+              className={styles.scrollDockBtn}
+              onClick={() => jumpTo(jumpLinks[0])}
+              aria-label="Back to story"
+            >
+              <span aria-hidden>↑</span>
+            </button>
+          ) : null}
+          <span className={styles.scrollDockLabel}>Scroll</span>
+          {!dockAtBottom ? (
+            <button
+              type="button"
+              className={styles.scrollDockBtn}
+              onClick={scrollToBottom}
+              aria-label="Continue to more towns and areas"
+            >
+              <span aria-hidden>↓</span>
+            </button>
+          ) : null}
+        </nav>
+      ) : null}
     </div>
   )
 }

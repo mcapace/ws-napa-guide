@@ -177,7 +177,7 @@ function RegionPageClientContent({
     { id: 'story', label: 'Story' },
     { id: 'explore', label: 'Explore' },
   ]
-  if (hasItinerary) tabs.push({ id: 'itinerary', label: 'Itinerary' })
+  if (hasItinerary) tabs.push({ id: 'itinerary', label: "Editor's picks" })
 
   return (
     <div
@@ -280,7 +280,7 @@ function RegionPageClientContent({
                 className={styles.embedScrollMore}
                 onClick={scrollToBottom}
               >
-                More appellations below ↓
+                More towns & areas below ↓
               </button>
             </motion.div>
           ) : null}
@@ -304,7 +304,7 @@ function RegionPageClientContent({
                 className={styles.embedScrollMore}
                 onClick={scrollToBottom}
               >
-                More appellations below ↓
+                More towns & areas below ↓
               </button>
             </motion.div>
           ) : null}
@@ -330,7 +330,7 @@ function RegionPageClientContent({
           type="button"
           className={styles.scrollDockBtn}
           onClick={scrollToBottom}
-          aria-label="Continue to more appellations"
+          aria-label="Continue to more towns and areas"
         >
           <span aria-hidden>↓</span>
         </button>
@@ -344,37 +344,45 @@ export function RegionStoryPanel({
   hideCompanionFeature = false,
   storyImages = [],
   refined = false,
+  textOnly = false,
 }: {
   mdx: LoadedRegionMdx
   /** Sidebar adventures duplicate the Itinerary tab — hide there when routes exist. */
   hideCompanionFeature?: boolean
   storyImages?: string[]
   refined?: boolean
+  /** Typography-only lede — no inline story images. */
+  textOnly?: boolean
 }) {
   const showSidebar = !hideCompanionFeature && mdx.sidebar && mdx.sidebarHeading
   const paragraphs = mdx.ledePlain ?? []
-  const mediaImages = storyImages.length > 0 ? storyImages : [mdx.frontmatter.heroImage]
 
   const panelClass = refined
     ? `${styles.storyPanel} ${styles.storyPanelRefined}`
-    : styles.storyPanel
+    : textOnly
+      ? `${styles.storyPanel} ${styles.storyPanelTextOnly}`
+      : styles.storyPanel
 
-  if (refined) {
+  if (refined || textOnly) {
     return (
       <article className={panelClass}>
         {mdx.frontmatter.dek ? <p className={styles.storyDek}>{mdx.frontmatter.dek}</p> : null}
         {paragraphs.length > 0 ? (
-          <div className={styles.storyProseRefined}>
+          <div className={textOnly ? styles.storyProseTextOnly : styles.storyProseRefined}>
             {paragraphs.map((paragraph, j) => (
               <p key={j}>{paragraph}</p>
             ))}
           </div>
         ) : (
-          <div className={styles.storyProseRefined}>{mdx.lede}</div>
+          <div className={textOnly ? styles.storyProseTextOnly : styles.storyProseRefined}>
+            {mdx.lede}
+          </div>
         )}
       </article>
     )
   }
+
+  const mediaImages = storyImages.length > 0 ? storyImages : [mdx.frontmatter.heroImage]
 
   return (
     <article className={panelClass}>

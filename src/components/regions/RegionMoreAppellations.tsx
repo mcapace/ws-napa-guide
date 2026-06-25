@@ -1,31 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { sortRegionsSouthToNorth } from '@/data/region-order'
 import { getRegion, regions } from '@/data/regions'
 import styles from './region-more-appellations.module.css'
-
-/** Up-valley → downtown order for consistent rail sorting. */
-const AVA_ORDER = [
-  'calistoga',
-  'st-helena',
-  'rutherford',
-  'oakville',
-  'yountville',
-  'pritchard-hill',
-  'downtown-napa',
-] as const
-
-function avaSortIndex(slug: string): number {
-  const i = AVA_ORDER.indexOf(slug as typeof AVA_ORDER[number])
-  return i === -1 ? AVA_ORDER.length : i
-}
 
 export function RegionMoreAppellations({ slug }: { slug: string }) {
   const current = getRegion(slug)
   if (!current) return null
 
-  const others = regions
-    .filter((r) => r.slug !== slug)
-    .sort((a, b) => avaSortIndex(a.slug) - avaSortIndex(b.slug))
+  const others = sortRegionsSouthToNorth(regions.filter((r) => r.slug !== slug))
 
   if (others.length === 0) return null
 
@@ -39,8 +22,8 @@ export function RegionMoreAppellations({ slug }: { slug: string }) {
           </h2>
           <p className={styles.dek}>
             {others.length === 1
-              ? 'One more appellation to discover across Napa Valley.'
-              : `${others.length} more appellations to taste, dine, and stay across the valley.`}
+              ? 'One more town to discover across Napa Valley.'
+              : `${others.length} more towns and areas to taste, dine, and stay across the valley.`}
           </p>
         </header>
 
@@ -62,7 +45,7 @@ export function RegionMoreAppellations({ slug }: { slug: string }) {
                   </span>
                 </div>
                 <div className={styles.body}>
-                  <p className={styles.regionLabel}>Napa Valley AVA</p>
+                  <p className={styles.regionLabel}>Napa Valley</p>
                   <h3 className={styles.name}>{region.name}</h3>
                   <p className={styles.tagline}>{region.tagline}</p>
                   <span className={styles.cta}>
@@ -77,7 +60,7 @@ export function RegionMoreAppellations({ slug }: { slug: string }) {
 
         <footer className={styles.footer}>
           <Link href="/regions" className={styles.allLink}>
-            All seven appellations
+            All towns &amp; areas
             <span className={styles.allLinkArrow} aria-hidden>→</span>
           </Link>
         </footer>

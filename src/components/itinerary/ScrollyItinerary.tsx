@@ -21,6 +21,7 @@ import {
   type DirectionsResult,
 } from '@/lib/itinerary-directions'
 import type { Itinerary, ItineraryStop } from '@/lib/types'
+import { getImageFocalPoint } from '@/lib/image-focal'
 import styles from './ScrollyItinerary.module.css'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -84,8 +85,8 @@ function markerColor(category: ItineraryStop['category']): string {
 }
 
 function formatEyebrow(itinerary: Itinerary, regionName?: string): string {
-  const label = itinerary.eyebrow ?? 'Itinerary'
-  if (label === 'Itinerary' && regionName) return `Itinerary · ${regionName}`
+  const label = itinerary.eyebrow ?? "Editor's picks"
+  if (label === "Editor's picks" && regionName) return `Editor's picks · ${regionName}`
   return label
 }
 
@@ -462,6 +463,7 @@ export default function ScrollyItinerary({
                       fill
                       sizes="(max-width: 768px) 100vw, 520px"
                       className={styles.introMediaImg}
+                      style={{ objectPosition: getImageFocalPoint(introImage, 'landscape') }}
                     />
                   </div>
                 ) : null}
@@ -500,6 +502,7 @@ export default function ScrollyItinerary({
                           fill
                           sizes="(max-width: 768px) 100vw, 520px"
                           className={styles.stepMediaImg}
+                          style={{ objectPosition: getImageFocalPoint(stop.image, 'landscape') }}
                         />
                       </div>
                     ) : null}

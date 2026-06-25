@@ -5,9 +5,9 @@ import { HomeStoriesSection } from '@/components/home/HomeStoriesSection'
 import { getStoryArticles } from '@/data/site-stories'
 
 export const metadata: Metadata = {
-  title: 'From the Issue',
+  title: 'Features',
   description:
-    'Magazine features from Wine Spectator\'s June 2026 Napa Valley guide — Judgment of Paris and taco tour.',
+    'Wine Spectator Napa Valley guide features — The Judgement of Paris tasting and the Napa Valley taco tour.',
 }
 
 export default function FeaturesIndexPage() {
@@ -22,7 +22,11 @@ export default function FeaturesIndexPage() {
         paddingTop: 'calc(var(--ws-site-header-height, 72px) + 8px)',
       }}
     >
-      <HomeStoriesSection stories={stories} />
+      <HomeStoriesSection
+        stories={stories}
+        title="Features"
+        intro="The Judgement of Paris tasting and a valley-wide taco tour — online exclusives from Wine Spectator."
+      />
       <Newsletter />
       <Footer />
     </div>
