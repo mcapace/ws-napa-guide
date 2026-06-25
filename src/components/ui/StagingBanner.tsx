@@ -10,6 +10,7 @@ export function StagingBanner() {
   return (
     <div
       role="status"
+      data-staging-banner=""
       style={{
         position: 'sticky',
         top: 0,

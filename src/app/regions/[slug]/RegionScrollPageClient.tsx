@@ -430,7 +430,7 @@ function RegionScrollPageClientContent({
                 showRegionFilter={false}
                 theme="dark"
                 lazyMap
-                pageFlow
+                embedMode
               />
             ) : (
               <p className={styles.scrollSectionEmpty}>No listings for this region yet.</p>
@@ -459,7 +459,7 @@ function RegionScrollPageClientContent({
                 selectedItineraryId={selectedItineraryId}
                 onItineraryChange={setItinerary}
                 hideSeriesHeader
-                pageFlow
+                embedMode
               />
             </div>
             <ScrollSectionMarker variant="transition" title="More towns & areas" />

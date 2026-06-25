@@ -55,6 +55,15 @@
     var(--ws-persistent-nav-height) + var(--ws-nav-edge-padding-y) * 2 +
       env(safe-area-inset-top, 0px)
   );
+  --ws-staging-banner-height: 0px;
+}
+
+html:has([data-staging-banner]) {
+  --ws-staging-banner-height: 33px;
+  --ws-site-header-height: calc(
+    var(--ws-staging-banner-height) + var(--ws-persistent-nav-height) +
+      var(--ws-nav-edge-padding-y) * 2 + env(safe-area-inset-top, 0px)
+  );
 }
 
 /* ── Reset ── */

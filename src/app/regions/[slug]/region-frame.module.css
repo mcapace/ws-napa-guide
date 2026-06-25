@@ -1064,39 +1064,56 @@
   background: var(--ink);
 }
 
-.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRoot) {
-  height: auto;
+/* Full list + itinerary: fixed-height split panels (list scrolls, map stays pinned) */
+.frame[data-scroll-unified] .exploreFlowWrap,
+.frame[data-scroll-unified] .itineraryFlowWrap {
+  position: relative;
+  height: min(
+    82vh,
+    calc(
+      100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 8px
+    )
+  );
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  transform: none !important;
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRoot),
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreRootEmbed) {
+  flex: 1;
   min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.exploreGrid) {
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+}
+
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.root),
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.rootEmbed) {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0d0b09;
+}
+
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.layoutEmbed) {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
 }
 
 .frame[data-scroll-unified] .itineraryFlowWrap {
   background: #0d0b09;
-  --region-map-sticky-top: calc(
-    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) +
-      var(--region-itinerary-selector-height, 56px) + 4px
-  );
-  --region-map-sticky-max-height: calc(
-    100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) -
-      var(--region-itinerary-selector-height, 56px) - 12px
-  );
-}
-
-.frame[data-scroll-unified] .itineraryFlowWrap :global(.root) {
-  background: #0d0b09;
-}
-
-.frame[data-scroll-unified]:not([data-has-itinerary-selector]) .itineraryFlowWrap {
-  --region-map-sticky-top: calc(
-    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) + 8px
-  );
-  --region-map-sticky-max-height: calc(
-    100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 16px
-  );
-}
-
-.frame[data-scroll-unified] .itineraryFlowWrap :global(.rootPageFlow) {
-  height: auto;
-  min-height: 0;
 }
 
 /* ── Unified scroll: sticky map + document scroll (not trapped list panels) ── */
