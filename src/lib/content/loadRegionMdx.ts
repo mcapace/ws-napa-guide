@@ -31,6 +31,13 @@ function editorialOnlyImage(path?: string): string | undefined {
   return isEditorialListingImage(path) ? path!.trim() : undefined
 }
 
+function hasEditorialPhoto(feature: {
+  image?: string
+  imagePortrait?: string
+}): boolean {
+  return Boolean(feature.image || feature.imagePortrait)
+}
+
 const CONTENT_DIR = join(process.cwd(), 'src/content/regions')
 
 export function getMdxRegionSlugs(): string[] {
@@ -127,11 +134,13 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   const { featuredRaw, directoryRaw } = splitWhereToTaste(tasteMd)
   const wineryBlocks = splitH3Blocks(featuredRaw)
   const featuredWineriesBase = await buildEditorialFeaturesFromH3(wineryBlocks, compileMarkdown)
-  const featuredWineries = featuredWineriesBase.map((w) => ({
-    ...w,
-    image: editorialOnlyImage(w.image),
-    imagePortrait: editorialOnlyImage(w.imagePortrait),
-  }))
+  const featuredWineries = featuredWineriesBase
+    .map((w) => ({
+      ...w,
+      image: editorialOnlyImage(w.image),
+      imagePortrait: editorialOnlyImage(w.imagePortrait),
+    }))
+    .filter(hasEditorialPhoto)
 
   const tableText = extractGfmTable(directoryRaw)
   const tastingDirectory = attachDirectoryGeocodes(
@@ -193,9 +202,12 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
 
   const featuredRestaurantsWithPhotos = featuredRestaurants.filter(
     (r) =>
+      hasEditorialPhoto(r) &&
       !r.image?.includes('/breakfast/') &&
       !r.imagePortrait?.includes('/breakfast/'),
   )
+
+  const coffeeSnackWithPhotos = coffeeSnackFeatures.filter(hasEditorialPhoto)
 
   const restaurantDirSlice = sliceAfterH2Heading(eatMd, '## Restaurant Directory')
   const breakfastDirSlice = sliceAfterH2Heading(eatMd, '## Breakfast, Coffee & Snacks Directory')
@@ -215,11 +227,13 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     const { featuredRaw: stayFeaturedRaw, directoryRaw: stayDirectoryRaw } = splitWhereToStay(stayMd)
     const hotelBlocks = splitH3Blocks(stayFeaturedRaw)
     const featuredHotelsBase = await buildEditorialFeaturesFromH3(hotelBlocks, compileMarkdown)
-    featuredHotels = featuredHotelsBase.map((h) => ({
-      ...h,
-      image: editorialOnlyImage(h.image),
-      imagePortrait: editorialOnlyImage(h.imagePortrait),
-    }))
+    featuredHotels = featuredHotelsBase
+      .map((h) => ({
+        ...h,
+        image: editorialOnlyImage(h.image),
+        imagePortrait: editorialOnlyImage(h.imagePortrait),
+      }))
+      .filter(hasEditorialPhoto)
     const stayTable = extractGfmTable(stayDirectoryRaw)
     lodgingDirectory = attachDirectoryGeocodes(
       frontmatter.slug,
@@ -241,7 +255,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     featuredWineries,
     tastingDirectory,
     featuredRestaurants: featuredRestaurantsWithPhotos,
-    coffeeSnackFeatures,
+    coffeeSnackFeatures: coffeeSnackWithPhotos,
     breakfast,
     featuredHotels,
     lodgingDirectory,

@@ -13,11 +13,6 @@ from featured_image_portrait import copy_featured_pair  # noqa: E402
 from PIL import Image  # noqa: E402
 
 IMAGES = ROOT / "public" / "images" / "st-helena"
-DRIVE = ROOT / ".tmp-salvestrin-inn"
-ORIGINALS = DRIVE / "Originals"
-ITINERARY = ROOT / ".tmp-st-helena-import" / "04_St_Helena" / "Itineraries"
-
-MIN_MASTER_WIDTH = 1400
 
 # Drive filename stem -> (section folder, deliverable slug)
 ST_HELENA_FEATURED: dict[str, tuple[str, str]] = {
@@ -42,26 +37,26 @@ ST_HELENA_FEATURED: dict[str, tuple[str, str]] = {
     "SalvestrinInn_1200": ("hotels", "st-helena-hotel-inn-at-salvestrin"),
 }
 
-# When deliverable crops are missing or too small, use high-res originals / itinerary stills.
-ST_HELENA_UNDERSTUDY_SOURCES: list[Path] = [
-    ITINERARY / "Understudy_1200.jpg",
-    ORIGINALS / "EHC02073.jpg",
-    ORIGINALS / "PhotoEmmaKMorris-03455.jpg",
-    ORIGINALS / "PhotoEmmaKMorris-07701-2.jpg",
-]
-
-ST_HELENA_FALLBACK: dict[str, tuple[str, str, Path]] = {
-    "StHelena_Erosion": (
-        "breakfast",
-        "st-helena-breakfast-erosion-creamery-cafe",
-        ORIGINALS / "Scooping Mint Stracciatella.jpeg",
-    ),
-    "SalvestrinInn_1200": (
-        "hotels",
-        "st-helena-hotel-inn-at-salvestrin",
-        ORIGINALS / "Aerial Property copy.jpg",
-    ),
+# Alternate Drive filenames for the same deliverable
+STEM_ALIASES: dict[str, list[str]] = {
+    "StHelena_Erosion": ["erosion_1600", "erosion_900", "StHelena_Erosion"],
+    "Understudy": ["Understudy", "UnderStudy"],
+    "SalvestrinInn_1200": ["SalvestrinInn_1200", "StHelena_SalvestrinInn"],
 }
+
+MIN_MASTER_WIDTH = 800
+
+
+def find_drive_dir() -> Path:
+    candidates = [
+        ROOT / ".tmp-drive-sync/04_St_Helena/Properties_(featured_wineries_restaurants_hotels)",
+        ROOT / ".tmp-st-helena-properties",
+        ROOT / ".tmp-salvestrin-inn",
+    ]
+    for path in candidates:
+        if path.is_dir() and any(path.glob("StHelena_*.jpg")):
+            return path
+    return candidates[1]
 
 
 def master_width(path: Path) -> int:
@@ -69,48 +64,28 @@ def master_width(path: Path) -> int:
         return im.size[0]
 
 
-def pick_source(stem: str) -> Path | None:
-    candidates: list[Path] = []
-
-    deliverable = DRIVE / f"{stem}.jpg"
-    if deliverable.is_file():
-        candidates.append(deliverable)
-
-    fallback = ST_HELENA_FALLBACK.get(stem)
-    if fallback:
-        candidates.append(fallback[2])
-
-    if stem == "Understudy":
-        candidates.extend(ST_HELENA_UNDERSTUDY_SOURCES)
-
-    if ORIGINALS.is_dir():
-        for p in ORIGINALS.iterdir():
-            if p.suffix.lower() in {".jpg", ".jpeg"} and stem.lower().replace("_", "") in p.stem.lower().replace(
-                " ", ""
-            ):
-                candidates.append(p)
-
-    existing = [p for p in candidates if p.is_file()]
-    if not existing:
-        return None
-
-    viable = [p for p in existing if master_width(p) >= MIN_MASTER_WIDTH]
-    pool = viable if viable else existing
-    return max(pool, key=master_width)
+def pick_source(stem: str, drive: Path) -> Path | None:
+    names = STEM_ALIASES.get(stem, [stem])
+    for name in names:
+        src = drive / f"{name}.jpg"
+        if src.is_file() and master_width(src) >= MIN_MASTER_WIDTH:
+            return src
+    return None
 
 
 def main() -> None:
-    if not DRIVE.is_dir():
+    drive = find_drive_dir()
+    if not drive.is_dir():
         raise SystemExit(
-            f"Drive folder missing: {DRIVE}\n"
-            "Download Properties_(featured_wineries_restaurants_hotels) first."
+            f"Drive folder missing: {drive}\n"
+            "Download 04_St_Helena/Properties_(featured_wineries_restaurants_hotels) from Drive."
         )
 
     updated = 0
     missing: list[str] = []
 
     for stem, (section, slug) in ST_HELENA_FEATURED.items():
-        src = pick_source(stem)
+        src = pick_source(stem, drive)
         if not src:
             missing.append(stem)
             continue
@@ -122,9 +97,9 @@ def main() -> None:
         print(f"  {section}/{slug} ({src.name}, {master_width(src)}px wide)")
         updated += 1
 
-    print(f"\nUpdated {updated} featured pairs.")
+    print(f"\nUpdated {updated} featured pairs from {drive}.")
     if missing:
-        print("No usable source (skipped):")
+        print("\nNo Drive deliverable (skip featured block; list only):")
         for stem in missing:
             print(f"  - {stem}")
 
