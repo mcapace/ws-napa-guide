@@ -357,6 +357,7 @@ export function RegionStoryPanel({
   storyImages = [],
   refined = false,
   textOnly = false,
+  hideDek = false,
 }: {
   mdx: LoadedRegionMdx
   /** Sidebar adventures duplicate the Itinerary tab — hide there when routes exist. */
@@ -365,6 +366,8 @@ export function RegionStoryPanel({
   refined?: boolean
   /** Typography-only lede — no inline story images. */
   textOnly?: boolean
+  /** Omit dek when it is already shown in the region hero (scroll layout). */
+  hideDek?: boolean
 }) {
   const showSidebar = !hideCompanionFeature && mdx.sidebar && mdx.sidebarHeading
   const paragraphs = mdx.ledePlain ?? []
@@ -378,7 +381,9 @@ export function RegionStoryPanel({
   if (refined || textOnly) {
     return (
       <article className={panelClass}>
-        {mdx.frontmatter.dek ? <p className={styles.storyDek}>{mdx.frontmatter.dek}</p> : null}
+        {mdx.frontmatter.dek && !hideDek ? (
+          <p className={styles.storyDek}>{mdx.frontmatter.dek}</p>
+        ) : null}
         {paragraphs.length > 0 ? (
           <div className={textOnly ? styles.storyProseTextOnly : styles.storyProseRefined}>
             {paragraphs.map((paragraph, j) => (

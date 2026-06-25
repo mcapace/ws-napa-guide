@@ -96,6 +96,39 @@
   color: var(--mist);
 }
 
+.heroDeck {
+  margin: clamp(10px, 1.5vw, 16px) 0 0;
+  max-width: min(52ch, 100%);
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(17px, 2.2vw, 22px);
+  line-height: 1.45;
+  color: rgba(247, 243, 236, 0.88);
+}
+
+.frame[data-scroll-unified] .hero {
+  height: clamp(420px, 62vh, 720px);
+  min-height: 420px;
+  max-height: 720px;
+}
+
+.frame[data-scroll-unified] .heroCopy {
+  padding: clamp(28px, 4vw, 48px) clamp(24px, 5vw, 48px);
+  padding-right: clamp(24px, 5vw, 200px);
+  padding-bottom: clamp(36px, 5vh, 56px);
+}
+
+.frame[data-scroll-unified] .heroTitle {
+  font-size: clamp(44px, 7vw, 88px);
+}
+
+.frame[data-scroll-unified] .heroDeck {
+  font-size: clamp(18px, 2.4vw, 24px);
+  line-height: 1.5;
+  max-width: min(56ch, 100%);
+}
+
 .heroScrollHint {
   position: absolute;
   right: clamp(24px, 5vw, 48px);
@@ -1212,6 +1245,22 @@
     height: 42vh;
     min-height: 260px;
     max-height: 440px;
+  }
+
+  .frame[data-scroll-unified] .hero {
+    height: clamp(340px, 55vh, 580px);
+    min-height: 340px;
+    max-height: 580px;
+  }
+
+  .frame[data-scroll-unified] .heroCopy {
+    padding-right: clamp(24px, 5vw, 48px);
+    padding-bottom: clamp(48px, 8vh, 72px);
+  }
+
+  .frame[data-scroll-unified] .heroDeck {
+    font-size: clamp(16px, 4vw, 20px);
+    max-width: none;
   }
 
   .heroLandscape {
