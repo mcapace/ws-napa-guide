@@ -12,6 +12,7 @@ import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { REGION_CENTERS } from '@/lib/mapbox'
 import { useLenis, scrollToTarget } from '@/lib/smooth-scroll'
+import { replaceUrlQuery } from '@/lib/update-url-query'
 import type { Itinerary } from '@/lib/types'
 import styles from './region-frame.module.css'
 
@@ -98,8 +99,20 @@ function RegionPageClientContent({
   const tabFromUrl = parseTab(searchParams.get('tab'), hasItinerary)
   const [pendingTab, setPendingTab] = useState<RegionTab | null>(null)
   const activeTab = pendingTab ?? tabFromUrl
-  const selectedItineraryId =
-    itineraries.find((it) => it.id === searchParams.get('itinerary'))?.id ?? itineraries[0]?.id
+  const [selectedItineraryId, setSelectedItineraryId] = useState(
+    () =>
+      itineraries.find((it) => it.id === searchParams.get('itinerary'))?.id ?? itineraries[0]?.id,
+  )
+
+  useEffect(() => {
+    const onPopState = () => {
+      const params = new URLSearchParams(window.location.search)
+      const fromUrl = itineraries.find((it) => it.id === params.get('itinerary'))?.id
+      if (fromUrl) setSelectedItineraryId(fromUrl)
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [itineraries])
 
   const explorePins = pins.map((p) => ({ ...p, editorial: undefined }))
 
@@ -127,12 +140,14 @@ function RegionPageClientContent({
 
   const setItinerary = useCallback(
     (itineraryId: string) => {
-      const params = new URLSearchParams(searchParams.toString())
+      if (itineraryId === selectedItineraryId) return
+      setSelectedItineraryId(itineraryId)
+      const params = new URLSearchParams(window.location.search)
       params.set('tab', 'itinerary')
       params.set('itinerary', itineraryId)
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+      replaceUrlQuery(pathname, params)
     },
-    [pathname, router, searchParams],
+    [pathname, selectedItineraryId],
   )
 
   const scrollToPanel = useCallback(() => {

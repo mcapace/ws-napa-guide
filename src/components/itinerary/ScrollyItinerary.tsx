@@ -114,10 +114,11 @@ export default function ScrollyItinerary({
 
   const selectItinerary = useCallback(
     (id: string) => {
+      if (id === activeItineraryId) return
       setActiveItineraryId(id)
       onItineraryChange?.(id)
     },
-    [onItineraryChange],
+    [activeItineraryId, onItineraryChange],
   )
 
   const mapRef = useRef<MapRef>(null)
@@ -385,6 +386,7 @@ export default function ScrollyItinerary({
               role="tab"
               aria-selected={it.id === itinerary.id}
               className={`${styles.selectorBtn}${it.id === itinerary.id ? ` ${styles.selectorBtnActive}` : ''}`}
+              onMouseDown={(e) => e.preventDefault()}
               onClick={() => selectItinerary(it.id)}
             >
               {it.title}

@@ -13,6 +13,7 @@ import type { LoadedRegionMdx } from '@/lib/content/types'
 import { getImageFocalPoint } from '@/lib/image-focal'
 import { REGION_CENTERS } from '@/lib/mapbox'
 import { useLenis, scrollToTarget } from '@/lib/smooth-scroll'
+import { replaceUrlQuery } from '@/lib/update-url-query'
 import type { Itinerary } from '@/lib/types'
 import { RegionStoryPanel, type RegionTab } from './RegionPageClient'
 import styles from './region-frame.module.css'
@@ -31,6 +32,9 @@ type JumpLink = {
   label: string
   tab: RegionTab
 }
+
+/** Avoid re-scrolling on soft remounts when the same deep-link tab is already handled. */
+const handledRegionDeepLinks = new Set<string>()
 
 function parseTab(param: string | null, hasItinerary: boolean): RegionTab {
   if (param === 'explore') return 'explore'
@@ -127,9 +131,14 @@ function RegionScrollPageClientContent({
   )
 
   useEffect(() => {
-    const fromUrl = itineraries.find((it) => it.id === searchParams.get('itinerary'))?.id
-    if (fromUrl) setSelectedItineraryId(fromUrl)
-  }, [searchParams, itineraries])
+    const onPopState = () => {
+      const params = new URLSearchParams(window.location.search)
+      const fromUrl = itineraries.find((it) => it.id === params.get('itinerary'))?.id
+      if (fromUrl) setSelectedItineraryId(fromUrl)
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [itineraries])
 
   const regionCenter = REGION_CENTERS[slug]?.center ?? [-122.4194, 38.5]
   const regionName = frontmatter.region
@@ -166,13 +175,14 @@ function RegionScrollPageClientContent({
 
   const setItinerary = useCallback(
     (itineraryId: string) => {
+      if (itineraryId === selectedItineraryId) return
       setSelectedItineraryId(itineraryId)
-      const params = new URLSearchParams(searchParams.toString())
+      const params = new URLSearchParams(window.location.search)
       params.set('tab', 'itinerary')
       params.set('itinerary', itineraryId)
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+      replaceUrlQuery(pathname, params)
     },
-    [pathname, router, searchParams],
+    [pathname, selectedItineraryId],
   )
 
   const [showScrollHint, setShowScrollHint] = useState(true)
@@ -200,9 +210,14 @@ function RegionScrollPageClientContent({
   }, [])
 
   useEffect(() => {
+    if (tabFromUrl === 'story') return
+
+    const deepLinkKey = `${pathname}:${tabFromUrl}`
+    if (handledRegionDeepLinks.has(deepLinkKey)) return
+    handledRegionDeepLinks.add(deepLinkKey)
+
     if (initialScrollDone.current) return
     initialScrollDone.current = true
-    if (tabFromUrl === 'story') return
 
     const sectionId =
       tabFromUrl === 'explore'
@@ -216,7 +231,7 @@ function RegionScrollPageClientContent({
       window.requestAnimationFrame(() => scrollToSection(sectionId))
     })
     return () => window.cancelAnimationFrame(id)
-  }, [tabFromUrl, scrollToSection])
+  }, [pathname, tabFromUrl, scrollToSection])
 
   useEffect(() => {
     const observers: IntersectionObserver[] = []
