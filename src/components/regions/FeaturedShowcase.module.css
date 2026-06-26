@@ -32,14 +32,6 @@
   will-change: transform;
 }
 
-.nameEnhanced {
-  visibility: hidden;
-}
-
-.copyEnhanced {
-  opacity: 0;
-}
-
 .image {
   object-fit: cover;
   transform-origin: center top;

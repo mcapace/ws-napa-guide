@@ -115,6 +115,7 @@ ITINERARY_STEM_ALIASES: dict[str, str] = {
 PROPERTY_MAP: dict[str, dict[str, tuple[str, str]]] = {
     "oakville": {
         "Oakville_Cardinale": ("wineries", "cardinale"),
+        "_DSC1315": ("wineries", "cardinale"),
         "Oakville_FarNiente": ("wineries", "far-niente"),
         "FarNiente_Gazebo": ("wineries", "far-niente"),
         "Oakville_Nickel": ("wineries", "nickel-and-nickel"),
@@ -123,6 +124,7 @@ PROPERTY_MAP: dict[str, dict[str, tuple[str, str]]] = {
         "Oakville_Brix": ("restaurants", "brix"),
         "Brix-DSC_0009-Edit": ("restaurants", "brix"),
         "Oakville_Mustards": ("restaurants", "mustards-grill"),
+        "2024 wine spectator tasting rooms  4": ("restaurants", "mustards-grill"),
         "Oakville_OakvilleGrocery": ("restaurants", "oakville-grocery"),
         "Oakville_Grocery_Interiors_021": ("restaurants", "oakville-grocery"),
         "groth": ("wineries", "groth-vineyards"),

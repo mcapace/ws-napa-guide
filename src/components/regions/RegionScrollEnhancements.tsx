@@ -11,6 +11,26 @@ type RegionScrollEnhancementsProps = {
   enabled: boolean
 }
 
+function splitWordsSafe(
+  el: HTMLElement,
+  splits: SplitText[],
+): SplitText | null {
+  try {
+    const split = new SplitText(el, {
+      type: 'words',
+      wordsClass: 'region-enhanced-word',
+    })
+    splits.push(split)
+    return split
+  } catch {
+    return null
+  }
+}
+
+function panelPastShowcaseTrigger(panel: HTMLElement, ratio: number): boolean {
+  return panel.getBoundingClientRect().top < window.innerHeight * ratio
+}
+
 export function RegionScrollEnhancements({ enabled }: RegionScrollEnhancementsProps) {
   const splitsRef = useRef<SplitText[]>([])
   const triggersRef = useRef<ScrollTrigger[]>([])
@@ -55,20 +75,18 @@ export function RegionScrollEnhancements({ enabled }: RegionScrollEnhancementsPr
     }
 
     if (heroTitle) {
-      const split = new SplitText(heroTitle, {
-        type: 'words',
-        wordsClass: 'region-enhanced-word',
-      })
-      splits.push(split)
+      const split = splitWordsSafe(heroTitle, splits)
       gsap.set(heroTitle, { visibility: 'visible' })
-      gsap.from(split.words, {
-        opacity: 0,
-        yPercent: 55,
-        duration: 0.85,
-        stagger: 0.045,
-        delay: 0.15,
-        ease: 'power3.out',
-      })
+      if (split?.words?.length) {
+        gsap.from(split.words, {
+          opacity: 0,
+          yPercent: 55,
+          duration: 0.85,
+          stagger: 0.045,
+          delay: 0.15,
+          ease: 'power3.out',
+        })
+      }
     }
 
     if (heroDeck) {
@@ -101,37 +119,45 @@ export function RegionScrollEnhancements({ enabled }: RegionScrollEnhancementsPr
 
       const name = panel.querySelector<HTMLElement>('[data-showcase-name]')
       if (name) {
-        const split = new SplitText(name, {
-          type: 'words',
-          wordsClass: 'region-enhanced-word',
-        })
-        splits.push(split)
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: panel,
-            start: 'top 72%',
-            toggleActions: 'play none none reverse',
-          },
-        })
-        tl.set(name, { visibility: 'visible' }).from(split.words, {
-          opacity: 0,
-          yPercent: 72,
-          rotationX: -32,
-          transformOrigin: '50% 100%',
-          duration: 0.65,
-          stagger: 0.05,
-          ease: 'power3.out',
-        })
-        pushTrigger(tl.scrollTrigger)
+        const split = splitWordsSafe(name, splits)
+        gsap.set(name, { visibility: 'visible', opacity: 1 })
+
+        if (split?.words?.length) {
+          const tl = gsap.timeline({
+            paused: true,
+            scrollTrigger: {
+              trigger: panel,
+              start: 'top 72%',
+              toggleActions: 'play none none none',
+            },
+          })
+          tl.from(split.words, {
+            opacity: 0,
+            yPercent: 72,
+            rotationX: -32,
+            transformOrigin: '50% 100%',
+            duration: 0.65,
+            stagger: 0.05,
+            ease: 'power3.out',
+            immediateRender: false,
+          })
+          pushTrigger(tl.scrollTrigger)
+          if (panelPastShowcaseTrigger(panel, 0.72)) {
+            tl.progress(1)
+          }
+        }
       }
 
       const copy = panel.querySelector<HTMLElement>('[data-showcase-copy]')
       if (copy) {
+        gsap.set(copy, { opacity: 1 })
+
         const tl = gsap.timeline({
+          paused: true,
           scrollTrigger: {
             trigger: panel,
             start: 'top 68%',
-            toggleActions: 'play none none reverse',
+            toggleActions: 'play none none none',
           },
         })
         tl.from(copy, {
@@ -139,8 +165,12 @@ export function RegionScrollEnhancements({ enabled }: RegionScrollEnhancementsPr
           y: 22,
           duration: 0.55,
           ease: 'power2.out',
+          immediateRender: false,
         })
         pushTrigger(tl.scrollTrigger)
+        if (panelPastShowcaseTrigger(panel, 0.68)) {
+          tl.progress(1)
+        }
       }
     })
 
@@ -198,11 +228,7 @@ export function RegionScrollEnhancements({ enabled }: RegionScrollEnhancementsPr
       const dek = marker.querySelector<HTMLElement>('[data-scroll-marker-dek]')
       if (!title) return
 
-      const split = new SplitText(title, {
-        type: 'words',
-        wordsClass: 'region-enhanced-word',
-      })
-      splits.push(split)
+      const split = splitWordsSafe(title, splits)
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: marker,
@@ -210,20 +236,31 @@ export function RegionScrollEnhancements({ enabled }: RegionScrollEnhancementsPr
           toggleActions: 'play none none none',
         },
       })
-      tl.set(title, { visibility: 'visible' }).from(split.words, {
-        opacity: 0,
-        yPercent: 40,
-        duration: 0.55,
-        stagger: 0.04,
-        ease: 'power2.out',
-      })
+      tl.set(title, { visibility: 'visible' })
+      if (split?.words?.length) {
+        tl.from(split.words, {
+          opacity: 0,
+          yPercent: 40,
+          duration: 0.55,
+          stagger: 0.04,
+          ease: 'power2.out',
+        })
+      }
       if (dek) {
         tl.from(dek, { opacity: 0, y: 14, duration: 0.45, ease: 'power2.out' }, '-=0.25')
       }
       pushTrigger(tl.scrollTrigger)
     })
 
-    const refreshRaf = requestAnimationFrame(() => ScrollTrigger.refresh())
+    const refreshRaf = requestAnimationFrame(() => {
+      ScrollTrigger.refresh()
+      triggers.forEach((st) => {
+        const anim = st.animation as gsap.core.Animation | undefined
+        if (anim && st.progress > 0 && anim.progress() === 0) {
+          anim.progress(1)
+        }
+      })
+    })
 
     return () => {
       cancelAnimationFrame(refreshRaf)

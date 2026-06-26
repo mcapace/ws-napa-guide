@@ -152,20 +152,14 @@
 }
 
 .frame[data-region-enhanced] .heroTitleEnhanced,
-.frame[data-region-enhanced] [data-scroll-marker-title],
-.frame[data-region-enhanced] [data-showcase-name] {
+.frame[data-region-enhanced] [data-scroll-marker-title] {
   visibility: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .frame[data-region-enhanced] .heroTitleEnhanced,
-  .frame[data-region-enhanced] [data-scroll-marker-title],
-  .frame[data-region-enhanced] [data-showcase-name] {
+  .frame[data-region-enhanced] [data-scroll-marker-title] {
     visibility: visible;
-  }
-
-  .frame[data-region-enhanced] .copyEnhanced {
-    opacity: 1;
   }
 
   .frame[data-region-enhanced] .heroScrollHint {

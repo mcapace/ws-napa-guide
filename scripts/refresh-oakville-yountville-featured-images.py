@@ -11,7 +11,20 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from featured_image_portrait import copy_featured_pair  # noqa: E402
 
-DRIVE_ROOT = ROOT / ".tmp-drive-import-oy"
+DRIVE_ROOTS = [
+    ROOT / ".tmp-drive-sync",
+    ROOT / ".tmp-drive-import-oy",
+    ROOT / ".tmp-drive-import",
+]
+
+
+def resolve_drive_root() -> Path:
+    for path in DRIVE_ROOTS:
+        if path.is_dir() and (path / "01_Oakville").is_dir():
+            return path
+    raise SystemExit(
+        "Drive extract missing. Sync 01_Oakville into .tmp-drive-sync first."
+    )
 
 # Deliverable Drive stems (Properties folder, not Originals)
 OAKVILLE_DELIVERABLE: dict[str, tuple[str, str]] = {
@@ -41,11 +54,15 @@ YOUNTVILLE_DELIVERABLE: dict[str, tuple[str, str]] = {
 
 # High-res originals when deliverable crops are missing or outdated
 OAKVILLE_ORIGINALS: dict[str, tuple[str, str]] = {
-    "Brix-DSC_0009-Edit": ("restaurants", "oakville-restaurant-brix"),
+    "_DSC1315": ("wineries", "oakville-winery-cardinale"),
     "FarNiente_Gazebo": ("wineries", "oakville-winery-far-niente"),
     "NickelNickel_Property_2": ("wineries", "oakville-winery-nickel-and-nickel"),
+    "Brix-DSC_0009-Edit": ("restaurants", "oakville-restaurant-brix"),
+    "2024 wine spectator tasting rooms  4": (
+        "restaurants",
+        "oakville-restaurant-mustards-grill",
+    ),
     "Oakville_Grocery_Interiors_021": ("restaurants", "oakville-restaurant-oakville-grocery"),
-    "_DSC1315": ("wineries", "oakville-winery-cardinale"),
 }
 
 YOUNTVILLE_ORIGINALS: dict[str, tuple[str, str]] = {
@@ -93,14 +110,11 @@ def import_originals(
 
 
 def main() -> None:
-    if not DRIVE_ROOT.is_dir():
-        raise SystemExit(
-            f"Drive extract missing: {DRIVE_ROOT}\n"
-            "Unzip 01_Oakville and 02_Yountville from the Drive export first."
-        )
+    drive_root = resolve_drive_root()
+    print(f"Using Drive root: {drive_root}")
 
-    oak_props = DRIVE_ROOT / "01_Oakville" / "Properties_(featured_wineries_restaurants_hotels)"
-    yt_props = DRIVE_ROOT / "02_Yountville" / "Properties_(featured_wineries_restaurants_hotels)"
+    oak_props = drive_root / "01_Oakville" / "Properties_(featured_wineries_restaurants_hotels)"
+    yt_props = drive_root / "02_Yountville" / "Properties_(featured_wineries_restaurants_hotels)"
 
     print("Oakville deliverables...")
     o1 = import_deliverables("oakville", OAKVILLE_DELIVERABLE, oak_props)
