@@ -955,11 +955,12 @@
   margin: 0;
   max-width: 1240px;
   margin-inline: auto;
-  font-family: var(--font-body, 'DM Sans', sans-serif);
-  font-size: clamp(20px, 2.6vw, 26px);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(28px, 4.2vw, 40px);
+  letter-spacing: -0.02em;
+  line-height: 1.08;
   text-transform: none;
 }
 
