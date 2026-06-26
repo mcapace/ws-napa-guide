@@ -11,15 +11,12 @@ export type ImageFocalHint =
 
 const manifest = focalManifest as Record<string, string>
 
-/** Default object-position for full-bleed panels — 16×9 masters, horizon-biased. */
-const SHOWCASE_SAFE_TOP = 'center 40%'
+/** Default object-position for full-bleed panels — ultra-wide / 16×9 masters. */
+const SHOWCASE_SAFE_TOP = 'center 50%'
 const PORTRAIT_SAFE_TOP = 'center top'
 
 /** Responsive focal profiles (see FeaturedShowcase.module.css). */
-const SHOWCASE_FOCAL_PROFILES: Record<string, string> = {
-  '/images/oakville/restaurants/oakville-restaurant-mustards-grill-landscape.jpg':
-    'subject-top',
-}
+const SHOWCASE_FOCAL_PROFILES: Record<string, string> = {}
 
 /** CSS object-position value for next/image fill crops. */
 export function getImageFocalPoint(

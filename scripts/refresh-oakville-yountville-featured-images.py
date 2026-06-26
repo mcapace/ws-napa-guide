@@ -26,6 +26,27 @@ def resolve_drive_root() -> Path:
         "Drive extract missing. Sync 01_Oakville into .tmp-drive-sync first."
     )
 
+OAKVILLE_WIDE_DIR = ROOT / ".tmp-oakville-wide"
+OAKVILLE_WIDE_DRIVE_URL = (
+    "https://drive.google.com/drive/folders/1pc9nmd20OF6QiOn_ObylYNZLTZGv65lT"
+)
+
+# Ultra-wide showcase masters (2.5:1) — preferred over 16×9 when folder is present
+OAKVILLE_WIDE: dict[str, tuple[str, str]] = {
+    "cardinale.jpg": ("wineries", "oakville-winery-cardinale"),
+    "FarNiente.jpg": ("wineries", "oakville-winery-far-niente"),
+    "NickelNickel.jpg": ("wineries", "oakville-winery-nickel-and-nickel"),
+    "Rudd.jpg": ("wineries", "oakville-winery-rudd-estate"),
+    "Brix.jpg": ("restaurants", "oakville-restaurant-brix"),
+    "mustardsB.jpg": ("restaurants", "oakville-restaurant-mustards-grill"),
+    "oakvillegrocery.jpg": ("restaurants", "oakville-restaurant-oakville-grocery"),
+}
+
+# Portrait crop source when landscape file differs (slug -> wide folder filename)
+OAKVILLE_WIDE_PORTRAIT_SRC: dict[str, tuple[str, float | None, float]] = {
+    "oakville-restaurant-mustards-grill": ("mustards.jpg", 0.36, 0.0),
+}
+
 OAKVILLE_16X9_DIR = ROOT / ".tmp-oakville-16x9"
 OAKVILLE_16X9_DRIVE_URL = (
     "https://drive.google.com/drive/folders/1rvgzk5npAUUHSUpnAmbcL3n-2qe_Zq1U"
@@ -86,6 +107,36 @@ YOUNTVILLE_ORIGINALS: dict[str, tuple[str, str]] = {
     "TCHO_KOLLAR-102": ("breakfast", "yountville-breakfast-kollar-chocolates"),
     "2H9A9277": ("restaurants", "yountville-restaurant-clementine"),
 }
+
+
+def import_oakville_wide(folder: Path) -> int:
+    images = ROOT / "public" / "images" / "oakville"
+    updated = 0
+    for filename, (section, slug) in OAKVILLE_WIDE.items():
+        src = folder / filename
+        if not src.is_file():
+            continue
+        landscape = images / section / f"{slug}-landscape.jpg"
+        portrait = images / section / f"{slug}-portrait.jpg"
+        copy_featured_pair(src, landscape, portrait, top_bias=0.0)
+
+        portrait_opts = OAKVILLE_WIDE_PORTRAIT_SRC.get(slug)
+        if portrait_opts:
+            portrait_file, left_bias, top_bias = portrait_opts
+            portrait_src = folder / portrait_file
+            if portrait_src.is_file():
+                from featured_image_portrait import portrait_crop  # noqa: WPS433
+
+                portrait_crop(
+                    portrait_src,
+                    portrait,
+                    top_bias=top_bias,
+                    left_bias=left_bias,
+                )
+
+        print(f"  oakville/{section}/{slug} (ultra-wide: {filename})")
+        updated += 1
+    return updated
 
 
 def import_oakville_16x9(folder: Path) -> int:
@@ -149,7 +200,10 @@ def main() -> None:
     o1 = 0
     o2 = 0
 
-    if OAKVILLE_16X9_DIR.is_dir():
+    if OAKVILLE_WIDE_DIR.is_dir():
+        print(f"Oakville ultra-wide featured ({OAKVILLE_WIDE_DRIVE_URL})...")
+        o0 = import_oakville_wide(OAKVILLE_WIDE_DIR)
+    elif OAKVILLE_16X9_DIR.is_dir():
         print(f"Oakville 16×9 featured ({OAKVILLE_16X9_DRIVE_URL})...")
         o0 = import_oakville_16x9(OAKVILLE_16X9_DIR)
     else:
