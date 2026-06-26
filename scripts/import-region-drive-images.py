@@ -255,6 +255,8 @@ MDX_TITLE_TO_SLUG: dict[str, dict[str, str]] = {
         "Harvest Inn": "harvest-inn",
         "Alila": "alila-napa-valley",
         "Wydown": "wydown-hotel",
+        "Erosion": "erosion-creamery-cafe",
+        "Inn at Salvestrin": "inn-at-salvestrin",
     },
     "calistoga": {
         "Hourglass": "hourglass",
