@@ -4,6 +4,7 @@
 }
 
 .panel {
+  --showcase-landscape-focal: center 40%;
   position: relative;
   width: 100%;
   height: 85vh;
@@ -15,16 +16,15 @@
 .media {
   position: absolute;
   inset: 0;
+  z-index: 0;
 }
 
 .imageWrap {
   position: absolute;
-  left: -2%;
-  right: -2%;
-  top: -4%;
-  width: 104%;
-  height: 112%;
-  transform-origin: center top;
+  inset: -3%;
+  width: 106%;
+  height: 106%;
+  transform-origin: center center;
   will-change: transform;
 }
 
@@ -34,15 +34,17 @@
 
 .image {
   object-fit: cover;
-  transform-origin: center top;
+  transform-origin: center center;
 }
 
 .imageLandscape {
   display: block;
+  object-position: var(--showcase-landscape-focal, center 40%);
 }
 
 .imagePortrait {
   display: none;
+  object-position: center 32%;
 }
 
 .imageFallback {
@@ -54,29 +56,42 @@
 .scrim {
   position: absolute;
   inset: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
 .scrimLeft {
   background:
     linear-gradient(
-      to top,
-      rgba(13, 11, 9, 0.92) 0%,
-      rgba(13, 11, 9, 0.45) 45%,
-      transparent 75%
+      to bottom,
+      rgba(13, 11, 9, 0.42) 0%,
+      rgba(13, 11, 9, 0.12) 10%,
+      transparent 22%
     ),
-    linear-gradient(to right, rgba(13, 11, 9, 0.55) 0%, transparent 55%);
+    linear-gradient(
+      to top,
+      rgba(13, 11, 9, 0.94) 0%,
+      rgba(13, 11, 9, 0.52) 42%,
+      rgba(13, 11, 9, 0.28) 100%
+    ),
+    linear-gradient(to right, rgba(13, 11, 9, 0.58) 0%, transparent 58%);
 }
 
 .scrimRight {
   background:
     linear-gradient(
-      to top,
-      rgba(13, 11, 9, 0.92) 0%,
-      rgba(13, 11, 9, 0.45) 45%,
-      transparent 75%
+      to bottom,
+      rgba(13, 11, 9, 0.42) 0%,
+      rgba(13, 11, 9, 0.12) 10%,
+      transparent 22%
     ),
-    linear-gradient(to left, rgba(13, 11, 9, 0.55) 0%, transparent 55%);
+    linear-gradient(
+      to top,
+      rgba(13, 11, 9, 0.94) 0%,
+      rgba(13, 11, 9, 0.52) 42%,
+      rgba(13, 11, 9, 0.28) 100%
+    ),
+    linear-gradient(to left, rgba(13, 11, 9, 0.58) 0%, transparent 58%);
 }
 
 .copy {
@@ -182,6 +197,31 @@
   border-color: rgba(196, 148, 58, 0.55);
 }
 
+/* Laptop / 16" MacBook — slightly lower focal, less sky-heavy crop */
+@media (min-width: 1024px) and (max-width: 1799px) {
+  .panel {
+    --showcase-landscape-focal: center 42%;
+    height: 80vh;
+    min-height: 520px;
+  }
+}
+
+/* Short laptop viewport (e.g. 16" MacBook with browser chrome) */
+@media (min-width: 1024px) and (max-height: 900px) {
+  .panel {
+    --showcase-landscape-focal: center 44%;
+    height: 76vh;
+    min-height: 480px;
+  }
+}
+
+/* Ultra-wide — bias toward horizon line on panoramic frames */
+@media (min-width: 1800px) {
+  .panel {
+    --showcase-landscape-focal: center 36%;
+  }
+}
+
 @media (max-width: 1023px) {
   .panel {
     height: 70vh;
@@ -207,12 +247,19 @@
 
   .scrimLeft,
   .scrimRight {
-    background: linear-gradient(
-      to top,
-      rgba(13, 11, 9, 0.95) 0%,
-      rgba(13, 11, 9, 0.62) 50%,
-      rgba(13, 11, 9, 0.2) 100%
-    );
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(13, 11, 9, 0.45) 0%,
+        rgba(13, 11, 9, 0.15) 12%,
+        transparent 24%
+      ),
+      linear-gradient(
+        to top,
+        rgba(13, 11, 9, 0.96) 0%,
+        rgba(13, 11, 9, 0.65) 48%,
+        rgba(13, 11, 9, 0.32) 100%
+      );
   }
 
   .imageLandscape {

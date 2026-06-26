@@ -124,6 +124,13 @@ export function FeaturedShowcasePanel({
       ref={panelRef}
       className={`${styles.panel}${anchorRight ? ` ${styles.panelAnchorRight}` : ''}${enhanced ? ` ${styles.panelEnhanced}` : ''}`}
       aria-labelledby={`showcase-${pick.key}`}
+      style={
+        landscapeStyle.objectPosition
+          ? ({
+              '--showcase-landscape-focal': landscapeStyle.objectPosition,
+            } as React.CSSProperties)
+          : undefined
+      }
       {...(enhanced ? { 'data-showcase-panel': '' } : {})}
     >
       <div
@@ -133,7 +140,10 @@ export function FeaturedShowcasePanel({
         {imageSrc ? (
           <>
             {pick.image ? (
-              <div className={styles.imageWrap}>
+              <div
+                className={styles.imageWrap}
+                {...(enhanced ? { 'data-showcase-parallax': '' } : {})}
+              >
                 <Image
                   src={pick.image}
                   alt=""
@@ -141,17 +151,19 @@ export function FeaturedShowcasePanel({
                   priority={index < 2}
                   sizes="100vw"
                   className={`${styles.image} ${styles.imageLandscape}`}
-                  style={{
-                    objectPosition: landscapeStyle.objectPosition,
-                    ...(landscapeStyle.shiftY
+                  style={
+                    landscapeStyle.shiftY
                       ? { transform: `translateY(${landscapeStyle.shiftY})` }
-                      : {}),
-                  }}
+                      : undefined
+                  }
                 />
               </div>
             ) : null}
             {pick.imagePortrait ? (
-              <div className={styles.imageWrap}>
+              <div
+                className={styles.imageWrap}
+                {...(enhanced ? { 'data-showcase-parallax': '' } : {})}
+              >
                 <Image
                   src={pick.imagePortrait}
                   alt=""
@@ -172,11 +184,12 @@ export function FeaturedShowcasePanel({
         ) : (
           <div className={styles.imageFallback} />
         )}
-        <div
-          className={`${styles.scrim}${anchorRight ? ` ${styles.scrimRight}` : ` ${styles.scrimLeft}`}`}
-          aria-hidden
-        />
       </div>
+
+      <div
+        className={`${styles.scrim}${anchorRight ? ` ${styles.scrimRight}` : ` ${styles.scrimLeft}`}`}
+        aria-hidden
+      />
 
       {enhanced ? (
         <div className={copyClassName} data-showcase-copy="">

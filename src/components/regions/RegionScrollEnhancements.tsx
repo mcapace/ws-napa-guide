@@ -101,8 +101,8 @@ export function RegionScrollEnhancements({ enabled }: RegionScrollEnhancementsPr
     }
 
     frame.querySelectorAll<HTMLElement>('[data-showcase-panel]').forEach((panel) => {
-      const media = panel.querySelector<HTMLElement>('[data-showcase-media]')
-      if (media) {
+      const parallaxWraps = panel.querySelectorAll<HTMLElement>('[data-showcase-parallax]')
+      parallaxWraps.forEach((wrap) => {
         const st = ScrollTrigger.create({
           trigger: panel,
           start: 'top bottom',
@@ -110,12 +110,12 @@ export function RegionScrollEnhancements({ enabled }: RegionScrollEnhancementsPr
           scrub: 0.9,
         })
         gsap.fromTo(
-          media,
-          { yPercent: -8, scale: 1.14 },
-          { yPercent: 8, scale: 1.04, ease: 'none', scrollTrigger: st },
+          wrap,
+          { yPercent: -6, scale: 1.1 },
+          { yPercent: 6, scale: 1.03, ease: 'none', scrollTrigger: st },
         )
         pushTrigger(st)
-      }
+      })
 
       const name = panel.querySelector<HTMLElement>('[data-showcase-name]')
       if (name) {

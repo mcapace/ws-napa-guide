@@ -11,8 +11,8 @@ export type ImageFocalHint =
 
 const manifest = focalManifest as Record<string, string>
 
-/** Default object-position for full-bleed panels — anchor high so heads stay in frame. */
-const SHOWCASE_SAFE_TOP = 'center top'
+/** Default object-position for full-bleed panels — 16×9 masters, horizon-biased. */
+const SHOWCASE_SAFE_TOP = 'center 40%'
 const PORTRAIT_SAFE_TOP = 'center top'
 
 /** CSS object-position value for next/image fill crops. */
