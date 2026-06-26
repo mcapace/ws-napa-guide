@@ -542,7 +542,7 @@
     82vh,
     calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height))
   );
-  min-height: 420px;
+  min-height: 480px;
 }
 
 .explorePanelDark {
@@ -622,11 +622,22 @@
   flex-direction: column;
 }
 
+.itineraryEmbedPanel :global(.layoutEmbed) {
+  grid-template-columns: minmax(0, var(--region-split-list, 45%)) minmax(0, var(--region-split-map, 55%));
+}
+
+.itineraryEmbedPanel :global(.selector-in-column) {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
 .explorePanel :global(.explore-embed-grid) {
   flex: 1;
   height: 100%;
   min-height: 0;
   max-height: none;
+  grid-template-columns: minmax(0, var(--region-split-list, 45%)) minmax(0, var(--region-split-map, 55%));
 }
 
 .itineraryEmbedPanel :global(.scrollyRootEmbed) {
@@ -819,6 +830,8 @@
   );
   --region-section-pad: clamp(56px, 8vw, 96px);
   --region-itinerary-selector-height: 56px;
+  --region-split-list: 45%;
+  --region-split-map: 55%;
   --region-map-sticky-top: calc(
     var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px) + 8px
   );
@@ -1274,7 +1287,7 @@
 .frame[data-scroll-unified] .exploreFlowWrap :global(.explore-page-flow .explore-grid),
 .frame[data-scroll-unified] .exploreFlowWrap :global([data-explore-page-flow] .explore-grid) {
   display: grid !important;
-  grid-template-columns: minmax(0, 45%) minmax(0, 55%) !important;
+  grid-template-columns: minmax(0, var(--region-split-list)) minmax(0, var(--region-split-map)) !important;
   flex: none !important;
   height: auto !important;
   min-height: 0 !important;
@@ -1320,13 +1333,27 @@
   position: sticky;
   top: calc(var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px));
   z-index: 8;
-  box-shadow: 0 -8px 0 8px #0d0b09;
+  box-shadow: 0 -8px 0 8px #1a1612;
+}
+
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.selectorEmbed.selector-in-column) {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.frame[data-scroll-unified] .exploreFlowWrap :global(.explore-embed-grid) {
+  grid-template-columns: minmax(0, var(--region-split-list)) minmax(0, var(--region-split-map)) !important;
+}
+
+.frame[data-scroll-unified] .itineraryFlowWrap :global(.layoutEmbed) {
+  grid-template-columns: minmax(0, var(--region-split-list)) minmax(0, var(--region-split-map)) !important;
 }
 
 .frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-grid),
 .frame[data-scroll-unified] .itineraryFlowWrap :global([data-scrolly-page-flow] .scrolly-grid) {
   display: grid !important;
-  grid-template-columns: minmax(0, 42%) minmax(0, 58%) !important;
+  grid-template-columns: minmax(0, var(--region-split-list)) minmax(0, var(--region-split-map)) !important;
   align-items: start !important;
   height: auto !important;
   min-height: 0 !important;

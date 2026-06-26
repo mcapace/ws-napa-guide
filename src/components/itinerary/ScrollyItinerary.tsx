@@ -363,6 +363,32 @@ export default function ScrollyItinerary({
   )
 
   const showCollectionHeader = itineraries.length > 1 && itinerary?.seriesTitle
+  const selectorInListColumn = embedMode || pageFlow
+
+  const itinerarySelector =
+    itineraries.length > 1 ? (
+      <div
+        className={`${styles.selector}${embedMode ? ` ${styles.selectorEmbed}` : ''}${
+          pageFlow ? ' scrolly-selector' : ''
+        }${selectorInListColumn ? ` ${styles.selectorInColumn} selector-in-column` : ''}`}
+        role="tablist"
+        aria-label="Choose itinerary"
+      >
+        {itineraries.map((it) => (
+          <button
+            key={it.id}
+            type="button"
+            role="tab"
+            aria-selected={it.id === itinerary?.id}
+            className={`${styles.selectorBtn}${it.id === itinerary?.id ? ` ${styles.selectorBtnActive}` : ''}`}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => selectItinerary(it.id)}
+          >
+            {it.title}
+          </button>
+        ))}
+      </div>
+    ) : null
 
   if (!itinerary || stops.length === 0) {
     return (
@@ -399,29 +425,7 @@ export default function ScrollyItinerary({
         </header>
       ) : null}
 
-      {itineraries.length > 1 ? (
-        <div
-          className={`${styles.selector}${embedMode ? ` ${styles.selectorEmbed}` : ''}${
-            pageFlow ? ' scrolly-selector' : ''
-          }`}
-          role="tablist"
-          aria-label="Choose itinerary"
-        >
-          {itineraries.map((it) => (
-            <button
-              key={it.id}
-              type="button"
-              role="tab"
-              aria-selected={it.id === itinerary.id}
-              className={`${styles.selectorBtn}${it.id === itinerary.id ? ` ${styles.selectorBtnActive}` : ''}`}
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => selectItinerary(it.id)}
-            >
-              {it.title}
-            </button>
-          ))}
-        </div>
-      ) : null}
+      {!selectorInListColumn ? itinerarySelector : null}
 
       <div
         className={`${styles.layout}${embedMode ? ` ${styles.layoutEmbed}` : ''}${
@@ -431,8 +435,9 @@ export default function ScrollyItinerary({
         <div
           className={`${styles.storyColumnWrap}${embedMode ? ` ${styles.storyColumnWrapEmbed}` : ''}${
             pageFlow ? ` ${styles.storyColumnWrapPageFlow}` : ''
-          }`}
+          }${selectorInListColumn ? ` ${styles.storyColumnWrapWithSelector} scrolly-list-column` : ''}`}
         >
+          {selectorInListColumn ? itinerarySelector : null}
           <div
             ref={embedMode ? storyScrollRef : undefined}
             data-scroll-container={embedMode ? true : undefined}
