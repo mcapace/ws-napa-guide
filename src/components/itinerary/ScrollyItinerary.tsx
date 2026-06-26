@@ -11,6 +11,7 @@ import {
   SCROLLY_MAP_STYLE,
   TERRAIN_CONFIG,
 } from '@/lib/mapbox'
+import { REGION_JUMP_SECTION_EVENT } from '@/lib/smooth-scroll'
 import { ExploreMapPin } from '@/components/explore/ExploreMapPin'
 import { MapWheelScrollBridge } from '@/components/map/MapWheelScrollBridge'
 import {
@@ -277,6 +278,20 @@ export default function ScrollyItinerary({
     if (!embedMode || !storyScrollRef.current) return
     storyScrollRef.current.scrollTop = 0
   }, [embedMode, itinerary?.id])
+
+  useEffect(() => {
+    if (!embedMode) return
+
+    const onRegionJump = (event: Event) => {
+      const sectionId = (event as CustomEvent<{ sectionId: string }>).detail?.sectionId
+      if (sectionId !== 'region-itinerary') return
+      setActiveIndex(0)
+      if (storyScrollRef.current) storyScrollRef.current.scrollTop = 0
+    }
+
+    window.addEventListener(REGION_JUMP_SECTION_EVENT, onRegionJump)
+    return () => window.removeEventListener(REGION_JUMP_SECTION_EVENT, onRegionJump)
+  }, [embedMode])
 
   useEffect(() => {
     return () => {

@@ -28,6 +28,7 @@ MDX_DIR = ROOT / "src" / "content" / "regions"
 MOSAIC_DIR = IMAGES / "homepage" / "mosaic"
 SCROLL_REVEALS_DIR = IMAGES / "homepage" / "region-scroll-reveals"
 ITINERARY_MANIFEST = ROOT / "src" / "data" / "region-itinerary-images.json"
+DIRECTORY_IMAGE_MANIFEST = ROOT / "src" / "data" / "region-directory-images.json"
 ITINERARY_TS = ROOT / "src" / "data" / "region-itineraries.ts"
 
 # Removed from hero mosaic rotation (duplicate / editorial request)
@@ -115,11 +116,21 @@ PROPERTY_MAP: dict[str, dict[str, tuple[str, str]]] = {
     "oakville": {
         "Oakville_Cardinale": ("wineries", "cardinale"),
         "Oakville_FarNiente": ("wineries", "far-niente"),
+        "FarNiente_Gazebo": ("wineries", "far-niente"),
         "Oakville_Nickel": ("wineries", "nickel-and-nickel"),
+        "NickelNickel_Property_2": ("wineries", "nickel-and-nickel"),
         "Oakville_Rudd": ("wineries", "rudd-estate"),
         "Oakville_Brix": ("restaurants", "brix"),
+        "Brix-DSC_0009-Edit": ("restaurants", "brix"),
         "Oakville_Mustards": ("restaurants", "mustards-grill"),
         "Oakville_OakvilleGrocery": ("restaurants", "oakville-grocery"),
+        "Oakville_Grocery_Interiors_021": ("restaurants", "oakville-grocery"),
+        "groth": ("wineries", "groth-vineyards"),
+        "mondavi": ("wineries", "robert-mondavi-winery"),
+        "opusone": ("wineries", "opus-one"),
+        "PlumpJack": ("wineries", "plumpjack-estate"),
+        "promontory": ("wineries", "promontory-wine"),
+        "turnbull": ("wineries", "turnbull-wine-cellars"),
     },
     "yountville": {
         "Yountville_Stewart": ("wineries", "stewart-cellars"),
@@ -168,10 +179,13 @@ PROPERTY_MAP: dict[str, dict[str, tuple[str, str]]] = {
         "StHelena_HarvestInn": ("hotels", "harvest-inn"),
         "StHelena_Alila": ("hotels", "alila-napa-valley"),
         "StHelena_Wydown": ("hotels", "wydown-hotel"),
+        "StHelena_Knifeworks": ("sidebar", "new-west-knifeworks"),
+        "StHelena_MAdFritz": ("sidebar", "mad-fritz-brewery"),
     },
     "calistoga": {
         "Calistoga_Hourglass": ("wineries", "hourglass"),
         "StHelena_Larkmead": ("wineries", "larkmead"),
+        "Calistoga_Schramsberg": ("wineries", "schramsberg"),
         "Calistoga_Schramsberg": ("wineries", "schramsberg"),
         "Calistoga_Lovina": ("restaurants", "lovina"),
         "Calistoga_Picobar": ("restaurants", "picobar"),
@@ -184,6 +198,7 @@ PROPERTY_MAP: dict[str, dict[str, tuple[str, str]]] = {
     },
     "downtown-napa": {
         "DT_Hestan": ("wineries", "hestan-napa"),
+        "Hestan": ("wineries", "hestan-napa"),
         "DT_MayacamasDT": ("wineries", "mayacamas-downtown"),
         "DT_Cadet": ("wineries", "cadet-wine-beer-bar"),
         "DT_GentlemanFarmer": ("wineries", "gentleman-farmer-bungalow"),
@@ -261,6 +276,7 @@ MDX_TITLE_TO_SLUG: dict[str, dict[str, str]] = {
     "calistoga": {
         "Hourglass": "hourglass",
         "Larkmead": "larkmead",
+        "Schramsberg": "schramsberg",
         "Lovina": "lovina",
         "Picobar": "picobar",
         "Sam's Social": "sams-social-club",
@@ -272,6 +288,7 @@ MDX_TITLE_TO_SLUG: dict[str, dict[str, str]] = {
     },
     "downtown-napa": {
         "Hestan Napa": "hestan-napa",
+        "Hestan": "hestan-napa",
         "Mayacamas Downtown": "mayacamas-downtown",
         "Cadet": "cadet-wine-beer-bar",
         "Gentleman Farmer": "gentleman-farmer-bungalow",
@@ -297,6 +314,18 @@ SECTION_SINGULAR = {
     "sidebar": "sidebar",
 }
 
+# Directory table names for imported property stills (map / list thumbnails).
+DIRECTORY_LISTING_NAMES: dict[str, dict[str, str]] = {
+    "oakville": {
+        "groth-vineyards": "Groth Vineyards & Winery",
+        "robert-mondavi-winery": "Robert Mondavi Winery",
+        "opus-one": "Opus One",
+        "plumpjack-estate": "PlumpJack Estate Winery",
+        "promontory-wine": "Promontory Wine",
+        "turnbull-wine-cellars": "Turnbull Wine Cellars",
+    },
+}
+
 
 def slug_for_path(region: str, section: str, prop_slug: str) -> str:
     if section == "sidebar":
@@ -308,7 +337,10 @@ def slug_for_path(region: str, section: str, prop_slug: str) -> str:
 
 
 def is_original_path(path_str: str) -> bool:
+    """Skip full-res masters outside property folders."""
     lower = path_str.lower()
+    if "properties_" in lower:
+        return False
     return "/original" in lower or "/originals/" in lower
 
 
@@ -548,6 +580,40 @@ def import_itinerary_images(source_dir: Path) -> dict[str, str]:
     return manifest
 
 
+def write_directory_image_manifest(
+    imported: dict[str, dict[str, tuple[str, str]]],
+    merge_existing: bool = True,
+) -> None:
+    """Map region|normalized-listing-name -> landscape URL for directory rows."""
+    manifest: dict[str, str] = {}
+    if merge_existing and DIRECTORY_IMAGE_MANIFEST.exists():
+        manifest = json.loads(DIRECTORY_IMAGE_MANIFEST.read_text())
+
+    for region, props in imported.items():
+        title_map = MDX_TITLE_TO_SLUG.get(region, {})
+        dir_names = DIRECTORY_LISTING_NAMES.get(region, {})
+
+        for prop_slug, (landscape, _portrait) in props.items():
+            if prop_slug == "__hero__" or not landscape:
+                continue
+
+            label = dir_names.get(prop_slug)
+            if not label:
+                for title_key, slug in title_map.items():
+                    if slug == prop_slug:
+                        label = title_key
+                        break
+
+            if not label:
+                continue
+
+            key = f"{region}|{normalize_match_text(label)}"
+            manifest[key] = landscape
+
+    DIRECTORY_IMAGE_MANIFEST.write_text(json.dumps(manifest, indent=2) + "\n")
+    print(f"\nDirectory image manifest: {len(manifest)} keys")
+
+
 def write_itinerary_manifest(
     new_entries: dict[str, str],
     merge_existing: bool = True,
@@ -673,6 +739,70 @@ def finalize_hero_imported(
     return imported
 
 
+def merge_imported(
+    target: dict[str, dict[str, tuple[str, str]]],
+    source: dict[str, dict[str, tuple[str, str]]],
+) -> None:
+    for region, props in source.items():
+        target.setdefault(region, {})
+        target[region].update(props)
+
+
+def import_region_properties_folder(
+    region: str,
+    folder: Path,
+    imported: dict[str, dict[str, tuple[str, str]]],
+) -> None:
+    """Import flat Properties/*.jpg folder for one region slug."""
+    mapping = PROPERTY_MAP.get(region, {})
+    imported.setdefault(region, {})
+    for jpg in sorted(folder.glob("*.jpg")):
+        entry = mapping.get(jpg.stem)
+        if not entry:
+            print(f"  overlay unmapped: {region}/{jpg.name}")
+            continue
+        section, prop_slug = entry
+        if prop_slug.endswith("-alt"):
+            continue
+        urls = copy_pair(jpg, region, section, prop_slug)
+        imported[region][prop_slug] = urls
+        print(f"  overlay {region}/{section}/{prop_slug}")
+
+
+def import_overlay_dirs(
+    overlay_dirs: list[Path],
+    imported: dict[str, dict[str, tuple[str, str]]],
+) -> dict[str, dict[str, tuple[str, str]]]:
+    """Apply newer property stills from partial Drive sync folders."""
+    region_slugs = set(REGION_PREFIX.values())
+
+    for overlay in overlay_dirs:
+        if not overlay.is_dir():
+            print(f"  overlay skip (missing): {overlay}")
+            continue
+
+        print(f"\nOverlay properties from {overlay}...")
+
+        if any((overlay / prefix).is_dir() for prefix in REGION_PREFIX):
+            merge_imported(imported, import_from_dir(overlay))
+            continue
+
+        for sub in sorted(overlay.iterdir()):
+            if not sub.is_dir():
+                continue
+            if sub.name in region_slugs:
+                import_region_properties_folder(sub.name, sub, imported)
+            elif sub.name.startswith("Properties"):
+                # e.g. .tmp-drive-sync/01_Oakville/Properties_... only
+                parent = overlay.parent
+                region_prefix = overlay.parent.name
+                region = REGION_PREFIX.get(region_prefix)
+                if region:
+                    import_region_properties_folder(region, overlay, imported)
+
+    return finalize_hero_imported(imported)
+
+
 def import_from_dir(source_dir: Path) -> dict[str, dict[str, tuple[str, str]]]:
     imported: dict[str, dict[str, tuple[str, str]]] = {}
     if not source_dir.is_dir():
@@ -794,7 +924,7 @@ def inject_mdx(region: str, urls_by_slug: dict[str, tuple[str, str]]) -> None:
         if not pair:
             continue
         landscape, portrait = pair
-        pattern = rf"(### [^\n]*{re.escape(title_key)}[^\n]*\n(?:- \*\*[^\n]+\*\*[^\n]*\n)*?)(?=\n### |\n## |\n# |\Z)"
+        pattern = rf"(### [^\n]*{re.escape(title_key)}[^\n]*\n(?:.*?\n)*?)(?=\n### |\n## |\n# |\Z)"
         def repl(m: re.Match[str]) -> str:
             block = m.group(1)
             if "**Image:**" in block:
@@ -856,7 +986,24 @@ def main() -> None:
         action="store_true",
         help="Copy files only; do not update region MDX image paths",
     )
+    parser.add_argument(
+        "--overlay",
+        type=Path,
+        action="append",
+        default=[],
+        metavar="DIR",
+        help="Extra folder(s) with newer Properties stills (merged after main import)",
+    )
     args = parser.parse_args()
+
+    default_overlays = [
+        ROOT / ".tmp-drive-sync",
+        ROOT / ".tmp-region-properties",
+    ]
+    overlay_dirs = list(args.overlay)
+    for path in default_overlays:
+        if path.is_dir() and path not in overlay_dirs:
+            overlay_dirs.append(path)
 
     source_dir = args.dir or ROOT / ".tmp-drive-import"
     if args.mosaic_only:
@@ -888,6 +1035,9 @@ def main() -> None:
         print(f"Importing regions from zip: {args.zip}")
         imported = import_from_zip(args.zip)
 
+    if overlay_dirs:
+        imported = import_overlay_dirs(overlay_dirs, imported)
+
     if source_dir.is_dir():
         print(f"\nRefreshing homepage mosaic from {source_dir}...")
         import_homepage_mosaic(source_dir)
@@ -895,6 +1045,8 @@ def main() -> None:
         import_region_scroll_reveals(source_dir)
         print(f"\nImporting itinerary stills from {source_dir}...")
         write_itinerary_manifest(import_itinerary_images(source_dir))
+
+    write_directory_image_manifest(imported)
 
     if not args.skip_mdx:
         print("\nUpdating MDX...")

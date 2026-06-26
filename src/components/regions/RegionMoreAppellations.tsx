@@ -2,7 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { sortRegionsSouthToNorth } from '@/data/region-order'
 import { getRegion, regions } from '@/data/regions'
+import { resetScrollToTop } from '@/lib/smooth-scroll'
 import styles from './region-more-appellations.module.css'
+
+function scrollToRegionTop(): void {
+  resetScrollToTop(null)
+}
 
 export function RegionMoreAppellations({ slug }: { slug: string }) {
   const current = getRegion(slug)
@@ -30,7 +35,12 @@ export function RegionMoreAppellations({ slug }: { slug: string }) {
         <ul className={styles.grid}>
           {others.map((region, index) => (
             <li key={region.slug} className={styles.gridItem}>
-              <Link href={`/regions/${region.slug}`} className={styles.card}>
+              <Link
+                href={`/regions/${region.slug}`}
+                className={styles.card}
+                scroll={false}
+                onClick={scrollToRegionTop}
+              >
                 <div className={styles.media}>
                   <Image
                     src={region.heroImage}
@@ -59,7 +69,12 @@ export function RegionMoreAppellations({ slug }: { slug: string }) {
         </ul>
 
         <footer className={styles.footer}>
-          <Link href="/regions" className={styles.allLink}>
+          <Link
+            href="/regions"
+            className={styles.allLink}
+            scroll={false}
+            onClick={scrollToRegionTop}
+          >
             All towns &amp; areas
             <span className={styles.allLinkArrow} aria-hidden>→</span>
           </Link>

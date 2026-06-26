@@ -25,6 +25,19 @@
   width: 104%;
   height: 112%;
   transform-origin: center top;
+  will-change: transform;
+}
+
+.panelEnhanced .imageWrap {
+  will-change: transform;
+}
+
+.nameEnhanced {
+  visibility: hidden;
+}
+
+.copyEnhanced {
+  opacity: 0;
 }
 
 .image {
@@ -223,5 +236,11 @@
   .imageWrap {
     transform: none !important;
     will-change: auto;
+  }
+
+  .nameEnhanced,
+  .copyEnhanced {
+    visibility: visible;
+    opacity: 1;
   }
 }

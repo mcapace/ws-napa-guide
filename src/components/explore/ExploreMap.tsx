@@ -28,7 +28,7 @@ import {
   urlParamToCategory,
 } from '@/lib/explore'
 import { getImageFocalPoint } from '@/lib/image-focal'
-import { useLenis } from '@/lib/smooth-scroll'
+import { useLenis, REGION_JUMP_SECTION_EVENT } from '@/lib/smooth-scroll'
 import styles from './ExploreMap.module.css'
 import { ExploreMapPin } from './ExploreMapPin'
 import { MapWheelScrollBridge } from '@/components/map/MapWheelScrollBridge'
@@ -123,6 +123,22 @@ export function ExploreMap({
   useEffect(() => {
     if (embedMode) setOverrideCategory(null)
   }, [embedMode, syncCategory])
+
+  useEffect(() => {
+    if (!embedMode) return
+
+    const onRegionJump = (event: Event) => {
+      const sectionId = (event as CustomEvent<{ sectionId: string }>).detail?.sectionId
+      if (sectionId !== 'region-explore') return
+      setEmbeddedPlace(null)
+      setScrollCenterSlug(null)
+      lastEaseSlugRef.current = null
+      if (listScrollRef.current) listScrollRef.current.scrollTop = 0
+    }
+
+    window.addEventListener(REGION_JUMP_SECTION_EVENT, onRegionJump)
+    return () => window.removeEventListener(REGION_JUMP_SECTION_EVENT, onRegionJump)
+  }, [embedMode])
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null)
   const [expandedCopySlugs, setExpandedCopySlugs] = useState<Set<string>>(() => new Set())
   const [scrollCenterSlug, setScrollCenterSlug] = useState<string | null>(null)

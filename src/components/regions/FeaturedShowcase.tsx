@@ -61,6 +61,7 @@ type PanelProps = {
   regionLabel: string
   index: number
   pins: MapPin[]
+  enhanced?: boolean
 }
 
 export function FeaturedShowcasePanel({
@@ -69,11 +70,13 @@ export function FeaturedShowcasePanel({
   regionLabel,
   index,
   pins,
+  enhanced = false,
 }: PanelProps) {
   const panelRef = useRef<HTMLElement>(null)
   const reduceMotion = useReducedMotion()
   const isInView = useInView(panelRef, { once: true, amount: 0.12 })
-  const showMotion = reduceMotion !== true && isInView
+  const useFramerMotion = !enhanced && reduceMotion !== true
+  const showMotion = useFramerMotion && isInView
 
   const imageSrc = pick.image ?? pick.imagePortrait
   const anchorRight = index % 2 === 1
@@ -85,13 +88,48 @@ export function FeaturedShowcasePanel({
   const landscapeStyle = getShowcaseImageStyle(pick.image, pick.imagePortrait, false)
   const portraitStyle = getShowcaseImageStyle(pick.image, pick.imagePortrait, true)
 
+  const copyClassName = `${styles.copy}${anchorRight ? ` ${styles.copyRight}` : ''}${enhanced ? ` ${styles.copyEnhanced}` : ''}`
+  const copyContent = (
+    <>
+      <p className={styles.eyebrow}>{eyebrow}</p>
+      <h3
+        id={`showcase-${pick.key}`}
+        className={`${styles.name}${enhanced ? ` ${styles.nameEnhanced}` : ''}`}
+        {...(enhanced ? { 'data-showcase-name': '' } : {})}
+      >
+        {pick.name}
+      </h3>
+      {blurb ? <p className={styles.blurb}>{blurb}</p> : null}
+      <div className={styles.captionRow}>
+        {pick.address ? <span className={styles.captionItem}>{pick.address}</span> : null}
+        {website ? (
+          <a
+            href={website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.captionLink}
+          >
+            {formatWebsiteLabel(website)} ↗
+          </a>
+        ) : null}
+      </div>
+      <Link href={detailHref} className={styles.cta}>
+        View {pick.name} →
+      </Link>
+    </>
+  )
+
   return (
     <article
       ref={panelRef}
-      className={`${styles.panel}${anchorRight ? ` ${styles.panelAnchorRight}` : ''}`}
+      className={`${styles.panel}${anchorRight ? ` ${styles.panelAnchorRight}` : ''}${enhanced ? ` ${styles.panelEnhanced}` : ''}`}
       aria-labelledby={`showcase-${pick.key}`}
+      {...(enhanced ? { 'data-showcase-panel': '' } : {})}
     >
-      <div className={styles.media}>
+      <div
+        className={styles.media}
+        {...(enhanced ? { 'data-showcase-media': '' } : {})}
+      >
         {imageSrc ? (
           <>
             {pick.image ? (
@@ -140,38 +178,26 @@ export function FeaturedShowcasePanel({
         />
       </div>
 
-      <motion.div
-        className={`${styles.copy}${anchorRight ? ` ${styles.copyRight}` : ''}`}
-        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-        animate={
-          showMotion || reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }
-        }
-        transition={{
-          duration: 0.55,
-          delay: reduceMotion ? 0 : showMotion ? 0.12 : 0,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-      >
-        <p className={styles.eyebrow}>{eyebrow}</p>
-        <h3 id={`showcase-${pick.key}`} className={styles.name}>{pick.name}</h3>
-        {blurb ? <p className={styles.blurb}>{blurb}</p> : null}
-        <div className={styles.captionRow}>
-          {pick.address ? <span className={styles.captionItem}>{pick.address}</span> : null}
-          {website ? (
-            <a
-              href={website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.captionLink}
-            >
-              {formatWebsiteLabel(website)} ↗
-            </a>
-          ) : null}
+      {enhanced ? (
+        <div className={copyClassName} data-showcase-copy="">
+          {copyContent}
         </div>
-        <Link href={detailHref} className={styles.cta}>
-          View {pick.name} →
-        </Link>
-      </motion.div>
+      ) : (
+        <motion.div
+          className={copyClassName}
+          initial={useFramerMotion ? { opacity: 0, y: 24 } : false}
+          animate={
+            showMotion || !useFramerMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }
+          }
+          transition={{
+            duration: 0.55,
+            delay: useFramerMotion && showMotion ? 0.12 : 0,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          {copyContent}
+        </motion.div>
+      )}
     </article>
   )
 }
@@ -182,6 +208,7 @@ type FeaturedShowcaseProps = {
   regionLabel: string
   pins: MapPin[]
   startIndex?: number
+  enhanced?: boolean
 }
 
 export function FeaturedShowcase({
@@ -190,6 +217,7 @@ export function FeaturedShowcase({
   regionLabel,
   pins,
   startIndex = 0,
+  enhanced = false,
 }: FeaturedShowcaseProps) {
   if (picks.length === 0) return null
 
@@ -203,6 +231,7 @@ export function FeaturedShowcase({
           regionLabel={regionLabel}
           index={startIndex + i}
           pins={pins}
+          enhanced={enhanced}
         />
       ))}
     </div>

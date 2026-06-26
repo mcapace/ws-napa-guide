@@ -146,6 +146,11 @@ html:has([data-region-frame]) .ws-nav-shell {
   z-index: 200;
 }
 
+/* Region jump links: align hash / scrollIntoView with sticky chrome */
+html:has([data-region-frame]) {
+  scroll-padding-top: var(--region-scroll-offset);
+}
+
 /* Native document scroll on region pages (Lenis disabled — required for sticky UI) */
 html[data-region-native-scroll],
 html[data-region-native-scroll] body {

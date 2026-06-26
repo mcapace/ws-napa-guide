@@ -129,6 +129,88 @@
   max-width: min(56ch, 100%);
 }
 
+.heroParallax {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.frame[data-region-enhanced] .heroEnhanced {
+  isolation: isolate;
+}
+
+.frame[data-region-enhanced] .heroEnhanced::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 100%, rgba(107, 28, 42, 0.22) 0%, transparent 68%),
+    radial-gradient(ellipse 60% 40% at 85% 20%, rgba(196, 148, 58, 0.08) 0%, transparent 70%);
+  mix-blend-mode: soft-light;
+}
+
+.frame[data-region-enhanced] .heroTitleEnhanced,
+.frame[data-region-enhanced] [data-scroll-marker-title],
+.frame[data-region-enhanced] [data-showcase-name] {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame[data-region-enhanced] .heroTitleEnhanced,
+  .frame[data-region-enhanced] [data-scroll-marker-title],
+  .frame[data-region-enhanced] [data-showcase-name] {
+    visibility: visible;
+  }
+
+  .frame[data-region-enhanced] .copyEnhanced {
+    opacity: 1;
+  }
+
+  .frame[data-region-enhanced] .heroScrollHint {
+    animation: none;
+  }
+}
+
+.frame[data-region-enhanced] .heroScrollHint {
+  animation: heroScrollExplore 2.8s ease-in-out infinite;
+  border-color: rgba(196, 148, 58, 0.35);
+}
+
+@keyframes heroScrollExplore {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 0 0 rgba(196, 148, 58, 0);
+  }
+  50% {
+    transform: translateY(4px);
+    box-shadow: 0 6px 24px rgba(196, 148, 58, 0.12);
+  }
+}
+
+.sectionTransitionEnhanced {
+  position: relative;
+  overflow: hidden;
+}
+
+.sectionTransitionEnhanced::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 70% 120% at 50% 50%,
+    rgba(196, 148, 58, 0.06) 0%,
+    transparent 72%
+  );
+}
+
+.sectionTransitionEnhanced .sectionTransitionRule {
+  transform-origin: center center;
+}
+
 .heroScrollHint {
   position: absolute;
   right: clamp(24px, 5vw, 48px);

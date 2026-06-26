@@ -1,5 +1,6 @@
 import type { MapPin, MapPinCategory } from '@/data/map-pins'
 import { pinsByRegion } from '@/data/map-pins'
+import regionDirectoryImages from '@/data/region-directory-images.json'
 import type { DirectoryCategory, EditorialFeature, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
 import { isEditorialListingImage, pinHasListingImage, sortExploreListPins } from '@/lib/explore'
@@ -74,6 +75,14 @@ function editorialImagePath(path?: string): string | undefined {
   return isEditorialListingImage(path) ? path!.trim() : undefined
 }
 
+const DIRECTORY_LISTING_IMAGES = regionDirectoryImages as Record<string, string>
+
+function directoryListingImage(regionSlug: string, name: string): string | undefined {
+  const key = `${regionSlug}|${normalizeName(name)}`
+  const path = DIRECTORY_LISTING_IMAGES[key]
+  return isEditorialListingImage(path) ? path.trim() : undefined
+}
+
 function stripNonEditorialThumb(pin: MapPin): MapPin {
   if (!pinHasListingImage(pin)) {
     const { thumb: _t, ...rest } = pin
@@ -96,7 +105,17 @@ function pinWithoutListingPhoto(pin: MapPin): MapPin {
 
 function applyEditorialPinFields(pin: MapPin, data: LoadedRegionMdx): MapPin {
   const feature = editorialFeatureForName(data, pin.name, pin.category)
-  if (!feature) return pinWithoutListingPhoto(pin)
+  if (!feature) {
+    const directoryThumb = directoryListingImage(pin.region, pin.name)
+    if (directoryThumb) {
+      return {
+        ...pin,
+        thumb: directoryThumb,
+        images: [directoryThumb],
+      }
+    }
+    return pinWithoutListingPhoto(pin)
+  }
 
   const bodyPlain = feature.bodyPlain?.trim()
   const excerpt = bodyPlain ? editorialExcerpt(bodyPlain) : pin.excerpt

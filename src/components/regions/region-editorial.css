@@ -249,6 +249,10 @@
   border-radius: 1px;
 }
 
+.region-section-divider--enhanced .region-section-divider__rule {
+  transform-origin: center center;
+}
+
 .region-section-divider__label {
   flex-shrink: 0;
   padding: 0 clamp(14px, 2.5vw, 28px);
@@ -705,7 +709,7 @@ a.tasting-directory-url:hover {
 .region-chapter[id],
 #region-map,
 #region-story {
-  scroll-margin-top: calc(var(--ws-site-header-height, 72px) + 56px);
+  scroll-margin-top: var(--region-scroll-offset, calc(var(--ws-site-header-height, 72px) + 56px));
 }
 
 .region-chapter--taste,

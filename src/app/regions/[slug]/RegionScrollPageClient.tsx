@@ -12,8 +12,10 @@ import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { getImageFocalPoint } from '@/lib/image-focal'
 import { REGION_CENTERS } from '@/lib/mapbox'
-import { useLenis, scrollToTarget, enableRegionNativeScroll } from '@/lib/smooth-scroll'
+import { useLenis, scrollToTarget, enableRegionNativeScroll, getRegionScrollJumpOffset, dispatchRegionJumpSection, resetScrollToTop } from '@/lib/smooth-scroll'
 import { useRegionDocumentScrollBridge } from '@/lib/region-document-scroll'
+import { RegionScrollEnhancements } from '@/components/regions/RegionScrollEnhancements'
+import { isRegionScrollEnhanced } from '@/lib/region-scroll-enhanced'
 import { replaceUrlQuery } from '@/lib/update-url-query'
 import type { Itinerary } from '@/lib/types'
 import { RegionStoryPanel, type RegionTab } from './RegionPageClient'
@@ -70,18 +72,12 @@ type ScrollSectionMarkerProps = {
   title: string
   eyebrow?: string
   dek?: string
+  enhanced?: boolean
 }
 
 function regionScrollSpyOffset(): number {
   if (typeof document === 'undefined') return 132
-  const root = document.documentElement
-  const header = parseFloat(
-    getComputedStyle(root).getPropertyValue('--ws-site-header-height').trim(),
-  )
-  const tabs = parseFloat(
-    getComputedStyle(root).getPropertyValue('--region-tab-bar-height').trim(),
-  )
-  return (Number.isFinite(header) ? header : 72) + (Number.isFinite(tabs) ? tabs : 52) + 12
+  return getRegionScrollJumpOffset(0)
 }
 
 function sectionCoversViewportFraction(id: string, minFraction = 0.3): boolean {
@@ -132,13 +128,34 @@ function pickActiveJumpSection(links: JumpLink[]): string {
   return bestId
 }
 
-function ScrollSectionMarker({ eyebrow, title, dek, variant }: ScrollSectionMarkerProps) {
+function ScrollSectionMarker({
+  eyebrow,
+  title,
+  dek,
+  variant,
+  enhanced = false,
+}: ScrollSectionMarkerProps) {
   if (variant === 'transition') {
     return (
-      <div className={styles.sectionTransition} aria-hidden>
-        <span className={styles.sectionTransitionRule} />
-        <span className={styles.sectionTransitionLabel}>{title}</span>
-        <span className={styles.sectionTransitionRule} />
+      <div
+        className={`${styles.sectionTransition}${enhanced ? ` ${styles.sectionTransitionEnhanced}` : ''}`}
+        aria-hidden
+        {...(enhanced ? { 'data-section-transition': '' } : {})}
+      >
+        <span
+          className={styles.sectionTransitionRule}
+          {...(enhanced ? { 'data-section-transition-rule': '' } : {})}
+        />
+        <span
+          className={styles.sectionTransitionLabel}
+          {...(enhanced ? { 'data-section-transition-label': '' } : {})}
+        >
+          {title}
+        </span>
+        <span
+          className={styles.sectionTransitionRule}
+          {...(enhanced ? { 'data-section-transition-rule': '' } : {})}
+        />
       </div>
     )
   }
@@ -158,12 +175,25 @@ function ScrollSectionMarker({ eyebrow, title, dek, variant }: ScrollSectionMark
       className={`${styles.scrollMarker} ${
         variant === 'light' ? styles.scrollMarkerLight : styles.scrollMarkerDark
       }`}
+      {...(enhanced ? { 'data-scroll-marker': '' } : {})}
     >
       <div className={styles.scrollMarkerInner}>
         <div className={styles.scrollMarkerRule} aria-hidden />
         {eyebrow ? <p className={styles.scrollMarkerEyebrow}>{eyebrow}</p> : null}
-        <h2 className={styles.scrollMarkerTitle}>{title}</h2>
-        {dek ? <p className={styles.scrollMarkerDek}>{dek}</p> : null}
+        <h2
+          className={styles.scrollMarkerTitle}
+          {...(enhanced ? { 'data-scroll-marker-title': '' } : {})}
+        >
+          {title}
+        </h2>
+        {dek ? (
+          <p
+            className={styles.scrollMarkerDek}
+            {...(enhanced ? { 'data-scroll-marker-dek': '' } : {})}
+          >
+            {dek}
+          </p>
+        ) : null}
       </div>
     </div>
   )
@@ -202,6 +232,7 @@ function RegionScrollPageClientContent({
 
   const regionCenter = REGION_CENTERS[slug]?.center ?? [-122.4194, 38.5]
   const regionName = frontmatter.region
+  const scrollEnhanced = isRegionScrollEnhanced(slug)
 
   const scrollToSection = useCallback(
     (sectionId: string) => {
@@ -218,14 +249,21 @@ function RegionScrollPageClientContent({
   const jumpTo = useCallback(
     (link: JumpLink) => {
       setActiveSectionId(link.id)
+      dispatchRegionJumpSection(link.id)
       scrollToSection(link.id)
 
       const params = new URLSearchParams(window.location.search)
       if (link.tab === 'story') {
         params.delete('tab')
         params.delete('itinerary')
+        params.delete('place')
+        params.delete('category')
       } else {
         params.set('tab', link.tab)
+        if (link.tab === 'explore') {
+          params.delete('place')
+          params.delete('category')
+        }
         if (link.tab === 'itinerary' && selectedItineraryId) {
           params.set('itinerary', selectedItineraryId)
         } else {
@@ -259,6 +297,17 @@ function RegionScrollPageClientContent({
 
   useEffect(() => enableRegionNativeScroll(lenis), [lenis])
   useRegionDocumentScrollBridge()
+
+  /** New region slug: always open at hero (App Router can preserve scroll within shared layouts). */
+  useEffect(() => {
+    initialScrollDone.current = false
+    resetScrollToTop(lenis)
+    const raf = requestAnimationFrame(() => {
+      resetScrollToTop(lenis)
+      requestAnimationFrame(() => resetScrollToTop(lenis))
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [slug, lenis])
 
   useEffect(() => {
     const onScroll = () => {
@@ -294,6 +343,7 @@ function RegionScrollPageClientContent({
           : 'region-story'
 
     setActiveSectionId(sectionId)
+    dispatchRegionJumpSection(sectionId)
     const id = window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => scrollToSection(sectionId))
     })
@@ -339,35 +389,50 @@ function RegionScrollPageClientContent({
       data-site-surface="dark"
       data-region-frame=""
       data-scroll-unified=""
+      {...(scrollEnhanced ? { 'data-region-enhanced': '' } : {})}
       {...(hasItinerary && itineraries.length > 1 ? { 'data-has-itinerary-selector': '' } : {})}
     >
-      <header className={styles.hero}>
-        <Image
-          src={frontmatter.heroImage}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className={`${styles.heroImage} ${styles.heroLandscape}`}
-          style={{ objectPosition: heroLandscapeFocal }}
-        />
-        {frontmatter.heroImagePortrait ? (
+      <RegionScrollEnhancements enabled={scrollEnhanced} />
+      <header
+        className={`${styles.hero}${scrollEnhanced ? ` ${styles.heroEnhanced}` : ''}`}
+        {...(scrollEnhanced ? { 'data-hero-parallax-wrap': '' } : {})}
+      >
+        <div
+          className={styles.heroParallax}
+          {...(scrollEnhanced ? { 'data-hero-parallax': '' } : {})}
+        >
           <Image
-            src={frontmatter.heroImagePortrait}
+            src={frontmatter.heroImage}
             alt=""
             fill
             priority
             sizes="100vw"
-            className={`${styles.heroImage} ${styles.heroPortrait}`}
-            style={{ objectPosition: heroPortraitFocal }}
+            className={`${styles.heroImage} ${styles.heroLandscape}`}
+            style={{ objectPosition: heroLandscapeFocal }}
           />
-        ) : null}
+          {frontmatter.heroImagePortrait ? (
+            <Image
+              src={frontmatter.heroImagePortrait}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className={`${styles.heroImage} ${styles.heroPortrait}`}
+              style={{ objectPosition: heroPortraitFocal }}
+            />
+          ) : null}
+        </div>
         <div className={styles.heroOverlay} aria-hidden />
         <div className={styles.heroCopy}>
           <p className={styles.heroByline}>
             By {frontmatter.byline} · {frontmatter.issue}
           </p>
-          <h1 className={styles.heroTitle}>{frontmatter.region}</h1>
+          <h1
+            className={`${styles.heroTitle}${scrollEnhanced ? ` ${styles.heroTitleEnhanced}` : ''}`}
+            {...(scrollEnhanced ? { 'data-hero-title': '' } : {})}
+          >
+            {frontmatter.region}
+          </h1>
           {frontmatter.exclusiveToOnline ? (
             <p className={styles.heroAva}>Online exclusive</p>
           ) : (
@@ -375,7 +440,12 @@ function RegionScrollPageClientContent({
           )}
           <p className={styles.heroTagline}>{frontmatter.tagline}</p>
           {frontmatter.dek ? (
-            <p className={styles.heroDeck}>{frontmatter.dek}</p>
+            <p
+              className={styles.heroDeck}
+              {...(scrollEnhanced ? { 'data-hero-deck': '' } : {})}
+            >
+              {frontmatter.dek}
+            </p>
           ) : null}
         </div>
         {showScrollHint ? (
@@ -385,13 +455,15 @@ function RegionScrollPageClientContent({
             onClick={() => jumpTo(jumpLinks[0])}
             aria-label="Scroll to article"
           >
-            <span className={styles.heroScrollHintLabel}>Scroll to read</span>
+            <span className={styles.heroScrollHintLabel}>
+              {scrollEnhanced ? 'Scroll to explore' : 'Scroll to read'}
+            </span>
             <span className={styles.heroScrollHintIcon} aria-hidden>↓</span>
           </button>
         ) : null}
       </header>
 
-      <nav className={styles.jumpNav} aria-label="Page sections">
+      <nav className={styles.jumpNav} aria-label="Page sections" data-region-jump-nav="">
         <div className={styles.jumpNavInner}>
           <div className={styles.jumpNavGroup}>
             {storyLinks.map((link) => (
@@ -441,6 +513,7 @@ function RegionScrollPageClientContent({
                   ? `${phrases.taste}. Scroll for long-form profiles — the alphabetical directory follows.`
                   : 'Editorial profiles from the guide. The full alphabetical directory follows below.'
               }
+              enhanced={scrollEnhanced}
             />
           ) : null}
           <div className={styles.showcaseRegion}>
@@ -450,9 +523,14 @@ function RegionScrollPageClientContent({
               regionSlug={slug}
               regionLabel={regionName}
               pins={pins}
+              showcaseEnhanced={scrollEnhanced}
             />
           </div>
-          <ScrollSectionMarker variant="transition" title="The full list" />
+          <ScrollSectionMarker
+            variant="transition"
+            title="The full list"
+            enhanced={scrollEnhanced}
+          />
         </section>
 
         <section id="region-explore" className={`${styles.scrollSection} ${styles.scrollSectionExplore}`}>
@@ -461,6 +539,7 @@ function RegionScrollPageClientContent({
             eyebrow="Quick reference"
             title="The full list"
             dek={`Filter tastings, dining, or hotels — or pan the map. Every listing in ${regionName}, sorted alphabetically.`}
+            enhanced={scrollEnhanced}
           />
           <div
             className={`${styles.exploreFlowWrap} region-explore-embed-panel`}
@@ -492,7 +571,11 @@ function RegionScrollPageClientContent({
                   Continue to Editor&apos;s picks ↓
                 </button>
               </div>
-              <ScrollSectionMarker variant="transition" title="Editor's picks" />
+              <ScrollSectionMarker
+                variant="transition"
+                title="Editor's picks"
+                enhanced={scrollEnhanced}
+              />
             </>
           ) : (
             <div className={styles.scrollContinueCta}>
@@ -510,6 +593,7 @@ function RegionScrollPageClientContent({
               eyebrow="Editor's picks"
               title={phrases.sidebar ?? `Plan your day in ${regionName}`}
               dek="Half-day routes with map and stops — scroll through each leg or open the full route in Google Maps."
+              enhanced={scrollEnhanced}
             />
             <div
               className={`${styles.itineraryFlowWrap} region-itinerary-embed-panel`}
@@ -530,7 +614,11 @@ function RegionScrollPageClientContent({
                 More towns & areas below ↓
               </button>
             </div>
-            <ScrollSectionMarker variant="transition" title="More towns & areas" />
+            <ScrollSectionMarker
+              variant="transition"
+              title="More towns & areas"
+              enhanced={scrollEnhanced}
+            />
           </section>
         ) : null}
       </div>

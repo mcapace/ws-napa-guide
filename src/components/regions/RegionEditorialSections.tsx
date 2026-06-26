@@ -92,12 +92,14 @@ export function RegionEditorialSections({
   regionSlug,
   regionLabel,
   pins = [],
+  showcaseEnhanced = false,
 }: {
   data: LoadedRegionMdx
   layout?: 'classic' | 'refined' | 'showcase'
   regionSlug?: string
   regionLabel?: string
   pins?: MapPin[]
+  showcaseEnhanced?: boolean
 }) {
   const phrases = data.frontmatter.marqueePhrases ?? {}
   const refined = layout === 'refined'
@@ -161,7 +163,11 @@ export function RegionEditorialSections({
     <div className={showcase ? 'region-guide-body region-guide-body--showcase' : 'region-guide-body'}>
       {hasTaste && (
         <section id="region-taste" className={`${chapterClass} region-chapter--taste`}>
-          <SectionDivider label={phrases.taste ?? 'Where to taste'} compact={refined || showcase} />
+          <SectionDivider
+            label={phrases.taste ?? 'Where to taste'}
+            compact={refined || showcase}
+            enhanced={showcase && showcaseEnhanced}
+          />
           {showcase ? (
             <FeaturedShowcase
               picks={tastePicks.map((p) => p.showcase)}
@@ -169,6 +175,7 @@ export function RegionEditorialSections({
               regionLabel={label}
               pins={pins}
               startIndex={tasteStart}
+              enhanced={showcaseEnhanced}
             />
           ) : refined ? (
             <RegionChapterRefinedPicks stories={tastePicks} variant="taste" />
@@ -179,7 +186,11 @@ export function RegionEditorialSections({
       )}
       {hasEat && (
         <section id="region-eat" className={`${chapterClass} region-chapter--eat`}>
-          <SectionDivider label={phrases.eat ?? 'Where to eat'} compact={refined || showcase} />
+          <SectionDivider
+            label={phrases.eat ?? 'Where to eat'}
+            compact={refined || showcase}
+            enhanced={showcase && showcaseEnhanced}
+          />
           {showcase ? (
             <>
               {eatPicks.length > 0 ? (
@@ -189,6 +200,7 @@ export function RegionEditorialSections({
                   regionLabel={label}
                   pins={pins}
                   startIndex={eatStart}
+                  enhanced={showcaseEnhanced}
                 />
               ) : null}
               {coffeeSnackPicks.length > 0 ? (
@@ -196,6 +208,7 @@ export function RegionEditorialSections({
                   <SectionDivider
                     label="Breakfast, coffee & snacks"
                     compact={refined || showcase}
+                    enhanced={showcase && showcaseEnhanced}
                   />
                   <FeaturedShowcase
                     picks={coffeeSnackPicks.map((p) => p.showcase)}
@@ -203,6 +216,7 @@ export function RegionEditorialSections({
                     regionLabel={label}
                     pins={pins}
                     startIndex={eatStart + eatPicks.length}
+                    enhanced={showcaseEnhanced}
                   />
                 </>
               ) : null}
@@ -229,7 +243,11 @@ export function RegionEditorialSections({
       )}
       {hasStay && (
         <section id="region-stay" className={`${chapterClass} region-chapter--stay`}>
-          <SectionDivider label={phrases.stay ?? 'Where to stay'} compact={refined || showcase} />
+          <SectionDivider
+            label={phrases.stay ?? 'Where to stay'}
+            compact={refined || showcase}
+            enhanced={showcase && showcaseEnhanced}
+          />
           {showcase ? (
             <FeaturedShowcase
               picks={stayPicks.map((p) => p.showcase)}
@@ -237,6 +255,7 @@ export function RegionEditorialSections({
               regionLabel={label}
               pins={pins}
               startIndex={stayStart}
+              enhanced={showcaseEnhanced}
             />
           ) : refined ? (
             <RegionChapterRefinedPicks stories={stayPicks} variant="stay" />
