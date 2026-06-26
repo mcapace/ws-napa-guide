@@ -325,6 +325,13 @@ DIRECTORY_LISTING_NAMES: dict[str, dict[str, str]] = {
         "plumpjack-estate": "PlumpJack Estate Winery",
         "promontory-wine": "Promontory Wine",
         "turnbull-wine-cellars": "Turnbull Wine Cellars",
+        "cardinale": "Cardinale Winery",
+        "far-niente": "Far Niente Winery / Bella Union Winery",
+        "nickel-and-nickel": "Nickel & Nickel",
+        "rudd-estate": "Rudd Estate / Crossroads House",
+        "brix": "Brix",
+        "mustards-grill": "Mustards Grill",
+        "oakville-grocery": "Oakville Grocery",
     },
 }
 

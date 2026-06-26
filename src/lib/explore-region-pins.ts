@@ -23,8 +23,9 @@ function editorialExcerpt(text: string): string {
 function normalizeName(name: string): string {
   return name
     .toLowerCase()
-    .replace(/\s+/g, ' ')
     .replace(/[’']/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim()
 }
 
@@ -78,9 +79,20 @@ function editorialImagePath(path?: string): string | undefined {
 const DIRECTORY_LISTING_IMAGES = regionDirectoryImages as Record<string, string>
 
 function directoryListingImage(regionSlug: string, name: string): string | undefined {
-  const key = `${regionSlug}|${normalizeName(name)}`
-  const path = DIRECTORY_LISTING_IMAGES[key]
-  return isEditorialListingImage(path) ? path.trim() : undefined
+  const normalized = normalizeName(name)
+  const exactKey = `${regionSlug}|${normalized}`
+  const exact = DIRECTORY_LISTING_IMAGES[exactKey]
+  if (isEditorialListingImage(exact)) return exact.trim()
+
+  const prefix = `${regionSlug}|`
+  for (const [key, path] of Object.entries(DIRECTORY_LISTING_IMAGES)) {
+    if (!key.startsWith(prefix)) continue
+    const manifestLabel = key.slice(prefix.length)
+    if (namesOverlap(manifestLabel, normalized) || namesOverlap(manifestLabel, name)) {
+      if (isEditorialListingImage(path)) return path.trim()
+    }
+  }
+  return undefined
 }
 
 function stripNonEditorialThumb(pin: MapPin): MapPin {
@@ -104,9 +116,9 @@ function pinWithoutListingPhoto(pin: MapPin): MapPin {
 }
 
 function applyEditorialPinFields(pin: MapPin, data: LoadedRegionMdx): MapPin {
+  const directoryThumb = directoryListingImage(pin.region, pin.name)
   const feature = editorialFeatureForName(data, pin.name, pin.category)
   if (!feature) {
-    const directoryThumb = directoryListingImage(pin.region, pin.name)
     if (directoryThumb) {
       return {
         ...pin,
@@ -123,7 +135,7 @@ function applyEditorialPinFields(pin: MapPin, data: LoadedRegionMdx): MapPin {
     bodyPlain && bodyPlain.length > excerpt.replace(/…$/, '').trim().length
       ? bodyPlain
       : undefined
-  const thumb = editorialImagePath(feature.image)
+  const thumb = directoryThumb ?? editorialImagePath(feature.image)
 
   return {
     ...pin,
