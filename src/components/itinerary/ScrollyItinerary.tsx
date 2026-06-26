@@ -261,9 +261,14 @@ export default function ScrollyItinerary({
         })
       },
       {
-        threshold: viewportSync ? 0.45 : 0.55,
+        threshold: embedMode && scrollRoot ? 0.3 : viewportSync ? 0.45 : 0.55,
         root: scrollRoot ?? undefined,
-        rootMargin: viewportSync ? '-10% 0px -22% 0px' : '-12% 0px -28% 0px',
+        rootMargin:
+          embedMode && scrollRoot
+            ? '-6% 0px -6% 0px'
+            : viewportSync
+              ? '-10% 0px -22% 0px'
+              : '-12% 0px -28% 0px',
       },
     )
 
@@ -531,7 +536,7 @@ export default function ScrollyItinerary({
                             src={stop.image}
                             alt=""
                             fill
-                            sizes="140px"
+                            sizes="(max-width: 768px) 40vw, 200px"
                             className={styles.stepThumbImg}
                             style={{ objectPosition: getShowcaseFocalPoint(stop.image) }}
                           />
