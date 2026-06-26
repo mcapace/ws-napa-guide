@@ -569,7 +569,11 @@ export function ExploreMap({
         </button>
       </div>
 
-      <div className={`${styles.exploreGrid}${embedMode ? ' explore-embed-grid' : ''}${pageFlow ? ' explore-grid' : ''}`}>
+      <div
+        className={`${styles.exploreGrid}${embedMode ? ' explore-embed-grid' : ''}${
+          pageFlow ? ' explore-grid region-split-grid' : ''
+        }`}
+      >
         <div className={`${styles.listColumn}${pageFlow ? ' explore-list-column' : ''}`}>
           <div className={`${styles.filtersSticky}${pageFlow ? ' explore-filters-sticky' : ''}`}>
             {routeSlugs.length > 0 ? (
@@ -752,7 +756,9 @@ export function ExploreMap({
               ← Back to list
             </button>
           )}
-          <MapWheelScrollBridge className={styles.mapWrap}>
+          <MapWheelScrollBridge
+            className={`${styles.mapWrap}${pageFlow ? ' explore-map-canvas' : ''}`}
+          >
             {mapMounted ? (
               <Map
               ref={mapRef}

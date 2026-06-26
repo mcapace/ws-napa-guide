@@ -1186,6 +1186,81 @@
   background: var(--ink);
 }
 
+/* Unified scroll: directory + itinerary share column split and sticky map height */
+.frame[data-scroll-unified] .region-split-panel {
+  overflow: visible;
+}
+
+.frame[data-scroll-unified] .region-split-panel :global(.region-split-grid) {
+  display: grid !important;
+  grid-template-columns: minmax(0, var(--region-split-list)) minmax(0, var(--region-split-map)) !important;
+  align-items: start !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
+.frame[data-scroll-unified] .region-split-panel :global(.explore-page-flow),
+.frame[data-scroll-unified] .region-split-panel :global([data-explore-page-flow]),
+.frame[data-scroll-unified] .region-split-panel :global(.scrolly-page-flow),
+.frame[data-scroll-unified] .region-split-panel :global([data-scrolly-page-flow]) {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.frame[data-scroll-unified] .region-split-panel :global(.explore-list-column),
+.frame[data-scroll-unified] .region-split-panel :global(.scrolly-list-column) {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  min-width: 0;
+}
+
+.frame[data-scroll-unified] .region-split-panel :global(.explore-list-scroll) {
+  overflow: visible !important;
+  overflow-y: visible !important;
+  flex: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.frame[data-scroll-unified] .region-split-panel :global(.explore-filters-sticky),
+.frame[data-scroll-unified] .region-split-panel :global(.selector-in-column) {
+  position: sticky;
+  top: calc(var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px));
+  z-index: 8;
+}
+
+.frame[data-scroll-unified] .region-split-panel :global(.explore-filters-sticky) {
+  box-shadow: 0 -8px 0 8px #1a1612;
+}
+
+.frame[data-scroll-unified] .region-split-panel :global(.selector-in-column) {
+  box-shadow: 0 -8px 0 8px #1a1612;
+}
+
+.frame[data-scroll-unified] .region-split-panel :global(.explore-map-panel),
+.frame[data-scroll-unified] .region-split-panel :global([data-explore-map-panel]),
+.frame[data-scroll-unified] .region-split-panel :global(.scrolly-map-panel),
+.frame[data-scroll-unified] .region-split-panel :global([data-scrolly-map-panel]) {
+  position: sticky !important;
+  top: var(--region-map-sticky-top) !important;
+  height: min(75vh, var(--region-map-sticky-max-height)) !important;
+  min-height: 480px !important;
+  align-self: start !important;
+  z-index: 4;
+}
+
+.frame[data-scroll-unified] .region-split-panel :global(.explore-map-canvas),
+.frame[data-scroll-unified] .region-split-panel :global(.scrolly-map-stage),
+.frame[data-scroll-unified] .region-split-panel :global(.scrolly-map-canvas) {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
 /* Split-panel embeds: fixed height, list/story scroll inside, map pinned */
 .frame[data-scroll-unified] .exploreFlowWrap.region-explore-embed-panel,
 .frame[data-scroll-unified] .itineraryFlowWrap.region-itinerary-embed-panel {

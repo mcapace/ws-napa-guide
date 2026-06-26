@@ -189,6 +189,29 @@ html[data-region-native-scroll] body {
   max-height: none !important;
 }
 
+/* Unified scroll: directory + itinerary pageFlow panels (not trapped embed height) */
+[data-scroll-unified] .region-split-panel :global(.region-split-grid) {
+  grid-template-columns: minmax(0, var(--region-split-list, 45%)) minmax(
+      0,
+      var(--region-split-map, 55%)
+    ) !important;
+}
+
+[data-scroll-unified] .region-split-panel :global(.explore-map-panel),
+[data-scroll-unified] .region-split-panel :global([data-explore-map-panel]),
+[data-scroll-unified] .region-split-panel :global(.scrolly-map-panel),
+[data-scroll-unified] .region-split-panel :global([data-scrolly-map-panel]) {
+  height: min(75vh, var(--region-map-sticky-max-height)) !important;
+  min-height: 480px !important;
+}
+
+[data-scroll-unified] .region-split-panel :global(.explore-map-canvas),
+[data-scroll-unified] .region-split-panel :global(.scrolly-map-stage),
+[data-scroll-unified] .region-split-panel :global(.scrolly-map-canvas) {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
 /* Let wheel events chain to the page when embed lists hit scroll edges */
 [data-scroll-unified] .explore-embed-list-scroll,
 [data-scroll-unified] .scrolly-embed-story-scroll {

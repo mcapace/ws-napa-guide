@@ -429,7 +429,7 @@ export default function ScrollyItinerary({
 
       <div
         className={`${styles.layout}${embedMode ? ` ${styles.layoutEmbed}` : ''}${
-          pageFlow ? ` ${styles.layoutPageFlow} scrolly-grid` : ''
+          pageFlow ? ` ${styles.layoutPageFlow} scrolly-grid region-split-grid` : ''
         }`}
       >
         <div
@@ -574,7 +574,7 @@ export default function ScrollyItinerary({
           }`}
           data-scrolly-map-panel={pageFlow ? true : undefined}
         >
-          <div className={styles.mapSticky}>
+          <div className={`${styles.mapSticky}${pageFlow ? ' scrolly-map-stage' : ''}`}>
             {summaryText ? (
               <div className={styles.summaryBar}>
                 <span className={styles.summaryIcon} aria-hidden>
@@ -587,7 +587,9 @@ export default function ScrollyItinerary({
               </div>
             ) : null}
 
-            <MapWheelScrollBridge className={styles.mapCanvas}>
+            <MapWheelScrollBridge
+              className={`${styles.mapCanvas}${pageFlow ? ' scrolly-map-canvas' : ''}`}
+            >
               {MAPBOX_TOKEN ? (
                 <Map
                   ref={mapRef}
