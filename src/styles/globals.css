@@ -194,7 +194,8 @@ html[data-region-native-scroll] body {
   align-items: stretch !important;
 }
 
-[data-scroll-unified] [data-region-embed-panel] .layoutEmbed {
+[data-scroll-unified] [data-region-embed-panel] .layoutEmbed,
+[data-scroll-unified] [data-region-embed-panel] .scrolly-embed-grid {
   flex: 1 !important;
   height: 100% !important;
   min-height: 0 !important;

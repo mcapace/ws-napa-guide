@@ -428,7 +428,7 @@ export default function ScrollyItinerary({
       {!selectorInListColumn ? itinerarySelector : null}
 
       <div
-        className={`${styles.layout}${embedMode ? ` ${styles.layoutEmbed} region-split-grid` : ''}${
+        className={`${styles.layout}${embedMode ? ` ${styles.layoutEmbed} scrolly-embed-grid region-split-grid` : ''}${
           pageFlow ? ` ${styles.layoutPageFlow} scrolly-grid region-split-grid` : ''
         }`}
       >

@@ -1264,6 +1264,7 @@
 /* Embed split panels: trapped list scroll + matched map column height */
 .frame[data-scroll-unified] .region-split-panel[data-region-embed-panel] :global(.region-split-grid),
 .frame[data-scroll-unified] .region-split-panel[data-region-embed-panel] :global(.explore-embed-grid),
+.frame[data-scroll-unified] .region-split-panel[data-region-embed-panel] :global(.scrolly-embed-grid),
 .frame[data-scroll-unified] .region-split-panel[data-region-embed-panel] :global(.layoutEmbed) {
   display: grid !important;
   grid-template-columns: minmax(0, var(--region-split-list)) minmax(0, var(--region-split-map)) !important;
