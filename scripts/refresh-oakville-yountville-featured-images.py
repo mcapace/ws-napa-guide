@@ -26,7 +26,21 @@ def resolve_drive_root() -> Path:
         "Drive extract missing. Sync 01_Oakville into .tmp-drive-sync first."
     )
 
-# Deliverable Drive stems (Properties folder, not Originals)
+OAKVILLE_16X9_DIR = ROOT / ".tmp-oakville-16x9"
+OAKVILLE_16X9_DRIVE_URL = (
+    "https://drive.google.com/drive/folders/1rvgzk5npAUUHSUpnAmbcL3n-2qe_Zq1U"
+)
+
+# Canonical 16×9 featured stills (oakville 16x9 Drive folder)
+OAKVILLE_16X9: dict[str, tuple[str, str]] = {
+    "cardinale.jpg": ("wineries", "oakville-winery-cardinale"),
+    "FarNiente.jpg": ("wineries", "oakville-winery-far-niente"),
+    "NickelNickel.jpg": ("wineries", "oakville-winery-nickel-and-nickel"),
+    "Rudd.jpg": ("wineries", "oakville-winery-rudd-estate"),
+    "Brix.jpg": ("restaurants", "oakville-restaurant-brix"),
+    "mustards.jpg": ("restaurants", "oakville-restaurant-mustards-grill"),
+    "Oakville_Grocery.jpg": ("restaurants", "oakville-restaurant-oakville-grocery"),
+}
 OAKVILLE_DELIVERABLE: dict[str, tuple[str, str]] = {
     "Oakville_Cardinale": ("wineries", "oakville-winery-cardinale"),
     "Oakville_FarNiente": ("wineries", "oakville-winery-far-niente"),
@@ -74,6 +88,21 @@ YOUNTVILLE_ORIGINALS: dict[str, tuple[str, str]] = {
 }
 
 
+def import_oakville_16x9(folder: Path) -> int:
+    images = ROOT / "public" / "images" / "oakville"
+    updated = 0
+    for filename, (section, slug) in OAKVILLE_16X9.items():
+        src = folder / filename
+        if not src.is_file():
+            continue
+        landscape = images / section / f"{slug}-landscape.jpg"
+        portrait = images / section / f"{slug}-portrait.jpg"
+        copy_featured_pair(src, landscape, portrait, top_bias=0.0)
+        print(f"  oakville/{section}/{slug} (16×9: {filename})")
+        updated += 1
+    return updated
+
+
 def import_deliverables(region: str, mapping: dict[str, tuple[str, str]], props_dir: Path) -> int:
     images = ROOT / "public" / "images" / region
     updated = 0
@@ -116,13 +145,26 @@ def main() -> None:
     oak_props = drive_root / "01_Oakville" / "Properties_(featured_wineries_restaurants_hotels)"
     yt_props = drive_root / "02_Yountville" / "Properties_(featured_wineries_restaurants_hotels)"
 
-    print("Oakville deliverables...")
-    o1 = import_deliverables("oakville", OAKVILLE_DELIVERABLE, oak_props)
+    o0 = 0
+    o1 = 0
+    o2 = 0
+
+    if OAKVILLE_16X9_DIR.is_dir():
+        print(f"Oakville 16×9 featured ({OAKVILLE_16X9_DRIVE_URL})...")
+        o0 = import_oakville_16x9(OAKVILLE_16X9_DIR)
+    else:
+        print("Oakville deliverables...")
+        o1 = import_deliverables("oakville", OAKVILLE_DELIVERABLE, oak_props)
+        print("Oakville originals...")
+        o2 = import_originals("oakville", OAKVILLE_ORIGINALS, oak_props / "Originals")
+        print(
+            f"Tip: download canonical 16×9 stills with "
+            f"python3 -m gdown --folder {OAKVILLE_16X9_DRIVE_URL} "
+            f"-O {OAKVILLE_16X9_DIR.name}"
+        )
+
     print("Yountville deliverables...")
     y1 = import_deliverables("yountville", YOUNTVILLE_DELIVERABLE, yt_props)
-
-    print("Oakville originals...")
-    o2 = import_originals("oakville", OAKVILLE_ORIGINALS, oak_props / "Originals")
     print("Yountville originals...")
     y2 = import_originals(
         "yountville",
@@ -131,7 +173,7 @@ def main() -> None:
     )
 
     print(
-        f"\nUpdated oakville: {o1 + o2} pairs, yountville: {y1 + y2} pairs "
+        f"\nUpdated oakville: {o0 + o1 + o2} pairs, yountville: {y1 + y2} pairs "
         f"(master list picks up featured MDX thumbnails automatically)."
     )
 
