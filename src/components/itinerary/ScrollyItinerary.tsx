@@ -445,7 +445,7 @@ export default function ScrollyItinerary({
             data-lenis-prevent={embedMode ? true : undefined}
             className={embedMode ? `${styles.storyScroll} scrolly-embed-story-scroll` : undefined}
           >
-            <div className={styles.storyColumn}>
+            <div className={`${styles.storyColumn}${embedMode ? ` ${styles.storyColumnEmbed}` : ''}`}>
               {showCollectionHeader && embedMode ? (
                 <header className={styles.collectionHeader}>
                   <p className={styles.eyebrow}>{formatEyebrow(itinerary, regionName)}</p>
@@ -467,15 +467,19 @@ export default function ScrollyItinerary({
                   ) : null}
                 </header>
               ) : null}
-              <header className={styles.storyHeader}>
-                {!showCollectionHeader ? (
+              <header
+                className={`${styles.storyHeader}${embedMode ? ` ${styles.storyHeaderEmbed}` : ''}`}
+              >
+                {!showCollectionHeader && !(embedMode && hideSeriesHeader) ? (
                   <p className={styles.eyebrow}>{formatEyebrow(itinerary, regionName)}</p>
                 ) : null}
-                <h2 className={styles.title}>{itinerary.title}</h2>
+                <h2 className={`${styles.title}${embedMode ? ` ${styles.titleEmbed}` : ''}`}>
+                  {itinerary.title}
+                </h2>
                 {itinerary.sectionLabel ? (
                   <p className={styles.sectionLabel}>{itinerary.sectionLabel}</p>
                 ) : null}
-                {!showCollectionHeader && itinerary.byline ? (
+                {!showCollectionHeader && itinerary.byline && !embedMode ? (
                   <p className={styles.byline}>
                     By {itinerary.byline}
                     {itinerary.issue ? ` · ${itinerary.issue}` : ''}
@@ -487,9 +491,13 @@ export default function ScrollyItinerary({
                       <p
                         key={index}
                         className={
-                          index === 0 && introParagraphs.length > 1
-                            ? styles.introLead
-                            : styles.introParagraph
+                          embedMode
+                            ? index === 0
+                              ? styles.introLeadEmbed
+                              : styles.introParagraphEmbed
+                            : index === 0 && introParagraphs.length > 1
+                              ? styles.introLead
+                              : styles.introParagraph
                         }
                       >
                         {paragraph}
@@ -499,7 +507,7 @@ export default function ScrollyItinerary({
                 ) : null}
               </header>
 
-              <ol className={styles.steps}>
+              <ol className={`${styles.steps}${embedMode ? ` ${styles.stepsEmbed}` : ''}`}>
             {stops.map((stop, index) => {
               const href = detailHref(stop)
               const isActive = index === activeIndex
@@ -510,8 +518,47 @@ export default function ScrollyItinerary({
                     stepRefs.current[index] = el
                   }}
                   data-step-index={index}
-                  className={`${styles.step}${isActive ? ` ${styles.stepActive}` : ''}`}
+                  className={`${styles.step}${isActive ? ` ${styles.stepActive}` : ''}${
+                    embedMode ? ` ${styles.stepEmbed}` : ''
+                  }`}
                 >
+                  {embedMode ? (
+                    <div className={styles.stepEmbedInner}>
+                      {stop.image ? (
+                        <div className={styles.stepThumbWrap}>
+                          <span className={styles.stepThumbBadge}>{stop.order}</span>
+                          <Image
+                            src={stop.image}
+                            alt=""
+                            fill
+                            sizes="140px"
+                            className={styles.stepThumbImg}
+                            style={{ objectPosition: getShowcaseFocalPoint(stop.image) }}
+                          />
+                        </div>
+                      ) : (
+                        <div className={styles.stepThumbPlaceholder}>
+                          <span className={styles.stepBadge}>{stop.order}</span>
+                        </div>
+                      )}
+                      <div className={styles.stepEmbedBody}>
+                        <p
+                          className={styles.stepCategoryEmbed}
+                          style={{ color: CATEGORY_COLORS[stop.category] }}
+                        >
+                          {categoryLabel(stop.category)}
+                        </p>
+                        <h3 className={styles.stepNameEmbed}>{stop.name}</h3>
+                        <p className={styles.stepBlurbEmbed}>{stop.blurb}</p>
+                        {href ? (
+                          <a className={styles.stepLinkEmbed} href={href}>
+                            Read more →
+                          </a>
+                        ) : null}
+                      </div>
+                    </div>
+                  ) : (
+                    <>
                   <div className={styles.stepRail}>
                     <span className={styles.stepBadge}>{stop.order}</span>
                     {index < stops.length - 1 ? <span className={styles.stepConnector} /> : null}
@@ -545,18 +592,22 @@ export default function ScrollyItinerary({
                       </a>
                     ) : null}
                   </div>
+                    </>
+                  )}
                 </li>
               )
             })}
           </ol>
 
-          {itinerary.outro ? (
+          {itinerary.outro && !embedMode ? (
             <div className={styles.outroBlock}>
               <p className={styles.outro}>{itinerary.outro}</p>
             </div>
           ) : null}
 
-              <div className={styles.storyActions}>
+              <div
+                className={`${styles.storyActions}${embedMode ? ` ${styles.storyActionsEmbed}` : ''}`}
+              >
                 <button type="button" className={styles.primaryBtn} onClick={handleTakeRoute}>
                   Take this route
                 </button>
