@@ -428,7 +428,7 @@ export default function ScrollyItinerary({
       {!selectorInListColumn ? itinerarySelector : null}
 
       <div
-        className={`${styles.layout}${embedMode ? ` ${styles.layoutEmbed}` : ''}${
+        className={`${styles.layout}${embedMode ? ` ${styles.layoutEmbed} region-split-grid` : ''}${
           pageFlow ? ` ${styles.layoutPageFlow} scrolly-grid region-split-grid` : ''
         }`}
       >
@@ -569,12 +569,12 @@ export default function ScrollyItinerary({
         </div>
 
         <div
-          className={`${styles.mapColumn}${embedMode ? ` ${styles.mapColumnEmbed}` : ''}${
+          className={`${styles.mapColumn}${embedMode ? ` ${styles.mapColumnEmbed} scrolly-embed-map` : ''}${
             pageFlow ? ` ${styles.mapColumnPageFlow} scrolly-map-panel` : ''
           }`}
           data-scrolly-map-panel={pageFlow ? true : undefined}
         >
-          <div className={`${styles.mapSticky}${pageFlow ? ' scrolly-map-stage' : ''}`}>
+          <div className={`${styles.mapSticky}${embedMode || pageFlow ? ' scrolly-map-stage' : ''}`}>
             {summaryText ? (
               <div className={styles.summaryBar}>
                 <span className={styles.summaryIcon} aria-hidden>
@@ -588,7 +588,7 @@ export default function ScrollyItinerary({
             ) : null}
 
             <MapWheelScrollBridge
-              className={`${styles.mapCanvas}${pageFlow ? ' scrolly-map-canvas' : ''}`}
+              className={`${styles.mapCanvas}${embedMode || pageFlow ? ' scrolly-map-canvas' : ''}`}
             >
               {MAPBOX_TOKEN ? (
                 <Map

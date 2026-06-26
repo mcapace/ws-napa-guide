@@ -469,6 +469,12 @@ export function ExploreMap({
   }, [])
 
   useEffect(() => {
+    if (!embedMode || !isDesktop || visiblePins.length === 0) return
+    if (scrollSyncTimerRef.current) clearTimeout(scrollSyncTimerRef.current)
+    scrollSyncTimerRef.current = setTimeout(syncMapToListScroll, 120)
+  }, [embedMode, isDesktop, visiblePins, syncMapToListScroll, categoryFilter])
+
+  useEffect(() => {
     if (!pageFlow || !isDesktop) return
 
     const onWindowScroll = () => {
@@ -570,7 +576,7 @@ export function ExploreMap({
       </div>
 
       <div
-        className={`${styles.exploreGrid}${embedMode ? ' explore-embed-grid' : ''}${
+        className={`${styles.exploreGrid}${embedMode ? ' explore-embed-grid region-split-grid' : ''}${
           pageFlow ? ' explore-grid region-split-grid' : ''
         }`}
       >
@@ -743,7 +749,7 @@ export function ExploreMap({
         <div
           ref={mapColumnRef}
           className={`${styles.mapColumn} ${mobileView === 'map' ? styles.mapColumnMobileOpen : ''}${
-            embedMode ? ` ${styles.mapColumnEmbed}` : ''
+            embedMode ? ` ${styles.mapColumnEmbed} explore-embed-map` : ''
           }${pageFlow ? ` ${styles.mapColumnPageFlow} explore-map-panel` : ''}`}
           data-explore-map-panel={pageFlow ? true : undefined}
         >
@@ -757,7 +763,7 @@ export function ExploreMap({
             </button>
           )}
           <MapWheelScrollBridge
-            className={`${styles.mapWrap}${pageFlow ? ' explore-map-canvas' : ''}`}
+            className={`${styles.mapWrap}${embedMode || pageFlow ? ' explore-map-canvas' : ''}`}
           >
             {mapMounted ? (
               <Map

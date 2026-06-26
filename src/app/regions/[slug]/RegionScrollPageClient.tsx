@@ -455,14 +455,17 @@ function RegionScrollPageClientContent({
             title={MAGAZINE_SECTION_LABELS.directory}
             variant="dark"
           />
-          <div className={`${styles.exploreFlowWrap} region-split-panel`}>
+          <div
+            className={`${styles.exploreFlowWrap} region-explore-embed-panel region-split-panel`}
+            data-region-embed-panel=""
+          >
             {pins.length > 0 ? (
               <ExploreMapSection
                 pins={pins}
                 scopedRegion={slug}
                 showRegionFilter={false}
                 theme="dark"
-                pageFlow
+                embedMode
               />
             ) : (
               <p className={styles.scrollSectionEmpty}>No listings for this region yet.</p>
@@ -498,7 +501,10 @@ function RegionScrollPageClientContent({
               title={MAGAZINE_SECTION_LABELS.itinerary}
               variant="dark"
             />
-            <div className={`${styles.itineraryFlowWrap} region-split-panel`}>
+            <div
+              className={`${styles.itineraryFlowWrap} region-itinerary-embed-panel region-split-panel`}
+              data-region-embed-panel=""
+            >
               <ScrollyItinerary
                 itineraries={itineraries}
                 regionCenter={regionCenter}
@@ -506,7 +512,7 @@ function RegionScrollPageClientContent({
                 selectedItineraryId={selectedItineraryId}
                 onItineraryChange={setItinerary}
                 hideSeriesHeader
-                pageFlow
+                embedMode
               />
             </div>
             <div className={styles.scrollContinueCta}>

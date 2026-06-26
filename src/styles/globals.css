@@ -187,27 +187,59 @@ html[data-region-native-scroll] body {
   height: 100% !important;
   min-height: 0 !important;
   max-height: none !important;
+  grid-template-columns: minmax(0, var(--region-split-list, 45%)) minmax(
+      0,
+      var(--region-split-map, 55%)
+    ) !important;
+  align-items: stretch !important;
 }
 
-/* Unified scroll: directory + itinerary pageFlow panels (not trapped embed height) */
-[data-scroll-unified] .region-split-panel :global(.region-split-grid) {
+[data-scroll-unified] [data-region-embed-panel] .layoutEmbed {
+  flex: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, var(--region-split-list, 45%)) minmax(
+      0,
+      var(--region-split-map, 55%)
+    ) !important;
+  align-items: stretch !important;
+}
+
+[data-scroll-unified] [data-region-embed-panel] .explore-embed-map,
+[data-scroll-unified] [data-region-embed-panel] .scrolly-embed-map {
+  height: 100% !important;
+  min-height: 0 !important;
+  align-self: stretch !important;
+}
+
+[data-scroll-unified] [data-region-embed-panel] .explore-map-canvas,
+[data-scroll-unified] [data-region-embed-panel] .scrolly-map-stage,
+[data-scroll-unified] [data-region-embed-panel] .scrolly-map-canvas {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+/* pageFlow split panels (not embed traps) */
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.region-split-grid) {
   grid-template-columns: minmax(0, var(--region-split-list, 45%)) minmax(
       0,
       var(--region-split-map, 55%)
     ) !important;
 }
 
-[data-scroll-unified] .region-split-panel :global(.explore-map-panel),
-[data-scroll-unified] .region-split-panel :global([data-explore-map-panel]),
-[data-scroll-unified] .region-split-panel :global(.scrolly-map-panel),
-[data-scroll-unified] .region-split-panel :global([data-scrolly-map-panel]) {
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.explore-map-panel),
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global([data-explore-map-panel]),
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.scrolly-map-panel),
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global([data-scrolly-map-panel]) {
   height: min(75vh, var(--region-map-sticky-max-height)) !important;
   min-height: 480px !important;
 }
 
-[data-scroll-unified] .region-split-panel :global(.explore-map-canvas),
-[data-scroll-unified] .region-split-panel :global(.scrolly-map-stage),
-[data-scroll-unified] .region-split-panel :global(.scrolly-map-canvas) {
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.explore-map-canvas),
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.scrolly-map-stage),
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.scrolly-map-canvas) {
   height: 100% !important;
   min-height: 0 !important;
 }
