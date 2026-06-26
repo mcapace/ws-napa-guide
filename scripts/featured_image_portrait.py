@@ -12,6 +12,7 @@ def portrait_crop(
     dest: Path,
     *,
     top_bias: float = 0.0,
+    left_bias: float | None = None,
     quality: int = 88,
 ) -> None:
     """Crop a landscape master to portrait (2:3 width:height), biased toward the top."""
@@ -25,7 +26,10 @@ def portrait_crop(
         crop_w = w
         crop_h = round(w / target_w_over_h)
 
-    left = max(0, (w - crop_w) // 2)
+    if left_bias is not None:
+        left = max(0, min(w - crop_w, round((w - crop_w) * left_bias)))
+    else:
+        left = max(0, (w - crop_w) // 2)
     top = max(0, round((h - crop_h) * top_bias))
     if top + crop_h > h:
         top = max(0, h - crop_h)
@@ -41,6 +45,7 @@ def copy_featured_pair(
     portrait: Path,
     *,
     top_bias: float = 0.0,
+    left_bias: float | None = None,
     max_width: int = 2800,
     quality: int = 88,
 ) -> None:
@@ -52,4 +57,10 @@ def copy_featured_pair(
 
     landscape.parent.mkdir(parents=True, exist_ok=True)
     img.save(landscape, "JPEG", quality=quality, optimize=True)
-    portrait_crop(landscape, portrait, top_bias=top_bias, quality=quality)
+    portrait_crop(
+        landscape,
+        portrait,
+        top_bias=top_bias,
+        left_bias=left_bias,
+        quality=quality,
+    )

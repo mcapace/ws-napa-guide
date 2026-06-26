@@ -15,6 +15,12 @@ const manifest = focalManifest as Record<string, string>
 const SHOWCASE_SAFE_TOP = 'center 40%'
 const PORTRAIT_SAFE_TOP = 'center top'
 
+/** Responsive focal profiles (see FeaturedShowcase.module.css). */
+const SHOWCASE_FOCAL_PROFILES: Record<string, string> = {
+  '/images/oakville/restaurants/oakville-restaurant-mustards-grill-landscape.jpg':
+    'subject-top',
+}
+
 /** CSS object-position value for next/image fill crops. */
 export function getImageFocalPoint(
   src: string | undefined,
@@ -81,6 +87,12 @@ export function getShowcaseImageStyle(
   const src = usePortrait ? portraitSrc ?? landscapeSrc : landscapeSrc
   const fallback = usePortrait ? PORTRAIT_SAFE_TOP : SHOWCASE_SAFE_TOP
   return showcaseStyleForSrc(src, fallback)
+}
+
+/** When set, responsive breakpoint rules own landscape focal (people near top of frame). */
+export function getShowcaseFocalProfile(landscapeSrc: string | undefined): string | undefined {
+  if (!landscapeSrc) return undefined
+  return SHOWCASE_FOCAL_PROFILES[landscapeSrc]
 }
 
 /** Transform-origin for any optional motion — always top-centered on showcase. */

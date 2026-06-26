@@ -44,7 +44,31 @@
 
 .imagePortrait {
   display: none;
-  object-position: center 32%;
+  object-position: var(--showcase-portrait-focal, center 28%);
+}
+
+/* People framed high in 16×9 masters — protect heads across breakpoints */
+.panel[data-focal-profile='subject-top'] {
+  --showcase-landscape-focal: 42% 10%;
+  --showcase-portrait-focal: center 12%;
+}
+
+@media (min-width: 1024px) and (max-width: 1799px) {
+  .panel[data-focal-profile='subject-top'] {
+    --showcase-landscape-focal: 44% 8%;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 900px) {
+  .panel[data-focal-profile='subject-top'] {
+    --showcase-landscape-focal: 45% 7%;
+  }
+}
+
+@media (min-width: 1800px) {
+  .panel[data-focal-profile='subject-top'] {
+    --showcase-landscape-focal: 40% 6%;
+  }
 }
 
 .imageFallback {

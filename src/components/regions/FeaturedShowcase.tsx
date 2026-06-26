@@ -10,7 +10,7 @@ import {
 } from 'framer-motion'
 import type { MapPin } from '@/data/map-pins'
 import { editorialDetailHref } from '@/lib/editorial-detail-link'
-import { getShowcaseImageStyle } from '@/lib/image-focal'
+import { getShowcaseFocalProfile, getShowcaseImageStyle } from '@/lib/image-focal'
 import styles from './FeaturedShowcase.module.css'
 
 export type ShowcaseCategory = 'taste' | 'eat' | 'stay'
@@ -87,6 +87,7 @@ export function FeaturedShowcasePanel({
 
   const landscapeStyle = getShowcaseImageStyle(pick.image, pick.imagePortrait, false)
   const portraitStyle = getShowcaseImageStyle(pick.image, pick.imagePortrait, true)
+  const focalProfile = getShowcaseFocalProfile(pick.image)
 
   const copyClassName = `${styles.copy}${anchorRight ? ` ${styles.copyRight}` : ''}${enhanced ? ` ${styles.copyEnhanced}` : ''}`
   const copyContent = (
@@ -125,12 +126,13 @@ export function FeaturedShowcasePanel({
       className={`${styles.panel}${anchorRight ? ` ${styles.panelAnchorRight}` : ''}${enhanced ? ` ${styles.panelEnhanced}` : ''}`}
       aria-labelledby={`showcase-${pick.key}`}
       style={
-        landscapeStyle.objectPosition
+        !focalProfile && landscapeStyle.objectPosition
           ? ({
               '--showcase-landscape-focal': landscapeStyle.objectPosition,
             } as React.CSSProperties)
           : undefined
       }
+      {...(focalProfile ? { 'data-focal-profile': focalProfile } : {})}
       {...(enhanced ? { 'data-showcase-panel': '' } : {})}
     >
       <div
@@ -171,12 +173,11 @@ export function FeaturedShowcasePanel({
                   priority={index < 2}
                   sizes="100vw"
                   className={`${styles.image} ${styles.imagePortrait}`}
-                  style={{
-                    objectPosition: portraitStyle.objectPosition,
-                    ...(portraitStyle.shiftY
+                  style={
+                    portraitStyle.shiftY
                       ? { transform: `translateY(${portraitStyle.shiftY})` }
-                      : {}),
-                  }}
+                      : undefined
+                  }
                 />
               </div>
             ) : null}
