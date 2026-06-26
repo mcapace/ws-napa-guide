@@ -939,6 +939,38 @@
   box-shadow: none;
 }
 
+.scrollSectionHeadingDark {
+  padding: clamp(40px, 6vw, 56px) clamp(20px, 4vw, 32px) clamp(20px, 3vw, 28px);
+  background: var(--ink);
+  border-top: 1px solid rgba(247, 243, 236, 0.1);
+}
+
+.scrollSectionHeadingLight {
+  padding: clamp(40px, 6vw, 56px) clamp(20px, 4vw, 32px) clamp(20px, 3vw, 28px);
+  background: #faf7f2;
+  border-top: 1px solid rgba(26, 22, 20, 0.08);
+}
+
+.scrollSectionHeadingTitle {
+  margin: 0;
+  max-width: 1240px;
+  margin-inline: auto;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: clamp(20px, 2.6vw, 26px);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-transform: none;
+}
+
+.scrollSectionHeadingDark .scrollSectionHeadingTitle {
+  color: var(--cream);
+}
+
+.scrollSectionHeadingLight .scrollSectionHeadingTitle {
+  color: #1a1614;
+}
+
 .sectionTransition {
   display: flex;
   align-items: center;

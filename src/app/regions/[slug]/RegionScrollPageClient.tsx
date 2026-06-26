@@ -15,6 +15,7 @@ import { REGION_CENTERS } from '@/lib/mapbox'
 import { useLenis, scrollToTarget, enableRegionNativeScroll, getRegionScrollJumpOffset, dispatchRegionJumpSection, resetScrollToTop } from '@/lib/smooth-scroll'
 import { useRegionDocumentScrollBridge } from '@/lib/region-document-scroll'
 import { RegionScrollEnhancements } from '@/components/regions/RegionScrollEnhancements'
+import { MAGAZINE_SECTION_LABELS } from '@/lib/region-magazine-sections'
 import { isRegionScrollEnhanced } from '@/lib/region-scroll-enhanced'
 import { replaceUrlQuery } from '@/lib/update-url-query'
 import type { Itinerary } from '@/lib/types'
@@ -65,14 +66,6 @@ function buildJumpLinks(mdx: LoadedRegionMdx, hasItinerary: boolean): JumpLink[]
   }
 
   return links
-}
-
-type ScrollSectionMarkerProps = {
-  variant: 'dark' | 'light' | 'cue' | 'transition'
-  title: string
-  eyebrow?: string
-  dek?: string
-  enhanced?: boolean
 }
 
 function regionScrollSpyOffset(): number {
@@ -128,73 +121,22 @@ function pickActiveJumpSection(links: JumpLink[]): string {
   return bestId
 }
 
-function ScrollSectionMarker({
-  eyebrow,
+function ScrollSectionHeading({
   title,
-  dek,
-  variant,
-  enhanced = false,
-}: ScrollSectionMarkerProps) {
-  if (variant === 'transition') {
-    return (
-      <div
-        className={`${styles.sectionTransition}${enhanced ? ` ${styles.sectionTransitionEnhanced}` : ''}`}
-        aria-hidden
-        {...(enhanced ? { 'data-section-transition': '' } : {})}
-      >
-        <span
-          className={styles.sectionTransitionRule}
-          {...(enhanced ? { 'data-section-transition-rule': '' } : {})}
-        />
-        <span
-          className={styles.sectionTransitionLabel}
-          {...(enhanced ? { 'data-section-transition-label': '' } : {})}
-        >
-          {title}
-        </span>
-        <span
-          className={styles.sectionTransitionRule}
-          {...(enhanced ? { 'data-section-transition-rule': '' } : {})}
-        />
-      </div>
-    )
-  }
-
-  if (variant === 'cue') {
-    return (
-      <div className={styles.scrollMarkerCue} aria-hidden>
-        <span className={styles.scrollMarkerCueLine} />
-        <span className={styles.scrollMarkerCueLabel}>{title}</span>
-        <span className={styles.scrollMarkerCueLine} />
-      </div>
-    )
-  }
-
+  variant = 'dark',
+}: {
+  title: string
+  variant?: 'dark' | 'light'
+}) {
   return (
     <div
-      className={`${styles.scrollMarker} ${
-        variant === 'light' ? styles.scrollMarkerLight : styles.scrollMarkerDark
-      }`}
-      {...(enhanced ? { 'data-scroll-marker': '' } : {})}
+      className={
+        variant === 'light'
+          ? styles.scrollSectionHeadingLight
+          : styles.scrollSectionHeadingDark
+      }
     >
-      <div className={styles.scrollMarkerInner}>
-        <div className={styles.scrollMarkerRule} aria-hidden />
-        {eyebrow ? <p className={styles.scrollMarkerEyebrow}>{eyebrow}</p> : null}
-        <h2
-          className={styles.scrollMarkerTitle}
-          {...(enhanced ? { 'data-scroll-marker-title': '' } : {})}
-        >
-          {title}
-        </h2>
-        {dek ? (
-          <p
-            className={styles.scrollMarkerDek}
-            {...(enhanced ? { 'data-scroll-marker-dek': '' } : {})}
-          >
-            {dek}
-          </p>
-        ) : null}
-      </div>
+      <h2 className={styles.scrollSectionHeadingTitle}>{title}</h2>
     </div>
   )
 }
@@ -369,13 +311,6 @@ function RegionScrollPageClientContent({
 
   const storyLinks = jumpLinks.filter((l) => l.tab === 'story')
   const utilityLinks = jumpLinks.filter((l) => l.tab !== 'story')
-  const phrases = frontmatter.marqueePhrases ?? {}
-  const hasGuidePicks =
-    mdx.featuredWineries.length > 0 ||
-    mdx.featuredRestaurants.length > 0 ||
-    mdx.coffeeSnackFeatures.length > 0 ||
-    mdx.breakfast ||
-    mdx.featuredHotels.length > 0
 
   const showScrollDock =
     STORY_SECTION_IDS.has(activeSectionId) &&
@@ -503,19 +438,6 @@ function RegionScrollPageClientContent({
             textOnly
             hideDek
           />
-          {hasGuidePicks ? (
-            <ScrollSectionMarker
-              variant="dark"
-              eyebrow="In this guide"
-              title="Where to taste, eat & stay"
-              dek={
-                phrases.taste
-                  ? `${phrases.taste}. Scroll for long-form profiles — the alphabetical directory follows.`
-                  : 'Editorial profiles from the guide. The full alphabetical directory follows below.'
-              }
-              enhanced={scrollEnhanced}
-            />
-          ) : null}
           <div className={styles.showcaseRegion}>
             <RegionEditorialSections
               data={mdx}
@@ -526,20 +448,12 @@ function RegionScrollPageClientContent({
               showcaseEnhanced={scrollEnhanced}
             />
           </div>
-          <ScrollSectionMarker
-            variant="transition"
-            title="The full list"
-            enhanced={scrollEnhanced}
-          />
         </section>
 
         <section id="region-explore" className={`${styles.scrollSection} ${styles.scrollSectionExplore}`}>
-          <ScrollSectionMarker
+          <ScrollSectionHeading
+            title={MAGAZINE_SECTION_LABELS.directory}
             variant="dark"
-            eyebrow="Quick reference"
-            title="The full list"
-            dek={`Filter tastings, dining, or hotels — or pan the map. Every listing in ${regionName}, sorted alphabetically.`}
-            enhanced={scrollEnhanced}
           />
           <div
             className={`${styles.exploreFlowWrap} region-explore-embed-panel`}
@@ -568,14 +482,9 @@ function RegionScrollPageClientContent({
                     if (link) jumpTo(link)
                   }}
                 >
-                  Continue to Editor&apos;s picks ↓
+                  Continue to itinerary ↓
                 </button>
               </div>
-              <ScrollSectionMarker
-                variant="transition"
-                title="Editor's picks"
-                enhanced={scrollEnhanced}
-              />
             </>
           ) : (
             <div className={styles.scrollContinueCta}>
@@ -588,12 +497,9 @@ function RegionScrollPageClientContent({
 
         {hasItinerary ? (
           <section id="region-itinerary" className={`${styles.scrollSection} ${styles.scrollSectionItinerary}`}>
-            <ScrollSectionMarker
+            <ScrollSectionHeading
+              title={MAGAZINE_SECTION_LABELS.itinerary}
               variant="dark"
-              eyebrow="Editor's picks"
-              title={phrases.sidebar ?? `Plan your day in ${regionName}`}
-              dek="Half-day routes with map and stops — scroll through each leg or open the full route in Google Maps."
-              enhanced={scrollEnhanced}
             />
             <div
               className={`${styles.itineraryFlowWrap} region-itinerary-embed-panel`}
@@ -614,11 +520,6 @@ function RegionScrollPageClientContent({
                 More towns & areas below ↓
               </button>
             </div>
-            <ScrollSectionMarker
-              variant="transition"
-              title="More towns & areas"
-              enhanced={scrollEnhanced}
-            />
           </section>
         ) : null}
       </div>

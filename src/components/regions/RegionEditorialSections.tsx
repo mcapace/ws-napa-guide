@@ -1,5 +1,6 @@
 import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
+import { MAGAZINE_SECTION_LABELS } from '@/lib/region-magazine-sections'
 import { FeatureBlock } from '@/components/FeatureBlock'
 import { RegionRefinedPick } from './RegionRefinedPick'
 import { SectionDivider } from './SectionDivider'
@@ -101,7 +102,6 @@ export function RegionEditorialSections({
   pins?: MapPin[]
   showcaseEnhanced?: boolean
 }) {
-  const phrases = data.frontmatter.marqueePhrases ?? {}
   const refined = layout === 'refined'
   const showcase = layout === 'showcase'
   const chapterClass = refined
@@ -164,9 +164,10 @@ export function RegionEditorialSections({
       {hasTaste && (
         <section id="region-taste" className={`${chapterClass} region-chapter--taste`}>
           <SectionDivider
-            label={phrases.taste ?? 'Where to taste'}
+            label={MAGAZINE_SECTION_LABELS.taste}
             compact={refined || showcase}
             enhanced={showcase && showcaseEnhanced}
+            variant={showcase ? 'magazine' : 'caps'}
           />
           {showcase ? (
             <FeaturedShowcase
@@ -187,9 +188,10 @@ export function RegionEditorialSections({
       {hasEat && (
         <section id="region-eat" className={`${chapterClass} region-chapter--eat`}>
           <SectionDivider
-            label={phrases.eat ?? 'Where to eat'}
+            label={MAGAZINE_SECTION_LABELS.eat}
             compact={refined || showcase}
             enhanced={showcase && showcaseEnhanced}
+            variant={showcase ? 'magazine' : 'caps'}
           />
           {showcase ? (
             <>
@@ -244,9 +246,10 @@ export function RegionEditorialSections({
       {hasStay && (
         <section id="region-stay" className={`${chapterClass} region-chapter--stay`}>
           <SectionDivider
-            label={phrases.stay ?? 'Where to stay'}
+            label={MAGAZINE_SECTION_LABELS.stay}
             compact={refined || showcase}
             enhanced={showcase && showcaseEnhanced}
+            variant={showcase ? 'magazine' : 'caps'}
           />
           {showcase ? (
             <FeaturedShowcase
