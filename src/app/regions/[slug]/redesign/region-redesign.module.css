@@ -1,0 +1,468 @@
+/*
+ * St. Helena region redesign — "bold hybrid" preview.
+ * Dark cinematic hero + closing, light editorial reading zones in between,
+ * with a sticky scroll-spy jump bar. Self-contained; does not touch live pages.
+ */
+
+.root {
+  --rd-ink: #0d0b09;
+  --rd-ink-2: #14110e;
+  --rd-cream: #faf7f2;
+  --rd-paper: #f4efe6;
+  --rd-gold: #c4943a;
+  --rd-bordeaux: #722f37;
+  --rd-mist: #9b9283;
+  --rd-nav-h: 64px;
+  --rd-bar-h: 56px;
+  background: var(--rd-cream);
+  color: #1a1614;
+  overflow-x: clip;
+}
+
+@media (max-width: 768px) {
+  .root {
+    --rd-nav-h: 54px;
+    --rd-bar-h: 50px;
+  }
+}
+
+/* ───────────────────────── HERO (dark cinematic) ───────────────────────── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 560px;
+  max-height: 100dvh;
+  overflow: hidden;
+  background: var(--rd-ink);
+  scroll-margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 88vh;
+    min-height: 480px;
+  }
+}
+
+.heroMedia {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.heroImg {
+  object-fit: cover;
+  transform: scale(1.06);
+  animation: rdKenBurns 24s ease-out forwards;
+  will-change: transform;
+}
+
+@keyframes rdKenBurns {
+  from {
+    transform: scale(1.12) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1) translate3d(0, -1.5%, 0);
+  }
+}
+
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(13, 11, 9, 0.55) 0%,
+      rgba(13, 11, 9, 0.12) 30%,
+      rgba(13, 11, 9, 0.35) 62%,
+      rgba(13, 11, 9, 0.92) 100%
+    );
+}
+
+.heroInner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  padding: clamp(32px, 6vw, 80px) clamp(24px, 5vw, 72px) clamp(56px, 8vw, 96px);
+  max-width: 1180px;
+}
+
+.heroEyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(250, 247, 242, 0.86);
+  margin: 0 0 22px;
+}
+
+.heroEyebrow::before {
+  content: '';
+  width: 34px;
+  height: 1px;
+  background: var(--rd-gold);
+}
+
+.heroTitle {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(64px, 13vw, 168px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--rd-cream);
+  margin: 0 0 14px;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+}
+
+.heroTagline {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 3.2vw, 34px);
+  line-height: 1.25;
+  color: rgba(250, 247, 242, 0.92);
+  margin: 0;
+  max-width: 640px;
+}
+
+.heroMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 28px 0 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(250, 247, 242, 0.7);
+}
+
+.heroMeta span {
+  position: relative;
+}
+
+.heroMeta span + span::before {
+  content: '·';
+  position: absolute;
+  left: -13px;
+  color: var(--rd-gold);
+}
+
+.scrollCue {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  z-index: 3;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(250, 247, 242, 0.6);
+  pointer-events: none;
+}
+
+.scrollCue span {
+  width: 1px;
+  height: 38px;
+  background: linear-gradient(to bottom, rgba(250, 247, 242, 0.7), transparent);
+  animation: rdCue 2.4s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes rdCue {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .scrollCue {
+    display: none;
+  }
+}
+
+/* ───────────────────────── STICKY SCROLL-SPY JUMP BAR ───────────────────── */
+.jumpBar {
+  position: sticky;
+  top: var(--rd-nav-h);
+  z-index: 80;
+  height: var(--rd-bar-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid transparent;
+  transition: background 0.45s ease, border-color 0.45s ease, backdrop-filter 0.45s ease;
+}
+
+.jumpBarLight {
+  background: rgba(250, 247, 242, 0.82);
+  backdrop-filter: blur(16px) saturate(1.1);
+  border-bottom-color: rgba(26, 22, 20, 0.1);
+}
+
+.jumpBarDark {
+  background: rgba(13, 11, 9, 0.7);
+  backdrop-filter: blur(16px) saturate(1.1);
+  border-bottom-color: rgba(250, 247, 242, 0.1);
+}
+
+.jumpBarInner {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.6vw, 22px);
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  justify-content: center;
+  scroll-snap-type: x proximity;
+}
+
+.jumpBarInner::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .jumpBarInner {
+    justify-content: flex-start;
+  }
+}
+
+.jumpLink {
+  position: relative;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 8px 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.jumpLink::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 2px;
+  height: 1.5px;
+  background: var(--rd-gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.34s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.jumpBarLight .jumpLink {
+  color: rgba(26, 22, 20, 0.5);
+}
+.jumpBarLight .jumpLink:hover {
+  color: rgba(26, 22, 20, 0.9);
+}
+.jumpBarDark .jumpLink {
+  color: rgba(250, 247, 242, 0.55);
+}
+.jumpBarDark .jumpLink:hover {
+  color: rgba(250, 247, 242, 0.95);
+}
+
+.jumpLinkActive.jumpLink {
+  color: var(--rd-gold);
+}
+.jumpLinkActive.jumpLink::after {
+  transform: scaleX(1);
+}
+
+/* ───────────────────────── LEDE (light reading zone) ─────────────────────── */
+.transition {
+  height: clamp(40px, 7vw, 96px);
+  background: linear-gradient(to bottom, var(--rd-ink) 0%, var(--rd-cream) 100%);
+}
+
+.ledeZone {
+  background: var(--rd-cream);
+  padding: clamp(56px, 9vw, 104px) clamp(24px, 5vw, 40px) clamp(40px, 7vw, 72px);
+}
+
+.ledeWrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.dek {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(24px, 3.4vw, 38px);
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  color: #1a1614;
+  margin: 0 0 36px;
+}
+
+.dekRule {
+  width: 56px;
+  height: 2px;
+  background: var(--rd-gold);
+  margin: 0 0 36px;
+}
+
+.lede {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 20px;
+  line-height: 1.7;
+  color: #1a1614;
+}
+
+/* ───────────────────────── SECTION HEADERS ───────────────────────────────── */
+.section {
+  background: var(--rd-cream);
+  scroll-margin-top: calc(var(--rd-nav-h) + var(--rd-bar-h));
+}
+
+.sectionHeader {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(64px, 10vw, 128px) clamp(24px, 5vw, 48px) clamp(24px, 4vw, 48px);
+  text-align: center;
+}
+
+.sectionKicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--rd-bordeaux);
+  margin: 0 0 18px;
+}
+
+.sectionKicker::before,
+.sectionKicker::after {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: rgba(114, 47, 55, 0.4);
+}
+
+.sectionPhrase {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(34px, 5.4vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #1a1614;
+  margin: 0;
+}
+
+/* ───────────────────────── ADVENTURE (dark close) ────────────────────────── */
+.adventure {
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(114, 47, 55, 0.28) 0%, transparent 55%),
+    linear-gradient(180deg, var(--rd-ink) 0%, var(--rd-ink-2) 100%);
+  padding: clamp(72px, 11vw, 150px) clamp(20px, 5vw, 48px) clamp(80px, 12vw, 160px);
+  scroll-margin-top: calc(var(--rd-nav-h) + var(--rd-bar-h));
+}
+
+.adventureHeader {
+  max-width: 760px;
+  margin: 0 auto clamp(40px, 6vw, 72px);
+  text-align: center;
+}
+
+.adventureKicker {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rd-gold);
+  margin: 0 0 18px;
+}
+
+.adventurePhrase {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(40px, 7vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: var(--rd-cream);
+  margin: 0;
+}
+
+/* Parchment card holding the (dark-text) itinerary content on the black field */
+.adventureCard {
+  max-width: 780px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #f6f1e7 0%, #efe7d8 100%);
+  border-radius: 4px;
+  padding: clamp(36px, 5vw, 64px) clamp(24px, 4vw, 56px);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.7);
+}
+
+.adventureCard :global(.region-sidebar-mdx) {
+  max-width: none;
+  padding-left: 1.5rem;
+  border-left: 4px solid var(--rd-gold);
+}
+
+/* ───────────────────────── shared reveal ─────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.revealIn {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroImg {
+    animation: none;
+    transform: scale(1);
+  }
+  .scrollCue span {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
