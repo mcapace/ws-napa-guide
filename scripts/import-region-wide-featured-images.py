@@ -158,6 +158,26 @@ REGIONS: list[WideRegionConfig] = [
             "Howard Backen": "howard-backen-estate",
         },
     ),
+    WideRegionConfig(
+        region="beyond-napa",
+        # Properties_(featured…) inside 07_Beyond Downtown
+        drive_folder_id="1OrehNw6SviHfQdVmNXuybOGs5Jiz00Ji",
+        tmp_dir=ROOT / ".tmp-beyond-napa-wide",
+        files={
+            "BDT_Etude.jpg": ("wineries", "etude-winery"),
+            "BDT_Favia.jpg": ("wineries", "favia-wines"),
+            "BDT_HudsonRanch.jpg": ("wineries", "hudson-ranch"),
+            "BDT_Carabao.jpg": ("restaurants", "carabao"),
+            "BDT_CasaMani.jpg": ("hotels", "casa-mani-resort-napa-valley"),
+        },
+        mdx_title_keys={
+            "Etude Winery": "etude-winery",
+            "Favia Wines": "favia-wines",
+            "Hudson Ranch": "hudson-ranch",
+            "Carabao": "carabao",
+            "Casa Mani Resort Napa Valley": "casa-mani-resort-napa-valley",
+        },
+    ),
 ]
 
 

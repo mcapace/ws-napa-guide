@@ -45,6 +45,14 @@ PROPERTY_MAP["pritchard-hill"] = {
     "HowardBacken": ("wineries", "howard-backen-estate"),
     "howardbacken": ("wineries", "howard-backen-estate"),
 }
+PROPERTY_MAP["beyond-napa"] = {
+    "BDT_Etude": ("wineries", "etude-winery"),
+    "BDT_Favia": ("wineries", "favia-wines"),
+    "BDT_HudsonRanch": ("wineries", "hudson-ranch"),
+    "BDT_Carabao": ("restaurants", "carabao"),
+    "BDT_Carabao2": ("restaurants", "carabao"),
+    "BDT_CasaMani": ("hotels", "casa-mani-resort-napa-valley"),
+}
 
 ITINERARY_STEM_ALIASES = dict(_drive_mod.ITINERARY_STEM_ALIASES)
 IMAGES = _drive_mod.IMAGES
@@ -97,6 +105,13 @@ STEM_ALIASES: dict[str, str] = {
     "lewelling": "lewelling vineyards",
     "harvestinn": "harvest inn",
     "wydown": "wydown hotel",
+    "bdtetude": "etude winery",
+    "bdtfavia": "favia wines",
+    "bdthudsonranch": "hudson ranch",
+    "bdtcarabao": "carabao",
+    "bdtcarabao2": "carabao",
+    "bdtcasamani": "casa mani resort napa valley",
+    "bdthero16x9": "domaine carneros",
 }
 
 
@@ -151,15 +166,13 @@ REGIONS: list[RegionPropertiesConfig] = [
         ROOT / ".tmp-pritchard-hill-properties",
         "08_Pritchard_Hill",
     ),
+    RegionPropertiesConfig(
+        "beyond-napa",
+        "1OrehNw6SviHfQdVmNXuybOGs5Jiz00Ji",
+        ROOT / ".tmp-beyond-napa-properties",
+        "07_Beyond Downtown",
+    ),
 ]
-
-# 07 Beyond Downtown also maps to pritchard-hill — merged when present
-PRITCHARD_ALT = RegionPropertiesConfig(
-    "pritchard-hill",
-    "1OrehNw6SviHfQdVmNXuybOGs5Jiz00Ji",
-    ROOT / ".tmp-pritchard-hill-beyond-properties",
-    "07_Beyond Downtown",
-)
 
 
 def names_overlap(a: str, b: str) -> bool:
@@ -485,24 +498,6 @@ def main() -> None:
 
         count, missing = import_region(cfg, manifest)
         total += count
-
-        if cfg.region == "pritchard-hill" and not args.skip_download:
-            print(f"  Downloading Beyond Downtown folder …")
-            download_properties_jpgs(
-                PRITCHARD_ALT.drive_folder_id,
-                PRITCHARD_ALT.tmp_dir,
-                sleep_s=args.sleep,
-            )
-            extra, _ = import_region(
-                RegionPropertiesConfig(
-                    cfg.region,
-                    PRITCHARD_ALT.drive_folder_id,
-                    PRITCHARD_ALT.tmp_dir,
-                    PRITCHARD_ALT.drive_prefix,
-                ),
-                manifest,
-            )
-            total += extra
 
         if missing:
             print(f"  Listings without Properties thumb ({len(missing)}):")
