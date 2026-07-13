@@ -517,7 +517,7 @@ export default function HomePage() {
             what Napa has to offer.
           </p>
           <p className="home-intro__closing">
-            Fifty miles of valley floor and mountain slope — and yet Napa Valley has become the
+            Thirty miles of valley floor and mountain slope — and yet Napa Valley has become the
             benchmark against which the world measures itself.
           </p>
         </section>

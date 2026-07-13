@@ -26,7 +26,7 @@ export const articles: Article[] = [
     section: 'dining',
     author: 'Chris Cardoso',
     excerpt:
-      "Napa Valley and Mexico have a long-entwined history. Twelve taquerias — from Calistoga to downtown Napa — that prove the valley's best casual meal comes on a tortilla.",
+      "Napa Valley and Mexico have a long-entwined history. Thirteen taquerias — from Calistoga to downtown Napa — that prove the valley's best casual meal comes on a tortilla.",
     sponsorTier: null,
     featured: true,
     images: [

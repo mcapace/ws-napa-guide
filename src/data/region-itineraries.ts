@@ -108,7 +108,7 @@ const YOUNTVILLE_STAGS_LEAP: Itinerary = {
       category: 'winery',
       coords: [-122.344634, 38.42402],
       blurb:
-        'At the Yountville Crossroad and Silverado Trail intersection sits Cliff Lede, a relatively newer estate among its more historic neighbors. The “Morning Walk in the Vineyard” covers a mile through estate vineyards, sustainable farming practices, and pours of wine along the way—including in the vineyard blocks themselves.',
+        'At the Yountville Crossroad and Silverado Trail intersection sits Cliff Lede, a relatively newer estate among its more historic neighbors. The “Morning Walk in the Vineyard” covers a mile through estate vineyards, sustainable farming practices, and pours of wine along the way—including wines made from the same vineyards you’re traversing.',
     },
     {
       order: 2,

@@ -5,7 +5,7 @@ const TACO = '/images/features/napa-taco-tour'
 
 export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
   'judgment-of-paris': {
-    kicker: 'The Judgment of California',
+    kicker: 'The Judgment of Paris',
     pullQuote: 'An eye-opening blind tasting',
     pullQuoteLines: [
       'Fifty years ago in Paris,',
