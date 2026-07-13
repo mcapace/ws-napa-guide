@@ -17,6 +17,8 @@ import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
 import Footer from '@/components/ui/Footer'
 import { NavMenuOverlay } from '@/components/ui/NavMenuOverlay'
+import { HomeStoriesSection } from '@/components/home/HomeStoriesSection'
+import { getStoryArticles } from '@/data/site-stories'
 
 const featuredRegions = sortRegionsSouthToNorth(regions)
 const browseRegions = sortRegionsSouthToNorth(regions)
@@ -603,6 +605,12 @@ export default function HomePage() {
       </div>
 
       <div style={{ position: 'relative', zIndex: 5, background: '#0D0B09' }}>
+
+      <HomeStoriesSection
+        stories={getStoryArticles()}
+        title="Features"
+        intro="Valley-wide stories beyond the town guides — including the Napa Valley taco tour."
+      />
 
       {/* ── NEWSLETTER (therealhotels style: massive serif heading + full-width input) ── */}
       <section className="home-newsletter-section" style={{ padding: '120px 60px 100px', borderTop: '1px solid rgba(247,243,236,0.06)', textAlign: 'center' }}>

@@ -57,7 +57,6 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
     introParagraphs: [
       'Napa Valley and Mexico have a long-entwined history reflected in language, culture and food. Tacos and other Mexican staples have become go-to meals in the valley, beloved by all. Today, taquerias dot the region, whether brick-and-mortar restaurants or food trucks. Most specialize in classic “street tacos,” plates of smothered tortillas that are typically prepared quickly, packed with flavor in an array of combinations and able to be eaten handily. Originally an easy meal for workers, they can be enjoyed in any setting.',
       'A proper street taco, at its simplest, needs just five ingredients: tortilla, meat, sauce, cilantro and raw onion. The best tortillas, based on masa harina de maíz, are handmade to order and warmed on a grill before being piled high with your choice of meats, sauces and more. Vegan and vegetarian selections, as well as seafood versions, can also be found. Be mindful of levels of spiciness and your tolerance to them—the radish or cucumber slices typically served on the side are there to help if you take one of those too-hot bites. Some taquerias include carrots or grilled onions on the side for a sweet counterpoint.',
-      'When pairing wine with tacos, look for something with freshness and bright acidity, which cuts through the richness of the proteins and seasonings. A lower alcohol wine allows the taco’s flavors to shine and keeps spice in the background. Sparkling wines are also a great option. Rich white wines can stand up to the complexity of the taco, while lightly tannic red wines complement the seasonings without accentuating spice. If you love a big red wine, though, go ahead and have it with your tacos. And don’t forget about canned wines, an easily transportable option for a taco picnic.',
     ],
     venues: [
       {
@@ -170,16 +169,6 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         description:
           'In business in Napa since the 1990s, this outfit sports a brick-and-mortar along with two trucks. With house-made tortillas, traditional meats and three sauces on offer, Michoacan puts out archetypal Mexican street food. Their carnitas are spot on, with an intensity of saltiness and fattiness. Don’t overlook the carrot side; it adds just the right sweetness to the finish.',
       },
-    ],
-    winePicks: [
-      { name: 'HYDE Pinot Noir Napa Valley Larry Hyde 2022', detail: 'Fresh acidity for rich proteins' },
-      { name: 'KINSMAN Eades Chenin Blanc Diamond Mountain District Aberro 2024', detail: 'Bright cut through seasoning' },
-      { name: 'LOS CUERNOS Chardonnay California NV', detail: 'Rich white that stands up to complexity' },
-      { name: 'NEWFOUND Grenache Napa Valley Yount Mill Vineyard 2022', detail: 'Light tannin without amplifying heat' },
-      { name: 'NOMADICA California Bubbly White NV', detail: 'Sparkling picnic option' },
-      { name: 'SCHRAMSBERG Brut Rosé Napa Valley Querencia 2021', detail: 'Sparkling with spice-friendly freshness' },
-      { name: 'SPHAERICS Chardonnay Napa Valley Carneros Overline 2023', detail: 'Carneros white for seafood tacos' },
-      { name: 'UNTI Vermentino Dry Creek Valley 2024', detail: 'Lower alcohol, aromatic lift' },
     ],
   },
 }

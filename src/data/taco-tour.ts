@@ -26,8 +26,6 @@ export const tacoIntro = {
     "Napa Valley and Mexico have a long-entwined history that has blended their cultures together along the way. Street tacos, once mainly a quick meal for workers, have become a food beloved by all, and taquerias now dot the valley from Calistoga to downtown Napa.",
   anatomy:
     "A proper street taco needs just five ingredients: tortilla, meat, sauce, cilantro and onion. The magic is in the quality. It starts with the tortilla, masa harina de maíz and water pressed flat and cooked, best handmade to order and warmed on a grill. Then the meat: pollo asado, the many cuts of carne (asada, suadero, cabeza, lengua), and pork's big three, al pastor, carnitas and chorizo. Sauces bring spice and acidity, salsa roja (smoky), verde (tangy) or aguacate (creamy). Cilantro for freshness, raw onion for crunch.",
-  pairingNote:
-    "When pairing wine with tacos, look for freshness and bright acidity to cut the richness, and lower alcohol to keep spice in the background. Sparkling wines are a great option; rich whites stand up to the complexity, and lightly tannic reds complement the seasonings without accentuating heat.",
 }
 
 export const tacoSpots: TacoSpot[] = [
@@ -178,16 +176,4 @@ export const tacoSpots: TacoSpot[] = [
     blurb:
       "One of the longest-running taquerias in Napa (since the 1990s), with a brick-and-mortar and two trucks. House-made tortillas, traditional meats and three sauces make for archetypal Mexican street food. The carnitas are spot on, salty and rich; don't overlook the sweet carrot side.",
   },
-]
-
-// Recommended wines from the article (optional sidebar):
-export const tacoWines = [
-  'HYDE Pinot Noir Napa Valley Larry Hyde 2022',
-  'KINSMAN Eades Chenin Blanc Diamond Mountain District Aberro 2024',
-  'LOS CUERNOS Chardonnay California NV',
-  'NEWFOUND Grenache Napa Valley Yount Mill Vineyard 2022',
-  'NOMADICA California Bubbly White NV',
-  'SCHRAMSBERG Brut Rosé Napa Valley Querencia 2021',
-  'SPHAERICS Chardonnay Napa Valley Carneros Overline 2023',
-  'UNTI Vermentino Dry Creek Valley 2024',
 ]

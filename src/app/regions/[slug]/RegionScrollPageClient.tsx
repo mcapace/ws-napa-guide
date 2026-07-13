@@ -7,6 +7,7 @@ import Footer from '@/components/ui/Footer'
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
 import ScrollyItinerary from '@/components/itinerary/ScrollyItinerary'
 import { RegionMoreAppellations } from '@/components/regions/RegionMoreAppellations'
+import { RelatedStoriesRail } from '@/components/regions/RelatedStoriesRail'
 import { RegionEditorialSections } from '@/components/regions/RegionEditorialSections'
 import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
@@ -526,6 +527,7 @@ function RegionScrollPageClientContent({
       </div>
 
       <div id="region-bottom" className={styles.bottom}>
+        <RelatedStoriesRail cards={mdx.related} />
         <RegionMoreAppellations slug={slug} />
         <Footer />
       </div>
