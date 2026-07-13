@@ -7,9 +7,9 @@ export const articles: Article[] = [
     title: 'The Judgment at 50',
     section: 'feature',
     author: 'Mitch Frank',
-    relatedWineries: ['opus-one', 'inglenook', 'clos-du-val', 'schramsberg'],
+    relatedWineries: ['opus-one'],
     excerpt:
-      'Fifty years after the 1976 Paris tasting that shocked the wine world, we revisit the wines, the wineries, and what it all means for Napa today.',
+      'Fifty years after the 1976 Paris tasting, we revisit the wines, the wineries, and what it all means for Napa today.',
     sponsorTier: null,
     featured: true,
     images: [

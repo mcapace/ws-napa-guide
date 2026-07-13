@@ -25,7 +25,7 @@ export const tacoIntro = {
   standfirst:
     "Napa Valley and Mexico have a long-entwined history that has blended their cultures together along the way. Street tacos, once mainly a quick meal for workers, have become a food beloved by all, and taquerias now dot the valley from Calistoga to downtown Napa.",
   anatomy:
-    "A proper street taco needs just five ingredients: tortilla, meat, sauce, cilantro and onion. The magic is in the quality. It starts with the tortilla, masa harina de maíz and water pressed flat and cooked, best handmade to order and warmed on a grill. Then the meat: pollo asado, the many cuts of carne (asada, suadero, cabeza, lengua), and pork's big three, al pastor, carnitas and chorizo. Sauces bring spice and acidity, salsa roja (smoky), verde (tangy) or aguacate (creamy). Cilantro for freshness, raw onion for crunch.",
+    "A proper street taco needs just five ingredients: tortilla, meat, sauce, cilantro and onion. The magic is in the quality. It starts with the tortilla, masa harina de maíz, best handmade to order and warmed on a grill. Then the meat: pollo asado, the many cuts of carne (asada, suadero, cabeza, lengua), and pork's big three, al pastor, carnitas and chorizo. Sauces bring spice and acidity, salsa roja (smoky), verde (tangy) or aguacate (creamy). Cilantro for freshness, raw onion for crunch.",
 }
 
 export const tacoSpots: TacoSpot[] = [
@@ -38,7 +38,7 @@ export const tacoSpots: TacoSpot[] = [
     coords: [-122.4699, 38.5040],
     type: 'market-counter',
     blurb:
-      "This Mexican grocery store in St. Helena is home to one of the valley's most popular taco counters, with a second location in Napa. The hedonistic street-style lineup runs from pollo asado, carnitas and chorizo to traditional buche, lengua and suadero.",
+      "This Mexican grocery store in St. Helena is home to one of the valley's most popular taco counters, with a second location in Napa. The street-style lineup runs from pollo asado, carnitas and chorizo to traditional buche, lengua and suadero.",
   },
   {
     slug: 'el-rodeo',
@@ -61,7 +61,7 @@ export const tacoSpots: TacoSpot[] = [
     type: 'brick-and-mortar',
     thumb: '/images/features/napa-taco-tour/venue-el-sabor-serano.jpg',
     blurb:
-      "On the east side of Napa heading to Coombsville, next to Fairview Market. Sit down for your meal. The suadero stands out for juicy, tender beef, and you'll want as much salsa verde as possible, made with fire-roasted tomatillos for a smoky depth.",
+      "The suadero stands out for juicy, tender beef, and you'll want as much salsa verde as possible, made with fire-roasted tomatillos for a smoky depth.",
   },
   {
     slug: 'el-taco-feliz',
@@ -72,7 +72,7 @@ export const tacoSpots: TacoSpot[] = [
     type: 'truck',
     thumb: '/images/features/napa-taco-tour/venue-el-taco-feliz.jpg',
     blurb:
-      "This taco truck just past the intersection of Silverado Trail and Lake Street has long lines for a reason, and the service is always friendly. The carnes are tender, juicy and full of flavor; the cabeza stands out for its generous seasoning and melt-in-your-mouth braised beef.",
+      "This taco truck has long lines for a reason, and the service is always friendly. The carnes are tender, juicy and full of flavor; the cabeza stands out for its generous seasoning and melt-in-your-mouth braised beef.",
   },
   {
     slug: 'la-condesa-taqueria',
@@ -83,7 +83,7 @@ export const tacoSpots: TacoSpot[] = [
     coords: [-122.2900, 38.3080],
     type: 'brick-and-mortar',
     blurb:
-      "Open early, La Condesa offers breakfast tacos and licuados alongside traditional street tacos. The chorizo stands out for its seasoning and spices, served on a toasted tortilla that holds together nicely. There may be no better way to start the day.",
+      "Open early, La Condesa offers breakfast tacos and licuados alongside traditional street tacos. The chorizo stands out for its seasoning and spices, served on a toasted tortilla that holds together nicely.",
   },
   {
     slug: 'la-luna-market-taqueria',
@@ -94,7 +94,7 @@ export const tacoSpots: TacoSpot[] = [
     coords: [-122.4180, 38.4560],
     type: 'market-counter',
     blurb:
-      "Right in front of the Rancho Caymus Inn, this market and taqueria is one-stop shopping for a taco picnic. The pastor and pollo adobado tacos shine, with excellent seasoning and juicy meat, and picnic tables surround the exterior.",
+      "This market and taqueria is one-stop shopping for a taco picnic. The pastor and pollo adobado tacos shine, with excellent seasoning and juicy meat, and picnic tables surround the exterior.",
   },
   {
     slug: 'la-taquiza-fish-tacos',
@@ -105,19 +105,18 @@ export const tacoSpots: TacoSpot[] = [
     coords: [-122.3170, 38.3210],
     type: 'brick-and-mortar',
     blurb:
-      "In Redwood Plaza, this taqueria is known for fresh seafood: shrimp, fish and octopus as ceviche or seafood cocktail. The fish taco comes battered and fried or grilled, topped with pico de gallo, cabbage and chipotle crema. The grilled octopus is a standout, tender and meaty.",
+      "This taqueria is known for fresh seafood: shrimp, fish and octopus as ceviche or seafood cocktail. The fish taco comes battered and fried or grilled, topped with pico de gallo, cabbage and chipotle crema. The grilled octopus is a standout, tender and meaty.",
   },
   {
     slug: 'mothers-tacos',
     name: "Mother's Tacos",
     town: 'Napa',
     address: '3150 A Jefferson St., Napa',
-    website: 'https://madebymothers.com',
     coords: [-122.2960, 38.3170],
     type: 'brick-and-mortar',
     thumb: '/images/features/napa-taco-tour/venue-mothers-tacos.jpg',
     blurb:
-      "Napa's newest taco joint is a fast-casual spot in the Grape Yard shopping center. In-house tortillas anchor traditional carne asada, suadero or pollo asado, but the mushroom taco outperforms for melt-in-your-mouth sweetness. Try the oil-based macha sauce for acidity and crunch.",
+      "Napa's newest taco joint is a fast-casual spot. In-house tortillas anchor traditional carne asada, suadero or pollo asado, but the mushroom taco outperforms for melt-in-your-mouth sweetness. Try the oil-based macha sauce for acidity and crunch.",
   },
   {
     slug: 'ray-rays-tacos',
@@ -141,7 +140,7 @@ export const tacoSpots: TacoSpot[] = [
     type: 'truck',
     thumb: '/images/features/napa-taco-tour/venue-tacos-el-muchacho-alegre.jpg',
     blurb:
-      "This truck just off Soscol has plenty of parking and picnic tables. The spiced shrimp taco is filled to capacity with fresh slaw, pico de gallo and creamy aioli, and traditional meats like the al pastor are seasoned perfectly.",
+      "This truck has plenty of parking and picnic tables. The spiced shrimp taco is filled to capacity with fresh slaw, pico de gallo and creamy aioli, and traditional meats like the al pastor are seasoned perfectly.",
   },
   {
     slug: 'tacos-garcia',
@@ -152,7 +151,7 @@ export const tacoSpots: TacoSpot[] = [
     coords: [-122.3625, 38.4055],
     type: 'truck',
     blurb:
-      "Yountville's only taco truck sits at Washington Street and Champagne Drive, a block from picnic tables, bocce and volleyball. Tortillas are lightly toasted for a firm base, the lengua is a specialty, and the to-die-for red tomatillo sauce belongs on everything.",
+      "Yountville's only taco truck. Tortillas are lightly toasted for a firm base, the lengua is a specialty, and the to-die-for salsa roja belongs on everything.",
   },
   {
     slug: 'tacos-los-compadres',
@@ -163,7 +162,7 @@ export const tacoSpots: TacoSpot[] = [
     coords: [-122.2990, 38.3060],
     type: 'truck',
     blurb:
-      "Open until midnight, Los Compadres is great for late-night munchies. The al pastor is among the best in the valley, spun on a trompo, crisped and topped with rotating grilled pineapple. A salad bar lets you load up on cilantro, onions and sauce.",
+      "Open until midnight. The al pastor is among the best in the valley, spun on a trompo, crisped and topped with rotating grilled pineapple. A salad bar lets you load up on cilantro, onions and sauce.",
   },
   {
     slug: 'tacos-michoacan',

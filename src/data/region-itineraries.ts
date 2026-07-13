@@ -90,7 +90,7 @@ const YOUNTVILLE_CULINARY: Itinerary = {
       category: 'winery',
       coords: [-122.294664, 38.367466],
       blurb:
-        'Head north on Washington to Darioush, where warm Persian hospitality sets the stage for an epicurean adventure. The “By Invitation Only” experience is open to all and features top cuvées with seasonal food pairings—a four-course plated meal beginning with wood-fired barbari bread and herb butter.',
+        'Head north on Washington to Darioush, where warm Persian hospitality sets the stage for an epicurean adventure. The “By Invitation Only” experience is open to all and features top cuvées—a four-course plated meal beginning with wood-fired barbari bread and herb butter.',
     },
   ],
 }
@@ -307,7 +307,7 @@ const CALISTOGA_WALKABLE: Itinerary = {
       coords: [-122.578576, 38.574769],
       detailSlug: 'lola-wines',
       blurb:
-        'Head back up Foothill and in just a block you’ll arrive at Lola Wines. The brick bungalow looks like a residence, but within discover wines from owner Seth Cripe—Russian River Valley Pinot Noir plus Vermentino, Charbono and Counoise. A tasting here is one of the better bargains in the valley.',
+        'Head back up Foothill and in just a block you’ll arrive at Lola Wines. The brick bungalow looks like a residence, but within discover wines from owner Seth Cripe—Russian River Valley Pinot Noir plus Vermentino, Charbono and Counoise. A tasting here is a great value at $35 for five wines.',
     },
     {
       order: 3,
@@ -330,7 +330,7 @@ const CALISTOGA_WALKABLE: Itinerary = {
 
 const CALISTOGA_MOUNTAIN: Itinerary = {
   id: 'mountain-getaway',
-  title: 'Mountain Getaway',
+  title: 'Mountain Retreat',
   intro:
     'Some of the most promising wineries in Napa Valley aren’t in the valley at all—they’re up the mountain on Howell Mountain, which produces some of the region’s most interesting wines.',
   travelMode: 'driving',
@@ -349,7 +349,7 @@ const CALISTOGA_MOUNTAIN: Itinerary = {
       category: 'winery',
       coords: [-122.46362, 38.59815],
       blurb:
-        'Head farther uphill to Outpost Wines, perched on a ridge with Napa Valley on one side and Pope Valley on the other. Thomas Rivers Brown makes the wines here, including Cabernet, Grenache and Zinfandel that can be hard to find outside the tasting room.',
+        'Head farther uphill to Outpost Wines, perched on a ridge with Napa Valley on one side and Pope Valley on the other. Thomas Rivers Brown makes the wines here, including Cabernet, an intriguing Grenache and a Zinfandel.',
     },
   ],
 }
