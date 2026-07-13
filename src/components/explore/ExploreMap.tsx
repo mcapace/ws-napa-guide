@@ -68,6 +68,7 @@ const REGION_ORDER = [
   'calistoga',
   'pritchard-hill',
   'downtown-napa',
+  'beyond-napa',
 ]
 
 function listingCopyCanExpand(pin: MapPin): boolean {

@@ -400,6 +400,7 @@ export const REGION_ITINERARIES: Partial<Record<Region | string, Itinerary[]>> =
   ],
   calistoga: [CALISTOGA_WALKABLE, CALISTOGA_MOUNTAIN],
   'downtown-napa': [DOWNTOWN_CARNEROS],
+  'beyond-napa': [DOWNTOWN_CARNEROS],
 }
 
 export function getRegionItineraries(slug: string): Itinerary[] {

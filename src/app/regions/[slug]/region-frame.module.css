@@ -1019,6 +1019,11 @@
   border-top: 1px solid rgba(247, 243, 236, 0.08);
 }
 
+/* Regions without an itinerary: directory is the last embed panel — match closing rhythm */
+.frame[data-region-no-itinerary] .scrollSectionExplore .scrollContinueCta {
+  padding-bottom: clamp(32px, 5vw, 48px);
+}
+
 /* ── Continuous scroll: section markers between story / picks / list / itinerary ── */
 .scrollMarkerDark {
   background: var(--ink);

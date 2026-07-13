@@ -70,11 +70,21 @@ const GUIDE_NAV_LABELS = {
   map: 'Directory',
 } as const
 
+type ShowcaseImageFallbacks = {
+  landscape?: string
+  portrait?: string
+}
+
 function toShowcasePick(
   feature: EditorialFeature,
   category: ShowcaseCategory,
   key: string,
+  fallbacks?: ShowcaseImageFallbacks,
 ): ShowcasePick {
+  const image = feature.image ?? fallbacks?.landscape
+  const imagePortrait =
+    feature.imagePortrait ?? feature.image ?? fallbacks?.portrait ?? fallbacks?.landscape
+
   return {
     key,
     category,
@@ -82,8 +92,8 @@ function toShowcasePick(
     address: feature.address,
     website: feature.website,
     bodyPlain: feature.bodyPlain,
-    image: feature.image,
-    imagePortrait: feature.imagePortrait,
+    image,
+    imagePortrait,
   }
 }
 
@@ -110,17 +120,34 @@ export function RegionEditorialSections({
       ? 'region-chapter region-chapter--showcase'
       : 'region-chapter'
 
+  const showcaseImageFallbacks: ShowcaseImageFallbacks | undefined = showcase
+    ? {
+        landscape: data.frontmatter.heroImage,
+        portrait: data.frontmatter.heroImagePortrait ?? data.frontmatter.heroImage,
+      }
+    : undefined
+
   const tastePicks = data.featuredWineries.map((feature) => ({
     key: `winery-${feature.name}`,
     props: featureProps(feature),
-    showcase: toShowcasePick(feature, 'taste', `winery-${feature.name}`),
+    showcase: toShowcasePick(
+      feature,
+      'taste',
+      `winery-${feature.name}`,
+      showcaseImageFallbacks,
+    ),
   }))
 
   const eatPicks = [
     ...data.featuredRestaurants.map((feature) => ({
       key: `restaurant-${feature.name}`,
       props: featureProps(feature),
-      showcase: toShowcasePick(feature, 'eat', `restaurant-${feature.name}`),
+      showcase: toShowcasePick(
+        feature,
+        'eat',
+        `restaurant-${feature.name}`,
+        showcaseImageFallbacks,
+      ),
     })),
     ...(data.breakfast &&
     !data.featuredRestaurants.some((r) => r.name === data.breakfast!.name)
@@ -128,7 +155,12 @@ export function RegionEditorialSections({
           {
             key: `breakfast-${data.breakfast.name}`,
             props: featureProps(data.breakfast),
-            showcase: toShowcasePick(data.breakfast, 'eat', `breakfast-${data.breakfast.name}`),
+            showcase: toShowcasePick(
+              data.breakfast,
+              'eat',
+              `breakfast-${data.breakfast.name}`,
+              showcaseImageFallbacks,
+            ),
           },
         ]
       : []),
@@ -137,7 +169,12 @@ export function RegionEditorialSections({
   const stayPicks = data.featuredHotels.map((feature) => ({
     key: `hotel-${feature.name}`,
     props: featureProps(feature),
-    showcase: toShowcasePick(feature, 'stay', `hotel-${feature.name}`),
+    showcase: toShowcasePick(
+      feature,
+      'stay',
+      `hotel-${feature.name}`,
+      showcaseImageFallbacks,
+    ),
   }))
 
   const hasTaste = tastePicks.length > 0
@@ -147,7 +184,12 @@ export function RegionEditorialSections({
   const coffeeSnackPicks = data.coffeeSnackFeatures.map((feature, index) => ({
     key: `coffee-${feature.name}`,
     props: featureProps(feature),
-    showcase: toShowcasePick(feature, 'eat', `coffee-${feature.name}`),
+    showcase: toShowcasePick(
+      feature,
+      'eat',
+      `coffee-${feature.name}`,
+      showcaseImageFallbacks,
+    ),
     index,
   }))
   const hasStay = stayPicks.length > 0

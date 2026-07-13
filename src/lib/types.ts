@@ -7,6 +7,7 @@ export type Region =
   | 'yountville'
   | 'pritchard-hill'
   | 'downtown-napa'
+  | 'beyond-napa'
   | 'st-helena'
   | 'stags-leap'
   | 'spring-mountain'

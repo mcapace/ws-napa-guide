@@ -1,5 +1,7 @@
-/** Region pages with Tiraki-style scroll polish (pilot one at a time on staging). */
-export const REGION_SCROLL_ENHANCED_SLUGS = ['oakville'] as const
+import { REGION_SOUTH_TO_NORTH } from '@/data/region-order'
+
+/** Magazine region scroll pages with Tiraki-style hero/showcase polish. */
+export const REGION_SCROLL_ENHANCED_SLUGS = [...REGION_SOUTH_TO_NORTH] as const
 
 export type RegionScrollEnhancedSlug = (typeof REGION_SCROLL_ENHANCED_SLUGS)[number]
 

@@ -7,6 +7,7 @@ export const REGION_SOUTH_TO_NORTH = [
   'st-helena',
   'calistoga',
   'pritchard-hill',
+  'beyond-napa',
 ] as const
 
 export type RegionGuideSlug = (typeof REGION_SOUTH_TO_NORTH)[number]

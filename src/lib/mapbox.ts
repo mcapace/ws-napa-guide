@@ -39,6 +39,7 @@ export const REGION_CENTERS: Record<string, { center: [number, number]; zoom: nu
   calistoga: { center: [-122.5798, 38.5789], zoom: 12.5 },
   'pritchard-hill': { center: [-122.39, 38.51], zoom: 12.5 },
   'downtown-napa': { center: [-122.287, 38.2975], zoom: 13 },
+  'beyond-napa': { center: [-122.35, 38.28], zoom: 10.5 },
 }
 
 export const REGION_LABELS: Record<string, string> = {
@@ -49,6 +50,7 @@ export const REGION_LABELS: Record<string, string> = {
   calistoga: 'Calistoga',
   'pritchard-hill': 'Pritchard Hill',
   'downtown-napa': 'Downtown Napa',
+  'beyond-napa': 'Beyond Napa',
 }
 
 export const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? ''

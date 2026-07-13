@@ -325,6 +325,7 @@ function RegionScrollPageClientContent({
       data-region-frame=""
       data-scroll-unified=""
       {...(scrollEnhanced ? { 'data-region-enhanced': '' } : {})}
+      {...(!hasItinerary ? { 'data-region-no-itinerary': '' } : {})}
       {...(hasItinerary && itineraries.length > 1 ? { 'data-has-itinerary-selector': '' } : {})}
     >
       <RegionScrollEnhancements enabled={scrollEnhanced} />
@@ -434,7 +435,7 @@ function RegionScrollPageClientContent({
         <section id="region-story" className={styles.scrollSectionStory}>
           <RegionStoryPanel
             mdx={mdx}
-            hideCompanionFeature={hasItinerary}
+            hideCompanionFeature
             textOnly
             hideDek
           />

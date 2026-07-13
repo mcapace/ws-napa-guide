@@ -8,6 +8,15 @@ const nextConfig: NextConfig = {
   outputFileTracingExcludes: {
     "*": ["./public/images/**/*", "./public/test-images/**/*"],
   },
+  async redirects() {
+    return [
+      {
+        source: '/features/taco-truck-tour',
+        destination: '/features/napa-taco-tour',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 export default nextConfig;
