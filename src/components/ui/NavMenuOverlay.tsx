@@ -13,6 +13,7 @@ import {
 import {
   navMetaLinks,
   navPrimaryLinks,
+  navStoryLinks,
   navTownLinks,
   type SiteNavLink,
 } from '@/data/site-nav'
@@ -111,44 +112,62 @@ export function NavMenuOverlay({ open, onClose }: NavMenuOverlayProps) {
               </button>
             </header>
 
-            <div className={styles.columns}>
-              <section className={styles.column}>
+            <div className={styles.layout}>
+              {/* Towns — the marquee zone, large serif editorial links */}
+              <section className={styles.towns}>
                 <p className={styles.sectionLabel}>Towns &amp; areas</p>
-                <ul className={styles.columnList}>
-                  {navTownLinks.map((item) => (
-                    <li key={item.href}>
-                      <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
+                <ul className={styles.townList}>
+                  {navTownLinks.map((item, i) => (
+                    <li key={item.href} className={styles.townItem}>
+                      <span className={styles.townIndex} aria-hidden="true">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <OverlayLink item={item} className={styles.townLink} onClose={onClose} />
                     </li>
                   ))}
                 </ul>
                 <OverlayLink
-                  item={{ label: 'All towns & areas', href: '/regions' }}
+                  item={{ label: 'All towns & areas →', href: '/regions' }}
                   className={styles.columnLinkMuted}
                   onClose={onClose}
                 />
               </section>
 
-              <section className={styles.column}>
-                <p className={styles.sectionLabel}>Explore the guide</p>
-                <ul className={styles.columnList}>
-                  {navPrimaryLinks.map((item) => (
-                    <li key={item.href}>
-                      <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
-                    </li>
-                  ))}
-                </ul>
-              </section>
+              {/* Rail — guide, stories, and magazine links */}
+              <div className={styles.rail}>
+                <section className={styles.railGroup}>
+                  <p className={styles.sectionLabel}>Explore the guide</p>
+                  <ul className={styles.columnList}>
+                    {navPrimaryLinks.map((item) => (
+                      <li key={item.href}>
+                        <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
 
-              <section className={styles.column}>
-                <p className={styles.sectionLabel}>Wine Spectator</p>
-                <ul className={styles.columnList}>
-                  {navMetaLinks.map((item) => (
-                    <li key={item.href}>
-                      <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
-                    </li>
-                  ))}
-                </ul>
-              </section>
+                <section className={styles.railGroup}>
+                  <p className={styles.sectionLabel}>Stories</p>
+                  <ul className={styles.columnList}>
+                    {navStoryLinks.map((item) => (
+                      <li key={item.href}>
+                        <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section className={styles.railGroup}>
+                  <p className={styles.sectionLabel}>Wine Spectator</p>
+                  <ul className={styles.columnList}>
+                    {navMetaLinks.map((item) => (
+                      <li key={item.href}>
+                        <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              </div>
             </div>
 
             <footer className={styles.footer}>
