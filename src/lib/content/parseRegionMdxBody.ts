@@ -10,6 +10,7 @@ import type {
 const FEATURE_SLUG_ALIASES: Record<string, string> = {
   tacos: 'napa-taco-tour',
   'taco-truck-tour': 'napa-taco-tour',
+  landmarks: 'napa-landmarks',
 }
 
 export function resolveFeatureSlug(ref: string): string {
@@ -136,22 +137,28 @@ export function extractGfmTable(text: string): string {
 export function parseTastingDirectoryTable(tableMd: string, category: DirectoryCategory): TastingDirectoryRow[] {
   const lines = tableMd.split('\n').filter((l) => l.trim().startsWith('|'))
   if (lines.length < 2) return []
+  // Positional cells (leading/trailing pipes stripped) so an optional 4th
+  // Award column survives rows with empty websites.
   const parseRow = (line: string) =>
     line
+      .trim()
+      .replace(/^\|/, '')
+      .replace(/\|$/, '')
       .split('|')
       .map((c) => c.trim())
-      .filter((c) => c.length > 0 && !/^[-:]+$/.test(c))
   const rows = lines
     .slice(2)
     .map(parseRow)
-    .filter((r) => r.length >= 3)
-    .map(([name, address, website]) => ({
-      name,
-      address,
-      website,
+    .filter((r) => r.filter((c) => c.length > 0 && !/^[-:]+$/.test(c)).length >= 2)
+    .map((cells) => ({
+      name: cells[0] ?? '',
+      address: cells[1] ?? '',
+      website: cells[2] ?? '',
+      award: cells[3]?.trim() || undefined,
       coordinates: null as RegionCoordinates | null,
       category,
     }))
+    .filter((r) => r.name.length > 0)
   return rows
 }
 

@@ -38,6 +38,8 @@ export type TastingDirectoryRow = {
   name: string
   address: string
   website: string
+  /** Wine Spectator Restaurant Award level from the print directory (e.g. "Grand Award"). */
+  award?: string
   /** Null until batch geocode fills MDX */
   coordinates: RegionCoordinates | null
   category: DirectoryCategory
@@ -65,6 +67,14 @@ export type RelatedStoryCard = {
   dek: string
 }
 
+/** Print "shopping/culture" section (Culture & Cocktails, Browsing Brews & Books, Things to Do). */
+export type ThingsToDoSection = {
+  /** Printed section heading, e.g. "Culture & Cocktails". */
+  heading: string
+  intro: ReactNode | null
+  features: EditorialFeature[]
+}
+
 export type LoadedRegionMdx = {
   /** Display line for magazine sidebar (derived from MDX H1 key, no “Sidebar:” prefix). */
   sidebarHeading: string
@@ -79,6 +89,7 @@ export type LoadedRegionMdx = {
   restaurantDirectory: TastingDirectoryRow[]
   featuredHotels: EditorialFeature[]
   lodgingDirectory: TastingDirectoryRow[]
+  thingsToDo: ThingsToDoSection | null
   sidebar: ReactNode | null
   /** Plain-text sidebar for teasers */
   sidebarPlain?: string

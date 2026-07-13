@@ -40,6 +40,18 @@ export const articles: Article[] = [
     publishedAt: '2026-06-15',
   },
   {
+    slug: 'napa-landmarks',
+    title: 'Signs of the (Good) Times',
+    subtitle: 'Points of Interest',
+    section: 'feature',
+    author: 'Chris Cardoso',
+    excerpt:
+      "Two roadside icons — the Welcome to Napa Valley signs and the Grape Crusher statue — and the stories behind the valley's best-known landmarks.",
+    sponsorTier: null,
+    images: ['/images/features/napa-landmarks/welcome-sign.jpg'],
+    publishedAt: '2026-06-15',
+  },
+  {
     slug: 'napa-oakville',
     title: 'Oakville',
     section: 'regions',

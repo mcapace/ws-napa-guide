@@ -24,6 +24,8 @@ export interface MapPin {
   thumb?: string
   /** Featured in region MDX — larger card in directory list */
   editorial?: boolean
+  /** Wine Spectator Restaurant Award level from the print directory. */
+  award?: string
   /** Legacy fields for NapaMap compatibility. */
   id: string
   type: PinType

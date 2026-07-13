@@ -167,6 +167,7 @@ function directoryRowToMapPin(row: TastingDirectoryRow, regionSlug: string): Map
   return {
     slug,
     name: row.name,
+    award: row.award,
     category,
     region: regionSlug,
     coords: [lng, lat],

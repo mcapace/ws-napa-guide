@@ -1373,3 +1373,24 @@ html[data-region-native-scroll].lenis.lenis-stopped {
     transparent 82%
   ) !important;
 }
+
+/* Things to Do (print shopping/culture sections) — MDX bodies compile with
+   light-page inline colors; invert them for the dark story field. */
+.things-to-do-body p,
+.things-to-do-intro p {
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  margin: 0 0 1em !important;
+}
+
+.things-to-do-body p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.things-to-do-body a,
+.things-to-do-intro a {
+  color: var(--gold) !important;
+  border-bottom-color: rgba(196, 148, 58, 0.4) !important;
+}

@@ -13,12 +13,14 @@ export const navPrimaryLinks: SiteNavLink[] = [
   { label: 'Where to Taste', href: '/wineries' },
   { label: 'Where to Dine', href: '/dining' },
   { label: 'Where to Stay', href: '/stay' },
+  { label: 'Events Calendar', href: '/calendar' },
 ]
 
 /** Feature stories — grouped under "Stories" in the menu so they're findable. */
 export const navStoryLinks: SiteNavLink[] = [
   { label: 'The Napa Valley Taco Tour', href: '/features/napa-taco-tour' },
   { label: 'The Judgment of Paris Tasting', href: '/features/judgment-of-paris' },
+  { label: 'Napa Valley Landmarks', href: '/features/napa-landmarks' },
   { label: 'All Features', href: '/features' },
 ]
 

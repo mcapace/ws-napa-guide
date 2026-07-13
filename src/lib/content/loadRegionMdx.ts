@@ -5,7 +5,7 @@ import { compileMDX } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import { articles } from '@/data/articles'
 import { editorialMdxComponents, ledeMdxComponents, sidebarMdxComponents } from '@/components/regions/mdxComponents'
-import type { EditorialFeature, LoadedRegionMdx, RegionMdxFrontmatter, RelatedStoryCard, TastingDirectoryRow } from '@/lib/content/types'
+import type { EditorialFeature, LoadedRegionMdx, RegionMdxFrontmatter, RelatedStoryCard, TastingDirectoryRow, ThingsToDoSection } from '@/lib/content/types'
 import {
   buildEditorialFeaturesFromH3,
   extractGfmTable,
@@ -241,6 +241,28 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     )
   }
 
+  // Print shopping/culture section — heading varies by town.
+  const THINGS_TO_DO_HEADINGS = [
+    'Culture & Cocktails',
+    'Browsing, Brews & Books',
+    'Things to Do',
+  ]
+  let thingsToDo: ThingsToDoSection | null = null
+  for (const heading of THINGS_TO_DO_HEADINGS) {
+    const md = sections[heading]
+    if (!md?.trim()) continue
+    const firstH3 = md.search(/^### /m)
+    const introMd = (firstH3 === -1 ? md : md.slice(0, firstH3)).trim()
+    const featureMd = firstH3 === -1 ? '' : md.slice(firstH3)
+    const featureBlocks = splitH3Blocks(featureMd)
+    thingsToDo = {
+      heading,
+      intro: introMd ? await compileMarkdown(introMd) : null,
+      features: await buildEditorialFeaturesFromH3(featureBlocks, compileMarkdown),
+    }
+    break
+  }
+
   const lede = await compileLede(ledeMd)
   const ledePlain = ledeMd.trim() ? markdownToPlainParagraphs(ledeMd) : undefined
   const sidebar = sidebarMd.trim() ? await compileSidebar(sidebarMd) : null
@@ -260,6 +282,7 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     featuredHotels,
     lodgingDirectory,
     restaurantDirectory,
+    thingsToDo,
     sidebar,
     sidebarPlain,
     sidebarMd: sidebarMd.trim() || undefined,

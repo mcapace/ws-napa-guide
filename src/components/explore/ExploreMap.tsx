@@ -715,6 +715,21 @@ export function ExploreMap({
                         {cfg.label}
                       </p>
                       <p className={styles.name}>{pin.name}</p>
+                      {pin.award ? (
+                        <p
+                          style={{
+                            fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+                            fontSize: 9,
+                            fontWeight: 600,
+                            letterSpacing: '0.14em',
+                            textTransform: 'uppercase',
+                            color: 'var(--gold, #C4943A)',
+                            margin: '2px 0 4px',
+                          }}
+                        >
+                          Wine Spectator {pin.award}
+                        </p>
+                      ) : null}
                       <p
                         className={`${styles.meta}${showLongCopy ? ` ${styles.metaEditorial}` : ''}${
                           copyExpanded ? ` ${styles.metaExpanded}` : ''
