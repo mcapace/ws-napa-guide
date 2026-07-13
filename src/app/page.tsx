@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { WS_LOGO_PRIMARY_SRC } from '@/lib/ws-logo'
 import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
@@ -271,11 +272,18 @@ export default function HomePage() {
   return (
     <div data-page="home-hero">
       {/* ── NAV (TRH: compact uppercase label + hamburger) ── */}
-      <nav ref={homeNavRef} className="home-nav">
-        <Link href="/" className="home-nav-brand">
-          <span className="home-nav-brand__part">Wine Spectator</span>
-          <span className="home-nav-brand__rule" aria-hidden="true" />
-          <span className="home-nav-brand__part">Napa Valley Guide</span>
+      <nav ref={homeNavRef} className="home-nav ws-nav--on-dark-surface">
+        <Link href="/" className="ws-nav-brand">
+          <Image
+            className="ws-nav-brand__wordmark"
+            src={WS_LOGO_PRIMARY_SRC}
+            alt="Wine Spectator"
+            width={Math.round(36 * 4.75)}
+            height={36}
+            priority
+            style={{ width: 'auto' }}
+          />
+          <span className="ws-nav-brand__tagline">Napa Valley Guide</span>
         </Link>
         <button
           onClick={() => setMenuOpen(true)}

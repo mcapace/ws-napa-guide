@@ -880,6 +880,30 @@
   display: none;
 }
 
+/* Narrow viewports: the centered row overflows, which clips the leading
+   links off-screen (centered overflow is unreachable). Left-align the
+   scroller and fade both edges so it reads as horizontally scrollable. */
+@media (max-width: 680px) {
+  .jumpNavInner {
+    justify-content: flex-start;
+    padding: 0 18px;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 18px,
+      #000 calc(100% - 34px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 18px,
+      #000 calc(100% - 34px),
+      transparent 100%
+    );
+  }
+}
+
 .jumpNavGroup {
   display: flex;
   align-items: center;

@@ -425,33 +425,6 @@ html[data-region-native-scroll] body {
   will-change: opacity;
 }
 
-.home-nav-brand {
-  display: flex;
-  align-items: center;
-  gap: clamp(10px, 1.1vw, 14px);
-  text-decoration: none;
-  max-width: min(100%, 72vw);
-}
-
-.home-nav-brand__part {
-  font-family: var(--font-body);
-  font-size: clamp(9px, 0.72vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--bordeaux);
-  transition: color 0.28s ease;
-  line-height: 1.2;
-}
-
-.home-nav-brand__rule {
-  width: 1px;
-  height: 11px;
-  flex-shrink: 0;
-  background: rgba(107, 45, 45, 0.45);
-  transition: background 0.28s ease;
-}
-
 .home-nav > button {
   padding: 6px 2px;
   display: flex;
@@ -469,15 +442,6 @@ html[data-region-native-scroll] body {
   background: var(--bordeaux);
   width: 30px;
   height: 1px;
-}
-
-/* Homepage nav stays light on dark — entire page is #0D0B09 below hero too */
-body:has([data-page="home-hero"]) .home-nav-brand__part {
-  color: rgba(250, 247, 242, 0.9);
-}
-
-body:has([data-page="home-hero"]) .home-nav-brand__rule {
-  background: rgba(250, 247, 242, 0.38);
 }
 
 body:has([data-page="home-hero"]) .home-nav__hamburger-bar {

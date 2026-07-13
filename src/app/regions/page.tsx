@@ -22,8 +22,8 @@ export default function RegionsPage() {
       {/* Page header */}
       <section
         style={{
-          paddingTop: '160px',
-          paddingBottom: '5rem',
+          paddingTop: 'clamp(112px, 14vh, 144px)',
+          paddingBottom: '3.5rem',
           borderBottom: '1px solid rgba(247,243,236,0.06)',
         }}
       >
