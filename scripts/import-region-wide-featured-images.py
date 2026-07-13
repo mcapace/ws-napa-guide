@@ -143,6 +143,8 @@ REGIONS: list[WideRegionConfig] = [
     ),
     WideRegionConfig(
         region="pritchard-hill",
+        # Properties/Pritchard wide inside 08_Pritchard Hill
+        # Parent: https://drive.google.com/drive/folders/1fwUOC3zN9YTCH_SVhOZYa5gQtvsoKAXN
         drive_folder_id="1gQjwLTcNr0x2NiEWx63kebpSf1hD7cFk",
         tmp_dir=ROOT / ".tmp-pritchard-hill-wide",
         files={
