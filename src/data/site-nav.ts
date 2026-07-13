@@ -14,7 +14,7 @@ export const navPrimaryLinks: SiteNavLink[] = [
   { label: 'Where to Dine', href: '/dining' },
   { label: 'Where to Stay', href: '/stay' },
   { label: 'Where to Taco', href: '/features/napa-taco-tour' },
-  { label: 'The Judgement of Paris Tasting', href: '/features/judgment-of-paris' },
+  { label: 'The Judgment of Paris Tasting', href: '/features/judgment-of-paris' },
   { label: 'All Features', href: '/features' },
 ]
 

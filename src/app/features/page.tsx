@@ -7,7 +7,7 @@ import { getStoryArticles } from '@/data/site-stories'
 export const metadata: Metadata = {
   title: 'Features',
   description:
-    'Wine Spectator Napa Valley guide features — The Judgement of Paris tasting and the Napa Valley taco tour.',
+    'Wine Spectator Napa Valley guide features — The Judgment of Paris tasting and the Napa Valley taco tour.',
 }
 
 export default function FeaturesIndexPage() {
@@ -25,7 +25,7 @@ export default function FeaturesIndexPage() {
       <HomeStoriesSection
         stories={stories}
         title="Features"
-        intro="The Judgement of Paris tasting and a valley-wide taco tour — online exclusives from Wine Spectator."
+        intro="The Judgment of Paris tasting and a valley-wide taco tour — online exclusives from Wine Spectator."
       />
       <Newsletter />
       <Footer />

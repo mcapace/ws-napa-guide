@@ -126,8 +126,11 @@ export function NavMenuOverlay({ open, onClose }: NavMenuOverlayProps) {
                   className={styles.columnLinkMuted}
                   onClose={onClose}
                 />
+              </section>
 
-                <ul className={`${styles.columnList} ${styles.columnListSpaced}`}>
+              <section className={styles.column}>
+                <p className={styles.sectionLabel}>Explore the guide</p>
+                <ul className={styles.columnList}>
                   {navPrimaryLinks.map((item) => (
                     <li key={item.href}>
                       <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
