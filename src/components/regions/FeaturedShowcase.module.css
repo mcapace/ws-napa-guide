@@ -181,8 +181,8 @@
 .blurb {
   margin: 0 0 18px;
   max-width: 540px;
-  font-family: var(--font-body, 'DM Sans', sans-serif);
-  font-size: clamp(14px, 1.5vw, 15px);
+  font-family: var(--tr-showcase-blurb-font, var(--font-body, 'DM Sans', sans-serif));
+  font-size: var(--tr-showcase-blurb-size, clamp(14px, 1.5vw, 15px));
   line-height: 1.65;
   color: rgba(247, 243, 236, 0.8);
 }

@@ -926,7 +926,7 @@
   background: transparent;
   cursor: pointer;
   font-family: var(--font-body, 'DM Sans', sans-serif);
-  font-size: 10px;
+  font-size: var(--tr-jump-size, 10px);
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;

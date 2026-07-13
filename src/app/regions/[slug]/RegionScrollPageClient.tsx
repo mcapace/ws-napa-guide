@@ -323,6 +323,7 @@ function RegionScrollPageClientContent({
   return (
     <div
       className={styles.frame}
+      {...(slug === 'st-helena' ? { 'data-type-refresh': '' } : {})}
       data-site-surface="dark"
       data-region-frame=""
       data-scroll-unified=""
