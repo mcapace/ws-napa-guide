@@ -61,6 +61,7 @@ export const tacoSpots: TacoSpot[] = [
     website: 'https://elsaborserano.com',
     coords: [-122.2770, 38.2960],
     type: 'brick-and-mortar',
+    thumb: '/images/features/napa-taco-tour/venue-el-sabor-serano.jpg',
     blurb:
       "On the east side of Napa heading to Coombsville, next to Fairview Market. Sit down for your meal. The suadero stands out for juicy, tender beef, and you'll want as much salsa verde as possible, made with fire-roasted tomatillos for a smoky depth.",
   },
@@ -71,6 +72,7 @@ export const tacoSpots: TacoSpot[] = [
     address: 'Lake Street, Calistoga (past Silverado Trail & Lake St.)',
     coords: [-122.5760, 38.5790],
     type: 'truck',
+    thumb: '/images/features/napa-taco-tour/venue-el-taco-feliz.jpg',
     blurb:
       "This taco truck just past the intersection of Silverado Trail and Lake Street has long lines for a reason, and the service is always friendly. The carnes are tender, juicy and full of flavor; the cabeza stands out for its generous seasoning and melt-in-your-mouth braised beef.",
   },
@@ -115,6 +117,7 @@ export const tacoSpots: TacoSpot[] = [
     website: 'https://madebymothers.com',
     coords: [-122.2960, 38.3170],
     type: 'brick-and-mortar',
+    thumb: '/images/features/napa-taco-tour/venue-mothers-tacos.jpg',
     blurb:
       "Napa's newest taco joint is a fast-casual spot in the Grape Yard shopping center. In-house tortillas anchor traditional carne asada, suadero or pollo asado, but the mushroom taco outperforms for melt-in-your-mouth sweetness. Try the oil-based macha sauce for acidity and crunch.",
   },
@@ -126,6 +129,7 @@ export const tacoSpots: TacoSpot[] = [
     website: 'https://rayrays.com',
     coords: [-122.4695, 38.5030],
     type: 'brick-and-mortar',
+    thumb: '/images/features/napa-taco-tour/venue-ray-rays-tacos.jpg',
     blurb:
       "Ray Ray's offers convenience with tacos to go, build-your-own kits, and a 16-taco tray where all you do is pick the meat. The spiced carrot taco should not be missed, and there's plenty of seating for dining in.",
   },
@@ -137,6 +141,7 @@ export const tacoSpots: TacoSpot[] = [
     website: 'https://tacoselmuchachoalegre.com',
     coords: [-122.2905, 38.2985],
     type: 'truck',
+    thumb: '/images/features/napa-taco-tour/venue-tacos-el-muchacho-alegre.jpg',
     blurb:
       "This truck just off Soscol has plenty of parking and picnic tables. The spiced shrimp taco is filled to capacity with fresh slaw, pico de gallo and creamy aioli, and traditional meats like the al pastor are seasoned perfectly.",
   },
