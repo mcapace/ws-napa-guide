@@ -22,7 +22,7 @@ export default function DiningIndexPage() {
         </p>
       </header>
 
-      <ExploreMapSection pins={mapPins} pinnedCategory="dining" showRegionFilter={true} />
+      <ExploreMapSection pins={mapPins} pinnedCategory="dining" showRegionFilter={true} pageFlow />
 
       <Newsletter />
       <Footer />

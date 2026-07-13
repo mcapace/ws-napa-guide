@@ -23,7 +23,16 @@ export function RegionMoreAppellations({ slug }: { slug: string }) {
         <header className={styles.header}>
           <p className={styles.eyebrow}>Continue exploring</p>
           <h2 id="more-appellations-heading" className={styles.title}>
-            Beyond <em>{current.name}</em>
+            {/* "Beyond Beyond Napa" reads badly — that region gets its own phrasing */}
+            {current.name.toLowerCase().startsWith('beyond') ? (
+              <>
+                More of <em>Napa Valley</em>
+              </>
+            ) : (
+              <>
+                Beyond <em>{current.name}</em>
+              </>
+            )}
           </h2>
           <p className={styles.dek}>
             {others.length === 1

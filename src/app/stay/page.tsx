@@ -22,7 +22,7 @@ export default function StayIndexPage() {
         </p>
       </header>
 
-      <ExploreMapSection pins={mapPins} pinnedCategory="stay" showRegionFilter={true} />
+      <ExploreMapSection pins={mapPins} pinnedCategory="stay" showRegionFilter={true} pageFlow />
 
       <Newsletter />
       <Footer />

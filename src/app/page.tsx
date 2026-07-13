@@ -576,12 +576,16 @@ export default function HomePage() {
                   style={{ objectFit: 'cover' }}
                 />
               </div>
-              {/* Gradient overlay for text readability */}
-              <div style={{
-                position: 'absolute', inset: 0,
-                background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 50%, transparent 80%)',
-                zIndex: 1,
-              }} />
+              {/* Light resting scrim so photography stays vivid; deepens on hover for text pop */}
+              <div
+                className="home-region-pin-scrim"
+                style={{
+                  position: 'absolute', inset: 0,
+                  background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.1) 50%, transparent 80%)',
+                  transition: 'opacity 0.5s ease',
+                  zIndex: 1,
+                }}
+              />
               <div className="hero-top-scrim" aria-hidden />
               {/* Metadata top center */}
               <div className="home-region-pin-label" style={{

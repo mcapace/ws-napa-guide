@@ -22,7 +22,7 @@ export default function WineriesIndexPage() {
         </p>
       </header>
 
-      <ExploreMapSection pins={mapPins} pinnedCategory="winery" showRegionFilter={true} />
+      <ExploreMapSection pins={mapPins} pinnedCategory="winery" showRegionFilter={true} pageFlow />
 
       <Newsletter />
       <Footer />

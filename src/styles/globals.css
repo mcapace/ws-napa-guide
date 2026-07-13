@@ -1358,3 +1358,18 @@ html[data-region-native-scroll].lenis.lenis-stopped {
     opacity: 0.55;
   }
 }
+
+/* Homepage region TOC cards: photo reads clean at rest; scrim/text pop on hover */
+[data-pin-section] .home-region-pin-scrim {
+  opacity: 1;
+}
+
+[data-pin-section]:hover .home-region-pin-scrim {
+  opacity: 1;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.22) 50%,
+    transparent 82%
+  ) !important;
+}
