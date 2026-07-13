@@ -42,7 +42,7 @@ function editorialFeaturesForCategory(
   data: LoadedRegionMdx,
   category: MapPinCategory,
 ): EditorialFeature[] {
-  if (category === 'dining') return data.featuredRestaurants
+  if (category === 'dining') return [...data.featuredRestaurants, ...data.coffeeSnackFeatures]
   if (category === 'stay') return data.featuredHotels
   return data.featuredWineries
 }
