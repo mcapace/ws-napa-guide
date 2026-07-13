@@ -408,6 +408,19 @@ export default function HomePage() {
               willChange: 'opacity',
             }}
           >
+            {/* Bottom scrim: keeps eyebrow/CTAs legible over bright video frames */}
+            <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,
+                height: '46%',
+                background:
+                  'linear-gradient(to top, rgba(13,11,9,0.78) 0%, rgba(13,11,9,0.42) 55%, transparent 100%)',
+              }}
+            />
             <div
               className="home-hero-fullscreen-overlay__footer"
               style={{
@@ -438,7 +451,8 @@ export default function HomePage() {
                     fontWeight: 400,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
-                    color: 'rgba(247,243,236,0.5)',
+                    color: 'rgba(247,243,236,0.85)',
+                    textShadow: '0 1px 8px rgba(13,11,9,0.5)',
                     marginBottom: 12,
                   }}
                 >
@@ -453,6 +467,7 @@ export default function HomePage() {
                     color: '#F7F3EC',
                     lineHeight: 0.95,
                     letterSpacing: '-0.02em',
+                    textShadow: '0 2px 20px rgba(13,11,9,0.45)',
                   }}
                 >
                   Explore
@@ -471,8 +486,9 @@ export default function HomePage() {
                     textTransform: 'uppercase',
                     color: '#F7F3EC',
                     textDecoration: 'none',
-                    borderBottom: '1px solid rgba(247,243,236,0.3)',
+                    borderBottom: '1px solid rgba(247,243,236,0.55)',
                     paddingBottom: 4,
+                    textShadow: '0 1px 8px rgba(13,11,9,0.5)',
                   }}
                 >
                   Browse the guide ↗
@@ -485,10 +501,11 @@ export default function HomePage() {
                     fontWeight: 400,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
-                    color: 'rgba(247,243,236,0.55)',
+                    color: 'rgba(247,243,236,0.85)',
                     textDecoration: 'none',
-                    borderBottom: '1px solid rgba(247,243,236,0.2)',
+                    borderBottom: '1px solid rgba(247,243,236,0.4)',
                     paddingBottom: 4,
+                    textShadow: '0 1px 8px rgba(13,11,9,0.5)',
                   }}
                 >
                   All regions →
