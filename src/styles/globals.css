@@ -113,6 +113,111 @@ body {
   * {
     -webkit-tap-highlight-color: transparent;
   }
+
+  /* Phones run the content-first experience: the GSAP split-text system
+     never initializes, so its start-hidden state must not apply */
+  [data-text-split] {
+    visibility: visible !important;
+  }
+}
+
+/* ── Mobile homepage cover (replaces the 400vh video hero on phones) ── */
+.home-mobile-cover {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .home-hero-desktop,
+  .home-region-pins {
+    display: none !important;
+  }
+
+  .home-mobile-cover {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 76dvh;
+    overflow: hidden;
+    background: var(--ink, #0d0b09);
+  }
+
+  .home-mobile-cover__image {
+    object-fit: cover;
+    object-position: center 42%;
+  }
+
+  .home-mobile-cover__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        to top,
+        rgba(13, 11, 9, 0.94) 0%,
+        rgba(13, 11, 9, 0.45) 42%,
+        transparent 66%
+      ),
+      linear-gradient(to bottom, rgba(13, 11, 9, 0.5) 0%, transparent 22%);
+  }
+
+  .home-mobile-cover__copy {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 0 24px 36px;
+  }
+
+  .home-mobile-cover__eyebrow {
+    margin: 0 0 14px;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(247, 243, 236, 0.85);
+  }
+
+  .home-mobile-cover__eyebrow::before {
+    content: '';
+    display: block;
+    width: 56px;
+    height: 1px;
+    background: var(--gold, #c4943a);
+    margin-bottom: 16px;
+  }
+
+  .home-mobile-cover__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display, 'Cormorant Garamond', serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(52px, 15vw, 68px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--cream, #f7f3ec);
+  }
+
+  .home-mobile-cover__dek {
+    margin: 0 0 24px;
+    max-width: 30ch;
+    font-family: var(--font-display, 'Cormorant Garamond', serif);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.4;
+    color: rgba(247, 243, 236, 0.8);
+  }
+
+  .home-mobile-cover__cta {
+    display: inline-block;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream, #f7f3ec);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(196, 148, 58, 0.7);
+    padding-bottom: 5px;
+  }
 }
 
 @media (hover: none) {

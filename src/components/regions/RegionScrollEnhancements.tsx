@@ -38,6 +38,8 @@ export function RegionScrollEnhancements({ enabled }: RegionScrollEnhancementsPr
   useEffect(() => {
     if (!enabled || typeof window === 'undefined') return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    // Phones read as a static magazine page — CSS reveals the hero copy
+    if (window.matchMedia('(max-width: 767px)').matches) return
 
     const frame = document.querySelector('[data-region-enhanced]')
     if (!frame) return

@@ -70,6 +70,12 @@ export default function AnimationProvider({ children }: { children?: ReactNode }
 
     document.documentElement.removeAttribute('data-region-native-scroll')
 
+    // Native momentum scrolling on phones — no scroll hijacking
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      destroyLenisInstance(lenisRef, lenisRafRef, setLenis)
+      return
+    }
+
     const lenisInstance = new Lenis({
       lerp: 0.08,
       duration: 1.2,
@@ -106,6 +112,12 @@ export default function AnimationProvider({ children }: { children?: ReactNode }
     triggersRef.current = []
 
     if (document.querySelector('[data-region-frame]')) {
+      return
+    }
+
+    // Phones get the content-first static experience: no split-text, no
+    // scrub/pin choreography. CSS makes [data-text-split] visible <768px.
+    if (window.matchMedia('(max-width: 767px)').matches) {
       return
     }
 

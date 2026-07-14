@@ -161,6 +161,15 @@
   visibility: hidden;
 }
 
+/* Phones skip the GSAP reveals (RegionScrollEnhancements returns early),
+   so the copy must be visible from first paint */
+@media (max-width: 767px) {
+  .frame[data-region-enhanced] .heroTitleEnhanced,
+  .frame[data-region-enhanced] [data-scroll-marker-title] {
+    visibility: visible;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .frame[data-region-enhanced] .heroTitleEnhanced,
   .frame[data-region-enhanced] [data-scroll-marker-title] {

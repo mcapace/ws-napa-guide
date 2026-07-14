@@ -78,12 +78,23 @@ export default function HomePage() {
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
   const [heroVideoReady, setHeroVideoReady] = useState(false)
+  /** null until mounted; phones never mount the hero video (no fetch) */
+  const [isPhone, setIsPhone] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const update = () => setIsPhone(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
   /** Slot-matched crops; rotation never shows the same still on two tiles at once */
   const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
   const mosaicVisible = useHomeMosaicRotation(mosaicPanelQueues)
   const heroCenterFallback = pickHeroVideoFallback(mosaicVisible)
 
   useLayoutEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) return
     const centerPanel = centerPanelRef.current
     if (!centerPanel) return
     const start = heroPanelStart()
@@ -92,6 +103,7 @@ export default function HomePage() {
 
   /** TRH wordmark: full width; keep full letterforms visible (no bottom clip on descenders) */
   useLayoutEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) return
     const container = heroDisplayRef.current
     const title = container?.querySelector<HTMLSpanElement>('.home-hero-display__title')
     if (!container || !title) return
@@ -139,9 +151,10 @@ export default function HomePage() {
       video.removeEventListener('loadeddata', markReadyAndPlay)
       video.removeEventListener('playing', markReadyAndPlay)
     }
-  }, [])
+  }, [isPhone])
 
   useEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) return
     gsap.registerPlugin(ScrollTrigger)
 
     const scrollContainer = scrollContainerRef.current
@@ -297,8 +310,35 @@ export default function HomePage() {
 
       <NavMenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      {/* ── STICKY SCROLL HERO (400vh) — progress drives panel via JS, not React state ── */}
-      <div ref={scrollContainerRef} style={{ position: 'relative', height: '400vh' }}>
+      {/* ── MOBILE COVER — phones skip the 400vh video hero entirely ── */}
+      <section className="home-mobile-cover" aria-label="Explore Napa Valley">
+        <Image
+          src={HERO_POSTER}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="home-mobile-cover__image"
+        />
+        <div className="home-mobile-cover__scrim" aria-hidden />
+        <div className="home-mobile-cover__copy">
+          <p className="home-mobile-cover__eyebrow">Wine Spectator · June 2026</p>
+          <h2 className="home-mobile-cover__title">
+            Explore
+            <br />
+            Napa Valley
+          </h2>
+          <p className="home-mobile-cover__dek">
+            Our guide to exploring America&apos;s most famous wine region
+          </p>
+          <Link href="#main-content" className="home-mobile-cover__cta">
+            Browse the guide ↓
+          </Link>
+        </div>
+      </section>
+
+      {/* ── STICKY SCROLL HERO (400vh) — desktop only; display:none <768px ── */}
+      <div ref={scrollContainerRef} className="home-hero-desktop" style={{ position: 'relative', height: '400vh' }}>
         <div
           className="home-hero-sticky"
           style={{
@@ -371,17 +411,19 @@ export default function HomePage() {
               sizes="100vw"
               style={{ objectFit: 'cover', objectPosition: 'center' }}
             />
-            <video
-              ref={heroVideoRef}
-              className={`home-hero-video${heroVideoReady ? ' home-hero-video--ready' : ''}`}
-              src={HERO_VIDEO}
-              poster={HERO_POSTER}
-              muted
-              loop
-              autoPlay
-              playsInline
-              preload="auto"
-            />
+            {isPhone === false ? (
+              <video
+                ref={heroVideoRef}
+                className={`home-hero-video${heroVideoReady ? ' home-hero-video--ready' : ''}`}
+                src={HERO_VIDEO}
+                poster={HERO_POSTER}
+                muted
+                loop
+                autoPlay
+                playsInline
+                preload="auto"
+              />
+            ) : null}
           </div>
 
           <div ref={heroCopyRef} className="home-hero-tagline">
@@ -550,8 +592,8 @@ export default function HomePage() {
 
       </div>{/* close main-content */}
 
-      {/* ── FEATURED REGIONS: GSAP pinned stacking cards ── */}
-      <div style={{ background: '#0D0B09' }}>
+      {/* ── FEATURED REGIONS: GSAP pinned stacking cards — desktop only ── */}
+      <div className="home-region-pins" style={{ background: '#0D0B09' }}>
         {featuredRegions.map((region, i) => (
           <Link
             key={region.slug}
