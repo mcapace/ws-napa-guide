@@ -1,13 +1,23 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import '@/styles/globals.css'
 import { WS_LOGO_OG_STROKE_ONLY_SRC } from '@/lib/ws-logo'
 import AnimationProvider from '@/components/ui/AnimationProvider'
 import Nav from '@/components/ui/Nav'
+import { BottomTabBar } from '@/components/ui/BottomTabBar'
 import { StagingBanner } from '@/components/ui/StagingBanner'
 import { getSiteUrl } from '@/lib/site-url'
 
 const siteUrl = getSiteUrl()
+
+/* App-shell chrome: browser UI adopts the ink field, content extends into
+   the safe areas (padding via env() where components need it). */
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#0D0B09',
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -68,6 +78,7 @@ export default function RootLayout({
             </>
           ) : null}
           {children}
+          <BottomTabBar />
         </AnimationProvider>
       </body>
     </html>

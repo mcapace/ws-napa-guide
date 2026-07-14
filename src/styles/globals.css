@@ -102,6 +102,41 @@ body {
   overflow-x: clip;
 }
 
+/* ── App-shell feel on phones ── */
+@media (max-width: 767px) {
+  /* Clearance so the bottom tab bar never covers the end of a page */
+  body {
+    padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Native-style touch: no grey tap flash, quick dim on press */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media (hover: none) {
+  a:active,
+  button:active {
+    opacity: 0.72;
+    transition: opacity 0.08s ease;
+  }
+}
+
+/* Full-screen sections track the *dynamic* viewport on phones, so nothing
+   jumps or clips when the browser address bar collapses mid-scroll. */
+@supports (height: 100dvh) {
+  @media (max-width: 767px) {
+    .home-hero-sticky {
+      height: 100dvh !important;
+    }
+
+    [data-pin-section] {
+      height: 100dvh !important;
+    }
+  }
+}
+
 /* Light editorial / directory surfaces */
 [data-site-surface='light'] {
   background-color: #faf7f2;
@@ -1307,7 +1342,8 @@ html[data-region-native-scroll].lenis.lenis-stopped {
   }
 
   .home-hero-display {
-    bottom: clamp(28px, 5.5vh, 48px) !important;
+    /* Clear the bottom tab bar */
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
     padding: 0 8px 0 !important;
   }
 
