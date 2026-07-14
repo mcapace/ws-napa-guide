@@ -93,6 +93,15 @@ body {
   line-height: 1.7;
 }
 
+/* Any stray layout overflow makes mobile Chrome widen the layout viewport
+   (the whole page zooms out and pans sideways). clip, unlike hidden, creates
+   no scroll container, so sticky/scrub animations are unaffected. */
+html,
+body {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
 /* Light editorial / directory surfaces */
 [data-site-surface='light'] {
   background-color: #faf7f2;
@@ -460,9 +469,13 @@ body:has([data-page="home-hero"]) {
 /* Hero quote — TRH: large centered serif in open black band */
 .home-hero-tagline {
   position: absolute;
-  left: 50%;
+  /* Center with inset auto-margins, not left:50% + translateX — the
+     pre-transform layout box overflowed the viewport on phones. */
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   top: 42%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   text-align: center;
   z-index: 22;
   width: min(100%, 620px);
@@ -1275,6 +1288,22 @@ html[data-region-native-scroll].lenis.lenis-stopped {
 
   .home-hero-tagline__text {
     font-size: clamp(22px, 5.5vw, 32px) !important;
+  }
+
+  /* Fullscreen-video overlay: stack headline over CTAs instead of the
+     desktop two-column spread, which crams both into wrapping slivers */
+  .home-hero-fullscreen-overlay__footer {
+    left: 24px !important;
+    right: 24px !important;
+    bottom: 44px !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    align-items: flex-start !important;
+    gap: 28px;
+  }
+
+  .home-hero-fullscreen-overlay__footer > div:last-child {
+    align-items: flex-start !important;
   }
 
   .home-hero-display {
