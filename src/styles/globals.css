@@ -511,7 +511,7 @@ body:has([data-page="home-hero"]) {
 .home-intro__eyebrow {
   margin: 0 0 28px;
   font-family: var(--font-body, 'DM Sans', sans-serif);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -1396,10 +1396,10 @@ html[data-region-native-scroll].lenis.lenis-stopped {
 }
 
 
-/* ── Type-refresh prototype (St. Helena only for review) ──────────────
-   Alex's notes: raise the small-text floor and give all reading copy the
-   serif voice; DM Sans stays for wayfinding (labels, buttons, meta). */
-[data-type-refresh] {
+/* ── Type refresh (site-wide) ─────────────────────────────────────────
+   Raise the small-text floor and give all reading copy the serif voice;
+   DM Sans stays for wayfinding (labels, buttons, meta). */
+:root {
   --tr-list-eyebrow-size: 10.5px;
   --tr-list-name-size: 23px;
   --tr-list-copy-font: var(--font-display, 'Cormorant Garamond', serif);

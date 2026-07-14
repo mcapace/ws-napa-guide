@@ -447,7 +447,7 @@ export default function HomePage() {
                 <p
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 10,
+                    fontSize: 11,
                     fontWeight: 400,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
@@ -480,7 +480,7 @@ export default function HomePage() {
                   href="#main-content"
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 400,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
@@ -497,7 +497,7 @@ export default function HomePage() {
                   href="/regions"
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 400,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
@@ -594,7 +594,7 @@ export default function HomePage() {
               }}>
                 <p style={{
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 10, letterSpacing: '0.22em',
+                  fontSize: 11, letterSpacing: '0.22em',
                   textTransform: 'uppercase',
                   color: 'rgba(247,243,236,0.7)',
                 }}>
@@ -619,7 +619,7 @@ export default function HomePage() {
                 </h2>
                 <p style={{
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 11, letterSpacing: '0.18em',
+                  fontSize: 12, letterSpacing: '0.18em',
                   textTransform: 'uppercase', color: '#C4943A',
                 }}>
                   {region.tagline}
@@ -661,7 +661,7 @@ export default function HomePage() {
           data-lines-slide-up=""
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 14,
+            fontSize: 15,
             fontWeight: 300,
             color: 'rgba(247,243,236,0.55)',
             marginBottom: 48,
@@ -875,14 +875,14 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
 const styles = {
   bodyText: {
     fontFamily: "'DM Sans', sans-serif",
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 300,
     color: '#9B9283',
     lineHeight: 1.8,
   },
   microLabel: {
     fontFamily: "'DM Sans', sans-serif",
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: 400,
     letterSpacing: '0.18em',
     textTransform: 'uppercase' as const,
