@@ -563,11 +563,17 @@ export default function HomePage() {
       <RevealSection>
         <section ref={avaRef} className="home-intro">
           <p className="home-intro__eyebrow">Wine Spectator · June 2026</p>
-          {/* Intro copy sourced from the June 2026 issue lede (print PDF). */}
           <p className="home-intro__lead">
-            The scenic beauty of Napa Valley, its world-class vineyards and breathtaking vistas,
-            combine with small town charms and wine-and-food excellence to create an American wine
-            country idyll.
+            Drawing on five decades of experience covering Napa, we&apos;ve created the definitive
+            guide to help you explore, navigate, and make the most of your visit.
+          </p>
+          <p className="home-intro__body">
+            No wine region on earth compresses so much ambition, beauty and sensual pleasure into so
+            small a space.
+          </p>
+          <p className="home-intro__service">
+            Our tips on wineries, restaurants and accommodations will let you experience the best of
+            what Napa has to offer.
           </p>
           <div className="home-intro__pick-block">
             <p className="home-intro__pick">

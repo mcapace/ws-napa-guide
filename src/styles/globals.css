@@ -1418,6 +1418,11 @@ html[data-region-native-scroll].lenis.lenis-stopped {
     font-size: clamp(18px, 4.5vw, 24px);
   }
 
+  .home-intro__service {
+    padding-top: 20px;
+    margin-bottom: 28px;
+  }
+
   .home-intro__pick-block {
     padding: 24px 0;
     margin-bottom: 32px;
