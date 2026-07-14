@@ -1676,3 +1676,77 @@
     justify-content: center;
   }
 }
+
+/* ── Phones: dismantle the split-panel embed model ──
+   Desktop rules above (and their globals.css companions) force the
+   directory/itinerary embeds into fixed-height panels with a
+   two-column list+map grid and a trapped inner scroll — all with
+   !important. On a phone that renders as a half-width list beside an
+   invisible map column. These mirror/beat those selectors so the
+   embeds flow with the page in one column and the components' own
+   phone behaviors (full-screen map toggle) apply again. */
+@media (max-width: 767px) {
+  /* The embed panel flows with the document — no viewport-height trap */
+  .frame[data-scroll-unified] .exploreFlowWrap,
+  .frame[data-scroll-unified] .itineraryFlowWrap {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .frame[data-scroll-unified] .exploreFlowWrap :global(.explore-embed-root),
+  .frame[data-scroll-unified] .itineraryFlowWrap :global(.scrollyRootEmbed) {
+    display: block !important;
+    height: auto !important;
+  }
+
+  /* Every split grid collapses to one column and sizes to content.
+     NOTE: global aliases must hang off module classes via :global() —
+     a bare .region-split-panel here would be hashed and never match. */
+  .frame[data-scroll-unified] .exploreFlowWrap :global(.explore-page-flow .explore-grid),
+  .frame[data-scroll-unified] .exploreFlowWrap :global([data-explore-page-flow] .explore-grid),
+  .frame[data-scroll-unified] .exploreFlowWrap :global(.explore-embed-grid),
+  .frame[data-scroll-unified] .exploreFlowWrap :global(.region-split-grid),
+  .frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-embed-grid),
+  .frame[data-scroll-unified] .itineraryFlowWrap :global(.region-split-grid),
+  .frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-grid),
+  .frame[data-scroll-unified] .itineraryFlowWrap :global([data-scrolly-page-flow] .scrolly-grid),
+  .frame[data-scroll-unified] .scrollPage :global(.region-split-grid) {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    align-items: start !important;
+  }
+
+  /* Lists scroll with the page, not inside a trapped panel */
+  .frame[data-scroll-unified] .exploreFlowWrap :global(.explore-embed-list-scroll),
+  .frame[data-scroll-unified] .exploreFlowWrap :global(.explore-list-scroll),
+  .frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-embed-story-scroll) {
+    overflow: visible !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    flex: none !important;
+  }
+
+  /* Explore map: the component's own full-screen LIST/MAP toggle rules
+     (position:fixed, hidden until opened) win again on phones */
+  .frame[data-scroll-unified] .exploreFlowWrap :global(.explore-map-panel),
+  .frame[data-scroll-unified] .exploreFlowWrap :global([data-explore-map-panel]) {
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    z-index: 20 !important;
+  }
+
+  /* Itinerary map: compact band above the story instead of a 55% column */
+  .frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-map-panel),
+  .frame[data-scroll-unified] .itineraryFlowWrap :global([data-scrolly-map-panel]),
+  .frame[data-scroll-unified] .itineraryFlowWrap :global(.scrolly-embed-map) {
+    height: min(44dvh, 400px) !important;
+    min-height: 240px !important;
+    max-height: none !important;
+  }
+}

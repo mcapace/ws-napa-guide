@@ -956,3 +956,10 @@
     font-size: 9px;
   }
 }
+
+/* Desktop-input hint (Ctrl+scroll) is meaningless on touch */
+@media (max-width: 767px) {
+  .mapScrollHint {
+    display: none;
+  }
+}
