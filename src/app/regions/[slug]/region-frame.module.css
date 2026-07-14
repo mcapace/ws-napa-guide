@@ -1607,7 +1607,7 @@
     height: auto;
     aspect-ratio: 2 / 3;
     min-height: 0;
-    max-height: min(78dvh, 820px);
+    max-height: none;
   }
 
   /* Portrait masters are 2×3 — keep the frame native so cover isn’t a hard crop. */
@@ -1615,7 +1615,7 @@
     height: auto;
     aspect-ratio: 2 / 3;
     min-height: 0;
-    max-height: min(78dvh, 820px);
+    max-height: none;
   }
 
   .frame[data-scroll-unified] .heroCopy {
