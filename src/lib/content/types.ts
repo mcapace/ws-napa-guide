@@ -32,7 +32,7 @@ export type RegionMdxFrontmatter = {
 }
 
 /** Used for map pin color / legend. */
-export type DirectoryCategory = 'winery' | 'restaurant' | 'hotel'
+export type DirectoryCategory = 'winery' | 'restaurant' | 'hotel' | 'do'
 
 export type TastingDirectoryRow = {
   name: string
@@ -67,9 +67,12 @@ export type RelatedStoryCard = {
   dek: string
 }
 
-/** Print "shopping/culture" section (Culture & Cocktails, Browsing Brews & Books, Things to Do). */
+/**
+ * Print shopping/culture section (Culture & Cocktails, Browsing Brews & Books, Things to Do).
+ * Live UI surfaces these in the Explore directory as "Between Pours" — not in the story scroll.
+ */
 export type ThingsToDoSection = {
-  /** Printed section heading, e.g. "Culture & Cocktails". */
+  /** Original print heading (kept for content lineage). */
   heading: string
   intro: ReactNode | null
   features: EditorialFeature[]

@@ -14,7 +14,7 @@ export function categoryToUrlParam(category: MapPinCategory): Category {
 }
 
 export function urlParamToCategory(param: string | null): ExploreCategoryFilter {
-  if (param === 'winery' || param === 'dining' || param === 'stay') return param
+  if (param === 'winery' || param === 'dining' || param === 'stay' || param === 'do') return param
   return 'all'
 }
 
@@ -35,6 +35,7 @@ export function countByCategory(pins: MapPin[]): Record<Category, number> {
     winery: pins.filter((p) => p.category === 'winery').length,
     dining: pins.filter((p) => p.category === 'dining').length,
     stay: pins.filter((p) => p.category === 'stay').length,
+    do: pins.filter((p) => p.category === 'do').length,
   }
 }
 
@@ -94,8 +95,8 @@ export function partitionPinsByImage(pins: MapPin[]): {
   return { withImage, withoutImage }
 }
 
-/** Directory list order: tastings → hotels → dining within each section. */
-export const EXPLORE_LIST_CATEGORY_ORDER: MapPinCategory[] = ['winery', 'stay', 'dining']
+/** Directory list order: tastings → hotels → dining → between pours. */
+export const EXPLORE_LIST_CATEGORY_ORDER: MapPinCategory[] = ['winery', 'stay', 'dining', 'do']
 
 function comparePinsByName(a: MapPin, b: MapPin): number {
   return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })

@@ -193,6 +193,7 @@ const LOCALITY_FOR_SLUG = {
   calistoga: 'Calistoga, Napa County',
   'pritchard-hill': 'Napa County',
   'downtown-napa': 'Napa, Napa County',
+  'beyond-napa': 'Napa, Napa County',
 }
 
 async function geocodeAddress(address, slug) {
@@ -264,6 +265,16 @@ async function main() {
     }
     for (const row of parseTableRows(sliceAfterHeading(stayMd, '## Lodging Directory'))) {
       todo.push({ slug, ...row })
+    }
+
+    // Culture / shopping / cocktails (Between Pours) — heading varies by town.
+    for (const heading of ['Culture & Cocktails', 'Browsing, Brews & Books', 'Things to Do']) {
+      const doMd = getH1Body(content, heading)
+      if (!doMd) continue
+      for (const b of splitH3Blocks(doMd)) {
+        const { address, website } = parseMetaLines(b.body)
+        if (address) todo.push({ slug, name: b.title, address, website: website || '' })
+      }
     }
   }
 

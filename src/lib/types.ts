@@ -199,8 +199,8 @@ export type MapPinFilterType = MapPinType | 'all'
 
 export type MapRegionFilter = string | 'all'
 
-/** Explore map listing category (winery / dining / stay). */
-export type MapListingCategory = 'winery' | 'dining' | 'stay'
+/** Explore map listing category (winery / dining / stay / do). */
+export type MapListingCategory = 'winery' | 'dining' | 'stay' | 'do'
 
 export interface ItineraryStop {
   order: number

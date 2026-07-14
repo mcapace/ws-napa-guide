@@ -9,7 +9,6 @@ import ScrollyItinerary from '@/components/itinerary/ScrollyItinerary'
 import { RegionMoreAppellations } from '@/components/regions/RegionMoreAppellations'
 import { RelatedStoriesRail } from '@/components/regions/RelatedStoriesRail'
 import { RegionEditorialSections } from '@/components/regions/RegionEditorialSections'
-import { ThingsToDoBlock } from '@/components/regions/ThingsToDoBlock'
 import type { MapPin } from '@/data/map-pins'
 import type { LoadedRegionMdx } from '@/lib/content/types'
 import { getImageFocalPoint } from '@/lib/image-focal'
@@ -450,7 +449,6 @@ function RegionScrollPageClientContent({
               pins={pins}
               showcaseEnhanced={scrollEnhanced}
             />
-            {mdx.thingsToDo ? <ThingsToDoBlock section={mdx.thingsToDo} /> : null}
           </div>
         </section>
 

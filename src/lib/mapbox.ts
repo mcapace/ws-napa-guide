@@ -9,12 +9,15 @@ export const CATEGORY_CONFIG = {
   winery: { label: 'Tasting Rooms', color: '#C4943A', glyph: '◆' },
   dining: { label: 'Restaurants', color: '#6B1C2A', glyph: '●' },
   stay: { label: 'Hotels', color: '#5C6B52', glyph: '■' },
+  /** Shopping, culture, cocktails — Culture & Cocktails / Browsing Brews & Books / Things to Do. */
+  do: { label: 'Between Pours', color: '#9B9283', glyph: '◇' },
 } as const
 
 export const CATEGORY_COLORS = {
   winery: '#C4943A',
   dining: '#6B1C2A',
   stay: '#5C6B52',
+  do: '#9B9283',
   sight: '#9B9283',
 } as const
 

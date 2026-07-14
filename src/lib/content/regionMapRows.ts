@@ -66,3 +66,10 @@ export function buildRegionStayMapRows(data: LoadedRegionMdx): TastingDirectoryR
     mergeDedupedMapRows([...fromFeatured, ...data.lodgingDirectory]),
   )
 }
+
+/** Shopping / culture / cocktails (Between Pours) from town Things to Do sections. */
+export function buildRegionDoMapRows(data: LoadedRegionMdx): TastingDirectoryRow[] {
+  if (!data.thingsToDo?.features.length) return []
+  const fromFeatures = editorialFeaturesToRows(data.thingsToDo.features, 'do')
+  return attachDirectoryGeocodes(data.frontmatter.slug, mergeDedupedMapRows(fromFeatures))
+}

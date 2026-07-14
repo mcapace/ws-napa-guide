@@ -5,6 +5,7 @@ import type { DirectoryCategory, EditorialFeature, LoadedRegionMdx, TastingDirec
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
 import { isEditorialListingImage, pinHasListingImage, sortExploreListPins } from '@/lib/explore'
 import {
+  buildRegionDoMapRows,
   buildRegionEatMapRows,
   buildRegionStayMapRows,
   buildRegionTasteMapRows,
@@ -44,6 +45,7 @@ function editorialFeaturesForCategory(
 ): EditorialFeature[] {
   if (category === 'dining') return [...data.featuredRestaurants, ...data.coffeeSnackFeatures]
   if (category === 'stay') return data.featuredHotels
+  if (category === 'do') return data.thingsToDo?.features ?? []
   return data.featuredWineries
 }
 
@@ -58,6 +60,7 @@ function editorialFeatureForName(
 function directoryCategoryToPinCategory(category: DirectoryCategory): MapPinCategory {
   if (category === 'restaurant') return 'dining'
   if (category === 'hotel') return 'stay'
+  if (category === 'do') return 'do'
   return 'winery'
 }
 
@@ -162,7 +165,9 @@ function directoryRowToMapPin(row: TastingDirectoryRow, regionSlug: string): Map
   const website = normalizeWebsiteUrl(row.website)
   const excerpt = pinExcerpt(row.address)
 
-  const type = category === 'dining' ? 'restaurant' : category === 'stay' ? 'hotel' : 'winery'
+  // Legacy PinType has no "do" — Explore uses `category`; type is NapaMap compat only.
+  const type =
+    category === 'dining' ? 'restaurant' : category === 'stay' ? 'hotel' : 'winery'
 
   return {
     slug,
@@ -241,10 +246,11 @@ export function buildRegionExplorePins(regionSlug: string, data: LoadedRegionMdx
   const tasteRows = buildRegionTasteMapRows(data)
   const eatRows = buildRegionEatMapRows(data)
   const stayRows = buildRegionStayMapRows(data)
+  const doRows = buildRegionDoMapRows(data)
   return buildPinsFromRows(
     regionSlug,
     data,
-    [...tasteRows, ...eatRows, ...stayRows],
+    [...tasteRows, ...eatRows, ...stayRows, ...doRows],
     true,
   )
 }

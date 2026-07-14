@@ -4,10 +4,8 @@ import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
 import { SectionDivider } from './SectionDivider'
 
 /**
- * Print shopping/culture section (Culture & Cocktails, Browsing Brews & Books,
- * Things to Do) — editorial text list on the dark story field. Entries with
- * photography get a modest landscape figure; the rest run text-only, matching
- * the print treatment.
+ * @deprecated Unused on region scroll pages — Between Pours listings live in Explore.
+ * Kept for reprint / archive layouts that still want a story-field treatment.
  */
 export function ThingsToDoBlock({ section }: { section: ThingsToDoSection }) {
   if (section.features.length === 0 && !section.intro) return null

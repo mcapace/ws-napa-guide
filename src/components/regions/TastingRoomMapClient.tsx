@@ -12,12 +12,14 @@ const PIN_COLORS: Record<DirectoryCategory, string> = {
   winery: '#722F37',
   restaurant: '#8B5A2B',
   hotel: '#2C5282',
+  do: '#9B9283',
 }
 
 const CATEGORY_LABELS: Record<DirectoryCategory, string> = {
   winery: 'Winery',
   restaurant: 'Restaurant',
   hotel: 'Hotel',
+  do: 'Between Pours',
 }
 
 function categoryLabel(c: DirectoryCategory): string {

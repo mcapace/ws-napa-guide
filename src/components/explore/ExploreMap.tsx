@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Map, { Marker, NavigationControl, type MapRef } from 'react-map-gl/mapbox'
 import Supercluster from 'supercluster'
-import { Hotel, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
+import { Compass, Hotel, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
 import type { MapPin } from '@/data/map-pins'
 import {
   CATEGORY_CONFIG,
@@ -39,6 +39,7 @@ const CATEGORY_ICONS: Record<Category, LucideIcon> = {
   winery: Wine,
   dining: UtensilsCrossed,
   stay: Hotel,
+  do: Compass,
 }
 
 export interface ExploreMapProps {
@@ -59,7 +60,7 @@ export interface ExploreMapProps {
 
 type ClusterProps = Supercluster.ClusterProperties & { pin?: MapPin }
 
-const CATEGORY_ORDER: Category[] = ['winery', 'dining', 'stay']
+const CATEGORY_ORDER: Category[] = ['winery', 'dining', 'stay', 'do']
 const REGION_ORDER = [
   'oakville',
   'rutherford',
