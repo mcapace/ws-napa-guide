@@ -67,8 +67,9 @@ export function RegionScrollEnhancements({ enabled }: RegionScrollEnhancementsPr
         heroMedia,
         { yPercent: 0, scale: 1 },
         {
-          yPercent: 14,
-          scale: 1.1,
+          /* Keep motion subtle — large scale/y crops the hero like a hard vertical crop. */
+          yPercent: 6,
+          scale: 1.03,
           ease: 'none',
           scrollTrigger: st,
         },

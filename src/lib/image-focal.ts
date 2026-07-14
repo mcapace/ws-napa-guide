@@ -30,11 +30,12 @@ export function getImageFocalPoint(
   if (hint === 'showcase') return SHOWCASE_SAFE_TOP
   if (hint === 'portrait' || hint === 'architecture') return PORTRAIT_SAFE_TOP
   if (hint === 'aerial') return 'center 38%'
-  if (hint === 'hero') return 'center 28%'
+  /* Region/channel heroes: match homepage full-bleed framing (true center). */
+  if (hint === 'hero') return 'center center'
   if (hint === 'thumb') return 'center 22%'
   if (hint === 'landscape') return 'center 22%'
 
-  if (src.includes('/hero/')) return 'center 28%'
+  if (src.includes('/hero/')) return 'center center'
   if (src.includes('-portrait')) return PORTRAIT_SAFE_TOP
   if (src.includes('/wineries/')) return SHOWCASE_SAFE_TOP
   if (src.includes('/restaurants/') || src.includes('/breakfast/')) return 'center 30%'

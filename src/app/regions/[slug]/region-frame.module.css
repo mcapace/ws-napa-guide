@@ -28,7 +28,7 @@
 
 .heroImage {
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
 }
 
 .heroPortrait {
@@ -112,10 +112,13 @@
   color: rgba(247, 243, 236, 0.88);
 }
 
+/* Match homepage cinematic masters: true 16×9 frame so 16×9 heroes barely crop. */
 .frame[data-scroll-unified] .hero {
-  height: clamp(420px, 62vh, 720px);
-  min-height: 420px;
-  max-height: 720px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  max-height: none;
+  width: 100%;
 }
 
 .frame[data-scroll-unified] .heroCopy {
@@ -1601,15 +1604,18 @@
 
 @media (max-width: 1023px) {
   .hero {
-    height: 42vh;
-    min-height: 260px;
-    max-height: 440px;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    min-height: 0;
+    max-height: min(78dvh, 820px);
   }
 
+  /* Portrait masters are 2×3 — keep the frame native so cover isn’t a hard crop. */
   .frame[data-scroll-unified] .hero {
-    height: clamp(340px, 55vh, 580px);
-    min-height: 340px;
-    max-height: 580px;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    min-height: 0;
+    max-height: min(78dvh, 820px);
   }
 
   .frame[data-scroll-unified] .heroCopy {
