@@ -569,13 +569,15 @@ export default function HomePage() {
             combine with small town charms and wine-and-food excellence to create an American wine
             country idyll.
           </p>
-          <p className="home-intro__service">
-            Our editors&apos; picks for where to taste, eat, stay and more across America&apos;s
-            premier wine region.
-          </p>
-          <p className="home-intro__closing">
-            Plus, fun-filled side trips near each town, up valley or down.
-          </p>
+          <div className="home-intro__pick-block">
+            <p className="home-intro__pick">
+              Our editors&apos; picks for where to taste, eat, stay and more across America&apos;s
+              premier wine region.
+            </p>
+            <p className="home-intro__pick">
+              Plus, fun-filled side trips near each town, up valley or down.
+            </p>
+          </div>
         </section>
       </RevealSection>
 
