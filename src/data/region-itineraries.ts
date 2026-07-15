@@ -399,7 +399,6 @@ export const REGION_ITINERARIES: Partial<Record<Region | string, Itinerary[]>> =
     ST_HELENA_SALONS,
   ],
   calistoga: [CALISTOGA_WALKABLE, CALISTOGA_MOUNTAIN],
-  'downtown-napa': [DOWNTOWN_CARNEROS],
   'beyond-napa': [DOWNTOWN_CARNEROS],
 }
 

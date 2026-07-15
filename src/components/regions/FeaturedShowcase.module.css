@@ -361,6 +361,16 @@
     transform: none !important;
   }
 
+  /* Cards use the landscape master — the <=1023 portrait swap zoomed a
+     tall crop into a 4:3 box on phones */
+  .imageLandscape {
+    display: block;
+  }
+
+  .imagePortrait {
+    display: none;
+  }
+
   .imageFallback {
     position: absolute;
   }

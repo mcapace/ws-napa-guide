@@ -114,3 +114,62 @@ export const PIN_LABELS: Record<PinType, string> = {
 }
 
 export const pinsByRegion = (region: string) => mapPins.filter((p) => p.region === region)
+
+// ── Taco tour taquerias — print venues surfaced in the dining directory ──
+// Built from the feature content so the full list matches the story; the
+// two with curated restaurant entries are skipped (already pinned above).
+import { getFeatureArticleContent } from './feature-articles'
+
+const TACO_REGION_BY_TOWN: Record<string, string> = {
+  Napa: 'downtown-napa',
+  'St. Helena': 'st-helena',
+  Yountville: 'yountville',
+  Calistoga: 'calistoga',
+  Rutherford: 'rutherford',
+}
+
+const TACO_THUMBS: Record<string, string> = {
+  'El Sabor Serano': '/images/features/napa-taco-tour/venue-el-sabor-serano.jpg',
+  'Mother’s Tacos': '/images/features/napa-taco-tour/venue-mothers-tacos.jpg',
+  'Ray Ray’s Tacos': '/images/features/napa-taco-tour/venue-ray-rays-tacos.jpg',
+  'Tacos El Muchacho Alegre': '/images/features/napa-taco-tour/venue-tacos-el-muchacho-alegre.jpg',
+}
+
+function tacoTruckPins(): MapPin[] {
+  const feature = getFeatureArticleContent('napa-taco-tour')
+  const venues = feature?.venues ?? []
+  const pins: MapPin[] = []
+  for (const v of venues) {
+    if (!v.coords || v.restaurantSlug) continue
+    const town = Object.keys(TACO_REGION_BY_TOWN).find((t) =>
+      v.addressLines[0]?.endsWith(t),
+    )
+    if (!town) continue
+    const slug = v.name
+      .toLowerCase()
+      .replace(/[’']/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+    pins.push({
+      slug,
+      name: v.name,
+      category: 'dining',
+      region: TACO_REGION_BY_TOWN[town],
+      coords: v.coords,
+      excerpt: (v.description ?? '').slice(0, 160),
+      href: v.website
+        ? v.website.match(/^https?:/)
+          ? v.website
+          : `https://${v.website}`
+        : `/features/napa-taco-tour`,
+      thumb: TACO_THUMBS[v.name],
+      id: slug,
+      type: 'restaurant',
+      images: TACO_THUMBS[v.name] ? [TACO_THUMBS[v.name]] : [],
+      sponsorTier: null,
+    })
+  }
+  return pins
+}
+
+mapPins.push(...tacoTruckPins())
