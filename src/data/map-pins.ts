@@ -26,6 +26,8 @@ export interface MapPin {
   editorial?: boolean
   /** Wine Spectator Restaurant Award level from the print directory. */
   award?: string
+  /** Editorial groupings surfaced as quick filters (e.g. 'tacos'). */
+  tags?: string[]
   /** Legacy fields for NapaMap compatibility. */
   id: string
   type: PinType
@@ -163,6 +165,7 @@ function tacoTruckPins(): MapPin[] {
           : `https://${v.website}`
         : `/features/napa-taco-tour`,
       thumb: TACO_THUMBS[v.name],
+      tags: ['tacos'],
       id: slug,
       type: 'restaurant',
       images: TACO_THUMBS[v.name] ? [TACO_THUMBS[v.name]] : [],
@@ -173,3 +176,17 @@ function tacoTruckPins(): MapPin[] {
 }
 
 mapPins.push(...tacoTruckPins())
+
+// Tag every taco-tour venue (including the curated ones skipped above) so
+// Explore can offer a tacos quick filter.
+const TACO_VENUE_NAMES = new Set(
+  (getFeatureArticleContent('napa-taco-tour')?.venues ?? []).map((v) =>
+    v.name.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, ' ').trim(),
+  ),
+)
+for (const pin of mapPins) {
+  const norm = pin.name.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, ' ').trim()
+  if (TACO_VENUE_NAMES.has(norm) && !pin.tags?.includes('tacos')) {
+    pin.tags = [...(pin.tags ?? []), 'tacos']
+  }
+}

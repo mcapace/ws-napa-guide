@@ -1,7 +1,7 @@
 import type { MapPin, MapPinCategory } from '@/data/map-pins'
 import { CATEGORY_CONFIG, type Category } from '@/lib/mapbox'
 
-export type ExploreCategoryFilter = 'all' | Category
+export type ExploreCategoryFilter = 'all' | Category | 'tacos'
 
 export function truncateExcerpt(text: string, max = 90): string {
   const t = text.trim()
@@ -15,6 +15,7 @@ export function categoryToUrlParam(category: MapPinCategory): Category {
 
 export function urlParamToCategory(param: string | null): ExploreCategoryFilter {
   if (param === 'winery' || param === 'dining' || param === 'stay' || param === 'do') return param
+  if (param === 'tacos') return param
   return 'all'
 }
 
@@ -24,7 +25,9 @@ export function filterExplorePins(
   region: string | 'all',
 ): MapPin[] {
   return pins.filter((pin) => {
-    if (category !== 'all' && pin.category !== category) return false
+    if (category === 'tacos') {
+      if (!pin.tags?.includes('tacos')) return false
+    } else if (category !== 'all' && pin.category !== category) return false
     if (region !== 'all' && pin.region !== region) return false
     return true
   })

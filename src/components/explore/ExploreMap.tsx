@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Map, { Marker, NavigationControl, type MapRef } from 'react-map-gl/mapbox'
 import Supercluster from 'supercluster'
-import { Compass, Hotel, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
+import { Compass, Hotel, Truck, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
 import type { MapPin } from '@/data/map-pins'
 import {
   CATEGORY_CONFIG,
@@ -110,7 +110,12 @@ export function ExploreMap({
 
   const categoryFilter: ExploreCategoryFilter = embedMode
     ? (overrideCategory ?? syncCategory ?? 'all')
-    : (pinnedCategory ?? urlParamToCategory(searchParams.get('category')))
+    : pinnedCategory
+      ? // Pinned dining pages still honor the tacos quick filter via ?category=tacos
+        (pinnedCategory === 'dining' && urlParamToCategory(searchParams.get('category')) === 'tacos'
+          ? 'tacos'
+          : pinnedCategory)
+      : urlParamToCategory(searchParams.get('category'))
 
   const regionFilter: string | 'all' = scopedRegion
     ? 'all'
@@ -229,6 +234,10 @@ export function ExploreMap({
   }, [routeSlugs])
 
   const counts = useMemo(() => countByCategory(scopedPins), [scopedPins])
+  const tacoCount = useMemo(
+    () => scopedPins.filter((p) => p.tags?.includes('tacos')).length,
+    [scopedPins],
+  )
 
   const supercluster = useMemo(() => {
     const index = new Supercluster<{ pin: MapPin }>({ radius: 56, maxZoom: 15 })
@@ -621,6 +630,35 @@ export function ExploreMap({
                     </button>
                   )
                 })}
+                {tacoCount > 0 && (
+                  <button
+                    type="button"
+                    className={`${styles.pill} ${categoryFilter === 'tacos' ? styles.pillActive : ''}`}
+                    onClick={() => onCategoryChange('tacos')}
+                  >
+                    <Truck className={styles.pillIcon} size={13} strokeWidth={2} aria-hidden />
+                    Tacos ({tacoCount})
+                  </button>
+                )}
+              </div>
+            )}
+            {pinnedCategory === 'dining' && tacoCount > 0 && (
+              <div className={styles.filterRow}>
+                <button
+                  type="button"
+                  className={`${styles.pill} ${categoryFilter !== 'tacos' ? styles.pillActive : ''}`}
+                  onClick={() => onCategoryChange('all')}
+                >
+                  All dining ({counts.dining})
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.pill} ${categoryFilter === 'tacos' ? styles.pillActive : ''}`}
+                  onClick={() => onCategoryChange('tacos')}
+                >
+                  <Truck className={styles.pillIcon} size={13} strokeWidth={2} aria-hidden />
+                  Tacos ({tacoCount})
+                </button>
               </div>
             )}
             {showRegionFilter && (
