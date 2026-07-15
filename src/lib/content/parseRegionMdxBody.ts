@@ -10,7 +10,6 @@ import type {
 const FEATURE_SLUG_ALIASES: Record<string, string> = {
   tacos: 'napa-taco-tour',
   'taco-truck-tour': 'napa-taco-tour',
-  landmarks: 'napa-landmarks',
 }
 
 export function resolveFeatureSlug(ref: string): string {

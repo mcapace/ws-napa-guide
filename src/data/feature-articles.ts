@@ -171,29 +171,6 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       },
     ],
   },
-  'napa-landmarks': {
-    kicker: 'Points of Interest',
-    pullQuoteLines: [
-      'Two roadside icons mark',
-      'the gateways to America\u2019s',
-      'most famous wine valley',
-    ],
-    heroImage: '/images/features/napa-landmarks/welcome-sign.jpg',
-    heroObjectPosition: 'center 60%',
-    introParagraphs: [
-      '\u201CWelcome to this world famous winegrowing region\u201D reads the sign sitting at the southern end of the valley, off Highway 29. Located in Oakville, the marker has become as famous as the region it touts, and today is one of the valley\u2019s most popular tourist attractions.',
-      'Many people who visit the spot are likely unaware that there is twin signage located at the northern end of the valley, with an arguably better vantage point. The signs were erected in 1949 by Napa Valley Vintners (NVV), an association formed in 1944 by leaders of Napa\u2019s then-nascent modern wine industry, including Robert Mondavi, Fernande de Latour, Elmer Salmina, Charles Forni, John Daniel Jr., Louis M. Martini and Louis Stralla. NVV\u2019s mission was to implement initiatives to support the growth of Napa Valley.',
-      'Among its first acts was to commission local artist Roland Hauck to design the signs. In their original form, the signs listed the names of nine wineries on the barrel head portion: Beringer, Louis M. Martini, Inglenook, Freemark Abbey, Beaulieu Vineyard, Napa Cooperative Vineyard, Vin-Mont Wines, The Christian Brothers and C. Mondavi & Sons. In 1966 the barrel head portion was changed to its current iteration, with a quotation from author Robert Louis Stevenson: \u201C\u2026 and the wine is bottled poetry \u2026 .\u201D',
-      'The quote is taken from Stevenson\u2019s 1883 memoir, The Silverado Squatters, in which the author travels to Napa Valley on a honeymoon with his wife, Fanny. When unable to afford a hotel, they end up squatting at a mining camp named Silverado near Mount St. Helena for two months. Stevenson\u2019s experiences with vintners lead to his penning a lengthy passage explaining the wines of California, with that quote becoming one of his most famous. The author\u2019s works can be found at his namesake museum in St. Helena.',
-      'Both the Oakville and Calistoga signs have vineyards and mountains as backdrops, providing lovely photo opportunities. Be sure to stop at the signs safely; it\u2019s best to avoid crossing Highway 29, so visit the southern sign on your way down valley, the northern sign while traveling up valley. The signs are also non-functional, meant for taking pictures with subjects in front of (not on top of) them. And please do not enter the vineyards behind them.',
-    ],
-    outroParagraphs: [
-      'Crushin\u2019 it: Along with the \u201CWelcome\u201D sign, the Grape Crusher statue is one of Napa Valley\u2019s best-known landmarks. Erected in May 1988 at the southern gateway to Napa Valley, the sculpture of a vineyard worker pressing grapes is a symbol of the agriculture that is intertwined with the community.',
-      'The eye-catching statue, perched on a hill just east of the Napa River Bridge, is visible from Highway 29. The farm worker is depicted in a wide brim hat, sleeves and pant legs rolled up, barefoot, and operating a grape press by hand. Visibly straining, he\u2019s tightly gripping the screw handle with one foot anchored on the basket for leverage.',
-      'Santa Fe\u2013based sculptor Gino Miles designed and cast the bronze statue using the cire-perdue (lost wax) method, in which a wax model inside a one-time-use mold is replaced by molten metal. Miles cast 137 individual bronze pieces that way, then welded them together to create the 15-foot-tall sculpture, which weighs over 6,000 pounds.',
-      'The figure actually started as the logo for the Napa Valley Corporate Park, built in 1983 by developer Peter Bedford. The statue is accessible at the Vista Point Park, just behind Meritage Resort.',
-    ],
-  },
 }
 
 export function getFeatureArticleContent(slug: string): FeatureArticleContent | undefined {
