@@ -219,7 +219,12 @@ function buildPinsFromRows(
       // Venue links target the venue's own website; the print directory
       // row's URL wins, then the curated dataset's, never a microsite page.
       const site = normalizeWebsiteUrl(row.website) ?? venueWebsiteForDetailPath(staticMatch.href)
-      pin = { ...pin, href: site ? absoluteWebsiteUrl(site) : staticMatch.href }
+      pin = {
+        ...pin,
+        href: site
+          ? absoluteWebsiteUrl(site)
+          : `/explore?ava=${regionSlug}&place=${staticMatch.slug}`,
+      }
     }
     addPin(pin)
   }
