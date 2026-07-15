@@ -683,7 +683,7 @@ export default function HomePage() {
       <div style={{ position: 'relative', zIndex: 5, background: '#0D0B09' }}>
 
       <HomeStoriesSection
-        stories={getStoryArticles()}
+        stories={getStoryArticles().filter((a) => a.slug !== 'napa-landmarks')}
         title="Features"
         intro="Valley-wide stories beyond the town guides — including the Napa Valley taco tour."
       />

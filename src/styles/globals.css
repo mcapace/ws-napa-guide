@@ -119,6 +119,12 @@ body {
   [data-text-split] {
     visibility: visible !important;
   }
+
+  /* Towns list: the hover-reveal photos are a cursor pattern — on touch
+     they pop over neighboring names mid-tap. Text-only list on phones. */
+  .home-appellation-reveal {
+    display: none !important;
+  }
 }
 
 /* ── Mobile homepage cover (replaces the 400vh video hero on phones) ── */

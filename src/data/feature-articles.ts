@@ -17,14 +17,14 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       'California wineries Chateau Montelena and Stag’s Leap were among the labels to earn acclaim in the much-touted tasting.',
     secondaryImages: [
       {
-        src: `${JUDGMENT}/points-montelena.png`,
+        src: `${JUDGMENT}/points-montelena.jpg`,
         alt: '1973 Chateau Montelena Chardonnay',
         width: 224,
         height: 550,
         transparent: true,
       },
       {
-        src: `${JUDGMENT}/points-stags-leap.png`,
+        src: `${JUDGMENT}/points-stags-leap.jpg`,
         alt: '1973 Stag’s Leap Wine Cellars Cabernet Sauvignon',
         width: 182,
         height: 546,
