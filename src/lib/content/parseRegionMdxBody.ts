@@ -192,7 +192,10 @@ export function markdownToPlainParagraphs(md: string): string[] {
 
 export function normalizeWebsiteUrl(website: string | undefined): string | undefined {
   if (!website) return undefined
-  const trimmed = website.trim()
+  // Print sometimes lists two domains ("inglenook.com; niebaumpennino.com") —
+  // the display keeps both, the link targets the first.
+  const trimmed = website.trim().split(/[;\s]+/)[0].replace(/[,;]+$/, '')
+  if (!trimmed) return undefined
   if (/^https?:\/\//i.test(trimmed)) return trimmed
   return `https://${trimmed}`
 }

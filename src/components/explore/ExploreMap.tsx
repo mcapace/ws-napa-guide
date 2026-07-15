@@ -752,7 +752,7 @@ export function ExploreMap({
                           {copyExpanded ? 'Show less' : 'Read more'}
                         </button>
                       ) : null}
-                      <Link href={pin.href} className={styles.detailsLink} onClick={(e) => e.stopPropagation()}>
+                      <Link href={pin.href} className={styles.detailsLink} onClick={(e) => e.stopPropagation()} {...(pin.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
                         View details →
                       </Link>
                     </div>
@@ -896,7 +896,7 @@ export function ExploreMap({
                   </p>
                   <p className={styles.popupName}>{selectedPin.name}</p>
                   <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
-                  <Link href={selectedPin.href} className={styles.popupLink}>
+                  <Link href={selectedPin.href} className={styles.popupLink} {...(selectedPin.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
                     View details →
                   </Link>
                 </div>
@@ -937,7 +937,7 @@ export function ExploreMap({
               </p>
               <p className={styles.popupName}>{selectedPin.name}</p>
               <p className={styles.popupExcerpt}>{selectedPin.excerpt}</p>
-              <Link href={selectedPin.href} className={styles.detailsLink}>
+              <Link href={selectedPin.href} className={styles.detailsLink} {...(selectedPin.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
                 View details →
               </Link>
             </div>

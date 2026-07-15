@@ -3,14 +3,15 @@ import detailStyles from '@/app/regions/[slug]/regionDetail.module.css'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
-import { mapPins } from '@/data/map-pins'
+import { buildAllRegionPins } from '@/lib/all-region-pins'
 
 export const metadata: Metadata = {
   title: 'Where to Stay in Napa — Wine Spectator Guide',
   description: 'Resorts, inns, and hillside retreats for wine-country nights.',
 }
 
-export default function StayIndexPage() {
+export default async function StayIndexPage() {
+  const pins = await buildAllRegionPins()
   return (
     <div className={detailStyles.page} data-site-surface="light">
 
@@ -22,7 +23,7 @@ export default function StayIndexPage() {
         </p>
       </header>
 
-      <ExploreMapSection pins={mapPins} pinnedCategory="stay" showRegionFilter={true} pageFlow />
+      <ExploreMapSection pins={pins} pinnedCategory="stay" showRegionFilter={true} pageFlow />
 
       <Newsletter />
       <Footer />

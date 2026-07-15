@@ -3,14 +3,15 @@ import detailStyles from '@/app/regions/[slug]/regionDetail.module.css'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
-import { mapPins } from '@/data/map-pins'
+import { buildAllRegionPins } from '@/lib/all-region-pins'
 
 export const metadata: Metadata = {
   title: 'Napa Valley Wineries — Wine Spectator Guide',
   description: 'The essential tasting rooms and estates across Napa Valley, from Oakville to Calistoga.',
 }
 
-export default function WineriesIndexPage() {
+export default async function WineriesIndexPage() {
+  const pins = await buildAllRegionPins()
   return (
     <div className={detailStyles.page} data-site-surface="light">
 
@@ -22,7 +23,7 @@ export default function WineriesIndexPage() {
         </p>
       </header>
 
-      <ExploreMapSection pins={mapPins} pinnedCategory="winery" showRegionFilter={true} pageFlow />
+      <ExploreMapSection pins={pins} pinnedCategory="winery" showRegionFilter={true} pageFlow />
 
       <Newsletter />
       <Footer />

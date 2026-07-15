@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Footer from '@/components/ui/Footer'
-import { mapPins } from '@/data/map-pins'
+import { buildAllRegionPins } from '@/lib/all-region-pins'
 import { wineries } from '@/data/wineries'
 import { restaurants } from '@/data/restaurants'
 import { hotels } from '@/data/hotels'
@@ -12,7 +12,8 @@ export const metadata: Metadata = {
     'Interactive map and directory of tasting rooms, restaurants, and hotels across Napa Valley — from Wine Spectator.',
 }
 
-export default function ExplorePage() {
+export default async function ExplorePage() {
+  const pins = await buildAllRegionPins()
   const wineryCount = wineries.length
   const restaurantCount = restaurants.length
   const hotelCount = hotels.length
@@ -71,7 +72,7 @@ export default function ExplorePage() {
         </p>
       </section>
 
-      <ExploreMapSection pins={mapPins} showRegionFilter={true} />
+      <ExploreMapSection pins={pins} showRegionFilter={true} pageFlow />
 
       <Footer />
     </div>

@@ -1,5 +1,19 @@
 import type { MapPin } from '@/data/map-pins'
+import { hotels } from '@/data/hotels'
+import { restaurants } from '@/data/restaurants'
+import { wineries } from '@/data/wineries'
 import { directorySlug } from '@/lib/explore-region-pins'
+
+/** Breakout detail pages exist only for these curated slugs — anything else 404s. */
+const DETAIL_PAGES = new Set<string>([
+  ...wineries.map((w) => `/wineries/${w.slug}`),
+  ...restaurants.map((r) => `/dining/${r.slug}`),
+  ...hotels.map((h) => `/stay/${h.slug}`),
+])
+
+export function detailPageExists(href: string): boolean {
+  return DETAIL_PAGES.has(href)
+}
 
 function normalizeName(name: string): string {
   return name
@@ -28,12 +42,22 @@ export function editorialDetailHref(
   name: string,
 ): string {
   const pin = findPinForName(pins, name)
-  if (pin?.href && !pin.href.startsWith('http') && !pin.href.includes('/explore')) {
+  if (
+    pin?.href &&
+    !pin.href.startsWith('http') &&
+    !pin.href.includes('/explore') &&
+    detailPageExists(pin.href)
+  ) {
     return pin.href
   }
 
   const slug = directorySlug(regionSlug, name)
   const base =
     category === 'taste' ? '/wineries' : category === 'eat' ? '/dining' : '/stay'
-  return `${base}/${slug}`
+  const candidate = `${base}/${slug}`
+  if (detailPageExists(candidate)) return candidate
+
+  // No breakout page for this venue — land on its pin in the explore
+  // directory instead of a 404.
+  return `/explore?ava=${regionSlug}&place=${slug}`
 }

@@ -3,14 +3,15 @@ import detailStyles from '@/app/regions/[slug]/regionDetail.module.css'
 import Footer from '@/components/ui/Footer'
 import Newsletter from '@/components/ui/Newsletter'
 import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
-import { mapPins } from '@/data/map-pins'
+import { buildAllRegionPins } from '@/lib/all-region-pins'
 
 export const metadata: Metadata = {
   title: 'Napa Valley Dining — Wine Spectator Guide',
   description: 'Grand Award rooms, bistros, and wine-country tables worth the reservation.',
 }
 
-export default function DiningIndexPage() {
+export default async function DiningIndexPage() {
+  const pins = await buildAllRegionPins()
   return (
     <div className={detailStyles.page} data-site-surface="light">
 
@@ -22,7 +23,7 @@ export default function DiningIndexPage() {
         </p>
       </header>
 
-      <ExploreMapSection pins={mapPins} pinnedCategory="dining" showRegionFilter={true} pageFlow />
+      <ExploreMapSection pins={pins} pinnedCategory="dining" showRegionFilter={true} pageFlow />
 
       <Newsletter />
       <Footer />
