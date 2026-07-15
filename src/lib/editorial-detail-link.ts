@@ -40,6 +40,7 @@ export function editorialDetailHref(
   category: 'taste' | 'eat' | 'stay',
   regionSlug: string,
   name: string,
+  website?: string,
 ): string {
   const pin = findPinForName(pins, name)
   if (
@@ -57,7 +58,10 @@ export function editorialDetailHref(
   const candidate = `${base}/${slug}`
   if (detailPageExists(candidate)) return candidate
 
-  // No breakout page for this venue — land on its pin in the explore
-  // directory instead of a 404.
+  // No breakout page — send readers to the venue itself
+  const site = website?.trim() || (pin?.href?.startsWith('http') ? pin.href : undefined)
+  if (site) return site.match(/^https?:\/\//i) ? site : `https://${site}`
+
+  // Last resort: the venue's pin in the explore directory (never a 404)
   return `/explore?ava=${regionSlug}&place=${slug}`
 }

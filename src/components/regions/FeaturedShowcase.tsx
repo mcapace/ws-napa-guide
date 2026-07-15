@@ -80,7 +80,7 @@ export function FeaturedShowcasePanel({
 
   const imageSrc = pick.image ?? pick.imagePortrait
   const anchorRight = index % 2 === 1
-  const detailHref = editorialDetailHref(pins, pick.category, regionSlug, pick.name)
+  const detailHref = editorialDetailHref(pins, pick.category, regionSlug, pick.name, pick.website)
   const website = normalizeWebsite(pick.website)
   const blurb = truncateBlurb(pick.bodyPlain ?? '')
   const eyebrow = `${CATEGORY_EYEBROW[pick.category]} · ${regionLabel}`
@@ -114,8 +114,14 @@ export function FeaturedShowcasePanel({
           </a>
         ) : null}
       </div>
-      <Link href={detailHref} className={styles.cta}>
-        View {pick.name} →
+      <Link
+        href={detailHref}
+        className={styles.cta}
+        {...(detailHref.startsWith('http')
+          ? { target: '_blank', rel: 'noopener noreferrer' }
+          : {})}
+      >
+        View {pick.name} {detailHref.startsWith('http') ? '↗' : '→'}
       </Link>
     </>
   )

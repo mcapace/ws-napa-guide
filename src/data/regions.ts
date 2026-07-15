@@ -274,7 +274,7 @@ Where to Taste
 Downtown Yountville has more than a dozen tasting rooms, and when you include the nearby Stags Leap District and Oak Knoll AVAs, which butt up against the city from the east and south, respectively, there’s an abundance of wineries within a few minutes’ drive. These southern appel
 lations are influenced more by San Pablo Bay, bringing fog and cooling breezes that yield an elegant style of Cabernet Sauvignon. The climate also favors other grapes, including Chardonnay, Sauvignon Blanc, Zinfandel, Petite Sirah and more.
 Yountville Stewart
-6752 Washington St. | stewartscellars.com Passersby may first be lured by the charming
+6752 Washington St. | stewartcellars.com Passersby may first be lured by the charming
 stone building and courtyard while strolling down Washington Street, and then pleased to
 discover the lineup of wines available for tasting inside. This Ken Fulk- and Arcanum Archi tecture–designed tasting room is polished,
 with an eclectic residential style that includes vintage furnishings and quirky paraphernalia.
