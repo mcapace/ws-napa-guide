@@ -19,6 +19,7 @@ type MapPin = {
   coords: [number, number]
   address: string
   restaurantSlug?: string
+  website?: string
   label?: string
 }
 
@@ -47,6 +48,7 @@ function venuePins(venues: FeatureVenue[]): MapPin[] {
         coords: primaryCoords,
         address,
         restaurantSlug: venue.restaurantSlug,
+        website: venue.website ? (venue.website.match(/^https?:/) ? venue.website : `https://${venue.website}`) : undefined,
       })
     }
 
@@ -257,10 +259,10 @@ export function FeatureVenueMap({
                 <p className={styles.popupName}>{activePin.name}</p>
                 {activePin.label && <p className={styles.popupMeta}>{activePin.label}</p>}
                 <p className={styles.popupMeta}>{activePin.address}</p>
-                {activePin.restaurantSlug ? (
-                  <Link href={`/dining/${activePin.restaurantSlug}`} className={styles.popupLink}>
-                    View in guide →
-                  </Link>
+                {activePin.website ? (
+                  <a href={activePin.website} target="_blank" rel="noopener noreferrer" className={styles.popupLink}>
+                    Visit website ↗
+                  </a>
                 ) : (
                   <Link href="/explore?category=dining" className={styles.popupLink}>
                     Explore map →
@@ -348,13 +350,15 @@ export function FeatureVenueMap({
                       )}
                     </p>
                     <p className={layoutStyles.venueDesc}>{venue.description}</p>
-                    {venue.restaurantSlug && (
-                      <Link
-                        href={`/dining/${venue.restaurantSlug}`}
+                    {venue.website && (
+                      <a
+                        href={venue.website.match(/^https?:/) ? venue.website : `https://${venue.website}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className={layoutStyles.venueLink}
                       >
-                        View in guide
-                      </Link>
+                        Visit website ↗
+                      </a>
                     )}
                   </div>
                 </article>

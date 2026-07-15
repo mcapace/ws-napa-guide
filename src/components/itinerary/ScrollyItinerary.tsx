@@ -23,11 +23,7 @@ import {
 } from '@/lib/itinerary-directions'
 import type { Itinerary, ItineraryStop } from '@/lib/types'
 import { getShowcaseFocalPoint } from '@/lib/image-focal'
-import {
-  absoluteWebsiteUrl,
-  detailPageExists,
-  venueWebsiteForDetailPath,
-} from '@/lib/venue-links'
+import { absoluteWebsiteUrl, venueWebsiteForDetailPath } from '@/lib/venue-links'
 import styles from './ScrollyItinerary.module.css'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -81,8 +77,7 @@ function detailHref(stop: ItineraryStop): string | null {
   if (!base) return null
   // Venue links go to the venue's actual site, not microsite pages
   const site = venueWebsiteForDetailPath(`${base}/${stop.detailSlug}`)
-  if (site) return absoluteWebsiteUrl(site)
-  return detailPageExists(`${base}/${stop.detailSlug}`) ? `${base}/${stop.detailSlug}` : null
+  return site ? absoluteWebsiteUrl(site) : null
 }
 
 function categoryLabel(category: ItineraryStop['category']): string {

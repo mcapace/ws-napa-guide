@@ -7,12 +7,13 @@ import styles from './FeaturePlacesMentioned.module.css'
 
 function hrefFor(entry: HorizontalStripItem) {
   switch (entry.type) {
+    // Venue cards go to the venue's actual website (else its explore pin)
     case 'winery':
-      return `/wineries/${entry.item.slug}`
+      return entry.item.visitInfo?.website ?? `/explore?ava=${entry.item.region}&place=${entry.item.slug}`
     case 'dining':
-      return `/dining/${entry.item.slug}`
+      return entry.item.website ?? `/explore?ava=${entry.item.region}&place=${entry.item.slug}`
     case 'stay':
-      return `/stay/${entry.item.slug}`
+      return entry.item.website ?? `/explore?ava=${entry.item.region}&place=${entry.item.slug}`
     case 'region':
       return `/regions/${entry.item.slug}`
   }

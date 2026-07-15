@@ -853,10 +853,13 @@
 }
 
 .exploreRootPageFlow .filtersSticky {
+  /* Region pages define --region-tab-bar-height; standalone directory
+     pages have no tab bar — a nonzero fallback left a see-through band
+     between the site header and the stuck filters. */
   top: calc(
-    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 52px)
+    var(--ws-site-header-height, 72px) + var(--region-tab-bar-height, 0px)
   );
-  z-index: 6;
+  z-index: 12;
 }
 
 .exploreRootPageFlow .listScroll,
