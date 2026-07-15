@@ -3,6 +3,7 @@ import { pinsByRegion } from '@/data/map-pins'
 import regionDirectoryImages from '@/data/region-directory-images.json'
 import type { DirectoryCategory, EditorialFeature, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
+import { absoluteWebsiteUrl, venueWebsiteForDetailPath } from '@/lib/venue-links'
 import { isEditorialListingImage, pinHasListingImage, sortExploreListPins } from '@/lib/explore'
 import {
   buildRegionDoMapRows,
@@ -215,7 +216,10 @@ function buildPinsFromRows(
     if (!pin) continue
 
     if (staticMatch) {
-      pin = { ...pin, href: staticMatch.href }
+      // Venue links target the venue's own website; the print directory
+      // row's URL wins, then the curated dataset's, never a microsite page.
+      const site = normalizeWebsiteUrl(row.website) ?? venueWebsiteForDetailPath(staticMatch.href)
+      pin = { ...pin, href: site ? absoluteWebsiteUrl(site) : staticMatch.href }
     }
     addPin(pin)
   }

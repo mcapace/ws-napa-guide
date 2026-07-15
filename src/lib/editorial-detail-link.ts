@@ -1,19 +1,12 @@
 import type { MapPin } from '@/data/map-pins'
-import { hotels } from '@/data/hotels'
-import { restaurants } from '@/data/restaurants'
-import { wineries } from '@/data/wineries'
 import { directorySlug } from '@/lib/explore-region-pins'
+import {
+  absoluteWebsiteUrl,
+  detailPageExists,
+  venueWebsiteForDetailPath,
+} from '@/lib/venue-links'
 
-/** Breakout detail pages exist only for these curated slugs — anything else 404s. */
-const DETAIL_PAGES = new Set<string>([
-  ...wineries.map((w) => `/wineries/${w.slug}`),
-  ...restaurants.map((r) => `/dining/${r.slug}`),
-  ...hotels.map((h) => `/stay/${h.slug}`),
-])
-
-export function detailPageExists(href: string): boolean {
-  return DETAIL_PAGES.has(href)
-}
+export { absoluteWebsiteUrl, detailPageExists, venueWebsiteForDetailPath }
 
 function normalizeName(name: string): string {
   return name
@@ -42,26 +35,24 @@ export function editorialDetailHref(
   name: string,
   website?: string,
 ): string {
+  // Every venue link goes to the venue's actual website (editorial
+  // decision — the microsite's breakout pages are not the destination).
+  if (website?.trim()) return absoluteWebsiteUrl(website)
+
   const pin = findPinForName(pins, name)
-  if (
-    pin?.href &&
-    !pin.href.startsWith('http') &&
-    !pin.href.includes('/explore') &&
-    detailPageExists(pin.href)
-  ) {
-    return pin.href
+  if (pin?.href?.startsWith('http')) return pin.href
+  if (pin?.href && detailPageExists(pin.href)) {
+    const site = venueWebsiteForDetailPath(pin.href)
+    if (site) return absoluteWebsiteUrl(site)
   }
 
   const slug = directorySlug(regionSlug, name)
   const base =
     category === 'taste' ? '/wineries' : category === 'eat' ? '/dining' : '/stay'
   const candidate = `${base}/${slug}`
-  if (detailPageExists(candidate)) return candidate
+  const site = venueWebsiteForDetailPath(candidate)
+  if (site) return absoluteWebsiteUrl(site)
 
-  // No breakout page — send readers to the venue itself
-  const site = website?.trim() || (pin?.href?.startsWith('http') ? pin.href : undefined)
-  if (site) return site.match(/^https?:\/\//i) ? site : `https://${site}`
-
-  // Last resort: the venue's pin in the explore directory (never a 404)
+  // Venue has no website anywhere on file — its explore pin, never a 404
   return `/explore?ava=${regionSlug}&place=${slug}`
 }

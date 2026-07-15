@@ -23,6 +23,11 @@ import {
 } from '@/lib/itinerary-directions'
 import type { Itinerary, ItineraryStop } from '@/lib/types'
 import { getShowcaseFocalPoint } from '@/lib/image-focal'
+import {
+  absoluteWebsiteUrl,
+  detailPageExists,
+  venueWebsiteForDetailPath,
+} from '@/lib/venue-links'
 import styles from './ScrollyItinerary.module.css'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -65,10 +70,19 @@ const ROUTE_LINE_LAYER: LayerProps = {
 
 function detailHref(stop: ItineraryStop): string | null {
   if (!stop.detailSlug) return null
-  if (stop.category === 'winery') return `/wineries/${stop.detailSlug}`
-  if (stop.category === 'dining') return `/dining/${stop.detailSlug}`
-  if (stop.category === 'stay') return `/stay/${stop.detailSlug}`
-  return null
+  const base =
+    stop.category === 'winery'
+      ? '/wineries'
+      : stop.category === 'dining'
+        ? '/dining'
+        : stop.category === 'stay'
+          ? '/stay'
+          : null
+  if (!base) return null
+  // Venue links go to the venue's actual site, not microsite pages
+  const site = venueWebsiteForDetailPath(`${base}/${stop.detailSlug}`)
+  if (site) return absoluteWebsiteUrl(site)
+  return detailPageExists(`${base}/${stop.detailSlug}`) ? `${base}/${stop.detailSlug}` : null
 }
 
 function categoryLabel(category: ItineraryStop['category']): string {
@@ -556,7 +570,7 @@ export default function ScrollyItinerary({
                         <h3 className={styles.stepNameEmbed}>{stop.name}</h3>
                         <p className={styles.stepBlurbEmbed}>{stop.blurb}</p>
                         {href ? (
-                          <a className={styles.stepLinkEmbed} href={href}>
+                          <a className={styles.stepLinkEmbed} href={href} {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
                             Read more →
                           </a>
                         ) : null}
@@ -592,7 +606,7 @@ export default function ScrollyItinerary({
                     ) : null}
                     <p className={styles.stepBlurb}>{stop.blurb}</p>
                     {href ? (
-                      <a className={styles.stepLink} href={href}>
+                      <a className={styles.stepLink} href={href} {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
                         View {stop.name} →
                       </a>
                     ) : null}
