@@ -409,7 +409,10 @@ html[data-region-native-scroll] body {
 /* ── Site nav — sticky solid bar above content (not over hero photos) ── */
 .ws-nav-shell {
   position: sticky;
-  top: 0;
+  /* Pin below the staging banner when present (0px in production) —
+     with top:0 the header slides under the sticky banner and everything
+     offset by --ws-site-header-height floats 33px too low. */
+  top: var(--ws-staging-banner-height, 0px);
   z-index: 200;
   padding: var(--ws-nav-edge-padding-y) var(--ws-nav-edge-padding-x);
   padding-top: calc(var(--ws-nav-edge-padding-y) + env(safe-area-inset-top, 0px));
