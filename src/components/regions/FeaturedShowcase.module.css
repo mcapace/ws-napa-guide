@@ -6,9 +6,12 @@
 .panel {
   --showcase-landscape-focal: center 50%;
   position: relative;
+  display: flex;
+  align-items: flex-end;
   width: 100%;
-  height: 85vh;
-  min-height: 560px;
+  /* Height is a floor, not a ceiling — full write-ups must never push the
+     name out of the frame */
+  min-height: max(85vh, 560px);
   overflow: hidden;
   background: var(--ink, #0d0b09);
 }
@@ -140,9 +143,7 @@
 }
 
 .copy {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  position: relative;
   z-index: 2;
   max-width: min(640px, 92vw);
   padding: 56px 60px;
@@ -150,8 +151,7 @@
 }
 
 .copyRight {
-  left: auto;
-  right: 0;
+  margin-left: auto;
   text-align: right;
 }
 
@@ -273,8 +273,7 @@
 @media (min-width: 1024px) and (max-width: 1799px) {
   .panel {
     --showcase-landscape-focal: center 48%;
-    height: 80vh;
-    min-height: 520px;
+    min-height: max(80vh, 520px);
   }
 }
 
@@ -282,8 +281,7 @@
 @media (min-width: 1024px) and (max-height: 900px) {
   .panel {
     --showcase-landscape-focal: center 48%;
-    height: 76vh;
-    min-height: 480px;
+    min-height: max(76vh, 480px);
   }
 }
 
@@ -294,54 +292,7 @@
   }
 }
 
-@media (max-width: 1023px) {
-  .panel {
-    height: 70vh;
-    min-height: 480px;
-  }
 
-  .copy,
-  .copyRight {
-    left: 0;
-    right: 0;
-    text-align: left;
-    max-width: none;
-    padding: 32px 24px;
-  }
-
-  .copyRight .blurb {
-    margin-left: 0;
-  }
-
-  .copyRight .captionRow {
-    justify-content: flex-start;
-  }
-
-  .scrimLeft,
-  .scrimRight {
-    background:
-      linear-gradient(
-        to bottom,
-        rgba(13, 11, 9, 0.24) 0%,
-        rgba(13, 11, 9, 0.07) 12%,
-        transparent 24%
-      ),
-      linear-gradient(
-        to top,
-        rgba(13, 11, 9, 0.8) 0%,
-        rgba(13, 11, 9, 0.36) 40%,
-        transparent 72%
-      );
-  }
-
-  .imageLandscape {
-    display: none;
-  }
-
-  .imagePortrait {
-    display: block;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .imageWrap {
@@ -356,16 +307,17 @@
   }
 }
 
-/* ── Phones: editorial cards, not full-bleed overlays ──
-   Photo sits contained on top, copy reads on solid ink below —
-   no text-over-image, no scrims, no parallax overscan. */
-@media (max-width: 767px) {
+/* ── Phones & tablets: editorial cards, not full-bleed overlays ──
+   Photo sits contained on top, copy reads on solid ink below — full
+   write-ups can run long, and overlay text would overflow the frame. */
+@media (max-width: 1023px) {
   .stack {
     gap: 24px;
     padding: 4px 16px 40px;
   }
 
   .panel {
+    display: block;
     height: auto;
     min-height: 0;
     background: #161210;
@@ -411,9 +363,18 @@
   .copy,
   .copyRight {
     position: static;
+    margin-left: 0;
     max-width: none;
     padding: 20px 18px 26px;
     text-align: left;
+  }
+
+  .copyRight .captionRow {
+    justify-content: flex-start;
+  }
+
+  .copyRight .blurb {
+    margin-left: 0;
   }
 
   .name {
