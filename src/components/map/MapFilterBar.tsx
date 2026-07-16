@@ -7,7 +7,7 @@ const REGIONS = [
   { slug: 'oakville',       label: 'Oakville' },
   { slug: 'rutherford',     label: 'Rutherford' },
   { slug: 'calistoga',      label: 'Calistoga' },
-  { slug: 'yountville',     label: 'Yountville / Stags Leap District' },
+  { slug: 'yountville',     label: 'Yountville' },
   { slug: 'st-helena',      label: 'St. Helena' },
   { slug: 'pritchard-hill', label: 'Pritchard Hill' },
   { slug: 'downtown-napa',  label: 'Downtown Napa' },

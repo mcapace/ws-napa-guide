@@ -491,7 +491,7 @@ kling wine with a sword, a tradition that dates to Na poleon’s era. Equally me
   },
   {
     slug: 'yountville',
-    name: 'Yountville / Stags Leap District',
+    name: 'Yountville',
     tagline: 'World-Class Dining',
     author: 'Aaron Romano',
     issue: 'June 15 & 30, 2026',

@@ -48,7 +48,7 @@ export const REGION_CENTERS: Record<string, { center: [number, number]; zoom: nu
 export const REGION_LABELS: Record<string, string> = {
   oakville: 'Oakville',
   rutherford: 'Rutherford',
-  yountville: 'Yountville / Stags Leap District',
+  yountville: 'Yountville',
   'st-helena': 'St. Helena',
   calistoga: 'Calistoga',
   'pritchard-hill': 'Pritchard Hill',
