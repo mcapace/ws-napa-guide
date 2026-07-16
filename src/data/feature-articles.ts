@@ -19,23 +19,25 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       {
         src: `${JUDGMENT}/points-montelena.jpg`,
         alt: '1973 Chateau Montelena Chardonnay',
-        width: 224,
+        width: 193,
         height: 550,
         transparent: true,
       },
       {
         src: `${JUDGMENT}/points-stags-leap.jpg`,
         alt: '1973 Stag’s Leap Wine Cellars Cabernet Sauvignon',
-        width: 182,
-        height: 546,
+        width: 187,
+        height: 550,
         transparent: true,
       },
     ],
     midArticleImage: {
-      src: `${JUDGMENT}/tasting-judges.png`,
+      src: `${JUDGMENT}/tasting-judges.jpg`,
       alt: 'Judges at the 1976 Paris tasting',
       caption:
         'The judges included French vintners, sommeliers and wine writers.',
+      // Archival frame is low-resolution — present it inset-sized, not full width
+      maxWidth: 440,
     },
     introParagraphs: [
       'Visitors to Napa Valley this year will arrive amidst a pair of important anniversaries. While America celebrates its 250th birthday, California wine is celebrating 50 years since the tasting that became known as the “Judgment of Paris” shined a light on the state’s progress and promise.',

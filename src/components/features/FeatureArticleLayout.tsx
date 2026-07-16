@@ -111,12 +111,23 @@ export default function FeatureArticleLayout({
 
       {content.midArticleImage && (
         <section className={styles.editorialPhotoSection}>
-          <div className={styles.editorialPhotoInner}>
+          <div
+            className={styles.editorialPhotoInner}
+            style={
+              content.midArticleImage.maxWidth
+                ? { maxWidth: content.midArticleImage.maxWidth, marginInline: 'auto' }
+                : undefined
+            }
+          >
             <Image
               src={content.midArticleImage.src}
               alt={content.midArticleImage.alt ?? ''}
               fill
-              sizes="(max-width: 900px) 100vw, 900px"
+              sizes={
+                content.midArticleImage.maxWidth
+                  ? `${content.midArticleImage.maxWidth}px`
+                  : '(max-width: 900px) 100vw, 900px'
+              }
               className={styles.editorialPhotoImg}
             />
           </div>
