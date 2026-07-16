@@ -3,7 +3,7 @@
   "/images/pritchard-hill/hero/pritchard-hill-hero-portrait.jpg": "center center",
   "/images/st-helena/hero/st-helena-hero-landscape.jpg": "center center",
   "/images/st-helena/hero/st-helena-hero-portrait.jpg": "center center",
-  "/images/st-helena/wineries/st-helena-winery-ad-vivum-landscape.jpg": "center 30%",
+  "/images/st-helena/wineries/st-helena-winery-ad-vivum-landscape.jpg": "45% 30%",
   "/images/st-helena/wineries/st-helena-winery-ad-vivum-portrait.jpg": "center 28%",
   "/images/st-helena/wineries/st-helena-winery-clif-family-landscape.jpg": "center 28%",
   "/images/st-helena/wineries/st-helena-winery-clif-family-portrait.jpg": "center 26%",
@@ -41,5 +41,11 @@
   "/images/st-helena/hotels/st-helena-hotel-alila-napa-valley-portrait.jpg": "center 22%",
   "/images/st-helena/hotels/st-helena-hotel-inn-at-salvestrin-landscape.jpg": "center 26%",
   "/images/st-helena/hotels/st-helena-hotel-inn-at-salvestrin-portrait.jpg": "center 24%",
-  "/images/calistoga/hero/calistoga-hero-landscape.jpg": "center center"
+  "/images/calistoga/hero/calistoga-hero-landscape.jpg": "center center",
+  "/images/downtown-napa/wineries/downtown-napa-winery-gentleman-farmer-bungalow-landscape.jpg": "66% 50%",
+  "/images/yountville/wineries/yountville-winery-hendry-landscape.jpg": "32% 50%",
+  "/images/oakville/wineries/oakville-winery-cardinale-landscape.jpg": "45% 50%",
+  "/images/oakville/restaurants/oakville-restaurant-mustards-grill-landscape.jpg": "45% 50%",
+  "/images/calistoga/wineries/calistoga-winery-larkmead-landscape.jpg": "60% 50%",
+  "/images/calistoga/hotels/calistoga-hotel-solage-landscape.jpg": "28% 50%"
 }

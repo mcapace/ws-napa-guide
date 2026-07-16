@@ -161,7 +161,9 @@ export function FeaturedShowcasePanel({
                   alt=""
                   fill
                   priority={index < 2}
-                  sizes="100vw"
+                  // Phone cards are 4:3 but the masters are ultra-wide: covering
+                  // the box needs up to ~1.9x the viewport width in source pixels.
+                  sizes="(max-width: 767px) 190vw, 100vw"
                   className={`${styles.image} ${styles.imageLandscape}`}
                   style={
                     landscapeStyle.shiftY
