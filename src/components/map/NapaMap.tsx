@@ -6,11 +6,11 @@ import Map, {
   Popup,
   Source,
   Layer,
-  GeolocateControl,
   NavigationControl,
   type MapRef,
   type LayerProps,
 } from 'react-map-gl/mapbox'
+import { LocateControl } from '@/components/map/LocateControl'
 import { mapPins, PIN_COLORS, PIN_LABELS, type MapPin } from '@/data/map-pins'
 import type { MapPinFilterType, MapRegionFilter } from '@/lib/types'
 import { avaBoundaries } from '@/data/ava-boundaries'
@@ -165,12 +165,7 @@ export default function NapaMap() {
         )}
 
         <NavigationControl position="bottom-right" visualizePitch />
-        <GeolocateControl
-          position="bottom-right"
-          positionOptions={{ enableHighAccuracy: false, timeout: 10000, maximumAge: 120000 }}
-          trackUserLocation
-          showUserHeading
-        />
+        <LocateControl position="bottom-right" />
 
         {visiblePins.map((pin) => (
           <Marker

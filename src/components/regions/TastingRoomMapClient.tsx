@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import Map, { GeolocateControl, Marker, NavigationControl, Popup, type MapRef } from 'react-map-gl/mapbox'
+import Map, { Marker, NavigationControl, Popup, type MapRef } from 'react-map-gl/mapbox'
+import { LocateControl } from '@/components/map/LocateControl'
 import mapboxgl from 'mapbox-gl'
 import type { DirectoryCategory, RegionCoordinates, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
@@ -119,12 +120,7 @@ export function TastingRoomMapClient({ center, rows, regionName }: Props) {
         attributionControl={false}
       >
         <NavigationControl position="top-right" showCompass={false} />
-        <GeolocateControl
-          position="top-right"
-          positionOptions={{ enableHighAccuracy: false, timeout: 10000, maximumAge: 120000 }}
-          trackUserLocation
-          showUserHeading
-        />
+        <LocateControl position="top-right" />
         {showCenterPin && (
           <Marker longitude={center.lng} latitude={center.lat} anchor="center">
             <PinMarker

@@ -4,7 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import Map, { GeolocateControl, Marker, NavigationControl, type MapRef } from 'react-map-gl/mapbox'
+import Map, { Marker, NavigationControl, type MapRef } from 'react-map-gl/mapbox'
+import { LocateControl } from '@/components/map/LocateControl'
 import Supercluster from 'supercluster'
 import { Compass, Hotel, Search, Truck, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
 import type { MapPin } from '@/data/map-pins'
@@ -882,13 +883,7 @@ export function ExploreMap({
               }}
             >
               <NavigationControl position="top-right" showCompass={false} />
-              {/* Visitors in the valley: blue-dot themselves and browse what's nearby */}
-              <GeolocateControl
-                position="top-right"
-                positionOptions={{ enableHighAccuracy: false, timeout: 10000, maximumAge: 120000 }}
-                trackUserLocation
-                showUserHeading
-              />
+              <LocateControl position="top-right" />
 
               {clusters.map((feature) => {
                 const [lng, lat] = feature.geometry.coordinates as [number, number]

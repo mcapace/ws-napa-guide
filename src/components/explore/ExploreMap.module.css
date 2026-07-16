@@ -221,7 +221,7 @@
 
 .copyToggle {
   display: inline-block;
-  margin: 4px 0 0;
+  margin: 4px 16px 0 0;
   padding: 0;
   border: none;
   background: none;
@@ -979,6 +979,60 @@
 
   .mapColumnMobileOpen {
     display: block;
+  }
+
+  /* ── Sleeker phone filters: swipeable chip rails instead of a wrapped grid ── */
+  .filtersSticky {
+    padding: 12px 16px 8px;
+  }
+
+  .filterRow {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -16px 8px;
+    padding: 0 16px;
+    gap: 6px;
+  }
+
+  .filterRow::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pill {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+  }
+
+  .searchRow {
+    margin-bottom: 8px;
+  }
+
+  .searchInput {
+    border-radius: 999px;
+    padding: 8px 32px;
+  }
+
+  .mobileToggle {
+    padding: 10px 16px;
+  }
+
+  .mobileToggleBtn {
+    padding: 9px 16px;
+    letter-spacing: 0.1em;
+  }
+
+  .mobileToggleBtn:first-child {
+    border-radius: 999px 0 0 999px;
+  }
+
+  .mobileToggleBtn:last-child {
+    border-radius: 0 999px 999px 0;
   }
 
   .rowEditorial,
