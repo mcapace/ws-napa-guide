@@ -777,9 +777,9 @@ export function ExploreMap({
                           <Image
                             src={pin.thumb}
                             alt=""
-                            width={hasListingPhoto ? 112 : 96}
-                            height={hasListingPhoto ? 112 : 96}
-                            sizes={hasListingPhoto ? '140px' : '120px'}
+                            width={128}
+                            height={128}
+                            sizes="140px"
                             className={styles.thumbImage}
                             style={{ objectPosition: getImageFocalPoint(pin.thumb, 'thumb') }}
                           />
