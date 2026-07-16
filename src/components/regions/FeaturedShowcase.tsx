@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -83,7 +83,11 @@ export function FeaturedShowcasePanel({
   const anchorRight = index % 2 === 1
   const detailHref = editorialDetailHref(pins, pick.category, regionSlug, pick.name, pick.website)
   const website = normalizeWebsite(pick.website)
-  const blurb = truncateBlurb(pick.bodyPlain ?? '')
+  const fullBlurb = (pick.bodyPlain ?? '').trim()
+  const truncatedBlurb = truncateBlurb(fullBlurb)
+  const [blurbExpanded, setBlurbExpanded] = useState(false)
+  const blurbCanExpand = fullBlurb.length > truncatedBlurb.length + 4
+  const blurb = blurbExpanded ? fullBlurb : truncatedBlurb
   const eyebrow = `${CATEGORY_EYEBROW[pick.category]} · ${regionLabel}`
 
   const landscapeStyle = getShowcaseImageStyle(pick.image, pick.imagePortrait, false)
@@ -101,7 +105,23 @@ export function FeaturedShowcasePanel({
       >
         {pick.name}
       </h3>
-      {blurb ? <p className={styles.blurb}>{blurb}</p> : null}
+      {blurb ? (
+        <p className={styles.blurb}>
+          {blurb}
+          {blurbCanExpand ? (
+            <>
+              {' '}
+              <button
+                type="button"
+                className={styles.blurbToggle}
+                onClick={() => setBlurbExpanded((v) => !v)}
+              >
+                {blurbExpanded ? 'Show less' : 'Read more'}
+              </button>
+            </>
+          ) : null}
+        </p>
+      ) : null}
       <div className={styles.captionRow}>
         {pick.address ? <span className={styles.captionItem}>{pick.address}</span> : null}
         {website ? (
