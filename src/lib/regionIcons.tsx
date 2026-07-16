@@ -42,6 +42,7 @@ const ILLU: Record<
   'st-helena': { brick: '#D8735C', gold: '#FFF3D8', grid: '#F5E6C8' },
   calistoga: { spring: '#52B4D3', steam: '#B8EAFF', gold: '#E8F4FC' },
   'downtown-napa': { grid: '#58B39A', gold: '#D4F5ED', brick: '#7FDCC4' },
+  'beyond-napa': { leaf: '#6B8F71', gold: '#D4B896', soil: '#8A7A5C' },
 }
 
 function ill(slug: string) {
@@ -281,6 +282,7 @@ const REGION_MARKS: Record<string, FC<RegionMarkProps>> = {
   'st-helena': StHelenaMark,
   calistoga: CalistogaMark,
   'downtown-napa': DowntownNapaMark,
+  'beyond-napa': DowntownNapaMark,
 }
 
 export function getRegionEditorialMark(slug: string): FC<RegionMarkProps> {

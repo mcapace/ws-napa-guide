@@ -5,7 +5,7 @@ import {
   MOSAIC_PAIR_SEQUENCE,
   MOSAIC_ROTATE_INTERVAL_MS,
   pickInitialMosaicAssets,
-  pickNextMosaicAsset,
+  pickMosaicAssetsForPanels,
   type MosaicImageAsset,
 } from '@/lib/home-mosaic-images'
 
@@ -15,17 +15,9 @@ export function useHomeMosaicRotation(queues: MosaicImageAsset[][]) {
 
   const advancePair = useCallback(
     (panelIndices: readonly number[]) => {
-      setVisible((prev) => {
-        const next = [...prev]
-        for (const panelIndex of panelIndices) {
-          const queue = queues[panelIndex]
-          if (!queue?.length || queue.length < 2) continue
-          next[panelIndex] = pickNextMosaicAsset(panelIndex, next, queue)
-        }
-        return next
-      })
+      setVisible((prev) => pickMosaicAssetsForPanels(panelIndices, prev, queues))
     },
-    [queues]
+    [queues],
   )
 
   useEffect(() => {

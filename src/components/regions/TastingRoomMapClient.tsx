@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Map, { Marker, NavigationControl, Popup, type MapRef } from 'react-map-gl/mapbox'
+import { LocateControl } from '@/components/map/LocateControl'
 import mapboxgl from 'mapbox-gl'
 import type { DirectoryCategory, RegionCoordinates, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
@@ -12,12 +13,14 @@ const PIN_COLORS: Record<DirectoryCategory, string> = {
   winery: '#722F37',
   restaurant: '#8B5A2B',
   hotel: '#2C5282',
+  do: '#9B9283',
 }
 
 const CATEGORY_LABELS: Record<DirectoryCategory, string> = {
   winery: 'Winery',
   restaurant: 'Restaurant',
   hotel: 'Hotel',
+  do: 'Between Pours',
 }
 
 function categoryLabel(c: DirectoryCategory): string {
@@ -114,8 +117,10 @@ export function TastingRoomMapClient({ center, rows, regionName }: Props) {
         }}
         style={{ width: '100%', height: '100%', minHeight: 420 }}
         mapStyle="mapbox://styles/mapbox/outdoors-v12"
+        attributionControl={false}
       >
         <NavigationControl position="top-right" showCompass={false} />
+        <LocateControl position="top-right" />
         {showCenterPin && (
           <Marker longitude={center.lng} latitude={center.lat} anchor="center">
             <PinMarker

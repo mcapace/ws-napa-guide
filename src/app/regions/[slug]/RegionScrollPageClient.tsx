@@ -1,0 +1,570 @@
+'use client'
+
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import Footer from '@/components/ui/Footer'
+import { ExploreMapSection } from '@/components/explore/ExploreMapSection'
+import ScrollyItinerary from '@/components/itinerary/ScrollyItinerary'
+import { RegionMoreAppellations } from '@/components/regions/RegionMoreAppellations'
+import { RelatedStoriesRail } from '@/components/regions/RelatedStoriesRail'
+import { RegionEditorialSections } from '@/components/regions/RegionEditorialSections'
+import type { MapPin } from '@/data/map-pins'
+import type { LoadedRegionMdx } from '@/lib/content/types'
+import { getImageFocalPoint } from '@/lib/image-focal'
+import { REGION_CENTERS } from '@/lib/mapbox'
+import { useLenis, scrollToTarget, enableRegionNativeScroll, getRegionScrollJumpOffset, dispatchRegionJumpSection, resetScrollToTop } from '@/lib/smooth-scroll'
+import { useRegionDocumentScrollBridge } from '@/lib/region-document-scroll'
+import { RegionScrollEnhancements } from '@/components/regions/RegionScrollEnhancements'
+import { MAGAZINE_SECTION_LABELS } from '@/lib/region-magazine-sections'
+import { isRegionScrollEnhanced } from '@/lib/region-scroll-enhanced'
+import { replaceUrlQuery } from '@/lib/update-url-query'
+import type { Itinerary } from '@/lib/types'
+import { RegionStoryPanel, type RegionTab } from './RegionPageClient'
+import styles from './region-frame.module.css'
+import '@/components/regions/region-editorial.css'
+
+type RegionScrollPageClientProps = {
+  slug: string
+  mdx: LoadedRegionMdx
+  pins: MapPin[]
+  itineraries?: Itinerary[]
+  storyImages?: string[]
+}
+
+type JumpLink = {
+  id: string
+  label: string
+  tab: RegionTab
+}
+
+/** Avoid re-scrolling on soft remounts when the same deep-link tab is already handled. */
+const handledRegionDeepLinks = new Set<string>()
+
+function parseTab(param: string | null, hasItinerary: boolean): RegionTab {
+  if (param === 'explore') return 'explore'
+  if (param === 'itinerary' && hasItinerary) return 'itinerary'
+  return 'story'
+}
+
+function buildJumpLinks(mdx: LoadedRegionMdx, hasItinerary: boolean): JumpLink[] {
+  const links: JumpLink[] = [{ id: 'region-story', label: 'Story', tab: 'story' }]
+
+  if (mdx.featuredWineries.length > 0) {
+    links.push({ id: 'region-taste', label: 'Taste', tab: 'story' })
+  }
+  if (mdx.featuredRestaurants.length > 0 || mdx.coffeeSnackFeatures.length > 0 || mdx.breakfast) {
+    links.push({ id: 'region-eat', label: 'Eat', tab: 'story' })
+  }
+  if (mdx.featuredHotels.length > 0) {
+    links.push({ id: 'region-stay', label: 'Stay', tab: 'story' })
+  }
+
+  links.push({ id: 'region-explore', label: 'Full list', tab: 'explore' })
+
+  if (hasItinerary) {
+    links.push({ id: 'region-itinerary', label: "Editor's picks", tab: 'itinerary' })
+  }
+
+  return links
+}
+
+function regionScrollSpyOffset(): number {
+  if (typeof document === 'undefined') return 132
+  return getRegionScrollJumpOffset(0)
+}
+
+function sectionCoversViewportFraction(id: string, minFraction = 0.3): boolean {
+  const el = document.getElementById(id)
+  if (!el) return false
+  const rect = el.getBoundingClientRect()
+  const vh = window.innerHeight
+  const visible = Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0))
+  return visible / vh >= minFraction
+}
+
+const STORY_SECTION_IDS = new Set([
+  'region-story',
+  'region-taste',
+  'region-eat',
+  'region-stay',
+])
+
+function pickActiveJumpSection(links: JumpLink[]): string {
+  const offset = regionScrollSpyOffset()
+  let bestId = links[0]?.id ?? 'region-story'
+  let bestScore = -1
+  const vh = window.innerHeight
+
+  for (const link of links) {
+    const el = document.getElementById(link.id)
+    if (!el) continue
+
+    const rect = el.getBoundingClientRect()
+    const visibleTop = Math.max(rect.top, offset)
+    const visibleBottom = Math.min(rect.bottom, vh)
+    const visible = Math.max(0, visibleBottom - visibleTop)
+    const inReadingBand = rect.top <= offset + 96 && rect.bottom > offset + 48
+    let score = inReadingBand ? visible * 1.35 : visible
+
+    if (link.id === 'region-explore' || link.id === 'region-itinerary') {
+      const viewportFraction = visible / vh
+      if (viewportFraction > 0.28) score *= 2.5
+      if (rect.top < vh * 0.55 && rect.bottom > vh * 0.45) score *= 1.2
+    }
+
+    if (score > bestScore) {
+      bestScore = score
+      bestId = link.id
+    }
+  }
+
+  return bestId
+}
+
+function ScrollSectionHeading({
+  title,
+  variant = 'dark',
+}: {
+  title: string
+  variant?: 'dark' | 'light'
+}) {
+  return (
+    <div
+      className={
+        variant === 'light'
+          ? styles.scrollSectionHeadingLight
+          : styles.scrollSectionHeadingDark
+      }
+    >
+      <h2 className={styles.scrollSectionHeadingTitle}>{title}</h2>
+    </div>
+  )
+}
+
+function RegionScrollPageClientContent({
+  slug,
+  mdx,
+  pins,
+  itineraries = [],
+  storyImages = [],
+}: RegionScrollPageClientProps) {
+  const { frontmatter } = mdx
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const lenis = useLenis()
+  const hasItinerary = itineraries.length > 0
+  const tabFromUrl = parseTab(searchParams.get('tab'), hasItinerary)
+  const jumpLinks = useMemo(() => buildJumpLinks(mdx, hasItinerary), [mdx, hasItinerary])
+  const [activeSectionId, setActiveSectionId] = useState(jumpLinks[0]?.id ?? 'region-story')
+  const itineraryIdFromUrl = searchParams.get('itinerary')
+  const [selectedItineraryId, setSelectedItineraryId] = useState(
+    () =>
+      itineraries.find((it) => it.id === itineraryIdFromUrl)?.id ?? itineraries[0]?.id,
+  )
+
+  useEffect(() => {
+    const onPopState = () => {
+      const params = new URLSearchParams(window.location.search)
+      const fromUrl = itineraries.find((it) => it.id === params.get('itinerary'))?.id
+      if (fromUrl) setSelectedItineraryId(fromUrl)
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [itineraries])
+
+  const regionCenter = REGION_CENTERS[slug]?.center ?? [-122.4194, 38.5]
+  const regionName = frontmatter.region
+  const scrollEnhanced = isRegionScrollEnhanced(slug)
+
+  const scrollToSection = useCallback(
+    (sectionId: string) => {
+      const el = document.getElementById(sectionId)
+      scrollToTarget(el, lenis)
+    },
+    [lenis],
+  )
+
+  const scrollToBottom = useCallback(() => {
+    scrollToTarget(document.getElementById('region-bottom'), lenis)
+  }, [lenis])
+
+  const jumpTo = useCallback(
+    (link: JumpLink) => {
+      setActiveSectionId(link.id)
+      dispatchRegionJumpSection(link.id)
+      scrollToSection(link.id)
+
+      const params = new URLSearchParams(window.location.search)
+      if (link.tab === 'story') {
+        params.delete('tab')
+        params.delete('itinerary')
+        params.delete('place')
+        params.delete('category')
+      } else {
+        params.set('tab', link.tab)
+        if (link.tab === 'explore') {
+          params.delete('place')
+          params.delete('category')
+        }
+        if (link.tab === 'itinerary' && selectedItineraryId) {
+          params.set('itinerary', selectedItineraryId)
+        } else {
+          params.delete('itinerary')
+        }
+      }
+      replaceUrlQuery(pathname, params)
+    },
+    [pathname, scrollToSection, selectedItineraryId],
+  )
+
+  const setItinerary = useCallback(
+    (itineraryId: string) => {
+      if (itineraryId === selectedItineraryId) return
+      setSelectedItineraryId(itineraryId)
+      const params = new URLSearchParams(window.location.search)
+      params.set('tab', 'itinerary')
+      params.set('itinerary', itineraryId)
+      replaceUrlQuery(pathname, params)
+    },
+    [pathname, selectedItineraryId],
+  )
+
+  const [showScrollHint, setShowScrollHint] = useState(true)
+  const [dockAtTop, setDockAtTop] = useState(true)
+  const [dockAtBottom, setDockAtBottom] = useState(false)
+  const [mapPanelVisible, setMapPanelVisible] = useState(false)
+  const initialScrollDone = useRef(false)
+  const heroLandscapeFocal = getImageFocalPoint(frontmatter.heroImage, 'hero')
+  const heroPortraitFocal = getImageFocalPoint(frontmatter.heroImagePortrait, 'portrait')
+
+  useEffect(() => enableRegionNativeScroll(lenis), [lenis])
+  useRegionDocumentScrollBridge()
+
+  /** New region slug: always open at hero (App Router can preserve scroll within shared layouts). */
+  useEffect(() => {
+    initialScrollDone.current = false
+    resetScrollToTop(lenis)
+    const raf = requestAnimationFrame(() => {
+      resetScrollToTop(lenis)
+      requestAnimationFrame(() => resetScrollToTop(lenis))
+    })
+    return () => cancelAnimationFrame(raf)
+  }, [slug, lenis])
+
+  useEffect(() => {
+    const onScroll = () => {
+      setShowScrollHint(window.scrollY < 100)
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      setDockAtTop(window.scrollY < 160)
+      setDockAtBottom(window.scrollY > max - 160)
+      setMapPanelVisible(
+        sectionCoversViewportFraction('region-explore') ||
+          sectionCoversViewportFraction('region-itinerary'),
+      )
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    if (tabFromUrl === 'story') return
+
+    const deepLinkKey = `${pathname}:${tabFromUrl}`
+    if (handledRegionDeepLinks.has(deepLinkKey)) return
+    handledRegionDeepLinks.add(deepLinkKey)
+
+    if (initialScrollDone.current) return
+    initialScrollDone.current = true
+
+    const sectionId =
+      tabFromUrl === 'explore'
+        ? 'region-explore'
+        : tabFromUrl === 'itinerary'
+          ? 'region-itinerary'
+          : 'region-story'
+
+    setActiveSectionId(sectionId)
+    dispatchRegionJumpSection(sectionId)
+    const id = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => scrollToSection(sectionId))
+    })
+    return () => window.cancelAnimationFrame(id)
+  }, [pathname, tabFromUrl, scrollToSection])
+
+  useEffect(() => {
+    let ticking = false
+
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(() => {
+        setActiveSectionId(pickActiveJumpSection(jumpLinks))
+        ticking = false
+      })
+    }
+
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [jumpLinks])
+
+  const storyLinks = jumpLinks.filter((l) => l.tab === 'story')
+  const utilityLinks = jumpLinks.filter((l) => l.tab !== 'story')
+
+  const showScrollDock =
+    STORY_SECTION_IDS.has(activeSectionId) &&
+    !mapPanelVisible &&
+    !dockAtTop &&
+    !dockAtBottom
+
+  return (
+    <div
+      className={styles.frame}
+      data-site-surface="dark"
+      data-region-frame=""
+      data-scroll-unified=""
+      {...(scrollEnhanced ? { 'data-region-enhanced': '' } : {})}
+      {...(!hasItinerary ? { 'data-region-no-itinerary': '' } : {})}
+      {...(hasItinerary && itineraries.length > 1 ? { 'data-has-itinerary-selector': '' } : {})}
+    >
+      <RegionScrollEnhancements enabled={scrollEnhanced} />
+      <header
+        className={`${styles.hero}${scrollEnhanced ? ` ${styles.heroEnhanced}` : ''}`}
+        {...(scrollEnhanced ? { 'data-hero-parallax-wrap': '' } : {})}
+      >
+        <div
+          className={styles.heroParallax}
+          {...(scrollEnhanced ? { 'data-hero-parallax': '' } : {})}
+        >
+          <Image
+            src={frontmatter.heroImage}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className={`${styles.heroImage} ${styles.heroLandscape}`}
+            style={{ objectPosition: heroLandscapeFocal }}
+          />
+          {frontmatter.heroImagePortrait ? (
+            <Image
+              src={frontmatter.heroImagePortrait}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className={`${styles.heroImage} ${styles.heroPortrait}`}
+              style={{ objectPosition: heroPortraitFocal }}
+            />
+          ) : null}
+        </div>
+        <div className={styles.heroOverlay} aria-hidden />
+        <div className={styles.heroCopy}>
+          <p className={styles.heroByline}>
+            By {frontmatter.byline} · {frontmatter.issue}
+          </p>
+          <h1
+            className={`${styles.heroTitle}${scrollEnhanced ? ` ${styles.heroTitleEnhanced}` : ''}`}
+            {...(scrollEnhanced ? { 'data-hero-title': '' } : {})}
+          >
+            {frontmatter.region}
+          </h1>
+          {frontmatter.exclusiveToOnline ? (
+            <p className={styles.heroAva}>Online exclusive</p>
+          ) : (
+            <p className={styles.heroAva}>{frontmatter.region.toUpperCase()} AVA</p>
+          )}
+          <p className={styles.heroTagline}>{frontmatter.tagline}</p>
+          {frontmatter.dek ? (
+            <p
+              className={styles.heroDeck}
+              {...(scrollEnhanced ? { 'data-hero-deck': '' } : {})}
+            >
+              {frontmatter.dek}
+            </p>
+          ) : null}
+        </div>
+        {showScrollHint ? (
+          <button
+            type="button"
+            className={styles.heroScrollHint}
+            onClick={() => jumpTo(jumpLinks[0])}
+            aria-label="Scroll to article"
+          >
+            <span className={styles.heroScrollHintLabel}>
+              {scrollEnhanced ? 'Scroll to explore' : 'Scroll to read'}
+            </span>
+            <span className={styles.heroScrollHintIcon} aria-hidden>↓</span>
+          </button>
+        ) : null}
+      </header>
+
+      <nav className={styles.jumpNav} aria-label="Page sections" data-region-jump-nav="">
+        <div className={styles.jumpNavInner}>
+          <div className={styles.jumpNavGroup}>
+            {storyLinks.map((link) => (
+              <button
+                key={link.id}
+                type="button"
+                className={`${styles.jumpLink}${activeSectionId === link.id ? ` ${styles.jumpLinkActive}` : ''}`}
+                aria-current={activeSectionId === link.id ? 'true' : undefined}
+                onClick={() => jumpTo(link)}
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
+          {utilityLinks.length > 0 ? <span className={styles.jumpNavRule} aria-hidden /> : null}
+          <div className={styles.jumpNavGroup}>
+            {utilityLinks.map((link) => (
+              <button
+                key={link.id}
+                type="button"
+                className={`${styles.jumpLink}${activeSectionId === link.id ? ` ${styles.jumpLinkActive}` : ''}`}
+                aria-current={activeSectionId === link.id ? 'true' : undefined}
+                onClick={() => jumpTo(link)}
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      <div id="region-panel-content" className={styles.scrollPage}>
+        <section id="region-story" className={styles.scrollSectionStory}>
+          <RegionStoryPanel
+            mdx={mdx}
+            hideCompanionFeature
+            textOnly
+            hideDek
+          />
+          <div className={styles.showcaseRegion}>
+            <RegionEditorialSections
+              data={mdx}
+              layout="showcase"
+              regionSlug={slug}
+              regionLabel={regionName}
+              pins={pins}
+              showcaseEnhanced={scrollEnhanced}
+            />
+          </div>
+        </section>
+
+        <section id="region-explore" className={`${styles.scrollSection} ${styles.scrollSectionExplore}`}>
+          <ScrollSectionHeading
+            title={MAGAZINE_SECTION_LABELS.directory}
+            variant="dark"
+          />
+          <div
+            className={`${styles.exploreFlowWrap} region-explore-embed-panel region-split-panel`}
+            data-region-embed-panel=""
+          >
+            {pins.length > 0 ? (
+              <ExploreMapSection
+                pins={pins}
+                scopedRegion={slug}
+                showRegionFilter={false}
+                theme="dark"
+                embedMode
+              />
+            ) : (
+              <p className={styles.scrollSectionEmpty}>No listings for this region yet.</p>
+            )}
+          </div>
+          {hasItinerary ? (
+            <>
+              <div className={styles.scrollContinueCta}>
+                <button
+                  type="button"
+                  className={styles.scrollContinueBtn}
+                  onClick={() => {
+                    const link = jumpLinks.find((l) => l.id === 'region-itinerary')
+                    if (link) jumpTo(link)
+                  }}
+                >
+                  Continue to itinerary ↓
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className={styles.scrollContinueCta}>
+              <button type="button" className={styles.scrollContinueBtn} onClick={scrollToBottom}>
+                More towns & areas below ↓
+              </button>
+            </div>
+          )}
+        </section>
+
+        {hasItinerary ? (
+          <section id="region-itinerary" className={`${styles.scrollSection} ${styles.scrollSectionItinerary}`}>
+            <ScrollSectionHeading
+              title={MAGAZINE_SECTION_LABELS.itinerary}
+              variant="dark"
+            />
+            <div
+              className={`${styles.itineraryFlowWrap} region-itinerary-embed-panel region-split-panel`}
+              data-region-embed-panel=""
+            >
+              <ScrollyItinerary
+                itineraries={itineraries}
+                regionCenter={regionCenter}
+                regionName={regionName}
+                selectedItineraryId={selectedItineraryId}
+                onItineraryChange={setItinerary}
+                hideSeriesHeader
+                embedMode
+              />
+            </div>
+            <div className={styles.scrollContinueCta}>
+              <button type="button" className={styles.scrollContinueBtn} onClick={scrollToBottom}>
+                More towns & areas below ↓
+              </button>
+            </div>
+          </section>
+        ) : null}
+      </div>
+
+      <div id="region-bottom" className={styles.bottom}>
+        <RelatedStoriesRail cards={mdx.related} />
+        <RegionMoreAppellations slug={slug} />
+        <Footer />
+      </div>
+
+      {showScrollDock ? (
+        <nav className={styles.scrollDock} aria-label="Page scroll">
+          {!dockAtTop ? (
+            <button
+              type="button"
+              className={styles.scrollDockBtn}
+              onClick={() => jumpTo(jumpLinks[0])}
+              aria-label="Back to story"
+            >
+              <span aria-hidden>↑</span>
+            </button>
+          ) : null}
+          <span className={styles.scrollDockLabel}>Scroll</span>
+          {!dockAtBottom ? (
+            <button
+              type="button"
+              className={styles.scrollDockBtn}
+              onClick={scrollToBottom}
+              aria-label="Continue to more towns and areas"
+            >
+              <span aria-hidden>↓</span>
+            </button>
+          ) : null}
+        </nav>
+      ) : null}
+    </div>
+  )
+}
+
+export default function RegionScrollPageClient(props: RegionScrollPageClientProps) {
+  return (
+    <Suspense fallback={null}>
+      <RegionScrollPageClientContent {...props} />
+    </Suspense>
+  )
+}

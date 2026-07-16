@@ -44,12 +44,18 @@ export function buildRegionTasteMapRows(data: LoadedRegionMdx): TastingDirectory
 
 export function buildRegionEatMapRows(data: LoadedRegionMdx): TastingDirectoryRow[] {
   const fromFeatured = editorialFeaturesToRows(data.featuredRestaurants, 'restaurant')
+  const fromCoffeeSnack = editorialFeaturesToRows(data.coffeeSnackFeatures, 'restaurant')
   const fromBreakfast = data.breakfast?.address?.trim()
     ? editorialFeaturesToRows([data.breakfast], 'restaurant')
     : []
   return attachDirectoryGeocodes(
     data.frontmatter.slug,
-    mergeDedupedMapRows([...fromFeatured, ...fromBreakfast, ...data.restaurantDirectory]),
+    mergeDedupedMapRows([
+      ...fromFeatured,
+      ...fromCoffeeSnack,
+      ...fromBreakfast,
+      ...data.restaurantDirectory,
+    ]),
   )
 }
 
@@ -59,4 +65,11 @@ export function buildRegionStayMapRows(data: LoadedRegionMdx): TastingDirectoryR
     data.frontmatter.slug,
     mergeDedupedMapRows([...fromFeatured, ...data.lodgingDirectory]),
   )
+}
+
+/** Shopping / culture / cocktails (Between Pours) from town Things to Do sections. */
+export function buildRegionDoMapRows(data: LoadedRegionMdx): TastingDirectoryRow[] {
+  if (!data.thingsToDo?.features.length) return []
+  const fromFeatures = editorialFeaturesToRows(data.thingsToDo.features, 'do')
+  return attachDirectoryGeocodes(data.frontmatter.slug, mergeDedupedMapRows(fromFeatures))
 }

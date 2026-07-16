@@ -3,52 +3,55 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { WS_LOGO_PRIMARY_SRC } from '@/lib/ws-logo'
 import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { sortRegionsSouthToNorth } from '@/data/region-order'
 import { regions, type RegionData } from '@/data/regions'
-import { wineries } from '@/data/wineries'
-import { buildMosaicPanelQueues } from '@/lib/home-mosaic-images'
+import { buildMosaicPanelQueues, pickHeroVideoFallback } from '@/lib/home-mosaic-images'
+import { getAppellationRevealImages } from '@/lib/region-scroll-reveals'
 import { HomeMosaicRotatingPanel } from '@/components/home/HomeMosaicRotatingPanel'
 import { useHomeMosaicRotation } from '@/components/home/useHomeMosaicRotation'
-import { TEST_IMAGES } from '@/lib/test-images'
 import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
 import Footer from '@/components/ui/Footer'
 import { NavMenuOverlay } from '@/components/ui/NavMenuOverlay'
+import { HomeStoriesSection } from '@/components/home/HomeStoriesSection'
+import { getStoryArticles } from '@/data/site-stories'
 
-const featuredRegions = regions
+const featuredRegions = sortRegionsSouthToNorth(regions)
+const browseRegions = sortRegionsSouthToNorth(regions)
 
-// ── JW Player (test media; swap IDs when final assets land) ───────────
-// Catalog also in src/components/video/JWVideo.tsx STATIC_MP4_720
-const HERO_MEDIA_ID = 'sVn1cQyI'
-const HERO_MP4 = `https://cdn.jwplayer.com/videos/${HERO_MEDIA_ID}-WBFwZoOE.mp4`
-const HERO_POSTER = `https://cdn.jwplayer.com/v2/media/${HERO_MEDIA_ID}/poster.jpg`
+// ── Homepage hero video (4 Adobe Stock clips stitched with crossfades) ──
+const HERO_VIDEO = '/images/homepage/hero/video.mp4'
+const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
-// ── Mosaic panel positions (mirroring therealhotels) ─────────────────
+// ── Mosaic panel positions (TRH: perimeter tiles, open center, lifted off bottom edge) ──
 const PANELS = [
-  { id: 1, style: { width: 200, height: 260, top: '8%', left: '5%' } },
-  { id: 2, style: { width: 160, height: 210, top: '30%', left: '12%' } },
-  { id: 3, style: { width: 280, height: 220, top: '15%', left: '38%' } },
-  { id: 4, style: { width: 180, height: 240, bottom: '15%', right: '12%' } },
-  { id: 5, style: { width: 160, height: 200, bottom: '25%', left: '50%' } },
+  { id: 1, style: { width: 148, height: 190, top: '5%', left: '5%' } },
+  { id: 2, style: { width: 118, height: 152, top: '18%', left: '10%' } },
+  { id: 3, style: { width: 168, height: 112, top: '3%', left: '50%' } },
+  { id: 4, style: { width: 188, height: 158, bottom: '32%', left: '4%', zIndex: 13 } },
+  { id: 5, style: { width: 132, height: 172, top: '28%', right: '5%' } },
+  { id: 6, style: { width: 128, height: 168, bottom: '34%', right: '6%', zIndex: 15 } },
 ]
 
-const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05] as const
-const PANEL_ROTS = ['-1.5deg', '1deg', '0.5deg', '-0.8deg', '1.2deg'] as const
+const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05, 0.06] as const
+const PANEL_ROTS = ['-1.5deg', '1deg', '0.5deg', '-0.8deg', '1.2deg', '-0.6deg'] as const
 
 /** Pixel geometry for hero video panel — always position with `left`, never `right` (avoids GSAP horizontal bounce). */
 function heroPanelStart() {
   const narrow = window.innerWidth <= 768
-  const width = narrow ? Math.min(280, window.innerWidth - 28) : 280
+  const width = narrow ? Math.min(260, window.innerWidth - 28) : 220
   const height = narrow
-    ? Math.min(200, Math.round((width * 200) / 280))
-    : 200
-  const top = narrow ? window.innerHeight * 0.12 : window.innerHeight * 0.08
-  const rightInset = narrow ? window.innerWidth * 0.04 : window.innerWidth * 0.05
+    ? Math.min(188, Math.round((width * 165) / 220))
+    : 165
+  const top = narrow ? window.innerHeight * 0.08 : window.innerHeight * 0.06
+  const rightInset = narrow ? window.innerWidth * 0.05 : window.innerWidth * 0.07
   const left = window.innerWidth - width - rightInset
-  return { width, height, top, left, borderRadius: 0 }
+  return { width, height, top, left, borderRadius: 3 }
 }
 
 function heroPanelEnd() {
@@ -69,51 +72,89 @@ export default function HomePage() {
   const heroCopyRef = useRef<HTMLDivElement>(null)
   const heroDisplayRef = useRef<HTMLDivElement>(null)
   const fullscreenOverlayRef = useRef<HTMLDivElement>(null)
+  const homeNavRef = useRef<HTMLElement>(null)
+  const heroTopScrimRef = useRef<HTMLDivElement>(null)
   const heroVideoRef = useRef<HTMLVideoElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
-  const [homeNavOverImagery, setHomeNavOverImagery] = useState(true)
+  const [heroVideoReady, setHeroVideoReady] = useState(false)
+  /** null until mounted; phones never mount the hero video (no fetch) */
+  const [isPhone, setIsPhone] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const update = () => setIsPhone(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
   /** Slot-matched crops; rotation never shows the same still on two tiles at once */
   const mosaicPanelQueues = useMemo(() => buildMosaicPanelQueues(PANELS.length), [])
   const mosaicVisible = useHomeMosaicRotation(mosaicPanelQueues)
-  const heroCenterFallback =
-    mosaicVisible[2]?.src ?? '/images/homepage/mosaic/collage-alila.jpg'
+  const heroCenterFallback = pickHeroVideoFallback(mosaicVisible)
 
   useLayoutEffect(() => {
-    const el = scrollContainerRef.current
-    if (!el) return
-
-    let ticking = false
-    const sync = () => {
-      ticking = false
-      const bottom = el.offsetTop + el.offsetHeight
-      setHomeNavOverImagery(window.scrollY < bottom)
-    }
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true
-        requestAnimationFrame(sync)
-      }
-    }
-
-    sync()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-    }
-  }, [])
-
-  useLayoutEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) return
     const centerPanel = centerPanelRef.current
     if (!centerPanel) return
     const start = heroPanelStart()
     gsap.set(centerPanel, { ...start, right: 'auto' })
   }, [])
 
+  /** TRH wordmark: full width; keep full letterforms visible (no bottom clip on descenders) */
+  useLayoutEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) return
+    const container = heroDisplayRef.current
+    const title = container?.querySelector<HTMLSpanElement>('.home-hero-display__title')
+    if (!container || !title) return
+
+    const fitTitle = () => {
+      title.style.fontSize = ''
+      title.style.transform = 'none'
+
+      const maxWidth = container.clientWidth
+      const maxVisibleHeight = window.innerHeight * (window.innerWidth <= 768 ? 0.22 : 0.25)
+      let size = parseFloat(getComputedStyle(title).fontSize)
+      const minSize = window.innerWidth <= 768 ? 56 : 88
+
+      while (size > minSize) {
+        title.style.fontSize = `${size}px`
+        if (title.scrollWidth <= maxWidth && title.offsetHeight <= maxVisibleHeight) break
+        size -= 1
+      }
+    }
+
+    fitTitle()
+    window.addEventListener('resize', fitTitle)
+    return () => window.removeEventListener('resize', fitTitle)
+  }, [])
+
   useEffect(() => {
+    const video = heroVideoRef.current
+    if (!video) return
+
+    const markReadyAndPlay = () => {
+      setHeroVideoReady(true)
+      video.muted = true
+      video.play().catch(() => {
+        /* autoplay blocked — poster / fallback remain */
+      })
+    }
+
+    video.addEventListener('loadeddata', markReadyAndPlay)
+    video.addEventListener('playing', markReadyAndPlay)
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      markReadyAndPlay()
+    }
+
+    return () => {
+      video.removeEventListener('loadeddata', markReadyAndPlay)
+      video.removeEventListener('playing', markReadyAndPlay)
+    }
+  }, [isPhone])
+
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) return
     gsap.registerPlugin(ScrollTrigger)
 
     const scrollContainer = scrollContainerRef.current
@@ -122,6 +163,8 @@ export default function HomePage() {
     const heroCopy = heroCopyRef.current
     const heroDisplay = heroDisplayRef.current
     const fullscreenOverlay = fullscreenOverlayRef.current
+    const homeNav = homeNavRef.current
+    const heroTopScrim = heroTopScrimRef.current
     const panels = panelRefs.current
 
     if (!scrollContainer || !centerPanel) return
@@ -182,6 +225,24 @@ export default function HomePage() {
       heroTl.to(heroDisplay, { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0.15)
     }
 
+    // Hide fixed nav + top scrim during fullscreen video (avoids double-nav with overlay logo)
+    if (homeNav) {
+      heroTl.to(
+        homeNav,
+        { opacity: 0, pointerEvents: 'none', duration: 0.18, ease: 'power2.out' },
+        0.15,
+      )
+      heroTl.to(
+        homeNav,
+        { opacity: 1, pointerEvents: 'auto', duration: 0.18, ease: 'power2.out' },
+        0.82,
+      )
+    }
+    if (heroTopScrim) {
+      heroTl.to(heroTopScrim, { opacity: 0, duration: 0.18, ease: 'power2.out' }, 0.15)
+      heroTl.to(heroTopScrim, { opacity: 1, duration: 0.18, ease: 'power2.out' }, 0.82)
+    }
+
     // Fullscreen overlay fade in (after the dead-air pause beat)
     if (fullscreenOverlay) {
       heroTl.fromTo(
@@ -206,21 +267,6 @@ export default function HomePage() {
       )
     })
 
-    // ── Lazy-load the hero video after first paint ──
-    // Defers video network request so it doesn't compete with critical assets
-    // (mosaic images, fonts, JS bundles). Video starts playing once loaded —
-    // user sees the poster during the brief load window. Saves ~200ms TTI.
-    const videoLoadTimer = window.setTimeout(() => {
-      const video = heroVideoRef.current
-      if (video && !video.src) {
-        video.src = HERO_MP4
-        video.load()
-        video.play().catch(() => {
-          // Autoplay blocked; poster remains visible — acceptable fallback
-        })
-      }
-    }, 400)
-
     const onResize = () => {
       gsap.set(centerPanel, { ...heroPanelStart(), right: 'auto' })
       ScrollTrigger.refresh()
@@ -230,7 +276,6 @@ export default function HomePage() {
     return () => {
       window.removeEventListener('resize', onResize)
       heroTl.kill()
-      window.clearTimeout(videoLoadTimer)
       ScrollTrigger.getAll().forEach((st) => {
         if (st.trigger === scrollContainer) st.kill()
       })
@@ -238,23 +283,20 @@ export default function HomePage() {
   }, [])
 
   return (
-    <>
-      {/* ── NAV (therealhotels: branded label left, hamburger right) ── */}
-      <nav
-        className={homeNavOverImagery ? 'home-nav home-nav--over-imagery' : 'home-nav'}
-      >
-        <Link href="/">
-          <span aria-hidden />
-          <div>
-            <Image
-              src="/logos/WS_logo__1_.png"
-              alt="Wine Spectator"
-              width={180}
-              height={36}
-              style={{ width: 'auto' }}
-            />
-            <span>Napa Valley Guide</span>
-          </div>
+    <div data-page="home-hero">
+      {/* ── NAV (TRH: compact uppercase label + hamburger) ── */}
+      <nav ref={homeNavRef} className="home-nav ws-nav--on-dark-surface">
+        <Link href="/" className="ws-nav-brand">
+          <Image
+            className="ws-nav-brand__wordmark"
+            src={WS_LOGO_PRIMARY_SRC}
+            alt="Wine Spectator"
+            width={Math.round(36 * 4.75)}
+            height={36}
+            priority
+            style={{ width: 'auto' }}
+          />
+          <span className="ws-nav-brand__tagline">Napa Valley Guide</span>
         </Link>
         <button
           onClick={() => setMenuOpen(true)}
@@ -263,25 +305,51 @@ export default function HomePage() {
         >
           <span className="home-nav__hamburger-bar" />
           <span className="home-nav__hamburger-bar" />
-          <span className="home-nav__hamburger-bar" />
         </button>
       </nav>
 
       <NavMenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      {/* ── STICKY SCROLL HERO (400vh) — progress drives panel via JS, not React state ── */}
-      <div ref={scrollContainerRef} style={{ position: 'relative', height: '400vh' }}>
+      {/* ── MOBILE COVER — phones skip the 400vh video hero entirely ── */}
+      <section className="home-mobile-cover" aria-label="Explore Napa Valley">
+        <Image
+          src={HERO_POSTER}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="home-mobile-cover__image"
+        />
+        <div className="home-mobile-cover__scrim" aria-hidden />
+        <div className="home-mobile-cover__copy">
+          <p className="home-mobile-cover__eyebrow">Wine Spectator · June 2026</p>
+          <h2 className="home-mobile-cover__title">
+            Explore
+            <br />
+            Napa Valley
+          </h2>
+          <p className="home-mobile-cover__dek">
+            Our guide to exploring America&apos;s most famous wine region
+          </p>
+          <Link href="#main-content" className="home-mobile-cover__cta">
+            Browse the guide ↓
+          </Link>
+        </div>
+      </section>
+
+      {/* ── STICKY SCROLL HERO (400vh) — desktop only; display:none <768px ── */}
+      <div ref={scrollContainerRef} className="home-hero-desktop" style={{ position: 'relative', height: '400vh' }}>
         <div
+          className="home-hero-sticky"
           style={{
             position: 'sticky',
             top: 0,
             height: '100vh',
-            overflow: 'hidden',
             background: '#0D0B09',
             zIndex: 10,
           }}
         >
-          <div className="hero-top-scrim hero-top-scrim--home-sticky" aria-hidden />
+          <div className="hero-top-scrim hero-top-scrim--home-sticky" ref={heroTopScrimRef} aria-hidden />
           <div
             ref={mosaicRef}
             className="home-hero-mosaic"
@@ -298,6 +366,7 @@ export default function HomePage() {
                 ref={(el) => {
                   panelRefs.current[i] = el
                 }}
+                className="home-hero-mosaic-panel"
                 style={{
                   position: 'absolute',
                   width: panel.style.width,
@@ -306,9 +375,10 @@ export default function HomePage() {
                   left: (panel.style as { left?: string; right?: string; bottom?: string }).left,
                   right: (panel.style as { right?: string }).right,
                   bottom: (panel.style as { bottom?: string }).bottom,
-                  borderRadius: 0,
+                  zIndex: (panel.style as { zIndex?: number }).zIndex ?? 1,
                   overflow: 'hidden',
                   willChange: 'transform',
+                  transform: i === 2 ? 'translateX(-50%)' : undefined,
                 }}
               >
                 <HomeMosaicRotatingPanel
@@ -324,16 +394,16 @@ export default function HomePage() {
             className="home-hero-center"
             style={{
               position: 'absolute',
-              width: 280,
-              height: 200,
-              borderRadius: 0,
+              width: 220,
+              height: 165,
+              borderRadius: 3,
               overflow: 'hidden',
               zIndex: 20,
               willChange: 'width, height, top, left',
             }}
           >
             <Image
-              className="home-hero-center-fallback"
+              className={`home-hero-center-fallback${heroVideoReady ? ' home-hero-center-fallback--hidden' : ''}`}
               src={heroCenterFallback}
               alt=""
               fill
@@ -341,90 +411,31 @@ export default function HomePage() {
               sizes="100vw"
               style={{ objectFit: 'cover', objectPosition: 'center' }}
             />
-            <video
-              ref={heroVideoRef}
-              className="home-hero-video"
-              poster={HERO_POSTER}
-              muted
-              loop
-              playsInline
-              preload="none"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                filter: 'brightness(1.3) contrast(1.1)',
-              }}
-            />
+            {isPhone === false ? (
+              <video
+                ref={heroVideoRef}
+                className={`home-hero-video${heroVideoReady ? ' home-hero-video--ready' : ''}`}
+                src={HERO_VIDEO}
+                poster={HERO_POSTER}
+                muted
+                loop
+                autoPlay
+                playsInline
+                preload="auto"
+              />
+            ) : null}
           </div>
 
-          <div
-            ref={heroCopyRef}
-            className="home-hero-tagline"
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '34%',
-              transform: 'translate(-50%, -50%)',
-              textAlign: 'center',
-              zIndex: 15,
-              width: '100%',
-              maxWidth: 600,
-              padding: '0 20px',
-              pointerEvents: 'none',
-              willChange: 'opacity',
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontWeight: 300,
-                fontSize: 'clamp(24px, 3vw, 40px)',
-                color: '#F7F3EC',
-                lineHeight: 1.25,
-                letterSpacing: '-0.01em',
-                marginBottom: 16,
-              }}
-            >
-              The valley that changed
+          <div ref={heroCopyRef} className="home-hero-tagline">
+            <p className="home-hero-tagline__text">
+              Our guide to exploring
               <br />
-              American wine forever.
+              America&apos;s most famous wine region
             </p>
           </div>
 
-          <div
-            ref={heroDisplayRef}
-            className="home-hero-display"
-            style={{
-              position: 'absolute',
-              bottom: '-0.08em',
-              left: '-2%',
-              right: '-2%',
-              textAlign: 'center',
-              zIndex: 12,
-              pointerEvents: 'none',
-              overflow: 'hidden',
-              willChange: 'opacity',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: 'italic',
-                fontWeight: 300,
-                fontSize: 'clamp(140px, 22vw, 380px)',
-                color: '#F7F3EC',
-                letterSpacing: '-0.03em',
-                lineHeight: 0.82,
-                whiteSpace: 'nowrap',
-                display: 'block',
-              }}
-            >
-              Napa Valley
-            </span>
+          <div ref={heroDisplayRef} className="home-hero-display">
+            <span className="home-hero-display__title">Napa Valley</span>
           </div>
 
           <div
@@ -439,16 +450,21 @@ export default function HomePage() {
               willChange: 'opacity',
             }}
           >
-            <div style={{ position: 'absolute', top: 28, left: 36 }}>
-              <Image
-                src="/logos/WS_logo__1_.png"
-                alt="Wine Spectator"
-                width={171}
-                height={36}
-                style={{ filter: 'invert(1)', width: 'auto' }}
-              />
-            </div>
+            {/* Bottom scrim: keeps eyebrow/CTAs legible over bright video frames */}
             <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,
+                height: '46%',
+                background:
+                  'linear-gradient(to top, rgba(13,11,9,0.78) 0%, rgba(13,11,9,0.42) 55%, transparent 100%)',
+              }}
+            />
+            <div
+              className="home-hero-fullscreen-overlay__footer"
               style={{
                 position: 'absolute',
                 bottom: 60,
@@ -473,11 +489,12 @@ export default function HomePage() {
                 <p
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 10,
+                    fontSize: 11,
                     fontWeight: 400,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
-                    color: 'rgba(247,243,236,0.5)',
+                    color: 'rgba(247,243,236,0.85)',
+                    textShadow: '0 1px 8px rgba(13,11,9,0.5)',
                     marginBottom: 12,
                   }}
                 >
@@ -492,6 +509,7 @@ export default function HomePage() {
                     color: '#F7F3EC',
                     lineHeight: 0.95,
                     letterSpacing: '-0.02em',
+                    textShadow: '0 2px 20px rgba(13,11,9,0.45)',
                   }}
                 >
                   Explore
@@ -504,14 +522,15 @@ export default function HomePage() {
                   href="#main-content"
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 400,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
                     color: '#F7F3EC',
                     textDecoration: 'none',
-                    borderBottom: '1px solid rgba(247,243,236,0.3)',
+                    borderBottom: '1px solid rgba(247,243,236,0.55)',
                     paddingBottom: 4,
+                    textShadow: '0 1px 8px rgba(13,11,9,0.5)',
                   }}
                 >
                   Browse the guide ↗
@@ -520,14 +539,15 @@ export default function HomePage() {
                   href="/regions"
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 400,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
-                    color: 'rgba(247,243,236,0.55)',
+                    color: 'rgba(247,243,236,0.85)',
                     textDecoration: 'none',
-                    borderBottom: '1px solid rgba(247,243,236,0.2)',
+                    borderBottom: '1px solid rgba(247,243,236,0.4)',
                     paddingBottom: 4,
+                    textShadow: '0 1px 8px rgba(13,11,9,0.5)',
                   }}
                 >
                   All regions →
@@ -541,27 +561,29 @@ export default function HomePage() {
       <div id="main-content" style={{ position: 'relative', zIndex: 5, background: '#0D0B09' }}>
       {/* ── INTRO ── */}
       <RevealSection>
-        <section
-          ref={avaRef}
-          className="home-intro"
-          style={{ padding: '120px 60px 80px', maxWidth: 800, margin: '0 auto', textAlign: 'center' }}
-        >
-          <p
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: 'italic',
-              fontWeight: 300,
-              fontSize: 'clamp(22px, 2.8vw, 36px)',
-              color: 'rgba(247,243,236,0.85)',
-              lineHeight: 1.5,
-              letterSpacing: '-0.01em',
-              marginBottom: 48,
-            }}
-          >
-            No wine region on earth compresses so much ambition, beauty, and sensory pleasure into so small a space.
-            Fifty miles of valley floor and mountain slope — and yet Napa Valley has become the benchmark against
-            which the world measures itself.
+        <section ref={avaRef} className="home-intro">
+          <p className="home-intro__eyebrow">Wine Spectator · June 2026</p>
+          <p className="home-intro__lead">
+            Drawing on five decades of experience covering Napa, we&apos;ve created the definitive
+            guide to help you explore, navigate, and make the most of your visit.
           </p>
+          <p className="home-intro__body">
+            No wine region on earth compresses so much ambition, beauty and sensual pleasure into so
+            small a space.
+          </p>
+          <p className="home-intro__service">
+            Our tips on wineries, restaurants and accommodations will let you experience the best of
+            what Napa has to offer.
+          </p>
+          <div className="home-intro__pick-block">
+            <p className="home-intro__pick">
+              Our editors&apos; picks for where to taste, eat, stay and more across America&apos;s
+              premier wine region.
+            </p>
+            <p className="home-intro__pick">
+              Plus, fun-filled side trips near each town, up valley or down.
+            </p>
+          </div>
         </section>
       </RevealSection>
 
@@ -569,7 +591,7 @@ export default function HomePage() {
       <RevealSection>
         <section className="home-appellation-wrap" style={{ padding: '80px 0 100px' }}>
           <div className="dim-siblings" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
-            {regions.map((region, i) => (
+            {browseRegions.map((region, i) => (
               <AppellationLink key={region.slug} region={region} index={i} />
             ))}
           </div>
@@ -578,8 +600,8 @@ export default function HomePage() {
 
       </div>{/* close main-content */}
 
-      {/* ── FEATURED REGIONS: GSAP pinned stacking cards ── */}
-      <div style={{ background: '#0D0B09' }}>
+      {/* ── FEATURED REGIONS: GSAP pinned stacking cards — desktop only ── */}
+      <div className="home-region-pins" style={{ background: '#0D0B09' }}>
         {featuredRegions.map((region, i) => (
           <Link
             key={region.slug}
@@ -604,12 +626,16 @@ export default function HomePage() {
                   style={{ objectFit: 'cover' }}
                 />
               </div>
-              {/* Gradient overlay for text readability */}
-              <div style={{
-                position: 'absolute', inset: 0,
-                background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 50%, transparent 80%)',
-                zIndex: 1,
-              }} />
+              {/* Light resting scrim so photography stays vivid; deepens on hover for text pop */}
+              <div
+                className="home-region-pin-scrim"
+                style={{
+                  position: 'absolute', inset: 0,
+                  background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.1) 50%, transparent 80%)',
+                  transition: 'opacity 0.5s ease',
+                  zIndex: 1,
+                }}
+              />
               <div className="hero-top-scrim" aria-hidden />
               {/* Metadata top center */}
               <div className="home-region-pin-label" style={{
@@ -618,7 +644,7 @@ export default function HomePage() {
               }}>
                 <p style={{
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 10, letterSpacing: '0.22em',
+                  fontSize: 11, letterSpacing: '0.22em',
                   textTransform: 'uppercase',
                   color: 'rgba(247,243,236,0.7)',
                 }}>
@@ -643,7 +669,7 @@ export default function HomePage() {
                 </h2>
                 <p style={{
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 11, letterSpacing: '0.18em',
+                  fontSize: 12, letterSpacing: '0.18em',
                   textTransform: 'uppercase', color: '#C4943A',
                 }}>
                   {region.tagline}
@@ -656,46 +682,11 @@ export default function HomePage() {
 
       <div style={{ position: 'relative', zIndex: 5, background: '#0D0B09' }}>
 
-      {/* ── "IN THE WILD" / FROM THE JUNE ISSUE ── */}
-      <RevealSection>
-        <section className="home-wild-section" style={{ padding: '120px 60px', textAlign: 'center', maxWidth: 700, margin: '0 auto' }}>
-          <p
-            data-text-split=""
-            data-lines-slide-up=""
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12,
-              fontWeight: 400,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: 'rgba(247,243,236,0.7)',
-              lineHeight: 2.2,
-              marginBottom: 40,
-            }}
-          >
-            From vineyard to table, the definitive companion to Wine Spectator&apos;s June 2026 special issue.
-            Wineries, restaurants, hotels, and the roads less traveled.
-          </p>
-          <Link
-            href="/features/napa-judgment"
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 11,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#F7F3EC',
-              textDecoration: 'none',
-              border: '1px solid rgba(247,243,236,0.25)',
-              borderRadius: 40,
-              padding: '16px 36px',
-              display: 'inline-block',
-              transition: 'border-color 0.6s',
-            }}
-          >
-            Read the features
-          </Link>
-        </section>
-      </RevealSection>
+      <HomeStoriesSection
+        stories={getStoryArticles()}
+        title="Features"
+        intro="Valley-wide stories beyond the town guides — including the Napa Valley taco tour."
+      />
 
       {/* ── NEWSLETTER (therealhotels style: massive serif heading + full-width input) ── */}
       <section className="home-newsletter-section" style={{ padding: '120px 60px 100px', borderTop: '1px solid rgba(247,243,236,0.06)', textAlign: 'center' }}>
@@ -720,7 +711,7 @@ export default function HomePage() {
           data-lines-slide-up=""
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 14,
+            fontSize: 15,
             fontWeight: 300,
             color: 'rgba(247,243,236,0.55)',
             marginBottom: 48,
@@ -735,7 +726,7 @@ export default function HomePage() {
         <Footer />
       </div>
       </div>
-    </>
+    </div>
   )
 }
 
@@ -783,18 +774,15 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
   const [hovered, setHovered] = useState(false)
   const RegionMark = getRegionEditorialMark(region.slug)
 
-  // Get 2-3 images for this region from its wineries
-  const regionWineries = wineries.filter((w) => w.region === region.slug)
-  const img1 = region.heroImage
-  const img2 = regionWineries[0]?.images[0] ?? TEST_IMAGES[(index + 1) % TEST_IMAGES.length]
-  const img3 = regionWineries[1]?.images[0] ?? TEST_IMAGES[(index + 3) % TEST_IMAGES.length]
+  // Hero left; Drive 02_Region_Scroll_Reveals stills on the right (top + bottom)
+  const [imgLeft, imgRightTop, imgRightBottom] = getAppellationRevealImages(region, index)
   const st = APP_MARK_STAGGER[index % APP_MARK_STAGGER.length]
   const hoverTilt = st.deg + (st.deg >= 0 ? 5 : -5)
 
   return (
     <Link
       href={`/regions/${region.slug}`}
-      className="home-appellation-link"
+      className={`home-appellation-link${hovered ? ' home-appellation-link--active' : ''}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -810,6 +798,7 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
     >
       {/* Image 1: left side */}
       <div
+        className="home-appellation-reveal"
         style={{
           position: 'absolute',
           left: 'clamp(30px, 5vw, 80px)',
@@ -819,17 +808,19 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           aspectRatio: '4/3',
           overflow: 'hidden',
           opacity: hovered ? 1 : 0,
+          visibility: hovered ? 'visible' : 'hidden',
           clipPath: hovered ? 'inset(0% 0% 0% 0%)' : 'inset(0% 100% 0% 0%)',
-          transition: 'clip-path 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, transform 0.5s ease',
+          transition: `clip-path 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, transform 0.5s ease, visibility 0s linear ${hovered ? '0s' : '0.4s'}`,
           pointerEvents: 'none',
           borderRadius: 2,
         }}
       >
-        <Image src={img1} alt="" fill sizes="220px" style={{ objectFit: 'cover' }} />
+        <Image src={imgLeft} alt="" fill sizes="220px" style={{ objectFit: 'cover' }} />
       </div>
 
       {/* Image 2: right side, offset up */}
       <div
+        className="home-appellation-reveal"
         style={{
           position: 'absolute',
           right: 'clamp(30px, 5vw, 80px)',
@@ -839,17 +830,19 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           aspectRatio: '3/4',
           overflow: 'hidden',
           opacity: hovered ? 1 : 0,
+          visibility: hovered ? 'visible' : 'hidden',
           clipPath: hovered ? 'inset(0% 0% 0% 0%)' : 'inset(0% 0% 0% 100%)',
-          transition: 'clip-path 0.5s cubic-bezier(0.4,0,0.2,1) 0.08s, opacity 0.4s ease 0.08s, transform 0.5s ease',
+          transition: `clip-path 0.5s cubic-bezier(0.4,0,0.2,1) 0.08s, opacity 0.4s ease 0.08s, transform 0.5s ease, visibility 0s linear ${hovered ? '0s' : '0.48s'}`,
           pointerEvents: 'none',
           borderRadius: 2,
         }}
       >
-        <Image src={img2} alt="" fill sizes="180px" style={{ objectFit: 'cover' }} />
+        <Image src={imgRightTop} alt="" fill sizes="180px" style={{ objectFit: 'cover' }} />
       </div>
 
       {/* Image 3: right side, offset down */}
       <div
+        className="home-appellation-reveal"
         style={{
           position: 'absolute',
           right: 'clamp(180px, 22vw, 340px)',
@@ -859,13 +852,14 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
           aspectRatio: '1/1',
           overflow: 'hidden',
           opacity: hovered ? 1 : 0,
+          visibility: hovered ? 'visible' : 'hidden',
           clipPath: hovered ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)',
-          transition: 'clip-path 0.5s cubic-bezier(0.4,0,0.2,1) 0.15s, opacity 0.4s ease 0.15s, transform 0.5s ease',
+          transition: `clip-path 0.5s cubic-bezier(0.4,0,0.2,1) 0.15s, opacity 0.4s ease 0.15s, transform 0.5s ease, visibility 0s linear ${hovered ? '0s' : '0.55s'}`,
           pointerEvents: 'none',
           borderRadius: 2,
         }}
       >
-        <Image src={img3} alt="" fill sizes="150px" style={{ objectFit: 'cover' }} />
+        <Image src={imgRightBottom} alt="" fill sizes="150px" style={{ objectFit: 'cover' }} />
       </div>
 
       {/* Name + staggered sticker — mark overlaps type at varied heights / tilts (therealhotels) */}
@@ -931,14 +925,14 @@ function AppellationLink({ region, index }: { region: RegionData; index: number 
 const styles = {
   bodyText: {
     fontFamily: "'DM Sans', sans-serif",
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 300,
     color: '#9B9283',
     lineHeight: 1.8,
   },
   microLabel: {
     fontFamily: "'DM Sans', sans-serif",
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: 400,
     letterSpacing: '0.18em',
     textTransform: 'uppercase' as const,

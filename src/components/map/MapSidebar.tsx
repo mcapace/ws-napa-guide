@@ -173,9 +173,9 @@ export default function MapSidebar({ pin, isOpen, onClose }: MapSidebarProps) {
                     {pin.priceRange}
                   </span>
                 )}
-                {pin.category && (
+                {pin.hotelCategory && (
                   <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: '#9b9283', textTransform: 'capitalize' }}>
-                    {pin.category}
+                    {pin.hotelCategory}
                   </span>
                 )}
               </div>

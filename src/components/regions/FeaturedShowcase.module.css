@@ -1,0 +1,410 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel {
+  --showcase-landscape-focal: center 50%;
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  min-height: 560px;
+  overflow: hidden;
+  background: var(--ink, #0d0b09);
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.imageWrap {
+  position: absolute;
+  inset: -3%;
+  width: 106%;
+  height: 106%;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.panelEnhanced .imageWrap {
+  will-change: transform;
+}
+
+.image {
+  object-fit: cover;
+  transform-origin: center center;
+}
+
+.imageLandscape {
+  display: block;
+  object-position: var(--showcase-landscape-focal, center 50%);
+}
+
+.imagePortrait {
+  display: none;
+  object-position: var(--showcase-portrait-focal, center 28%);
+}
+
+/* People framed high in 16×9 masters — protect heads across breakpoints */
+.panel[data-focal-profile='subject-top'] {
+  --showcase-landscape-focal: 42% 10%;
+  --showcase-portrait-focal: center 12%;
+}
+
+@media (min-width: 1024px) and (max-width: 1799px) {
+  .panel[data-focal-profile='subject-top'] {
+    --showcase-landscape-focal: 44% 8%;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 900px) {
+  .panel[data-focal-profile='subject-top'] {
+    --showcase-landscape-focal: 45% 7%;
+  }
+}
+
+@media (min-width: 1800px) {
+  .panel[data-focal-profile='subject-top'] {
+    --showcase-landscape-focal: 40% 6%;
+  }
+}
+
+.imageFallback {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #1a1612 0%, #0d0b09 100%);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.scrimLeft {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(13, 11, 9, 0.32) 0%,
+      rgba(13, 11, 9, 0.08) 10%,
+      transparent 20%
+    ),
+    linear-gradient(
+      to top,
+      rgba(13, 11, 9, 0.88) 0%,
+      rgba(13, 11, 9, 0.4) 34%,
+      transparent 62%
+    ),
+    linear-gradient(to right, rgba(13, 11, 9, 0.32) 0%, transparent 48%);
+}
+
+.scrimRight {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(13, 11, 9, 0.32) 0%,
+      rgba(13, 11, 9, 0.08) 10%,
+      transparent 20%
+    ),
+    linear-gradient(
+      to top,
+      rgba(13, 11, 9, 0.88) 0%,
+      rgba(13, 11, 9, 0.4) 34%,
+      transparent 62%
+    ),
+    linear-gradient(to left, rgba(13, 11, 9, 0.32) 0%, transparent 48%);
+}
+
+/* Hover deepen (Alex): photo stays clean at rest, scrim eases in to read text */
+.scrim::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  background: linear-gradient(
+    to top,
+    rgba(13, 11, 9, 0.5) 0%,
+    rgba(13, 11, 9, 0.28) 45%,
+    rgba(13, 11, 9, 0.14) 100%
+  );
+}
+
+.panel:hover .scrim::after {
+  opacity: 1;
+}
+
+.copy {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  max-width: min(640px, 92vw);
+  padding: 56px 60px;
+  text-align: left;
+}
+
+.copyRight {
+  left: auto;
+  right: 0;
+  text-align: right;
+}
+
+.copyRight .captionRow {
+  justify-content: flex-end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold, #c4943a);
+}
+
+.name {
+  margin: 0 0 16px;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(36px, 5.5vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--cream, #f7f3ec);
+}
+
+.blurb {
+  margin: 0 0 18px;
+  max-width: 540px;
+  font-family: var(--tr-showcase-blurb-font, var(--font-body, 'DM Sans', sans-serif));
+  font-size: var(--tr-showcase-blurb-size, clamp(14px, 1.5vw, 15px));
+  line-height: 1.65;
+  color: rgba(247, 243, 236, 0.8);
+}
+
+.copyRight .blurb {
+  margin-left: auto;
+}
+
+.captionRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-bottom: 20px;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--mist, #9b9283);
+}
+
+.captionItem::after {
+  content: '·';
+  margin-left: 12px;
+  color: rgba(155, 146, 131, 0.45);
+}
+
+.captionLink {
+  color: var(--mist, #9b9283);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.captionCredit {
+  color: rgba(155, 146, 131, 0.75);
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+.captionLink:hover {
+  color: var(--gold, #c4943a);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream, #f7f3ec);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(247, 243, 236, 0.35);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.cta:hover {
+  color: var(--gold, #c4943a);
+  border-color: rgba(196, 148, 58, 0.55);
+}
+
+/* Laptop / 16" MacBook — slightly lower focal, less sky-heavy crop */
+@media (min-width: 1024px) and (max-width: 1799px) {
+  .panel {
+    --showcase-landscape-focal: center 48%;
+    height: 80vh;
+    min-height: 520px;
+  }
+}
+
+/* Short laptop viewport (e.g. 16" MacBook with browser chrome) */
+@media (min-width: 1024px) and (max-height: 900px) {
+  .panel {
+    --showcase-landscape-focal: center 48%;
+    height: 76vh;
+    min-height: 480px;
+  }
+}
+
+/* Ultra-wide — bias toward horizon line on panoramic frames */
+@media (min-width: 1800px) {
+  .panel {
+    --showcase-landscape-focal: center 50%;
+  }
+}
+
+@media (max-width: 1023px) {
+  .panel {
+    height: 70vh;
+    min-height: 480px;
+  }
+
+  .copy,
+  .copyRight {
+    left: 0;
+    right: 0;
+    text-align: left;
+    max-width: none;
+    padding: 32px 24px;
+  }
+
+  .copyRight .blurb {
+    margin-left: 0;
+  }
+
+  .copyRight .captionRow {
+    justify-content: flex-start;
+  }
+
+  .scrimLeft,
+  .scrimRight {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(13, 11, 9, 0.38) 0%,
+        rgba(13, 11, 9, 0.12) 12%,
+        transparent 24%
+      ),
+      linear-gradient(
+        to top,
+        rgba(13, 11, 9, 0.92) 0%,
+        rgba(13, 11, 9, 0.5) 40%,
+        transparent 72%
+      );
+  }
+
+  .imageLandscape {
+    display: none;
+  }
+
+  .imagePortrait {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imageWrap {
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .nameEnhanced,
+  .copyEnhanced {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+/* ── Phones: editorial cards, not full-bleed overlays ──
+   Photo sits contained on top, copy reads on solid ink below —
+   no text-over-image, no scrims, no parallax overscan. */
+@media (max-width: 767px) {
+  .stack {
+    gap: 24px;
+    padding: 4px 16px 40px;
+  }
+
+  .panel {
+    height: auto;
+    min-height: 0;
+    background: #161210;
+    border: 1px solid rgba(247, 243, 236, 0.08);
+    border-radius: 6px;
+  }
+
+  .media {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .imageWrap {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    will-change: auto;
+  }
+
+  .imageWrap .image {
+    transform: none !important;
+  }
+
+  /* Cards use the landscape master — the <=1023 portrait swap zoomed a
+     tall crop into a 4:3 box on phones */
+  .imageLandscape {
+    display: block;
+  }
+
+  .imagePortrait {
+    display: none;
+  }
+
+  .imageFallback {
+    position: absolute;
+  }
+
+  .scrim {
+    display: none;
+  }
+
+  .copy,
+  .copyRight {
+    position: static;
+    max-width: none;
+    padding: 20px 18px 26px;
+    text-align: left;
+  }
+
+  .name {
+    font-size: 30px;
+    line-height: 1.05;
+  }
+
+  .blurb {
+    max-width: none;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .captionRow {
+    margin-bottom: 16px;
+  }
+}

@@ -7,6 +7,7 @@ export type Region =
   | 'yountville'
   | 'pritchard-hill'
   | 'downtown-napa'
+  | 'beyond-napa'
   | 'st-helena'
   | 'stags-leap'
   | 'spring-mountain'
@@ -103,6 +104,64 @@ export interface Article {
   publishedAt: string
 }
 
+/** Magazine-style feature layout blocks (Judgment of Paris, Taco Tour, etc.). */
+export interface FeatureVenue {
+  name: string
+  addressLines: string[]
+  website?: string
+  phone?: string
+  description: string
+  restaurantSlug?: string
+  image?: string
+  /** Map pin — [lng, lat]. Falls back to `restaurantSlug` in restaurants data when omitted. */
+  coords?: [number, number]
+  /** Additional pins for multi-location venues (e.g. Azteca). */
+  extraMapLocations?: Array<{ coords: [number, number]; label?: string }>
+}
+
+export interface FeatureWinePick {
+  name: string
+  detail: string
+}
+
+export interface FeatureTermGroup {
+  title: string
+  intro?: string
+  items: string[]
+}
+
+export interface FeatureArticleContent {
+  kicker?: string
+  pullQuote?: string
+  pullQuoteLines?: string[]
+  introParagraphs: string[]
+  outroParagraphs?: string[]
+  venues?: FeatureVenue[]
+  /** Photographer attribution shown under the venue list. */
+  venuePhotoCredit?: string
+  winePicks?: FeatureWinePick[]
+  termGroups?: FeatureTermGroup[]
+  heroImage: string
+  heroObjectPosition?: string
+  secondaryImage?: string
+  /** Optional caption below secondary image group (e.g. Judgment bottle stills). */
+  secondaryImagesCaption?: string
+  secondaryImages?: Array<{
+    src: string
+    alt?: string
+    width?: number
+    height?: number
+    /** Bottle cutouts on transparent PNG — no white box on dark pages. */
+    transparent?: boolean
+  }>
+  /** Full-width editorial photo between body sections (e.g. historical tasting photo). */
+  midArticleImage?: {
+    src: string
+    alt?: string
+    caption?: string
+  }
+}
+
 export interface Event {
   slug: string
   name: string
@@ -141,3 +200,41 @@ export type MapPinType = 'winery' | 'restaurant' | 'hotel'
 export type MapPinFilterType = MapPinType | 'all'
 
 export type MapRegionFilter = string | 'all'
+
+/** Explore map listing category (winery / dining / stay / do). */
+export type MapListingCategory = 'winery' | 'dining' | 'stay' | 'do'
+
+export interface ItineraryStop {
+  order: number
+  name: string
+  category: 'winery' | 'dining' | 'stay' | 'sight'
+  coords: [number, number]
+  blurb: string
+  detailSlug?: string
+  /** Editorial listing still (`/images/...` from Drive import). */
+  image?: string
+}
+
+export interface Itinerary {
+  id: string
+  title: string
+  intro: string
+  travelMode: 'driving' | 'walking'
+  stops: ItineraryStop[]
+  /** Closing editorial copy after the last stop (when present in source adventure). */
+  outro?: string
+  /** Magazine-style eyebrow (e.g. "An Oakville Adventure"). */
+  eyebrow?: string
+  byline?: string
+  issue?: string
+  /** Parent adventure title when the region has multiple routes. */
+  seriesTitle?: string
+  /** Parent adventure deck when the region has multiple routes. */
+  seriesIntro?: string
+  /** Parent adventure deck paragraphs (sidebar preamble when present). */
+  seriesIntroParagraphs?: string[]
+  /** Section label from numbered adventure body (when distinct from title). */
+  sectionLabel?: string
+  /** Intro split into editorial paragraphs. */
+  introParagraphs?: string[]
+}

@@ -1,16 +1,15 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getAllRegionSlugs, getRegion } from '@/data/regions'
-import { wineries } from '@/data/wineries'
-import { restaurants } from '@/data/restaurants'
-import { hotels } from '@/data/hotels'
-import RegionPageClient from './RegionPageClient'
-import RegionDetailPage from '@/components/RegionDetailPage'
-import { RegionEditorialPage } from '@/components/regions/RegionEditorialPage'
+import { getAllRegionSlugs } from '@/data/regions'
+import { getRegionItineraries } from '@/data/region-itineraries'
+import { enrichRegionItineraries } from '@/lib/enrich-region-itineraries'
+import {
+  collectRegionStoryImages,
+  enrichItinerariesWithImages,
+} from '@/lib/region-editorial-images'
+import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { getMdxRegionSlugs, loadRegionMdxCached } from '@/lib/content/loadRegionMdx'
-
-// Regions that use the new therealhotels-style layout
-const NEW_LAYOUT_REGIONS = ['yountville', 'oakville', 'rutherford', 'st-helena', 'calistoga', 'pritchard-hill', 'downtown-napa']
+import RegionScrollPageClient from './RegionScrollPageClient'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -23,69 +22,75 @@ export async function generateStaticParams() {
   return merged.map((slug) => ({ slug }))
 }
 
+import { getSiteUrl } from '@/lib/site-url'
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const mdxDoc = await loadRegionMdxCached(slug)
   if (mdxDoc) {
+    const siteUrl = getSiteUrl()
+    const canonical = `${siteUrl}/regions/${slug}`
+    const heroPath = mdxDoc.frontmatter.heroImage
+    const imageUrl = heroPath.startsWith('http') ? heroPath : `${siteUrl}${heroPath}`
+
     return {
       title: `${mdxDoc.frontmatter.region} — ${mdxDoc.frontmatter.tagline}`,
       description: mdxDoc.frontmatter.dek,
-      openGraph: { images: [mdxDoc.frontmatter.heroImage] },
+      alternates: { canonical },
+      openGraph: {
+        url: canonical,
+        title: `${mdxDoc.frontmatter.region} — ${mdxDoc.frontmatter.tagline}`,
+        description: mdxDoc.frontmatter.dek,
+        images: [{ url: imageUrl, width: 1200, height: 630, alt: mdxDoc.frontmatter.region }],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${mdxDoc.frontmatter.region} — ${mdxDoc.frontmatter.tagline}`,
+        description: mdxDoc.frontmatter.dek,
+        images: [imageUrl],
+      },
     }
   }
-  const region = getRegion(slug)
-  if (!region) return {}
-  return {
-    title: `${region.name} — ${region.tagline}`,
-    description: region.intro,
-    openGraph: { images: [region.heroImage] },
-  }
+  return {}
 }
 
 export default async function RegionPage({ params }: Props) {
   const { slug } = await params
   const mdxDoc = await loadRegionMdxCached(slug)
-  if (mdxDoc) {
-    return <RegionEditorialPage data={mdxDoc} />
+  if (!mdxDoc) notFound()
+
+  const regionPins = buildRegionExplorePins(slug, mdxDoc)
+  const featuredListingPlain = Object.fromEntries(
+    mdxDoc.featuredWineries
+      .filter((w) => w.bodyPlain && w.bodyPlain.length > 40)
+      .map((w) => [w.name, w.bodyPlain!]),
+  )
+
+  const itineraries = enrichItinerariesWithImages(
+    enrichRegionItineraries(slug, getRegionItineraries(slug), {
+      sidebarMd: mdxDoc.sidebarMd,
+      sidebarHeading: mdxDoc.sidebarHeading,
+      byline: mdxDoc.frontmatter.byline,
+      issue: mdxDoc.frontmatter.issue,
+      regionName: mdxDoc.frontmatter.region,
+      regionTagline: mdxDoc.frontmatter.tagline,
+      ledeParagraphs: mdxDoc.ledePlain,
+      featuredListingPlain,
+    }),
+    slug,
+    mdxDoc,
+    regionPins,
+  )
+
+  const storyImages = collectRegionStoryImages(mdxDoc)
+
+  const clientProps = {
+    slug,
+    mdx: mdxDoc,
+    pins: regionPins,
+    itineraries,
+    storyImages,
   }
 
-  const region = getRegion(slug)
-  if (!region) notFound()
-
-  if (NEW_LAYOUT_REGIONS.includes(slug)) {
-    const regionWineries = region.winerySlugs
-      .map((s) => wineries.find((w) => w.slug === s))
-      .filter((w): w is (typeof wineries)[number] => !!w)
-      .map((w) => ({ slug: w.slug, name: w.name, address: w.address, excerpt: w.excerpt, images: w.images }))
-
-    const regionRestaurants = region.restaurantSlugs
-      .map((s) => restaurants.find((r) => r.slug === s))
-      .filter((r): r is (typeof restaurants)[number] => !!r)
-      .map((r) => ({ slug: r.slug, name: r.name, cuisine: r.cuisine, priceRange: r.priceRange, excerpt: r.excerpt, images: r.images }))
-
-    const regionHotels = region.hotelSlugs
-      .map((s) => hotels.find((h) => h.slug === s))
-      .filter((h): h is (typeof hotels)[number] => !!h)
-      .map((h) => ({ slug: h.slug, name: h.name, category: h.category, priceRange: h.priceRange, excerpt: h.excerpt, images: h.images }))
-
-    return (
-      <RegionDetailPage
-        data={{
-          slug: region.slug,
-          name: region.name,
-          tagline: region.tagline,
-          author: region.author ?? '',
-          heroImage: region.heroImage,
-          pullQuote: region.pullQuote ?? region.intro,
-          intro: region.intro,
-          body: region.body ?? region.intro,
-          wineries: regionWineries,
-          restaurants: regionRestaurants,
-          hotels: regionHotels,
-        }}
-      />
-    )
-  }
-
-  return <RegionPageClient slug={slug} />
+  return <RegionScrollPageClient {...clientProps} />
 }

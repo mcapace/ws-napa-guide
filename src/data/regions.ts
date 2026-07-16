@@ -274,7 +274,7 @@ Where to Taste
 Downtown Yountville has more than a dozen tasting rooms, and when you include the nearby Stags Leap District and Oak Knoll AVAs, which butt up against the city from the east and south, respectively, there’s an abundance of wineries within a few minutes’ drive. These southern appel
 lations are influenced more by San Pablo Bay, bringing fog and cooling breezes that yield an elegant style of Cabernet Sauvignon. The climate also favors other grapes, including Chardonnay, Sauvignon Blanc, Zinfandel, Petite Sirah and more.
 Yountville Stewart
-6752 Washington St. | stewartscellars.com Passersby may first be lured by the charming
+6752 Washington St. | stewartcellars.com Passersby may first be lured by the charming
 stone building and courtyard while strolling down Washington Street, and then pleased to
 discover the lineup of wines available for tasting inside. This Ken Fulk- and Arcanum Archi tecture–designed tasting room is polished,
 with an eclectic residential style that includes vintage furnishings and quirky paraphernalia.
@@ -977,7 +977,7 @@ CADE Estate`,
     tagline: 'Above the Valley Floor',
     author: 'James Molesworth',
     issue: 'June 15 & 30, 2026',
-    heroImage: TEST_IMAGES[5],
+    heroImage: '/images/pritchard-hill/hero/pritchard-hill-hero-landscape.jpg',
     accentColor: '#2E2A0A',
     pullQuote: `To understand Pritchard Hill is to understand what elevation and volcanic soil do to Cabernet Sauvignon — something transformative, something that takes decades to reveal itself.`,
     intro: `Pritchard Hill rises above the eastern edge of Napa Valley, offering a perspective — and a wine style — that is distinctly its own. The volcanic soils and elevation produce Cabernet Sauvignons of extraordinary concentration and longevity.`,
@@ -1406,7 +1406,34 @@ kling wine with a sword, a tradition that dates to Na poleon’s era. Equally me
     articleSlug: 'napa-downtown',
     mapCenter: [-122.2823, 38.2989],
     mapZoom: 14,
-    neighborRegions: ['yountville'],
+    neighborRegions: ['yountville', 'beyond-napa'],
+  },
+  {
+    slug: 'beyond-napa',
+    name: 'Beyond Napa',
+    tagline: 'Coombsville · Carneros · Mt. Veeder · North Napa',
+    author: 'MaryAnn Worobiec',
+    issue: 'June 15 & 30, 2026',
+    heroImage: '/images/beyond-napa/hero/beyond-napa-hero-landscape.jpg',
+    accentColor: '#1A2E24',
+    pullQuote: `One of the most appealing aspects of using downtown Napa as a travel base is its proximity to the wine regions that surround the town.`,
+    intro: `Just a few miles east is Coombsville. Head the opposite direction and you'll arrive in the windswept Carneros region, or in the rustic hills of Mt. Veeder — the valley's outer edges, ripe for a day trip.`,
+    body: `Beyond City Limits — Coombsville, Carneros, Mt. Veeder and North Napa form a ring of sub-appellations around downtown. Cool bay fog shapes Carneros Pinot and sparkling wine; Coombsville tucks vineyards into residential valleys; Mt. Veeder climbs the Mayacamas with hard-to-spot hillside plantings.`,
+    adventure: {
+      title: 'The Wind in Your Hair Tour',
+      intro: `Carneros stands out with its own microclimate, aromas and energy — rolling hills, bay breezes and eucalyptus windbreaks define the landscape.`,
+      body: `Start with donuts at Boon Fly Café, then Bouchaine for bay views and falconry, and finish at Domaine Carneros for sparkling wine, sabrage and caviar.`,
+    },
+    soilNote:
+      'Carneros clay-loam cooled by San Pablo Bay fog; Coombsville volcanic and alluvial pockets; Mt. Veeder thin mountain soils on the Mayacamas.',
+    bestFor: ['Carneros day trips', 'Pinot & sparkling', 'Resort bases', 'Coombsville'],
+    winerySlugs: [],
+    restaurantSlugs: [],
+    hotelSlugs: [],
+    articleSlug: 'napa-beyond',
+    mapCenter: [-122.35, 38.28],
+    mapZoom: 10.5,
+    neighborRegions: ['downtown-napa', 'yountville'],
   },
 ]
 

@@ -1,0 +1,71 @@
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 11500; /* under the menu overlay (12000), over page content */
+  display: none;
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+  background: rgba(13, 11, 9, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(247, 243, 236, 0.1);
+}
+
+@media (max-width: 767px) {
+  .bar {
+    display: flex;
+  }
+}
+
+.item {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 6px 0 4px;
+  border: none;
+  background: transparent;
+  color: rgba(247, 243, 236, 0.55);
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: color 0.18s ease, transform 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.item:active {
+  transform: scale(0.92);
+}
+
+.itemActive {
+  color: var(--gold, #c4943a);
+}
+
+.icon {
+  display: block;
+  width: 21px;
+  height: 21px;
+}
+
+.icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.2s ease;
+}
+
+.itemActive .icon svg {
+  transform: translateY(-1.5px);
+}
+
+.label {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+}

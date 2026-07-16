@@ -12,14 +12,15 @@ export type MosaicImageAsset = {
 
 /**
  * Panel slot orientations (index matches `PANELS` in page.tsx).
- * Ratios: ~0.77 portrait (×4), ~1.27 landscape (center wide tile).
+ * TRH-style mix: portrait edge tiles + wide landscape top / bottom-left.
  */
 export const MOSAIC_PANEL_SLOT_ORIENTATIONS: MosaicOrientation[] = [
-  'portrait', // 200×260
-  'portrait', // 160×210
-  'landscape', // 280×220
-  'portrait', // 180×240
-  'portrait', // 160×200
+  'portrait', // 148×190 top-left
+  'portrait', // 118×152 mid-left
+  'landscape', // 168×112 top-center
+  'landscape', // 188×158 bottom-left
+  'portrait', // 132×172 mid-right
+  'portrait', // 128×168 bottom-right
 ]
 
 /** Catalog keyed to on-disk crops (5:4 landscape vs 5:7 portrait deliverables). */
@@ -29,7 +30,6 @@ export const MOSAIC_IMAGE_CATALOG: MosaicImageAsset[] = [
   { src: '/images/homepage/mosaic/collage-bella.jpg', orientation: 'portrait' },
   { src: '/images/homepage/mosaic/collage-bike.jpg', orientation: 'landscape' },
   { src: '/images/homepage/mosaic/collage-calistoga.jpg', orientation: 'landscape' },
-  { src: '/images/homepage/mosaic/collage-charlies.jpg', orientation: 'portrait' },
   { src: '/images/homepage/mosaic/collage-clementine-nhr.jpg', orientation: 'portrait' },
   { src: '/images/homepage/mosaic/collage-grgich.jpg', orientation: 'landscape' },
   { src: '/images/homepage/mosaic/collage-grigich.jpg', orientation: 'portrait' },
@@ -60,21 +60,30 @@ export const MOSAIC_CROSSFADE_MS = 1000
 /** Two panels advance together each tick; sequence spreads changes across the grid. */
 export const MOSAIC_PAIR_SEQUENCE: readonly [number, number][] = [
   [0, 2],
-  [1, 4],
+  [1, 5],
   [0, 3],
-  [1, 2],
-  [3, 4],
+  [1, 4],
+  [3, 5],
   [0, 1],
   [2, 4],
-  [0, 4],
+  [0, 5],
   [1, 3],
-  [2, 3],
+  [2, 5],
+  [4, 5],
 ]
 
 const MOSAIC_BY_ORIENTATION = {
   portrait: MOSAIC_IMAGE_CATALOG.filter((img) => img.orientation === 'portrait'),
   landscape: MOSAIC_IMAGE_CATALOG.filter((img) => img.orientation === 'landscape'),
 } as const
+
+export function pickHeroVideoFallback(visible: MosaicImageAsset[]): string {
+  const used = new Set(visible.map((img) => img.src))
+  const landscapePick = MOSAIC_BY_ORIENTATION.landscape.find((img) => !used.has(img.src))
+  if (landscapePick) return landscapePick.src
+  const anyPick = MOSAIC_IMAGE_CATALOG.find((img) => !used.has(img.src))
+  return anyPick?.src ?? MOSAIC_IMAGE_CATALOG[0]?.src ?? '/images/homepage/mosaic/collage-alila.jpg'
+}
 
 function shuffle<T>(items: T[]): T[] {
   const pool = [...items]
@@ -103,32 +112,28 @@ export function buildMosaicPanelQueues(panelCount: number): MosaicImageAsset[][]
 
 /** Initial frame: one unique still per visible tile (no duplicates on load). */
 export function pickInitialMosaicAssets(
-  queues: MosaicImageAsset[][]
+  queues: MosaicImageAsset[][],
 ): MosaicImageAsset[] {
   const used = new Set<string>()
-  return queues.map((queue) => {
-    const pick = queue.find((img) => !used.has(img.src)) ?? queue[0]
+  return queues.map((queue, panelIndex) => {
+    const pool = poolForSlot(panelIndex)
+    const pick =
+      queue.find((img) => !used.has(img.src)) ??
+      pool.find((img) => !used.has(img.src)) ??
+      queue.find((img) => !used.has(img.src)) ??
+      pool[0]
     used.add(pick.src)
     return pick
   })
 }
 
-/** Next still for a tile: slot-matched pool, never duplicates another visible tile. */
-export function pickNextMosaicAsset(
+function pickNextFromQueue(
   panelIndex: number,
-  visible: MosaicImageAsset[],
-  queue: MosaicImageAsset[]
+  current: MosaicImageAsset | undefined,
+  used: Set<string>,
+  queue: MosaicImageAsset[],
 ): MosaicImageAsset {
-  const used = new Set(
-    visible
-      .filter((_, i) => i !== panelIndex)
-      .map((img) => img.src)
-  )
-  const current = visible[panelIndex]
-  const curIdx = Math.max(
-    0,
-    queue.findIndex((img) => img.src === current?.src)
-  )
+  const curIdx = Math.max(0, queue.findIndex((img) => img.src === current?.src))
 
   const candidates: MosaicImageAsset[] = []
   for (let step = 1; step <= queue.length; step++) {
@@ -139,9 +144,55 @@ export function pickNextMosaicAsset(
     return candidates[Math.floor(Math.random() * candidates.length)]
   }
 
+  const pool = poolForSlot(panelIndex)
+  const poolCandidates = pool.filter(
+    (img) => !used.has(img.src) && img.src !== current?.src,
+  )
+  if (poolCandidates.length > 0) {
+    return poolCandidates[Math.floor(Math.random() * poolCandidates.length)]
+  }
+
   for (let step = 1; step <= queue.length; step++) {
     const candidate = queue[(curIdx + step) % queue.length]
     if (candidate.src !== current?.src) return candidate
   }
-  return current
+  return current ?? queue[0]
+}
+
+/** Next still for a tile: slot-matched pool, never duplicates another visible tile. */
+export function pickNextMosaicAsset(
+  panelIndex: number,
+  visible: MosaicImageAsset[],
+  queue: MosaicImageAsset[],
+): MosaicImageAsset {
+  const used = new Set(
+    visible
+      .filter((_, i) => i !== panelIndex)
+      .map((img) => img.src),
+  )
+  return pickNextFromQueue(panelIndex, visible[panelIndex], used, queue)
+}
+
+/** Advance multiple tiles in one tick — each pick respects the others in the batch. */
+export function pickMosaicAssetsForPanels(
+  panelIndices: readonly number[],
+  visible: MosaicImageAsset[],
+  queues: MosaicImageAsset[][],
+): MosaicImageAsset[] {
+  const next = [...visible]
+  const used = new Set(
+    visible
+      .filter((_, i) => !panelIndices.includes(i))
+      .map((img) => img.src),
+  )
+
+  for (const panelIndex of panelIndices) {
+    const queue = queues[panelIndex]
+    if (!queue?.length || queue.length < 2) continue
+    const pick = pickNextFromQueue(panelIndex, visible[panelIndex], used, queue)
+    next[panelIndex] = pick
+    used.add(pick.src)
+  }
+
+  return next
 }

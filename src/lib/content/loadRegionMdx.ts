@@ -5,10 +5,12 @@ import { compileMDX } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import { articles } from '@/data/articles'
 import { editorialMdxComponents, ledeMdxComponents, sidebarMdxComponents } from '@/components/regions/mdxComponents'
-import type { EditorialFeature, LoadedRegionMdx, RegionMdxFrontmatter, RelatedStoryCard, TastingDirectoryRow } from '@/lib/content/types'
+import type { EditorialFeature, LoadedRegionMdx, RegionMdxFrontmatter, RelatedStoryCard, TastingDirectoryRow, ThingsToDoSection } from '@/lib/content/types'
 import {
   buildEditorialFeaturesFromH3,
   extractGfmTable,
+  markdownToPlainText,
+  markdownToPlainParagraphs,
   parseMetaLines,
   parseTastingDirectoryTable,
   resolveFeatureSlug,
@@ -20,19 +22,20 @@ import {
   splitWhereToTaste,
 } from '@/lib/content/parseRegionMdxBody'
 import { attachDirectoryGeocodes } from '@/lib/content/directoryGeocode'
-import { TEST_IMAGES } from '@/lib/test-images'
+import { mergeDedupedMapRows } from '@/lib/content/regionMapRows'
+import { isEditorialListingImage } from '@/lib/explore'
 
 import { cache } from 'react'
 
-function assignPlaceholderPhotos(list: EditorialFeature[], startIndex: number): EditorialFeature[] {
-  return list.map((item, i) =>
-    item.image
-      ? item
-      : {
-          ...item,
-          image: TEST_IMAGES[(startIndex + i) % TEST_IMAGES.length],
-        },
-  )
+function editorialOnlyImage(path?: string): string | undefined {
+  return isEditorialListingImage(path) ? path!.trim() : undefined
+}
+
+function hasEditorialPhoto(feature: {
+  image?: string
+  imagePortrait?: string
+}): boolean {
+  return Boolean(feature.image || feature.imagePortrait)
 }
 
 const CONTENT_DIR = join(process.cwd(), 'src/content/regions')
@@ -131,9 +134,13 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
   const { featuredRaw, directoryRaw } = splitWhereToTaste(tasteMd)
   const wineryBlocks = splitH3Blocks(featuredRaw)
   const featuredWineriesBase = await buildEditorialFeaturesFromH3(wineryBlocks, compileMarkdown)
-  let photoIdx = 0
-  const featuredWineries = assignPlaceholderPhotos(featuredWineriesBase, photoIdx)
-  photoIdx += featuredWineries.length
+  const featuredWineries = featuredWineriesBase
+    .map((w) => ({
+      ...w,
+      image: editorialOnlyImage(w.image),
+      imagePortrait: editorialOnlyImage(w.imagePortrait),
+    }))
+    .filter(hasEditorialPhoto)
 
   const tableText = extractGfmTable(directoryRaw)
   const tastingDirectory = attachDirectoryGeocodes(
@@ -143,60 +150,77 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
 
   const eatBlocks = splitH2Blocks(eatMd)
   const restaurantBlocks: { title: string; body: string }[] = []
-  let breakfastInner: { title: string; body: string } | null = null
+  const coffeeSnackBlocks: { title: string; body: string }[] = []
 
   const skipEatDirectoryH2 = new Set(['Restaurant Directory', 'Breakfast, Coffee & Snacks Directory'])
 
+  const isCoffeeSnackSection = (title: string) => {
+    const t = title.trim().toLowerCase()
+    if (t.includes('directory')) return false
+    return t.includes('breakfast') || (t.includes('coffee') && t.includes('snack'))
+  }
+
+  const isFeaturedRestaurantsHeading = (title: string) =>
+    title.trim().toLowerCase() === 'featured restaurants'
+
   for (const b of eatBlocks) {
     if (skipEatDirectoryH2.has(b.title.trim())) continue
-    if (b.title.toLowerCase().includes('breakfast')) {
-      const trimmed = b.body.trim()
-      const m = trimmed.match(/^### ([^\n]+)\n([\s\S]*)$/m)
-      if (m) breakfastInner = { title: m[1].trim(), body: m[2].trim() }
-    } else {
-      restaurantBlocks.push(b)
+    if (isCoffeeSnackSection(b.title)) {
+      coffeeSnackBlocks.push(...splitH3Blocks(b.body))
+      continue
     }
+    if (isFeaturedRestaurantsHeading(b.title)) {
+      restaurantBlocks.push(...splitH3Blocks(b.body))
+      continue
+    }
+    restaurantBlocks.push(b)
   }
 
-  const featuredRestaurants: EditorialFeature[] = []
-  for (let i = 0; i < restaurantBlocks.length; i++) {
-    const b = restaurantBlocks[i]
-    const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(b.body)
-    featuredRestaurants.push({
-      name: b.title,
-      address,
-      website,
-      image,
-      imagePortrait,
-      body: await compileMarkdown(bodyMd),
-      imagePosition: i % 2 === 0 ? 'left' : 'right',
-    })
+  async function buildEditorialFeaturesFromBlocks(
+    blocks: { title: string; body: string }[],
+  ): Promise<EditorialFeature[]> {
+    const features: EditorialFeature[] = []
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i]
+      const { address, website, image, imagePortrait, photoCredit, bodyMd } = parseMetaLines(b.body)
+      features.push({
+        name: b.title,
+        address,
+        website,
+        photoCredit,
+        image: editorialOnlyImage(image),
+        imagePortrait: editorialOnlyImage(imagePortrait),
+        body: await compileMarkdown(bodyMd),
+        bodyPlain: markdownToPlainText(bodyMd),
+        imagePosition: i % 2 === 0 ? 'left' : 'right',
+      })
+    }
+    return features
   }
 
-  const featuredRestaurantsWithPhotos = assignPlaceholderPhotos(featuredRestaurants, photoIdx)
-  photoIdx += featuredRestaurants.length
+  const featuredRestaurants = await buildEditorialFeaturesFromBlocks(restaurantBlocks)
+  const coffeeSnackFeatures = await buildEditorialFeaturesFromBlocks(coffeeSnackBlocks)
+
+  const featuredRestaurantsWithPhotos = featuredRestaurants.filter(
+    (r) =>
+      hasEditorialPhoto(r) &&
+      !r.image?.includes('/breakfast/') &&
+      !r.imagePortrait?.includes('/breakfast/'),
+  )
+
+  const coffeeSnackWithPhotos = coffeeSnackFeatures.filter(hasEditorialPhoto)
 
   const restaurantDirSlice = sliceAfterH2Heading(eatMd, '## Restaurant Directory')
+  const breakfastDirSlice = sliceAfterH2Heading(eatMd, '## Breakfast, Coffee & Snacks Directory')
   const restaurantDirectory = attachDirectoryGeocodes(
     frontmatter.slug,
-    parseTastingDirectoryTable(extractGfmTable(restaurantDirSlice), 'restaurant'),
+    mergeDedupedMapRows([
+      ...parseTastingDirectoryTable(extractGfmTable(restaurantDirSlice), 'restaurant'),
+      ...parseTastingDirectoryTable(extractGfmTable(breakfastDirSlice), 'restaurant'),
+    ]),
   )
 
   let breakfast: EditorialFeature | null = null
-  if (breakfastInner) {
-    const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(breakfastInner.body)
-    const pos = restaurantBlocks.length % 2 === 0 ? 'left' : 'right'
-    breakfast = {
-      name: breakfastInner.title,
-      address,
-      website,
-      body: await compileMarkdown(bodyMd),
-      imagePosition: pos,
-      image: image ?? TEST_IMAGES[photoIdx % TEST_IMAGES.length],
-      imagePortrait,
-    }
-    photoIdx += 1
-  }
 
   let featuredHotels: EditorialFeature[] = []
   let lodgingDirectory: TastingDirectoryRow[] = []
@@ -204,8 +228,13 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     const { featuredRaw: stayFeaturedRaw, directoryRaw: stayDirectoryRaw } = splitWhereToStay(stayMd)
     const hotelBlocks = splitH3Blocks(stayFeaturedRaw)
     const featuredHotelsBase = await buildEditorialFeaturesFromH3(hotelBlocks, compileMarkdown)
-    featuredHotels = assignPlaceholderPhotos(featuredHotelsBase, photoIdx)
-    photoIdx += featuredHotels.length
+    featuredHotels = featuredHotelsBase
+      .map((h) => ({
+        ...h,
+        image: editorialOnlyImage(h.image),
+        imagePortrait: editorialOnlyImage(h.imagePortrait),
+      }))
+      .filter(hasEditorialPhoto)
     const stayTable = extractGfmTable(stayDirectoryRaw)
     lodgingDirectory = attachDirectoryGeocodes(
       frontmatter.slug,
@@ -213,22 +242,51 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     )
   }
 
+  // Print shopping/culture section — heading varies by town.
+  const THINGS_TO_DO_HEADINGS = [
+    'Culture & Cocktails',
+    'Browsing, Brews & Books',
+    'Things to Do',
+  ]
+  let thingsToDo: ThingsToDoSection | null = null
+  for (const heading of THINGS_TO_DO_HEADINGS) {
+    const md = sections[heading]
+    if (!md?.trim()) continue
+    const firstH3 = md.search(/^### /m)
+    const introMd = (firstH3 === -1 ? md : md.slice(0, firstH3)).trim()
+    const featureMd = firstH3 === -1 ? '' : md.slice(firstH3)
+    const featureBlocks = splitH3Blocks(featureMd)
+    thingsToDo = {
+      heading,
+      intro: introMd ? await compileMarkdown(introMd) : null,
+      features: await buildEditorialFeaturesFromH3(featureBlocks, compileMarkdown),
+    }
+    break
+  }
+
   const lede = await compileLede(ledeMd)
+  const ledePlain = ledeMd.trim() ? markdownToPlainParagraphs(ledeMd) : undefined
   const sidebar = sidebarMd.trim() ? await compileSidebar(sidebarMd) : null
+  const sidebarPlain = sidebarMd.trim() ? markdownToPlainText(sidebarMd) : undefined
   const related = resolveRelatedStories(frontmatter.relatedFeatures ?? [])
 
   return {
     sidebarHeading,
     frontmatter,
     lede,
+    ledePlain,
     featuredWineries,
     tastingDirectory,
     featuredRestaurants: featuredRestaurantsWithPhotos,
+    coffeeSnackFeatures: coffeeSnackWithPhotos,
     breakfast,
     featuredHotels,
     lodgingDirectory,
     restaurantDirectory,
+    thingsToDo,
     sidebar,
+    sidebarPlain,
+    sidebarMd: sidebarMd.trim() || undefined,
     related,
   }
 }

@@ -44,14 +44,26 @@
   --gold-pale:    rgba(196, 148, 58, 0.08);
   --sage-pale:    rgba(92, 107, 82, 0.08);
 
-  /* Persistent nav — wordmark + tagline (~1.5×; proportional) */
-  --ws-nav-logo-height: 36px;
-  --ws-nav-tagline-size: 0.825rem;
-  --ws-nav-brand-gap: 21px;
-  --ws-persistent-nav-height: 74px;
-  /* Match homepage `home-nav`: same inset from viewport edges */
-  --ws-nav-edge-padding-y: 24px;
-  --ws-nav-edge-padding-x: 36px;
+  /* Site header — refined sticky bar (sits above content, not over hero imagery) */
+  --ws-nav-logo-height: 28px;
+  --ws-nav-tagline-size: 0.625rem;
+  --ws-nav-brand-gap: 14px;
+  --ws-persistent-nav-height: 52px;
+  --ws-nav-edge-padding-y: 10px;
+  --ws-nav-edge-padding-x: clamp(20px, 4vw, 32px);
+  --ws-site-header-height: calc(
+    var(--ws-persistent-nav-height) + var(--ws-nav-edge-padding-y) * 2 +
+      env(safe-area-inset-top, 0px)
+  );
+  --ws-staging-banner-height: 0px;
+}
+
+html:has([data-staging-banner]) {
+  --ws-staging-banner-height: 33px;
+  --ws-site-header-height: calc(
+    var(--ws-staging-banner-height) + var(--ws-persistent-nav-height) +
+      var(--ws-nav-edge-padding-y) * 2 + env(safe-area-inset-top, 0px)
+  );
 }
 
 /* ── Reset ── */
@@ -81,6 +93,167 @@ body {
   line-height: 1.7;
 }
 
+/* Any stray layout overflow makes mobile Chrome widen the layout viewport
+   (the whole page zooms out and pans sideways). clip, unlike hidden, creates
+   no scroll container, so sticky/scrub animations are unaffected. */
+html,
+body {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+/* ── App-shell feel on phones ── */
+@media (max-width: 767px) {
+  /* Clearance so the bottom tab bar never covers the end of a page */
+  body {
+    padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Native-style touch: no grey tap flash, quick dim on press */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Phones run the content-first experience: the GSAP split-text system
+     never initializes, so its start-hidden state must not apply */
+  [data-text-split] {
+    visibility: visible !important;
+  }
+
+  /* Towns list: the hover-reveal photos are a cursor pattern — on touch
+     they pop over neighboring names mid-tap. Text-only list on phones. */
+  .home-appellation-reveal {
+    display: none !important;
+  }
+}
+
+/* ── Mobile homepage cover (replaces the 400vh video hero on phones) ── */
+.home-mobile-cover {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .home-hero-desktop,
+  .home-region-pins {
+    display: none !important;
+  }
+
+  .home-mobile-cover {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 76dvh;
+    overflow: hidden;
+    background: var(--ink, #0d0b09);
+  }
+
+  .home-mobile-cover__image {
+    object-fit: cover;
+    object-position: center 42%;
+  }
+
+  .home-mobile-cover__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        to top,
+        rgba(13, 11, 9, 0.94) 0%,
+        rgba(13, 11, 9, 0.45) 42%,
+        transparent 66%
+      ),
+      linear-gradient(to bottom, rgba(13, 11, 9, 0.5) 0%, transparent 22%);
+  }
+
+  .home-mobile-cover__copy {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 0 24px 36px;
+  }
+
+  .home-mobile-cover__eyebrow {
+    margin: 0 0 14px;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(247, 243, 236, 0.85);
+  }
+
+  .home-mobile-cover__eyebrow::before {
+    content: '';
+    display: block;
+    width: 56px;
+    height: 1px;
+    background: var(--gold, #c4943a);
+    margin-bottom: 16px;
+  }
+
+  .home-mobile-cover__title {
+    margin: 0 0 16px;
+    font-family: var(--font-display, 'Cormorant Garamond', serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(52px, 15vw, 68px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--cream, #f7f3ec);
+  }
+
+  .home-mobile-cover__dek {
+    margin: 0 0 24px;
+    max-width: 30ch;
+    font-family: var(--font-display, 'Cormorant Garamond', serif);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.4;
+    color: rgba(247, 243, 236, 0.8);
+  }
+
+  .home-mobile-cover__cta {
+    display: inline-block;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream, #f7f3ec);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(196, 148, 58, 0.7);
+    padding-bottom: 5px;
+  }
+}
+
+@media (hover: none) {
+  a:active,
+  button:active {
+    opacity: 0.72;
+    transition: opacity 0.08s ease;
+  }
+}
+
+/* Full-screen sections track the *dynamic* viewport on phones, so nothing
+   jumps or clips when the browser address bar collapses mid-scroll. */
+@supports (height: 100dvh) {
+  @media (max-width: 767px) {
+    .home-hero-sticky {
+      height: 100dvh !important;
+    }
+
+    [data-pin-section] {
+      height: 100dvh !important;
+    }
+  }
+}
+
+/* Light editorial / directory surfaces */
+[data-site-surface='light'] {
+  background-color: #faf7f2;
+  color: #0d0b09;
+}
+
 /* Top fade on hero imagery — extra contrast under fixed nav (pointer-events safe) */
 .hero-top-scrim {
   position: absolute;
@@ -105,6 +278,7 @@ body {
 
 .home-mosaic-panel-layer {
   opacity: 0;
+  pointer-events: none;
 }
 
 .home-mosaic-panel-layer.is-top {
@@ -113,40 +287,190 @@ body {
 
 @media (max-width: 480px) {
   :root {
-    --ws-nav-logo-height: 32px;
-    --ws-nav-tagline-size: 0.78rem;
-    --ws-persistent-nav-height: 70px;
+    --ws-nav-logo-height: 26px;
+    --ws-nav-tagline-size: 0.58rem;
+    --ws-persistent-nav-height: 48px;
+    --ws-nav-edge-padding-y: 8px;
   }
 }
 
-/* ── Shared shell: homepage + persistent nav (identical viewport insets) ── */
+/* Region scroll pages: keep site nav + jump nav pinned while long-form scroll */
+html:has([data-region-frame]) .ws-nav-shell {
+  position: sticky;
+  top: var(--ws-staging-banner-height, 0px);
+  z-index: 200;
+}
+
+/* Region jump links: align hash / scrollIntoView with sticky chrome */
+html:has([data-region-frame]) {
+  scroll-padding-top: var(--region-scroll-offset);
+}
+
+/* Native document scroll on region pages (Lenis disabled — required for sticky UI) */
+html[data-region-native-scroll],
+html[data-region-native-scroll] body {
+  overflow: auto !important;
+  height: auto !important;
+}
+
+/* Split-panel embeds: fixed height, internal list/story scroll, map pinned */
+[data-scroll-unified] [data-region-embed-panel],
+[data-scroll-unified] .region-explore-embed-panel,
+[data-scroll-unified] .region-itinerary-embed-panel {
+  height: min(
+    82vh,
+    calc(100vh - var(--ws-site-header-height, 72px) - var(--region-tab-bar-height, 52px) - 8px)
+  ) !important;
+  min-height: 480px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+[data-scroll-unified] [data-region-embed-panel] .explore-embed-root,
+[data-scroll-unified] .region-explore-embed-panel .explore-embed-root,
+[data-scroll-unified] .region-itinerary-embed-panel .scrollyRootEmbed {
+  flex: 1 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+[data-scroll-unified] .region-explore-embed-panel .explore-embed-grid {
+  flex: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  grid-template-columns: minmax(0, var(--region-split-list, 45%)) minmax(
+      0,
+      var(--region-split-map, 55%)
+    ) !important;
+  align-items: stretch !important;
+}
+
+[data-scroll-unified] [data-region-embed-panel] .layoutEmbed,
+[data-scroll-unified] [data-region-embed-panel] .scrolly-embed-grid {
+  flex: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, var(--region-split-list, 45%)) minmax(
+      0,
+      var(--region-split-map, 55%)
+    ) !important;
+  align-items: stretch !important;
+}
+
+[data-scroll-unified] [data-region-embed-panel] .explore-embed-map,
+[data-scroll-unified] [data-region-embed-panel] .scrolly-embed-map {
+  height: 100% !important;
+  min-height: 0 !important;
+  align-self: stretch !important;
+}
+
+[data-scroll-unified] [data-region-embed-panel] .explore-map-canvas,
+[data-scroll-unified] [data-region-embed-panel] .scrolly-map-stage,
+[data-scroll-unified] [data-region-embed-panel] .scrolly-map-canvas {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+/* pageFlow split panels (not embed traps) */
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.region-split-grid) {
+  grid-template-columns: minmax(0, var(--region-split-list, 45%)) minmax(
+      0,
+      var(--region-split-map, 55%)
+    ) !important;
+}
+
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.explore-map-panel),
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global([data-explore-map-panel]),
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.scrolly-map-panel),
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global([data-scrolly-map-panel]) {
+  height: min(75vh, var(--region-map-sticky-max-height)) !important;
+  min-height: 480px !important;
+}
+
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.explore-map-canvas),
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.scrolly-map-stage),
+[data-scroll-unified] .region-split-panel:not([data-region-embed-panel]) :global(.scrolly-map-canvas) {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+/* Let wheel events chain to the page when embed lists hit scroll edges */
+[data-scroll-unified] .explore-embed-list-scroll,
+[data-scroll-unified] .scrolly-embed-story-scroll {
+  overscroll-behavior-y: auto !important;
+}
+
+/* ── Site nav — sticky solid bar above content (not over hero photos) ── */
 .ws-nav-shell {
+  position: sticky;
+  /* Pin below the staging banner when present (0px in production) —
+     with top:0 the header slides under the sticky banner and everything
+     offset by --ws-site-header-height floats 33px too low. */
+  top: var(--ws-staging-banner-height, 0px);
+  z-index: 200;
   padding: var(--ws-nav-edge-padding-y) var(--ws-nav-edge-padding-x);
+  padding-top: calc(var(--ws-nav-edge-padding-y) + env(safe-area-inset-top, 0px));
   box-sizing: border-box;
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.ws-nav-shell--scrolled {
+  box-shadow: 0 4px 24px rgba(13, 11, 9, 0.08);
+}
+
+.ws-nav--on-light-surface {
+  background: #faf7f2;
+  border-bottom-color: rgba(13, 11, 9, 0.08);
+}
+
+.ws-nav--on-light-surface.ws-nav-shell--scrolled {
+  background: rgba(250, 247, 242, 0.98);
+  backdrop-filter: blur(12px);
+}
+
+.ws-nav--on-dark-surface {
+  background: #0d0b09;
+  border-bottom-color: rgba(247, 243, 236, 0.08);
+}
+
+.ws-nav--on-dark-surface.ws-nav-shell--scrolled {
+  background: rgba(13, 11, 9, 0.97);
+  backdrop-filter: blur(12px);
 }
 
 .ws-persistent-nav-inner.ws-nav-inner {
-  max-width: none;
+  max-width: var(--container, 1280px);
+  margin: 0 auto;
   width: 100%;
-  margin: 0;
   padding: 0;
-  height: auto;
-  min-height: 0;
+  height: var(--ws-persistent-nav-height);
+  min-height: var(--ws-persistent-nav-height);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 }
 
-.ws-nav-inner > button:last-of-type {
-  padding: 4px;
+.ws-nav-menu-btn {
+  padding: 6px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   align-items: flex-end;
   background: none;
   border: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .ws-nav-brand {
@@ -164,7 +488,7 @@ body {
   content: '';
   display: block;
   width: 2px;
-  height: 48px;
+  height: 36px;
   background: var(--bordeaux);
   transition: background 0.28s ease;
   grid-column: 1;
@@ -172,14 +496,10 @@ body {
   align-self: center;
 }
 
-.ws-nav--over-hero-imagery .ws-nav-brand::before {
-  background: #faf7f2;
-}
-
 .ws-nav-brand__wordmark {
   grid-column: 2;
   grid-row: 1;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   align-self: end;
   height: var(--ws-nav-logo-height) !important;
   width: auto !important;
@@ -192,37 +512,23 @@ body {
   font-family: var(--font-body);
   font-size: var(--ws-nav-tagline-size) !important;
   font-weight: 500;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   transition: color 0.28s ease;
   align-self: start;
-  line-height: 1.2;
+  line-height: 1.15;
   display: block;
 }
 
-/* ── Persistent nav brand (regions, directories, features, Map, etc.) ── */
 .ws-persistent-nav-inner {
   height: var(--ws-persistent-nav-height);
 }
 
-/* Persistent nav: isolated scroll-driven chrome (not tied to GSAP homepage hero) */
 .ws-nav-hamburger-bar {
   display: block;
-  width: 28px;
+  width: 22px;
   height: 1.5px;
   transition: transform 0.3s ease, opacity 0.3s ease, background 0.28s ease;
-}
-
-.ws-nav--over-hero-imagery .ws-nav-brand__wordmark {
-  filter: invert(1);
-}
-
-.ws-nav--over-hero-imagery .ws-nav-brand__tagline {
-  color: rgba(250, 247, 242, 0.92);
-}
-
-.ws-nav--over-hero-imagery .ws-nav-hamburger-bar {
-  background: rgba(250, 247, 242, 0.92);
 }
 
 .ws-nav--on-light-surface .ws-nav-brand__wordmark {
@@ -246,17 +552,12 @@ body {
 }
 
 .ws-nav--on-dark-surface .ws-nav-hamburger-bar {
-  background: rgba(250, 247, 242, 0.85);
+  background: rgba(250, 247, 242, 0.9);
 }
 
-/* When a list/filter control sits in the nav rail, match hamburger treatment */
 .ws-nav-toolbar-icon {
   color: rgba(250, 247, 242, 0.88);
   transition: color 0.28s ease;
-}
-
-.ws-nav--over-hero-imagery .ws-nav-toolbar-icon {
-  color: rgba(250, 247, 242, 0.95);
 }
 
 .ws-nav--on-light-surface .ws-nav-toolbar-icon {
@@ -267,7 +568,7 @@ body {
   color: rgba(250, 247, 242, 0.88);
 }
 
-/* Homepage fixed nav — same shell insets + layout row as .ws-nav-shell / .ws-nav-inner */
+/* Homepage fixed nav — TRH-style: compact label left, thin hamburger right */
 .home-nav {
   position: fixed;
   top: 0;
@@ -276,84 +577,241 @@ body {
   z-index: 1000;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  padding: var(--ws-nav-edge-padding-y) var(--ws-nav-edge-padding-x);
-  box-sizing: border-box;
-}
-
-.home-nav a[href='/'] {
-  display: flex;
   align-items: center;
-  text-decoration: none;
-  gap: var(--ws-nav-brand-gap);
-}
-
-.home-nav a[href='/'] > span:first-of-type {
-  display: block;
-  width: 2px;
-  height: 48px;
-  flex-shrink: 0;
-  background: var(--bordeaux);
-  transition: background 0.28s ease;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) clamp(24px, 4.5vw, 40px) 18px;
+  box-sizing: border-box;
+  will-change: opacity;
 }
 
 .home-nav > button {
-  padding: 4px;
+  padding: 6px 2px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 9px;
   align-items: flex-end;
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.home-nav a[href='/'] > div > img {
-  height: var(--ws-nav-logo-height) !important;
-  width: auto !important;
-  margin-bottom: 6px !important;
-  filter: invert(1);
-  transition: filter 0.28s ease;
-}
-
-.home-nav a[href='/'] > div > span {
-  display: block;
-  font-family: var(--font-body);
-  font-size: var(--ws-nav-tagline-size) !important;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--bordeaux);
-  transition: color 0.28s ease;
-}
-
 .home-nav__hamburger-bar {
   display: block;
   transition: background 0.28s ease;
   background: var(--bordeaux);
-  width: 28px;
-  height: 1.5px;
+  width: 30px;
+  height: 1px;
 }
 
-.home-nav--over-imagery a[href='/'] > div > img {
-  filter: invert(1);
-}
-
-.home-nav--over-imagery a[href='/'] > div > span {
-  color: rgba(250, 247, 242, 0.92);
-}
-
-.home-nav--over-imagery a[href='/'] > span:first-of-type {
+body:has([data-page="home-hero"]) .home-nav__hamburger-bar {
   background: #faf7f2;
 }
 
-.home-nav--over-imagery .home-nav__hamburger-bar {
-  background: #faf7f2;
+/* Homepage scroll hero: overlay nav replaces layout site nav on desktop */
+body:has([data-page="home-hero"]) .ws-nav-shell {
+  display: none;
 }
 
-.home-hero-fullscreen-overlay > div:first-child img {
-  height: var(--ws-nav-logo-height) !important;
-  width: auto !important;
+body:has([data-page="home-hero"]) {
+  --ws-persistent-nav-height: 0px;
+}
+
+/* Hero quote — TRH: large centered serif in open black band */
+.home-hero-tagline {
+  position: absolute;
+  /* Center with inset auto-margins, not left:50% + translateX — the
+     pre-transform layout box overflowed the viewport on phones. */
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 42%;
+  transform: translateY(-50%);
+  text-align: center;
+  z-index: 22;
+  width: min(100%, 620px);
+  padding: 0 clamp(20px, 4vw, 32px);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.home-hero-tagline::before {
+  content: '';
+  position: absolute;
+  inset: -56px -80px;
+  background: radial-gradient(
+    ellipse 88% 72% at center,
+    rgba(13, 11, 9, 0.88) 0%,
+    rgba(13, 11, 9, 0.5) 44%,
+    rgba(13, 11, 9, 0) 68%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+.home-hero-tagline p {
+  color: #faf7f2 !important;
+  text-shadow: 0 2px 28px rgba(13, 11, 9, 0.7);
+  margin: 0;
+}
+
+.home-hero-tagline__text {
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(26px, 3.4vw, 44px);
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+}
+
+/* Homepage intro — WS editorial voice below hero */
+.home-intro {
+  padding: 120px 60px 80px;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-intro__eyebrow {
+  margin: 0 0 28px;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold, #c4943a);
+}
+
+.home-intro__lead {
+  margin: 0 0 28px;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(24px, 3vw, 38px);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  color: rgba(247, 243, 236, 0.92);
+}
+
+.home-intro__body {
+  margin: 0 0 24px;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(20px, 2.4vw, 30px);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: rgba(247, 243, 236, 0.78);
+}
+
+.home-intro__service {
+  margin: 0 0 36px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(247, 243, 236, 0.1);
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: clamp(13px, 1.4vw, 15px);
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  color: rgba(247, 243, 236, 0.68);
+}
+
+.home-intro__pick-block {
+  margin: 0 0 40px;
+  padding: clamp(28px, 4vw, 40px) 0;
+  border-top: 1px solid rgba(247, 243, 236, 0.12);
+  border-bottom: 1px solid rgba(247, 243, 236, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55em;
+}
+
+.home-intro__pick {
+  margin: 0;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(26px, 3.4vw, 42px);
+  line-height: 1.32;
+  letter-spacing: -0.018em;
+  color: rgba(247, 243, 236, 0.9);
+}
+
+.home-intro__closing {
+  margin: 0;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(17px, 2vw, 24px);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: rgba(247, 243, 236, 0.55);
+}
+
+.home-hero-mosaic-panel {
+  border-radius: 3px;
+}
+
+.home-hero-center {
+  background: #0d0b09;
+  border-radius: 3px;
+}
+
+.home-hero-center-fallback {
+  z-index: 1;
+  transition: opacity 0.45s ease;
+}
+
+.home-hero-center-fallback--hidden {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+.home-hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(1.3) contrast(1.1);
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.home-hero-video--ready {
+  opacity: 1;
+}
+
+.home-hero-sticky {
+  overflow: hidden;
+}
+
+/* Bottom display title — TRH oversized wordmark, fully readable above viewport edge */
+.home-hero-display {
+  position: absolute;
+  bottom: clamp(40px, 7vh, 80px);
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 12;
+  pointer-events: none;
+  will-change: opacity;
+  padding: 0 clamp(8px, 2vw, 24px) 0;
+  box-sizing: border-box;
+}
+
+.home-hero-display__title {
+  display: block;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(96px, 17vw, 280px);
+  color: var(--cream, #f7f3ec);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  white-space: nowrap;
+  transform: none;
+  padding-bottom: 0.02em;
 }
 
 /* Homepage + pinned region cards: eyebrow / taglines legible on warm, bright imagery */
@@ -363,12 +821,7 @@ body {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.home-hero-tagline p {
-  color: #faf7f2 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.home-hero-fullscreen-overlay > div:nth-child(2) > div:first-child > p {
+.home-hero-fullscreen-overlay__footer > div:first-child > p {
   color: rgba(250, 247, 242, 0.92) !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -633,6 +1086,15 @@ a, button, [role="button"] { cursor: pointer; }
 .nav-link:hover { color: var(--gold); }
 
 /* ── Mapbox overrides (dark theme) ── */
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib,
+.mapboxgl-compact,
+.mapboxgl-ctrl-attrib-button {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
 .mapboxgl-ctrl-group {
   background: rgba(13, 11, 9, 0.92) !important;
   border: 1px solid rgba(247, 243, 236, 0.08) !important;
@@ -649,6 +1111,11 @@ a, button, [role="button"] { cursor: pointer; }
   color: var(--mist) !important;
   font-family: var(--font-body) !important;
   font-size: 10px !important;
+}
+
+/* Cooperative-gesture hints (Ctrl+scroll / two-finger pan) sit at map bottom */
+.mapboxgl-cooperative-gesture-screen {
+  z-index: 6;
 }
 .mapboxgl-popup-content {
   background: transparent !important;
@@ -853,6 +1320,11 @@ a, button, [role="button"] { cursor: pointer; }
   visibility: hidden;
 }
 
+[data-editorial-content],
+[data-editorial-content] [data-text-split] {
+  visibility: visible;
+}
+
 .line {
   display: block;
 }
@@ -876,8 +1348,13 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+html[data-region-native-scroll].lenis,
+html[data-region-native-scroll].lenis body {
+  overflow: auto !important;
+}
+
+html[data-region-native-scroll].lenis.lenis-stopped {
+  overflow: auto !important;
 }
 
 .lenis.lenis-stopped {
@@ -921,16 +1398,47 @@ html.lenis body {
 
   /* ── Homepage (src/app/page.tsx) mobile ── */
   .home-nav {
-    padding: calc(10px + env(safe-area-inset-top, 0px)) 20px 12px !important;
+    display: none !important;
+  }
+
+  body:has([data-page="home-hero"]) .ws-nav-shell {
+    display: block;
+  }
+
+  body:has([data-page="home-hero"]) {
+    --ws-persistent-nav-height: 52px;
+    --ws-nav-edge-padding-y: 10px;
   }
 
   .ws-nav-shell {
-    padding: calc(10px + env(safe-area-inset-top, 0px)) 20px 12px !important;
+    padding: calc(8px + env(safe-area-inset-top, 0px)) 20px 8px !important;
   }
 
   section.home-intro {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 92px) !important;
-    padding-bottom: 48px !important;
+    padding: calc(var(--ws-site-header-height, 72px) + 48px) 24px 48px !important;
+  }
+
+  .home-intro__lead {
+    font-size: clamp(22px, 5.5vw, 30px);
+    margin-bottom: 24px;
+  }
+
+  .home-intro__body {
+    font-size: clamp(18px, 4.5vw, 24px);
+  }
+
+  .home-intro__service {
+    padding-top: 20px;
+    margin-bottom: 28px;
+  }
+
+  .home-intro__pick-block {
+    padding: 24px 0;
+    margin-bottom: 32px;
+  }
+
+  .home-intro__pick {
+    font-size: clamp(22px, 5.2vw, 32px);
   }
 
   .home-hero-mosaic {
@@ -952,24 +1460,43 @@ html.lenis body {
   }
 
   .home-hero-tagline {
-    top: 26% !important;
+    top: 46% !important;
     z-index: 22 !important;
     max-width: min(100%, 92vw) !important;
   }
 
-  .home-hero-display {
-    bottom: max(16px, env(safe-area-inset-bottom, 0px)) !important;
-    left: 0 !important;
-    right: 0 !important;
-    padding: 0 12px !important;
-    overflow: visible !important;
+  .home-hero-tagline__text {
+    font-size: clamp(22px, 5.5vw, 32px) !important;
   }
 
-  .home-hero-display span {
-    font-size: clamp(40px, 11vw, 88px) !important;
-    white-space: normal !important;
-    line-height: 0.95 !important;
-    letter-spacing: -0.04em !important;
+  /* Fullscreen-video overlay: stack headline over CTAs instead of the
+     desktop two-column spread, which crams both into wrapping slivers */
+  .home-hero-fullscreen-overlay__footer {
+    left: 24px !important;
+    right: 24px !important;
+    bottom: 44px !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    align-items: flex-start !important;
+    gap: 28px;
+  }
+
+  .home-hero-fullscreen-overlay__footer > div:last-child {
+    align-items: flex-start !important;
+  }
+
+  .home-hero-display {
+    /* Clear the bottom tab bar */
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+    padding: 0 8px 0 !important;
+  }
+
+  .home-hero-display__title {
+    font-size: clamp(64px, 17vw, 120px) !important;
+    white-space: nowrap !important;
+    line-height: 0.9 !important;
+    letter-spacing: -0.035em !important;
+    transform: none !important;
   }
 
   .home-newsletter-form {
@@ -1007,7 +1534,24 @@ html.lenis body {
 /* Homepage appellation row: readable without hover (touch); desktop keeps dim idle state */
 .home-appellation-name {
   color: rgba(247, 243, 236, 0.52);
-  transition: color 0.4s ease;
+  transition: color 0.4s ease, opacity 0.6s var(--ease-out);
+}
+
+/* Dim sibling labels only — not whole rows (overflow images must not bleed at 20% opacity) */
+.home-appellation-wrap .dim-siblings:has(> .home-appellation-link:hover) > .home-appellation-link:not(:hover) {
+  opacity: 1;
+}
+
+.home-appellation-wrap .dim-siblings:has(> .home-appellation-link:hover) > .home-appellation-link:not(:hover) .home-appellation-name {
+  opacity: 0.22;
+}
+
+.home-appellation-link {
+  isolation: isolate;
+}
+
+.home-appellation-link--active {
+  z-index: 5;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1021,5 +1565,109 @@ html.lenis body {
   .dim-siblings:has(> a:hover) > a:not(:hover),
   .dim-siblings:has(> div:hover) > div:not(:hover) {
     opacity: 0.55;
+  }
+}
+
+/* Homepage region TOC cards: photo reads clean at rest; scrim/text pop on hover */
+[data-pin-section] .home-region-pin-scrim {
+  opacity: 1;
+}
+
+[data-pin-section]:hover .home-region-pin-scrim {
+  opacity: 1;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.22) 50%,
+    transparent 82%
+  ) !important;
+}
+
+/* Things to Do (print shopping/culture sections) — MDX bodies compile with
+   light-page inline colors; invert them for the dark story field. */
+.things-to-do-body p,
+.things-to-do-intro p {
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  margin: 0 0 1em !important;
+}
+
+.things-to-do-body p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.things-to-do-body a,
+.things-to-do-intro a {
+  color: var(--gold) !important;
+  border-bottom-color: rgba(196, 148, 58, 0.4) !important;
+}
+
+
+/* ── Type refresh (site-wide) ─────────────────────────────────────────
+   Raise the small-text floor and give all reading copy the serif voice;
+   DM Sans stays for wayfinding (labels, buttons, meta). */
+:root {
+  --tr-list-eyebrow-size: 10.5px;
+  --tr-list-name-size: 23px;
+  --tr-list-copy-font: var(--font-display, 'Cormorant Garamond', serif);
+  --tr-list-copy-size: 15.5px;
+  --tr-list-copy-leading: 1.55;
+  --tr-showcase-blurb-font: var(--font-display, 'Cormorant Garamond', serif);
+  --tr-showcase-blurb-size: clamp(16px, 1.7vw, 17.5px);
+  --tr-jump-size: 11.5px;
+}
+
+/* ── Phone chrome fixes ── */
+@media (max-width: 767px) {
+  /* iOS Safari lets scrolled content bleed into the status-bar strip above
+     the sticky banner/header — blank it with a fixed cover. */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -120px;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: var(--ink, #0d0b09);
+    z-index: 12000;
+    pointer-events: none;
+  }
+
+  /* Full-screen phone maps sit beneath the sticky site chrome — keep the
+     zoom / find-my-location controls visible below it. */
+  .mapboxgl-ctrl-top-right {
+    top: calc(var(--ws-site-header-height, 72px) + 6px) !important;
+  }
+}
+
+/* Find-my-location notices (LocateControl) */
+.ws-locate-notice {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 18px;
+  z-index: 10;
+  max-width: min(340px, 86%);
+  padding: 10px 14px;
+  border-radius: 3px;
+  background: rgba(13, 11, 9, 0.92);
+  border: 1px solid rgba(247, 243, 236, 0.14);
+  color: #f7f3ec;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Phones: pin to the viewport (map containers can extend past it) and
+   clear the bottom tab bar */
+@media (max-width: 767px) {
+  .ws-locate-notice {
+    position: fixed;
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    z-index: 11600;
   }
 }

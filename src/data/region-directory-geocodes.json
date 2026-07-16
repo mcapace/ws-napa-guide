@@ -587,6 +587,14 @@
     "lat": 38.581952,
     "lng": -122.575168
   },
+  "calistoga|El Taco Feliz|Lake Street, Calistoga": {
+    "lat": 38.5851,
+    "lng": -122.5805
+  },
+  "calistoga|Café Sarafornia|1413 Lincoln Avenue": {
+    "lat": 38.578972,
+    "lng": -122.579087
+  },
   "calistoga|Auro|400 Silverado Trail N.": {
     "lat": 38.584627,
     "lng": -122.567835
@@ -847,6 +855,10 @@
     "lat": 38.418967,
     "lng": -122.388162
   },
+  "oakville|Oakville Grocery|7856 St. Helena Highway": {
+    "lat": 38.443764,
+    "lng": -122.400978
+  },
   "pritchard-hill|The Howard Backen Estate|275 Long Ranch Road": {
     "lat": 38.45921,
     "lng": -122.34005
@@ -866,6 +878,10 @@
   "rutherford|Staglin Family Vineyard|1570 Bella Oaks Lane": {
     "lat": 38.441587,
     "lng": -122.429201
+  },
+  "rutherford|Bella Union Winery|1350 Acacia Drive": {
+    "lat": 38.42572,
+    "lng": -122.40317
   },
   "rutherford|Rutherford Grill|1180 Rutherford Road": {
     "lat": 38.459187,
@@ -1066,5 +1082,225 @@
   "yountville|Sttupa Estate|638 Silverado Trail": {
     "lat": 38.296881,
     "lng": -122.275255
+  },
+  "beyond-napa|Etude Winery|1250 Cuttings Wharf Road": {
+    "lat": 38.24612,
+    "lng": -122.31406
+  },
+  "beyond-napa|Favia Wines|2031 Coombsville Road": {
+    "lat": 38.293491,
+    "lng": -122.249986
+  },
+  "beyond-napa|Hudson Ranch|5398 Sonoma Highway": {
+    "lat": 38.264569,
+    "lng": -122.366252
+  },
+  "beyond-napa|Artesa Vineyards & Winery|1345 Henry Road": {
+    "lat": 38.26916,
+    "lng": -122.35654
+  },
+  "beyond-napa|Bouchaine Vineyards|1075 Buchli Station Road": {
+    "lat": 38.22648,
+    "lng": -122.33139
+  },
+  "beyond-napa|Cuvaison Winery / Brandlin Estate|1221 Duhig Road": {
+    "lat": 38.25071,
+    "lng": -122.34754
+  },
+  "beyond-napa|Domaine Carneros|1240 Duhig Road": {
+    "lat": 38.25549,
+    "lng": -122.35136
+  },
+  "beyond-napa|Farella Vineyard|2222 N. 3rd Ave.": {
+    "lat": 38.312244,
+    "lng": -122.223513
+  },
+  "beyond-napa|Frias Family Vineyards|1886 El Centro Ave.": {
+    "lat": 38.334848,
+    "lng": -122.320047
+  },
+  "beyond-napa|HdV Wines|588 Trancas St.": {
+    "lat": 38.32605,
+    "lng": -122.28335
+  },
+  "beyond-napa|Hess Persson Estates|4411 Redwood Road": {
+    "lat": 38.33822,
+    "lng": -122.39024
+  },
+  "beyond-napa|Hyde Vineyards|1044 Los Carneros Ave.": {
+    "lat": 38.25344,
+    "lng": -122.33092
+  },
+  "beyond-napa|Kenzo Estate|3200 Monticello Road": {
+    "lat": 38.3402,
+    "lng": -122.20109
+  },
+  "beyond-napa|Mayacamas Estate|1155 Lokoya Road": {
+    "lat": 38.3652,
+    "lng": -122.42344
+  },
+  "beyond-napa|Featured Restaurants|145 C Gasser Drive": {
+    "lat": 38.281405,
+    "lng": -122.279367
+  },
+  "beyond-napa|Bear|200 Stanly Crossroad": {
+    "lat": 38.244797,
+    "lng": -122.300032
+  },
+  "beyond-napa|Bistro Don Giovanni|4110 Howard Lane": {
+    "lat": 38.344606,
+    "lng": -122.32642
+  },
+  "beyond-napa|Boon Fly Café|4048 Sonoma Highway": {
+    "lat": 38.256022,
+    "lng": -122.3321
+  },
+  "beyond-napa|Carabao|145 C Gasser Drive": {
+    "lat": 38.281405,
+    "lng": -122.279367
+  },
+  "beyond-napa|Farm Restaurant & Bar|4048 Sonoma Highway": {
+    "lat": 38.256022,
+    "lng": -122.3321
+  },
+  "beyond-napa|Foodshed|3385 Old California Way": {
+    "lat": 38.32091,
+    "lng": -122.30732
+  },
+  "beyond-napa|Carneros Resort and Spa|4048 Sonoma Highway": {
+    "lat": 38.256022,
+    "lng": -122.3321
+  },
+  "beyond-napa|Casa Mani Resort Napa Valley|1075 California Blvd.": {
+    "lat": 38.300483,
+    "lng": -122.30123
+  },
+  "beyond-napa|The Meritage Resort & Spa|875 Bordeaux Way": {
+    "lat": 38.245885,
+    "lng": -122.27372
+  },
+  "beyond-napa|Milliken Creek Inn|1815 Silverado Trail": {
+    "lat": 38.519543,
+    "lng": -122.470221
+  },
+  "beyond-napa|Napa Valley Marriott Hotel & Spa|3425 Solano Ave.": {
+    "lat": 38.322783,
+    "lng": -122.311923
+  },
+  "beyond-napa|Napa Winery Inn|1998 Trower Ave.": {
+    "lat": 38.331691,
+    "lng": -122.317216
+  },
+  "beyond-napa|Senza Hotel|4066 Howard Lane": {
+    "lat": 38.34233,
+    "lng": -122.32513
+  },
+  "beyond-napa|Silverado Country Club|1600 Atlas Peak Road": {
+    "lat": 38.347472,
+    "lng": -122.265354
+  },
+  "beyond-napa|Stanly Ranch, Auberge Collection|200 Stanly Crossroad": {
+    "lat": 38.244797,
+    "lng": -122.300032
+  },
+  "rutherford|Featured Restaurants|1180 Rutherford Road": {
+    "lat": 38.45922,
+    "lng": -122.42278
+  },
+  "st-helena|Violetto Alila Napa Valley|1915 Main Street": {
+    "lat": 38.50936,
+    "lng": -122.47848
+  },
+  "yountville|Clos Du Val|5330 Silverado Trail": {
+    "lat": 38.387112,
+    "lng": -122.312549
+  },
+  "downtown-napa|A16|821 Coombs St.": {
+    "lat": 38.297291,
+    "lng": -122.28622
+  },
+  "downtown-napa|The Arbaretum|1149 First St.": {
+    "lat": 38.29841,
+    "lng": -122.286664
+  },
+  "downtown-napa|Chispa Bar|1500 First St., Suite 140": {
+    "lat": 38.297366,
+    "lng": -122.289934
+  },
+  "downtown-napa|CIA at Copia|500 First St.": {
+    "lat": 38.302855,
+    "lng": -122.280383
+  },
+  "downtown-napa|Folklore|1226 Third St.": {
+    "lat": 38.296981,
+    "lng": -122.286347
+  },
+  "downtown-napa|Jeffries General Store|1416 Second St.": {
+    "lat": 38.296893,
+    "lng": -122.288488
+  },
+  "downtown-napa|Mommenpop Tasting Room|920 Franklin St.": {
+    "lat": 38.297319,
+    "lng": -122.288158
+  },
+  "downtown-napa|Rail Arts District|Start at 816 Vallejo St.": {
+    "lat": 38.305058,
+    "lng": -122.285984
+  },
+  "downtown-napa|Wilfred's Lounge|967 First St.": {
+    "lat": 38.29928,
+    "lng": -122.28485
+  },
+  "st-helena|Health Spa Napa Valley|1030 Main St.": {
+    "lat": 38.503131,
+    "lng": -122.465433
+  },
+  "st-helena|Christopher Hill Gallery|1235 Main St.": {
+    "lat": 38.504005,
+    "lng": -122.46877
+  },
+  "st-helena|Erin Martin Design|1350 Main St.": {
+    "lat": 38.505,
+    "lng": -122.46948
+  },
+  "st-helena|Mad Fritz Brewery and Malthouse|393 Lafata St.": {
+    "lat": 38.49881,
+    "lng": -122.457017
+  },
+  "st-helena|New West Knifeworks|1380 Main St.": {
+    "lat": 38.5053,
+    "lng": -122.469991
+  },
+  "st-helena|St. Helena Public Library|1492 Library Lane": {
+    "lat": 38.507772,
+    "lng": -122.469712
+  },
+  "yountville|R&D Kitchen|6795 Washington St.": {
+    "lat": 38.406297,
+    "lng": -122.367382
+  },
+  "yountville|The Restaurant at North Block|6757 Washington St.": {
+    "lat": 38.406398,
+    "lng": -122.365639
+  },
+  "yountville|Hestan Vineyards|6548 Washington St.": {
+    "lat": 38.403104,
+    "lng": -122.36269
+  },
+  "yountville|Kollar Chocolates|6525 Washington St.": {
+    "lat": 38.401912,
+    "lng": -122.361929
+  },
+  "yountville|Mad Fritz|6720 Washington St.": {
+    "lat": 38.40598,
+    "lng": -122.36626
+  },
+  "yountville|Napa Valley Museum|55 Presidents Circle": {
+    "lat": 38.39427,
+    "lng": -122.36605
+  },
+  "yountville|RH Gallery|6725 Washington St.": {
+    "lat": 38.405563,
+    "lng": -122.36671
   }
 }

@@ -8,8 +8,8 @@ import type {
 
 /** Map short references in MDX to CMS feature slugs. */
 const FEATURE_SLUG_ALIASES: Record<string, string> = {
-  landmarks: 'napa-landmarks',
   tacos: 'napa-taco-tour',
+  'taco-truck-tour': 'napa-taco-tour',
 }
 
 export function resolveFeatureSlug(ref: string): string {
@@ -76,6 +76,7 @@ export function parseMetaLines(block: string): {
   website?: string
   image?: string
   imagePortrait?: string
+  photoCredit?: string
   bodyMd: string
 } {
   const lines = block.split('\n')
@@ -84,23 +85,26 @@ export function parseMetaLines(block: string): {
   let website: string | undefined
   let image: string | undefined
   let imagePortrait: string | undefined
+  let photoCredit: string | undefined
   for (const line of lines) {
     const addr = line.match(/^- \*\*Address:\*\*\s*(.+)$/i)
     const web = line.match(/^- \*\*Website:\*\*\s*(.+)$/i)
     const img = line.match(/^- \*\*Image:\*\*\s*(.+)$/i)
     const imgPortrait = line.match(/^- \*\*ImagePortrait:\*\*\s*(.+)$/i)
+    const credit = line.match(/^- \*\*PhotoCredit:\*\*\s*(.+)$/i)
     const coord = line.match(/^- \*\*Coordinates:\*\*\s*(.+)$/i)
     if (addr) address = addr[1].trim()
     else if (web) website = web[1].trim()
     else if (img) image = img[1].trim()
     else if (imgPortrait) imagePortrait = imgPortrait[1].trim()
+    else if (credit) photoCredit = credit[1].trim()
     else if (coord) {
       /* reserved for future lat/lng in MDX */
     } else {
       bodyLines.push(line)
     }
   }
-  return { address, website, image, imagePortrait, bodyMd: bodyLines.join('\n').trim() }
+  return { address, website, image, imagePortrait, photoCredit, bodyMd: bodyLines.join('\n').trim() }
 }
 
 export function splitH3Blocks(md: string): { title: string; body: string }[] {
@@ -136,28 +140,65 @@ export function extractGfmTable(text: string): string {
 export function parseTastingDirectoryTable(tableMd: string, category: DirectoryCategory): TastingDirectoryRow[] {
   const lines = tableMd.split('\n').filter((l) => l.trim().startsWith('|'))
   if (lines.length < 2) return []
+  // Positional cells (leading/trailing pipes stripped) so an optional 4th
+  // Award column survives rows with empty websites.
   const parseRow = (line: string) =>
     line
+      .trim()
+      .replace(/^\|/, '')
+      .replace(/\|$/, '')
       .split('|')
       .map((c) => c.trim())
-      .filter((c) => c.length > 0 && !/^[-:]+$/.test(c))
   const rows = lines
     .slice(2)
     .map(parseRow)
-    .filter((r) => r.length >= 3)
-    .map(([name, address, website]) => ({
-      name,
-      address,
-      website,
+    .filter((r) => r.filter((c) => c.length > 0 && !/^[-:]+$/.test(c)).length >= 2)
+    .map((cells) => ({
+      name: cells[0] ?? '',
+      address: cells[1] ?? '',
+      website: cells[2] ?? '',
+      award: cells[3]?.trim() || undefined,
       coordinates: null as RegionCoordinates | null,
       category,
     }))
+    .filter((r) => r.name.length > 0)
   return rows
+}
+
+export function markdownToPlainText(md: string): string {
+  return md
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/^[-*]\s+/gm, '')
+    .replace(/\n+/g, ' ')
+    .trim()
+}
+
+/** Plain-text paragraphs preserving MDX paragraph breaks (for itinerary sidebar parsing). */
+export function markdownToPlainParagraphs(md: string): string[] {
+  return md
+    .replace(/^#{1,6}\s+/gm, '')
+    .split(/\n\s*\n+/)
+    .map((block) =>
+      block
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/\*([^*]+)\*/g, '$1')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/^[-*]\s+/gm, '')
+        .replace(/\s+/g, ' ')
+        .trim(),
+    )
+    .filter((p) => p.length > 20)
 }
 
 export function normalizeWebsiteUrl(website: string | undefined): string | undefined {
   if (!website) return undefined
-  const trimmed = website.trim()
+  // Print sometimes lists two domains ("inglenook.com; niebaumpennino.com") —
+  // the display keeps both, the link targets the first.
+  const trimmed = website.trim().split(/[;\s]+/)[0].replace(/[,;]+$/, '')
+  if (!trimmed) return undefined
   if (/^https?:\/\//i.test(trimmed)) return trimmed
   return `https://${trimmed}`
 }
@@ -168,7 +209,7 @@ export function buildEditorialFeaturesFromH3(
 ): Promise<EditorialFeature[]> {
   return Promise.all(
     blocks.map(async (blk, i) => {
-      const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(blk.body)
+      const { address, website, image, imagePortrait, photoCredit, bodyMd } = parseMetaLines(blk.body)
       const body = await compileBody(bodyMd)
       return {
         name: blk.title,
@@ -176,7 +217,9 @@ export function buildEditorialFeaturesFromH3(
         website,
         image,
         imagePortrait,
+        photoCredit,
         body,
+        bodyPlain: markdownToPlainText(bodyMd),
         imagePosition: i % 2 === 0 ? 'left' : 'right',
       }
     }),

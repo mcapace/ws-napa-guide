@@ -9,50 +9,43 @@ type Props = {
   sizes?: string
 }
 
-function layerStyle(asset: MosaicImageAsset) {
-  return {
-    objectFit: 'cover' as const,
-    objectPosition: asset.objectPosition ?? 'center',
-    transition: `opacity ${MOSAIC_CROSSFADE_MS}ms ease-in-out`,
-  }
-}
+const FADE_MS = MOSAIC_CROSSFADE_MS / 2
 
 export function HomeMosaicRotatingPanel({ asset, sizes = '200px' }: Props) {
-  const [topSlot, setTopSlot] = useState(0)
-  const [assetA, setAssetA] = useState(asset)
-  const [assetB, setAssetB] = useState(asset)
+  const [shown, setShown] = useState(asset)
+  const [visible, setVisible] = useState(true)
   const prevSrcRef = useRef(asset.src)
+  const swapTimerRef = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     if (asset.src === prevSrcRef.current) return
     prevSrcRef.current = asset.src
-    setTopSlot((slot) => {
-      if (slot === 0) {
-        setAssetB(asset)
-        return 1
-      }
-      setAssetA(asset)
-      return 0
-    })
+
+    window.clearTimeout(swapTimerRef.current)
+    setVisible(false)
+
+    swapTimerRef.current = window.setTimeout(() => {
+      setShown(asset)
+      requestAnimationFrame(() => setVisible(true))
+    }, FADE_MS)
+
+    return () => window.clearTimeout(swapTimerRef.current)
   }, [asset])
 
   return (
     <div className="home-mosaic-panel-stack">
       <Image
-        src={assetA.src}
+        src={shown.src}
         alt=""
         fill
         sizes={sizes}
-        className={topSlot === 0 ? 'home-mosaic-panel-layer is-top' : 'home-mosaic-panel-layer'}
-        style={layerStyle(assetA)}
-      />
-      <Image
-        src={assetB.src}
-        alt=""
-        fill
-        sizes={sizes}
-        className={topSlot === 1 ? 'home-mosaic-panel-layer is-top' : 'home-mosaic-panel-layer'}
-        style={layerStyle(assetB)}
+        className="home-mosaic-panel-layer is-top"
+        style={{
+          objectFit: 'cover',
+          objectPosition: shown.objectPosition ?? 'center',
+          opacity: visible ? 1 : 0,
+          transition: `opacity ${FADE_MS}ms ease-in-out`,
+        }}
       />
     </div>
   )

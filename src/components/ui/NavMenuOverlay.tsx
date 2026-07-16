@@ -3,8 +3,6 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
 import {
   FooterFacebookIcon,
   FooterInstagramIcon,
@@ -12,6 +10,13 @@ import {
   FooterXIcon,
   FooterYoutubeIcon,
 } from './FooterSocialLucide'
+import {
+  navMetaLinks,
+  navPrimaryLinks,
+  navStoryLinks,
+  navTownLinks,
+  type SiteNavLink,
+} from '@/data/site-nav'
 import styles from './NavMenuOverlay.module.css'
 
 const external = {
@@ -19,31 +24,37 @@ const external = {
   rel: 'noopener noreferrer' as const,
 }
 
-const primaryLinks = [
-  { label: 'Regions', href: '/regions' },
-  { label: 'Features', href: '/features/napa-valley-guide' },
-  { label: 'Search', href: 'https://www.winespectator.com/search' },
-]
-
-const secondaryLinks = [
-  { label: 'Wineries', href: '/wineries' },
-  { label: 'Dining', href: '/dining' },
-  { label: 'Stay', href: '/stay' },
-  { label: 'Map', href: '/map' },
-]
-
-const metaLinks = [
-  { label: 'About this Guide', href: '/plan' },
-  { label: 'WineSpectator.com', href: 'https://www.winespectator.com' },
-]
-
-const socialLinks: { label: string; href: string; Icon: LucideIcon }[] = [
+const socialLinks = [
   { label: 'Facebook', href: 'https://www.facebook.com/WineSpectator/?rf=100968456611081', Icon: FooterFacebookIcon },
   { label: 'Instagram', href: 'https://www.instagram.com/wine_spectator/?hl=en', Icon: FooterInstagramIcon },
   { label: 'X', href: 'https://x.com/winespectator?lang=en', Icon: FooterXIcon },
   { label: 'YouTube', href: 'https://www.youtube.com/WineSpectatorVideo', Icon: FooterYoutubeIcon },
   { label: 'Pinterest', href: 'https://www.pinterest.com/winespectator/', Icon: FooterPinterestIcon },
-]
+] as const
+
+function OverlayLink({
+  item,
+  className,
+  onClose,
+}: {
+  item: SiteNavLink
+  className: string
+  onClose: () => void
+}) {
+  if (item.external || item.href.startsWith('http')) {
+    return (
+      <a href={item.href} className={className} {...external} onClick={onClose}>
+        {item.label}
+      </a>
+    )
+  }
+
+  return (
+    <Link href={item.href} className={className} onClick={onClose}>
+      {item.label}
+    </Link>
+  )
+}
 
 export type NavMenuOverlayProps = {
   open: boolean
@@ -75,7 +86,7 @@ export function NavMenuOverlay({ open, onClose }: NavMenuOverlayProps) {
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          className={styles.backdrop}
+          className={`${styles.backdrop} grain`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -84,73 +95,91 @@ export function NavMenuOverlay({ open, onClose }: NavMenuOverlayProps) {
         >
           <motion.div
             className={styles.inner}
-            initial={{ opacity: 0, scale: 0.985 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.985 }}
-            transition={{ duration: 0.32, ease: [0.34, 1.56, 0.64, 1] }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.34, ease: [0.34, 1.2, 0.64, 1] }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button type="button" className={styles.closeBtn} onClick={onClose} aria-label="Close menu">
-              <X size={28} strokeWidth={1.5} aria-hidden />
-            </button>
+            <header className={styles.header}>
+              <Link href="/" className={styles.brand} onClick={onClose}>
+                <span>Wine Spectator</span>
+                <span className={styles.brandRule} aria-hidden="true" />
+                <span>Napa Valley Guide</span>
+              </Link>
+              <button type="button" className={styles.closeBtn} onClick={onClose}>
+                Close
+              </button>
+            </header>
 
-            <ul className={styles.primaryList}>
-              {primaryLinks.map((item, i) => (
-                <motion.li
-                  key={item.href}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 + i * 0.05, duration: 0.35 }}
-                >
-                  {item.href.startsWith('http') ? (
-                    <a href={item.href} className={styles.primaryLink} {...external} onClick={onClose}>
-                      {item.label}
-                    </a>
-                  ) : (
-                    <Link href={item.href} className={styles.primaryLink} onClick={onClose}>
-                      {item.label}
-                    </Link>
-                  )}
-                </motion.li>
-              ))}
-            </ul>
+            <div className={styles.layout}>
+              {/* Towns — the marquee zone, large serif editorial links */}
+              <section className={styles.towns}>
+                <p className={styles.sectionLabel}>Towns &amp; areas</p>
+                <ul className={styles.townList}>
+                  {navTownLinks.map((item, i) => (
+                    <li key={item.href} className={styles.townItem}>
+                      <span className={styles.townIndex} aria-hidden="true">
+                        {String(i + 1).padStart(2, '0')}
+                      </span>
+                      <OverlayLink item={item} className={styles.townLink} onClose={onClose} />
+                    </li>
+                  ))}
+                </ul>
+                <OverlayLink
+                  item={{ label: 'All towns & areas →', href: '/regions' }}
+                  className={styles.columnLinkMuted}
+                  onClose={onClose}
+                />
+              </section>
 
-            <div className={styles.secondarySection}>
-              <p className={styles.sectionLabel}>Explore</p>
-              <ul className={styles.secondaryGrid}>
-                {secondaryLinks.map((item) => (
-                  <li key={item.href}>
-                    <Link href={item.href} className={styles.secondaryLink} onClick={onClose}>
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              {/* Rail — guide, stories, and magazine links */}
+              <div className={styles.rail}>
+                <section className={styles.railGroup}>
+                  <p className={styles.sectionLabel}>Explore the guide</p>
+                  <ul className={styles.columnList}>
+                    {navPrimaryLinks.map((item) => (
+                      <li key={item.href}>
+                        <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section className={styles.railGroup}>
+                  <p className={styles.sectionLabel}>Stories</p>
+                  <ul className={styles.columnList}>
+                    {navStoryLinks.map((item) => (
+                      <li key={item.href}>
+                        <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section className={styles.railGroup}>
+                  <p className={styles.sectionLabel}>Wine Spectator</p>
+                  <ul className={styles.columnList}>
+                    {navMetaLinks.map((item) => (
+                      <li key={item.href}>
+                        <OverlayLink item={item} className={styles.columnLink} onClose={onClose} />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              </div>
             </div>
 
-            <div className={styles.metaSection}>
-              <p className={styles.sectionLabel}>More</p>
-              <ul className={styles.metaList}>
-                {metaLinks.map((item) => (
-                  <li key={item.href}>
-                    <a href={item.href} className={styles.metaLink} {...external} onClick={onClose}>
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className={styles.socialBlock}>
+            <footer className={styles.footer}>
               <p className={styles.socialLabel}>Follow Wine Spectator</p>
               <div className={styles.socialRow}>
                 {socialLinks.map(({ href, label, Icon }) => (
                   <a key={href} href={href} className={styles.socialIconLink} aria-label={label} {...external}>
-                    <Icon size={22} strokeWidth={1.65} aria-hidden />
+                    <Icon size={20} strokeWidth={1.65} aria-hidden />
                   </a>
                 ))}
               </div>
-            </div>
+            </footer>
           </motion.div>
         </motion.div>
       ) : null}
