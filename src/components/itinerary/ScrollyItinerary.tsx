@@ -733,7 +733,7 @@ export default function ScrollyItinerary({
                       framing on the next step, so no follow mode here. */}
                   <GeolocateControl
                     position="top-right"
-                    positionOptions={{ enableHighAccuracy: true }}
+                    positionOptions={{ enableHighAccuracy: false, timeout: 10000, maximumAge: 120000 }}
                   />
                 </Map>
               ) : (

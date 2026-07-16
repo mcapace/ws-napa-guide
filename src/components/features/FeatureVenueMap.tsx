@@ -221,7 +221,7 @@ export function FeatureVenueMap({
             <NavigationControl position="top-right" showCompass={false} />
             <GeolocateControl
               position="top-right"
-              positionOptions={{ enableHighAccuracy: true }}
+              positionOptions={{ enableHighAccuracy: false, timeout: 10000, maximumAge: 120000 }}
               trackUserLocation
               showUserHeading
             />

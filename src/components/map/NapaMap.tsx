@@ -167,7 +167,7 @@ export default function NapaMap() {
         <NavigationControl position="bottom-right" visualizePitch />
         <GeolocateControl
           position="bottom-right"
-          positionOptions={{ enableHighAccuracy: true }}
+          positionOptions={{ enableHighAccuracy: false, timeout: 10000, maximumAge: 120000 }}
           trackUserLocation
           showUserHeading
         />
