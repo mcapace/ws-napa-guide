@@ -158,7 +158,7 @@ function tacoTruckPins(): MapPin[] {
       category: 'dining',
       region: TACO_REGION_BY_TOWN[town],
       coords: v.coords,
-      excerpt: (v.description ?? '').slice(0, 160),
+      excerpt: v.addressLines[0] ?? '',
       href: v.website
         ? v.website.match(/^https?:/)
           ? v.website

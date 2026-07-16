@@ -154,11 +154,13 @@
 
 .row {
   display: grid;
-  grid-template-columns: 96px 1fr;
+  /* Same column as photo rows — placeholder squares match photo size so the
+     text edge doesn't ladder */
+  grid-template-columns: 128px 1fr;
   gap: 16px;
   align-items: center;
-  padding: 16px 20px;
-  min-height: 112px;
+  padding: 20px;
+  min-height: 148px;
   border-bottom: 1px solid var(--line);
   cursor: pointer;
   text-align: left;
@@ -249,8 +251,8 @@
 
 .thumbWrap {
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: 128px;
+  height: 128px;
   flex-shrink: 0;
 }
 
@@ -1077,19 +1079,19 @@
   }
 
   .row {
-    grid-template-columns: 72px 1fr;
-    min-height: 88px;
-    padding: 14px 16px;
+    grid-template-columns: 88px 1fr;
+    min-height: 120px;
+    padding: 16px;
   }
 
   .thumb {
-    width: 72px;
-    height: 72px;
+    width: 88px;
+    height: 88px;
   }
 
   .thumbWrap {
-    width: 72px;
-    height: 72px;
+    width: 88px;
+    height: 88px;
   }
 
   .name {

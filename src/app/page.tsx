@@ -30,12 +30,12 @@ const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
 // ── Mosaic panel positions (TRH: perimeter tiles, open center, lifted off bottom edge) ──
 const PANELS = [
-  { id: 1, style: { width: 148, height: 190, top: '5%', left: '5%' } },
-  { id: 2, style: { width: 118, height: 152, top: '18%', left: '10%' } },
-  { id: 3, style: { width: 168, height: 112, top: '3%', left: '50%' } },
-  { id: 4, style: { width: 188, height: 158, bottom: '32%', left: '4%', zIndex: 13 } },
-  { id: 5, style: { width: 132, height: 172, top: '28%', right: '5%' } },
-  { id: 6, style: { width: 128, height: 168, bottom: '34%', right: '6%', zIndex: 15 } },
+  { id: 1, style: { width: 196, height: 250, top: '5%', left: '5%' } },
+  { id: 2, style: { width: 156, height: 200, top: '20%', left: '11%' } },
+  { id: 3, style: { width: 222, height: 148, top: '3%', left: '48%' } },
+  { id: 4, style: { width: 248, height: 208, bottom: '30%', left: '4%', zIndex: 13 } },
+  { id: 5, style: { width: 174, height: 228, top: '28%', right: '5%' } },
+  { id: 6, style: { width: 170, height: 222, bottom: '32%', right: '6%', zIndex: 15 } },
 ]
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05, 0.06] as const
