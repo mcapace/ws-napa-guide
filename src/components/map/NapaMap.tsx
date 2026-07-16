@@ -6,6 +6,7 @@ import Map, {
   Popup,
   Source,
   Layer,
+  GeolocateControl,
   NavigationControl,
   type MapRef,
   type LayerProps,
@@ -164,6 +165,12 @@ export default function NapaMap() {
         )}
 
         <NavigationControl position="bottom-right" visualizePitch />
+        <GeolocateControl
+          position="bottom-right"
+          positionOptions={{ enableHighAccuracy: true }}
+          trackUserLocation
+          showUserHeading
+        />
 
         {visiblePins.map((pin) => (
           <Marker
