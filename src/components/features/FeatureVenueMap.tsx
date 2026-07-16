@@ -74,6 +74,7 @@ type FeatureVenueMapProps = {
   tourLayout?: boolean
   sectionLabel?: string
   sectionTitle?: string
+  photoCredit?: string
 }
 
 export function FeatureVenueMap({
@@ -81,6 +82,7 @@ export function FeatureVenueMap({
   tourLayout = false,
   sectionLabel,
   sectionTitle,
+  photoCredit,
 }: FeatureVenueMapProps) {
   const mapRef = useRef<MapRef>(null)
   const rowRefs = useRef<Record<number, HTMLLIElement | null>>({})
@@ -372,6 +374,7 @@ export function FeatureVenueMap({
 
       <p className={styles.tourHint}>
         {pins.length} stops across the valley · scroll the list to explore the map
+        {photoCredit ? <> · {photoCredit}</> : null}
       </p>
     </div>
   )

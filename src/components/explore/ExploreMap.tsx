@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Map, { Marker, NavigationControl, type MapRef } from 'react-map-gl/mapbox'
 import Supercluster from 'supercluster'
-import { Compass, Hotel, Truck, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
+import { Compass, Hotel, Search, Truck, UtensilsCrossed, Wine, type LucideIcon } from 'lucide-react'
 import type { MapPin } from '@/data/map-pins'
 import {
   CATEGORY_CONFIG,
@@ -40,6 +40,15 @@ const CATEGORY_ICONS: Record<Category, LucideIcon> = {
   dining: UtensilsCrossed,
   stay: Hotel,
   do: Compass,
+}
+
+/** Case- and accent-insensitive matching so “Angele” finds Angèle. */
+function normalizeSearchText(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/[’']/g, '')
 }
 
 export interface ExploreMapProps {
@@ -211,10 +220,18 @@ export function ExploreMap({
     return list
   }, [pins, scopedRegion, pinnedCategory])
 
-  const filteredPins = useMemo(
-    () => sortExploreListPins(filterExplorePins(scopedPins, categoryFilter, regionFilter)),
-    [scopedPins, categoryFilter, regionFilter],
-  )
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const filteredPins = useMemo(() => {
+    const base = sortExploreListPins(filterExplorePins(scopedPins, categoryFilter, regionFilter))
+    const q = normalizeSearchText(searchQuery)
+    if (!q) return base
+    return base.filter(
+      (p) =>
+        normalizeSearchText(p.name).includes(q) ||
+        normalizeSearchText(p.excerpt ?? '').includes(q),
+    )
+  }, [scopedPins, categoryFilter, regionFilter, searchQuery])
 
   const visiblePins = useMemo(() => {
     if (routeSlugs.length === 0) return filteredPins
@@ -607,6 +624,27 @@ export function ExploreMap({
                 </button>
               </div>
             ) : null}
+            <div className={styles.searchRow}>
+              <Search className={styles.searchIcon} size={14} strokeWidth={2} aria-hidden />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search listings…"
+                aria-label="Search listings by name"
+                className={styles.searchInput}
+              />
+              {searchQuery ? (
+                <button
+                  type="button"
+                  className={styles.searchClear}
+                  onClick={() => setSearchQuery('')}
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              ) : null}
+            </div>
             {!pinnedCategory && (
               <div className={styles.filterRow}>
                 <button

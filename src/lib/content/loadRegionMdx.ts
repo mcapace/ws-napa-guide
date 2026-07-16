@@ -182,11 +182,12 @@ export async function loadRegionMdx(slug: string): Promise<LoadedRegionMdx | nul
     const features: EditorialFeature[] = []
     for (let i = 0; i < blocks.length; i++) {
       const b = blocks[i]
-      const { address, website, image, imagePortrait, bodyMd } = parseMetaLines(b.body)
+      const { address, website, image, imagePortrait, photoCredit, bodyMd } = parseMetaLines(b.body)
       features.push({
         name: b.title,
         address,
         website,
+        photoCredit,
         image: editorialOnlyImage(image),
         imagePortrait: editorialOnlyImage(imagePortrait),
         body: await compileMarkdown(bodyMd),

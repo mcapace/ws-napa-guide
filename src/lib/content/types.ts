@@ -57,6 +57,8 @@ export type EditorialFeature = {
   image?: string
   /** From MDX `**ImagePortrait:**` when both crops exist */
   imagePortrait?: string
+  /** From MDX `**PhotoCredit:**` — photographer attribution line */
+  photoCredit?: string
 }
 
 export type RelatedStoryCard = {

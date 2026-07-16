@@ -24,6 +24,7 @@ export type ShowcasePick = {
   bodyPlain?: string
   image?: string
   imagePortrait?: string
+  photoCredit?: string
 }
 
 const CATEGORY_EYEBROW: Record<ShowcaseCategory, string> = {
@@ -112,6 +113,9 @@ export function FeaturedShowcasePanel({
           >
             {formatWebsiteLabel(website)} ↗
           </a>
+        ) : null}
+        {pick.photoCredit ? (
+          <span className={styles.captionCredit}>{pick.photoCredit}</span>
         ) : null}
       </div>
       <Link

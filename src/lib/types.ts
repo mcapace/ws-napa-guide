@@ -137,6 +137,8 @@ export interface FeatureArticleContent {
   introParagraphs: string[]
   outroParagraphs?: string[]
   venues?: FeatureVenue[]
+  /** Photographer attribution shown under the venue list. */
+  venuePhotoCredit?: string
   winePicks?: FeatureWinePick[]
   termGroups?: FeatureTermGroup[]
   heroImage: string

@@ -91,6 +91,7 @@ function toShowcasePick(
     name: feature.name,
     address: feature.address,
     website: feature.website,
+    photoCredit: feature.photoCredit,
     bodyPlain: feature.bodyPlain,
     image,
     imagePortrait,

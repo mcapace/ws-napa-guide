@@ -215,6 +215,12 @@
   transition: color 0.2s ease;
 }
 
+.captionCredit {
+  color: rgba(155, 146, 131, 0.75);
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
 .captionLink:hover {
   color: var(--gold, #c4943a);
 }

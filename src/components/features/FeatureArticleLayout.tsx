@@ -161,6 +161,7 @@ export default function FeatureArticleLayout({
             venues={content.venues}
             sectionLabel="Where to eat"
             sectionTitle="Taquerias worth the line"
+            photoCredit={content.venuePhotoCredit}
           />
         </section>
       )}
