@@ -64,7 +64,7 @@ export function regionDisplayName(slug: string): string {
     calistoga: 'Calistoga',
     'pritchard-hill': 'Pritchard Hill',
     'downtown-napa': 'Downtown Napa',
-    'beyond-napa': 'Beyond Napa',
+    'beyond-napa': 'Nearby Napa',
   }
   return labels[slug] ?? slug
 }

@@ -11,7 +11,7 @@ const REGIONS = [
   { slug: 'st-helena',      label: 'St. Helena' },
   { slug: 'pritchard-hill', label: 'Pritchard Hill' },
   { slug: 'downtown-napa',  label: 'Downtown Napa' },
-  { slug: 'beyond-napa',    label: 'Beyond Napa' },
+  { slug: 'beyond-napa',    label: 'Nearby Napa' },
 ]
 
 const PIN_TYPES: PinType[] = ['winery', 'restaurant', 'hotel']

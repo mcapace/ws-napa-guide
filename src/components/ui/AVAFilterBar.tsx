@@ -11,7 +11,7 @@ const REGIONS = [
   { slug: 'calistoga',      label: 'Calistoga' },
   { slug: 'pritchard-hill', label: 'Pritchard Hill' },
   { slug: 'downtown-napa',  label: 'Downtown Napa' },
-  { slug: 'beyond-napa',    label: 'Beyond Napa' },
+  { slug: 'beyond-napa',    label: 'Nearby Napa' },
 ]
 
 interface AVAFilterBarProps {

@@ -99,9 +99,9 @@
     ),
     linear-gradient(
       to top,
-      rgba(13, 11, 9, 0.72) 0%,
-      rgba(13, 11, 9, 0.28) 34%,
-      transparent 62%
+      rgba(13, 11, 9, 0.82) 0%,
+      rgba(13, 11, 9, 0.38) 38%,
+      transparent 66%
     ),
     linear-gradient(to right, rgba(13, 11, 9, 0.18) 0%, transparent 48%);
 }
@@ -116,9 +116,9 @@
     ),
     linear-gradient(
       to top,
-      rgba(13, 11, 9, 0.72) 0%,
-      rgba(13, 11, 9, 0.28) 34%,
-      transparent 62%
+      rgba(13, 11, 9, 0.82) 0%,
+      rgba(13, 11, 9, 0.38) 38%,
+      transparent 66%
     ),
     linear-gradient(to left, rgba(13, 11, 9, 0.18) 0%, transparent 48%);
 }
@@ -148,11 +148,25 @@
   max-width: min(640px, 92vw);
   padding: 56px 60px;
   text-align: left;
+  /* The copy column carries its own backdrop — full write-ups climb above
+     the bottom scrim, and bright photos washed the type out */
+  background: linear-gradient(
+    90deg,
+    rgba(13, 11, 9, 0.7) 0%,
+    rgba(13, 11, 9, 0.52) 62%,
+    transparent 100%
+  );
 }
 
 .copyRight {
   margin-left: auto;
   text-align: right;
+  background: linear-gradient(
+    270deg,
+    rgba(13, 11, 9, 0.7) 0%,
+    rgba(13, 11, 9, 0.52) 62%,
+    transparent 100%
+  );
 }
 
 .copyRight .captionRow {
@@ -178,6 +192,8 @@
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--cream, #f7f3ec);
+  /* Type carries its own contrast so the photo can stay light */
+  text-shadow: 0 2px 18px rgba(13, 11, 9, 0.65), 0 1px 3px rgba(13, 11, 9, 0.4);
 }
 
 .blurb {
@@ -186,7 +202,8 @@
   font-family: var(--tr-showcase-blurb-font, var(--font-body, 'DM Sans', sans-serif));
   font-size: var(--tr-showcase-blurb-size, clamp(14px, 1.5vw, 15px));
   line-height: 1.65;
-  color: rgba(247, 243, 236, 0.8);
+  color: rgba(247, 243, 236, 0.92);
+  text-shadow: 0 1px 10px rgba(13, 11, 9, 0.7), 0 1px 2px rgba(13, 11, 9, 0.5);
 }
 
 .copyRight .blurb {
@@ -223,7 +240,8 @@
   font-family: var(--font-body, 'DM Sans', sans-serif);
   font-size: 11px;
   letter-spacing: 0.04em;
-  color: var(--mist, #9b9283);
+  color: rgba(247, 243, 236, 0.75);
+  text-shadow: 0 1px 8px rgba(13, 11, 9, 0.6);
 }
 
 .captionItem::after {
@@ -367,6 +385,7 @@
     max-width: none;
     padding: 20px 18px 26px;
     text-align: left;
+    background: none;
   }
 
   .copyRight .captionRow {

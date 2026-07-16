@@ -72,14 +72,14 @@ type ClusterProps = Supercluster.ClusterProperties & { pin?: MapPin }
 
 const CATEGORY_ORDER: Category[] = ['winery', 'dining', 'stay', 'do']
 const REGION_ORDER = [
-  'oakville',
-  'rutherford',
-  'yountville',
-  'st-helena',
-  'calistoga',
-  'pritchard-hill',
   'downtown-napa',
   'beyond-napa',
+  'yountville',
+  'oakville',
+  'rutherford',
+  'pritchard-hill',
+  'st-helena',
+  'calistoga',
 ]
 
 function listingCopyCanExpand(pin: MapPin): boolean {
