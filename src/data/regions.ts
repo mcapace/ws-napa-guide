@@ -464,7 +464,7 @@ kling wine with a sword, a tradition that dates to Na poleon’s era. Equally me
   },
   {
     slug: 'beyond-napa',
-    name: 'Beyond Napa',
+    name: 'Nearby Napa',
     tagline: 'Coombsville · Carneros · Mt. Veeder · North Napa',
     author: 'MaryAnn Worobiec',
     issue: 'June 15 & 30, 2026',
@@ -491,7 +491,7 @@ kling wine with a sword, a tradition that dates to Na poleon’s era. Equally me
   },
   {
     slug: 'yountville',
-    name: 'Yountville',
+    name: 'Yountville / Stags Leap District',
     tagline: 'World-Class Dining',
     author: 'Aaron Romano',
     issue: 'June 15 & 30, 2026',

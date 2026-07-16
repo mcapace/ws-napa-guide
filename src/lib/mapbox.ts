@@ -48,12 +48,12 @@ export const REGION_CENTERS: Record<string, { center: [number, number]; zoom: nu
 export const REGION_LABELS: Record<string, string> = {
   oakville: 'Oakville',
   rutherford: 'Rutherford',
-  yountville: 'Yountville',
+  yountville: 'Yountville / Stags Leap District',
   'st-helena': 'St. Helena',
   calistoga: 'Calistoga',
   'pritchard-hill': 'Pritchard Hill',
   'downtown-napa': 'Downtown Napa',
-  'beyond-napa': 'Beyond Napa',
+  'beyond-napa': 'Nearby Napa',
 }
 
 export const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? ''

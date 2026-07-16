@@ -59,12 +59,12 @@ export function regionDisplayName(slug: string): string {
   const labels: Record<string, string> = {
     oakville: 'Oakville',
     rutherford: 'Rutherford',
-    yountville: 'Yountville',
+    yountville: 'Yountville / Stags Leap District',
     'st-helena': 'St. Helena',
     calistoga: 'Calistoga',
     'pritchard-hill': 'Pritchard Hill',
     'downtown-napa': 'Downtown Napa',
-    'beyond-napa': 'Beyond Napa',
+    'beyond-napa': 'Nearby Napa',
   }
   return labels[slug] ?? slug
 }
