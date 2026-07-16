@@ -728,15 +728,18 @@
 
 .bottomSheet {
   position: fixed;
-  bottom: 0;
+  /* Sit above the phone tab bar (58px + safe area) — it out-stacks us */
+  bottom: calc(58px + env(safe-area-inset-bottom, 0px));
   left: 0;
   right: 0;
   z-index: 30;
   background: #fff;
   border-top: 1px solid var(--line);
-  padding: 14px 16px 20px;
+  padding: 14px 16px 16px;
   transform: translateY(100%);
   transition: transform 0.25s ease;
+  max-height: 62dvh;
+  overflow-y: auto;
 }
 
 .bottomSheetOpen {
@@ -752,6 +755,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
+  max-height: 180px;
   margin-bottom: 12px;
   border-radius: 2px;
   overflow: hidden;

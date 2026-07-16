@@ -58,27 +58,7 @@ export function LocateControl({ position = 'top-right', track = true }: LocateCo
         }}
       />
       {notice ? (
-        <div
-          role="status"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            bottom: 18,
-            zIndex: 10,
-            maxWidth: 'min(340px, 86%)',
-            padding: '10px 14px',
-            borderRadius: 3,
-            background: 'rgba(13, 11, 9, 0.92)',
-            border: '1px solid rgba(247, 243, 236, 0.14)',
-            color: '#f7f3ec',
-            fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-            fontSize: 12,
-            lineHeight: 1.5,
-            textAlign: 'center',
-            pointerEvents: 'none',
-          }}
-        >
+        <div role="status" className="ws-locate-notice">
           {notice}
         </div>
       ) : null}
