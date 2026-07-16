@@ -18,10 +18,6 @@ function pinExcerpt(text: string, max = 90): string {
   return `${t.slice(0, max - 1).trimEnd()}…`
 }
 
-function editorialExcerpt(text: string): string {
-  return pinExcerpt(text, 150)
-}
-
 function normalizeName(name: string): string {
   return name
     .toLowerCase()
@@ -133,19 +129,16 @@ function applyEditorialPinFields(pin: MapPin, data: LoadedRegionMdx): MapPin {
     return pinWithoutListingPhoto(pin)
   }
 
-  const bodyPlain = feature.bodyPlain?.trim()
-  const excerpt = bodyPlain ? editorialExcerpt(bodyPlain) : pin.excerpt
-  const excerptFull =
-    bodyPlain && bodyPlain.length > excerpt.replace(/…$/, '').trim().length
-      ? bodyPlain
-      : undefined
+  // Listing rows show the address like every other entry — the write-up
+  // lives on the venue's own page (editorial decision).
+  const excerpt = feature.address ? pinExcerpt(feature.address) : pin.excerpt
   const thumb = directoryThumb ?? editorialImagePath(feature.image)
 
   return {
     ...pin,
     editorial: true,
     excerpt,
-    excerptFull,
+    excerptFull: undefined,
     thumb,
     images: thumb ? [thumb] : [],
   }
@@ -208,7 +201,7 @@ function buildPinsFromRows(
     let pin: MapPin | null = null
 
     if (staticMatch) {
-      pin = { ...stripNonEditorialThumb(staticMatch) }
+      pin = { ...stripNonEditorialThumb(staticMatch), excerpt: pinExcerpt(row.address), excerptFull: undefined }
     } else {
       pin = directoryRowToMapPin(row, regionSlug)
     }
