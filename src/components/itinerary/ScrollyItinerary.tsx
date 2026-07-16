@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
-import Map, { Marker, Source, Layer, type MapRef, type LayerProps } from 'react-map-gl/mapbox'
+import Map, { GeolocateControl, Marker, Source, Layer, type MapRef, type LayerProps } from 'react-map-gl/mapbox'
 import {
   CATEGORY_COLORS,
   CATEGORY_CONFIG,
@@ -729,6 +729,12 @@ export default function ScrollyItinerary({
                     </Marker>
                     )
                   })}
+                  {/* Single-shot locate: the scroll-synced camera retakes
+                      framing on the next step, so no follow mode here. */}
+                  <GeolocateControl
+                    position="top-right"
+                    positionOptions={{ enableHighAccuracy: true }}
+                  />
                 </Map>
               ) : (
                 <p className={styles.mapFallback}>Map unavailable — configure Mapbox token.</p>

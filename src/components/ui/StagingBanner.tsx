@@ -25,6 +25,11 @@ export function StagingBanner() {
         textTransform: 'uppercase',
         color: '#f7f3ec',
         textAlign: 'center',
+        // Keep the banner one line tall on phones so the sticky-offset
+        // math (--ws-staging-banner-height: 33px) stays truthful.
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
       }}
     >
       Staging preview · branch {branch}

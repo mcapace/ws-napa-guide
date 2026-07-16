@@ -1618,3 +1618,26 @@ html[data-region-native-scroll].lenis.lenis-stopped {
   --tr-showcase-blurb-size: clamp(16px, 1.7vw, 17.5px);
   --tr-jump-size: 11.5px;
 }
+
+/* ── Phone chrome fixes ── */
+@media (max-width: 767px) {
+  /* iOS Safari lets scrolled content bleed into the status-bar strip above
+     the sticky banner/header — blank it with a fixed cover. */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -120px;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: var(--ink, #0d0b09);
+    z-index: 12000;
+    pointer-events: none;
+  }
+
+  /* Full-screen phone maps sit beneath the sticky site chrome — keep the
+     zoom / find-my-location controls visible below it. */
+  .mapboxgl-ctrl-top-right {
+    top: calc(var(--ws-site-header-height, 72px) + 6px) !important;
+  }
+}

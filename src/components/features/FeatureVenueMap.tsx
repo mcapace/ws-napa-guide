@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Map, { Marker, NavigationControl, Popup, type MapRef } from 'react-map-gl/mapbox'
+import Map, { GeolocateControl, Marker, NavigationControl, Popup, type MapRef } from 'react-map-gl/mapbox'
 import mapboxgl from 'mapbox-gl'
 import type { FeatureVenue } from '@/lib/types'
 import { restaurants } from '@/data/restaurants'
@@ -219,6 +219,12 @@ export function FeatureVenueMap({
             attributionControl={false}
           >
             <NavigationControl position="top-right" showCompass={false} />
+            <GeolocateControl
+              position="top-right"
+              positionOptions={{ enableHighAccuracy: true }}
+              trackUserLocation
+              showUserHeading
+            />
             {pins.map((pin) => (
               <Marker
                 key={pin.id}
