@@ -39,6 +39,16 @@
   margin-bottom: 1.5rem;
 }
 
+.tagListLabel {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold, #c4943a);
+  margin: 0 0 10px;
+}
+
 .tagList {
   display: flex;
   gap: 0.5rem;

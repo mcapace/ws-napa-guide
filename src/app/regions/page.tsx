@@ -109,7 +109,8 @@ export default function RegionsPage() {
                 {region.intro}
               </p>
 
-              {/* Best for tags */}
+              {/* Best for tags — at-a-glance descriptors from the print guide */}
+              <p className={styles.tagListLabel}>Known for</p>
               <div className={styles.tagList}>
                 {region.bestFor.map((tag) => (
                   <span key={tag} className={styles.tag}>

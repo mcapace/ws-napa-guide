@@ -70,187 +70,424 @@ export interface RegionData {
 
 export const regions: RegionData[] = [
   {
-    slug: 'oakville',
-    name: 'Oakville',
-    tagline: 'The Spirit of Cabernet',
+    slug: 'downtown-napa',
+    name: 'Downtown Napa',
+    tagline: "The Valley's Urban Core",
     author: 'MaryAnn Worobiec',
     issue: 'June 15 & 30, 2026',
-    heroImage: '/images/oakville/hero/oakville-hero-landscape.jpg',
-    accentColor: '#1C2E12',
-    pullQuote:
-      'The Oakville AVA is sacred ground for Cabernet Sauvignon. Its vineyards are considered the filet mignon of the valley because of how the grape performs in the terroir.',
-    intro: `Located between Yountville and Rutherford as you head north, Oakville can appear to visitors as little more than a blip, with the famed Oakville Grocery serving as its spiritual center. Yet Oakville boasts the highest concentration of benchmark estates in Napa Valley—Harlan Estate, Robert Mondavi, Opus One, Silver Oak, Far Niente and Heitz Cellar to name a few. It is also home to two of California's most renowned vineyards, To Kalon and Martha's.`,
-    body: `The Oakville AVA is sacred ground for Cabernet Sauvignon. Its vineyards are considered the filet mignon of the valley because of how the grape performs in the terroir. Oakville Cabernets are beloved for their richness and density of fruit, savory and earth elements combined with their reputation as being among the most ageworthy in Napa Valley.
+    heroImage: '/images/downtown-napa/hero/downtown-napa-hero-landscape.jpg',
+    accentColor: '#0A2E20',
+    pullQuote: `The best argument for spending time in downtown Napa is the sheer variety — from Michelin-starred restaurants to taco trucks, from $20 tasting flights to library pours of legendary Cabernet.`,
+    intro: `Downtown Napa has transformed over the past two decades from a quiet county seat into a vibrant destination in its own right. The Oxbow Public Market anchors the culinary scene, while more than 40 tasting rooms line the riverfront and downtown streets.`,
+    body: `Once upon a time, there were two Napas. Napa the val ley, known as a chic playground for well-heeled wine
+lovers, and Napa the town, a sleepy, workaday community. That dichotomy has disappeared. Downtown Napa has become a destination in its own right while also serving as the main hub for exploring the valley that runs for 30 miles in length to its north.
+There’s plenty to see, eat, drink and do in downtown Napa, led by a strong concentration of tasting rooms, now numbering more than 40. These urban spaces typically do not require reservations (unlike most upvalley tasting rooms) and offer a more casual and accessible experience.
+Restaurants, hotels and music venues abound, and the town’s walkable streets are lively, lined with shops, galleries, spas and more. Downtown has a thriving coffee, cocktail and craft beer culture, too, infusing the energy of those passions to the mix.
+The evolution began in the early 2000s when vintner Robert Mondavi opened Copia: The American Center for Wine, Food & the Arts along an oxbow-shaped curve of the Napa River. Today, a branch of the Culinary Institute of America occupies the space, offering classes, seminars and a restaurant. Oxbow Public Market, opened in 2008, features artisanal food vendors, specialty shops, restaurants and a wine bar under one roof. The three-day music festival BottleRock draws a diverse audience
 
-Located between Yountville and Rutherford as you head north, Oakville can appear to visitors as little more than a blip, with the famed Oakville Grocery serving as its spiritual center. Yet Oakville boasts the highest concentration of benchmark estates in Napa Valley—Harlan Estate, Robert Mondavi, Opus One, Silver Oak, Far Niente and Heitz Cellar to name a few. It is also home to two of California’s most renowned vineyards, To Kalon and Martha’s.
-
-The Oakville Grocery dates to 1881 and is one the longest continuously operating grocery stores in California. It remains both a must-stop for tourists and a convenient pit stop along Highway 29 for the locals. Visitors can refuel with excellent coffee, pastries and high-quality picnic provisions, including hearty sandwiches and a curated selection of gourmet pantry goods. On sunny days, guests enjoy wood-fired pizzas on the patio. The shop also offers an excellent selection of gifts for food lovers.
-
-Grapegrowing in Oakville began with H.W. Crabb, an Ohio native who came to California in search of gold. Crabb purchased 240 acres in what is now Oakville in 1868. He built a railroad depot and initially planted table and raisin grapes. In 1872, Crabb established a vineyard and winery he named To Kalon, Greek for “highest beauty.” At the time, it was one of the largest vineyards in the region, producing about 5,500 cases of wine annually.
-
-Since Crabb’s death, vintners have debated the vineyard’s legacy. Subsequent owners divided and sold the land. In 1966, vintner Robert Mondavi built his winery on part of the To Kalon property, helping to launch Napa’s modern wine era. Along the way, Mondavi was granted trademarks in 1988 and 1994, now owned by Constellation Brands following their purchase of the Mondavi winery in 2004. Other vintners argue that they have the right to use the name because they farm portions of the original estate; grower Andy Beckstoffer was able to secure naming rights for his portion. The dispute continues and has grown bitter at times, a testament to To Kalon’s enduring significance.
-
-Driving through Oakville offers one of the best ways to understand the “valley.” The AVA covers ground from the foothills of the Vaca mountain range’s volcanic soils on its eastern flank to the Mayacamas’ alluvial soils on its western edge, with each side offering distinct characteristics in their wines.
+whose interests are reflected in the many new businesses popping up.
+First Street Napa is a centerpiece for the downtown area. A three-block, 325,000-square-foot mixed-use development, it features dozens of shops and restaurants, anchored by the Archer Hotel. On weekends, the hotel’s rooftop restaurant and bar buzz with energy. Phase two is under construction and will add a 160-room hotel and 78-unit condominium building, both with rooftop access. The expansion will create a pedestrian friendly corridor extending to Main Street and bring even more shopping opportunities.
+The city has also integrated the Napa Wine Train into its cultural identity. The 2-mile stretch of semi-industrial backyards that the train passes through has been transformed into the Rail Arts District, where murals and art installations wrap around switchboxes and line a paved walking path.
+Food City, near downtown, has emerged as a hot spot, home to a specialty market, the popular Naysayer Coffee, a fried chicken joint, a taqueria, even a cat café. Good Pantry, a zero waste grocery store, has also opened there.
+This fresh-faced Napa doesn’t live in the valley’s shadow. It complements the region, blending wine, food, art, culture and community into an experience that feels distinctly, confidently Napan.
 
 Where to Taste
 
-Cardinale Winery 7600 St. Helena Highway | cardinale.com
-It’s a short drive off of Highway 29 up to the beautiful stone building where Car
-dinale hosts its tastings, but it feels like a world away from the traffic and bustle
-of the valley floor. Panoramic views are highlighted by a recent upgrade, with
-more outdoor options, comfortable seating and stylish designs. Tasting ex
-periences of Christopher Carpenter’s Bordeaux-style wines include culinary
-options and library vintages.
-Cardinale Far Niente Winery /
-Bella Union Winery 1350 Acacia Drive | far niente.com
-Gil and Beth Nickel opened Far Niente in 1979, and the 19th-century stone winery and surrounding fairy tale-esque gardens are definitely worth a visit to experience the environs, fine wines and a chance to try their late-harvest Dolce.
-We also recommend taking a short drive north to check out the latest tasting room in the winery’s portfolio, Bella Union (which is technically in Rutherford), founded in 2012 as a way to celebrate regional blend expressions of Napa wine. The former Provenance tasting room was recently remodeled for Bella Union, and embraces the La Belle Époque era with more modern designs, many tasting opportunities and stunning views.
-Nickel & Nickel 8164 St. Helena Highway | farniente.com/
-wineries/nickel-and-nickel A distinctive white estate fence outlines
-this picturesque estate, which includes an 1884 Victorian farmhouse, barn-style
-winery and horse stables. The wines are also distinctive; winemaker Joe Harden
-dives into single-vineyard expressions of Napa Cabernet Sauvignon through a va
-riety of methods that make an excellent case for terroir.
-Rudd Estate / Crossroads House
-500 Oakville Cross Road | ruddwines.com Rudd Estate is among the most scenic
-wineries in Napa, with a wonderful garden and scraggly oak trees creating a
-serene setting. It’s also among one of the few second-generation, family
-owned properties you can visit. While visiting Rudd to taste their wines is an
-excellent idea, the Crossroads House is also on the property, where their second
-label of the same name is served with various offerings from caviar to picnic
-B Cellars Winery
-703 Oakville Cross Road bcellars.com
-Groth Vineyards & Winery
-750 Oakville Cross Road grothwines.com
-Miner Family Winery 7850 Silverado Trail minerwines.com
-Opus One 1144 Oakville Cross Road opusonewinery.com PlumpJack Estate Winery 620 Oakville Cross Road
-plumpjackwinery.com Promontory Wine
-1601 Oakville Grade promontory.wine Rudd lunches curated by nearby Under-Study.
-
-7377 St. Helena Highway | brix.com
-
-Where to Eat
-
-Brix represents farm-to-table cuisine, but in this case the restaurant is located amid the farm. Part of an exquisite 16-acre estate, there are raised beds of vegetables and herbs, a fruit and citrus orchard and a vineyard where the Kelleher family– owners of Brix and their own namesake winery–grow grapes. Seasonal offerings might include pappardelle with bone mar row, black pepper and Parmigiano-Reggiano, or their fried
-chicken, which is served with a cheddar biscuit, mashed pota toes and gravy. Further comfort food items, like “Arnold Palm er’s Meatloaf” are perfectly prepared, as is a Dungeness crab tagliatelle with crispy prosciutto and sea urchin butter.
-Mustards Grill 7399 St. Helena Highway | mustardsgrill.com
-“Sorry, everything is delicious,” you’ll see on the signage for Mustard’s Grill, a dreamy restaurant that is always buzzing with excitement and dishing up hearty American fare as imag ined by chef-owner Cindy Pawlcyn. Since 1983, Pawlcyn has helped define wine country cuisine–seasonal, fresh, comforting and approachable, and of course, a terrific match for wine. The delicate onion rings are a must-order, as is the Mongolian pork chop with sweet-n-sour red cabbage and house-made mustard. The kitchen does lighter fare with plenty of precision, including the daily tostada and Hunan grilled chicken salad.
-Oakville Grocery Mustards shooting Mustards
-Breakfast/ Coffee/
-Sandwiches/ Snacks
-Oakville Grocery 7856 St. Helena Highway | oakville
-grocery.com Do stop by the iconic Oakville Grocery, if only to stretch your legs and wander among the crowded shelves
-packed with gourmet pantry ingredients and snacks that make excellent
-gifts. Coffee, pastries, cookies and picnic provisions are all here, as well
-as gourmet salads and large, shareable sandwiches, like the “Wagon
-Wheel” sandwich with Fra’mani rosemary ham, Cowgirl Creamery Wagon
-Wheel Cheese and Dijonnaise.
-Wood-fired pizzas, served on the patio, are also top notch.`,
-    adventure: {
-      title: 'The Everything Old Is New Again Tour',
-      intro: `Two of the most anticipated re-openings this year are the Robert Mondavi Winery and Beaulieu Vineyard. Both are scheduled to open soon; RMW in May and BV by July.`,
-      body: `THE EVERYTHING OLD IS NEW AGAIN TOUR Two of the most anticipated re-openings this year are the
-Robert Mondavi Winery and Beaulieu Vineyard. Both are scheduled to open soon; RMW in May and BV by July, and they are offering reservations as of press time. When historic wineries reinvent themselves they reflect broader shifts across Napa Valley. As a new generation of owners and wine lovers shapes the region’s future, Napa continues to ask: How do you honor a storied past while embracing what comes next?
-At RMW, the renovation preserves the iconic 1966 Cliff May design, including the signature arch and tower that echo California’s Spanish missions. The team has added new structures on either side, including a hospitality wing wrapped in glass walls that bring guests visually closer to the vineyards. Designers lined the ceiling with oak staves salvaged from old fermentation vats—wine stains and all—adding texture and authenticity to the modern space.
-Five minutes down the road, BV has also chosen restoration over replacement. The team reinforced the original stone walls instead of rebuilding them and repurposed redwood from old tanks to clad the ceilings, even preserving boards marked with handwritten notes. During construction, the winery recycled 98% of its materials. The redesigned space blends contemporary
-elements and natural light with the historic stone facade, creating a seamless indoor-outdoor flow. Historical artifacts are on display Throughout the property, including founder Georges de
-Latour’s refurbished Cadillac near the entrance. Expect heavier traffic as wine lovers line up to experience the results of these years-long renovations. As with any highly anticipated restaurant debut, allow a little time for staff to settle into the new spaces and refine service. Even so, both re-openings promise to reward the wait.`,
-    },
-    soilNote:
-      'Gravelly Bale loam and volcanic alluvium. Excellent drainage forces deep root systems, concentrating flavor while naturally limiting yields.',
-    bestFor: ['Cabernet Sauvignon', 'Cult wines', 'Historic estates', 'To Kalon'],
-    winerySlugs: ['far-niente', 'nickel-and-nickel', 'cardinale', 'rudd-estate', 'opus-one'],
-    restaurantSlugs: ['brix', 'mustards-grill'],
-    hotelSlugs: [],
-    articleSlug: 'napa-oakville',
-    mapCenter: [-122.4089, 38.4298],
-    mapZoom: 13,
-    neighborRegions: ['rutherford', 'yountville', 'st-helena'],
-  },
-  {
-    slug: 'rutherford',
-    name: 'Rutherford',
-    tagline: 'Storied Vineyards',
-    author: 'MaryAnn Worobiec',
-    issue: 'June 15 & 30, 2026',
-    heroImage: '/images/rutherford/hero/rutherford-hero-landscape.jpg',
-    accentColor: '#2E1A0A',
-    pullQuote: `Tchelistcheff coined the term "Rutherford Dust," in reference to dusty, powdery alluvial soils on the west side, and the distinct subtle grain and minerality they imbue in the AVA's Cabernets.`,
-    intro: `When it comes to grapevines, Rutherford is one of Napa Valley's big names. But as far as towns go, Rutherford is a blink-and-you'll-miss-it spot along Highway 29 about halfway up the valley. As you drive past a former railroad station you might catch the smoky aromas of expertly grilled food at Rutherford Grill without realizing you've just passed through the heart of a town with a population of only about 100.`,
-    body: `When it comes to grapevines, Rutherford is one of Napa Valley’s big names. But as far as towns go, Rutherford is a blink-and-you’ll-miss-it spot along Highway 29 about halfway up the valley. As you drive past a former railroad station you might catch the smoky aromas of expertly grilled food at Rutherford Grill without realizing you’ve just passed through the heart of a town with a population of only about 100. On Rutherford Cross Road, there’s a small post office, the Rancho Caymus Inn and La Luna Market & Taqueria, a go-to for locally favored Mexican food. But this sleepy appearance belies that Rutherford boasts a rich wine history shaped by some of the region’s most important trailblazers.
-
-The indigenous Mishewal-Wappo people first inhabited the land that now includes present-day Yountville, Oakville and Rutherford. In 1836, authorities granted nearly 12,000 acres on the valley floor to George C. Yount as part of the Rancho Caymus land grant. In 1864, Yount gave his daughter Elizabeth 1,040 acres in the center of the modern-day AVA as a wedding gift when she married Thomas Rutherford. The Rutherfords planted vineyards and produced wine, while giving the town its name.
-
-The Rutherfords’ parcel changed hands several times before Finnish fur trader and sea captain Gustave Niebaum acquired it in 1879. He founded Inglenook and built its semi-Gothic château in 1887; the building still stands. After Prohibition ended, his grand-nephew John Daniel Jr. crafted a series of extraordinary wines until he sold the estate in the 1960s. In 1975, filmmaker Francis Ford Coppola purchased the estate; he worked to reunite the original property and transform it into a popular tourist destination.
-
-French chemist Georges de Latour had arrived in California in 1883 and built his fortune in the cream of tartar business, an important baking ingredient that is a natural byproduct of winemaking. In 1900, he moved to Napa Valley and founded Beaulieu Vineyard on land adjacent to Inglenook. He also became the first to import phylloxera-resistant rootstock. In 1938, de Latour hired winemaker André Tchelistcheff at BV and under his direction, the Georges de Latour Private Reserve Cabernet became one of the most famous wines in the world.
-
-Rutherford sits at the widest point of Napa Valley, where fewer mountain shadows allow more sunlight to reach the vineyards. The benchlands divide into two distinct areas. On the eastern edge, complex soils and varied microclimates fold into the Vaca Mountains. Volcanic soils dominate much of this terrain and remain moderately deep, but the mountains delay sunrise and slow the warming of the vines.
-
-The western benchland receives morning sun and gains protection from afternoon heat when the sun dips behind the Mayacamas Mountains. This side of the valley features more alluvial soils and experiences cooler, windier conditions that create a drying effect.
-
-Tchelistcheff coined the term “Rutherford Dust,” in reference to dusty, powdery alluvial soils on the west side, and the distinct subtle grain and minerality they imbue in the AVA’s Cabernets. There are few simple pleasures as fine as sipping a Rutherford Cabernet while some Rutherford Dust clings to your shoes after a day in the vineyards.
-
-Where to Taste
-
-Cathiard Family Estate 1978 Zinfandel Lane | cathiardvineyard.com
-The late Daniel Cathiard built an impressive career in wine, purchasing Bordeaux’s Smith-Haut-Lafitte in 1990, then buying (and renaming) the former Flora Springs estate at the base of the Mayacamas mountain range in 2020. Management was just transitioning to the family’s next generation when Cathiard died earlier this year. A visit makes it clear how deeply the family is dedicated to this property, with meticulously maintained grounds and intimate visit experiences that might include a tour of the vineyards in an electric Range Rover, including the wine cave and on-site cooperage.
-
-Inglenook/Niebaum-Pennino 1991 St. Helena Highway | inglenook.com; niebaumpennino.com
-Even if you didn’t know Francis Ford Coppola owned Inglenook, you’d still pick up on how cinematic and grand the estate is, a mix of history, beauty, movie memorabilia and elegant wines. There are plenty of visitor experiences available, from simply enjoying a glass to more informative tours and library tastings. The recently opened Pennino House on the property is another chance to taste wines in a relaxed atmosphere, like stepping into a family home with a cozy living room plus plenty of outdoor seating. Here they also serve a curated selection of Italian-inspired non-alcoholic beverages.
-
-Quintessa 1601 Silverado Trail | quintessa.com
-Quintessa lies an easy turn off of the Silverado Trail, but a visit here takes you off the beaten path, into the heart of Rutherford and a uniquely serene setting. The entire property is nearly 300 acres, and the best way to soak it all in is through the “Quintessential Experience,” where a tasting takes place in a private glass pavilion overlooking Dragon Lake.
-
-Staglin Family Vineyard 1570 Bella Oaks Lane | staglinfamily.com
-There’s much to learn from a visit to Staglin, beginning with the viticultural history of the property, which dates to 1864. Significant figures such as André Tchelistcheff and Beaulieu founder Georges de Latour have ties here, drawn to this place that clearly defines what makes the Rutherford Bench an amazing place to grow grapes. For more than 40 years, the Staglin family has been the caretaker, including piecing together parts of the property that had been separated from the original, such as the Steckter home, which is now their base for hospitality. The winery remains family run, with second-generation vintner Shannon Staglin at the helm.
+With more than 40 tasting spots to choose from, there is no
+shortage of wines to explore in downtown Napa. Hours and days open can vary, typically ramping up as the weekend approaches. Many accept walk-ins, but for the best experience we recommend secur
+ing an appointment. Tasting rooms are part of the hospitality industry, and tipping for excellent service (as you would in a restau rant) is always appreciated.
+Cadet Wine & Beer Bar 930 Franklin St. | cadetbar.com
+The vibe here is trendy and cool, a dark spot with loud music that speaks to a younger crowd. There’s an impressive selection of international wines and cocktails. Small bites include grilled cheese and a
+Back Room Wines
+1546 First St.
+backroomwines.com Bounty Hunter
+Wine Bar & Smokin’ BBQ
+975 First St.
+bountyhunterwinebar.
+com Compline Wine
+Shop/Compline Restaurant
+1300 First St., Suite 319 and Suite 312 complinewine.com Kerr Cellars
+1463 First St.
+kerrcellars.com Maison Fayard
+1408 Second St.
+maisonfayard.com No Love Lost
+Wine Co.
+chocolate panini with marshmallow whip. Gentleman Farmer Bungalow
+Cadet Hestan Napa
+960 Clinton St. nolovelost.wine Outer Space
+1564 First St. | gentlemanfarmerwines.com Owners Joey Wolosz and Jeff Durham’s Gentleman Farmer Bungalow is a welcome addition to the downtown Napa scene, offering an intimate experience. A renovated Craftsman home built in the 1920s has been reimagined into a cozy, homey spot where guests feel welcome to enjoy a glass, a bot tle, or take on a unique experience in which the owners prepare family recipes and share stories.
+1300 First St., Suite 291 | hestan.com/hestan-napa
+Stanley Cheng is both a vintner and a kitchen innovator, founder of Meyer Corporation, one of the largest cookware companies in the world. So it makes sense that when he and his wife, Helen, opened their downtown Napa spot (they have a tasting room in Yountville as well), the couple com bined their loves into a new concept: part restaurant, part cookware bou tique. Guests can enjoy the talents of chef Mark Dommen, formerly of One Market Restaurant, while admiring the showroom of products and appli ances and enjoying the lineup of wines.
+Mayacamas Downtown
+1256 First St. | mayacamas.
+com If you can’t make the jour ney to visit the remote Mayacamas estate on
+Mount Veeder, you can head to their chic down town tasting room to sam ple current releases or li
+brary vintages by the bottle or glass in a more accessible setting.
+Gentleman Farmer Wines
+974 Franklin St.
+outerspace.wine/ Robert Craig Winery
+1553 Second St.
+robertcraigwine.com Roots Run Deep Tasting Salon 1607 First St.
+rootsrundeep.com Vintner’s
+Collective 1245 Main St.
+vintnerscollective.com
 
 Where to Eat
 
-Rutherford Grill 1180 Rutherford Road | rutherfordgrill.com
-It would be easy to simply think of Rutherford Grill as the best place to pair expertly crafted barbeque with rich Napa Cabernets. But there’s so much more to enjoy, including deviled eggs, a generous iceberg wedge salad, oak-grilled salmon and iron skillet cornbread bites. The staff is friendly and the patio seating is popular when weather permits.
+Dining in downtown is diverse, from white tablecloth es tablishments to more casuals spots. Many restaurants
+offer seasonal specials that highlight locally grown and raised ingredients. You can easily find vegetarian, vegan and glu ten-free options. Wait staff are reliably ready with a wine rec ommendation. Restaurants also regularly welcome winemakers
+and wine collectors, but check ahead to confirm their corkage policies. Also check open hours: They can vary throughout the week and year; for example, many places are closed for lunch Tuesdays and Wednesdays.
 
-La Luna Market & Taqueria 1153 Rutherford Road | lalunamarket.com
+Restaurants
 
-The Restaurant at Auberge du Soleil 180 Rutherford Hill Road | auberge.com/auberge-du-soleil/dine
+Angèle Restaurant & Bar 540 Main St. | angelerestaurant.com
+Since it opened in 2002, Angéle has set the bar for food and wine in downtown
+Napa, with French countryside food meeting warm service in both a comfy
+interior and a big outdoor space (when the weather permits). Classic onion
+soup, tuna or beef tartare, escargot, beef bourguignon and croque monsieur
+are typically on the menu, as are hand made pastas, seasonal salads and the
+must-order flowerpot full of French fries.
+The wine list is thoughtful and mixes French sensibilities with local wines.
+Angèle Celadon
+Napa Valley Restaurant 500 Main St., Suite G celadonnapa.com
+Celadon has quietly and consistently been a go-to place for excellent food since 1996. The setting is in a relaxing garden courtyard and adjacent dining room, the menu a mix of California, Mediterranean and Asian influences. The dinner- and brunch-only menu features wine-friendly items like pork belly lettuce cups, Moroccan braised lamb shanks and the signature wild mushroom risotto.
+Con Amor 815 Main St.
+iloveconamor.com Con Amor is a fun new place showcasing top-notch Mexican dishes, including chile
+relleno, gorditas, mole chicken wings and birria, a
+Sunday special. The black matte walls, chandeliers and
+Dia de los Muertos vibe provide a charming setting. This
+is an excellent spot for in ventive mezcal and tequila
+based cocktails, like the La Teresota, with tequila, alma
+finca, lime and salt foam.
+Con Amor Azzuro Pizzeria E Enoteca
+1260 Main St.
+azzurropizzeria.com Charlie Palmer Steak
+1260 First St.
+charliepalmersteak.com Cole’s Chop House
+1122 Main St.
+coleschophouse.com Compline
+Restaurant 1300 First St., Suite 312 complinerestaurant. com
+Crocante Artisan Pizza 976 Pearl St.
+croccantepizza.com
+
+KenzoNapa 1339 Pearl St.
+kenzonapa.com Kitchen Door
+Napa Restaurant
+1300 First St., Suite 272 kitchendoornapa.com
+Los Agaves Napa
+660 Main St.
+losagavesnapa.com Morimoto Napa and Morimoto Asia
+610 Main St. and 790 The Dutch Door
+1245 First St.
+thedutchdoornapa.com Look for the Dutch door–a horizontally split door–on Randolph Street, around the corner from the First Street address. You’ll probably see plenty of people waiting to pick up their to-go only food. Fried chicken is the signature dish here, which can be served with either Cajun, Korean or Spanish spices, as either ten ders or in a sandwich. Vegetarian options are plentiful, with a made-from scratch plant burger created from quinoa, roasted mushrooms and pep pers, kale, black beans and chickpeas. There are also plant-based bowl options and a beef hot dog with caramelized
+Main St.
+morimotonapa.com Normandie
+Napa 670 Main St.
+normandienapa.com Osha Thai
+Restaurant & Bar 1142 Main St.
+oshathai.com/napa Oenotri
+1425 First St.
+oenotri.com Red Rock Cafe & Back Door BBQ
+1010 Lincoln Ave.
+backdoorbbq..com Slanted Door Napa
+1650 Soscol Ave.
+slanteddoor.com/napa Stateline Road Smokehouse 872 Vallejo St.
+stateline-road.com The Waterfront Seafood Grill 720 Main St.
+waterfrontseafoodgrill.. com Zuzu
+829 Main St.
+zuzunapa.com Dutch Door onions and crushed potato chips.
+La Toque (GA)
+1314 McKinstry St.
+latoque.com Located inside the Westin Verasa, chef
+Ken Frank’s space has helped define wine country cuisine, focusing on sea
+sonal and inventive food, including a vegetarian tasting menu in addition to a
+traditional omnivore tasting menu. But Frank is perhaps at his best when work
+ing with luxury ingredients; this year is the 44th edition of his “All Black Truffle
+Menu” with truffles slipped into every course. A Wine Spectator Grand Award
+winner since 2014, the wine list is one of the best in the area. This is truly a fine
+dining experience, but with plenty of warmth to the service.
+Scala Osteria & Bar 1141 First St.
+scalaosteria.com From the moment it opened, this off
+shoot of the popular Bistro Don Giovanni has been swarmed with locals
+and tourists alike, drawn to the south ern Italian coastal fare with Mediterra
+nean details, including pan-seared bran zino, petrale sole piccata and poached
+octopus salad. There are also wood fired pizzas, handmade pastas and a
+thin and crispy pork chop Milanese. The wine and cocktail list cater to the fresh
+fare on the menu.
+La Toque
+
+Torc Napa 1140 Main St.
+torcnapa.com Torc is one of those rare restaurants that can make delicious
+food in many directions, from a sweet potato pakora to black
+truffle grilled cheese to English pea risotto. The food is im
+mensely pairable with wine, and the staff can handily help
+you navigate a wine pairing, even with creative dishes like
+duck breast with blood orange, radish and Oaxacan bitter
+chocolate sauce. The service is friendly, the space is open and
+airy, with exposed stone walls and wood floors and a peek
+into the kitchen in the back.
+Torc
+Breakfast/Coffee/Sandwiches/Snacks Ohm Coffee
+There are plenty of places to fuel up before a full day of exploration in Napa; whether that means quality coffee, breakfast, provisions or grab-and go (and some offering all of the above). Here are some local favorites.
+Contimo Provisions 950 Randolph St. | contimonapa..com
+Fresh-baked biscuits, homemade pimento cheese, luxurious sandwiches and gourmet pantry items are all on offer at this bright and cheerful spot.
+Genova Delicatessen 550 Trancas St. | genovadelinapa.com
+Sandwiches here are generous, many with an Italian spin, and there is both a hot and cold selection of deli salads. Imported Italian goods are also sold, as are homemade ravioli and sauces, soups and meatballs. Before anyone reminds you, take the cannoli.
+Grace’s Table 1400 Second St. | gracestable.net
+Grace’s Table is open all day serving international bistro food, but the iron skillet cornbread served with lavender honey butter, the shrimp and grits,
+the chilaquiles and cinnamon rolls make it ideal for breakfast or brunch.
+Le Paris Artisan and Cafe 828 Brown St. | lepariscafe.com
+Not only does the pastry selection include cropuffs, sticky buns and crème brûlée brioche, there are also wonderful savory options, like a fresh-baked croissant with smoked salmon, scram bled eggs and crème fraîche. If the purple ube or decadent tres leches offerings catch your eye, you should absolutely try them.
+Moulin Bakery 1321 First St. | moulinbakerycoffee.com It might be hidden in an alley behind First Street, but once you find Moulin it will no doubt be full of patrons spilling onto the few outdoor tables. Expertly made coffees and French-style pastries are here, including the most crunchy, delicate viennoi series imaginable.
+Naysayer Coffee 1813 Old Sonoma Road | naysayercoffee.com Located in Food City, Naysayer has some of the best coffee in town, with some of the friendliest service. Seasonal beverages are inspired, like an horchata latte or spiced chamomile latte, and small bites are precise and fresh. A second loca tion recently opened up north of downtown.
+1412 Second St. | ohmcoffee.com The “ohm” here refers to the musical term for the measure of electrical resistance in an amplifier, and founder Derek Bromley names his roasts after guitar amplifiers. Bromley is not only a rock gui tarist, he also worked in the wine industry and ap plies both of these approaches to his coffee, featuring single-origin roasts in a rock ‘n’ roll setting. A second location near the Rail Arts District is the coffee roastery and lab, where classes in cupping, latte art and brewing methods are taught.
+Winston’s Cafe and Bakery 1517 Third St. | winstonsnapa.com
+This bright and airy café is known for generous plates of breakfast and lunch and an eye-popping assortment of baked goods, donuts and pastries. It can be busy, but orders move quickly.
+Ohm Coffee
+
+The Oxbow Market As far as culinary destinations go,
+this public market is a wonderful gathering place for foodies and wine lovers, with multiple vendors in one location. There are shops for ingredients and specialty items, as well as some very tasty restaurants.
+Ritual Coffee Roaster has been an an chor since the market opened in 2007, one of the best places for a cup of coffee or tea in the area. Hog Island Oyster Company is also a mainstay, with fresh and grilled oysters, po’ boy sandwiches and more.
+Don’t be dismayed by the line outside Gott’s Roadside—it moves quickly and the food comes out promptly, including thick shakes, gourmet burgers, fish tacos, sweet potato fries and inventive salads. Loveski brings pastrami sandwiches, potato latkes, matzoh ball soup and bagels to Napa from chefs Christopher and Martina Kostow. Live Fire Pizza specializes in wood-fired pies and small bites.
+For international flavors, El Porteno features empanadas both sweet and sa vory, while Moro showcases Moroccan flavored mains on flatbreads, salads or
+
+couscous, tasty and fresh. Sumo Dog takes hot dogs and puts a Japanese twist on them, with ingredients like wasabi relish, tonkatsu sauce and furikake. Rotation is the newest addition, with a rotation of chef residencies, including Martin Yan and Tristan Epps.
+Bar Lucia is a wine bar with small bites, adjacent to the decadent Kara’s Cupcakes. For the sweet tooth, there’s also lo cal chocolatier Annette’s Chocolates. Fieldwork taproom has 20 beers on tap and Detroit-style pizza. The Walt tasting room is located across the street.
+Gott’s Hudson Greens & Goods blends a juice bar with fresh produce and curated pantry goods. Fatted Calf Charcuterie has some of the best high-end butcher and charcuterie items, as well as terrific sandwiches such as a savory porchetta and house-smoked ham with black truffle but ter. Whole Spice will inspire your next cooking adventure, as well as give you a place to test your smell memories. And Model Bakery has Oprah’s favorite English muffins, fresh-baked breads and plenty of sandwiches, wraps, cookies and pastries.
 
 Where to Stay
 
-Rancho Caymus Inn 1140 Rutherford Road | ranchocaymusinn.com
-Recently renovated, this inn has plenty of personality. It was originally designed and built by the Morton Salt heiress Mary Tilden Morton, who leaned into Spanish-hacienda architecture with 19th-century barn wood beams and wrought iron details. Today, it’s the Goldilocks of Napa Valley hotels; it has quiet vibes in the tiny town of Rutherford, but also is conveniently located halfway up the valley and close to much of the vineyard action. Rooms are air-conditioned and feature fireplaces and private balconies or patios.
+Day trips from population centers such as Sacramento
+and San Francisco are popular, but a for a deeper dive into wine country pleasures, most visitors plan a longer stay. The city (pop. 76,000) provides myriad accommodations,
+Napa River Inn 500 Main St. | napariverinn.com
+Located at the historic Napa mill and right on the Napa River, this hotel, which
+dates to the 1880s, is perfectly situated within walking distance of most of the
+best restaurants and tasting rooms downtown, making it an ideal location
+as a vacation home base.
+Westin Verasa 1314 McKinstry St.
+marriott.com/en-us/hotels/sfonw-the westin-verasa-napa/overview/ [FIX]
+Westin was the first luxury hotel in downtown Napa, opening in 2008. Its
+convenient location in the Oxbow District[CK] is walking distance from the
+Oxbow Market and Napa Wine Train, and it’s a short walk across the Napa
+River to access the rest of downtown.
+Chef Ken Frank oversees the restaurants here, including Wine Spectator Grand
+Award-winning La Toque and the more casual—yet still elevated—Bank Café and
+Bar in the lobby.
+including roughly 2,800 hotel rooms (not including projects in development), ranging from expansive resorts to more intimate experiences.
+Napa River Inn Andaz Napa, by
+Hyatt 1450 First St.
+hyatt.com/andaz/en US/apcrn-andaz-napa
+[FIX] Archer Hotel
+Napa 1230 First St.
+archerhotel.com/napa Hotel Napa
+Valley 1556 Polk St.
+hotelnapavalley.com Westin Verasa
 
-Auberge du Soleil 180 Rutherford Hill Road | auberge.com/auberge-du-soleil`,
+DOWNTOWN NAPA Culture & Cocktails Downtown Napa has plenty of
+shopping and non-wine related activities to add to the mix. Busi
+ness hours can vary by venue and season, so be sure to check the most recent infor
+mation before heading out.
+The Arbaretum 1149 First St. | napadistillery.comthe-arbaretum
+This local distillery makes quality brandy, gin,
+whiskey and bottled cocktails such as mint julep,
+brown derby and the sidecar. This art deco-inspired spot fills up with people tasting inventive
+cocktails and snacking on small bites like deviled
+eggs and muffaletta pizza.
+Bougie Napa Luxury Candles 1300 First St., Suite 332. | bougienapa.com
+There are dozens of lovely hand-poured candles to purchase at Bougie, but consider one of the can
+dle-making classes to sharpen your senses. During the class, the math and chemistry behind a perfect
+burn are discussed, and you can design a signa ture scent.
+Jeffries Chispa Bar
+1500 First St., Suite 140. | chispabar.com Tastebuds come alive at this hybrid tequila and agave-centric cocktail bar meets swank restau rant. Bites include crudo, tacos, caviar, a spicy oc topus dish with sautéed peanuts, pasilla peppers and pickled garlic, and plenty of sandwiches and salads. Cocktails include clever concoctions like the Oaxacan old fashioned, with reposado mezcal, toasted agave, mole and orange bitters, or Peat & Repeat, a mix of Laphroaig Scotch, mezcal, agave, lemon, lime and yuzu.
+Marquee Pinball CIA at Copia
+500 First St.. | ciaatcopia.com The calendar at the CIA at Copia is full of wine and food-events, single-day classes, family friendly movies and cooking boot camps that fo cus on different parts of the world. From learning to make pasta at home, scavenger hunts and BBQ training, there’s plenty to add to your itinerary. An on-site restaurant called The Grove offers an avo cado toast brunch experience most weekends.
+Crafted Napa Valley 1300 Third St., Suite 301. | craftednapavalley.com Shop for locally made bath and body products, jewelry, seasonings, candles and snacks in this charming gallery.
+Folklore 1226 Third St.. | folklore-napa.com
+A combination record store, wine and cocktail bar, restaurant and radio station, Folklore is located in a semi-industrial, funky and chill spot with plenty of personality.
+Jeffries General Store 1416 Second St.. | Instagram only
+This delightful store is teeming with amazing and eclectic gifts, including stationary, pottery, spa products, tea towels, snacks and art. But it’s also a useful store for forgotten travel necessities (espe cially without a grocery store or drugstore located downtown).
+Marquee Pinball Lounge 1311 First St.. | marqueepinball.com
+If you’re someone that needs to level up, this pin ball and classic video game spot is flipping awe some, a welcome new spot in downtown Napa. Marquee currently serves beer, with wine and ci der offerings coming soon.
+
+Mommenpop Tasting Room 920 Franklin St.. | mommenpop.compages/
+tasting-room This cheerful, aperitif tasting room showcases
+the citrus-based Mommenpop drinks created by winemaker Samantha Sheehan. The blood or
+ange is made from an organically grown Barbera rosé with blood oranges and botanicals.
+There is also Seville orange, ruby grapefruit, and
+a lime-pop made from a base of Chardonnay with Makrut and Bearss limes, long pepper,
+toasted fig leaves, orris root and vanilla bean.
+Rail Arts District Start at 816 Vallejo St.. | radnapa.org
+Consider this stretch a sort of contemporary open-air gallery, with public art installations
+along a paved walking and biking trail. Eleven murals, wrapped switchboxes and 21 clay sculp
+tures have turned a semi-industrial area into a colorful patch.
+Rancho Gordo 1350 Main St.. | ranchogordo.com
+Steve Sando changed the way we talk about beans when in 2001 he founded Rancho Gordo,
+a company focused on cultivating and selling rare, indigenous heirloom bean varieties. The
+beans have since become the ultimate designer ingredient, and the Rancho Gordo Bean Club has a waiting list thousands long. This new loca
+tion for a retail shop is an expanded, bright and colorful place to shop for beans, spices and cookbooks for the legume lovers in your life.
+Tonewood & Courage 1300 First St., Suite 212. | tonewoodandcourage.
+com Musicians will find themselves at home in this
+part music store, part gathering place. High-end guitar and bass brands are sold, as well as hand
+built instruments by local artisans. In the eve nings, it becomes an intimate music venue for
+musicians in a variety of genres.
+Wilfred’s Lounge 967 First St.. | wilfredslounge.com
+A tiki bar in Napa that pulls no punches with the
+Polynesian stylings or flavors, Wilfred’s is a place to get your fix of kalua pork, chicken katsu
+or spam fries (panko-crusted fried spam served with a mango habanero sauce), along with mai tais and other colorful and tasty cocktails.
+Rancho Gordo
+
+DOWNTOWN NAPA Beyond City Limits One of the most appealing aspects of using downtown
+Napa as a travel base is its proximity to the wine regions that surround the town. Just a few miles east is Coombsville. Head a few miles in the opposite direction and
+you’ll arrive either[UNCLEAR] in the windswept Carneros region of Napa Valley or in the rustic hills of Mt. Veeder. Coombsville is mostly a residential area, but there are vine
+yards tucked into valleys and rolling hills leading east up to Mt. George. Carneros, which straddles Napa and Sonoma counties, is known for its cool climate and proximity to the San Pablo Bay, with plenty of vineyards to drive through. Mt. Veeder is marked by rugged, windy[WINDING?] roads; vineyards here are hard to see from the road through the trees clinging to the eastern face of the Mayacamas mountain range.
+Etude
+
+Where to Taste
+
+Artesa Vineyards & Winery
+(Carneros)
+1345 Henry Road artesawinery.com
+Bouchaine Vineyards
+(Carneros)
+1075 Buchli Station Road bouchaine.com
+Cuvaison Winery /
+Brandlin Estate (Carneros)
+1221 Duhig Road cuvaison.com
+Domaine Carneros
+(Carneros)
+1240 Duhig Road domainecarneros.com
+Frias Family Vineyards (North Napa) 1886 El Centro Ave. friasfamilyvineyard.com
+HdV Wines (North Napa) 588 Trancas St.
+www.hdvwines.com Hess Persson Estates (Mt. Veeder)
+4411 Redwood Road hessperssonestates. com Hyde Vineyards (Carneros)
+1044 Los Carneros Ave. hydevineyards.com Kenzo Estate (Coombsville) 3200 Monticello Road
+Etude Winery (Carneros)
+1250 Cuttings Wharf Road | etudewines.com Etude’s tasting room, in a stone building and former distillery, provides an inviting, relaxed backdrop to focus on Etude’s wines, especially the single-vineyard expressions of Pinot Noir and Cabernet Sauvignon. There are multiple ways to enjoy a tasting, including a seated experience or simply wandering around the grounds.
+Favia Wines (Coombsville)
+2031 Coombsville Road | faviawines.com The ultimate intimate experience, a visit here is a visit to the home
+stead of vintners Annie Favia and Andy Erickson. Private tastings take
+place in a cabin that doubles as the winery’s tasting lab and include an
+overview of the historic former Antonio Carbone Wine Cellar and Ital
+ian Garden, which dates to the 1870s. Historic artifacts and documents
+are on display, but are overshadowed by the spectacular wines.
+Hudson Ranch (Carneros)
+5398 Sonoma Highway | hudsonranch.com Hudson is a magical spot, with landscaping of unusual succulents and
+a flower, fruit and vegetable garden with life-size[UNCLEAR] gourds
+that offer a touch of Willy Wonka. The meticulous vineyards are sur
+rounded by rugged oaks, with stunning views and plenty of wildlife–
+Farella Vineyard (Coombsville) 2222 N. 3rd Ave.
+farella.com kenzoestate.com
+Mayacamas Estate (Mt. Veeder)
+1155 Lokoya Road mayacamas.com the ranch covers 2,000 acres. In addition to enjoying the impressive estate-grown wines, ask about picnics and hikes around the property.
+
+Hudson Ranch
+
+Where to Eat
+
+Bistro Don Giovanni (North Napa)
+4110 Howard Lane | bistrodongiovanni.com An institution in Napa, Bistro Don Giovanni has been
+serving exceptional rustic Italian cuisine to vintners and
+tourists since 1993. A large, covered patio and garden
+setting make it one of the most romantic spots around,
+especially on a summer night. But the food is top-notch year-round, including handmade pastas, fried anchovy–
+stuffed olives, wood-fired pizzas, veal parmigiana and
+Mamma Concetta’s meatballs, served on soft polenta.
+Carabao (South Napa)
+145 C Gasser Drive | carabaonapa.com Carabao is the hot new eatery in town, serving high-end and inventive Filipino cuisine in an intimate, friendly
+space. Chef Jade Cunningham takes the high-end tech
+niques she learned at stints at The French Laundry and
+Meadowood and applies them to Filipino dishes like pork lumpia and Kare Kare stew with oxtail croquette, tripe
+and a coconut peanut sauce. There is also plenty of cre
+ativity on the menu, from the deviled egg adobo and
+crispy pork sisig tacos served with a sunny side up quail egg. The wine list is compact but put together with
+plenty of thought to pairing with the cuisine, featuring
+plenty of German Rieslings and other aromatic white
+wines from around the world.
+Farm Restaurant & Bar (Carneros)
+Inside Carneros Resort 4048 Sonoma Highway carnerosresort.com Foodshed (North
+Napa)
+3385 Old California Way Carabao foodshedpizza.com
+
+Where to Stay
+
+Carneros Resort Bear (Carneros) 200 Stanly Crossroad auberge.com/stanly-ranch/ dine/bear
+Boon Fly Cafe 4048 Sonoma Highway boonflycafe.com
+(Carneros)
+4048 Sonoma Highway carnerosresort.com Casa Mani
+Resort Napa Valley (North Napa)
+1075 California Blvd. hilton.com/en/hotels/ napvpqq-casa-mani resort-napa-valley
+Napa Valley Marriott Hotel & Spa (North
+Napa)
+3425 Solano Ave.
+marriott.com The Meritage Resort & Spa (South Napa) 875 Bordeaux Way
+meritageresort.com Milliken Creek Inn(North
+Napa)
+1815 Silverado Trail millikencreekinn.com Napa Winery Inn (North
+Napa)
+1998 Trower Ave. napawineryinn.com Senza Hotel (North Napa) 4066 Howard Lane senzahotel.com
+Silverado Country Club (North Napa) 1600 Atlas Peak Road silveradoresort.com
+Stanly Ranch, Auberge Collection
+(Carneros)
+200 Stanly Crossroad auberge.com/ stanly-ranch`,
     adventure: {
-      title: 'The Sauvignon Blanc Discovery Tour',
-      intro: `Napa may be Cabernet country, but many of its red wine specialists also craft exceptional Sauvignon Blancs. White wine lovers have plenty to celebrate with these refreshing, expressive wines.`,
-      body: `THE SAUVIGNON BLANC DISCOVERY TOUR Napa may be Cabernet country, but many
-of its red wine specialists also craft exceptional Sauvignon Blancs (not to
-mention that Sauvignon Blanc is one of Cabernet Sauvignon’s parents, along with Cabernet
-Franc). White wine lovers have plenty to cele brate with these refreshing, expressive wines.
-Several standout producers lie close to one another, making it easy to explore. Start at Groth
-in Oakville and choose a tasting that features the
-estate Sauvignon Blanc. The experience highlights how Napa has transformed Sauvignon
-Blanc from an afterthought into a deliberate, dy namic category. In the 1990s, the Groth family—
-now in its second generation in wine—recog nized that certain clay-heavy vineyard blocks planted to Cabernet suited white varieties better. They began replanting, helping to usher in a new era for the grape. The estate Sauvignon Blanc, first released with the 2019 vintage, ex
-shoot St Supery emplifies that vision.
-St Supery Grgich Hills
-Just 3 miles away, Rutherford’s St. Supéry welcomes guests with one of the valley’s most approachable tasting experiences. The winery farms its Sauvignon Blanc at Dollarhide Ranch in Pope Valley, east of Napa, and has championed distinctive ex
-pressions of the grape since the 1980s. Today, it remains a category leader. Several tasting flights spotlight Sauvignon Blanc, including the “White Wine Discovery,” which demonstrates how fermentation vessels from stainless steel to French oak bar rels and concrete fermentors shape the wine’s texture and style.
-In season, try St. Supéry’s Mustard Season Tasting Flight. The winery pairs red and white wines with artisan pretzels, Journeyman sausages and house-made savory mustards. You can also opt for a white wine and caviar pairing to explore how Sauvignon Blanc and Sémillon complement the delicacy.
-When hunger strikes, head down Highway 29 to Mustards Grill. The ever-popular seafood tostada changes daily but typically arrives on a large, crisp tortilla layered with black beans, cabbage-jicama slaw and avocado, and then finished with chipotle aioli and cotija cheese. It pairs beautifully with a glass of crisp white wine.
-Finish your Sauvignon Blanc tour at Grgich Hills Estate. This historic family-run winery continues to earn attention for its role in the Judgment of Paris anniversary, but its Sauvignon Blancs deserve equal acclaim. The wines show aromatic inten
-sity, floral lift and distinctive character, with select bottlings available only at the winery. Choose a tasting flight that includes them, or order a glass—or bottle—and enjoy it in the garden.`,
+      title: 'The Carneros Adventure',
+      intro: `Head south from downtown into Carneros, where the cool influence of San Pablo Bay shapes an entirely different style of wine.`,
+      body: `THE WIND IN YOUR HAIR TOUR Several places around Napa feel
+completely distinct from the rest of the valley. Carneros stands out
+with its own microclimate, aromas, ambience and energy.
+Driving through Carneros typically means traveling east to west, rather
+than following Napa Valley’s usual north-to-south route. Rolling hills de
+fine the landscape more than valley floors or rugged mountains. Curving
+roads invite leisurely drives, and on clear days you can glimpse San Pablo
+Bay to the south. Because the region sits so close to the bay, ocean winds
+sweep through Carneros, especially during the summer. Towering eucalyp
+tus trees serve as windbreaks and re lease a camphorlike fragrance into the
+air.
+Start a day exploring the Napa side of Carneros (the region also stretches west into Sonoma) with donuts—spe
+Domaine Carneros cifically, the famous ones at Boon Fly Café. Located at Carneros Resort and Spa, the bright red, barn-style restaurant welcomes guests through a separate entrance off Sonoma Highway. You might order the chicken and waffles, Dungeness crab Benedict
+Bouchaine or corned beef hash, but save room for the donuts—they make the perfect sweet finish to breakfast.
+Next, driveless than 10 minutes to Bouchaine Winery. On a clear day the property offers sweeping bay views. The wines are precise and aromatic, and the winery hosts dynamic
+educational programs. On Friday mornings, the Falconry in the Garden experience truly stands out. A master falconer introduces guests to raptors—perhaps a hawk, owl or falcon—and explains how these birds partner with vineyard teams, how they hunt and how they see. You can even pose for a photo with the birds, all while enjoying a glass of wine.
+Just five minutes away, Domaine Carneros rises from a hilltop like a fairy-tale château. Climbing the romantic, grand staircase offers countless photo opportunities. Domaine Carneros has built its reputation on exceptional sparkling wines and a wide range of tasting experiences. Two stand out in particular. The Art of Sabrage teaches guests to open a bottle of spar
+kling wine with a sword, a tradition that dates to Na poleon’s era. Equally memorable is the Ultimate Caviar Experience, where sparkling wines pair with an as sortment of Tsar Nicoulai Caviar served alongside gourmet potato chips, toast points, and crème fraîche.`,
     },
     soilNote:
-      'The Rutherford Bench: silty loam and volcanic alluvium with exceptional water retention. The distinctive "Rutherford dust" is credited with a unique earthy quality in the wines.',
-    bestFor: ['Classic Cabernet', 'Historic estates', 'Sauvignon Blanc'],
-    winerySlugs: ['bella-union', 'inglenook', 'quintessa', 'staglin-family-vineyard', 'cathiard-family-estate'],
-    restaurantSlugs: ['rutherford-grill', 'la-luna-market-taqueria'],
-    hotelSlugs: ['rancho-caymus-inn', 'auberge-du-soleil'],
-    articleSlug: 'napa-rutherford',
-    mapCenter: [-122.4289, 38.459],
-    mapZoom: 13,
-    neighborRegions: ['oakville', 'calistoga', 'pritchard-hill', 'st-helena'],
+      'Urban riverfront; Carneros to the south offers fog-cooled clay-loam soils ideal for Pinot and Chardonnay.',
+    bestFor: ['Dining', 'Oxbow Market', 'Tasting rooms', 'Carneros day trips'],
+    winerySlugs: [],
+    restaurantSlugs: [],
+    hotelSlugs: [],
+    articleSlug: 'napa-downtown',
+    mapCenter: [-122.2823, 38.2989],
+    mapZoom: 14,
+    neighborRegions: ['yountville', 'beyond-napa'],
+  },
+  {
+    slug: 'beyond-napa',
+    name: 'Beyond Napa',
+    tagline: 'Coombsville · Carneros · Mt. Veeder · North Napa',
+    author: 'MaryAnn Worobiec',
+    issue: 'June 15 & 30, 2026',
+    heroImage: '/images/beyond-napa/hero/beyond-napa-hero-landscape.jpg',
+    accentColor: '#1A2E24',
+    pullQuote: `One of the most appealing aspects of using downtown Napa as a travel base is its proximity to the wine regions that surround the town.`,
+    intro: `Just a few miles east is Coombsville. Head the opposite direction and you'll arrive in the windswept Carneros region, or in the rustic hills of Mt. Veeder — the valley's outer edges, ripe for a day trip.`,
+    body: `Beyond City Limits — Coombsville, Carneros, Mt. Veeder and North Napa form a ring of sub-appellations around downtown. Cool bay fog shapes Carneros Pinot and sparkling wine; Coombsville tucks vineyards into residential valleys; Mt. Veeder climbs the Mayacamas with hard-to-spot hillside plantings.`,
+    adventure: {
+      title: 'The Wind in Your Hair Tour',
+      intro: `Carneros stands out with its own microclimate, aromas and energy — rolling hills, bay breezes and eucalyptus windbreaks define the landscape.`,
+      body: `Start with donuts at Boon Fly Café, then Bouchaine for bay views and falconry, and finish at Domaine Carneros for sparkling wine, sabrage and caviar.`,
+    },
+    soilNote:
+      'Carneros clay-loam cooled by San Pablo Bay fog; Coombsville volcanic and alluvial pockets; Mt. Veeder thin mountain soils on the Mayacamas.',
+    bestFor: ['Carneros day trips', 'Pinot & sparkling', 'Resort bases', 'Coombsville'],
+    winerySlugs: [],
+    restaurantSlugs: [],
+    hotelSlugs: [],
+    articleSlug: 'napa-beyond',
+    mapCenter: [-122.35, 38.28],
+    mapZoom: 10.5,
+    neighborRegions: ['downtown-napa', 'yountville'],
   },
   {
     slug: 'yountville',
@@ -482,6 +719,233 @@ tasting to sample library vintages, a must Mayacamas try from this historic esta
     mapCenter: [-122.3621, 38.4045],
     mapZoom: 14,
     neighborRegions: ['oakville', 'downtown-napa', 'st-helena'],
+  },
+  {
+    slug: 'oakville',
+    name: 'Oakville',
+    tagline: 'The Spirit of Cabernet',
+    author: 'MaryAnn Worobiec',
+    issue: 'June 15 & 30, 2026',
+    heroImage: '/images/oakville/hero/oakville-hero-landscape.jpg',
+    accentColor: '#1C2E12',
+    pullQuote:
+      'The Oakville AVA is sacred ground for Cabernet Sauvignon. Its vineyards are considered the filet mignon of the valley because of how the grape performs in the terroir.',
+    intro: `Located between Yountville and Rutherford as you head north, Oakville can appear to visitors as little more than a blip, with the famed Oakville Grocery serving as its spiritual center. Yet Oakville boasts the highest concentration of benchmark estates in Napa Valley—Harlan Estate, Robert Mondavi, Opus One, Silver Oak, Far Niente and Heitz Cellar to name a few. It is also home to two of California's most renowned vineyards, To Kalon and Martha's.`,
+    body: `The Oakville AVA is sacred ground for Cabernet Sauvignon. Its vineyards are considered the filet mignon of the valley because of how the grape performs in the terroir. Oakville Cabernets are beloved for their richness and density of fruit, savory and earth elements combined with their reputation as being among the most ageworthy in Napa Valley.
+
+Located between Yountville and Rutherford as you head north, Oakville can appear to visitors as little more than a blip, with the famed Oakville Grocery serving as its spiritual center. Yet Oakville boasts the highest concentration of benchmark estates in Napa Valley—Harlan Estate, Robert Mondavi, Opus One, Silver Oak, Far Niente and Heitz Cellar to name a few. It is also home to two of California’s most renowned vineyards, To Kalon and Martha’s.
+
+The Oakville Grocery dates to 1881 and is one the longest continuously operating grocery stores in California. It remains both a must-stop for tourists and a convenient pit stop along Highway 29 for the locals. Visitors can refuel with excellent coffee, pastries and high-quality picnic provisions, including hearty sandwiches and a curated selection of gourmet pantry goods. On sunny days, guests enjoy wood-fired pizzas on the patio. The shop also offers an excellent selection of gifts for food lovers.
+
+Grapegrowing in Oakville began with H.W. Crabb, an Ohio native who came to California in search of gold. Crabb purchased 240 acres in what is now Oakville in 1868. He built a railroad depot and initially planted table and raisin grapes. In 1872, Crabb established a vineyard and winery he named To Kalon, Greek for “highest beauty.” At the time, it was one of the largest vineyards in the region, producing about 5,500 cases of wine annually.
+
+Since Crabb’s death, vintners have debated the vineyard’s legacy. Subsequent owners divided and sold the land. In 1966, vintner Robert Mondavi built his winery on part of the To Kalon property, helping to launch Napa’s modern wine era. Along the way, Mondavi was granted trademarks in 1988 and 1994, now owned by Constellation Brands following their purchase of the Mondavi winery in 2004. Other vintners argue that they have the right to use the name because they farm portions of the original estate; grower Andy Beckstoffer was able to secure naming rights for his portion. The dispute continues and has grown bitter at times, a testament to To Kalon’s enduring significance.
+
+Driving through Oakville offers one of the best ways to understand the “valley.” The AVA covers ground from the foothills of the Vaca mountain range’s volcanic soils on its eastern flank to the Mayacamas’ alluvial soils on its western edge, with each side offering distinct characteristics in their wines.
+
+Where to Taste
+
+Cardinale Winery 7600 St. Helena Highway | cardinale.com
+It’s a short drive off of Highway 29 up to the beautiful stone building where Car
+dinale hosts its tastings, but it feels like a world away from the traffic and bustle
+of the valley floor. Panoramic views are highlighted by a recent upgrade, with
+more outdoor options, comfortable seating and stylish designs. Tasting ex
+periences of Christopher Carpenter’s Bordeaux-style wines include culinary
+options and library vintages.
+Cardinale Far Niente Winery /
+Bella Union Winery 1350 Acacia Drive | far niente.com
+Gil and Beth Nickel opened Far Niente in 1979, and the 19th-century stone winery and surrounding fairy tale-esque gardens are definitely worth a visit to experience the environs, fine wines and a chance to try their late-harvest Dolce.
+We also recommend taking a short drive north to check out the latest tasting room in the winery’s portfolio, Bella Union (which is technically in Rutherford), founded in 2012 as a way to celebrate regional blend expressions of Napa wine. The former Provenance tasting room was recently remodeled for Bella Union, and embraces the La Belle Époque era with more modern designs, many tasting opportunities and stunning views.
+Nickel & Nickel 8164 St. Helena Highway | farniente.com/
+wineries/nickel-and-nickel A distinctive white estate fence outlines
+this picturesque estate, which includes an 1884 Victorian farmhouse, barn-style
+winery and horse stables. The wines are also distinctive; winemaker Joe Harden
+dives into single-vineyard expressions of Napa Cabernet Sauvignon through a va
+riety of methods that make an excellent case for terroir.
+Rudd Estate / Crossroads House
+500 Oakville Cross Road | ruddwines.com Rudd Estate is among the most scenic
+wineries in Napa, with a wonderful garden and scraggly oak trees creating a
+serene setting. It’s also among one of the few second-generation, family
+owned properties you can visit. While visiting Rudd to taste their wines is an
+excellent idea, the Crossroads House is also on the property, where their second
+label of the same name is served with various offerings from caviar to picnic
+B Cellars Winery
+703 Oakville Cross Road bcellars.com
+Groth Vineyards & Winery
+750 Oakville Cross Road grothwines.com
+Miner Family Winery 7850 Silverado Trail minerwines.com
+Opus One 1144 Oakville Cross Road opusonewinery.com PlumpJack Estate Winery 620 Oakville Cross Road
+plumpjackwinery.com Promontory Wine
+1601 Oakville Grade promontory.wine Rudd lunches curated by nearby Under-Study.
+
+7377 St. Helena Highway | brix.com
+
+Where to Eat
+
+Brix represents farm-to-table cuisine, but in this case the restaurant is located amid the farm. Part of an exquisite 16-acre estate, there are raised beds of vegetables and herbs, a fruit and citrus orchard and a vineyard where the Kelleher family– owners of Brix and their own namesake winery–grow grapes. Seasonal offerings might include pappardelle with bone mar row, black pepper and Parmigiano-Reggiano, or their fried
+chicken, which is served with a cheddar biscuit, mashed pota toes and gravy. Further comfort food items, like “Arnold Palm er’s Meatloaf” are perfectly prepared, as is a Dungeness crab tagliatelle with crispy prosciutto and sea urchin butter.
+Mustards Grill 7399 St. Helena Highway | mustardsgrill.com
+“Sorry, everything is delicious,” you’ll see on the signage for Mustard’s Grill, a dreamy restaurant that is always buzzing with excitement and dishing up hearty American fare as imag ined by chef-owner Cindy Pawlcyn. Since 1983, Pawlcyn has helped define wine country cuisine–seasonal, fresh, comforting and approachable, and of course, a terrific match for wine. The delicate onion rings are a must-order, as is the Mongolian pork chop with sweet-n-sour red cabbage and house-made mustard. The kitchen does lighter fare with plenty of precision, including the daily tostada and Hunan grilled chicken salad.
+Oakville Grocery Mustards shooting Mustards
+Breakfast/ Coffee/
+Sandwiches/ Snacks
+Oakville Grocery 7856 St. Helena Highway | oakville
+grocery.com Do stop by the iconic Oakville Grocery, if only to stretch your legs and wander among the crowded shelves
+packed with gourmet pantry ingredients and snacks that make excellent
+gifts. Coffee, pastries, cookies and picnic provisions are all here, as well
+as gourmet salads and large, shareable sandwiches, like the “Wagon
+Wheel” sandwich with Fra’mani rosemary ham, Cowgirl Creamery Wagon
+Wheel Cheese and Dijonnaise.
+Wood-fired pizzas, served on the patio, are also top notch.`,
+    adventure: {
+      title: 'The Everything Old Is New Again Tour',
+      intro: `Two of the most anticipated re-openings this year are the Robert Mondavi Winery and Beaulieu Vineyard. Both are scheduled to open soon; RMW in May and BV by July.`,
+      body: `THE EVERYTHING OLD IS NEW AGAIN TOUR Two of the most anticipated re-openings this year are the
+Robert Mondavi Winery and Beaulieu Vineyard. Both are scheduled to open soon; RMW in May and BV by July, and they are offering reservations as of press time. When historic wineries reinvent themselves they reflect broader shifts across Napa Valley. As a new generation of owners and wine lovers shapes the region’s future, Napa continues to ask: How do you honor a storied past while embracing what comes next?
+At RMW, the renovation preserves the iconic 1966 Cliff May design, including the signature arch and tower that echo California’s Spanish missions. The team has added new structures on either side, including a hospitality wing wrapped in glass walls that bring guests visually closer to the vineyards. Designers lined the ceiling with oak staves salvaged from old fermentation vats—wine stains and all—adding texture and authenticity to the modern space.
+Five minutes down the road, BV has also chosen restoration over replacement. The team reinforced the original stone walls instead of rebuilding them and repurposed redwood from old tanks to clad the ceilings, even preserving boards marked with handwritten notes. During construction, the winery recycled 98% of its materials. The redesigned space blends contemporary
+elements and natural light with the historic stone facade, creating a seamless indoor-outdoor flow. Historical artifacts are on display Throughout the property, including founder Georges de
+Latour’s refurbished Cadillac near the entrance. Expect heavier traffic as wine lovers line up to experience the results of these years-long renovations. As with any highly anticipated restaurant debut, allow a little time for staff to settle into the new spaces and refine service. Even so, both re-openings promise to reward the wait.`,
+    },
+    soilNote:
+      'Gravelly Bale loam and volcanic alluvium. Excellent drainage forces deep root systems, concentrating flavor while naturally limiting yields.',
+    bestFor: ['Cabernet Sauvignon', 'Cult wines', 'Historic estates', 'To Kalon'],
+    winerySlugs: ['far-niente', 'nickel-and-nickel', 'cardinale', 'rudd-estate', 'opus-one'],
+    restaurantSlugs: ['brix', 'mustards-grill'],
+    hotelSlugs: [],
+    articleSlug: 'napa-oakville',
+    mapCenter: [-122.4089, 38.4298],
+    mapZoom: 13,
+    neighborRegions: ['rutherford', 'yountville', 'st-helena'],
+  },
+  {
+    slug: 'rutherford',
+    name: 'Rutherford',
+    tagline: 'Storied Vineyards',
+    author: 'MaryAnn Worobiec',
+    issue: 'June 15 & 30, 2026',
+    heroImage: '/images/rutherford/hero/rutherford-hero-landscape.jpg',
+    accentColor: '#2E1A0A',
+    pullQuote: `Tchelistcheff coined the term "Rutherford Dust," in reference to dusty, powdery alluvial soils on the west side, and the distinct subtle grain and minerality they imbue in the AVA's Cabernets.`,
+    intro: `When it comes to grapevines, Rutherford is one of Napa Valley's big names. But as far as towns go, Rutherford is a blink-and-you'll-miss-it spot along Highway 29 about halfway up the valley. As you drive past a former railroad station you might catch the smoky aromas of expertly grilled food at Rutherford Grill without realizing you've just passed through the heart of a town with a population of only about 100.`,
+    body: `When it comes to grapevines, Rutherford is one of Napa Valley’s big names. But as far as towns go, Rutherford is a blink-and-you’ll-miss-it spot along Highway 29 about halfway up the valley. As you drive past a former railroad station you might catch the smoky aromas of expertly grilled food at Rutherford Grill without realizing you’ve just passed through the heart of a town with a population of only about 100. On Rutherford Cross Road, there’s a small post office, the Rancho Caymus Inn and La Luna Market & Taqueria, a go-to for locally favored Mexican food. But this sleepy appearance belies that Rutherford boasts a rich wine history shaped by some of the region’s most important trailblazers.
+
+The indigenous Mishewal-Wappo people first inhabited the land that now includes present-day Yountville, Oakville and Rutherford. In 1836, authorities granted nearly 12,000 acres on the valley floor to George C. Yount as part of the Rancho Caymus land grant. In 1864, Yount gave his daughter Elizabeth 1,040 acres in the center of the modern-day AVA as a wedding gift when she married Thomas Rutherford. The Rutherfords planted vineyards and produced wine, while giving the town its name.
+
+The Rutherfords’ parcel changed hands several times before Finnish fur trader and sea captain Gustave Niebaum acquired it in 1879. He founded Inglenook and built its semi-Gothic château in 1887; the building still stands. After Prohibition ended, his grand-nephew John Daniel Jr. crafted a series of extraordinary wines until he sold the estate in the 1960s. In 1975, filmmaker Francis Ford Coppola purchased the estate; he worked to reunite the original property and transform it into a popular tourist destination.
+
+French chemist Georges de Latour had arrived in California in 1883 and built his fortune in the cream of tartar business, an important baking ingredient that is a natural byproduct of winemaking. In 1900, he moved to Napa Valley and founded Beaulieu Vineyard on land adjacent to Inglenook. He also became the first to import phylloxera-resistant rootstock. In 1938, de Latour hired winemaker André Tchelistcheff at BV and under his direction, the Georges de Latour Private Reserve Cabernet became one of the most famous wines in the world.
+
+Rutherford sits at the widest point of Napa Valley, where fewer mountain shadows allow more sunlight to reach the vineyards. The benchlands divide into two distinct areas. On the eastern edge, complex soils and varied microclimates fold into the Vaca Mountains. Volcanic soils dominate much of this terrain and remain moderately deep, but the mountains delay sunrise and slow the warming of the vines.
+
+The western benchland receives morning sun and gains protection from afternoon heat when the sun dips behind the Mayacamas Mountains. This side of the valley features more alluvial soils and experiences cooler, windier conditions that create a drying effect.
+
+Tchelistcheff coined the term “Rutherford Dust,” in reference to dusty, powdery alluvial soils on the west side, and the distinct subtle grain and minerality they imbue in the AVA’s Cabernets. There are few simple pleasures as fine as sipping a Rutherford Cabernet while some Rutherford Dust clings to your shoes after a day in the vineyards.
+
+Where to Taste
+
+Cathiard Family Estate 1978 Zinfandel Lane | cathiardvineyard.com
+The late Daniel Cathiard built an impressive career in wine, purchasing Bordeaux’s Smith-Haut-Lafitte in 1990, then buying (and renaming) the former Flora Springs estate at the base of the Mayacamas mountain range in 2020. Management was just transitioning to the family’s next generation when Cathiard died earlier this year. A visit makes it clear how deeply the family is dedicated to this property, with meticulously maintained grounds and intimate visit experiences that might include a tour of the vineyards in an electric Range Rover, including the wine cave and on-site cooperage.
+
+Inglenook/Niebaum-Pennino 1991 St. Helena Highway | inglenook.com; niebaumpennino.com
+Even if you didn’t know Francis Ford Coppola owned Inglenook, you’d still pick up on how cinematic and grand the estate is, a mix of history, beauty, movie memorabilia and elegant wines. There are plenty of visitor experiences available, from simply enjoying a glass to more informative tours and library tastings. The recently opened Pennino House on the property is another chance to taste wines in a relaxed atmosphere, like stepping into a family home with a cozy living room plus plenty of outdoor seating. Here they also serve a curated selection of Italian-inspired non-alcoholic beverages.
+
+Quintessa 1601 Silverado Trail | quintessa.com
+Quintessa lies an easy turn off of the Silverado Trail, but a visit here takes you off the beaten path, into the heart of Rutherford and a uniquely serene setting. The entire property is nearly 300 acres, and the best way to soak it all in is through the “Quintessential Experience,” where a tasting takes place in a private glass pavilion overlooking Dragon Lake.
+
+Staglin Family Vineyard 1570 Bella Oaks Lane | staglinfamily.com
+There’s much to learn from a visit to Staglin, beginning with the viticultural history of the property, which dates to 1864. Significant figures such as André Tchelistcheff and Beaulieu founder Georges de Latour have ties here, drawn to this place that clearly defines what makes the Rutherford Bench an amazing place to grow grapes. For more than 40 years, the Staglin family has been the caretaker, including piecing together parts of the property that had been separated from the original, such as the Steckter home, which is now their base for hospitality. The winery remains family run, with second-generation vintner Shannon Staglin at the helm.
+
+Where to Eat
+
+Rutherford Grill 1180 Rutherford Road | rutherfordgrill.com
+It would be easy to simply think of Rutherford Grill as the best place to pair expertly crafted barbeque with rich Napa Cabernets. But there’s so much more to enjoy, including deviled eggs, a generous iceberg wedge salad, oak-grilled salmon and iron skillet cornbread bites. The staff is friendly and the patio seating is popular when weather permits.
+
+La Luna Market & Taqueria 1153 Rutherford Road | lalunamarket.com
+
+The Restaurant at Auberge du Soleil 180 Rutherford Hill Road | auberge.com/auberge-du-soleil/dine
+
+Where to Stay
+
+Rancho Caymus Inn 1140 Rutherford Road | ranchocaymusinn.com
+Recently renovated, this inn has plenty of personality. It was originally designed and built by the Morton Salt heiress Mary Tilden Morton, who leaned into Spanish-hacienda architecture with 19th-century barn wood beams and wrought iron details. Today, it’s the Goldilocks of Napa Valley hotels; it has quiet vibes in the tiny town of Rutherford, but also is conveniently located halfway up the valley and close to much of the vineyard action. Rooms are air-conditioned and feature fireplaces and private balconies or patios.
+
+Auberge du Soleil 180 Rutherford Hill Road | auberge.com/auberge-du-soleil`,
+    adventure: {
+      title: 'The Sauvignon Blanc Discovery Tour',
+      intro: `Napa may be Cabernet country, but many of its red wine specialists also craft exceptional Sauvignon Blancs. White wine lovers have plenty to celebrate with these refreshing, expressive wines.`,
+      body: `THE SAUVIGNON BLANC DISCOVERY TOUR Napa may be Cabernet country, but many
+of its red wine specialists also craft exceptional Sauvignon Blancs (not to
+mention that Sauvignon Blanc is one of Cabernet Sauvignon’s parents, along with Cabernet
+Franc). White wine lovers have plenty to cele brate with these refreshing, expressive wines.
+Several standout producers lie close to one another, making it easy to explore. Start at Groth
+in Oakville and choose a tasting that features the
+estate Sauvignon Blanc. The experience highlights how Napa has transformed Sauvignon
+Blanc from an afterthought into a deliberate, dy namic category. In the 1990s, the Groth family—
+now in its second generation in wine—recog nized that certain clay-heavy vineyard blocks planted to Cabernet suited white varieties better. They began replanting, helping to usher in a new era for the grape. The estate Sauvignon Blanc, first released with the 2019 vintage, ex
+shoot St Supery emplifies that vision.
+St Supery Grgich Hills
+Just 3 miles away, Rutherford’s St. Supéry welcomes guests with one of the valley’s most approachable tasting experiences. The winery farms its Sauvignon Blanc at Dollarhide Ranch in Pope Valley, east of Napa, and has championed distinctive ex
+pressions of the grape since the 1980s. Today, it remains a category leader. Several tasting flights spotlight Sauvignon Blanc, including the “White Wine Discovery,” which demonstrates how fermentation vessels from stainless steel to French oak bar rels and concrete fermentors shape the wine’s texture and style.
+In season, try St. Supéry’s Mustard Season Tasting Flight. The winery pairs red and white wines with artisan pretzels, Journeyman sausages and house-made savory mustards. You can also opt for a white wine and caviar pairing to explore how Sauvignon Blanc and Sémillon complement the delicacy.
+When hunger strikes, head down Highway 29 to Mustards Grill. The ever-popular seafood tostada changes daily but typically arrives on a large, crisp tortilla layered with black beans, cabbage-jicama slaw and avocado, and then finished with chipotle aioli and cotija cheese. It pairs beautifully with a glass of crisp white wine.
+Finish your Sauvignon Blanc tour at Grgich Hills Estate. This historic family-run winery continues to earn attention for its role in the Judgment of Paris anniversary, but its Sauvignon Blancs deserve equal acclaim. The wines show aromatic inten
+sity, floral lift and distinctive character, with select bottlings available only at the winery. Choose a tasting flight that includes them, or order a glass—or bottle—and enjoy it in the garden.`,
+    },
+    soilNote:
+      'The Rutherford Bench: silty loam and volcanic alluvium with exceptional water retention. The distinctive "Rutherford dust" is credited with a unique earthy quality in the wines.',
+    bestFor: ['Classic Cabernet', 'Historic estates', 'Sauvignon Blanc'],
+    winerySlugs: ['bella-union', 'inglenook', 'quintessa', 'staglin-family-vineyard', 'cathiard-family-estate'],
+    restaurantSlugs: ['rutherford-grill', 'la-luna-market-taqueria'],
+    hotelSlugs: ['rancho-caymus-inn', 'auberge-du-soleil'],
+    articleSlug: 'napa-rutherford',
+    mapCenter: [-122.4289, 38.459],
+    mapZoom: 13,
+    neighborRegions: ['oakville', 'calistoga', 'pritchard-hill', 'st-helena'],
+  },
+  {
+    slug: 'pritchard-hill',
+    name: 'Pritchard Hill',
+    tagline: 'Above the Valley Floor',
+    author: 'James Molesworth',
+    issue: 'June 15 & 30, 2026',
+    heroImage: '/images/pritchard-hill/hero/pritchard-hill-hero-landscape.jpg',
+    accentColor: '#2E2A0A',
+    pullQuote: `To understand Pritchard Hill is to understand what elevation and volcanic soil do to Cabernet Sauvignon — something transformative, something that takes decades to reveal itself.`,
+    intro: `Pritchard Hill rises above the eastern edge of Napa Valley, offering a perspective — and a wine style — that is distinctly its own. The volcanic soils and elevation produce Cabernet Sauvignons of extraordinary concentration and longevity.`,
+    body: `PRITCHARD HILL A Visit Above the Fog Line In the late 1960s, Pritchard Hill was an isolated and essentially forgotten area. Today, while it retains a sense of isolation, it has become home to a cluster of prominent Cabernet Sauvignon producers who hew long-lived wines out of the site’s distinctive iron-red and yellow-tinged volcanic soils. Driving up the long, winding road to the top, which hits 1,800 feet of eleva
+The Howard Backen Estate 275 Long Ranch Road | backenestate.com
+Perhaps no single architect defines the Napa Valley wine country lifestyle more than Howard Backen. Backen’s signature farmhouse-chic aesthetic championed functionality and natural harmony while favoring discreet affluence over ostenta
+tion. A prolific architect, he designed upwards of 300 private homes, 40 restau rants and more than 60 wineries through his Backen & Backen Architecture firm. Most of his work is in Napa Valley, including the home he considered his fin est: the Pritchard Hill Estate. Designed initially for the Nelson-Johnson family, who went on to create the Ovid wine estate next door, the property features 10,000 square feet of living space across a main house, guest houses and cot tages. The sweeping panoramic view of the valley below is so stunning it might make you forget the pool, yoga room, fireplaces and open chef’s kitchens that embellish the estate.
+Ovid was eventually purchased by the Duncan family of Silver Oak in 2017 while the house went to a different owner. Then a group of partners, including chef Thomas Keller, purchased the house with the idea of creating an ultra-pre mium vacation property available to rent. With an in-house concierge, you can have your full itinerary prepared for you, from wine tastings at other Pritchard Hill estates, to meals on-premise with chefs from Thomas Keller Restaurant Group and more.
+Now called the Howard Backen Estate, this piece of Napa Valley history of fers a spectacular vantage point—isolated, quiet and comforting—that provides for arguably the ultimate Napa Valley getaway.
+
+tion, you’ll pass numerous vineyards as well as a handful of eye popping homes and showpiece wineries. Make sure to take no tice of how the flora changes from the valley floor. It’s as unique an area as Napa Valley has to offer, and a visit is a must for any serious wine enthusiast.
+—James Molesworth
+
+Where to Taste on Pritchard Hill
+
+David Arthur Vineyards 210 Long Ranch Road | davidarthur.com
+Don Long purchased 1,000 acres on Pritchard Hill in the 1950s and was among the first to plant vines in the 1970s. Today, his son David and grand daughter Laura are carrying on the family tradition. Winemaker Nile Zacherle fashions muscular, mineral-accented wines that help define Pritchard Hill’s terroir.
+Chappellet Winery 1581 Sage Canyon Road | chappellet.com
+Don and Molly Chappellet founded their winery in 1967; early vintages were made by the legendary Philip Togni. Togni was followed by Joe Cafaro, Tony Soter and Cathy Corison. Since the 1990s, Phillip Corallo-Titus has handled winemaking, while second- and third-generation Chappellets, led by Don and Molly’s son Cyril, pilot this historic family estate.
+Continuum Estate 1677 Sage Canyon Road | continuumestate.com
+Tim Mondavi (Robert’s son) and his sister, Marcia Mondavi Borger, founded Continuum Estate in 2005. Today, Tim’s children Dante, Carlo, Chiara and Carissa all pitch in. They’re christening a brand new barrel and hospitality area with plans to offer a rotating cast of guest chefs, sunrise vineyard hikes and more.`,
+    adventure: {
+      title: 'The Pritchard Hill Pilgrimage',
+      intro: `A morning drive up the eastern hills rewards with some of Napa's most singular wines and views that stretch across the entire valley.`,
+      body: `Begin at Chappellet, one of the valley's most storied mountain estates, founded in 1967 by Donn and Molly Chappellet. Then to Continuum, Tim Mondavi's family project, where the elevation and rocky soils produce wines of extraordinary precision. David Arthur follows — among the most consistent producers on the hill. End at Howard Backen Estate, the architect who designed many of Napa's great wineries having now created his own.`,
+    },
+    soilNote:
+      'Thin, rocky volcanic soils at elevation. Extreme stress on the vine produces tiny yields of intensely concentrated fruit with exceptional aging potential.',
+    bestFor: ['Cult Cabernet', 'Mountain terroir', 'Collectors'],
+    winerySlugs: [],
+    restaurantSlugs: [],
+    hotelSlugs: [],
+    articleSlug: 'napa-pritchard-hill',
+    mapCenter: [-122.39, 38.51],
+    mapZoom: 13,
+    neighborRegions: ['rutherford', 'calistoga'],
   },
   {
     slug: 'st-helena',
@@ -970,470 +1434,6 @@ CADE Estate`,
     mapCenter: [-122.5798, 38.5789],
     mapZoom: 13,
     neighborRegions: ['rutherford', 'pritchard-hill', 'st-helena'],
-  },
-  {
-    slug: 'pritchard-hill',
-    name: 'Pritchard Hill',
-    tagline: 'Above the Valley Floor',
-    author: 'James Molesworth',
-    issue: 'June 15 & 30, 2026',
-    heroImage: '/images/pritchard-hill/hero/pritchard-hill-hero-landscape.jpg',
-    accentColor: '#2E2A0A',
-    pullQuote: `To understand Pritchard Hill is to understand what elevation and volcanic soil do to Cabernet Sauvignon — something transformative, something that takes decades to reveal itself.`,
-    intro: `Pritchard Hill rises above the eastern edge of Napa Valley, offering a perspective — and a wine style — that is distinctly its own. The volcanic soils and elevation produce Cabernet Sauvignons of extraordinary concentration and longevity.`,
-    body: `PRITCHARD HILL A Visit Above the Fog Line In the late 1960s, Pritchard Hill was an isolated and essentially forgotten area. Today, while it retains a sense of isolation, it has become home to a cluster of prominent Cabernet Sauvignon producers who hew long-lived wines out of the site’s distinctive iron-red and yellow-tinged volcanic soils. Driving up the long, winding road to the top, which hits 1,800 feet of eleva
-The Howard Backen Estate 275 Long Ranch Road | backenestate.com
-Perhaps no single architect defines the Napa Valley wine country lifestyle more than Howard Backen. Backen’s signature farmhouse-chic aesthetic championed functionality and natural harmony while favoring discreet affluence over ostenta
-tion. A prolific architect, he designed upwards of 300 private homes, 40 restau rants and more than 60 wineries through his Backen & Backen Architecture firm. Most of his work is in Napa Valley, including the home he considered his fin est: the Pritchard Hill Estate. Designed initially for the Nelson-Johnson family, who went on to create the Ovid wine estate next door, the property features 10,000 square feet of living space across a main house, guest houses and cot tages. The sweeping panoramic view of the valley below is so stunning it might make you forget the pool, yoga room, fireplaces and open chef’s kitchens that embellish the estate.
-Ovid was eventually purchased by the Duncan family of Silver Oak in 2017 while the house went to a different owner. Then a group of partners, including chef Thomas Keller, purchased the house with the idea of creating an ultra-pre mium vacation property available to rent. With an in-house concierge, you can have your full itinerary prepared for you, from wine tastings at other Pritchard Hill estates, to meals on-premise with chefs from Thomas Keller Restaurant Group and more.
-Now called the Howard Backen Estate, this piece of Napa Valley history of fers a spectacular vantage point—isolated, quiet and comforting—that provides for arguably the ultimate Napa Valley getaway.
-
-tion, you’ll pass numerous vineyards as well as a handful of eye popping homes and showpiece wineries. Make sure to take no tice of how the flora changes from the valley floor. It’s as unique an area as Napa Valley has to offer, and a visit is a must for any serious wine enthusiast.
-—James Molesworth
-
-Where to Taste on Pritchard Hill
-
-David Arthur Vineyards 210 Long Ranch Road | davidarthur.com
-Don Long purchased 1,000 acres on Pritchard Hill in the 1950s and was among the first to plant vines in the 1970s. Today, his son David and grand daughter Laura are carrying on the family tradition. Winemaker Nile Zacherle fashions muscular, mineral-accented wines that help define Pritchard Hill’s terroir.
-Chappellet Winery 1581 Sage Canyon Road | chappellet.com
-Don and Molly Chappellet founded their winery in 1967; early vintages were made by the legendary Philip Togni. Togni was followed by Joe Cafaro, Tony Soter and Cathy Corison. Since the 1990s, Phillip Corallo-Titus has handled winemaking, while second- and third-generation Chappellets, led by Don and Molly’s son Cyril, pilot this historic family estate.
-Continuum Estate 1677 Sage Canyon Road | continuumestate.com
-Tim Mondavi (Robert’s son) and his sister, Marcia Mondavi Borger, founded Continuum Estate in 2005. Today, Tim’s children Dante, Carlo, Chiara and Carissa all pitch in. They’re christening a brand new barrel and hospitality area with plans to offer a rotating cast of guest chefs, sunrise vineyard hikes and more.`,
-    adventure: {
-      title: 'The Pritchard Hill Pilgrimage',
-      intro: `A morning drive up the eastern hills rewards with some of Napa's most singular wines and views that stretch across the entire valley.`,
-      body: `Begin at Chappellet, one of the valley's most storied mountain estates, founded in 1967 by Donn and Molly Chappellet. Then to Continuum, Tim Mondavi's family project, where the elevation and rocky soils produce wines of extraordinary precision. David Arthur follows — among the most consistent producers on the hill. End at Howard Backen Estate, the architect who designed many of Napa's great wineries having now created his own.`,
-    },
-    soilNote:
-      'Thin, rocky volcanic soils at elevation. Extreme stress on the vine produces tiny yields of intensely concentrated fruit with exceptional aging potential.',
-    bestFor: ['Cult Cabernet', 'Mountain terroir', 'Collectors'],
-    winerySlugs: [],
-    restaurantSlugs: [],
-    hotelSlugs: [],
-    articleSlug: 'napa-pritchard-hill',
-    mapCenter: [-122.39, 38.51],
-    mapZoom: 13,
-    neighborRegions: ['rutherford', 'calistoga'],
-  },
-  {
-    slug: 'downtown-napa',
-    name: 'Downtown Napa',
-    tagline: "The Valley's Urban Core",
-    author: 'MaryAnn Worobiec',
-    issue: 'June 15 & 30, 2026',
-    heroImage: '/images/downtown-napa/hero/downtown-napa-hero-landscape.jpg',
-    accentColor: '#0A2E20',
-    pullQuote: `The best argument for spending time in downtown Napa is the sheer variety — from Michelin-starred restaurants to taco trucks, from $20 tasting flights to library pours of legendary Cabernet.`,
-    intro: `Downtown Napa has transformed over the past two decades from a quiet county seat into a vibrant destination in its own right. The Oxbow Public Market anchors the culinary scene, while more than 40 tasting rooms line the riverfront and downtown streets.`,
-    body: `Once upon a time, there were two Napas. Napa the val ley, known as a chic playground for well-heeled wine
-lovers, and Napa the town, a sleepy, workaday community. That dichotomy has disappeared. Downtown Napa has become a destination in its own right while also serving as the main hub for exploring the valley that runs for 30 miles in length to its north.
-There’s plenty to see, eat, drink and do in downtown Napa, led by a strong concentration of tasting rooms, now numbering more than 40. These urban spaces typically do not require reservations (unlike most upvalley tasting rooms) and offer a more casual and accessible experience.
-Restaurants, hotels and music venues abound, and the town’s walkable streets are lively, lined with shops, galleries, spas and more. Downtown has a thriving coffee, cocktail and craft beer culture, too, infusing the energy of those passions to the mix.
-The evolution began in the early 2000s when vintner Robert Mondavi opened Copia: The American Center for Wine, Food & the Arts along an oxbow-shaped curve of the Napa River. Today, a branch of the Culinary Institute of America occupies the space, offering classes, seminars and a restaurant. Oxbow Public Market, opened in 2008, features artisanal food vendors, specialty shops, restaurants and a wine bar under one roof. The three-day music festival BottleRock draws a diverse audience
-
-whose interests are reflected in the many new businesses popping up.
-First Street Napa is a centerpiece for the downtown area. A three-block, 325,000-square-foot mixed-use development, it features dozens of shops and restaurants, anchored by the Archer Hotel. On weekends, the hotel’s rooftop restaurant and bar buzz with energy. Phase two is under construction and will add a 160-room hotel and 78-unit condominium building, both with rooftop access. The expansion will create a pedestrian friendly corridor extending to Main Street and bring even more shopping opportunities.
-The city has also integrated the Napa Wine Train into its cultural identity. The 2-mile stretch of semi-industrial backyards that the train passes through has been transformed into the Rail Arts District, where murals and art installations wrap around switchboxes and line a paved walking path.
-Food City, near downtown, has emerged as a hot spot, home to a specialty market, the popular Naysayer Coffee, a fried chicken joint, a taqueria, even a cat café. Good Pantry, a zero waste grocery store, has also opened there.
-This fresh-faced Napa doesn’t live in the valley’s shadow. It complements the region, blending wine, food, art, culture and community into an experience that feels distinctly, confidently Napan.
-
-Where to Taste
-
-With more than 40 tasting spots to choose from, there is no
-shortage of wines to explore in downtown Napa. Hours and days open can vary, typically ramping up as the weekend approaches. Many accept walk-ins, but for the best experience we recommend secur
-ing an appointment. Tasting rooms are part of the hospitality industry, and tipping for excellent service (as you would in a restau rant) is always appreciated.
-Cadet Wine & Beer Bar 930 Franklin St. | cadetbar.com
-The vibe here is trendy and cool, a dark spot with loud music that speaks to a younger crowd. There’s an impressive selection of international wines and cocktails. Small bites include grilled cheese and a
-Back Room Wines
-1546 First St.
-backroomwines.com Bounty Hunter
-Wine Bar & Smokin’ BBQ
-975 First St.
-bountyhunterwinebar.
-com Compline Wine
-Shop/Compline Restaurant
-1300 First St., Suite 319 and Suite 312 complinewine.com Kerr Cellars
-1463 First St.
-kerrcellars.com Maison Fayard
-1408 Second St.
-maisonfayard.com No Love Lost
-Wine Co.
-chocolate panini with marshmallow whip. Gentleman Farmer Bungalow
-Cadet Hestan Napa
-960 Clinton St. nolovelost.wine Outer Space
-1564 First St. | gentlemanfarmerwines.com Owners Joey Wolosz and Jeff Durham’s Gentleman Farmer Bungalow is a welcome addition to the downtown Napa scene, offering an intimate experience. A renovated Craftsman home built in the 1920s has been reimagined into a cozy, homey spot where guests feel welcome to enjoy a glass, a bot tle, or take on a unique experience in which the owners prepare family recipes and share stories.
-1300 First St., Suite 291 | hestan.com/hestan-napa
-Stanley Cheng is both a vintner and a kitchen innovator, founder of Meyer Corporation, one of the largest cookware companies in the world. So it makes sense that when he and his wife, Helen, opened their downtown Napa spot (they have a tasting room in Yountville as well), the couple com bined their loves into a new concept: part restaurant, part cookware bou tique. Guests can enjoy the talents of chef Mark Dommen, formerly of One Market Restaurant, while admiring the showroom of products and appli ances and enjoying the lineup of wines.
-Mayacamas Downtown
-1256 First St. | mayacamas.
-com If you can’t make the jour ney to visit the remote Mayacamas estate on
-Mount Veeder, you can head to their chic down town tasting room to sam ple current releases or li
-brary vintages by the bottle or glass in a more accessible setting.
-Gentleman Farmer Wines
-974 Franklin St.
-outerspace.wine/ Robert Craig Winery
-1553 Second St.
-robertcraigwine.com Roots Run Deep Tasting Salon 1607 First St.
-rootsrundeep.com Vintner’s
-Collective 1245 Main St.
-vintnerscollective.com
-
-Where to Eat
-
-Dining in downtown is diverse, from white tablecloth es tablishments to more casuals spots. Many restaurants
-offer seasonal specials that highlight locally grown and raised ingredients. You can easily find vegetarian, vegan and glu ten-free options. Wait staff are reliably ready with a wine rec ommendation. Restaurants also regularly welcome winemakers
-and wine collectors, but check ahead to confirm their corkage policies. Also check open hours: They can vary throughout the week and year; for example, many places are closed for lunch Tuesdays and Wednesdays.
-
-Restaurants
-
-Angèle Restaurant & Bar 540 Main St. | angelerestaurant.com
-Since it opened in 2002, Angéle has set the bar for food and wine in downtown
-Napa, with French countryside food meeting warm service in both a comfy
-interior and a big outdoor space (when the weather permits). Classic onion
-soup, tuna or beef tartare, escargot, beef bourguignon and croque monsieur
-are typically on the menu, as are hand made pastas, seasonal salads and the
-must-order flowerpot full of French fries.
-The wine list is thoughtful and mixes French sensibilities with local wines.
-Angèle Celadon
-Napa Valley Restaurant 500 Main St., Suite G celadonnapa.com
-Celadon has quietly and consistently been a go-to place for excellent food since 1996. The setting is in a relaxing garden courtyard and adjacent dining room, the menu a mix of California, Mediterranean and Asian influences. The dinner- and brunch-only menu features wine-friendly items like pork belly lettuce cups, Moroccan braised lamb shanks and the signature wild mushroom risotto.
-Con Amor 815 Main St.
-iloveconamor.com Con Amor is a fun new place showcasing top-notch Mexican dishes, including chile
-relleno, gorditas, mole chicken wings and birria, a
-Sunday special. The black matte walls, chandeliers and
-Dia de los Muertos vibe provide a charming setting. This
-is an excellent spot for in ventive mezcal and tequila
-based cocktails, like the La Teresota, with tequila, alma
-finca, lime and salt foam.
-Con Amor Azzuro Pizzeria E Enoteca
-1260 Main St.
-azzurropizzeria.com Charlie Palmer Steak
-1260 First St.
-charliepalmersteak.com Cole’s Chop House
-1122 Main St.
-coleschophouse.com Compline
-Restaurant 1300 First St., Suite 312 complinerestaurant. com
-Crocante Artisan Pizza 976 Pearl St.
-croccantepizza.com
-
-KenzoNapa 1339 Pearl St.
-kenzonapa.com Kitchen Door
-Napa Restaurant
-1300 First St., Suite 272 kitchendoornapa.com
-Los Agaves Napa
-660 Main St.
-losagavesnapa.com Morimoto Napa and Morimoto Asia
-610 Main St. and 790 The Dutch Door
-1245 First St.
-thedutchdoornapa.com Look for the Dutch door–a horizontally split door–on Randolph Street, around the corner from the First Street address. You’ll probably see plenty of people waiting to pick up their to-go only food. Fried chicken is the signature dish here, which can be served with either Cajun, Korean or Spanish spices, as either ten ders or in a sandwich. Vegetarian options are plentiful, with a made-from scratch plant burger created from quinoa, roasted mushrooms and pep pers, kale, black beans and chickpeas. There are also plant-based bowl options and a beef hot dog with caramelized
-Main St.
-morimotonapa.com Normandie
-Napa 670 Main St.
-normandienapa.com Osha Thai
-Restaurant & Bar 1142 Main St.
-oshathai.com/napa Oenotri
-1425 First St.
-oenotri.com Red Rock Cafe & Back Door BBQ
-1010 Lincoln Ave.
-backdoorbbq..com Slanted Door Napa
-1650 Soscol Ave.
-slanteddoor.com/napa Stateline Road Smokehouse 872 Vallejo St.
-stateline-road.com The Waterfront Seafood Grill 720 Main St.
-waterfrontseafoodgrill.. com Zuzu
-829 Main St.
-zuzunapa.com Dutch Door onions and crushed potato chips.
-La Toque (GA)
-1314 McKinstry St.
-latoque.com Located inside the Westin Verasa, chef
-Ken Frank’s space has helped define wine country cuisine, focusing on sea
-sonal and inventive food, including a vegetarian tasting menu in addition to a
-traditional omnivore tasting menu. But Frank is perhaps at his best when work
-ing with luxury ingredients; this year is the 44th edition of his “All Black Truffle
-Menu” with truffles slipped into every course. A Wine Spectator Grand Award
-winner since 2014, the wine list is one of the best in the area. This is truly a fine
-dining experience, but with plenty of warmth to the service.
-Scala Osteria & Bar 1141 First St.
-scalaosteria.com From the moment it opened, this off
-shoot of the popular Bistro Don Giovanni has been swarmed with locals
-and tourists alike, drawn to the south ern Italian coastal fare with Mediterra
-nean details, including pan-seared bran zino, petrale sole piccata and poached
-octopus salad. There are also wood fired pizzas, handmade pastas and a
-thin and crispy pork chop Milanese. The wine and cocktail list cater to the fresh
-fare on the menu.
-La Toque
-
-Torc Napa 1140 Main St.
-torcnapa.com Torc is one of those rare restaurants that can make delicious
-food in many directions, from a sweet potato pakora to black
-truffle grilled cheese to English pea risotto. The food is im
-mensely pairable with wine, and the staff can handily help
-you navigate a wine pairing, even with creative dishes like
-duck breast with blood orange, radish and Oaxacan bitter
-chocolate sauce. The service is friendly, the space is open and
-airy, with exposed stone walls and wood floors and a peek
-into the kitchen in the back.
-Torc
-Breakfast/Coffee/Sandwiches/Snacks Ohm Coffee
-There are plenty of places to fuel up before a full day of exploration in Napa; whether that means quality coffee, breakfast, provisions or grab-and go (and some offering all of the above). Here are some local favorites.
-Contimo Provisions 950 Randolph St. | contimonapa..com
-Fresh-baked biscuits, homemade pimento cheese, luxurious sandwiches and gourmet pantry items are all on offer at this bright and cheerful spot.
-Genova Delicatessen 550 Trancas St. | genovadelinapa.com
-Sandwiches here are generous, many with an Italian spin, and there is both a hot and cold selection of deli salads. Imported Italian goods are also sold, as are homemade ravioli and sauces, soups and meatballs. Before anyone reminds you, take the cannoli.
-Grace’s Table 1400 Second St. | gracestable.net
-Grace’s Table is open all day serving international bistro food, but the iron skillet cornbread served with lavender honey butter, the shrimp and grits,
-the chilaquiles and cinnamon rolls make it ideal for breakfast or brunch.
-Le Paris Artisan and Cafe 828 Brown St. | lepariscafe.com
-Not only does the pastry selection include cropuffs, sticky buns and crème brûlée brioche, there are also wonderful savory options, like a fresh-baked croissant with smoked salmon, scram bled eggs and crème fraîche. If the purple ube or decadent tres leches offerings catch your eye, you should absolutely try them.
-Moulin Bakery 1321 First St. | moulinbakerycoffee.com It might be hidden in an alley behind First Street, but once you find Moulin it will no doubt be full of patrons spilling onto the few outdoor tables. Expertly made coffees and French-style pastries are here, including the most crunchy, delicate viennoi series imaginable.
-Naysayer Coffee 1813 Old Sonoma Road | naysayercoffee.com Located in Food City, Naysayer has some of the best coffee in town, with some of the friendliest service. Seasonal beverages are inspired, like an horchata latte or spiced chamomile latte, and small bites are precise and fresh. A second loca tion recently opened up north of downtown.
-1412 Second St. | ohmcoffee.com The “ohm” here refers to the musical term for the measure of electrical resistance in an amplifier, and founder Derek Bromley names his roasts after guitar amplifiers. Bromley is not only a rock gui tarist, he also worked in the wine industry and ap plies both of these approaches to his coffee, featuring single-origin roasts in a rock ‘n’ roll setting. A second location near the Rail Arts District is the coffee roastery and lab, where classes in cupping, latte art and brewing methods are taught.
-Winston’s Cafe and Bakery 1517 Third St. | winstonsnapa.com
-This bright and airy café is known for generous plates of breakfast and lunch and an eye-popping assortment of baked goods, donuts and pastries. It can be busy, but orders move quickly.
-Ohm Coffee
-
-The Oxbow Market As far as culinary destinations go,
-this public market is a wonderful gathering place for foodies and wine lovers, with multiple vendors in one location. There are shops for ingredients and specialty items, as well as some very tasty restaurants.
-Ritual Coffee Roaster has been an an chor since the market opened in 2007, one of the best places for a cup of coffee or tea in the area. Hog Island Oyster Company is also a mainstay, with fresh and grilled oysters, po’ boy sandwiches and more.
-Don’t be dismayed by the line outside Gott’s Roadside—it moves quickly and the food comes out promptly, including thick shakes, gourmet burgers, fish tacos, sweet potato fries and inventive salads. Loveski brings pastrami sandwiches, potato latkes, matzoh ball soup and bagels to Napa from chefs Christopher and Martina Kostow. Live Fire Pizza specializes in wood-fired pies and small bites.
-For international flavors, El Porteno features empanadas both sweet and sa vory, while Moro showcases Moroccan flavored mains on flatbreads, salads or
-
-couscous, tasty and fresh. Sumo Dog takes hot dogs and puts a Japanese twist on them, with ingredients like wasabi relish, tonkatsu sauce and furikake. Rotation is the newest addition, with a rotation of chef residencies, including Martin Yan and Tristan Epps.
-Bar Lucia is a wine bar with small bites, adjacent to the decadent Kara’s Cupcakes. For the sweet tooth, there’s also lo cal chocolatier Annette’s Chocolates. Fieldwork taproom has 20 beers on tap and Detroit-style pizza. The Walt tasting room is located across the street.
-Gott’s Hudson Greens & Goods blends a juice bar with fresh produce and curated pantry goods. Fatted Calf Charcuterie has some of the best high-end butcher and charcuterie items, as well as terrific sandwiches such as a savory porchetta and house-smoked ham with black truffle but ter. Whole Spice will inspire your next cooking adventure, as well as give you a place to test your smell memories. And Model Bakery has Oprah’s favorite English muffins, fresh-baked breads and plenty of sandwiches, wraps, cookies and pastries.
-
-Where to Stay
-
-Day trips from population centers such as Sacramento
-and San Francisco are popular, but a for a deeper dive into wine country pleasures, most visitors plan a longer stay. The city (pop. 76,000) provides myriad accommodations,
-Napa River Inn 500 Main St. | napariverinn.com
-Located at the historic Napa mill and right on the Napa River, this hotel, which
-dates to the 1880s, is perfectly situated within walking distance of most of the
-best restaurants and tasting rooms downtown, making it an ideal location
-as a vacation home base.
-Westin Verasa 1314 McKinstry St.
-marriott.com/en-us/hotels/sfonw-the westin-verasa-napa/overview/ [FIX]
-Westin was the first luxury hotel in downtown Napa, opening in 2008. Its
-convenient location in the Oxbow District[CK] is walking distance from the
-Oxbow Market and Napa Wine Train, and it’s a short walk across the Napa
-River to access the rest of downtown.
-Chef Ken Frank oversees the restaurants here, including Wine Spectator Grand
-Award-winning La Toque and the more casual—yet still elevated—Bank Café and
-Bar in the lobby.
-including roughly 2,800 hotel rooms (not including projects in development), ranging from expansive resorts to more intimate experiences.
-Napa River Inn Andaz Napa, by
-Hyatt 1450 First St.
-hyatt.com/andaz/en US/apcrn-andaz-napa
-[FIX] Archer Hotel
-Napa 1230 First St.
-archerhotel.com/napa Hotel Napa
-Valley 1556 Polk St.
-hotelnapavalley.com Westin Verasa
-
-DOWNTOWN NAPA Culture & Cocktails Downtown Napa has plenty of
-shopping and non-wine related activities to add to the mix. Busi
-ness hours can vary by venue and season, so be sure to check the most recent infor
-mation before heading out.
-The Arbaretum 1149 First St. | napadistillery.comthe-arbaretum
-This local distillery makes quality brandy, gin,
-whiskey and bottled cocktails such as mint julep,
-brown derby and the sidecar. This art deco-inspired spot fills up with people tasting inventive
-cocktails and snacking on small bites like deviled
-eggs and muffaletta pizza.
-Bougie Napa Luxury Candles 1300 First St., Suite 332. | bougienapa.com
-There are dozens of lovely hand-poured candles to purchase at Bougie, but consider one of the can
-dle-making classes to sharpen your senses. During the class, the math and chemistry behind a perfect
-burn are discussed, and you can design a signa ture scent.
-Jeffries Chispa Bar
-1500 First St., Suite 140. | chispabar.com Tastebuds come alive at this hybrid tequila and agave-centric cocktail bar meets swank restau rant. Bites include crudo, tacos, caviar, a spicy oc topus dish with sautéed peanuts, pasilla peppers and pickled garlic, and plenty of sandwiches and salads. Cocktails include clever concoctions like the Oaxacan old fashioned, with reposado mezcal, toasted agave, mole and orange bitters, or Peat & Repeat, a mix of Laphroaig Scotch, mezcal, agave, lemon, lime and yuzu.
-Marquee Pinball CIA at Copia
-500 First St.. | ciaatcopia.com The calendar at the CIA at Copia is full of wine and food-events, single-day classes, family friendly movies and cooking boot camps that fo cus on different parts of the world. From learning to make pasta at home, scavenger hunts and BBQ training, there’s plenty to add to your itinerary. An on-site restaurant called The Grove offers an avo cado toast brunch experience most weekends.
-Crafted Napa Valley 1300 Third St., Suite 301. | craftednapavalley.com Shop for locally made bath and body products, jewelry, seasonings, candles and snacks in this charming gallery.
-Folklore 1226 Third St.. | folklore-napa.com
-A combination record store, wine and cocktail bar, restaurant and radio station, Folklore is located in a semi-industrial, funky and chill spot with plenty of personality.
-Jeffries General Store 1416 Second St.. | Instagram only
-This delightful store is teeming with amazing and eclectic gifts, including stationary, pottery, spa products, tea towels, snacks and art. But it’s also a useful store for forgotten travel necessities (espe cially without a grocery store or drugstore located downtown).
-Marquee Pinball Lounge 1311 First St.. | marqueepinball.com
-If you’re someone that needs to level up, this pin ball and classic video game spot is flipping awe some, a welcome new spot in downtown Napa. Marquee currently serves beer, with wine and ci der offerings coming soon.
-
-Mommenpop Tasting Room 920 Franklin St.. | mommenpop.compages/
-tasting-room This cheerful, aperitif tasting room showcases
-the citrus-based Mommenpop drinks created by winemaker Samantha Sheehan. The blood or
-ange is made from an organically grown Barbera rosé with blood oranges and botanicals.
-There is also Seville orange, ruby grapefruit, and
-a lime-pop made from a base of Chardonnay with Makrut and Bearss limes, long pepper,
-toasted fig leaves, orris root and vanilla bean.
-Rail Arts District Start at 816 Vallejo St.. | radnapa.org
-Consider this stretch a sort of contemporary open-air gallery, with public art installations
-along a paved walking and biking trail. Eleven murals, wrapped switchboxes and 21 clay sculp
-tures have turned a semi-industrial area into a colorful patch.
-Rancho Gordo 1350 Main St.. | ranchogordo.com
-Steve Sando changed the way we talk about beans when in 2001 he founded Rancho Gordo,
-a company focused on cultivating and selling rare, indigenous heirloom bean varieties. The
-beans have since become the ultimate designer ingredient, and the Rancho Gordo Bean Club has a waiting list thousands long. This new loca
-tion for a retail shop is an expanded, bright and colorful place to shop for beans, spices and cookbooks for the legume lovers in your life.
-Tonewood & Courage 1300 First St., Suite 212. | tonewoodandcourage.
-com Musicians will find themselves at home in this
-part music store, part gathering place. High-end guitar and bass brands are sold, as well as hand
-built instruments by local artisans. In the eve nings, it becomes an intimate music venue for
-musicians in a variety of genres.
-Wilfred’s Lounge 967 First St.. | wilfredslounge.com
-A tiki bar in Napa that pulls no punches with the
-Polynesian stylings or flavors, Wilfred’s is a place to get your fix of kalua pork, chicken katsu
-or spam fries (panko-crusted fried spam served with a mango habanero sauce), along with mai tais and other colorful and tasty cocktails.
-Rancho Gordo
-
-DOWNTOWN NAPA Beyond City Limits One of the most appealing aspects of using downtown
-Napa as a travel base is its proximity to the wine regions that surround the town. Just a few miles east is Coombsville. Head a few miles in the opposite direction and
-you’ll arrive either[UNCLEAR] in the windswept Carneros region of Napa Valley or in the rustic hills of Mt. Veeder. Coombsville is mostly a residential area, but there are vine
-yards tucked into valleys and rolling hills leading east up to Mt. George. Carneros, which straddles Napa and Sonoma counties, is known for its cool climate and proximity to the San Pablo Bay, with plenty of vineyards to drive through. Mt. Veeder is marked by rugged, windy[WINDING?] roads; vineyards here are hard to see from the road through the trees clinging to the eastern face of the Mayacamas mountain range.
-Etude
-
-Where to Taste
-
-Artesa Vineyards & Winery
-(Carneros)
-1345 Henry Road artesawinery.com
-Bouchaine Vineyards
-(Carneros)
-1075 Buchli Station Road bouchaine.com
-Cuvaison Winery /
-Brandlin Estate (Carneros)
-1221 Duhig Road cuvaison.com
-Domaine Carneros
-(Carneros)
-1240 Duhig Road domainecarneros.com
-Frias Family Vineyards (North Napa) 1886 El Centro Ave. friasfamilyvineyard.com
-HdV Wines (North Napa) 588 Trancas St.
-www.hdvwines.com Hess Persson Estates (Mt. Veeder)
-4411 Redwood Road hessperssonestates. com Hyde Vineyards (Carneros)
-1044 Los Carneros Ave. hydevineyards.com Kenzo Estate (Coombsville) 3200 Monticello Road
-Etude Winery (Carneros)
-1250 Cuttings Wharf Road | etudewines.com Etude’s tasting room, in a stone building and former distillery, provides an inviting, relaxed backdrop to focus on Etude’s wines, especially the single-vineyard expressions of Pinot Noir and Cabernet Sauvignon. There are multiple ways to enjoy a tasting, including a seated experience or simply wandering around the grounds.
-Favia Wines (Coombsville)
-2031 Coombsville Road | faviawines.com The ultimate intimate experience, a visit here is a visit to the home
-stead of vintners Annie Favia and Andy Erickson. Private tastings take
-place in a cabin that doubles as the winery’s tasting lab and include an
-overview of the historic former Antonio Carbone Wine Cellar and Ital
-ian Garden, which dates to the 1870s. Historic artifacts and documents
-are on display, but are overshadowed by the spectacular wines.
-Hudson Ranch (Carneros)
-5398 Sonoma Highway | hudsonranch.com Hudson is a magical spot, with landscaping of unusual succulents and
-a flower, fruit and vegetable garden with life-size[UNCLEAR] gourds
-that offer a touch of Willy Wonka. The meticulous vineyards are sur
-rounded by rugged oaks, with stunning views and plenty of wildlife–
-Farella Vineyard (Coombsville) 2222 N. 3rd Ave.
-farella.com kenzoestate.com
-Mayacamas Estate (Mt. Veeder)
-1155 Lokoya Road mayacamas.com the ranch covers 2,000 acres. In addition to enjoying the impressive estate-grown wines, ask about picnics and hikes around the property.
-
-Hudson Ranch
-
-Where to Eat
-
-Bistro Don Giovanni (North Napa)
-4110 Howard Lane | bistrodongiovanni.com An institution in Napa, Bistro Don Giovanni has been
-serving exceptional rustic Italian cuisine to vintners and
-tourists since 1993. A large, covered patio and garden
-setting make it one of the most romantic spots around,
-especially on a summer night. But the food is top-notch year-round, including handmade pastas, fried anchovy–
-stuffed olives, wood-fired pizzas, veal parmigiana and
-Mamma Concetta’s meatballs, served on soft polenta.
-Carabao (South Napa)
-145 C Gasser Drive | carabaonapa.com Carabao is the hot new eatery in town, serving high-end and inventive Filipino cuisine in an intimate, friendly
-space. Chef Jade Cunningham takes the high-end tech
-niques she learned at stints at The French Laundry and
-Meadowood and applies them to Filipino dishes like pork lumpia and Kare Kare stew with oxtail croquette, tripe
-and a coconut peanut sauce. There is also plenty of cre
-ativity on the menu, from the deviled egg adobo and
-crispy pork sisig tacos served with a sunny side up quail egg. The wine list is compact but put together with
-plenty of thought to pairing with the cuisine, featuring
-plenty of German Rieslings and other aromatic white
-wines from around the world.
-Farm Restaurant & Bar (Carneros)
-Inside Carneros Resort 4048 Sonoma Highway carnerosresort.com Foodshed (North
-Napa)
-3385 Old California Way Carabao foodshedpizza.com
-
-Where to Stay
-
-Carneros Resort Bear (Carneros) 200 Stanly Crossroad auberge.com/stanly-ranch/ dine/bear
-Boon Fly Cafe 4048 Sonoma Highway boonflycafe.com
-(Carneros)
-4048 Sonoma Highway carnerosresort.com Casa Mani
-Resort Napa Valley (North Napa)
-1075 California Blvd. hilton.com/en/hotels/ napvpqq-casa-mani resort-napa-valley
-Napa Valley Marriott Hotel & Spa (North
-Napa)
-3425 Solano Ave.
-marriott.com The Meritage Resort & Spa (South Napa) 875 Bordeaux Way
-meritageresort.com Milliken Creek Inn(North
-Napa)
-1815 Silverado Trail millikencreekinn.com Napa Winery Inn (North
-Napa)
-1998 Trower Ave. napawineryinn.com Senza Hotel (North Napa) 4066 Howard Lane senzahotel.com
-Silverado Country Club (North Napa) 1600 Atlas Peak Road silveradoresort.com
-Stanly Ranch, Auberge Collection
-(Carneros)
-200 Stanly Crossroad auberge.com/ stanly-ranch`,
-    adventure: {
-      title: 'The Carneros Adventure',
-      intro: `Head south from downtown into Carneros, where the cool influence of San Pablo Bay shapes an entirely different style of wine.`,
-      body: `THE WIND IN YOUR HAIR TOUR Several places around Napa feel
-completely distinct from the rest of the valley. Carneros stands out
-with its own microclimate, aromas, ambience and energy.
-Driving through Carneros typically means traveling east to west, rather
-than following Napa Valley’s usual north-to-south route. Rolling hills de
-fine the landscape more than valley floors or rugged mountains. Curving
-roads invite leisurely drives, and on clear days you can glimpse San Pablo
-Bay to the south. Because the region sits so close to the bay, ocean winds
-sweep through Carneros, especially during the summer. Towering eucalyp
-tus trees serve as windbreaks and re lease a camphorlike fragrance into the
-air.
-Start a day exploring the Napa side of Carneros (the region also stretches west into Sonoma) with donuts—spe
-Domaine Carneros cifically, the famous ones at Boon Fly Café. Located at Carneros Resort and Spa, the bright red, barn-style restaurant welcomes guests through a separate entrance off Sonoma Highway. You might order the chicken and waffles, Dungeness crab Benedict
-Bouchaine or corned beef hash, but save room for the donuts—they make the perfect sweet finish to breakfast.
-Next, driveless than 10 minutes to Bouchaine Winery. On a clear day the property offers sweeping bay views. The wines are precise and aromatic, and the winery hosts dynamic
-educational programs. On Friday mornings, the Falconry in the Garden experience truly stands out. A master falconer introduces guests to raptors—perhaps a hawk, owl or falcon—and explains how these birds partner with vineyard teams, how they hunt and how they see. You can even pose for a photo with the birds, all while enjoying a glass of wine.
-Just five minutes away, Domaine Carneros rises from a hilltop like a fairy-tale château. Climbing the romantic, grand staircase offers countless photo opportunities. Domaine Carneros has built its reputation on exceptional sparkling wines and a wide range of tasting experiences. Two stand out in particular. The Art of Sabrage teaches guests to open a bottle of spar
-kling wine with a sword, a tradition that dates to Na poleon’s era. Equally memorable is the Ultimate Caviar Experience, where sparkling wines pair with an as sortment of Tsar Nicoulai Caviar served alongside gourmet potato chips, toast points, and crème fraîche.`,
-    },
-    soilNote:
-      'Urban riverfront; Carneros to the south offers fog-cooled clay-loam soils ideal for Pinot and Chardonnay.',
-    bestFor: ['Dining', 'Oxbow Market', 'Tasting rooms', 'Carneros day trips'],
-    winerySlugs: [],
-    restaurantSlugs: [],
-    hotelSlugs: [],
-    articleSlug: 'napa-downtown',
-    mapCenter: [-122.2823, 38.2989],
-    mapZoom: 14,
-    neighborRegions: ['yountville', 'beyond-napa'],
-  },
-  {
-    slug: 'beyond-napa',
-    name: 'Beyond Napa',
-    tagline: 'Coombsville · Carneros · Mt. Veeder · North Napa',
-    author: 'MaryAnn Worobiec',
-    issue: 'June 15 & 30, 2026',
-    heroImage: '/images/beyond-napa/hero/beyond-napa-hero-landscape.jpg',
-    accentColor: '#1A2E24',
-    pullQuote: `One of the most appealing aspects of using downtown Napa as a travel base is its proximity to the wine regions that surround the town.`,
-    intro: `Just a few miles east is Coombsville. Head the opposite direction and you'll arrive in the windswept Carneros region, or in the rustic hills of Mt. Veeder — the valley's outer edges, ripe for a day trip.`,
-    body: `Beyond City Limits — Coombsville, Carneros, Mt. Veeder and North Napa form a ring of sub-appellations around downtown. Cool bay fog shapes Carneros Pinot and sparkling wine; Coombsville tucks vineyards into residential valleys; Mt. Veeder climbs the Mayacamas with hard-to-spot hillside plantings.`,
-    adventure: {
-      title: 'The Wind in Your Hair Tour',
-      intro: `Carneros stands out with its own microclimate, aromas and energy — rolling hills, bay breezes and eucalyptus windbreaks define the landscape.`,
-      body: `Start with donuts at Boon Fly Café, then Bouchaine for bay views and falconry, and finish at Domaine Carneros for sparkling wine, sabrage and caviar.`,
-    },
-    soilNote:
-      'Carneros clay-loam cooled by San Pablo Bay fog; Coombsville volcanic and alluvial pockets; Mt. Veeder thin mountain soils on the Mayacamas.',
-    bestFor: ['Carneros day trips', 'Pinot & sparkling', 'Resort bases', 'Coombsville'],
-    winerySlugs: [],
-    restaurantSlugs: [],
-    hotelSlugs: [],
-    articleSlug: 'napa-beyond',
-    mapCenter: [-122.35, 38.28],
-    mapZoom: 10.5,
-    neighborRegions: ['downtown-napa', 'yountville'],
   },
 ]
 

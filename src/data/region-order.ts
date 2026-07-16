@@ -1,13 +1,15 @@
-/** South-to-north order as in the June 2026 print guide (valley floor, then Pritchard Hill). */
+/** Editorial order per the print guide: Beyond Napa follows Downtown (it ran
+ *  as “Nearby Napa” at the end of the Napa chapter), then south to north with
+ *  Pritchard Hill between Rutherford and St. Helena. */
 export const REGION_SOUTH_TO_NORTH = [
   'downtown-napa',
+  'beyond-napa',
   'yountville',
   'oakville',
   'rutherford',
+  'pritchard-hill',
   'st-helena',
   'calistoga',
-  'pritchard-hill',
-  'beyond-napa',
 ] as const
 
 export type RegionGuideSlug = (typeof REGION_SOUTH_TO_NORTH)[number]
