@@ -198,6 +198,10 @@ export default function Footer() {
           </div>
         </div>
 
+        <p className={styles.photoCredits}>
+          Photography by Ryan Dearth, Dawn Heumann, Meg Smith, Christina McNeill, Leigh-Ann
+          Beverly/Bonafide Productions and Emma Kruch/Emma K Creative.
+        </p>
         <p className={styles.copyright}>
           © Copyright {year} Wine Spectator. All rights reserved.
         </p>
