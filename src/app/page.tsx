@@ -637,20 +637,6 @@ export default function HomePage() {
                 }}
               />
               <div className="hero-top-scrim" aria-hidden />
-              {/* Metadata top center */}
-              <div className="home-region-pin-label" style={{
-                position: 'absolute', top: 80, left: 0, right: 0,
-                textAlign: 'center', zIndex: 3,
-              }}>
-                <p style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 11, letterSpacing: '0.22em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(247,243,236,0.7)',
-                }}>
-                  Napa Valley Appellation
-                </p>
-              </div>
               {/* Name + tagline centered on image */}
               <div className="home-region-pin-copy" style={{
                 position: 'absolute', top: '50%', left: 0, right: 0,
@@ -669,7 +655,7 @@ export default function HomePage() {
                 </h2>
                 <p style={{
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 12, letterSpacing: '0.18em',
+                  fontSize: 15, fontWeight: 500, letterSpacing: '0.16em',
                   textTransform: 'uppercase', color: '#C4943A',
                 }}>
                   {region.tagline}

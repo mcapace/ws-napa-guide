@@ -108,7 +108,7 @@ export function ExploreMap({
   const lenis = useLenis()
   const mapRef = useRef<MapRef>(null)
   const mapColumnRef = useRef<HTMLDivElement>(null)
-  const rowRefs = useRef<Record<string, HTMLButtonElement | null>>({})
+  const rowRefs = useRef<Record<string, HTMLElement | null>>({})
   const listScrollRef = useRef<HTMLDivElement>(null)
   const exploreRootRef = useRef<HTMLDivElement>(null)
   const [mapMounted, setMapMounted] = useState(!lazyMap || embedMode)
@@ -748,9 +748,10 @@ export function ExploreMap({
                 const canExpandCopy = listingCopyCanExpand(pin)
                 const displayCopy = listingDisplayCopy(pin, copyExpanded)
                 return (
-                  <button
+                  <div
                     key={pin.slug}
-                    type="button"
+                    role="button"
+                    tabIndex={0}
                     ref={(el) => {
                       rowRefs.current[pin.slug] = el
                     }}
@@ -758,6 +759,12 @@ export function ExploreMap({
                       hasListingPhoto ? ` ${styles.rowWithPhoto}` : ''
                     }${routeStop ? ` ${styles.rowRouteStop}` : ''}`}
                     onClick={() => selectPin(pin, false)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        selectPin(pin, false)
+                      }
+                    }}
                     onMouseEnter={() => setHoveredSlug(pin.slug)}
                     onMouseLeave={() => setHoveredSlug(null)}
                   >
@@ -833,7 +840,7 @@ export function ExploreMap({
                         View details →
                       </Link>
                     </div>
-                  </button>
+                  </div>
                 )
               })
             )}

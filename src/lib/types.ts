@@ -159,6 +159,8 @@ export interface FeatureArticleContent {
     src: string
     alt?: string
     caption?: string
+    /** Cap display width (px) for low-resolution archival sources. */
+    maxWidth?: number
   }
 }
 
