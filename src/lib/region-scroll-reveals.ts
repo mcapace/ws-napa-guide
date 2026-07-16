@@ -31,6 +31,14 @@ export const REGION_SCROLL_REVEAL_IMAGES: Record<string, readonly string[]> = {
     '/images/homepage/region-scroll-reveals/yountville/yountville-stewart.jpg',
     '/images/homepage/region-scroll-reveals/yountville/yountville-vineyard-sunrise.jpg',
   ],
+  'pritchard-hill': [
+    '/images/homepage/region-scroll-reveals/pritchard-hill/pritchard-vert.jpg',
+    '/images/homepage/region-scroll-reveals/pritchard-hill/pritchard-chappellet.jpg',
+  ],
+  'beyond-napa': [
+    '/images/homepage/region-scroll-reveals/beyond-napa/beyond-napa-vert.jpg',
+    '/images/homepage/region-scroll-reveals/beyond-napa/beyond-napa-square.jpg',
+  ],
 }
 
 export type AppellationRevealTriple = readonly [string, string, string]
