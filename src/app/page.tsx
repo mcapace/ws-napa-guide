@@ -29,13 +29,22 @@ const HERO_VIDEO = '/images/homepage/hero/video.mp4'
 const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
 // ── Mosaic panel positions (TRH: perimeter tiles, open center, lifted off bottom edge) ──
+// Tile sizes were designed on a 1440px canvas; below that they scale with the
+// viewport so narrow desktop windows keep the same composition instead of
+// letting fixed-size tiles collide.
+const MOSAIC_DESIGN_WIDTH = 1440
+
+function mosaicDim(px: number): string {
+  return `min(${px}px, ${((px / MOSAIC_DESIGN_WIDTH) * 100).toFixed(2)}vw)`
+}
+
 const PANELS = [
-  { id: 1, style: { width: 196, height: 250, top: '5%', left: '5%' } },
-  { id: 2, style: { width: 156, height: 200, top: '20%', left: '11%' } },
-  { id: 3, style: { width: 222, height: 148, top: '3%', left: '48%' } },
-  { id: 4, style: { width: 248, height: 208, bottom: '30%', left: '4%', zIndex: 13 } },
-  { id: 5, style: { width: 174, height: 228, top: '28%', right: '5%' } },
-  { id: 6, style: { width: 170, height: 222, bottom: '32%', right: '6%', zIndex: 15 } },
+  { id: 1, width: 196, height: 250, style: { top: '5%', left: '5%' } },
+  { id: 2, width: 156, height: 200, style: { top: '20%', left: '11%' } },
+  { id: 3, width: 222, height: 148, style: { top: '3%', left: '48%' } },
+  { id: 4, width: 248, height: 208, style: { bottom: '30%', left: '4%', zIndex: 13 } },
+  { id: 5, width: 174, height: 228, style: { top: '28%', right: '5%' } },
+  { id: 6, width: 170, height: 222, style: { bottom: '32%', right: '6%', zIndex: 15 } },
 ]
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05, 0.06] as const
@@ -369,9 +378,9 @@ export default function HomePage() {
                 className="home-hero-mosaic-panel"
                 style={{
                   position: 'absolute',
-                  width: panel.style.width,
-                  height: panel.style.height,
-                  top: panel.style.top,
+                  width: mosaicDim(panel.width),
+                  height: mosaicDim(panel.height),
+                  top: (panel.style as { top?: string }).top,
                   left: (panel.style as { left?: string; right?: string; bottom?: string }).left,
                   right: (panel.style as { right?: string }).right,
                   bottom: (panel.style as { bottom?: string }).bottom,
@@ -383,7 +392,7 @@ export default function HomePage() {
               >
                 <HomeMosaicRotatingPanel
                   asset={mosaicVisible[i]}
-                  sizes={`${panel.style.width}px`}
+                  sizes={`${panel.width}px`}
                 />
               </div>
             ))}
