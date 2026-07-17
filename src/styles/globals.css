@@ -1685,3 +1685,44 @@ html[data-region-native-scroll].lenis.lenis-stopped {
     z-index: 11600;
   }
 }
+
+/* ── Print: strip site chrome so printed itineraries are clean ── */
+@media print {
+  header,
+  nav,
+  footer {
+    display: none !important;
+  }
+
+  body::after {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+}
+
+/* Plan-page print: show only the dedicated print sheet, as a document */
+@media print {
+  body:has(.ws-print-sheet) * {
+    visibility: hidden;
+  }
+
+  body:has(.ws-print-sheet) .ws-print-sheet,
+  body:has(.ws-print-sheet) .ws-print-sheet * {
+    visibility: visible;
+  }
+
+  body:has(.ws-print-sheet) .ws-print-sheet {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  body:has(.ws-print-sheet) {
+    background: #fff !important;
+  }
+}

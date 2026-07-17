@@ -5,6 +5,7 @@ import { WS_LOGO_OG_STROKE_ONLY_SRC } from '@/lib/ws-logo'
 import AnimationProvider from '@/components/ui/AnimationProvider'
 import Nav from '@/components/ui/Nav'
 import { BottomTabBar } from '@/components/ui/BottomTabBar'
+import { PlanTripFab } from '@/components/ui/PlanTripFab'
 import { StagingBanner } from '@/components/ui/StagingBanner'
 import { getSiteUrl } from '@/lib/site-url'
 
@@ -52,7 +53,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim()
+  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || 'G-HKMJQY8LTC'
   const shouldLoadGA = process.env.NODE_ENV === 'production' && Boolean(gaMeasurementId)
 
   return (
@@ -78,6 +79,7 @@ export default function RootLayout({
             </>
           ) : null}
           {children}
+          <PlanTripFab />
           <BottomTabBar />
         </AnimationProvider>
       </body>

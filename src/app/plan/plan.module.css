@@ -420,37 +420,6 @@
   }
 }
 
-/* ── Print: itinerary only, black on white ── */
-@media print {
-  .page {
-    padding-top: 24px;
-  }
-
-  .form,
-  .resultsActions,
-  .swapBtn,
-  .dayMapLink,
-  .howItWorks,
-  .hero .lede {
-    display: none !important;
-  }
-
-  .page,
-  .stopName,
-  .dayRegion,
-  .stopTime,
-  .resultsTitle,
-  .title {
-    color: #000 !important;
-  }
-
-  .dayCard,
-  .homeBase {
-    border-color: #ccc;
-    background: none;
-    break-inside: avoid;
-  }
-}
 
 /* ── Concierge chat ── */
 .chatSection {
@@ -620,9 +589,163 @@
   color: rgba(196, 148, 58, 0.9);
 }
 
+
+.mapLegendDivider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(247, 243, 236, 0.15);
+}
+
+/* ── Print sheet: a real document, not the website ── */
+.printSheet {
+  display: none;
+}
+
 @media print {
-  .chatSection,
-  .mapPanel {
-    display: none !important;
+  .printSheet {
+    display: block;
+    background: #fff;
+    color: #111;
+    padding: 0.4in 0.25in;
+    font-family: Georgia, 'Times New Roman', serif;
   }
+
+  .printEyebrow {
+    margin: 0 0 6px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8a6d2f;
+  }
+
+  .printTitle {
+    margin: 0 0 6px;
+    font-size: 26px;
+    font-weight: 400;
+    font-style: italic;
+    color: #111;
+  }
+
+  .printHomeBase {
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid #111;
+    font-size: 12px;
+    color: #333;
+  }
+
+  .printDay {
+    margin-bottom: 16px;
+    break-inside: avoid;
+  }
+
+  .printDayTitle {
+    margin: 0 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 0.75px solid #bbb;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #111;
+  }
+
+  .printStop {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 7px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .printStopTime {
+    flex: 0 0 64px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #444;
+    padding-top: 1px;
+  }
+
+  .printStopBody {
+    flex: 1;
+    color: #222;
+  }
+
+  .printStopMeta {
+    color: #666;
+  }
+
+  .printStopNote {
+    color: #555;
+  }
+
+  .printFooter {
+    margin-top: 22px;
+    padding-top: 10px;
+    border-top: 0.75px solid #bbb;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 9.5px;
+    color: #777;
+  }
+}
+
+/* ── Email gate ── */
+.gate {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding: clamp(24px, 3vw, 36px);
+  border: 1px solid rgba(196, 148, 58, 0.35);
+  border-radius: 8px;
+  background: rgba(196, 148, 58, 0.04);
+}
+
+.gateLede {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(247, 243, 236, 0.85);
+  max-width: 62ch;
+}
+
+.gateRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.gateRow input[type='email'] {
+  flex: 1 1 260px;
+}
+
+.gateConsent {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(247, 243, 236, 0.65);
+  max-width: 72ch;
+  cursor: pointer;
+}
+
+.gateConsent input {
+  margin-top: 3px;
+  accent-color: var(--gold, #c4943a);
+  flex-shrink: 0;
+}
+
+.gateConsent a {
+  color: rgba(196, 148, 58, 0.9);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }

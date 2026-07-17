@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { Wine, UtensilsCrossed, BedDouble, Sparkles } from 'lucide-react'
 import { REGION_SOUTH_TO_NORTH } from '@/data/region-order'
 import { regionDisplayName } from '@/lib/explore'
 import {
@@ -112,6 +113,51 @@ export function PlanClient({ venues }: { venues: PlanVenue[] }) {
     params.get('ai') ? 'ai' : 'form',
   )
   const [linkCopied, setLinkCopied] = useState(false)
+
+  // Email gate: the builder requires a verified email + consent before use
+  const [leadEmail, setLeadEmail] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null
+    return window.localStorage.getItem('ws-plan-lead')
+  })
+  const [gateEmail, setGateEmail] = useState('')
+  const [gateConsent, setGateConsent] = useState(false)
+  const [gatePending, setGatePending] = useState(false)
+  const [gateError, setGateError] = useState<string | null>(null)
+
+  async function unlockPlanner() {
+    if (gatePending) return
+    setGateError(null)
+    if (!gateConsent) {
+      setGateError('Please agree to the terms to continue.')
+      return
+    }
+    setGatePending(true)
+    try {
+      const res = await fetch('/api/plan-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: gateEmail.trim(), consent: true }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        const messages: Record<string, string> = {
+          invalid_email: 'That doesn’t look like a valid email address.',
+          disposable_email: 'Please use a real, non-disposable email address.',
+          undeliverable_email:
+            'We couldn’t verify that address can receive mail — double-check the spelling.',
+          consent_required: 'Please agree to the terms to continue.',
+        }
+        setGateError(messages[data?.error as string] ?? 'Something went wrong — try again.')
+        return
+      }
+      window.localStorage.setItem('ws-plan-lead', gateEmail.trim().toLowerCase())
+      setLeadEmail(gateEmail.trim().toLowerCase())
+    } catch {
+      setGateError('Something went wrong — try again.')
+    } finally {
+      setGatePending(false)
+    }
+  }
 
   const input: PlanInput = useMemo(
     () => ({ days, base, pace, interests, seed, swaps }),
@@ -280,11 +326,76 @@ export function PlanClient({ venues }: { venues: PlanVenue[] }) {
         </p>
       </header>
 
-      <section className={styles.chatSection} aria-label="Napa concierge">
-        <p className={styles.fieldLabel}>Napa concierge</p>
-        <PlanChat onItinerary={handleAiItinerary} />
-      </section>
+      {!leadEmail ? (
+        <section className={styles.gate} aria-label="Unlock the planner">
+          <p className={styles.fieldLabel}>Unlock the itinerary builder</p>
+          <p className={styles.gateLede}>
+            The planner is free to use — we just need your email so we can save
+            your trip and send you your itinerary.
+          </p>
+          <form
+            className={styles.gateRow}
+            onSubmit={(e) => {
+              e.preventDefault()
+              void unlockPlanner()
+            }}
+          >
+            <input
+              type="email"
+              className={styles.chatInput}
+              placeholder="you@example.com"
+              value={gateEmail}
+              onChange={(e) => setGateEmail(e.target.value)}
+              disabled={gatePending}
+              required
+            />
+            <button
+              type="submit"
+              className={styles.generateBtn}
+              disabled={gatePending || !gateEmail.trim()}
+            >
+              {gatePending ? 'Verifying…' : 'Unlock the planner'}
+            </button>
+          </form>
+          <label className={styles.gateConsent}>
+            <input
+              type="checkbox"
+              checked={gateConsent}
+              onChange={(e) => setGateConsent(e.target.checked)}
+            />
+            <span>
+              I agree that Wine Spectator (M. Shanken Communications) may store my
+              email address and trip preferences to build my itinerary and send me
+              the Napa Valley Guide newsletter and related offers, as described in
+              the{' '}
+              <a
+                href="https://www.winespectator.com/pages/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Privacy Policy
+              </a>{' '}
+              and{' '}
+              <a
+                href="https://www.winespectator.com/pages/terms-of-service"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Terms of Service
+              </a>
+              . I can unsubscribe at any time.
+            </span>
+          </label>
+          {gateError ? <p className={styles.chatError}>{gateError}</p> : null}
+        </section>
+      ) : (
+        <section className={styles.chatSection} aria-label="Napa concierge">
+          <p className={styles.fieldLabel}>Napa concierge</p>
+          <PlanChat onItinerary={handleAiItinerary} />
+        </section>
+      )}
 
+      {leadEmail ? (
       <section className={styles.form} aria-label="Quick builder">
         <p className={styles.fieldLabel}>Quick builder</p>
         <div className={styles.fieldGroup}>
@@ -391,6 +502,7 @@ export function PlanClient({ venues }: { venues: PlanVenue[] }) {
           {generated ? 'Update my itinerary' : 'Build my itinerary'}
         </button>
       </section>
+      ) : null}
 
       {displayPlan ? (
         <section id="plan-results" className={styles.results} aria-label="Your itinerary">
@@ -417,7 +529,7 @@ export function PlanClient({ venues }: { venues: PlanVenue[] }) {
           </div>
 
           <div className={styles.mapPanel}>
-            <PlanMap stops={mapStops} />
+            <PlanMap stops={mapStops} homeBase={displayPlan.homeBase} />
             <div className={styles.mapLegend}>
               {displayPlan.days.map((day) => (
                 <span key={day.index} className={styles.mapLegendItem}>
@@ -428,6 +540,19 @@ export function PlanClient({ venues }: { venues: PlanVenue[] }) {
                   Day {day.index + 1} · {day.regionLabel}
                 </span>
               ))}
+              <span className={styles.mapLegendDivider} aria-hidden />
+              <span className={styles.mapLegendItem}>
+                <Wine size={13} aria-hidden /> Tasting
+              </span>
+              <span className={styles.mapLegendItem}>
+                <UtensilsCrossed size={13} aria-hidden /> Dining
+              </span>
+              <span className={styles.mapLegendItem}>
+                <BedDouble size={13} aria-hidden /> Stay
+              </span>
+              <span className={styles.mapLegendItem}>
+                <Sparkles size={13} aria-hidden /> Between pours
+              </span>
             </div>
           </div>
 
@@ -521,6 +646,45 @@ export function PlanClient({ venues }: { venues: PlanVenue[] }) {
                 </ol>
               </article>
             ))}
+          </div>
+
+          {/* Print-only sheet — a clean black-on-white document, not the dark site */}
+          <div className={`ws-print-sheet ${styles.printSheet}`} aria-hidden>
+            <p className={styles.printEyebrow}>Wine Spectator — Napa Valley Guide</p>
+            <h2 className={styles.printTitle}>{displayPlan.title}</h2>
+            {displayPlan.homeBase ? (
+              <p className={styles.printHomeBase}>
+                Home base: <strong>{displayPlan.homeBase.name}</strong> ·{' '}
+                {displayPlan.homeBase.address} ·{' '}
+                {regionDisplayName(displayPlan.homeBase.region)}
+              </p>
+            ) : null}
+            {displayPlan.days.map((day) => (
+              <div key={day.index} className={styles.printDay}>
+                <h3 className={styles.printDayTitle}>
+                  Day {day.index + 1} — {day.regionLabel}
+                </h3>
+                {day.stops.map((stop) => (
+                  <div key={stop.slotKey} className={styles.printStop}>
+                    <span className={styles.printStopTime}>{stop.time}</span>
+                    <span className={styles.printStopBody}>
+                      <strong>{stop.venue.name}</strong>
+                      <span className={styles.printStopMeta}>
+                        {' '}
+                        · {CATEGORY_LABEL[stop.venue.category]} · {stop.venue.address}
+                      </span>
+                      {stop.note ? (
+                        <em className={styles.printStopNote}> — {stop.note}</em>
+                      ) : null}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ))}
+            <p className={styles.printFooter}>
+              Reservations recommended throughout Napa Valley. Full guide:
+              napatravel.winespectator.com
+            </p>
           </div>
 
           <div className={styles.howItWorks}>
