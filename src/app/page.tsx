@@ -33,6 +33,7 @@ const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 // that width — true TRH behavior: the whole collage gets photographically
 // smaller with spacing and overlaps intact.
 const MOSAIC_DESIGN_WIDTH = 1440
+const MOSAIC_DESIGN_HEIGHT = 810
 
 const PANELS = [
   { id: 1, width: 196, height: 250, style: { top: '5%', left: '5%' } },
@@ -276,7 +277,12 @@ export default function HomePage() {
     const applyMosaicScale = () => {
       const canvas = mosaicCanvasRef.current
       if (!canvas) return
-      const scale = Math.min(1, window.innerWidth / MOSAIC_DESIGN_WIDTH)
+      // Uniform scale bounded by BOTH dimensions — short or narrow windows
+      // shrink the whole collage together, so tiles never crowd vertically
+      const scale = Math.min(
+        window.innerWidth / MOSAIC_DESIGN_WIDTH,
+        window.innerHeight / MOSAIC_DESIGN_HEIGHT,
+      )
       canvas.style.transform = `translateX(-50%) scale(${scale})`
     }
     applyMosaicScale()
@@ -385,7 +391,7 @@ export default function HomePage() {
                 top: 0,
                 left: '50%',
                 width: MOSAIC_DESIGN_WIDTH,
-                height: '100%',
+                height: MOSAIC_DESIGN_HEIGHT,
                 transform: 'translateX(-50%)',
                 transformOrigin: 'top center',
                 willChange: 'transform',
@@ -414,7 +420,9 @@ export default function HomePage() {
                 >
                   <HomeMosaicRotatingPanel
                     asset={mosaicVisible[i]}
-                    sizes={`${panel.width}px`}
+                    // Canvas can scale up to ~1.5x on wide monitors — request
+                    // enough source pixels to stay sharp
+                    sizes={`${Math.round(panel.width * 1.5)}px`}
                   />
                 </div>
               ))}
