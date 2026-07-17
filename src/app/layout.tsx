@@ -7,6 +7,7 @@ import Nav from '@/components/ui/Nav'
 import { BottomTabBar } from '@/components/ui/BottomTabBar'
 import { StagingBanner } from '@/components/ui/StagingBanner'
 import { getSiteUrl } from '@/lib/site-url'
+import { Analytics } from '@vercel/analytics/next'
 
 const siteUrl = getSiteUrl()
 
@@ -80,6 +81,7 @@ export default function RootLayout({
           {children}
           <BottomTabBar />
         </AnimationProvider>
+        <Analytics />
       </body>
     </html>
   )
