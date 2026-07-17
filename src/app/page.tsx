@@ -35,13 +35,16 @@ const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 const MOSAIC_DESIGN_WIDTH = 1440
 const MOSAIC_DESIGN_HEIGHT = 810
 
+// Anchors chosen so no tile ever overlaps another on the 1440x810 canvas,
+// and the bottom third stays clear for the Napa Valley wordmark —
+// staggered rails left and right, two accents across the top, open middle
 const PANELS = [
-  { id: 1, width: 196, height: 250, style: { top: '5%', left: '5%' } },
-  { id: 2, width: 156, height: 200, style: { top: '20%', left: '11%' } },
+  { id: 1, width: 196, height: 250, style: { top: '6%', left: '4.5%' } },
+  { id: 2, width: 156, height: 200, style: { top: '48%', left: '10%' } },
   { id: 3, width: 222, height: 148, style: { top: '3%', left: '48%' } },
-  { id: 4, width: 248, height: 208, style: { bottom: '30%', left: '4%', zIndex: 13 } },
-  { id: 5, width: 174, height: 228, style: { top: '28%', right: '5%' } },
-  { id: 6, width: 170, height: 222, style: { bottom: '32%', right: '6%', zIndex: 15 } },
+  { id: 4, width: 248, height: 208, style: { top: '5%', left: '21%', zIndex: 13 } },
+  { id: 5, width: 174, height: 228, style: { top: '30%', right: '3.5%' } },
+  { id: 6, width: 170, height: 222, style: { bottom: '26%', right: '17%', zIndex: 15 } },
 ]
 
 const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05, 0.06] as const
