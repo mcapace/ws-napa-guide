@@ -1,0 +1,121 @@
+.wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.marker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+  color: #fff;
+  cursor: pointer;
+  transform-origin: center bottom;
+  animation: markerDrop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) backwards;
+  transition: transform 0.15s ease;
+}
+
+.marker:hover {
+  transform: scale(1.15);
+  z-index: 5;
+}
+
+.markerBadge {
+  position: absolute;
+  top: -6px;
+  right: -7px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #0d0b09;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: #f7f3ec;
+  font-family: var(--font-body, sans-serif);
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 14px;
+  text-align: center;
+}
+
+.homeMarker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #c4943a;
+  border: 2.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 14px rgba(196, 148, 58, 0.6);
+  color: #0d0b09;
+  cursor: pointer;
+  animation: markerDrop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) backwards;
+}
+
+.homeMarker::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(196, 148, 58, 0.55);
+  animation: homePulse 2.4s ease-out infinite;
+}
+
+@keyframes homePulse {
+  0% { transform: scale(0.8); opacity: 0.9; }
+  70% { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+@keyframes markerDrop {
+  from { transform: translateY(-14px) scale(0.6); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Dark editorial popup */
+.popup :global(.mapboxgl-popup-content) {
+  background: #16120f;
+  border: 1px solid rgba(196, 148, 58, 0.35);
+  border-radius: 6px;
+  padding: 12px 14px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+  min-width: 200px;
+}
+
+.popup :global(.mapboxgl-popup-tip) {
+  border-top-color: #16120f !important;
+  border-bottom-color: #16120f !important;
+}
+
+.popupEyebrow {
+  margin: 0;
+  font-family: var(--font-body, sans-serif);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c4943a;
+}
+
+.popupName {
+  margin: 4px 0 2px;
+  font-family: var(--font-display, serif);
+  font-size: 16px;
+  font-weight: 500;
+  color: #f7f3ec;
+}
+
+.popupAddress {
+  margin: 0;
+  font-family: var(--font-body, sans-serif);
+  font-size: 11.5px;
+  color: rgba(247, 243, 236, 0.6);
+}

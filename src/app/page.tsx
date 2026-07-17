@@ -29,13 +29,14 @@ const HERO_VIDEO = '/images/homepage/hero/video.mp4'
 const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
 // ── Mosaic panel positions (TRH: perimeter tiles, open center, lifted off bottom edge) ──
-// Tile sizes were designed on a 1440px canvas; below that they scale with the
-// viewport so narrow desktop windows keep the same composition instead of
-// letting fixed-size tiles collide.
+// Tile sizes were designed on a 1440px canvas. Below that they shrink only
+// modestly (floor at 78% of design size) — instead of cramming, whole tiles
+// drop out at breakpoints (TRH-style), keeping the composition airy.
 const MOSAIC_DESIGN_WIDTH = 1440
 
 function mosaicDim(px: number): string {
-  return `min(${px}px, ${((px / MOSAIC_DESIGN_WIDTH) * 100).toFixed(2)}vw)`
+  const vw = ((px / MOSAIC_DESIGN_WIDTH) * 100).toFixed(2)
+  return `clamp(${Math.round(px * 0.78)}px, ${vw}vw, ${px}px)`
 }
 
 const PANELS = [
@@ -375,7 +376,7 @@ export default function HomePage() {
                 ref={(el) => {
                   panelRefs.current[i] = el
                 }}
-                className="home-hero-mosaic-panel"
+                className={`home-hero-mosaic-panel home-hero-mosaic-panel--p${panel.id}`}
                 style={{
                   position: 'absolute',
                   width: mosaicDim(panel.width),

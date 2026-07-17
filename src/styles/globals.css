@@ -1685,3 +1685,64 @@ html[data-region-native-scroll].lenis.lenis-stopped {
     z-index: 11600;
   }
 }
+
+/* ── Print: strip site chrome so printed itineraries are clean ── */
+@media print {
+  header,
+  nav,
+  footer {
+    display: none !important;
+  }
+
+  body::after {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+}
+
+/* Plan-page print: show only the dedicated print sheet, as a document */
+@media print {
+  body:has(.ws-print-sheet) * {
+    visibility: hidden;
+  }
+
+  body:has(.ws-print-sheet) .ws-print-sheet,
+  body:has(.ws-print-sheet) .ws-print-sheet * {
+    visibility: visible;
+  }
+
+  body:has(.ws-print-sheet) .ws-print-sheet {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  body:has(.ws-print-sheet) {
+    background: #fff !important;
+  }
+}
+
+/* Homepage mosaic: drop tiles as width shrinks (TRH-style) instead of
+   letting six near-full-size tiles crowd the headline */
+@media (max-width: 1279px) {
+  .home-hero-mosaic-panel--p2 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1099px) {
+  .home-hero-mosaic-panel--p5 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 959px) {
+  .home-hero-mosaic-panel--p3 {
+    display: none !important;
+  }
+}

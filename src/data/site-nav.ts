@@ -13,6 +13,7 @@ export const navPrimaryLinks: SiteNavLink[] = [
   { label: 'Where to Taste', href: '/wineries' },
   { label: 'Where to Dine', href: '/dining' },
   { label: 'Where to Stay', href: '/stay' },
+  { label: 'Plan Your Trip', href: '/plan' },
   { label: 'Events Calendar', href: '/calendar' },
 ]
 
