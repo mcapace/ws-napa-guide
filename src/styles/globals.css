@@ -1726,3 +1726,23 @@ html[data-region-native-scroll].lenis.lenis-stopped {
     background: #fff !important;
   }
 }
+
+/* Homepage mosaic: drop tiles as width shrinks (TRH-style) instead of
+   letting six near-full-size tiles crowd the headline */
+@media (max-width: 1279px) {
+  .home-hero-mosaic-panel--p2 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1099px) {
+  .home-hero-mosaic-panel--p5 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 959px) {
+  .home-hero-mosaic-panel--p3 {
+    display: none !important;
+  }
+}

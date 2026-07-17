@@ -11,7 +11,16 @@ import {
 import type { MapPin } from '@/data/map-pins'
 import { editorialDetailHref } from '@/lib/editorial-detail-link'
 import { getShowcaseFocalProfile, getShowcaseImageStyle } from '@/lib/image-focal'
+import copySideManifest from '@/data/showcase-copy-side.json'
 import styles from './FeaturedShowcase.module.css'
+
+/** Editor-reviewed copy placement per image — copy sits on the side away
+ *  from the photo's subject so text never covers faces. Images without an
+ *  entry (centered/evenly busy compositions) keep the alternating rhythm. */
+const COPY_SIDE: Record<string, 'left' | 'right'> = copySideManifest as Record<
+  string,
+  'left' | 'right'
+>
 
 export type ShowcaseCategory = 'taste' | 'eat' | 'stay'
 
@@ -80,7 +89,8 @@ export function FeaturedShowcasePanel({
   const showMotion = useFramerMotion && isInView
 
   const imageSrc = pick.image ?? pick.imagePortrait
-  const anchorRight = index % 2 === 1
+  const manifestSide = pick.image ? COPY_SIDE[pick.image] : undefined
+  const anchorRight = manifestSide ? manifestSide === 'right' : index % 2 === 1
   const detailHref = editorialDetailHref(pins, pick.category, regionSlug, pick.name, pick.website)
   const website = normalizeWebsite(pick.website)
   // Editorial call: short write-ups show whole; anything running past a few
