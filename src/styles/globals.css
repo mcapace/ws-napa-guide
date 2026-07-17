@@ -93,6 +93,16 @@ body {
   line-height: 1.7;
 }
 
+/* Editorial line-wrapping everywhere: no stranded last words or awkward
+   rags in listing write-ups, excerpts, captions, and article copy.
+   Progressive enhancement — older browsers simply ignore it. */
+p,
+li,
+figcaption,
+blockquote {
+  text-wrap: pretty;
+}
+
 /* Any stray layout overflow makes mobile Chrome widen the layout viewport
    (the whole page zooms out and pans sideways). clip, unlike hidden, creates
    no scroll container, so sticky/scrub animations are unaffected. */
