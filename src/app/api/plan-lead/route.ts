@@ -1,7 +1,7 @@
 // Itinerary-builder lead capture with double verification:
 // 1) email + confirm-email + consent + MX / disposable checks
-// 2) 6-digit code emailed via Braze, then verified before unlock
-// Verified leads are forwarded to Braze tagged as planner users.
+// 2) 6-digit code emailed via SendGrid, then verified before unlock
+// Leads are stored in Supabase (consent on request, verified on success).
 
 import { createHmac, timingSafeEqual } from 'crypto'
 import { promises as dns } from 'dns'
@@ -30,13 +30,6 @@ const DISPOSABLE_DOMAINS = new Set([
   'tempinbox.com',
 ])
 
-function brazeConfig(): { apiKey: string; endpoint: string } | null {
-  const apiKey = process.env.BRAZE_API_KEY?.trim()
-  const endpointRaw = process.env.BRAZE_API_ENDPOINT?.trim()
-  if (!apiKey || !endpointRaw) return null
-  return { apiKey, endpoint: endpointRaw.replace(/\/+$/, '') }
-}
-
 function parseEmail(raw: unknown): { email: string; domain: string } | null {
   if (typeof raw !== 'string') return null
   const email = raw.trim().toLowerCase()
@@ -61,8 +54,15 @@ async function domainAcceptsMail(domain: string): Promise<boolean> {
   }
 }
 
+// ── OTP (stateless, HMAC over a 10-minute window; no server-side storage) ──
+
 function otpSecret(): string {
-  return process.env.PLAN_OTP_SECRET?.trim() || process.env.BRAZE_API_KEY?.trim() || ''
+  return (
+    process.env.PLAN_OTP_SECRET?.trim() ||
+    process.env.SENDGRID_API_KEY?.trim() ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() ||
+    ''
+  )
 }
 
 function windowIndex(at = Date.now()): number {
@@ -90,176 +90,99 @@ function verifyOtp(email: string, code: string): boolean {
   return codesMatch(code, codeFor(email, w)) || codesMatch(code, codeFor(email, w - 1))
 }
 
+// ── Email delivery via SendGrid ──
+
 const OTP_EMAIL_HTML = (code: string) => `
-  <div style="font-family: Georgia, serif; color: #1a1a1a; line-height: 1.5;">
+  <div style="font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a; line-height: 1.6; max-width: 480px;">
+    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #8a6d2f; margin: 0 0 12px;">Wine Spectator · Napa Valley Guide</p>
     <p>Your verification code for the Napa Valley itinerary builder:</p>
-    <p style="font-size: 28px; letter-spacing: 0.2em; font-weight: bold;">${code}</p>
-    <p style="color: #555;">This code expires in about 10 minutes. If you didn’t request it, you can ignore this email.</p>
-    <p style="color: #888; font-size: 12px;">Wine Spectator · M. Shanken Communications</p>
+    <p style="font-size: 30px; letter-spacing: 0.24em; font-weight: bold; margin: 16px 0;">${code}</p>
+    <p style="color: #555;">This code expires in about 10 minutes. If you didn&rsquo;t request it, you can ignore this email.</p>
+    <p style="color: #888; font-size: 12px; margin-top: 20px;">Wine Spectator · M. Shanken Communications</p>
   </div>
 `
 
 const OTP_EMAIL_TEXT = (code: string) =>
   `Your Wine Spectator Napa Guide verification code is ${code}. It expires in about 10 minutes.`
 
-/** Prefer a Braze Transactional / API campaign; fall back to /messages/send. */
 async function sendOtpEmail(email: string, code: string): Promise<'ok' | 'unavailable' | 'failed'> {
-  const braze = brazeConfig()
-  if (!braze) return 'unavailable'
-
-  const campaignId = process.env.BRAZE_OTP_CAMPAIGN_ID?.trim()
-  const appId = process.env.BRAZE_APP_ID?.trim()
-  const from = process.env.BRAZE_OTP_FROM_EMAIL?.trim()
-
-  if (!campaignId && !(appId && from)) return 'unavailable'
-
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${braze.apiKey}`,
-  }
+  const apiKey = process.env.SENDGRID_API_KEY?.trim()
+  const from = process.env.SENDGRID_FROM_EMAIL?.trim()
+  if (!apiKey || !from) return 'unavailable'
+  const fromName = process.env.SENDGRID_FROM_NAME?.trim() || 'Wine Spectator Napa Valley Guide'
 
   try {
-    if (campaignId) {
-      // API / API-triggered campaign — template: {{api_trigger_properties.${otp_code}}}
-      // Matches existing WS patterns like "WS Tag Follow Instant Email".
-      const triggerRes = await fetch(`${braze.endpoint}/campaigns/trigger/send`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({
-          campaign_id: campaignId,
-          recipients: [
-            {
-              external_user_id: email,
-              trigger_properties: { otp_code: code },
-              attributes: {
-                email,
-                email_subscribe: 'subscribed',
-              },
-            },
-          ],
-        }),
-      })
-      if (triggerRes.ok) return 'ok'
-
-      const triggerErr = await triggerRes.text()
-      console.error('plan-lead: Braze campaigns/trigger/send', triggerRes.status, triggerErr)
-
-      // Fallback: Transactional Email campaigns use a different endpoint
-      const txnRes = await fetch(
-        `${braze.endpoint}/transactional/v1/campaigns/${campaignId}/send`,
-        {
-          method: 'POST',
-          headers,
-          body: JSON.stringify({
-            external_send_id: `plan-otp-${email}-${windowIndex()}`,
-            trigger_properties: { otp_code: code },
-            recipient: {
-              external_user_id: email,
-              attributes: {
-                email,
-                email_subscribe: 'subscribed',
-              },
-            },
-          }),
-        },
-      )
-      if (!txnRes.ok) {
-        console.error('plan-lead: Braze transactional send', txnRes.status, await txnRes.text())
-        return 'failed'
-      }
-      return 'ok'
-    }
-
-    // Inline send — no campaign required (needs BRAZE_APP_ID + BRAZE_OTP_FROM_EMAIL)
-    // Ensure the profile exists before messaging.
-    await fetch(`${braze.endpoint}/users/track`, {
+    const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
       method: 'POST',
-      headers,
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        attributes: [{ external_id: email, email, email_subscribe: 'subscribed' }],
+        personalizations: [{ to: [{ email }] }],
+        from: { email: from, name: fromName },
+        subject: `${code} is your Wine Spectator Napa Guide code`,
+        content: [
+          { type: 'text/plain', value: OTP_EMAIL_TEXT(code) },
+          { type: 'text/html', value: OTP_EMAIL_HTML(code) },
+        ],
+        // Transactional: never route through a suppression/unsub group
+        mail_settings: { bypass_list_management: { enable: true } },
       }),
     })
-
-    const res = await fetch(`${braze.endpoint}/messages/send`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        external_user_ids: [email],
-        recipient_subscription_state: 'all',
-        messages: {
-          email: {
-            app_id: appId,
-            from,
-            subject: `${code} is your Wine Spectator Napa Guide code`,
-            body: OTP_EMAIL_HTML(code),
-            plaintext_body: OTP_EMAIL_TEXT(code),
-          },
-        },
-      }),
-    })
-    if (!res.ok) {
-      console.error('plan-lead: Braze messages/send', res.status, await res.text())
-      return 'failed'
-    }
-    return 'ok'
+    // SendGrid returns 202 Accepted on success
+    if (res.status === 202) return 'ok'
+    console.error('plan-lead: SendGrid responded', res.status, await res.text())
+    return 'failed'
   } catch (err) {
-    console.error('plan-lead: Braze OTP send failed', err)
+    console.error('plan-lead: SendGrid send failed', err)
     return 'failed'
   }
 }
 
-async function forwardToBraze(email: string): Promise<void> {
-  const braze = brazeConfig()
-  const groupId = process.env.BRAZE_NAPA_GUIDE_GROUP_ID
-  if (!braze) {
-    console.warn('plan-lead: Braze env missing — lead accepted but not forwarded', email)
+// ── Lead storage in Supabase (PostgREST upsert, service-role key) ──
+
+function supabaseConfig(): { url: string; key: string } | null {
+  const url = process.env.SUPABASE_URL?.trim()
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()
+  if (!url || !key) return null
+  return { url: url.replace(/\/+$/, ''), key }
+}
+
+/** Upsert a lead row. `patch` sets only the columns provided; email is the
+ *  conflict key, so re-requests refresh consent without clobbering `verified`. */
+async function upsertLead(email: string, patch: Record<string, unknown>): Promise<void> {
+  const sb = supabaseConfig()
+  if (!sb) {
+    console.warn('plan-lead: Supabase env missing — lead not stored', email)
     return
   }
   try {
-    const res = await fetch(`${braze.endpoint}/users/track`, {
+    const res = await fetch(`${sb.url}/rest/v1/plan_leads?on_conflict=email`, {
       method: 'POST',
       headers: {
+        apikey: sb.key,
+        Authorization: `Bearer ${sb.key}`,
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${braze.apiKey}`,
+        Prefer: 'resolution=merge-duplicates,return=minimal',
       },
-      body: JSON.stringify({
-        attributes: [
-          {
-            external_id: email,
-            email,
-            napa_itinerary_builder: true,
-            napa_itinerary_builder_consent_at: new Date().toISOString(),
-            napa_itinerary_builder_verified: true,
-            ...(groupId?.trim()
-              ? {
-                  subscription_groups: [
-                    {
-                      subscription_group_id: groupId.trim(),
-                      subscription_state: 'subscribed',
-                    },
-                  ],
-                }
-              : {}),
-          },
-        ],
-      }),
+      body: JSON.stringify({ email, updated_at: new Date().toISOString(), ...patch }),
     })
     if (!res.ok) {
-      console.error('plan-lead: Braze responded', res.status, await res.text())
+      console.error('plan-lead: Supabase upsert', res.status, await res.text())
     }
   } catch (err) {
-    console.error('plan-lead: Braze forward failed', err)
+    console.error('plan-lead: Supabase upsert failed', err)
   }
 }
+
+// ── Shared validation ──
 
 async function validateLeadEmail(
   emailRaw: unknown,
   confirmRaw: unknown,
   consent: unknown,
-): Promise<
-  | { ok: true; email: string }
-  | { ok: false; error: string; status: number }
-> {
+): Promise<{ ok: true; email: string } | { ok: false; error: string; status: number }> {
   if (consent !== true) {
     return { ok: false, error: 'consent_required', status: 400 }
   }
@@ -320,15 +243,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'email_send_failed' }, { status: 502 })
     }
 
+    // Capture the lead with consent as soon as the code is sent — even
+    // visitors who never enter the code are recorded (with verified=false).
+    await upsertLead(validated.email, {
+      consent: true,
+      consent_at: new Date().toISOString(),
+      source: 'itinerary_builder',
+    })
+
     const payload: { ok: true; step: 'code'; debugCode?: string } = {
       ok: true,
       step: 'code',
     }
-    // Local/staging only: echo code when explicitly enabled (never on production)
-    if (
-      process.env.PLAN_OTP_DEV_ECHO === '1' &&
-      process.env.VERCEL_ENV !== 'production'
-    ) {
+    // Local/staging only: echo the code when explicitly enabled (never in production)
+    if (process.env.PLAN_OTP_DEV_ECHO === '1' && process.env.VERCEL_ENV !== 'production') {
       payload.debugCode = code
     }
 
@@ -346,6 +274,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'invalid_code' }, { status: 400 })
   }
 
-  await forwardToBraze(validated.email)
+  await upsertLead(validated.email, {
+    consent: true,
+    verified: true,
+    verified_at: new Date().toISOString(),
+    source: 'itinerary_builder',
+  })
+
   return NextResponse.json({ ok: true, unlocked: true })
 }
