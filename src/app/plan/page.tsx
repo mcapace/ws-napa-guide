@@ -6,6 +6,10 @@ import { buildAllRegionPins } from '@/lib/all-region-pins'
 import type { PlanVenue } from '@/lib/plan-itinerary'
 import { PlanClient } from './PlanClient'
 
+// Always server-render: the planner must be in the HTML itself, never an
+// empty static shell that depends on client chunks to appear.
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Plan Your Trip',
   description:

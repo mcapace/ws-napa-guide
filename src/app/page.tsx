@@ -29,14 +29,13 @@ const HERO_VIDEO = '/images/homepage/hero/video.mp4'
 const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
 // ── Mosaic panel positions (TRH: perimeter tiles, open center, lifted off bottom edge) ──
-// Tile sizes were designed on a 1440px canvas. Below that they shrink only
-// modestly (floor at 78% of design size) — instead of cramming, whole tiles
-// drop out at breakpoints (TRH-style), keeping the composition airy.
+// TRH scaling: every tile keeps its anchor and shrinks in lockstep with the
+// viewport (pure vw below the 1440px design width), so the composition is
+// scale-invariant — same picture, smaller, never crowding the headline.
 const MOSAIC_DESIGN_WIDTH = 1440
 
 function mosaicDim(px: number): string {
-  const vw = ((px / MOSAIC_DESIGN_WIDTH) * 100).toFixed(2)
-  return `clamp(${Math.round(px * 0.78)}px, ${vw}vw, ${px}px)`
+  return `min(${px}px, ${((px / MOSAIC_DESIGN_WIDTH) * 100).toFixed(2)}vw)`
 }
 
 const PANELS = [
