@@ -114,21 +114,43 @@ export function PlanClient({ venues }: { venues: PlanVenue[] }) {
   )
   const [linkCopied, setLinkCopied] = useState(false)
 
-  // Email gate: the builder requires a verified email + consent before use
+  // Email gate: confirm email + 6-digit code before unlock
   const [leadEmail, setLeadEmail] = useState<string | null>(() => {
     if (typeof window === 'undefined') return null
     return window.localStorage.getItem('ws-plan-lead')
   })
   const [gateEmail, setGateEmail] = useState('')
+  const [gateConfirmEmail, setGateConfirmEmail] = useState('')
+  const [gateCode, setGateCode] = useState('')
+  const [gateStep, setGateStep] = useState<'email' | 'code'>('email')
   const [gateConsent, setGateConsent] = useState(false)
   const [gatePending, setGatePending] = useState(false)
   const [gateError, setGateError] = useState<string | null>(null)
+  const [gateHint, setGateHint] = useState<string | null>(null)
 
-  async function unlockPlanner() {
+  const gateErrorMessages: Record<string, string> = {
+    invalid_email: 'That doesn’t look like a valid email address.',
+    email_mismatch: 'Email addresses don’t match — please re-enter both.',
+    disposable_email: 'Please use a real, non-disposable email address.',
+    undeliverable_email:
+      'We couldn’t verify that address can receive mail — double-check the spelling.',
+    consent_required: 'Please agree to the terms to continue.',
+    invalid_code: 'That code isn’t valid or has expired. Request a new one.',
+    email_send_unavailable:
+      'Verification email isn’t configured yet. Please try again shortly.',
+    email_send_failed: 'We couldn’t send the verification email — try again.',
+  }
+
+  async function requestVerificationCode() {
     if (gatePending) return
     setGateError(null)
+    setGateHint(null)
     if (!gateConsent) {
       setGateError('Please agree to the terms to continue.')
+      return
+    }
+    if (gateEmail.trim().toLowerCase() !== gateConfirmEmail.trim().toLowerCase()) {
+      setGateError(gateErrorMessages.email_mismatch)
       return
     }
     setGatePending(true)
@@ -136,22 +158,60 @@ export function PlanClient({ venues }: { venues: PlanVenue[] }) {
       const res = await fetch('/api/plan-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: gateEmail.trim(), consent: true }),
+        body: JSON.stringify({
+          action: 'request',
+          email: gateEmail.trim(),
+          confirmEmail: gateConfirmEmail.trim(),
+          consent: true,
+        }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) {
-        const messages: Record<string, string> = {
-          invalid_email: 'That doesn’t look like a valid email address.',
-          disposable_email: 'Please use a real, non-disposable email address.',
-          undeliverable_email:
-            'We couldn’t verify that address can receive mail — double-check the spelling.',
-          consent_required: 'Please agree to the terms to continue.',
-        }
-        setGateError(messages[data?.error as string] ?? 'Something went wrong — try again.')
+        setGateError(
+          gateErrorMessages[data?.error as string] ?? 'Something went wrong — try again.',
+        )
         return
       }
-      window.localStorage.setItem('ws-plan-lead', gateEmail.trim().toLowerCase())
-      setLeadEmail(gateEmail.trim().toLowerCase())
+      setGateStep('code')
+      setGateCode('')
+      setGateHint(
+        typeof data?.debugCode === 'string'
+          ? `Dev code: ${data.debugCode}`
+          : `We sent a 6-digit code to ${gateEmail.trim().toLowerCase()}.`,
+      )
+    } catch {
+      setGateError('Something went wrong — try again.')
+    } finally {
+      setGatePending(false)
+    }
+  }
+
+  async function verifyCodeAndUnlock() {
+    if (gatePending) return
+    setGateError(null)
+    setGatePending(true)
+    try {
+      const res = await fetch('/api/plan-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'verify',
+          email: gateEmail.trim(),
+          confirmEmail: gateConfirmEmail.trim() || gateEmail.trim(),
+          code: gateCode.trim(),
+          consent: true,
+        }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        setGateError(
+          gateErrorMessages[data?.error as string] ?? 'Something went wrong — try again.',
+        )
+        return
+      }
+      const email = gateEmail.trim().toLowerCase()
+      window.localStorage.setItem('ws-plan-lead', email)
+      setLeadEmail(email)
     } catch {
       setGateError('Something went wrong — try again.')
     } finally {
@@ -330,62 +390,134 @@ export function PlanClient({ venues }: { venues: PlanVenue[] }) {
         <section className={styles.gate} aria-label="Unlock the planner">
           <p className={styles.fieldLabel}>Unlock the itinerary builder</p>
           <p className={styles.gateLede}>
-            The planner is free to use — we just need your email so we can save
-            your trip and send you your itinerary.
+            {gateStep === 'email'
+              ? 'The planner is free to use — enter and confirm your email, then we’ll send a one-time code so only you can unlock it.'
+              : 'Enter the 6-digit code we emailed you to finish unlocking the planner.'}
           </p>
-          <form
-            className={styles.gateRow}
-            onSubmit={(e) => {
-              e.preventDefault()
-              void unlockPlanner()
-            }}
-          >
-            <input
-              type="email"
-              className={styles.chatInput}
-              placeholder="you@example.com"
-              value={gateEmail}
-              onChange={(e) => setGateEmail(e.target.value)}
-              disabled={gatePending}
-              required
-            />
-            <button
-              type="submit"
-              className={styles.generateBtn}
-              disabled={gatePending || !gateEmail.trim()}
+          {gateStep === 'email' ? (
+            <form
+              className={styles.gateForm}
+              onSubmit={(e) => {
+                e.preventDefault()
+                void requestVerificationCode()
+              }}
             >
-              {gatePending ? 'Verifying…' : 'Unlock the planner'}
-            </button>
-          </form>
-          <label className={styles.gateConsent}>
-            <input
-              type="checkbox"
-              checked={gateConsent}
-              onChange={(e) => setGateConsent(e.target.checked)}
-            />
-            <span>
-              I agree that Wine Spectator (M. Shanken Communications) may store my
-              email address and trip preferences to build my itinerary and send me
-              the Napa Valley Guide newsletter and related offers, as described in
-              the{' '}
-              <a
-                href="https://www.winespectator.com/pages/privacy-policy"
-                target="_blank"
-                rel="noopener noreferrer"
+              <input
+                type="email"
+                className={styles.chatInput}
+                placeholder="you@example.com"
+                value={gateEmail}
+                onChange={(e) => setGateEmail(e.target.value)}
+                disabled={gatePending}
+                autoComplete="email"
+                required
+                aria-label="Email"
+              />
+              <input
+                type="email"
+                className={styles.chatInput}
+                placeholder="Confirm email"
+                value={gateConfirmEmail}
+                onChange={(e) => setGateConfirmEmail(e.target.value)}
+                disabled={gatePending}
+                autoComplete="email"
+                required
+                aria-label="Confirm email"
+              />
+              <label className={styles.gateConsent}>
+                <input
+                  type="checkbox"
+                  checked={gateConsent}
+                  onChange={(e) => setGateConsent(e.target.checked)}
+                />
+                <span>
+                  I agree that Wine Spectator (M. Shanken Communications) may store my
+                  email address and trip preferences to build my itinerary and send me
+                  the Napa Valley Guide newsletter and related offers, as described in
+                  the{' '}
+                  <a
+                    href="https://www.winespectator.com/pages/privacy-policy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Privacy Policy
+                  </a>{' '}
+                  and{' '}
+                  <a
+                    href="https://www.winespectator.com/pages/terms-of-service"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Terms of Service
+                  </a>
+                  . I can unsubscribe at any time.
+                </span>
+              </label>
+              <button
+                type="submit"
+                className={styles.generateBtn}
+                disabled={
+                  gatePending || !gateEmail.trim() || !gateConfirmEmail.trim() || !gateConsent
+                }
               >
-                Privacy Policy
-              </a>{' '}
-              and{' '}
-              <a
-                href="https://www.winespectator.com/pages/terms-of-service"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Terms of Service
-              </a>
-              . I can unsubscribe at any time.
-            </span>
-          </label>
+                {gatePending ? 'Sending code…' : 'Send verification code'}
+              </button>
+            </form>
+          ) : (
+            <form
+              className={styles.gateForm}
+              onSubmit={(e) => {
+                e.preventDefault()
+                void verifyCodeAndUnlock()
+              }}
+            >
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={6}
+                className={`${styles.chatInput} ${styles.gateCodeInput}`}
+                placeholder="6-digit code"
+                value={gateCode}
+                onChange={(e) => setGateCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                disabled={gatePending}
+                autoComplete="one-time-code"
+                required
+                aria-label="Verification code"
+              />
+              <div className={styles.gateRow}>
+                <button
+                  type="submit"
+                  className={styles.generateBtn}
+                  disabled={gatePending || gateCode.trim().length !== 6}
+                >
+                  {gatePending ? 'Verifying…' : 'Unlock the planner'}
+                </button>
+                <button
+                  type="button"
+                  className={styles.gateSecondary}
+                  disabled={gatePending}
+                  onClick={() => {
+                    setGateStep('email')
+                    setGateCode('')
+                    setGateError(null)
+                    setGateHint(null)
+                  }}
+                >
+                  Use a different email
+                </button>
+                <button
+                  type="button"
+                  className={styles.gateSecondary}
+                  disabled={gatePending}
+                  onClick={() => void requestVerificationCode()}
+                >
+                  Resend code
+                </button>
+              </div>
+            </form>
+          )}
+          {gateHint ? <p className={styles.gateHint}>{gateHint}</p> : null}
           {gateError ? <p className={styles.chatError}>{gateError}</p> : null}
         </section>
       ) : (
