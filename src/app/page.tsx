@@ -41,13 +41,15 @@ const MOSAIC_DESIGN_HEIGHT = 810
 const PANELS = [
   { id: 1, width: 196, height: 250, style: { top: '6%', left: '4.5%' } },
   { id: 2, width: 156, height: 200, style: { top: '48%', left: '10%' } },
-  { id: 3, width: 222, height: 148, style: { top: '3%', left: '48%' } },
+  { id: 3, width: 222, height: 148, style: { top: '3%', left: '55%' } },
   { id: 4, width: 248, height: 208, style: { top: '5%', left: '21%', zIndex: 13 } },
   { id: 5, width: 174, height: 228, style: { top: '30%', right: '3.5%' } },
-  { id: 6, width: 170, height: 222, style: { bottom: '26%', right: '17%', zIndex: 15 } },
+  { id: 6, width: 170, height: 222, style: { bottom: '26%', right: '17.5%', zIndex: 15 } },
 ]
 
-const SPEEDS = [0.06, 0.09, 0.04, 0.07, 0.05, 0.06] as const
+// One speed for every tile: the collage drifts as a single unit on scroll,
+// so tiles can never cross into each other mid-parallax
+const SPEEDS = [0.06, 0.06, 0.06, 0.06, 0.06, 0.06] as const
 const PANEL_ROTS = ['-1.5deg', '1deg', '0.5deg', '-0.8deg', '1.2deg', '-0.6deg'] as const
 
 /** Pixel geometry for hero video panel — always position with `left`, never `right` (avoids GSAP horizontal bounce). */
