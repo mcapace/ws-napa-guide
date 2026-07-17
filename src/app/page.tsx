@@ -41,8 +41,8 @@ const MOSAIC_DESIGN_HEIGHT = 810
 const PANELS = [
   { id: 1, width: 196, height: 250, style: { top: '6%', left: '4.5%' } },
   { id: 2, width: 156, height: 200, style: { top: '48%', left: '10%' } },
-  { id: 3, width: 222, height: 148, style: { top: '3%', left: '58%' } },
-  { id: 4, width: 248, height: 208, style: { top: '5%', left: '21.5%', zIndex: 13 } },
+  { id: 3, width: 222, height: 148, style: { top: '2%', left: '58%' } },
+  { id: 4, width: 248, height: 208, style: { top: '16%', left: '21.5%', zIndex: 13 } },
   { id: 5, width: 174, height: 228, style: { top: '30%', right: '3.5%' } },
   { id: 6, width: 170, height: 222, style: { bottom: '24%', right: '19%', zIndex: 15 } },
 ]
