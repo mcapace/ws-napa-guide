@@ -3,10 +3,11 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Podcast } from 'lucide-react'
 import {
   FooterFacebookIcon,
   FooterInstagramIcon,
-  FooterPinterestIcon,
+  FooterSpotifyIcon,
   FooterXIcon,
   FooterYoutubeIcon,
 } from './FooterSocialLucide'
@@ -29,7 +30,16 @@ const socialLinks = [
   { label: 'Instagram', href: 'https://www.instagram.com/wine_spectator/?hl=en', Icon: FooterInstagramIcon },
   { label: 'X', href: 'https://x.com/winespectator?lang=en', Icon: FooterXIcon },
   { label: 'YouTube', href: 'https://www.youtube.com/WineSpectatorVideo', Icon: FooterYoutubeIcon },
-  { label: 'Pinterest', href: 'https://www.pinterest.com/winespectator/', Icon: FooterPinterestIcon },
+  {
+    label: 'Straight Talk Podcast on Apple Podcasts',
+    href: 'https://podcasts.apple.com/us/podcast/wine-spectators-straight-talk/id1686166770',
+    Icon: Podcast,
+  },
+  {
+    label: 'Straight Talk Podcast on Spotify',
+    href: 'https://open.spotify.com/show/0ed4TXL57gqQYNgAwBCgXN',
+    Icon: FooterSpotifyIcon,
+  },
 ] as const
 
 function OverlayLink({
