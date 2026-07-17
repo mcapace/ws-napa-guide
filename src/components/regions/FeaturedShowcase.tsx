@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -83,8 +83,12 @@ export function FeaturedShowcasePanel({
   const anchorRight = index % 2 === 1
   const detailHref = editorialDetailHref(pins, pick.category, regionSlug, pick.name, pick.website)
   const website = normalizeWebsite(pick.website)
-  // Editorial call: the featured write-ups run short enough to show whole
+  // Editorial call: short write-ups show whole; anything running past a few
+  // sentences collapses behind a Read more so the photo still breathes.
   const blurb = (pick.bodyPlain ?? '').trim()
+  const isLongBlurb = blurb.length > 600
+  const [blurbExpanded, setBlurbExpanded] = useState(false)
+  const shownBlurb = isLongBlurb && !blurbExpanded ? truncateBlurb(blurb) : blurb
   const eyebrow = `${CATEGORY_EYEBROW[pick.category]} · ${regionLabel}`
 
   const landscapeStyle = getShowcaseImageStyle(pick.image, pick.imagePortrait, false)
@@ -102,7 +106,24 @@ export function FeaturedShowcasePanel({
       >
         {pick.name}
       </h3>
-      {blurb ? <p className={styles.blurb}>{blurb}</p> : null}
+      {blurb ? (
+        <p className={styles.blurb}>
+          {shownBlurb}
+          {isLongBlurb ? (
+            <>
+              {' '}
+              <button
+                type="button"
+                className={styles.blurbToggle}
+                aria-expanded={blurbExpanded}
+                onClick={() => setBlurbExpanded((v) => !v)}
+              >
+                {blurbExpanded ? 'Read less' : 'Read more'}
+              </button>
+            </>
+          ) : null}
+        </p>
+      ) : null}
       <div className={styles.captionRow}>
         {pick.address ? <span className={styles.captionItem}>{pick.address}</span> : null}
         {website ? (
