@@ -29,14 +29,10 @@ const HERO_VIDEO = '/images/homepage/hero/video.mp4'
 const HERO_POSTER = '/images/homepage/hero/poster.jpg'
 
 // ── Mosaic panel positions (TRH: perimeter tiles, open center, lifted off bottom edge) ──
-// TRH scaling: every tile keeps its anchor and shrinks in lockstep with the
-// viewport (pure vw below the 1440px design width), so the composition is
-// scale-invariant — same picture, smaller, never crowding the headline.
+// Tiles live on a fixed 1440px design canvas that scales as one unit below
+// that width — true TRH behavior: the whole collage gets photographically
+// smaller with spacing and overlaps intact.
 const MOSAIC_DESIGN_WIDTH = 1440
-
-function mosaicDim(px: number): string {
-  return `min(${px}px, ${((px / MOSAIC_DESIGN_WIDTH) * 100).toFixed(2)}vw)`
-}
 
 const PANELS = [
   { id: 1, width: 196, height: 250, style: { top: '5%', left: '5%' } },
@@ -77,6 +73,7 @@ export default function HomePage() {
   const avaRef = useRef<HTMLElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const mosaicRef = useRef<HTMLDivElement>(null)
+  const mosaicCanvasRef = useRef<HTMLDivElement>(null)
   const centerPanelRef = useRef<HTMLDivElement>(null)
   const heroCopyRef = useRef<HTMLDivElement>(null)
   const heroDisplayRef = useRef<HTMLDivElement>(null)
@@ -276,8 +273,17 @@ export default function HomePage() {
       )
     })
 
+    const applyMosaicScale = () => {
+      const canvas = mosaicCanvasRef.current
+      if (!canvas) return
+      const scale = Math.min(1, window.innerWidth / MOSAIC_DESIGN_WIDTH)
+      canvas.style.transform = `translateX(-50%) scale(${scale})`
+    }
+    applyMosaicScale()
+
     const onResize = () => {
       gsap.set(centerPanel, { ...heroPanelStart(), right: 'auto' })
+      applyMosaicScale()
       ScrollTrigger.refresh()
     }
     window.addEventListener('resize', onResize)
@@ -369,33 +375,50 @@ export default function HomePage() {
               willChange: 'opacity',
             }}
           >
-            {PANELS.map((panel, i) => (
-              <div
-                key={panel.id}
-                ref={(el) => {
-                  panelRefs.current[i] = el
-                }}
-                className={`home-hero-mosaic-panel home-hero-mosaic-panel--p${panel.id}`}
-                style={{
-                  position: 'absolute',
-                  width: mosaicDim(panel.width),
-                  height: mosaicDim(panel.height),
-                  top: (panel.style as { top?: string }).top,
-                  left: (panel.style as { left?: string; right?: string; bottom?: string }).left,
-                  right: (panel.style as { right?: string }).right,
-                  bottom: (panel.style as { bottom?: string }).bottom,
-                  zIndex: (panel.style as { zIndex?: number }).zIndex ?? 1,
-                  overflow: 'hidden',
-                  willChange: 'transform',
-                  transform: i === 2 ? 'translateX(-50%)' : undefined,
-                }}
-              >
-                <HomeMosaicRotatingPanel
-                  asset={mosaicVisible[i]}
-                  sizes={`${panel.width}px`}
-                />
-              </div>
-            ))}
+            {/* Fixed 1440px design canvas — the whole collage scales as one
+                unit on narrower windows (TRH behavior), so tile spacing and
+                overlap never distort */}
+            <div
+              ref={mosaicCanvasRef}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: '50%',
+                width: MOSAIC_DESIGN_WIDTH,
+                height: '100%',
+                transform: 'translateX(-50%)',
+                transformOrigin: 'top center',
+                willChange: 'transform',
+              }}
+            >
+              {PANELS.map((panel, i) => (
+                <div
+                  key={panel.id}
+                  ref={(el) => {
+                    panelRefs.current[i] = el
+                  }}
+                  className={`home-hero-mosaic-panel home-hero-mosaic-panel--p${panel.id}`}
+                  style={{
+                    position: 'absolute',
+                    width: panel.width,
+                    height: panel.height,
+                    top: (panel.style as { top?: string }).top,
+                    left: (panel.style as { left?: string; right?: string; bottom?: string }).left,
+                    right: (panel.style as { right?: string }).right,
+                    bottom: (panel.style as { bottom?: string }).bottom,
+                    zIndex: (panel.style as { zIndex?: number }).zIndex ?? 1,
+                    overflow: 'hidden',
+                    willChange: 'transform',
+                    transform: i === 2 ? 'translateX(-50%)' : undefined,
+                  }}
+                >
+                  <HomeMosaicRotatingPanel
+                    asset={mosaicVisible[i]}
+                    sizes={`${panel.width}px`}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
           <div
