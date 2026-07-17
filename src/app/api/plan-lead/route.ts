@@ -120,8 +120,32 @@ async function sendOtpEmail(email: string, code: string): Promise<'ok' | 'unavai
 
   try {
     if (campaignId) {
-      // Transactional API campaign — template should use {{api_trigger_properties.${otp_code}}}
-      const res = await fetch(
+      // API / API-triggered campaign — template: {{api_trigger_properties.${otp_code}}}
+      // Matches existing WS patterns like "WS Tag Follow Instant Email".
+      const triggerRes = await fetch(`${braze.endpoint}/campaigns/trigger/send`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          campaign_id: campaignId,
+          recipients: [
+            {
+              external_user_id: email,
+              trigger_properties: { otp_code: code },
+              attributes: {
+                email,
+                email_subscribe: 'subscribed',
+              },
+            },
+          ],
+        }),
+      })
+      if (triggerRes.ok) return 'ok'
+
+      const triggerErr = await triggerRes.text()
+      console.error('plan-lead: Braze campaigns/trigger/send', triggerRes.status, triggerErr)
+
+      // Fallback: Transactional Email campaigns use a different endpoint
+      const txnRes = await fetch(
         `${braze.endpoint}/transactional/v1/campaigns/${campaignId}/send`,
         {
           method: 'POST',
@@ -139,8 +163,8 @@ async function sendOtpEmail(email: string, code: string): Promise<'ok' | 'unavai
           }),
         },
       )
-      if (!res.ok) {
-        console.error('plan-lead: Braze transactional send', res.status, await res.text())
+      if (!txnRes.ok) {
+        console.error('plan-lead: Braze transactional send', txnRes.status, await txnRes.text())
         return 'failed'
       }
       return 'ok'
