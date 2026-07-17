@@ -1,14 +1,38 @@
-import Nav from '@/components/ui/Nav'
-import Link from 'next/link'
+import type { Metadata } from 'next'
+import { Suspense } from 'react'
+import Footer from '@/components/ui/Footer'
+import Newsletter from '@/components/ui/Newsletter'
+import { buildAllRegionPins } from '@/lib/all-region-pins'
+import type { PlanVenue } from '@/lib/plan-itinerary'
+import { PlanClient } from './PlanClient'
 
-export default function Page() {
+export const metadata: Metadata = {
+  title: 'Plan Your Trip',
+  description:
+    'Build a day-by-day Napa Valley itinerary from the Wine Spectator guide — tastings, restaurants, hotels, and things to do, matched to your trip.',
+}
+
+export default async function PlanPage() {
+  const pins = await buildAllRegionPins()
+  const venues: PlanVenue[] = pins.map((pin) => ({
+    slug: pin.slug,
+    name: pin.name,
+    category: pin.category,
+    region: pin.region,
+    address: pin.excerpt,
+    href: pin.href,
+    coords: pin.coords,
+    thumb: pin.thumb,
+    editorial: pin.editorial,
+  }))
+
   return (
     <div className="grain" style={{ minHeight: '100vh' }}>
-      <div style={{ paddingTop: '200px', textAlign: 'center' }}>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)' }}>Coming Soon</p>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', fontWeight: 300, color: 'var(--cream)', marginTop: '1rem' }}>Building this section</h1>
-        <Link href="/" style={{ display: 'inline-block', marginTop: '2rem', fontFamily: 'var(--font-body)', fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--mist)', textDecoration: 'none' }}>&larr; Back to guide</Link>
-      </div>
+      <Suspense fallback={null}>
+        <PlanClient venues={venues} />
+      </Suspense>
+      <Newsletter />
+      <Footer />
     </div>
   )
 }
