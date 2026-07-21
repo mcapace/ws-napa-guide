@@ -139,6 +139,9 @@ export interface FeatureArticleContent {
   venues?: FeatureVenue[]
   /** Photographer attribution shown under the venue list. */
   venuePhotoCredit?: string
+  /** Override default taco-tour labels when rendering `venues`. */
+  venueSectionLabel?: string
+  venueSectionTitle?: string
   winePicks?: FeatureWinePick[]
   termGroups?: FeatureTermGroup[]
   heroImage: string

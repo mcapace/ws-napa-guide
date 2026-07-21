@@ -170,8 +170,8 @@ export default function FeatureArticleLayout({
           <FeatureVenueMap
             tourLayout
             venues={content.venues}
-            sectionLabel="Where to eat"
-            sectionTitle="Taquerias worth the line"
+            sectionLabel={content.venueSectionLabel ?? 'Where to eat'}
+            sectionTitle={content.venueSectionTitle ?? 'Taquerias worth the line'}
             photoCredit={content.venuePhotoCredit}
           />
         </section>

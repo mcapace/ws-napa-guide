@@ -6,6 +6,7 @@ import { getFeatureArticleContent } from '@/data/feature-articles'
 export const STORY_SLUGS = [
   'judgment-of-paris',
   'napa-taco-tour',
+  'napa-landmarks',
 ] as const
 
 /** Homepage spotlight pair — large cards above the rest of the issue grid. */

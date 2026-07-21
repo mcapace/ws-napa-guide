@@ -2,6 +2,7 @@ import type { FeatureArticleContent } from '@/lib/types'
 
 const JUDGMENT = '/images/features/judgment-of-paris'
 const TACO = '/images/features/napa-taco-tour'
+const LANDMARKS = '/images/features/napa-landmarks'
 
 export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
   'judgment-of-paris': {
@@ -171,6 +172,64 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         coords: [-122.2548, 38.2688],
         description:
           'In business in Napa since the 1990s, this outfit sports a brick-and-mortar along with two trucks. With house-made tortillas, traditional meats and three sauces on offer, Michoacan puts out archetypal Mexican street food. Their carnitas are spot on, with an intensity of saltiness and fattiness. Don’t overlook the carrot side; it adds just the right sweetness to the finish.',
+      },
+    ],
+  },
+
+  'napa-landmarks': {
+    kicker: 'Napa Landmarks',
+    pullQuote: '…And the wine is bottled poetry…',
+    pullQuoteLines: [
+      'Two welcome signs bookend Highway 29.',
+      'A bronze farmworker presses grapes',
+      'at the southern gateway to the valley.',
+    ],
+    heroImage: `${LANDMARKS}/welcome-sign.jpg`,
+    heroObjectPosition: 'center 55%',
+    midArticleImage: {
+      src: `${LANDMARKS}/welcome-sign-visitors.jpg`,
+      alt: 'Visitors posing at the Napa Valley welcome sign',
+      caption:
+        'The Oakville welcome sign is one of the valley’s most popular photo stops — stand in front of it, not on it, and stay out of the vineyards behind.',
+    },
+    introParagraphs: [
+      '“Welcome to this world famous winegrowing region” reads the sign sitting off Highway 29. The sign is on redwood panels resembling barrel staves, with large block letters spelling “NAPA VALLEY” underneath. A grape cluster adorns the left side of the sign, a barrel head the right. Located in Oakville at the southern end of the valley, the marker has become as famous as the region it touts, and today is one of the valley’s most popular tourist attractions.',
+      'Many people who visit the spot are likely unaware that there is twin signage located at the northern end of the valley, with an arguably better vantage point. The signs were erected in 1949 by Napa Valley Vintners (NVV), an association formed in 1944 by leaders of Napa’s then-nascent modern wine industry, including Robert Mondavi, Fernande de Latour, Elmer Salmina, Charles Forni, John Daniel Jr., Louis M. Martini and Louis Stralla. NVV’s mission was to implement initiatives to support the growth of Napa Valley.',
+      'Among its first acts was to commission local artist Roland Hauck to design the signs. In their original form, the signs listed the names of nine wineries on the barrel head portion: Beringer, Louis M. Martini, Inglenook, Freemark Abbey, Beaulieu Vineyard, Napa Cooperative Vineyard, Vin-Mont Wines, The Christian Brothers and C. Mondavi & Sons. In 1966 the barrel head portion was changed to its current iteration, with a quotation from author Robert Louis Stevenson: “…And the wine is bottled poetry….”',
+      'The quote is taken from Stevenson’s 1883 memoir, The Silverado Squatters, in which the author travels to Napa Valley on a honeymoon with his wife, Fanny. When unable to afford a hotel, they ended up squatting at a mini camp named Silverado near Mount St. Helena for two months. Stevenson’s experiences with vintners led to his penning a lengthy passage explaining the wines of California, with that quote becoming one of his most famous. The author’s works can be found at his namesake museum in St. Helena.',
+      'Both the Oakville and Calistoga signs have vineyards and mountains as backdrops, providing lovely photo opportunities. Be sure to stop at the signs safely; it’s best to avoid crossing Highway 29, so visit the southern sign on your way down valley, the northern sign while traveling up valley. The signs are also nonfunctional, meant for taking pictures with subjects in front of (not on top of) them. And please do not enter the vineyards that sit behind them.',
+    ],
+    outroParagraphs: [
+      'Along with the “Welcome” sign, “The Grape Crusher” sculpture is one of Napa Valley’s best-known landmarks. Erected in May 1988 at the southern gateway to Napa Valley, the statue of a vineyard worker pressing grapes is a symbol of the agriculture that is intertwined with the community.',
+      'The eye-catching statue, perched on a hill just east of the Napa River Bridge, is visible from Highway 29. The farm worker is depicted in a wide brim hat, sleeves and pant legs rolled up, barefoot, and operating a grape press by hand. Visibly strained, he’s tightly gripping the screw handle with one foot anchored on the basket for leverage.',
+      'Santa Fe–based sculptor Gino Miles designed and cast the bronze statue using the cire-perdue (lost wax) method. A wax model inside a one-time-use mold is replaced by molten metal. Miles cast 137 individual bronze pieces that way, then welded them together to create the 15-foot-tall sculpture, which weighs over 6,000 pounds.',
+      'The figure actually started as the logo for the Napa Valley Corporate Park, built in 1983 by developer Peter Bedford. The statue is accessible at the Vista Point Park, just behind the Meritage Resort.',
+    ],
+    venueSectionLabel: 'Where to stop',
+    venueSectionTitle: 'Three valley monuments',
+    venues: [
+      {
+        name: 'Oakville Welcome Sign',
+        addressLines: ['Highway 29, Oakville (southbound pullout)'],
+        image: `${LANDMARKS}/welcome-sign.jpg`,
+        coords: [-122.4018, 38.4368],
+        description:
+          'The southern twin — vineyard and mountain backdrop, barrel-stave panels, and Stevenson’s “bottled poetry” on the barrel head. Best visited while driving down valley so you don’t cross Highway 29.',
+      },
+      {
+        name: 'Calistoga Welcome Sign',
+        addressLines: ['Highway 29, Calistoga (northern gateway)'],
+        image: `${LANDMARKS}/welcome-sign.jpg`,
+        coords: [-122.5792, 38.5715],
+        description:
+          'The northern twin often offers the better vantage. Same Roland Hauck design as Oakville — visit while traveling up valley for a safe pullout.',
+      },
+      {
+        name: 'The Grape Crusher',
+        addressLines: ['Vista Point Park', 'Behind the Meritage Resort, Napa'],
+        coords: [-122.2752, 38.2658],
+        description:
+          'Gino Miles’s 15-foot, 6,000-pound bronze vineyard worker, visible from Highway 29 just east of the Napa River Bridge. Walkable from the Meritage resort campus.',
       },
     ],
   },

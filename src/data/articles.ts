@@ -40,6 +40,21 @@ export const articles: Article[] = [
     publishedAt: '2026-06-15',
   },
   {
+    slug: 'napa-landmarks',
+    title: 'Signs of the (Good) Times',
+    section: 'feature',
+    author: 'Chris Cardoso',
+    excerpt:
+      'The Highway 29 welcome signs and The Grape Crusher — two monuments that bookend the valley’s most photographed gateways.',
+    sponsorTier: null,
+    featured: true,
+    images: [
+      '/images/features/napa-landmarks/welcome-sign.jpg',
+      '/images/features/napa-landmarks/welcome-sign-visitors.jpg',
+    ],
+    publishedAt: '2026-06-15',
+  },
+  {
     slug: 'napa-oakville',
     title: 'Oakville',
     section: 'regions',
