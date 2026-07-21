@@ -1272,7 +1272,7 @@ CADE Estate More than five years after the Glass Fire tore through, destroying s
 Larkmead Vineyards 1100 Larkmead Lane | larkmead.com
 Larkmead’s Howard Backen-designed tasting salon looks fairly new, but there
 are plenty of hints that this is a winery with real history. The property was
-founded in 1895 by Lillie Colt, a San Francisco woman whose wealthy par
+founded in 1895 by Lillie Coit, a San Francisco woman whose wealthy par
 ents gave her a Napa farm to get her out of the corrupting city. She responded by
 converting the land into a winery, which survived through Prohibition by produc
 ing sacramental wine and then was purchased by the Solari family in 1948. Lo

@@ -228,7 +228,7 @@ export const wineries: Winery[] = [
     region: 'calistoga',
     address: '1100 Larkmead Lane, Calistoga',
     coords: [-122.5246, 38.5585],
-    description: `Larkmead's Howard Backen-designed tasting salon looks fairly new, but there are plenty of hints that this is a winery with real history. The property was founded in 1895 by Lillie Colt, a San Francisco woman whose wealthy parents gave her a Napa farm to get her out of the corrupting city. Located at one of the narrowest, hottest points of the valley, Larkmead is surrounded by its vineyards, primarily Cabernet with some Sauvignon Blanc and a bit of Tocai Friulano. A visit includes a tour of the vineyards followed by a seated tasting paired with cheese and charcuterie in the comfortable tasting room, or the pergola when the weather is nice. And in this part of the valley, it usually is.`,
+    description: `Larkmead's Howard Backen-designed tasting salon looks fairly new, but there are plenty of hints that this is a winery with real history. The property was founded in 1895 by Lillie Coit, a San Francisco woman whose wealthy parents gave her a Napa farm to get her out of the corrupting city. Located at one of the narrowest, hottest points of the valley, Larkmead is surrounded by its vineyards, primarily Cabernet with some Sauvignon Blanc and a bit of Tocai Friulano. A visit includes a tour of the vineyards followed by a seated tasting paired with cheese and charcuterie in the comfortable tasting room, or the pergola when the weather is nice. And in this part of the valley, it usually is.`,
     excerpt: 'Vineyard tour and seated tasting at a narrow, hot Calistoga sweet spot.',
     visitInfo: { appointment: true, website: 'https://larkmead.com' },
     sponsorTier: null,
