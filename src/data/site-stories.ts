@@ -9,8 +9,11 @@ export const STORY_SLUGS = [
   'napa-landmarks',
 ] as const
 
-/** Homepage spotlight pair — large cards above the rest of the issue grid. */
-export const STORY_SPOTLIGHT_SLUGS = ['judgment-of-paris', 'napa-taco-tour'] as const
+/**
+ * Optional oversized pair above the issue grid.
+ * Empty = all stories render as one equal row (three-across on desktop).
+ */
+export const STORY_SPOTLIGHT_SLUGS = [] as const
 
 export type StorySlug = (typeof STORY_SLUGS)[number]
 

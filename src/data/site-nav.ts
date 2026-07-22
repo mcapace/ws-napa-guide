@@ -19,9 +19,9 @@ export const navPrimaryLinks: SiteNavLink[] = [
 
 /** Feature stories — grouped under "Stories" in the menu so they're findable. */
 export const navStoryLinks: SiteNavLink[] = [
-  { label: 'The Napa Valley Taco Tour', href: '/features/napa-taco-tour' },
   { label: 'The Judgment of Paris Tasting', href: '/features/judgment-of-paris' },
-  { label: 'Napa Landmarks', href: '/features/napa-landmarks' },
+  { label: 'The Napa Valley Taco Tour', href: '/features/napa-taco-tour' },
+  { label: 'Napa Valley Landmarks', href: '/features/napa-landmarks' },
   { label: 'All Features', href: '/features' },
 ]
 
