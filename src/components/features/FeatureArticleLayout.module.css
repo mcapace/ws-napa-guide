@@ -60,6 +60,7 @@
   line-height: 0.95;
   letter-spacing: -0.03em;
   margin: 0 0 12px;
+  text-wrap: balance;
 }
 
 .author {
@@ -118,6 +119,7 @@
   color: #f7f3ec;
   line-height: 1.15;
   margin: 0;
+  text-wrap: balance;
 }
 
 .pullQuoteLine {
@@ -137,6 +139,7 @@
   color: rgba(247, 243, 236, 0.72);
   line-height: 1.85;
   margin: 0 0 24px;
+  text-wrap: pretty;
 }
 
 .paragraph:last-child {
@@ -306,6 +309,34 @@
   min-height: min(52vh, 520px);
 }
 
+.venueRowCompact {
+  min-height: 0;
+  padding: clamp(22px, 3vw, 32px) clamp(16px, 2.5vw, 28px) clamp(22px, 3vw, 32px) 0;
+  align-items: start;
+}
+
+.venueRowCompact .venueArticle {
+  flex-direction: column;
+  gap: 14px;
+}
+
+.venueRowCompact .venueThumb {
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 16 / 10;
+}
+
+.venueRowCompact .venueName {
+  overflow: visible;
+  padding-right: 0.2em;
+  text-wrap: balance;
+  font-size: clamp(26px, 3.2vw, 34px);
+}
+
+.venueRowCompact .venueDesc {
+  text-wrap: pretty;
+}
+
 .venueIndex {
   font-family: var(--font-display);
   font-style: italic;
@@ -348,7 +379,10 @@
   font-size: clamp(24px, 3vw, 32px);
   color: #f7f3ec;
   margin: 0 0 10px;
-  line-height: 1.12;
+  line-height: 1.15;
+  overflow: visible;
+  padding-right: 0.15em;
+  text-wrap: balance;
 }
 
 .venueMeta {

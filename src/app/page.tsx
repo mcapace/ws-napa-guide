@@ -716,7 +716,7 @@ export default function HomePage() {
       <HomeStoriesSection
         stories={getStoryArticles()}
         title="Features"
-        intro="Valley-wide stories beyond the town guides — including the Napa Valley taco tour."
+        intro="Valley-wide stories beyond the town guides — Judgment of Paris, the taco tour, and Napa landmarks."
       />
 
       {/* ── NEWSLETTER (therealhotels style: massive serif heading + full-width input) ── */}
