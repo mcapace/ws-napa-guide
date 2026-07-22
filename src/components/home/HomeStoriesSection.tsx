@@ -67,6 +67,15 @@ export function HomeStoriesSection({
   const spotlight = stories.filter((s) => spotlightSet.has(s.slug))
   const rest = stories.filter((s) => !spotlightSet.has(s.slug))
 
+  // Three equal cards across when everything sits in one row (homepage trio).
+  const equalTrio = spotlight.length === 0 && rest.length === 3
+  const primary = equalTrio ? rest : spotlight
+  const secondary = equalTrio ? [] : rest
+  const primaryVariant = equalTrio ? 'compact' : 'spotlight'
+  const primaryGridClass = equalTrio
+    ? `${styles.grid} ${styles.gridCompact} dim-siblings`
+    : `${styles.spotlightGrid} dim-siblings`
+
   return (
     <section className={styles.section} aria-labelledby="home-stories-heading">
       <header className={styles.header}>
@@ -77,17 +86,17 @@ export function HomeStoriesSection({
         <p className={styles.intro}>{intro}</p>
       </header>
 
-      {spotlight.length > 0 && (
-        <div className={`${styles.spotlightGrid} dim-siblings`}>
-          {spotlight.map((article) => (
-            <StoryCard key={article.slug} article={article} variant="spotlight" />
+      {primary.length > 0 && (
+        <div className={primaryGridClass}>
+          {primary.map((article) => (
+            <StoryCard key={article.slug} article={article} variant={primaryVariant} />
           ))}
         </div>
       )}
 
-      {rest.length > 0 && (
+      {secondary.length > 0 && (
         <div className={`${styles.grid} ${styles.gridCompact} dim-siblings`}>
-          {rest.map((article) => (
+          {secondary.map((article) => (
             <StoryCard key={article.slug} article={article} variant="compact" />
           ))}
         </div>
