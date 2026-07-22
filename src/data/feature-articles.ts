@@ -183,7 +183,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       '…And the wine is',
       'bottled poetry…',
     ],
-    heroImage: `${LANDMARKS}/sign-wide.jpg`,
+    heroImage: `${LANDMARKS}/oakville-sign-wide.jpg`,
     heroObjectPosition: 'center 45%',
     midArticleImage: {
       src: `${LANDMARKS}/crusher-wide.jpg`,
@@ -211,7 +211,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       {
         name: 'Oakville Welcome Sign',
         addressLines: ['Highway 29, Oakville (southbound pullout)'],
-        image: `${LANDMARKS}/sign-1080.jpg`,
+        image: `${LANDMARKS}/oakville-sign-1080.jpg`,
         coords: [-122.4018, 38.4368],
         description:
           'The southern twin — vineyard and mountain backdrop, barrel-stave panels, and Stevenson’s “bottled poetry” on the barrel head. Best visited while driving down valley so you don’t cross Highway 29.',
@@ -219,7 +219,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       {
         name: 'Calistoga Welcome Sign',
         addressLines: ['Highway 29, Calistoga (northern gateway)'],
-        image: `${LANDMARKS}/welcome-sign.jpg`,
+        image: `${LANDMARKS}/calistoga-sign-1080.jpg`,
         coords: [-122.5792, 38.5715],
         description:
           'The northern twin often offers the better vantage. Same Roland Hauck design as Oakville — visit while traveling up valley for a safe pullout.',
