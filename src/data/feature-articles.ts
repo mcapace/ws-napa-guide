@@ -184,13 +184,13 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       'A bronze farmworker presses grapes',
       'at the southern gateway to the valley.',
     ],
-    heroImage: `${LANDMARKS}/welcome-sign.jpg`,
-    heroObjectPosition: 'center 55%',
+    heroImage: `${LANDMARKS}/sign-wide.jpg`,
+    heroObjectPosition: 'center 45%',
     midArticleImage: {
-      src: `${LANDMARKS}/welcome-sign-visitors.jpg`,
-      alt: 'Visitors posing at the Napa Valley welcome sign',
+      src: `${LANDMARKS}/crusher-wide.jpg`,
+      alt: 'The Grape Crusher sculpture silhouetted at sunrise',
       caption:
-        'The Oakville welcome sign is one of the valley’s most popular photo stops — stand in front of it, not on it, and stay out of the vineyards behind.',
+        'The Grape Crusher — Gino Miles’s bronze vineyard worker at Vista Point Park, just east of the Napa River Bridge.',
     },
     introParagraphs: [
       '“Welcome to this world famous winegrowing region” reads the sign sitting off Highway 29. The sign is on redwood panels resembling barrel staves, with large block letters spelling “NAPA VALLEY” underneath. A grape cluster adorns the left side of the sign, a barrel head the right. Located in Oakville at the southern end of the valley, the marker has become as famous as the region it touts, and today is one of the valley’s most popular tourist attractions.',
@@ -211,7 +211,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       {
         name: 'Oakville Welcome Sign',
         addressLines: ['Highway 29, Oakville (southbound pullout)'],
-        image: `${LANDMARKS}/welcome-sign.jpg`,
+        image: `${LANDMARKS}/sign-1080.jpg`,
         coords: [-122.4018, 38.4368],
         description:
           'The southern twin — vineyard and mountain backdrop, barrel-stave panels, and Stevenson’s “bottled poetry” on the barrel head. Best visited while driving down valley so you don’t cross Highway 29.',
@@ -219,7 +219,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       {
         name: 'Calistoga Welcome Sign',
         addressLines: ['Highway 29, Calistoga (northern gateway)'],
-        image: `${LANDMARKS}/welcome-sign.jpg`,
+        image: `${LANDMARKS}/sign-1600.jpg`,
         coords: [-122.5792, 38.5715],
         description:
           'The northern twin often offers the better vantage. Same Roland Hauck design as Oakville — visit while traveling up valley for a safe pullout.',
@@ -227,6 +227,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       {
         name: 'The Grape Crusher',
         addressLines: ['Vista Point Park', 'Behind the Meritage Resort, Napa'],
+        image: `${LANDMARKS}/crusher-1080.jpg`,
         coords: [-122.2752, 38.2658],
         description:
           'Gino Miles’s 15-foot, 6,000-pound bronze vineyard worker, visible from Highway 29 just east of the Napa River Bridge. Walkable from the Meritage resort campus.',

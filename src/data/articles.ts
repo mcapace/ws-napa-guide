@@ -49,8 +49,10 @@ export const articles: Article[] = [
     sponsorTier: null,
     featured: true,
     images: [
-      '/images/features/napa-landmarks/welcome-sign.jpg',
-      '/images/features/napa-landmarks/welcome-sign-visitors.jpg',
+      '/images/features/napa-landmarks/sign-wide.jpg',
+      '/images/features/napa-landmarks/crusher-wide.jpg',
+      '/images/features/napa-landmarks/sign-1080.jpg',
+      '/images/features/napa-landmarks/crusher-1080.jpg',
     ],
     publishedAt: '2026-06-15',
   },
