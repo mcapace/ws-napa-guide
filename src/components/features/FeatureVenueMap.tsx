@@ -73,17 +73,25 @@ type FeatureVenueMapProps = {
   venues: FeatureVenue[]
   /** Split layout: list on left, sticky map on right (Napa Taco Tour). */
   tourLayout?: boolean
+  /** Denser rows for short stop lists (landmarks). */
+  compact?: boolean
   sectionLabel?: string
   sectionTitle?: string
   photoCredit?: string
+  mapHint?: string
+  /** Fallback link when a stop has no website. */
+  exploreHref?: string
 }
 
 export function FeatureVenueMap({
   venues,
   tourLayout = false,
+  compact = false,
   sectionLabel,
   sectionTitle,
   photoCredit,
+  mapHint,
+  exploreHref = '/explore?category=dining',
 }: FeatureVenueMapProps) {
   const mapRef = useRef<MapRef>(null)
   const rowRefs = useRef<Record<number, HTMLLIElement | null>>({})
@@ -268,7 +276,7 @@ export function FeatureVenueMap({
                     Visit website ↗
                   </a>
                 ) : (
-                  <Link href="/explore?category=dining" className={styles.popupLink}>
+                  <Link href={exploreHref} className={styles.popupLink}>
                     Explore map →
                   </Link>
                 )}
@@ -279,7 +287,7 @@ export function FeatureVenueMap({
       </div>
       {!tourLayout && (
         <p className={styles.hint}>
-          {pins.length} stops across the valley · tap a number to see details
+          {mapHint ?? `${pins.length} stops across the valley · tap a number to see details`}
         </p>
       )}
     </div>
@@ -312,8 +320,8 @@ export function FeatureVenueMap({
                   rowRefs.current[index] = el
                 }}
                 className={`${layoutStyles.venueRow}${
-                  index === activeVenueIndex ? ` ${styles.venueRowActive}` : ''
-                }`}
+                  compact ? ` ${layoutStyles.venueRowCompact}` : ''
+                }${index === activeVenueIndex ? ` ${styles.venueRowActive}` : ''}`}
               >
                 <span className={layoutStyles.venueIndex}>{index + 1}</span>
                 <article className={layoutStyles.venueArticle}>
@@ -375,7 +383,8 @@ export function FeatureVenueMap({
       </div>
 
       <p className={styles.tourHint}>
-        {pins.length} stops across the valley · scroll the list to explore the map
+        {mapHint ??
+          `${pins.length} stops across the valley · scroll the list to explore the map`}
         {photoCredit ? <> · {photoCredit}</> : null}
       </p>
     </div>

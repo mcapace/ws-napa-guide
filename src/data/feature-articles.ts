@@ -178,11 +178,10 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
 
   'napa-landmarks': {
     kicker: 'Napa Landmarks',
-    pullQuote: '…And the wine is bottled poetry…',
+    pullQuote: 'Robert Louis Stevenson',
     pullQuoteLines: [
-      'Two welcome signs bookend Highway 29.',
-      'A bronze farmworker presses grapes',
-      'at the southern gateway to the valley.',
+      '…And the wine is',
+      'bottled poetry…',
     ],
     heroImage: `${LANDMARKS}/sign-wide.jpg`,
     heroObjectPosition: 'center 45%',
@@ -207,6 +206,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
     ],
     venueSectionLabel: 'Where to stop',
     venueSectionTitle: 'Three valley monuments',
+    venueMapHint: '3 monuments · scroll the list to explore the map',
     venues: [
       {
         name: 'Oakville Welcome Sign',

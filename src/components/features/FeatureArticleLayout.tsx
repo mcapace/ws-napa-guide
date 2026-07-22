@@ -15,17 +15,34 @@ export default function FeatureArticleLayout({
     article.section === 'feature' ? 'Feature' : article.section === 'dining' ? 'Dining' : 'Wine Spectator'
 
   const hasVenues = Boolean(content.venues?.length)
-  const splitIntro = !hasVenues && content.introParagraphs.length > 1
-  const midpoint = splitIntro ? Math.ceil(content.introParagraphs.length / 2) : content.introParagraphs.length
+  // Taco-style tour chrome: venues without magazine story furniture.
+  // Landmarks (pull quote + mid photo + stops) should follow Judgment rhythm.
+  const tourChrome =
+    hasVenues && !content.pullQuoteLines && !content.midArticleImage && !content.outroParagraphs?.length
+
+  // Split body around mid-article media (Judgment). When outro follows
+  // (Landmarks), keep the intro intact and place mid between intro and outro.
+  const splitIntro =
+    content.introParagraphs.length > 1 &&
+    !content.outroParagraphs?.length &&
+    Boolean(
+      content.midArticleImage ||
+        content.secondaryImages?.length ||
+        (!hasVenues && content.secondaryImage),
+    )
+  const midpoint = splitIntro
+    ? Math.ceil(content.introParagraphs.length / 2)
+    : content.introParagraphs.length
   const firstHalf = content.introParagraphs.slice(0, midpoint)
   const secondHalf = splitIntro ? content.introParagraphs.slice(midpoint) : []
 
   const showDeckOnHero = article.excerpt && !content.pullQuoteLines
+  const compactVenues = (content.venues?.length ?? 0) > 0 && (content.venues?.length ?? 0) <= 4
 
   return (
     <div className={styles.page} data-site-surface="dark" data-editorial-content>
       <section
-        className={`${styles.hero} ${hasVenues ? styles.heroEditorial : ''}`}
+        className={`${styles.hero}${tourChrome ? ` ${styles.heroEditorial}` : ''}`}
         data-nav-hero-root
       >
         <Image
@@ -159,20 +176,25 @@ export default function FeatureArticleLayout({
         </section>
       )}
 
-      {content.outroParagraphs?.map((para, i) => (
-        <section key={i} className={styles.bodySection}>
-          <p className={styles.paragraph}>{para}</p>
+      {content.outroParagraphs && content.outroParagraphs.length > 0 && (
+        <section className={styles.bodySection}>
+          {content.outroParagraphs.map((para, i) => (
+            <p key={i} className={styles.paragraph}>{para}</p>
+          ))}
         </section>
-      ))}
+      )}
 
       {content.venues && content.venues.length > 0 && (
         <section className={styles.venuesSection}>
           <FeatureVenueMap
             tourLayout
+            compact={compactVenues}
             venues={content.venues}
             sectionLabel={content.venueSectionLabel ?? 'Where to eat'}
             sectionTitle={content.venueSectionTitle ?? 'Taquerias worth the line'}
             photoCredit={content.venuePhotoCredit}
+            mapHint={content.venueMapHint}
+            exploreHref={tourChrome ? '/explore?category=dining' : '/explore'}
           />
         </section>
       )}
