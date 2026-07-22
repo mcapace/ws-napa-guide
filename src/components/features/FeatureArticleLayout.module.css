@@ -311,8 +311,30 @@
 
 .venueRowCompact {
   min-height: 0;
-  padding: clamp(22px, 3vw, 32px) 0;
+  padding: clamp(22px, 3vw, 32px) clamp(16px, 2.5vw, 28px) clamp(22px, 3vw, 32px) 0;
   align-items: start;
+}
+
+.venueRowCompact .venueArticle {
+  flex-direction: column;
+  gap: 14px;
+}
+
+.venueRowCompact .venueThumb {
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 16 / 10;
+}
+
+.venueRowCompact .venueName {
+  overflow: visible;
+  padding-right: 0.2em;
+  text-wrap: balance;
+  font-size: clamp(26px, 3.2vw, 34px);
+}
+
+.venueRowCompact .venueDesc {
+  text-wrap: pretty;
 }
 
 .venueIndex {

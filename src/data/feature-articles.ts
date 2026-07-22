@@ -219,7 +219,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       {
         name: 'Calistoga Welcome Sign',
         addressLines: ['Highway 29, Calistoga (northern gateway)'],
-        image: `${LANDMARKS}/sign-1600.jpg`,
+        image: `${LANDMARKS}/welcome-sign.jpg`,
         coords: [-122.5792, 38.5715],
         description:
           'The northern twin often offers the better vantage. Same Roland Hauck design as Oakville — visit while traveling up valley for a safe pullout.',
