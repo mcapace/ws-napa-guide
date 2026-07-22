@@ -4,6 +4,24 @@ import { useCallback, useState } from 'react'
 
 type Variant = 'compact' | 'hero'
 
+const PRIVACY_HREF = 'https://www.winespectator.com/pages/privacy-policy'
+const TERMS_HREF = 'https://www.winespectator.com/pages/terms-of-service'
+
+const MARKETING_CONSENT_COPY = (
+  <>
+    I agree to receive marketing and promotional emails from Wine Spectator (M. Shanken
+    Communications) about the Napa Valley Guide and related offers, as described in the{' '}
+    <a href={PRIVACY_HREF} target="_blank" rel="noopener noreferrer">
+      Privacy Policy
+    </a>{' '}
+    and{' '}
+    <a href={TERMS_HREF} target="_blank" rel="noopener noreferrer">
+      Terms of Service
+    </a>
+    . I can unsubscribe at any time.
+  </>
+)
+
 const inputBaseCompact = {
   fontFamily: "'DM Sans', sans-serif",
   fontSize: 13,
@@ -28,28 +46,45 @@ const labelCompact = {
   display: 'block' as const,
 }
 
+const consentLabelStyle = {
+  display: 'flex',
+  gap: 10,
+  alignItems: 'flex-start',
+  textAlign: 'left' as const,
+  fontFamily: "'DM Sans', sans-serif",
+  fontSize: 12,
+  fontWeight: 300,
+  lineHeight: 1.55,
+  color: 'rgba(247,243,236,0.55)',
+  marginTop: 16,
+  cursor: 'pointer',
+}
+
 export function NewsletterSubscribeForm({ variant }: { variant: Variant }) {
   const [email, setEmail] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [consent, setConsent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
 
   const handleSubscribe = useCallback(async () => {
+    if (!consent) return
     setError(false)
     setLoading(true)
     try {
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, firstName, lastName }),
+        body: JSON.stringify({ email, firstName, lastName, consent: true }),
       })
       if (res.ok) {
         setSuccess(true)
         setEmail('')
         setFirstName('')
         setLastName('')
+        setConsent(false)
       } else {
         setError(true)
       }
@@ -58,7 +93,7 @@ export function NewsletterSubscribeForm({ variant }: { variant: Variant }) {
     } finally {
       setLoading(false)
     }
-  }, [email, firstName, lastName])
+  }, [email, firstName, lastName, consent])
 
   if (success) {
     return (
@@ -77,119 +112,92 @@ export function NewsletterSubscribeForm({ variant }: { variant: Variant }) {
     )
   }
 
+  const consentBlock = (
+    <label className="home-newsletter-consent" style={consentLabelStyle}>
+      <input
+        type="checkbox"
+        checked={consent}
+        onChange={(e) => setConsent(e.target.checked)}
+        style={{ marginTop: 3, flexShrink: 0, accentColor: '#C4943A' }}
+      />
+      <span>
+        {MARKETING_CONSENT_COPY}
+      </span>
+    </label>
+  )
+
+  const errorBlock = error ? (
+    <p
+      style={{
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: 12,
+        fontWeight: 400,
+        color: '#c44',
+        textAlign: 'center',
+        marginTop: 16,
+      }}
+    >
+      Something went wrong. Please try again.
+    </p>
+  ) : null
+
   if (variant === 'hero') {
     return (
       <div className="home-newsletter-form" style={{ maxWidth: 700, margin: '0 auto' }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 12,
-            marginBottom: 12,
-          }}
-        >
+        <div className="home-newsletter-name-row">
           <input
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            placeholder="FIRST NAME"
+            placeholder="First name"
             autoComplete="given-name"
-            style={{
-              background: 'none',
-              border: '1px solid rgba(247,243,236,0.2)',
-              outline: 'none',
-              color: '#F7F3EC',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 11,
-              fontWeight: 400,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              padding: '14px 18px',
-            }}
+            className="home-newsletter-input"
           />
           <input
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            placeholder="LAST NAME"
+            placeholder="Last name"
             autoComplete="family-name"
-            style={{
-              background: 'none',
-              border: '1px solid rgba(247,243,236,0.2)',
-              outline: 'none',
-              color: '#F7F3EC',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 11,
-              fontWeight: 400,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              padding: '14px 18px',
-            }}
+            className="home-newsletter-input"
           />
         </div>
-        <div
-          style={{
-            display: 'flex',
-            border: '1px solid rgba(247,243,236,0.2)',
-          }}
-        >
+        <div className="home-newsletter-email-row">
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="EMAIL ADDRESS"
+            placeholder="Email address"
             autoComplete="email"
-            style={{
-              flex: 1,
-              background: 'none',
-              border: 'none',
-              outline: 'none',
-              color: '#F7F3EC',
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12,
-              fontWeight: 400,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              padding: '18px 24px',
-            }}
+            className="home-newsletter-input home-newsletter-email-input"
+            aria-label="Email address"
           />
           <button
             type="button"
-            disabled={loading}
+            disabled={loading || !consent || !email.trim()}
             onClick={handleSubscribe}
-            style={{
-              background: 'none',
-              border: 'none',
-              borderLeft: '1px solid rgba(247,243,236,0.2)',
-              cursor: loading ? 'wait' : 'pointer',
-              color: 'rgba(247,243,236,0.6)',
-              padding: '18px 24px',
-              display: 'flex',
-              alignItems: 'center',
-              transition: 'color 0.3s',
-              opacity: loading ? 0.6 : 1,
-            }}
+            className="home-newsletter-submit"
             aria-label="Subscribe"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <span className="home-newsletter-submit-label">
+              {loading ? 'Sending…' : 'Subscribe'}
+            </span>
+            <svg
+              className="home-newsletter-submit-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden
+            >
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </button>
         </div>
-        {error ? (
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12,
-              fontWeight: 400,
-              color: '#c44',
-              textAlign: 'center',
-              marginTop: 16,
-            }}
-          >
-            Something went wrong. Please try again.
-          </p>
-        ) : null}
+        {consentBlock}
+        {errorBlock}
       </div>
     )
   }
@@ -238,9 +246,10 @@ export function NewsletterSubscribeForm({ variant }: { variant: Variant }) {
           style={inputBaseCompact}
         />
       </div>
+      {consentBlock}
       <button
         type="button"
-        disabled={loading}
+        disabled={loading || !consent || !email.trim()}
         onClick={handleSubscribe}
         style={{
           fontFamily: "'DM Sans', sans-serif",
@@ -249,30 +258,19 @@ export function NewsletterSubscribeForm({ variant }: { variant: Variant }) {
           letterSpacing: '0.18em',
           textTransform: 'uppercase',
           color: '#0D0B09',
-          background: loading ? 'rgba(247,243,236,0.7)' : '#F7F3EC',
+          background: loading || !consent ? 'rgba(247,243,236,0.7)' : '#F7F3EC',
           border: 'none',
           padding: '14px 24px',
-          cursor: loading ? 'wait' : 'pointer',
+          cursor: loading || !consent ? 'not-allowed' : 'pointer',
           width: '100%',
           transition: 'background 0.3s',
+          marginTop: 16,
+          opacity: !consent ? 0.7 : 1,
         }}
       >
         {loading ? 'Sending…' : 'Submit'}
       </button>
-      {error ? (
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: 13,
-            fontWeight: 300,
-            color: '#e88',
-            textAlign: 'center',
-            marginTop: 16,
-          }}
-        >
-          Something went wrong. Please try again.
-        </p>
-      ) : null}
+      {errorBlock}
     </div>
   )
 }

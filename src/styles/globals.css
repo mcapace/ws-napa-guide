@@ -1514,15 +1514,32 @@ html[data-region-native-scroll].lenis.lenis-stopped {
   }
 
   .home-newsletter-form {
-    flex-direction: column !important;
     max-width: 100% !important;
   }
 
-  .home-newsletter-form button {
+  .home-newsletter-name-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .home-newsletter-email-row {
+    flex-direction: column !important;
+  }
+
+  .home-newsletter-submit {
     border-left: none !important;
     border-top: 1px solid rgba(247, 243, 236, 0.2) !important;
-    justify-content: center !important;
     width: 100% !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    padding: 14px 18px !important;
+  }
+
+  .home-newsletter-submit-label {
+    display: inline !important;
+  }
+
+  .home-newsletter-email-input {
+    padding: 14px 16px !important;
   }
 
   .home-region-pin-label {
@@ -1543,6 +1560,79 @@ html[data-region-native-scroll].lenis.lenis-stopped {
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
+}
+
+/* Homepage newsletter signup */
+.home-newsletter-name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.home-newsletter-email-row {
+  display: flex;
+  border: 1px solid rgba(247, 243, 236, 0.2);
+}
+
+.home-newsletter-input {
+  background: none;
+  border: 1px solid rgba(247, 243, 236, 0.2);
+  outline: none;
+  color: #f7f3ec;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  padding: 14px 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.home-newsletter-email-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  padding: 16px 18px;
+}
+
+.home-newsletter-submit {
+  background: none;
+  border: none;
+  border-left: 1px solid rgba(247, 243, 236, 0.2);
+  cursor: pointer;
+  color: rgba(247, 243, 236, 0.7);
+  padding: 16px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: color 0.3s, opacity 0.3s;
+  flex-shrink: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.home-newsletter-submit:hover:not(:disabled) {
+  color: #f7f3ec;
+}
+
+.home-newsletter-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.home-newsletter-submit-label {
+  display: none;
+}
+
+.home-newsletter-consent a {
+  color: rgba(196, 148, 58, 0.9);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* Homepage appellation row: readable without hover (touch); desktop keeps dim idle state */

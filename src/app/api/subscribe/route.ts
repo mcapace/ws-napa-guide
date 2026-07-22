@@ -22,6 +22,11 @@ export async function POST(request: Request) {
   const email = typeof rec.email === 'string' ? rec.email.trim() : ''
   const firstName = typeof rec.firstName === 'string' ? rec.firstName.trim() : ''
   const lastName = typeof rec.lastName === 'string' ? rec.lastName.trim() : ''
+  const consent = rec.consent === true
+
+  if (!consent) {
+    return NextResponse.json({ error: 'consent_required' }, { status: 400 })
+  }
 
   if (!email || !isValidEmail(email)) {
     return NextResponse.json({ error: 'Invalid email' }, { status: 400 })

@@ -432,9 +432,9 @@ export function PlanClient({ venues }: { venues: PlanVenue[] }) {
                 />
                 <span>
                   I agree that Wine Spectator (M. Shanken Communications) may store my
-                  email address and trip preferences to build my itinerary and send me
-                  the Napa Valley Guide newsletter and related offers, as described in
-                  the{' '}
+                  email address and trip preferences to build my itinerary, and may send
+                  me marketing and promotional emails about the Napa Valley Guide and
+                  related offers, as described in the{' '}
                   <a
                     href="https://www.winespectator.com/pages/privacy-policy"
                     target="_blank"
