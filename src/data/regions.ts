@@ -1297,7 +1297,6 @@ Schramsberg 1400 Schramsberg Road | schramsberg.com
 Napa locals thought Jack and Jamie Davies were fools when they fled Los Angeles in 19764[UH??] and bought the old Schram place in the foothills of Spring Mountain, with its crum bling buildings and abandoned tunnels. Instead, the Davieses helped kickstart Napa Valley’s modern era, part of a migration of young, enthusiastic winemakers into the region. The couple cleared out the tunnels to age their sparkling wine in and be gan producing bubbly that rivals Champagne. Schramsberg is still owned by the family today. Guests can enjoy a tour of the tunnels and learn more about sparkling winemaking, then taste six wines from both Schramsberg and Davies Vineyard, their nearby still-wine project.
 Tamber Bey 1251 Tubbs Lane tamberbey.com
 Tank Garage 1020 Foothill Blvd. tankgaragewinery.com
-Trois Noix 865 Silverado Trail N. troisnoixwine.com
 Vine Cliff 7400 Silverado Trail vinecliff1871.com
 
 TO EAT Calistoga’s restaurant scene reflects the town’s mix of refined
