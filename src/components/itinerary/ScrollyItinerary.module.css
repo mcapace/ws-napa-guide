@@ -719,12 +719,8 @@
   margin: 0;
   font-family: var(--font-body, 'DM Sans', sans-serif);
   font-size: 15px;
-  line-height: 1.6;
-  color: rgba(247, 243, 236, 0.68);
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  line-height: 1.65;
+  color: rgba(247, 243, 236, 0.72);
 }
 
 .stepLinkEmbed {
