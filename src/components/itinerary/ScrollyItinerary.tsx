@@ -567,7 +567,7 @@ export default function ScrollyItinerary({
                         <p className={styles.stepBlurbEmbed}>{stop.blurb}</p>
                         {href ? (
                           <a className={styles.stepLinkEmbed} href={href} {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
-                            Read more →
+                            Visit website →
                           </a>
                         ) : null}
                       </div>
