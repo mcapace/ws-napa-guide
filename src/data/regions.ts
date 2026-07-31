@@ -309,13 +309,6 @@ This delightful store is teeming with amazing and eclectic gifts, including stat
 Marquee Pinball Lounge 1311 First St.. | marqueepinball.com
 If you’re someone that needs to level up, this pin ball and classic video game spot is flipping awe some, a welcome new spot in downtown Napa. Marquee currently serves beer, with wine and ci der offerings coming soon.
 
-Mommenpop Tasting Room 920 Franklin St.. | mommenpop.compages/
-tasting-room This cheerful, aperitif tasting room showcases
-the citrus-based Mommenpop drinks created by winemaker Samantha Sheehan. The blood or
-ange is made from an organically grown Barbera rosé with blood oranges and botanicals.
-There is also Seville orange, ruby grapefruit, and
-a lime-pop made from a base of Chardonnay with Makrut and Bearss limes, long pepper,
-toasted fig leaves, orris root and vanilla bean.
 Rail Arts District Start at 816 Vallejo St.. | radnapa.org
 Consider this stretch a sort of contemporary open-air gallery, with public art installations
 along a paved walking and biking trail. Eleven murals, wrapped switchboxes and 21 clay sculp
