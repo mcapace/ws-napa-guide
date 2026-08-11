@@ -71,7 +71,7 @@
     "lat": 38.297066,
     "lng": -122.291353
   },
-  "downtown-napa|Vintner’s Collective|1245 Main Street": {
+  "downtown-napa|Vintner\u2019s Collective|1245 Main Street": {
     "lat": 38.301103,
     "lng": -122.287257
   },
@@ -139,7 +139,7 @@
     "lat": 38.449833,
     "lng": -122.411773
   },
-  "rutherford|St. Supéry Estate Vineyards & Winery|8440 St. Helena Highway": {
+  "rutherford|St. Sup\u00e9ry Estate Vineyards & Winery|8440 St. Helena Highway": {
     "lat": 38.455086,
     "lng": -122.414874
   },
@@ -167,7 +167,7 @@
     "lat": 38.50545,
     "lng": -122.48475
   },
-  "st-helena|Vintner’s Collective|1245 Main Street": {
+  "st-helena|Vintner\u2019s Collective|1245 Main Street": {
     "lat": 38.50595,
     "lng": -122.46185
   },
@@ -583,7 +583,7 @@
     "lat": 38.5851,
     "lng": -122.5805
   },
-  "calistoga|Café Sarafornia|1413 Lincoln Avenue": {
+  "calistoga|Caf\u00e9 Sarafornia|1413 Lincoln Avenue": {
     "lat": 38.578972,
     "lng": -122.579087
   },
@@ -675,7 +675,7 @@
     "lat": 38.301103,
     "lng": -122.287257
   },
-  "downtown-napa|Angèle Restaurant & Bar|540 Main Street": {
+  "downtown-napa|Ang\u00e8le Restaurant & Bar|540 Main Street": {
     "lat": 38.296226,
     "lng": -122.282713
   },
@@ -971,7 +971,7 @@
     "lat": 38.488773,
     "lng": -122.450479
   },
-  "st-helena|Erosion Creamery & Café|1234 Main Street": {
+  "st-helena|Erosion Creamery & Caf\u00e9|1234 Main Street": {
     "lat": 38.504434,
     "lng": -122.468465
   },
@@ -1143,7 +1143,7 @@
     "lat": 38.344606,
     "lng": -122.32642
   },
-  "beyond-napa|Boon Fly Café|4048 Sonoma Highway": {
+  "beyond-napa|Boon Fly Caf\u00e9|4048 Sonoma Highway": {
     "lat": 38.256022,
     "lng": -122.3321
   },
@@ -1278,10 +1278,6 @@
   "yountville|Hestan Vineyards|6548 Washington St.": {
     "lat": 38.403104,
     "lng": -122.36269
-  },
-  "yountville|Kollar Chocolates|6525 Washington St.": {
-    "lat": 38.401912,
-    "lng": -122.361929
   },
   "yountville|Mad Fritz|6720 Washington St.": {
     "lat": 38.40598,

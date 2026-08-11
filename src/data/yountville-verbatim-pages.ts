@@ -234,13 +234,7 @@ export const YOUNTVILLE_VERBATIM_PAGES: YountvilleVerbatimPage[] = [
           'At this auxiliary tasting room for cookware tycoon and vintner Stanley Cheng’s collection of wines, Hestan cookware and Ruffoni copper cookware from Italy are also on display and available for purchase.',
         ],
       },
-      {
-        heading: 'Kollar Chocolates',
-        paragraphs: [
-          '6525 Washington St. | kollarchocolates.com',
-          'What better complement to Yountville’s food and wine culture than craft chocolate? Anyone with a sweet tooth should seek out Kollar Chocolates, founded in 2011 by chef-turned-chocolatier Chris Kollar. Time a visit accordingly and you can watch chocolate production using European techniques like hand-tempering, or meticulous hand-painting of bonbons. Speaking of bonbons, the colorful assortment includes unique flavor combinations like sunflower seed praline or white chocolate ganache with yuzu gel. Whether treating yourself or shopping for a gift, there’s a dizzying array of tasting options beyond bonbons, including dark chocolate espresso malt balls, chocolate bark and more.',
-        ],
-      },
+
       {
         heading: 'Mad Fritz',
         paragraphs: [
