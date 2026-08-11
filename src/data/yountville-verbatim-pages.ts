@@ -234,7 +234,13 @@ export const YOUNTVILLE_VERBATIM_PAGES: YountvilleVerbatimPage[] = [
           'At this auxiliary tasting room for cookware tycoon and vintner Stanley Cheng’s collection of wines, Hestan cookware and Ruffoni copper cookware from Italy are also on display and available for purchase.',
         ],
       },
-
+      {
+        heading: 'Christopher Elbow Chocolates',
+        paragraphs: [
+          '6525 Washington St. | elbowchocolates.com',
+          'Kansas City chocolatier Christopher Elbow brings handcrafted bonbons, bars and confections to Washington Street — a sweet stop amid Yountville’s food-and-wine corridor.',
+        ],
+      },
       {
         heading: 'Mad Fritz',
         paragraphs: [
