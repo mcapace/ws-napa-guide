@@ -304,8 +304,6 @@ Marquee Pinball CIA at Copia
 Crafted Napa Valley 1300 Third St., Suite 301. | craftednapavalley.com Shop for locally made bath and body products, jewelry, seasonings, candles and snacks in this charming gallery.
 Folklore 1226 Third St.. | folklore-napa.com
 A combination record store, wine and cocktail bar, restaurant and radio station, Folklore is located in a semi-industrial, funky and chill spot with plenty of personality.
-Jeffries General Store 1416 Second St.. | Instagram only
-This delightful store is teeming with amazing and eclectic gifts, including stationary, pottery, spa products, tea towels, snacks and art. But it’s also a useful store for forgotten travel necessities (espe cially without a grocery store or drugstore located downtown).
 Marquee Pinball Lounge 1311 First St.. | marqueepinball.com
 If you’re someone that needs to level up, this pin ball and classic video game spot is flipping awe some, a welcome new spot in downtown Napa. Marquee currently serves beer, with wine and ci der offerings coming soon.
 
