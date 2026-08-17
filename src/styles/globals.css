@@ -471,6 +471,13 @@ html[data-region-native-scroll] body {
   align-items: center;
 }
 
+.ws-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
 .ws-nav-menu-btn {
   padding: 6px;
   display: flex;
@@ -566,8 +573,22 @@ html[data-region-native-scroll] body {
 }
 
 .ws-nav-toolbar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: none;
   color: rgba(250, 247, 242, 0.88);
-  transition: color 0.28s ease;
+  cursor: pointer;
+  transition: color 0.28s ease, opacity 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ws-nav-toolbar-icon:hover {
+  opacity: 0.75;
 }
 
 .ws-nav--on-light-surface .ws-nav-toolbar-icon {
