@@ -295,10 +295,6 @@
     "lat": 38.525635,
     "lng": -122.49643
   },
-  "st-helena|Hall Wines|401 St. Helena Highway S.": {
-    "lat": 38.488972,
-    "lng": -122.453057
-  },
   "st-helena|The Salon at Heitz Cellar|436 St. Helena Highway S.": {
     "lat": 38.491062,
     "lng": -122.450682
@@ -1294,5 +1290,17 @@
   "yountville|Christopher Elbow Chocolates|6525 Washington St.": {
     "lat": 38.401912,
     "lng": -122.361929
+  },
+  "st-helena|HALL Napa Valley|401 St. Helena Highway S.": {
+    "lat": 38.488972,
+    "lng": -122.453057
+  },
+  "rutherford|HALL Rutherford|56 Auberge Road": {
+    "lat": 38.49714,
+    "lng": -122.40149
+  },
+  "downtown-napa|WALT Napa Oxbow|605 First Street": {
+    "lat": 38.30116,
+    "lng": -122.28105
   }
 }
