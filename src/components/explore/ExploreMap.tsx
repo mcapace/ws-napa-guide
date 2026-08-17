@@ -29,6 +29,7 @@ import {
   urlParamToCategory,
 } from '@/lib/explore'
 import { getImageFocalPoint } from '@/lib/image-focal'
+import { normalizeSearchText } from '@/lib/search-normalize'
 import { useLenis, REGION_JUMP_SECTION_EVENT } from '@/lib/smooth-scroll'
 import styles from './ExploreMap.module.css'
 import { ExploreMapPin } from './ExploreMapPin'
@@ -41,15 +42,6 @@ const CATEGORY_ICONS: Record<Category, LucideIcon> = {
   dining: UtensilsCrossed,
   stay: Hotel,
   do: Compass,
-}
-
-/** Case- and accent-insensitive matching so “Angele” finds Angèle. */
-function normalizeSearchText(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
-    .replace(/[’']/g, '')
 }
 
 export interface ExploreMapProps {
