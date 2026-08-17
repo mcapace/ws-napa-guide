@@ -110,6 +110,24 @@ export function ExploreMap({
   const [embeddedPlace, setEmbeddedPlace] = useState<string | null>(null)
   const [overrideCategory, setOverrideCategory] = useState<ExploreCategoryFilter | null>(null)
   const activePlace = embedMode ? embeddedPlace : placeParam
+  /** Set once from search navigation so the chosen listing stays pinned to the top. */
+  const [searchFocusPlace, setSearchFocusPlace] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!activePlace) {
+      setSearchFocusPlace(null)
+      return
+    }
+    try {
+      const focus = sessionStorage.getItem('ws-explore-focus-place')
+      if (focus && focus === activePlace) {
+        setSearchFocusPlace(focus)
+        sessionStorage.removeItem('ws-explore-focus-place')
+      }
+    } catch {
+      /* ignore */
+    }
+  }, [activePlace])
 
   const categoryFilter: ExploreCategoryFilter = embedMode
     ? (overrideCategory ?? syncCategory ?? 'all')
@@ -228,13 +246,29 @@ export function ExploreMap({
   }, [scopedPins, categoryFilter, regionFilter, searchQuery])
 
   const visiblePins = useMemo(() => {
-    if (routeSlugs.length === 0) return filteredPins
-    const routePins = routeSlugs
-      .map((slug) => filteredPins.find((p) => p.slug === slug))
-      .filter((p): p is MapPin => p != null)
-    const rest = filteredPins.filter((p) => !routeSlugs.includes(p.slug))
-    return [...routePins, ...rest]
-  }, [filteredPins, routeSlugs])
+    let list: MapPin[]
+    if (routeSlugs.length === 0) {
+      list = filteredPins
+    } else {
+      const routePins = routeSlugs
+        .map((slug) => filteredPins.find((p) => p.slug === slug))
+        .filter((p): p is MapPin => p != null)
+      const rest = filteredPins.filter((p) => !routeSlugs.includes(p.slug))
+      list = [...routePins, ...rest]
+    }
+
+    // Search: keep the chosen listing first in the directory.
+    if (searchFocusPlace && activePlace && searchFocusPlace === activePlace) {
+      const idx = list.findIndex((p) => p.slug === activePlace)
+      if (idx > 0) {
+        const next = list.slice()
+        const [selected] = next.splice(idx, 1)
+        list = [selected, ...next]
+      }
+    }
+
+    return list
+  }, [filteredPins, routeSlugs, activePlace, searchFocusPlace])
 
   const routeIndexBySlug = useMemo(() => {
     const map: Record<string, number> = {}
@@ -412,53 +446,95 @@ export function ExploreMap({
       placeScrollKeyRef.current = null
       return
     }
-    if (placeScrollKeyRef.current === activePlace) return
 
     const pin = visiblePins.find((p) => p.slug === activePlace)
     if (!pin) return
 
-    let cancelled = false
-    let attempts = 0
-
-    const scrollToPlace = () => {
-      if (cancelled) return
-      const el = rowRefs.current[activePlace]
-      if (!el) {
-        if (attempts < 30) {
-          attempts += 1
-          requestAnimationFrame(scrollToPlace)
-        }
-        return
-      }
-
-      placeScrollKeyRef.current = activePlace
-      flyToPin(pin)
-
-      if (pageFlow) {
-        const navOffset = Number.parseFloat(
-          getComputedStyle(document.documentElement)
-            .getPropertyValue('--ws-site-header-height')
-            .trim(),
-        )
-        const offset = -(Number.isFinite(navOffset) ? navOffset : 72) - 16
-        if (lenis) {
-          lenis.scrollTo(el, { offset, duration: 0.85, force: true })
-        } else {
-          const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY + offset)
-          window.scrollTo({ top, behavior: 'smooth' })
-        }
-      } else {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }
+    // New place target — allow retries even if a prior attempt marked this slug.
+    if (placeScrollKeyRef.current !== activePlace) {
+      placeScrollKeyRef.current = null
     }
 
-    // Wait past route-change scroll-to-top (AnimationProvider) so the jump sticks.
-    const timer = window.setTimeout(() => requestAnimationFrame(scrollToPlace), 200)
+    let cancelled = false
+    if (!embedMode && !isDesktop) setMobileView('list')
+
+    const measureChrome = () => {
+      const headerRaw = getComputedStyle(document.documentElement)
+        .getPropertyValue('--ws-site-header-height')
+        .trim()
+      const headerH = Number.parseFloat(headerRaw)
+      const filtersEl =
+        exploreRootRef.current?.querySelector<HTMLElement>(`.${styles.filtersSticky}`) ??
+        null
+      const filtersH = filtersEl?.offsetHeight ?? 0
+      if (filtersH > 0) {
+        document.documentElement.style.setProperty(
+          '--explore-filters-sticky-height',
+          `${filtersH}px`,
+        )
+      }
+      return (Number.isFinite(headerH) ? headerH : 72) + filtersH + 12
+    }
+
+    const scrollOnce = (immediate: boolean) => {
+      if (cancelled) return false
+      const el = rowRefs.current[activePlace]
+      if (!el) return false
+
+      flyToPin(pin)
+      const chrome = measureChrome()
+
+      if (!pageFlow) {
+        el.scrollIntoView({ behavior: immediate ? 'auto' : 'smooth', block: 'center' })
+        placeScrollKeyRef.current = activePlace
+        return true
+      }
+
+      const absoluteTop = Math.max(
+        0,
+        el.getBoundingClientRect().top + window.scrollY - chrome,
+      )
+
+      if (lenis) {
+        lenis.resize()
+        lenis.scrollTo(absoluteTop, {
+          offset: 0,
+          duration: immediate ? 0 : 0.9,
+          immediate,
+          force: true,
+        })
+      } else {
+        window.scrollTo({ top: absoluteTop, behavior: immediate ? 'auto' : 'smooth' })
+      }
+
+      const ok = top >= chrome - 40 && top < window.innerHeight * 0.7
+      if (ok) placeScrollKeyRef.current = activePlace
+      return ok
+    }
+
+    // Route changes reset scroll to top — retry past Lenis init + image layout.
+    const delays = [80, 280, 550, 1100, 1800]
+    const timers = delays.map((ms, i) =>
+      window.setTimeout(() => {
+        if (cancelled) return
+        if (placeScrollKeyRef.current === activePlace) return
+        scrollOnce(i === 0 || i === delays.length - 1)
+      }, ms),
+    )
+
     return () => {
       cancelled = true
-      window.clearTimeout(timer)
+      timers.forEach((t) => window.clearTimeout(t))
     }
-  }, [activePlace, visiblePins, pageFlow, lenis, flyToPin])
+  }, [
+    activePlace,
+    visiblePins,
+    pageFlow,
+    lenis,
+    flyToPin,
+    embedMode,
+    isDesktop,
+  ])
 
   const onCategoryChange = (cat: ExploreCategoryFilter) => {
     updateUrl({ category: cat, place: null })

@@ -85,6 +85,15 @@ export function SiteSearchOverlay({ open, onClose }: SiteSearchOverlayProps) {
 
   const goTo = useCallback(
     (href: string) => {
+      try {
+        const url = new URL(href, window.location.origin)
+        const place = url.searchParams.get('place')
+        if (place && url.pathname.startsWith('/explore')) {
+          sessionStorage.setItem('ws-explore-focus-place', place)
+        }
+      } catch {
+        /* ignore */
+      }
       onClose()
       router.push(href)
     },
@@ -215,7 +224,18 @@ export function SiteSearchOverlay({ open, onClose }: SiteSearchOverlayProps) {
                                 role="option"
                                 aria-selected={active}
                                 className={`${styles.result} ${active ? styles.resultActive : ''}`}
-                                onClick={onClose}
+                                onClick={() => {
+                                  try {
+                                    const url = new URL(item.href, window.location.origin)
+                                    const place = url.searchParams.get('place')
+                                    if (place && url.pathname.startsWith('/explore')) {
+                                      sessionStorage.setItem('ws-explore-focus-place', place)
+                                    }
+                                  } catch {
+                                    /* ignore */
+                                  }
+                                  onClose()
+                                }}
                                 onMouseEnter={() => setActiveIndex(flatIndex)}
                               >
                                 <span className={styles.resultTitle}>{item.title}</span>
