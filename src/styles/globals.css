@@ -614,7 +614,14 @@ html[data-region-native-scroll] body {
   will-change: opacity;
 }
 
-.home-nav > button {
+.home-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.home-nav__menu-btn {
   padding: 6px 2px;
   display: flex;
   flex-direction: column;
@@ -623,6 +630,7 @@ html[data-region-native-scroll] body {
   background: none;
   border: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .home-nav__hamburger-bar {
@@ -635,6 +643,11 @@ html[data-region-native-scroll] body {
 
 body:has([data-page="home-hero"]) .home-nav__hamburger-bar {
   background: #faf7f2;
+}
+
+/* Homepage overlay nav sits on dark hero — keep search icon light. */
+.home-nav .ws-nav-toolbar-icon {
+  color: rgba(250, 247, 242, 0.88);
 }
 
 /* Homepage scroll hero: overlay nav replaces layout site nav on desktop */
