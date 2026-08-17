@@ -18,8 +18,10 @@ import { getRegionEditorialMark } from '@/lib/regionIcons'
 import { NewsletterSubscribeForm } from '@/components/ui/Newsletter'
 import Footer from '@/components/ui/Footer'
 import { NavMenuOverlay } from '@/components/ui/NavMenuOverlay'
+import { SiteSearchOverlay } from '@/components/ui/SiteSearchOverlay'
 import { HomeStoriesSection } from '@/components/home/HomeStoriesSection'
 import { getStoryArticles } from '@/data/site-stories'
+import { Search } from 'lucide-react'
 
 const featuredRegions = sortRegionsSouthToNorth(regions)
 const browseRegions = sortRegionsSouthToNorth(regions)
@@ -89,6 +91,7 @@ export default function HomePage() {
   const heroVideoRef = useRef<HTMLVideoElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
   const [menuOpen, setMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const [heroVideoReady, setHeroVideoReady] = useState(false)
   /** null until mounted; phones never mount the hero video (no fetch) */
   const [isPhone, setIsPhone] = useState<boolean | null>(null)
@@ -324,17 +327,35 @@ export default function HomePage() {
           />
           <span className="ws-nav-brand__tagline">Napa Valley Guide</span>
         </Link>
-        <button
-          onClick={() => setMenuOpen(true)}
-          aria-label="Open menu"
-          type="button"
-        >
-          <span className="home-nav__hamburger-bar" />
-          <span className="home-nav__hamburger-bar" />
-        </button>
+        <div className="home-nav__actions">
+          <button
+            type="button"
+            className="ws-nav-toolbar-icon"
+            aria-label="Search the guide"
+            onClick={() => {
+              setMenuOpen(false)
+              setSearchOpen(true)
+            }}
+          >
+            <Search size={20} strokeWidth={1.75} aria-hidden />
+          </button>
+          <button
+            onClick={() => {
+              setSearchOpen(false)
+              setMenuOpen(true)
+            }}
+            aria-label="Open menu"
+            type="button"
+            className="home-nav__menu-btn"
+          >
+            <span className="home-nav__hamburger-bar" />
+            <span className="home-nav__hamburger-bar" />
+          </button>
+        </div>
       </nav>
 
       <NavMenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <SiteSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* ── MOBILE COVER — phones skip the 400vh video hero entirely ── */}
       <section className="home-mobile-cover" aria-label="Explore Napa Valley">
