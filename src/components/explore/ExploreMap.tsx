@@ -103,6 +103,7 @@ export function ExploreMap({
   const rowRefs = useRef<Record<string, HTMLElement | null>>({})
   const listScrollRef = useRef<HTMLDivElement>(null)
   const exploreRootRef = useRef<HTMLDivElement>(null)
+  const placeScrollKeyRef = useRef<string | null>(null)
   const [mapMounted, setMapMounted] = useState(!lazyMap || embedMode)
 
   const placeParam = embedMode ? null : searchParams.get('place')
@@ -404,6 +405,60 @@ export function ExploreMap({
       if (pin) flyToPin(pin)
     }
   }, [scopedRegion, scopedPins, activePlace, flyToPin, onMapMove, routeSlugs, fitBoundsToPins])
+
+  /** Deep-links (?place=) and search results: scroll the directory to the selected listing. */
+  useEffect(() => {
+    if (!activePlace) {
+      placeScrollKeyRef.current = null
+      return
+    }
+    if (placeScrollKeyRef.current === activePlace) return
+
+    const pin = visiblePins.find((p) => p.slug === activePlace)
+    if (!pin) return
+
+    let cancelled = false
+    let attempts = 0
+
+    const scrollToPlace = () => {
+      if (cancelled) return
+      const el = rowRefs.current[activePlace]
+      if (!el) {
+        if (attempts < 30) {
+          attempts += 1
+          requestAnimationFrame(scrollToPlace)
+        }
+        return
+      }
+
+      placeScrollKeyRef.current = activePlace
+      flyToPin(pin)
+
+      if (pageFlow) {
+        const navOffset = Number.parseFloat(
+          getComputedStyle(document.documentElement)
+            .getPropertyValue('--ws-site-header-height')
+            .trim(),
+        )
+        const offset = -(Number.isFinite(navOffset) ? navOffset : 72) - 16
+        if (lenis) {
+          lenis.scrollTo(el, { offset, duration: 0.85, force: true })
+        } else {
+          const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY + offset)
+          window.scrollTo({ top, behavior: 'smooth' })
+        }
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    }
+
+    // Wait past route-change scroll-to-top (AnimationProvider) so the jump sticks.
+    const timer = window.setTimeout(() => requestAnimationFrame(scrollToPlace), 200)
+    return () => {
+      cancelled = true
+      window.clearTimeout(timer)
+    }
+  }, [activePlace, visiblePins, pageFlow, lenis, flyToPin])
 
   const onCategoryChange = (cat: ExploreCategoryFilter) => {
     updateUrl({ category: cat, place: null })
