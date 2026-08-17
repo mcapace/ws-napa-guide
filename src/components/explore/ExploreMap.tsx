@@ -507,7 +507,8 @@ export function ExploreMap({
         window.scrollTo({ top: absoluteTop, behavior: immediate ? 'auto' : 'smooth' })
       }
 
-      const ok = top >= chrome - 40 && top < window.innerHeight * 0.7
+      const rowTop = el.getBoundingClientRect().top
+      const ok = rowTop >= chrome - 40 && rowTop < window.innerHeight * 0.7
       if (ok) placeScrollKeyRef.current = activePlace
       return ok
     }
