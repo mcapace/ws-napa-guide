@@ -71,7 +71,7 @@ export const hotels: Hotel[] = [
     name: 'Alila Napa Valley',
     region: 'st-helena',
     address: '1915 Main St., St. Helena',
-    website: 'https://www.hyatt.com/en-US/hotel/california/alila-napa-valley/apcal',
+    website: 'https://www.hyatt.com/alila-hotels-and-resorts/en-US/apcal-alila-napa-valley',
     coords: [-122.4785, 38.5094],
     category: 'resort',
     priceRange: '$$$$',
