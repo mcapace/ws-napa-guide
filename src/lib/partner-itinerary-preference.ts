@@ -1,12 +1,14 @@
 import { partners } from '@/data/partners'
+import type { Itinerary, ItineraryStop } from '@/lib/types'
 
 /**
  * Presence campaign: when the planner / AI concierge recommends tastings
  * in a partner's region, prefer that partner for ~90 days from go-live.
  *
- * After `endsOn`, every helper below returns a no-op / false / 0 — ranking and
- * the concierge prompt go back to the default (no partner boost) with no
- * redeploy required.
+ * The same window also drives sponsor-first featured showcase order,
+ * itinerary tab / stop order, and listicle lead placement. After `endsOn`,
+ * every helper below returns a no-op / false / 0 / editorial order — ranking,
+ * concierge prompt, and region placements go back to default with no redeploy.
  */
 export const PARTNER_ITINERARY_PREFERENCE = {
   /** Inclusive start (UTC date). */
@@ -60,6 +62,112 @@ export function isPreferredPartnerVenue(opts: {
   return preferred.some(
     (p) => n === p || (p.length >= 4 && n.length >= 4 && (n.includes(p) || p.includes(n))),
   )
+}
+
+/** True if the name matches a founding partner, ignoring the campaign window. */
+export function isFoundingPartnerVenueName(name: string, region?: string): boolean {
+  const n = normalize(name)
+  const regions = region ? [region] : Object.keys(PREFERRED_BY_REGION)
+  for (const slug of regions) {
+    const preferred = PREFERRED_BY_REGION[slug] ?? []
+    if (
+      preferred.some(
+        (p) => n === p || (p.length >= 4 && n.length >= 4 && (n.includes(p) || p.includes(n))),
+      )
+    ) {
+      return true
+    }
+  }
+  return false
+}
+
+/**
+ * During the campaign: preferred partners lead.
+ * Outside the window: list is unchanged (callers should store editorial order).
+ */
+export function prioritizePreferredPartners<T extends { name: string }>(
+  items: T[],
+  region: string,
+  now = new Date(),
+): T[] {
+  if (!isPartnerItineraryPreferenceActive(now) || items.length < 2) return items
+
+  const preferred: T[] = []
+  const rest: T[] = []
+  for (const item of items) {
+    if (isPreferredPartnerVenue({ name: item.name, region, category: 'winery', now })) {
+      preferred.push(item)
+    } else {
+      rest.push(item)
+    }
+  }
+  if (preferred.length === 0) return items
+  return [...preferred, ...rest]
+}
+
+/** Narrative blurbs when a route is reordered so a partner leads (campaign only). */
+const CAMPAIGN_STOP_BLURBS: Record<string, Record<string, string>> = {
+  'modern-tasting-salons': {
+    'HALL St. Helena':
+      'Start at HALL St. Helena on the historic Bergfeld Vineyard. Pair award-winning Cabernets with contemporary art and seasonal culinary bites on a LEED Gold–certified estate—Bunny Foo-Foo included.',
+    'Royal We Wines':
+      'Head into town for Royal We Wines, a tasting salon from winemaker Thomas Rivers Brown and partner Matt Hardin. The space is comfy/swanky with a bar counter and side rooms that offer varying seating configurations.',
+    'Wheeler Farms':
+      'Continue south and turn left down Zinfandel Lane to Wheeler Farms. Winemaker Nigel Kinsman makes Accendo here, along with Kinsman Eades, Bella Oaks, Annulus and other labels.',
+  },
+}
+
+/** Reorder itinerary stops so preferred partners lead; renumber `order`. */
+export function prioritizePreferredItineraryStops(
+  stops: ItineraryStop[],
+  region: string,
+  itineraryId?: string,
+  now = new Date(),
+): ItineraryStop[] {
+  const ordered = prioritizePreferredPartners(stops, region, now)
+  if (ordered === stops) return stops
+
+  const blurbMap = itineraryId ? CAMPAIGN_STOP_BLURBS[itineraryId] : undefined
+  return ordered.map((stop, index) => ({
+    ...stop,
+    order: index + 1,
+    ...(blurbMap?.[stop.name] ? { blurb: blurbMap[stop.name] } : {}),
+  }))
+}
+
+/**
+ * During the campaign: itineraries that contain a preferred partner lead the tabs.
+ * Outside the window: editorial order is unchanged.
+ */
+export function prioritizePartnerItineraries(
+  itineraries: Itinerary[],
+  region: string,
+  now = new Date(),
+): Itinerary[] {
+  const withStops = itineraries.map((it) => ({
+    ...it,
+    stops: prioritizePreferredItineraryStops(it.stops, region, it.id, now),
+  }))
+
+  if (!isPartnerItineraryPreferenceActive(now) || withStops.length < 2) {
+    return withStops
+  }
+
+  const preferred: Itinerary[] = []
+  const rest: Itinerary[] = []
+  for (const it of withStops) {
+    const hasPartner = it.stops.some((stop) =>
+      isPreferredPartnerVenue({
+        name: stop.name,
+        region,
+        category: stop.category,
+        now,
+      }),
+    )
+    if (hasPartner) preferred.push(it)
+    else rest.push(it)
+  }
+  return preferred.length > 0 ? [...preferred, ...rest] : withStops
 }
 
 /** Concierge system-prompt block — empty string outside the campaign window. */

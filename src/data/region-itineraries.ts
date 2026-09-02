@@ -1,4 +1,5 @@
 import type { Itinerary, Region } from '@/lib/types'
+import { prioritizePartnerItineraries } from '@/lib/partner-itinerary-preference'
 
 const OAKVILLE_TOUR: Itinerary = {
   id: 'everything-old-new',
@@ -303,20 +304,20 @@ const ST_HELENA_SALONS: Itinerary = {
   stops: [
     {
       order: 1,
+      name: 'Royal We Wines',
+      category: 'winery',
+      coords: [-122.464995, 38.501492],
+      blurb:
+        'Start your morning at Royal We Wines, a tasting salon from winemaker Thomas Rivers Brown and partner Matt Hardin. The space is comfy/swanky with a bar counter and side rooms that offer varying seating configurations.',
+    },
+    {
+      order: 2,
       name: 'HALL St. Helena',
       category: 'winery',
       coords: [-122.453057, 38.488972],
       href: '/partners/hall-st-helena',
       blurb:
-        'Start at HALL St. Helena on the historic Bergfeld Vineyard. Pair award-winning Cabernets with contemporary art and seasonal culinary bites on a LEED Gold–certified estate—Bunny Foo-Foo included.',
-    },
-    {
-      order: 2,
-      name: 'Royal We Wines',
-      category: 'winery',
-      coords: [-122.464995, 38.501492],
-      blurb:
-        'Head into town for Royal We Wines, a tasting salon from winemaker Thomas Rivers Brown and partner Matt Hardin. The space is comfy/swanky with a bar counter and side rooms that offer varying seating configurations.',
+        'Continue south to HALL St. Helena on the historic Bergfeld Vineyard. Pair award-winning Cabernets with contemporary art and seasonal culinary bites on a LEED Gold–certified estate—Bunny Foo-Foo included.',
     },
     {
       order: 3,
@@ -324,7 +325,7 @@ const ST_HELENA_SALONS: Itinerary = {
       category: 'winery',
       coords: [-122.437614, 38.487375],
       blurb:
-        'Continue south and turn left down Zinfandel Lane to Wheeler Farms. Winemaker Nigel Kinsman makes Accendo here, along with Kinsman Eades, Bella Oaks, Annulus and other labels.',
+        'Drive a few minutes farther south and turn left down Zinfandel Lane to Wheeler Farms. Winemaker Nigel Kinsman makes Accendo here, along with Kinsman Eades, Bella Oaks, Annulus and other labels.',
     },
   ],
 }
@@ -469,23 +470,32 @@ const DOWNTOWN_CARNEROS: Itinerary = {
 
 export const REGION_ITINERARIES: Partial<Record<Region | string, Itinerary[]>> = {
   oakville: [OAKVILLE_TOUR],
-  rutherford: [RUTHERFORD_ESTATES, RUTHERFORD_SAUVIGNON],
+  rutherford: [RUTHERFORD_SAUVIGNON, RUTHERFORD_ESTATES],
   yountville: [YOUNTVILLE_CULINARY, YOUNTVILLE_STAGS_LEAP, YOUNTVILLE_HILLS],
   'st-helena': [
-    ST_HELENA_SALONS,
     ST_HELENA_OFF_GRID,
     ST_HELENA_WEST_SIDE,
     ST_HELENA_HISTORY,
+    ST_HELENA_SALONS,
   ],
   calistoga: [CALISTOGA_WALKABLE, CALISTOGA_MOUNTAIN],
   'downtown-napa': [DOWNTOWN_OXBOW],
   'beyond-napa': [DOWNTOWN_CARNEROS],
 }
 
-export function getRegionItineraries(slug: string): Itinerary[] {
+export function getRegionItinerariesEditorial(slug: string): Itinerary[] {
   return REGION_ITINERARIES[slug] ?? []
 }
 
-export function findItineraryById(slug: string, id: string): Itinerary | undefined {
-  return getRegionItineraries(slug).find((it) => it.id === id)
+/** Editorial routes with founding-partner lead order while the 90-day window is active. */
+export function getRegionItineraries(slug: string, now = new Date()): Itinerary[] {
+  return prioritizePartnerItineraries(getRegionItinerariesEditorial(slug), slug, now)
+}
+
+export function findItineraryById(
+  slug: string,
+  id: string,
+  now = new Date(),
+): Itinerary | undefined {
+  return getRegionItineraries(slug, now).find((it) => it.id === id)
 }

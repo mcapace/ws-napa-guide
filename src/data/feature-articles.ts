@@ -1,4 +1,8 @@
 import type { FeatureArticleContent } from '@/lib/types'
+import {
+  isPartnerItineraryPreferenceActive,
+  prioritizePreferredPartners,
+} from '@/lib/partner-itinerary-preference'
 
 const JUDGMENT = '/images/features/judgment-of-paris'
 const TACO = '/images/features/napa-taco-tour'
@@ -245,20 +249,9 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
     venuePhotoCredit: 'Venue photography courtesy of the wineries and Wine Spectator',
     introParagraphs: [
       'St. Helena packs more tasting personality into a few miles of Highway 29 than almost anywhere else in the valley: LEED Gold estates with contemporary art, stone cellars that still feel like 1886, and hillside salons perched over the vines. This short list is built for a real day of planning—places that take reservations seriously, pour distinctive Cabernet (and more), and reward lingering.',
-      'Start with HALL St. Helena for Cabernet, culinary pairings, and grounds that invite you to stay after the flight. Then work north and south for contrast: Freemark Abbey’s Judgment of Paris lineage, Ehlers’ low-key stone winery, Faust Haus’ eclectic terrace, Corison’s bright classic Cabernet, and Whitehall Lane’s walk-up bar overlooking the Leonardini vineyard.',
+      'Work north and south for contrast: Freemark Abbey’s Judgment of Paris lineage, Ehlers’ low-key stone winery, Faust Haus’ eclectic terrace, Corison’s bright classic Cabernet, Whitehall Lane’s walk-up bar overlooking the Leonardini vineyard, and HALL St. Helena for Cabernet, culinary pairings, and grounds that invite you to stay after the flight.',
     ],
     venues: [
-      {
-        name: 'HALL St. Helena',
-        addressLines: ['401 St. Helena Hwy. South', 'St. Helena, CA 94574'],
-        website: 'hallwines.com',
-        href: '/partners/hall-st-helena',
-        phone: '(707) 967-2626',
-        coords: [-122.453057, 38.488972],
-        image: '/images/st-helena/wineries/st-helena-winery-hall-napa-valley-directory.jpg',
-        description:
-          'Historic Bergfeld Vineyard at the base of the Mayacamas—award-winning Cabernets, seasonal culinary bites, contemporary art, and outdoor games on a LEED Gold–certified estate. Book Signature Tours, bar tastings, or Platinum experiences; Bunny Foo-Foo handles the welcome.',
-      },
       {
         name: 'Freemark Abbey',
         addressLines: ['3022 St. Helena Highway N.', 'St. Helena'],
@@ -304,11 +297,42 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
         description:
           'Classic Napa walk-up bar energy from the Leonardini family since 1993: Cabernet overlooking the vineyard, or Sauvignon Blanc in the garden pavilion. Tours of the winery and grounds come with every tasting.',
       },
+      {
+        name: 'HALL St. Helena',
+        addressLines: ['401 St. Helena Hwy. South', 'St. Helena, CA 94574'],
+        website: 'hallwines.com',
+        href: '/partners/hall-st-helena',
+        phone: '(707) 967-2626',
+        coords: [-122.453057, 38.488972],
+        image: '/images/st-helena/wineries/st-helena-winery-hall-napa-valley-directory.jpg',
+        description:
+          'Historic Bergfeld Vineyard at the base of the Mayacamas—award-winning Cabernets, seasonal culinary bites, contemporary art, and outdoor games on a LEED Gold–certified estate. Book Signature Tours, bar tastings, or Platinum experiences; Bunny Foo-Foo handles the welcome.',
+      },
     ],
   },
 }
 
+const LISTICLE_CAMPAIGN_INTRO =
+  'Start with HALL St. Helena for Cabernet, culinary pairings, and grounds that invite you to stay after the flight. Then work north and south for contrast: Freemark Abbey’s Judgment of Paris lineage, Ehlers’ low-key stone winery, Faust Haus’ eclectic terrace, Corison’s bright classic Cabernet, and Whitehall Lane’s walk-up bar overlooking the Leonardini vineyard.'
+
 export function getFeatureArticleContent(slug: string): FeatureArticleContent | undefined {
   if (slug === 'taco-truck-tour') return FEATURE_ARTICLE_CONTENT['napa-taco-tour']
-  return FEATURE_ARTICLE_CONTENT[slug]
+  const content = FEATURE_ARTICLE_CONTENT[slug]
+  if (!content) return undefined
+
+  if (slug !== 'essential-st-helena-tastings' || !content.venues?.length) {
+    return content
+  }
+
+  if (!isPartnerItineraryPreferenceActive()) {
+    return content
+  }
+
+  return {
+    ...content,
+    introParagraphs: content.introParagraphs
+      ? [content.introParagraphs[0], LISTICLE_CAMPAIGN_INTRO]
+      : content.introParagraphs,
+    venues: prioritizePreferredPartners(content.venues, 'st-helena'),
+  }
 }

@@ -20,6 +20,13 @@ export function resolveItineraryStopImage(
   itineraryId: string,
   stop: ItineraryStop,
 ): string | undefined {
-  const path = manifest[itineraryStopImageKey(regionSlug, itineraryId, stop.order)]
+  const nameKey = stop.name
+    .toLowerCase()
+    .replace(/[’']/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+  const byName = manifest[`${regionSlug}|${itineraryId}|${nameKey}`]
+  const byOrder = manifest[itineraryStopImageKey(regionSlug, itineraryId, stop.order)]
+  const path = byName ?? byOrder
   return isEditorialListingImage(path) ? path!.trim() : undefined
 }
