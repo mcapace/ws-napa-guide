@@ -16,6 +16,9 @@ import type { HorizontalStripItem } from '@/components/ui/HorizontalStrip'
 
 type Props = { params: Promise<{ slug: string }> }
 
+/** Partner listicle lead order expires with the 90-day campaign window. */
+export const revalidate = 86400
+
 const featureSlugs: string[] = [...STORY_SLUGS]
 
 export async function generateStaticParams() {

@@ -1,15 +1,22 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getAllRegionSlugs } from '@/data/regions'
-import { getRegionItineraries } from '@/data/region-itineraries'
+import { getRegionItinerariesEditorial } from '@/data/region-itineraries'
 import { enrichRegionItineraries } from '@/lib/enrich-region-itineraries'
 import {
   collectRegionStoryImages,
   enrichItinerariesWithImages,
 } from '@/lib/region-editorial-images'
+import {
+  prioritizePartnerItineraries,
+  prioritizePreferredPartners,
+} from '@/lib/partner-itinerary-preference'
 import { buildRegionExplorePins } from '@/lib/explore-region-pins'
 import { getMdxRegionSlugs, loadRegionMdxCached } from '@/lib/content/loadRegionMdx'
 import RegionScrollPageClient from './RegionScrollPageClient'
+
+/** Flip founding-partner lead placements when the 90-day window ends without a redeploy. */
+export const revalidate = 86400
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -66,27 +73,35 @@ export default async function RegionPage({ params }: Props) {
       .map((w) => [w.name, w.bodyPlain!]),
   )
 
+  const mdx = {
+    ...mdxDoc,
+    featuredWineries: prioritizePreferredPartners(mdxDoc.featuredWineries, slug),
+  }
+
   const itineraries = enrichItinerariesWithImages(
-    enrichRegionItineraries(slug, getRegionItineraries(slug), {
-      sidebarMd: mdxDoc.sidebarMd,
-      sidebarHeading: mdxDoc.sidebarHeading,
-      byline: mdxDoc.frontmatter.byline,
-      issue: mdxDoc.frontmatter.issue,
-      regionName: mdxDoc.frontmatter.region,
-      regionTagline: mdxDoc.frontmatter.tagline,
-      ledeParagraphs: mdxDoc.ledePlain,
-      featuredListingPlain,
-    }),
+    prioritizePartnerItineraries(
+      enrichRegionItineraries(slug, getRegionItinerariesEditorial(slug), {
+        sidebarMd: mdxDoc.sidebarMd,
+        sidebarHeading: mdxDoc.sidebarHeading,
+        byline: mdxDoc.frontmatter.byline,
+        issue: mdxDoc.frontmatter.issue,
+        regionName: mdxDoc.frontmatter.region,
+        regionTagline: mdxDoc.frontmatter.tagline,
+        ledeParagraphs: mdxDoc.ledePlain,
+        featuredListingPlain,
+      }),
+      slug,
+    ),
     slug,
-    mdxDoc,
+    mdx,
     regionPins,
   )
 
-  const storyImages = collectRegionStoryImages(mdxDoc)
+  const storyImages = collectRegionStoryImages(mdx)
 
   const clientProps = {
     slug,
-    mdx: mdxDoc,
+    mdx,
     pins: regionPins,
     itineraries,
     storyImages,

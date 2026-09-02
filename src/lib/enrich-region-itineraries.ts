@@ -66,7 +66,7 @@ const STOP_ANCHORS: Record<string, string[]> = {
   'WALT Napa Oxbow': ['WALT Napa Oxbow', 'Start at WALT', 'WALT Napa Oxbow,'],
   'Mayacamas Downtown': ['Mayacamas Downtown', 'Walk west on First Street to Mayacamas'],
   'Gentleman Farmer Bungalow': ['Gentleman Farmer Bungalow', 'Finish at Gentleman Farmer'],
-  'HALL St. Helena': ['HALL St. Helena', 'Start at HALL', 'HALL Napa Valley', 'Bergfeld Vineyard'],
+  'HALL St. Helena': ['HALL St. Helena', 'Continue south to HALL', 'Start at HALL', 'HALL Napa Valley', 'Bergfeld Vineyard'],
   'Royal We Wines': ['Royal We Wines', 'Head into town for Royal We', 'Start your morning at Royal We', 'Royal We, a tasting salon'],
   'Wheeler Farms': ['Wheeler Farms', 'to Wheeler Farms', 'down Zinfandel Lane'],
 }
