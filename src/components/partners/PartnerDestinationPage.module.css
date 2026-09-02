@@ -52,6 +52,27 @@
   color: var(--gold);
 }
 
+.logoWrap {
+  margin: 0 0 1.15rem;
+}
+
+.logo {
+  display: block;
+  width: min(11.5rem, 42vw);
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.logoRegion {
+  margin: 0.55rem 0 0;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.72);
+}
+
 .title {
   margin: 0 0 0.85rem;
   font-family: var(--font-display);
