@@ -268,20 +268,20 @@ const ST_HELENA_SALONS: Itinerary = {
   stops: [
     {
       order: 1,
-      name: 'Royal We Wines',
-      category: 'winery',
-      coords: [-122.464995, 38.501492],
-      blurb:
-        'Start your morning at Royal We Wines, a tasting salon from winemaker Thomas Rivers Brown and partner Matt Hardin. The space is comfy/swanky with a bar counter and side rooms that offer varying seating configurations.',
-    },
-    {
-      order: 2,
       name: 'HALL St. Helena',
       category: 'winery',
       coords: [-122.453057, 38.488972],
       href: '/partners/hall-st-helena',
       blurb:
-        'Continue south to HALL St. Helena on the historic Bergfeld Vineyard. Pair award-winning Cabernets with contemporary art and seasonal culinary bites on a LEED Gold–certified estate—Bunny Foo-Foo included.',
+        'Start at HALL St. Helena on the historic Bergfeld Vineyard. Pair award-winning Cabernets with contemporary art and seasonal culinary bites on a LEED Gold–certified estate—Bunny Foo-Foo included.',
+    },
+    {
+      order: 2,
+      name: 'Royal We Wines',
+      category: 'winery',
+      coords: [-122.464995, 38.501492],
+      blurb:
+        'Head into town for Royal We Wines, a tasting salon from winemaker Thomas Rivers Brown and partner Matt Hardin. The space is comfy/swanky with a bar counter and side rooms that offer varying seating configurations.',
     },
     {
       order: 3,
@@ -289,7 +289,7 @@ const ST_HELENA_SALONS: Itinerary = {
       category: 'winery',
       coords: [-122.437614, 38.487375],
       blurb:
-        'Drive a few minutes farther south and turn left down Zinfandel Lane to Wheeler Farms. Winemaker Nigel Kinsman makes Accendo here, along with Kinsman Eades, Bella Oaks, Annulus and other labels.',
+        'Continue south and turn left down Zinfandel Lane to Wheeler Farms. Winemaker Nigel Kinsman makes Accendo here, along with Kinsman Eades, Bella Oaks, Annulus and other labels.',
     },
   ],
 }
@@ -402,10 +402,10 @@ export const REGION_ITINERARIES: Partial<Record<Region | string, Itinerary[]>> =
   rutherford: [RUTHERFORD_SAUVIGNON],
   yountville: [YOUNTVILLE_CULINARY, YOUNTVILLE_STAGS_LEAP, YOUNTVILLE_HILLS],
   'st-helena': [
+    ST_HELENA_SALONS,
     ST_HELENA_OFF_GRID,
     ST_HELENA_WEST_SIDE,
     ST_HELENA_HISTORY,
-    ST_HELENA_SALONS,
   ],
   calistoga: [CALISTOGA_WALKABLE, CALISTOGA_MOUNTAIN],
   'beyond-napa': [DOWNTOWN_CARNEROS],

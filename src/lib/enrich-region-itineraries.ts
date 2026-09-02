@@ -57,7 +57,8 @@ const STOP_ANCHORS: Record<string, string[]> = {
   'Freemark Abbey': ["Freemark Abbey's history", 'Freemark Abbey'],
   'Spring Mountain Vineyard': ['Spring Mountain Vineyard', 'Spring Mountain, which had'],
   "Charlie's Napa Valley": ["take it to Charlie", "Charlie's to have"],
-  'Royal We Wines': ['Royal We Wines', 'Start your morning at Royal We', 'Royal We, a tasting salon'],
+  'HALL St. Helena': ['HALL St. Helena', 'Start at HALL', 'HALL Napa Valley', 'Bergfeld Vineyard'],
+  'Royal We Wines': ['Royal We Wines', 'Head into town for Royal We', 'Start your morning at Royal We', 'Royal We, a tasting salon'],
   'Wheeler Farms': ['Wheeler Farms', 'to Wheeler Farms', 'down Zinfandel Lane'],
 }
 
