@@ -43,10 +43,9 @@ export default async function PartnerPage({ params }: Props) {
   return (
     <>
       <PartnerDestinationPage partner={partner} />
-      <div data-site-surface="dark" style={{ background: '#0D0B09', color: '#F7F3EC' }}>
-        <Newsletter />
-        <Footer />
-      </div>
+      {/* Site chrome stays dark — clean edge after the light brochure. */}
+      <Newsletter />
+      <Footer />
     </>
   )
 }
