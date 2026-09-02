@@ -1,5 +1,7 @@
 import type { MapPin } from '@/data/map-pins'
+import { partnerPathForName } from '@/data/partners'
 import { directorySlug } from '@/lib/explore-region-pins'
+import { withNapaGuideUtm } from '@/lib/outbound-utm'
 import {
   absoluteWebsiteUrl,
   detailPageExists,
@@ -35,15 +37,20 @@ export function editorialDetailHref(
   name: string,
   website?: string,
 ): string {
-  // Every venue link goes to the venue's actual website (editorial
-  // decision — the microsite's breakout pages are not the destination).
-  if (website?.trim()) return absoluteWebsiteUrl(website)
+  // Partner destination pages take priority for Presence placements.
+  if (category === 'taste') {
+    const partnerPath = partnerPathForName(name, regionSlug)
+    if (partnerPath) return partnerPath
+  }
+
+  // Default: venue's actual website (with campaign UTMs when applicable).
+  if (website?.trim()) return withNapaGuideUtm(absoluteWebsiteUrl(website))
 
   const pin = findPinForName(pins, name)
-  if (pin?.href?.startsWith('http')) return pin.href
+  if (pin?.href?.startsWith('http')) return withNapaGuideUtm(pin.href)
   if (pin?.href && detailPageExists(pin.href)) {
     const site = venueWebsiteForDetailPath(pin.href)
-    if (site) return absoluteWebsiteUrl(site)
+    if (site) return withNapaGuideUtm(absoluteWebsiteUrl(site))
   }
 
   const slug = directorySlug(regionSlug, name)
@@ -51,7 +58,7 @@ export function editorialDetailHref(
     category === 'taste' ? '/wineries' : category === 'eat' ? '/dining' : '/stay'
   const candidate = `${base}/${slug}`
   const site = venueWebsiteForDetailPath(candidate)
-  if (site) return absoluteWebsiteUrl(site)
+  if (site) return withNapaGuideUtm(absoluteWebsiteUrl(site))
 
   // Venue has no website anywhere on file — its explore pin, never a 404
   return `/explore?ava=${regionSlug}&place=${slug}`

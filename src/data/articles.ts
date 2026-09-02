@@ -59,6 +59,24 @@ export const articles: Article[] = [
     publishedAt: '2026-06-15',
   },
   {
+    slug: 'essential-st-helena-tastings',
+    title: 'Essential St. Helena Tastings',
+    section: 'feature',
+    author: 'MaryAnn Worobiec',
+    excerpt:
+      'Six stops that define a St. Helena tasting day—from LEED Gold Cabernet and contemporary art at HALL to stone-cellar classics and valley-view salons.',
+    sponsorTier: null,
+    featured: true,
+    images: [
+      '/images/features/essential-st-helena-tastings/hero.jpg',
+      '/images/st-helena/wineries/st-helena-winery-hall-napa-valley-directory.jpg',
+      '/images/st-helena/wineries/st-helena-winery-ehlers-estate-landscape.jpg',
+      '/images/st-helena/wineries/st-helena-winery-faust-haus-landscape.jpg',
+      '/images/st-helena/wineries/st-helena-winery-whitehall-lane-landscape.jpg',
+    ],
+    publishedAt: '2026-09-01',
+  },
+  {
     slug: 'napa-oakville',
     title: 'Oakville',
     section: 'regions',

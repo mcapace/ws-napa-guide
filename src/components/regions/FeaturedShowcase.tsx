@@ -11,6 +11,7 @@ import {
 import type { MapPin } from '@/data/map-pins'
 import { editorialDetailHref } from '@/lib/editorial-detail-link'
 import { getShowcaseFocalProfile, getShowcaseImageStyle } from '@/lib/image-focal'
+import { withNapaGuideUtm } from '@/lib/outbound-utm'
 import copySideManifest from '@/data/showcase-copy-side.json'
 import styles from './FeaturedShowcase.module.css'
 
@@ -62,7 +63,8 @@ function formatWebsiteLabel(url: string): string {
 
 function normalizeWebsite(url?: string): string | undefined {
   if (!url?.trim()) return undefined
-  return url.match(/^https?:\/\//i) ? url : `https://${url}`
+  const absolute = url.match(/^https?:\/\//i) ? url : `https://${url}`
+  return withNapaGuideUtm(absolute)
 }
 
 type PanelProps = {

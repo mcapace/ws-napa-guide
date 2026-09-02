@@ -1,7 +1,8 @@
+import { REGION_SOUTH_TO_NORTH } from '@/data/region-order'
+import { partnerPreferenceRankBoost } from '@/lib/partner-itinerary-preference'
+
 // Day-by-day itinerary generator — pure and seeded so a shared URL
 // reproduces the exact same plan.
-
-import { REGION_SOUTH_TO_NORTH } from '@/data/region-order'
 
 export type PlanPace = 'relaxed' | 'full'
 
@@ -184,6 +185,12 @@ function candidatesFor(
       const text = `${v.name} ${v.address}`
       if (!slot.hint.some((h) => DO_HINTS[h].test(text))) score += 20
     }
+    score += partnerPreferenceRankBoost({
+      name: v.name,
+      region: v.region,
+      dayRegion: region,
+      category: v.category,
+    })
     return score
   }
 

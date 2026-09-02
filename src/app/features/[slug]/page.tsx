@@ -125,10 +125,10 @@ export default async function FeatureArticlePage({ params }: Props) {
       )}
 
       <div data-site-surface="dark" style={{ background: '#0D0B09', color: '#F7F3EC' }}>
-        {slug !== 'judgment-of-paris' && slug !== 'napa-taco-tour' && slug !== 'napa-landmarks' && (
+        {slug !== 'judgment-of-paris' && slug !== 'napa-taco-tour' && slug !== 'napa-landmarks' && slug !== 'essential-st-helena-tastings' && (
           <RelatedListings article={article} />
         )}
-        {slug !== 'judgment-of-paris' && slug !== 'napa-taco-tour' && slug !== 'napa-landmarks' && (
+        {slug !== 'judgment-of-paris' && slug !== 'napa-taco-tour' && slug !== 'napa-landmarks' && slug !== 'essential-st-helena-tastings' && (
           <ReadNextSection slug={slug} />
         )}
         <Newsletter />
