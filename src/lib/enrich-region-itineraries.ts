@@ -19,6 +19,9 @@ const ITINERARY_SECTION_NUM: Record<string, number> = {
   'west-side-family-wineries': 2,
   'st-helena-history-lesson': 3,
   'modern-tasting-salons': 4,
+  'estate-caves-cabernets': 1,
+  'sauvignon-blanc-discovery': 2,
+  'oxbow-first-street': 1,
 }
 
 const STOP_ANCHORS: Record<string, string[]> = {
@@ -57,6 +60,12 @@ const STOP_ANCHORS: Record<string, string[]> = {
   'Freemark Abbey': ["Freemark Abbey's history", 'Freemark Abbey'],
   'Spring Mountain Vineyard': ['Spring Mountain Vineyard', 'Spring Mountain, which had'],
   "Charlie's Napa Valley": ["take it to Charlie", "Charlie's to have"],
+  'HALL Rutherford': ['HALL Rutherford', 'Begin at HALL Rutherford', 'Start at HALL Rutherford'],
+  'Quintessa': ['Quintessa', 'to Quintessa', 'brings you to Quintessa'],
+  'Inglenook / Niebaum / Pennino': ['Inglenook', 'Finish on the valley floor at Inglenook', 'Pennino House'],
+  'WALT Napa Oxbow': ['WALT Napa Oxbow', 'Start at WALT', 'WALT Napa Oxbow,'],
+  'Mayacamas Downtown': ['Mayacamas Downtown', 'Walk west on First Street to Mayacamas'],
+  'Gentleman Farmer Bungalow': ['Gentleman Farmer Bungalow', 'Finish at Gentleman Farmer'],
   'HALL St. Helena': ['HALL St. Helena', 'Start at HALL', 'HALL Napa Valley', 'Bergfeld Vineyard'],
   'Royal We Wines': ['Royal We Wines', 'Head into town for Royal We', 'Start your morning at Royal We', 'Royal We, a tasting salon'],
   'Wheeler Farms': ['Wheeler Farms', 'to Wheeler Farms', 'down Zinfandel Lane'],

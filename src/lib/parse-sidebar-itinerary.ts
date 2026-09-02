@@ -11,6 +11,9 @@ export const ITINERARY_SIDEBAR_SECTION: Record<string, string> = {
   'west-side-family-wineries': 'West Side Family Wineries',
   'st-helena-history-lesson': 'A St. Helena History Lesson',
   'modern-tasting-salons': 'Modern Tasting Salons',
+  'estate-caves-cabernets': 'Estate Caves & Cabernets',
+  'sauvignon-blanc-discovery': 'The Sauvignon Blanc Discovery Tour',
+  'oxbow-first-street': 'Oxbow & First Street',
 }
 
 export type ParsedSidebarItinerary = {
