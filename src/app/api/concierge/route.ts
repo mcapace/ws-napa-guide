@@ -3,8 +3,13 @@
 
 import Anthropic from '@anthropic-ai/sdk'
 import { NextResponse } from 'next/server'
-import { buildAllRegionPins } from '@/lib/all-region-pins'
 import { REGION_SOUTH_TO_NORTH } from '@/data/region-order'
+import { buildAllRegionPins } from '@/lib/all-region-pins'
+import {
+  isPartnerItineraryPreferenceActive,
+  isPreferredPartnerVenue,
+  partnerItineraryPreferencePrompt,
+} from '@/lib/partner-itinerary-preference'
 
 export const maxDuration = 60
 
@@ -13,22 +18,57 @@ type ChatMessage = { role: 'user' | 'assistant'; content: string }
 const MAX_TURNS = 40
 const MAX_MESSAGE_CHARS = 4000
 
-let catalogPromise: Promise<string> | null = null
+let catalogPromise: Promise<string[]> | null = null
+
+/** Base catalog lines (no preference flags) — safe to cache for the process life. */
+async function baseCatalogLines(): Promise<string[]> {
+  catalogPromise ??= buildAllRegionPins().then((pins) =>
+    pins.map(
+      (p) =>
+        `${p.slug} | ${p.name} | ${p.category} | ${p.region} | ${p.excerpt}${p.editorial ? ' | featured' : ''}`,
+    ),
+  )
+  return catalogPromise
+}
 
 /** Compact venue catalog for the system prompt — one line per venue, keyed by
  *  slug so the model can only recommend places that exist in the guide. */
 async function venueCatalog(): Promise<string> {
-  catalogPromise ??= buildAllRegionPins().then((pins) => {
-    const lines = pins.map(
-      (p) =>
-        `${p.slug} | ${p.name} | ${p.category} | ${p.region} | ${p.excerpt}${p.editorial ? ' | featured' : ''}`,
-    )
-    return lines.join('\n')
+  const lines = [...(await baseCatalogLines())]
+  if (!isPartnerItineraryPreferenceActive()) return lines.join('\n')
+
+  const marked = lines.map((line) => {
+    // slug | name | category | region | excerpt [| featured]
+    const parts = line.split(' | ')
+    const name = parts[1] ?? ''
+    const category = parts[2] ?? ''
+    const region = parts[3] ?? ''
+    if (
+      isPreferredPartnerVenue({
+        name,
+        region,
+        category,
+      })
+    ) {
+      return line.includes('preferred-partner') ? line : `${line} | preferred-partner`
+    }
+    return line
   })
-  return catalogPromise
+
+  marked.sort((a, b) => {
+    const ap = a.includes('preferred-partner') ? 0 : 1
+    const bp = b.includes('preferred-partner') ? 0 : 1
+    return ap - bp
+  })
+  return marked.join('\n')
 }
 
 function systemPrompt(catalog: string): Anthropic.Messages.TextBlockParam[] {
+  const preferenceActive = isPartnerItineraryPreferenceActive()
+  const preferenceCatalogNote = preferenceActive
+    ? ' Catalog rows marked preferred-partner should be used for tasting stops when that day\'s region matches.'
+    : ''
+
   return [
     {
       type: 'text',
@@ -45,14 +85,14 @@ function systemPrompt(catalog: string): Anthropic.Messages.TextBlockParam[] {
 - Recommend ONLY venues from the catalog below, referenced by their exact slug. Never invent a venue, and never recommend one that isn't listed.
 - You may use web search (restricted to winespectator.com) to enrich recommendations with Wine Spectator editorial context — wine ratings, producer stories, dining awards. Search at most when it genuinely helps; never cite other websites.
 - Keep prose tight and warm. No bullet-point walls during questioning.
-
+${partnerItineraryPreferencePrompt()}
 ## Output contract
 
 Every time you present or revise a full itinerary, end your message with the machine-readable block (the visitor never sees it — the site renders it as day cards and a map):
 
 <itinerary>{"title":"...","homeBase":"<stay-slug or null>","days":[{"label":"Day 1","region":"<region-slug>","stops":[{"time":"10:30 AM","label":"Morning tasting","slug":"<venue-slug>","note":"one sentence on why this pick, tailored to the visitor"}]}]}</itinerary>
 
-JSON must be valid, single-line, using only slugs from the catalog and region slugs from: ${REGION_SOUTH_TO_NORTH.join(', ')}. Include the block only with a full proposal or revision — never during questioning.
+JSON must be valid, single-line, using only slugs from the catalog and region slugs from: ${REGION_SOUTH_TO_NORTH.join(', ')}. Include the block only with a full proposal or revision — never during questioning.${preferenceCatalogNote}
 
 ## Venue catalog (slug | name | category | region | address)
 

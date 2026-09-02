@@ -10,6 +10,7 @@ import type { FeatureVenue } from '@/lib/types'
 import { restaurants } from '@/data/restaurants'
 import { MAPBOX_TOKEN, NAPA_CENTER, NAPA_ZOOM } from '@/lib/mapbox'
 import { MapWheelScrollBridge } from '@/components/map/MapWheelScrollBridge'
+import { withNapaGuideUtm } from '@/lib/outbound-utm'
 import layoutStyles from './FeatureArticleLayout.module.css'
 import styles from './FeatureVenueMap.module.css'
 
@@ -21,13 +22,29 @@ type MapPin = {
   address: string
   restaurantSlug?: string
   website?: string
+  href?: string
   label?: string
 }
 
 function formatWebsite(url: string) {
-  const href = url.startsWith('http') ? url : `https://${url}`
+  const href = url.startsWith('http') ? withNapaGuideUtm(url) : withNapaGuideUtm(`https://${url}`)
   const label = url.replace(/^https?:\/\/(www\.)?/, '')
   return { href, label }
+}
+
+function venuePrimaryHref(venue: FeatureVenue): { href: string; external: boolean; label: string } | null {
+  if (venue.href) {
+    return {
+      href: venue.href,
+      external: venue.href.startsWith('http'),
+      label: venue.href.startsWith('/') ? 'View destination' : 'Visit website',
+    }
+  }
+  if (venue.website) {
+    const formatted = formatWebsite(venue.website)
+    return { href: formatted.href, external: true, label: 'Visit website' }
+  }
+  return null
 }
 
 function venuePins(venues: FeatureVenue[]): MapPin[] {
@@ -42,6 +59,7 @@ function venuePins(venues: FeatureVenue[]): MapPin[] {
 
     const primaryCoords = venue.coords ?? fromRestaurant?.coords
     if (primaryCoords) {
+      const primary = venuePrimaryHref(venue)
       pins.push({
         id: `${venue.name}-primary`,
         name: venue.name,
@@ -49,7 +67,8 @@ function venuePins(venues: FeatureVenue[]): MapPin[] {
         coords: primaryCoords,
         address,
         restaurantSlug: venue.restaurantSlug,
-        website: venue.website ? (venue.website.match(/^https?:/) ? venue.website : `https://${venue.website}`) : undefined,
+        website: primary?.external ? primary.href : undefined,
+        href: primary && !primary.external ? primary.href : undefined,
       })
     }
 
@@ -275,6 +294,10 @@ export function FeatureVenueMap({
                   <a href={activePin.website} target="_blank" rel="noopener noreferrer" className={styles.popupLink}>
                     Visit website ↗
                   </a>
+                ) : activePin.href ? (
+                  <Link href={activePin.href} className={styles.popupLink}>
+                    View destination →
+                  </Link>
                 ) : (
                   <Link href={exploreHref} className={styles.popupLink}>
                     Explore map →
@@ -345,7 +368,7 @@ export function FeatureVenueMap({
                           <br />
                         </span>
                       ))}
-                      {venue.website && (
+                      {venue.website && !venue.href && (
                         <a
                           href={formatWebsite(venue.website).href}
                           target="_blank"
@@ -356,22 +379,33 @@ export function FeatureVenueMap({
                       )}
                       {venue.phone && (
                         <>
-                          {venue.website && <br />}
+                          {(venue.website || venue.href) && <br />}
                           {venue.phone}
                         </>
                       )}
                     </p>
                     <p className={layoutStyles.venueDesc}>{venue.description}</p>
-                    {venue.website && (
-                      <a
-                        href={venue.website.match(/^https?:/) ? venue.website : `https://${venue.website}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={layoutStyles.venueLink}
-                      >
-                        Visit website ↗
-                      </a>
-                    )}
+                    {(() => {
+                      const primary = venuePrimaryHref(venue)
+                      if (!primary) return null
+                      if (primary.external) {
+                        return (
+                          <a
+                            href={primary.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={layoutStyles.venueLink}
+                          >
+                            {primary.label} ↗
+                          </a>
+                        )
+                      }
+                      return (
+                        <Link href={primary.href} className={layoutStyles.venueLink}>
+                          {primary.label} →
+                        </Link>
+                      )
+                    })()}
                   </div>
                 </article>
               </li>

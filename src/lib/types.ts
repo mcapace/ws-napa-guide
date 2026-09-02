@@ -109,6 +109,8 @@ export interface FeatureVenue {
   name: string
   addressLines: string[]
   website?: string
+  /** Prefer an on-site destination (e.g. /partners/...) over the external website. */
+  href?: string
   phone?: string
   description: string
   restaurantSlug?: string
@@ -218,6 +220,8 @@ export interface ItineraryStop {
   coords: [number, number]
   blurb: string
   detailSlug?: string
+  /** Direct path or absolute URL (partner pages, etc.). Wins over detailSlug. */
+  href?: string
   /** Editorial listing still (`/images/...` from Drive import). */
   image?: string
 }

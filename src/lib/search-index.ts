@@ -1,3 +1,4 @@
+import { partners, partnerPathForName } from '@/data/partners'
 import { regions } from '@/data/regions'
 import { getRegionItineraries } from '@/data/region-itineraries'
 import { getStoryArticles, storySectionLabel } from '@/data/site-stories'
@@ -26,15 +27,30 @@ export async function buildSearchIndex(): Promise<SearchItem[]> {
   const pins = await buildAllRegionPins()
   for (const pin of pins) {
     const town = regionDisplayName(pin.region)
+    const partnerHref =
+      pin.category === 'winery' ? partnerPathForName(pin.name, pin.region) : null
     items.push({
       id: `pin:${pin.region}:${pin.slug}`,
       kind: pin.category,
       title: pin.name,
       subtitle: `${town} · ${categoryEyebrow(pin.category)}`,
-      href: exploreMapUrl({ ava: pin.region, place: pin.slug, category: pin.category }),
+      href:
+        partnerHref ??
+        exploreMapUrl({ ava: pin.region, place: pin.slug, category: pin.category }),
       keywords: [pin.excerpt, pin.excerptFull, ...(pin.tags ?? [])]
         .filter(Boolean)
         .join(' '),
+    })
+  }
+
+  for (const partner of partners) {
+    items.push({
+      id: `partner:${partner.slug}`,
+      kind: 'winery',
+      title: partner.name,
+      subtitle: `${partner.regionName} · Partner destination`,
+      href: `/partners/${partner.slug}`,
+      keywords: [partner.description, partner.featuredWines, partner.brandLabel].join(' '),
     })
   }
 

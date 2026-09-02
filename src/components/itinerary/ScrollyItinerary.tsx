@@ -66,6 +66,7 @@ const ROUTE_LINE_LAYER: LayerProps = {
 }
 
 function detailHref(stop: ItineraryStop): string | null {
+  if (stop.href) return stop.href
   if (!stop.detailSlug) return null
   const base =
     stop.category === 'winery'

@@ -276,6 +276,15 @@ const ST_HELENA_SALONS: Itinerary = {
     },
     {
       order: 2,
+      name: 'HALL St. Helena',
+      category: 'winery',
+      coords: [-122.453057, 38.488972],
+      href: '/partners/hall-st-helena',
+      blurb:
+        'Continue south to HALL St. Helena on the historic Bergfeld Vineyard. Pair award-winning Cabernets with contemporary art and seasonal culinary bites on a LEED Gold–certified estate—Bunny Foo-Foo included.',
+    },
+    {
+      order: 3,
       name: 'Wheeler Farms',
       category: 'winery',
       coords: [-122.437614, 38.487375],
