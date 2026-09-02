@@ -26,6 +26,41 @@ const OAKVILLE_TOUR: Itinerary = {
   ],
 }
 
+const RUTHERFORD_ESTATES: Itinerary = {
+  id: 'estate-caves-cabernets',
+  title: 'Estate Caves & Cabernets',
+  intro:
+    'Rutherford’s Cabernet estates deliver drama—mountain caves, lakeside pavilions, and cinematic valley-floor grounds. Start with a founding partner, then compare two landmark properties nearby.',
+  travelMode: 'driving',
+  stops: [
+    {
+      order: 1,
+      name: 'HALL Rutherford',
+      category: 'winery',
+      coords: [-122.40149, 38.49714],
+      href: '/partners/hall-rutherford',
+      blurb:
+        'Begin at HALL Rutherford, tucked into the Vaca Mountain Range. Book ahead for a private estate and cave experience—the Chandelier Room and Sacrashe Vineyard are the signature draws.',
+    },
+    {
+      order: 2,
+      name: 'Quintessa',
+      category: 'winery',
+      coords: [-122.410591, 38.486844],
+      blurb:
+        'A short drive brings you to Quintessa off the Silverado Trail. The Quintessential Experience places you in a private glass pavilion overlooking Dragon Lake—serene contrast to the caves uphill.',
+    },
+    {
+      order: 3,
+      name: 'Inglenook / Niebaum / Pennino',
+      category: 'winery',
+      coords: [-122.423808, 38.458712],
+      blurb:
+        'Finish on the valley floor at Inglenook, where history, movie memorabilia, and elegant Cabernets meet. Pennino House offers a more relaxed pour if you want a softer landing.',
+    },
+  ],
+}
+
 const RUTHERFORD_SAUVIGNON: Itinerary = {
   id: 'sauvignon-blanc-discovery',
   title: 'The Sauvignon Blanc Discovery Tour',
@@ -363,6 +398,41 @@ const CALISTOGA_MOUNTAIN: Itinerary = {
   ],
 }
 
+const DOWNTOWN_OXBOW: Itinerary = {
+  id: 'oxbow-first-street',
+  title: 'Oxbow & First Street',
+  intro:
+    'A compact walking loop through downtown’s tasting rooms—start at Oxbow with Pinot and Chardonnay, then work west along First Street.',
+  travelMode: 'walking',
+  stops: [
+    {
+      order: 1,
+      name: 'WALT Napa Oxbow',
+      category: 'winery',
+      coords: [-122.28105, 38.30116],
+      href: '/partners/walt-napa-oxbow',
+      blurb:
+        'Start at WALT Napa Oxbow, across from the public market. Taste Pinot Noir and Chardonnay from Pacific Coast vineyards in a bar and lounge lined with contemporary art from the Hall collection.',
+    },
+    {
+      order: 2,
+      name: 'Mayacamas Downtown',
+      category: 'winery',
+      coords: [-122.28777, 38.29829],
+      blurb:
+        'Walk west on First Street to Mayacamas Downtown—current releases and library pours from the Mount Veeder estate without the mountain drive.',
+    },
+    {
+      order: 3,
+      name: 'Gentleman Farmer Bungalow',
+      category: 'winery',
+      coords: [-122.290685, 38.297402],
+      blurb:
+        'Finish at Gentleman Farmer Bungalow, a renovated 1920s Craftsman where hosts pour wines and, on some experiences, share family recipes and stories.',
+    },
+  ],
+}
+
 const DOWNTOWN_CARNEROS: Itinerary = {
   id: 'wind-in-your-hair',
   title: 'The Wind in Your Hair Tour',
@@ -399,7 +469,7 @@ const DOWNTOWN_CARNEROS: Itinerary = {
 
 export const REGION_ITINERARIES: Partial<Record<Region | string, Itinerary[]>> = {
   oakville: [OAKVILLE_TOUR],
-  rutherford: [RUTHERFORD_SAUVIGNON],
+  rutherford: [RUTHERFORD_ESTATES, RUTHERFORD_SAUVIGNON],
   yountville: [YOUNTVILLE_CULINARY, YOUNTVILLE_STAGS_LEAP, YOUNTVILLE_HILLS],
   'st-helena': [
     ST_HELENA_SALONS,
@@ -408,6 +478,7 @@ export const REGION_ITINERARIES: Partial<Record<Region | string, Itinerary[]>> =
     ST_HELENA_HISTORY,
   ],
   calistoga: [CALISTOGA_WALKABLE, CALISTOGA_MOUNTAIN],
+  'downtown-napa': [DOWNTOWN_OXBOW],
   'beyond-napa': [DOWNTOWN_CARNEROS],
 }
 
