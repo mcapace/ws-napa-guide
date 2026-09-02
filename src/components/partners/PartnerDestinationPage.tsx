@@ -13,6 +13,15 @@ function heroDeck(description: string): string {
   return first && first.length < 220 ? first : `${description.slice(0, 160).trimEnd()}…`
 }
 
+function introParagraphs(description: string): string[] {
+  const parts = description
+    .split(/(?<=[.!?])\s+/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+  if (parts.length <= 2) return parts
+  return [parts[0], parts.slice(1).join(' ')]
+}
+
 function FadeUp({
   children,
   className,
@@ -24,16 +33,16 @@ function FadeUp({
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
-  const inView = useInView(ref, { once: true, amount: 0.18 })
+  const inView = useInView(ref, { once: true, amount: 0.2 })
   const show = reduceMotion === true || inView
 
   return (
     <motion.div
       ref={ref}
       className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
       animate={show ? { opacity: 1, y: 0 } : undefined}
-      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
@@ -48,31 +57,13 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
     [...partner.addressLines, partner.name].join(', '),
   )}`
 
-  const highlights = partner.sellingPoints.slice(0, 3)
-  const pullQuote = highlights[0]
-  const showcasePanels = [
-    {
-      image: partner.gallery[1] ?? partner.gallery[0],
-      eyebrow: 'On the grounds',
-      title: partner.name,
-      copy: partner.description,
-      align: 'left' as const,
-    },
-    {
-      image: partner.gallery[2] ?? partner.gallery[1] ?? partner.gallery[0],
-      eyebrow: 'The experience',
-      title: highlights[1] ? highlights[1].split(/[.!?]/)[0] : 'World-class Cabernet & hospitality',
-      copy: highlights[1] ?? partner.description,
-      align: 'right' as const,
-    },
-  ].filter((p) => p.image)
-
-  const mosaic = partner.gallery.slice(0, 5)
-  const experienceShots = partner.gallery
+  const paragraphs = introParagraphs(partner.description)
+  const still = partner.gallery[0]
+  const galleryShots = partner.gallery.slice(0, 3)
 
   return (
-    <article className={styles.page} data-site-surface="dark">
-      <section className={styles.hero} data-nav-hero-root>
+    <article className={styles.page}>
+      <section className={styles.hero} data-nav-hero-root data-site-surface="dark">
         <Image
           src={partner.heroImage}
           alt=""
@@ -83,169 +74,112 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
         />
         <div className={styles.heroGradient} />
         <div className={styles.heroContent}>
-          <p className={styles.partnerMark}>
-            <span>Founding Partner</span>
-            <span className={styles.partnerMarkRule} aria-hidden />
-            <span>
-              {partner.brandLabel} · {partner.regionName}
-            </span>
+          <p className={styles.eyebrow}>
+            {partner.brandLabel} · {partner.regionName}
           </p>
           <h1 className={styles.title}>{partner.name}</h1>
           <p className={styles.deck}>{heroDeck(partner.description)}</p>
-          <a href={bookHref} className={styles.ctaUnderline} target="_blank" rel="noopener noreferrer">
+          <a href={bookHref} className={styles.ctaUnderlineLight} target="_blank" rel="noopener noreferrer">
             Book a tasting
           </a>
         </div>
       </section>
 
-      {pullQuote ? (
-        <FadeUp>
-          <blockquote className={styles.pullQuote}>
-            <p>{pullQuote}</p>
-          </blockquote>
-        </FadeUp>
-      ) : null}
-
-      {showcasePanels.map((panel, index) => (
-        <section
-          key={panel.image!.src + index}
-          className={`${styles.showcase} ${panel.align === 'right' ? styles.showcaseRight : ''}`}
-        >
-          <div className={styles.showcaseMedia}>
-            <Image
-              src={panel.image!.src}
-              alt={panel.image!.alt}
-              fill
-              sizes="100vw"
-              className={styles.showcaseImage}
-            />
-            <div className={styles.showcaseScrim} />
-          </div>
-          <FadeUp
-            className={styles.showcaseCopy}
-            delay={0.08}
-          >
-            <p className={styles.sectionLabel}>{panel.eyebrow}</p>
-            <h2 className={styles.showcaseTitle}>{panel.title}</h2>
-            <p className={styles.showcaseBody}>{panel.copy}</p>
-            {index === 0 ? (
-              <a href={bookHref} className={styles.ctaUnderline} target="_blank" rel="noopener noreferrer">
-                Reserve your visit
-              </a>
-            ) : (
-              <p className={styles.winesInline}>
-                <span>Featured wines</span>
-                {partner.featuredWines}
+      <section className={styles.intro}>
+        <FadeUp className={styles.introGrid}>
+          <div className={styles.introCopy}>
+            <p className={styles.sectionLabel}>The property</p>
+            {paragraphs.map((p) => (
+              <p key={p.slice(0, 48)} className={styles.introBody}>
+                {p}
               </p>
-            )}
-          </FadeUp>
-        </section>
-      ))}
-
-      <section className={styles.filmstripSection} aria-label="More from the property">
-        <FadeUp className={styles.filmstripHead}>
-          <p className={styles.sectionLabel}>Gallery</p>
-          <h2 className={styles.sectionTitle}>Moments on the estate</h2>
-        </FadeUp>
-        <div className={styles.filmstrip}>
-          {mosaic.map((shot) => (
-            <figure key={shot.src} className={styles.filmstripItem}>
-              <Image
-                src={shot.src}
-                alt={shot.alt}
-                fill
-                sizes="(max-width: 768px) 80vw, 28vw"
-                className={styles.filmstripImage}
-              />
+            ))}
+          </div>
+          {still ? (
+            <figure className={styles.introStill}>
+              <div className={styles.introStillFrame}>
+                <Image
+                  src={still.src}
+                  alt={still.alt}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 48vw"
+                  className={styles.introStillImage}
+                />
+              </div>
+              {partner.featuredWines ? (
+                <figcaption className={styles.winesLine}>
+                  <span>Featured wines</span>
+                  {partner.featuredWines}
+                </figcaption>
+              ) : null}
             </figure>
-          ))}
-        </div>
-        <p className={styles.photoCredit}>Photography · {partner.photoCredit}</p>
+          ) : null}
+        </FadeUp>
       </section>
 
       <section className={styles.experiences}>
         <FadeUp className={styles.experiencesHead}>
           <p className={styles.sectionLabel}>Experiences</p>
           <h2 className={styles.sectionTitle}>Tastings &amp; tours</h2>
-          <p className={styles.experiencesDeck}>
-            Curated visits on the estate — appointments preferred.
-          </p>
         </FadeUp>
-        <ol className={styles.experienceList}>
-          {partner.experiences.map((exp, index) => {
-            const shot = experienceShots[index % experienceShots.length]
-            return (
-              <FadeUp key={exp.title} delay={Math.min(index * 0.04, 0.16)}>
-                <li className={styles.experience}>
-                  {shot ? (
-                    <div className={styles.experienceThumb}>
-                      <Image
-                        src={shot.src}
-                        alt=""
-                        fill
-                        sizes="140px"
-                        className={styles.experienceThumbImage}
-                      />
-                    </div>
-                  ) : null}
-                  <div className={styles.experienceIndex} aria-hidden>
-                    {String(index + 1).padStart(2, '0')}
-                  </div>
-                  <div className={styles.experienceBody}>
-                    <div className={styles.experienceTop}>
-                      <h3 className={styles.experienceTitle}>{exp.title}</h3>
-                      {exp.price ? <p className={styles.experiencePrice}>{exp.price}</p> : null}
-                    </div>
-                    <p className={styles.experienceCopy}>{exp.description}</p>
-                    {exp.details && exp.details.length > 0 ? (
-                      <p className={styles.experienceMeta}>{exp.details.join(' · ')}</p>
-                    ) : null}
-                  </div>
-                </li>
-              </FadeUp>
-            )
-          })}
-        </ol>
+        <ul className={styles.experienceList}>
+          {partner.experiences.map((exp) => (
+            <li key={exp.title} className={styles.experience}>
+              <div className={styles.experienceTop}>
+                <h3 className={styles.experienceTitle}>{exp.title}</h3>
+                {exp.price ? <p className={styles.experiencePrice}>{exp.price}</p> : null}
+              </div>
+              <p className={styles.experienceCopy}>{exp.description}</p>
+              {exp.details && exp.details.length > 0 ? (
+                <p className={styles.experienceMeta}>{exp.details.join(' · ')}</p>
+              ) : null}
+            </li>
+          ))}
+        </ul>
       </section>
 
-      {highlights.length > 1 ? (
-        <section className={styles.highlights}>
-          <FadeUp className={styles.highlightsInner}>
-            <p className={styles.sectionLabel}>Why visit</p>
-            <h2 className={styles.sectionTitle}>What sets it apart</h2>
-            <ul className={styles.highlightList}>
-              {highlights.map((point, i) => (
-                <li key={point} className={styles.highlightItem}>
-                  <span className={styles.highlightNum} aria-hidden>
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <p>{point}</p>
-                </li>
-              ))}
-            </ul>
+      {galleryShots.length > 0 ? (
+        <section className={styles.gallery} aria-label="Gallery">
+          <FadeUp className={styles.galleryHead}>
+            <p className={styles.sectionLabel}>Gallery</p>
+            <h2 className={styles.sectionTitle}>On the grounds</h2>
           </FadeUp>
+          <div className={styles.galleryGrid}>
+            {galleryShots.map((shot) => (
+              <figure key={shot.src} className={styles.galleryItem}>
+                <Image
+                  src={shot.src}
+                  alt={shot.alt}
+                  fill
+                  sizes="(max-width: 700px) 100vw, 33vw"
+                  className={styles.galleryImage}
+                />
+              </figure>
+            ))}
+          </div>
+          <p className={styles.photoCredit}>Photography · {partner.photoCredit}</p>
         </section>
       ) : null}
 
-      <section className={styles.presenting}>
-        <FadeUp className={styles.presentingInner}>
-          <p className={styles.presentingMark}>Wine Spectator Partner Destination</p>
-          <h2 className={styles.presentingTitle}>Plan your visit to {partner.name}</h2>
-          <p className={styles.presentingAddress}>{partner.addressLines.join(', ')}</p>
-          <p className={styles.presentingMeta}>
+      <section className={styles.visit}>
+        <FadeUp className={styles.visitInner}>
+          <p className={styles.sectionLabel}>Visit</p>
+          <h2 className={styles.visitTitle}>Plan your visit to {partner.name}</h2>
+          <p className={styles.visitAddress}>{partner.addressLines.join(', ')}</p>
+          <p className={styles.visitMeta}>
             {partner.hours}
             <span aria-hidden> · </span>
             <a href={`tel:${partner.phone.replace(/[^\d+]/g, '')}`}>{partner.phone}</a>
           </p>
-          <div className={styles.presentingActions}>
-            <a href={bookHref} className={styles.ctaGold} target="_blank" rel="noopener noreferrer">
+          <div className={styles.visitActions}>
+            <a href={bookHref} className={styles.ctaSolid} target="_blank" rel="noopener noreferrer">
               Book a tasting
             </a>
-            <a href={clubHref} className={styles.ctaGhost} target="_blank" rel="noopener noreferrer">
+            <a href={clubHref} className={styles.ctaUnderline} target="_blank" rel="noopener noreferrer">
               Join the wine club
             </a>
           </div>
-          <div className={styles.presentingLinks}>
+          <div className={styles.visitLinks}>
             <a href={mapsHref} target="_blank" rel="noopener noreferrer">
               Directions
             </a>
