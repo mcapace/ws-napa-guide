@@ -28,6 +28,9 @@ export type PartnerDestination = {
   wineClubUrl: string
   photoCredit: string
   heroImage: string
+  /** Optional brand mark for the destination hero (transparent PNG preferred). */
+  logoSrc?: string
+  logoAlt?: string
   gallery: Array<{ src: string; alt: string }>
   coords: [number, number] // [lng, lat]
 }
@@ -106,15 +109,17 @@ export const partners: PartnerDestination[] = [
     wineClubUrl: HALL_WINE_CLUB,
     photoCredit: 'HALL Wines',
     heroImage: '/images/partners/hall-st-helena/hero.jpg',
+    logoSrc: '/images/partners/hall-st-helena/logo.png',
+    logoAlt: 'HALL Napa Valley',
     gallery: gallery('hall-st-helena', [
-      'HALL St. Helena estate grounds',
-      'HALL St. Helena tasting experience',
-      'Contemporary art and vineyards at HALL',
-      'HALL St. Helena winery architecture',
-      'Guest experience at HALL St. Helena',
-      'Vineyard views from HALL St. Helena',
-      'HALL hospitality and grounds',
-      'HALL St. Helena estate detail',
+      'Guests with Cabernet beside contemporary art at HALL St. Helena',
+      'Aerial view of the HALL St. Helena estate and vineyards',
+      'The modern tasting bar and gallery at HALL St. Helena',
+      'Outdoor tasting with vineyard views at HALL St. Helena',
+      'Private seated tasting in the HALL St. Helena lounge',
+      'Contemporary sculpture on the HALL St. Helena grounds',
+      'Garden sculpture path at HALL St. Helena',
+      'The historic stone winery building at HALL St. Helena',
     ]),
     coords: [-122.453057, 38.488972],
   },
