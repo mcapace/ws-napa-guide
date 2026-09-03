@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Process all partner source photography and emit gallery manifest."""
+"""Process partner photography, dedupe, and emit gallery manifest."""
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -12,12 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / 'public' / 'images' / 'partners'
 MANIFEST = ROOT / 'src' / 'data' / 'partner-galleries.manifest.json'
 
-SKIP_NAMES = {'16a42ee1-7f3b-443a-9363-55ab447187ff.png'}
-SKIP_ST_HELENA = {'1.jpg', '2.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg'}
-IMAGE_EXTS = {'.jpg', '.jpeg', '.png', '.tif', '.tiff', '.JPG', '.JPEG'}
 
-
-def to_jpg(src: Path, dest: Path, max_w: int = 2000, quality: int = 86) -> None:
+def to_jpg(src: Path, dest: Path, max_w: int = 2000, quality: int = 86) -> bytes:
     im = Image.open(src).convert('RGB')
     w, h = im.size
     if w > max_w:
@@ -25,29 +22,70 @@ def to_jpg(src: Path, dest: Path, max_w: int = 2000, quality: int = 86) -> None:
         im = im.resize((max_w, nh), Image.Resampling.LANCZOS)
     dest.parent.mkdir(parents=True, exist_ok=True)
     im.save(dest, 'JPEG', quality=quality, optimize=True, progressive=True)
+    return dest.read_bytes()
 
 
-def process_gallery(slug: str, items: list[dict]) -> list[dict]:
+def dedupe_items(items: list[dict]) -> list[dict]:
+    """Drop duplicate source paths and perceptually identical files."""
+    seen_paths: set[str] = set()
+    seen_hashes: set[str] = set()
+    out: list[dict] = []
+
+    for item in items:
+        src = Path(item['src']).resolve()
+        key = str(src)
+        if key in seen_paths:
+            print(f'    skip duplicate source: {src.name}')
+            continue
+        seen_paths.add(key)
+
+        digest = hashlib.md5(src.read_bytes()).hexdigest()
+        if digest in seen_hashes:
+            print(f'    skip identical file: {src.name}')
+            continue
+        seen_hashes.add(digest)
+        out.append(item)
+
+    return out
+
+
+def process_gallery(slug: str, items: list[dict], hero_src: Path | None = None) -> list[dict]:
     out_dir = PUBLIC / slug
-  # remove old gallery files
     for old in out_dir.glob('gallery-*.jpg'):
         old.unlink()
 
+    hero_hash = hashlib.md5(hero_src.read_bytes()).hexdigest() if hero_src and hero_src.exists() else None
     manifest_items: list[dict] = []
-    for i, item in enumerate(items, start=1):
+    seen_out: set[str] = set()
+
+    for item in items:
         src = Path(item['src'])
         if not src.exists():
             raise FileNotFoundError(f'Missing source for {slug}: {src}')
-        dest = out_dir / f'gallery-{i:02d}.jpg'
-        to_jpg(src, dest)
+
+        src_hash = hashlib.md5(src.read_bytes()).hexdigest()
+        if hero_hash and src_hash == hero_hash:
+            print(f'    skip hero duplicate: {src.name}')
+            continue
+
+        dest = out_dir / f'gallery-{len(manifest_items) + 1:02d}.jpg'
+        out_bytes = to_jpg(src, dest)
+        out_hash = hashlib.md5(out_bytes).hexdigest()
+        if out_hash in seen_out:
+            dest.unlink(missing_ok=True)
+            print(f'    skip processed duplicate: {src.name}')
+            continue
+        seen_out.add(out_hash)
+
         manifest_items.append(
             {
-                'src': f'/images/partners/{slug}/gallery-{i:02d}.jpg',
+                'src': f'/images/partners/{slug}/gallery-{len(manifest_items):02d}.jpg',
                 'alt': item['alt'],
                 'category': item['category'],
             }
         )
-        print(f'  {slug} gallery-{i:02d} <- {src.name}')
+        print(f'  {slug} gallery-{len(manifest_items):02d} <- {src.name}')
+
     return manifest_items
 
 
@@ -58,7 +96,7 @@ def main() -> None:
     tmp_walt = ROOT / '.tmp-walt-assets' / 'photos'
 
     galleries: dict[str, list[dict]] = {
-        'hall-st-helena': [
+        'hall-st-helena': dedupe_items([
             {'src': tmp_hall / 'SH_tasting_room_01.jpg', 'alt': 'The modern tasting room bar at HALL St. Helena', 'category': 'tasting'},
             {'src': tmp_hall / '20190508_Hall_18528.jpg', 'alt': 'Cabernet Sauvignon bottles in the HALL St. Helena tasting room', 'category': 'tasting'},
             {'src': tmp_hall / '20190508_Hall_19071.jpg', 'alt': 'A flight of HALL wines poured at the gallery bar', 'category': 'tasting'},
@@ -88,8 +126,8 @@ def main() -> None:
             {'src': tmp_hall / 'Graham-Caldwel_MJN_0044_768px.jpg', 'alt': 'Graham Caldwell sculpture on the HALL St. Helena grounds', 'category': 'art'},
             {'src': tmp_hall / 'Jim-Drain_Ara-Peterson_MJN_0059_768px.jpg', 'alt': 'Jim Drain and Ara Peterson artwork at HALL St. Helena', 'category': 'art'},
             {'src': tmp_hall / 'Spencer-Finch_DSC_4087_768px.jpg', 'alt': 'Spencer Finch installation in the HALL gallery', 'category': 'art'},
-        ],
-        'hall-rutherford': [
+        ]),
+        'hall-rutherford': dedupe_items([
             {'src': tmp_rutherford / 'rutherford_0397.tif', 'alt': 'Sunset terrace tasting with Sacrashe Vineyard views', 'category': 'tasting'},
             {'src': tmp_rutherford / 'DSCF8042.jpg', 'alt': 'Private tasting salon upstairs at HALL Rutherford', 'category': 'tasting'},
             {'src': tmp_rutherford / 'HALL Rutherford May 2015-11.jpg', 'alt': 'The Chandelier Room through the barrel caves', 'category': 'tasting'},
@@ -107,10 +145,9 @@ def main() -> None:
             {'src': tmp_rutherford / 'HALL Rutherford May 2015-21.jpg', 'alt': 'Donald Lipski chandelier installation in the cave', 'category': 'art'},
             {'src': tmp_rutherford / 'HALL Rutherford May 2015-23.jpg', 'alt': 'Art and architecture inside the HALL Rutherford caves', 'category': 'art'},
             {'src': tmp_rutherford / 'rutherford_0380_tight.tif', 'alt': 'Estate Cabernet aging in French oak barrels', 'category': 'estate'},
-            {'src': tmp_rutherford / 'rutherford_setting_photo.jpg', 'alt': 'The Chandelier Room long table at HALL Rutherford', 'category': 'estate'},
             {'src': tmp_rutherford / 'TheWomanBehindTheWIne_2863.RTarm.jpg', 'alt': 'Kathryn Walt Hall among the vines at HALL Rutherford', 'category': 'vineyard'},
-        ],
-        'walt-napa-oxbow': [
+        ]),
+        'walt-napa-oxbow': dedupe_items([
             {'src': tmp_walt / '2021.07.16.WaltWines1062.tif', 'alt': 'A lineup of single-vineyard WALT Pinot Noir and Chardonnay bottles', 'category': 'tasting'},
             {'src': tmp_walt / 'walt_4231.tif', 'alt': 'Pinot Noir poured on the Oxbow terrace at golden hour', 'category': 'tasting'},
             {'src': tmp_walt / '2021.07.26.WaltWines3642.jpg', 'alt': 'WALT Pinot Noir bottles on the lounge tasting table', 'category': 'tasting'},
@@ -118,26 +155,34 @@ def main() -> None:
             {'src': tmp_walt / '2021.07.26.WaltWines3652.jpg', 'alt': 'Couple enjoying Pinot Noir amid the Hall collection at WALT Napa Oxbow', 'category': 'tasting'},
             {'src': tmp_walt / '2021.07.26.WaltWines3656.jpg', 'alt': 'Close-up of WALT Pinot Noir bottles at the tasting bar', 'category': 'tasting'},
             {'src': tmp_walt / '2021.07.26.WaltWines2528.jpg', 'alt': 'WALT Pinot Noir bottles on the terrace at sunset', 'category': 'tasting'},
-            {'src': tmp_walt / 'walt_4457.lowlights.tif', 'alt': 'Guests at the WALT Napa Oxbow tasting bar beneath gold pendant lights', 'category': 'tasting'},
+            # walt_4457 omitted — used as hero
             {'src': tmp_walt / '2021.07.26.WaltWines2266.jpg', 'alt': 'Rosé and Pinot Noir on the Oxbow terrace', 'category': 'tasting'},
-            {'src': tmp_walt / '2021.07.26.WaltWines2371.jpg', 'alt': 'WALT wines with guests on the outdoor patio', 'category': 'tasting'},
-            {'src': tmp_walt / '2021.07.26.WaltWines2379.jpg', 'alt': 'Outdoor tasting with WALT Pinot Noir on the terrace', 'category': 'tasting'},
-            {'src': tmp_walt / '2021.07.26.WaltWines2394.jpg', 'alt': 'White wine tasting on the WALT Oxbow patio', 'category': 'tasting'},
             {'src': tmp_walt / 'walt_4997_edited.tif', 'alt': 'Evening tasting on the WALT Oxbow terrace with Oxbow Public Market beyond', 'category': 'tasting'},
-            {'src': tmp_walt / 'walt_5022.tif', 'alt': 'Couple sharing wine on the Oxbow terrace at dusk', 'category': 'tasting'},
             {'src': tmp_walt / 'walt_4634.tif', 'alt': 'The WALT Napa Oxbow tasting room with gold pendant lights and art', 'category': 'estate'},
             {'src': tmp_walt / 'walt_4866.tif', 'alt': 'Private lounge seating with tasting glasses at WALT Napa Oxbow', 'category': 'estate'},
             {'src': tmp_walt / '2021.07.26.WaltWines0440.jpg', 'alt': 'WALT Napa Oxbow exterior on First Street in the Oxbow district', 'category': 'estate'},
             {'src': tmp_walt / '2021.07.26.WaltWines3250.jpg', 'alt': 'Outdoor patio with WALT umbrellas steps from Oxbow Public Market', 'category': 'estate'},
             {'src': tmp_walt / '2021.07.26.WaltWines4424.jpg', 'alt': 'The WALT tasting cottage on the corner of First Street', 'category': 'estate'},
             {'src': tmp_walt / '2021.07.26.WaltWines0246.jpg', 'alt': 'WALT Pinot Noir signage on the Oxbow porch', 'category': 'estate'},
-        ],
+        ]),
+    }
+
+    # Rutherford setting photo duplicates hero — exclude from gallery
+    galleries['hall-rutherford'] = [
+        item for item in galleries['hall-rutherford']
+        if Path(item['src']).name != 'rutherford_setting_photo.jpg'
+    ]
+
+    hero_sources = {
+        'hall-st-helena': PUBLIC / 'hall-st-helena' / 'hero.jpg',
+        'hall-rutherford': PUBLIC / 'hall-rutherford' / 'hero.jpg',
+        'walt-napa-oxbow': PUBLIC / 'walt-napa-oxbow' / 'hero.jpg',
     }
 
     manifest: dict[str, list[dict]] = {}
     for slug, items in galleries.items():
-        print(f'Processing {slug} ({len(items)} images)...')
-        manifest[slug] = process_gallery(slug, items)
+        print(f'Processing {slug} ({len(items)} sources)...')
+        manifest[slug] = process_gallery(slug, items, hero_sources.get(slug))
 
     MANIFEST.write_text(json.dumps(manifest, indent=2) + '\n')
     print(f'Wrote {MANIFEST}')

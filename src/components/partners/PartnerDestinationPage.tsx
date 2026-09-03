@@ -1,12 +1,12 @@
 'use client'
 
-import { useRef, type ReactNode } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion, useInView, useReducedMotion } from 'framer-motion'
 import type { PartnerDestination } from '@/data/partners'
+import { introGalleryShot } from '@/data/partner-galleries'
 import { withNapaGuideUtm } from '@/lib/outbound-utm'
 import { PartnerPhotoCollage } from '@/components/partners/PartnerPhotoCollage'
+import { PartnerScrollEnhancements } from '@/components/partners/PartnerScrollEnhancements'
 import styles from './PartnerDestinationPage.module.css'
 
 function heroDeck(description: string): string {
@@ -23,33 +23,6 @@ function introParagraphs(description: string): string[] {
   return [parts[0], parts.slice(1).join(' ')]
 }
 
-function FadeUp({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: ReactNode
-  className?: string
-  delay?: number
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  const reduceMotion = useReducedMotion()
-  const inView = useInView(ref, { once: true, amount: 0.2 })
-  const show = reduceMotion === true || inView
-
-  return (
-    <motion.div
-      ref={ref}
-      className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-      animate={show ? { opacity: 1, y: 0 } : undefined}
-      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
 export function PartnerDestinationPage({ partner }: { partner: PartnerDestination }) {
   const bookHref = withNapaGuideUtm(partner.bookUrl)
   const clubHref = withNapaGuideUtm(partner.wineClubUrl)
@@ -59,21 +32,25 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
   )}`
 
   const paragraphs = introParagraphs(partner.description)
-  const introStill = partner.gallery[0]
+  const introStill = introGalleryShot(partner.gallery, partner.heroImage)
 
   return (
-    <article className={styles.page}>
-      <section className={styles.hero} data-nav-hero-root data-site-surface="dark">
-        <Image
-          src={partner.heroImage}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className={styles.heroImage}
-        />
+    <article className={styles.page} data-partner-page>
+      <PartnerScrollEnhancements bookHref={bookHref} />
+
+      <section className={styles.hero} data-nav-hero-root data-site-surface="dark" data-partner-hero>
+        <div className={styles.heroMedia} data-partner-hero-media>
+          <Image
+            src={partner.heroImage}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className={styles.heroImage}
+          />
+        </div>
         <div className={styles.heroGradient} />
-        <div className={styles.heroContent}>
+        <div className={styles.heroContent} data-partner-hero-content>
           {partner.logoSrc ? (
             <div className={styles.logoWrap}>
               <Image
@@ -93,14 +70,21 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
           )}
           <h1 className={styles.title}>{partner.name}</h1>
           <p className={styles.deck}>{heroDeck(partner.description)}</p>
-          <a href={bookHref} className={styles.ctaUnderlineLight} target="_blank" rel="noopener noreferrer">
+          <a href={bookHref} className={styles.ctaSolidLight} target="_blank" rel="noopener noreferrer">
             Book a tasting
           </a>
         </div>
       </section>
 
+      <aside className={styles.stickyBook} data-partner-sticky-book>
+        <p className={styles.stickyBookLabel}>{partner.brandLabel}</p>
+        <a href={bookHref} className={styles.stickyBookCta} target="_blank" rel="noopener noreferrer">
+          Book a tasting
+        </a>
+      </aside>
+
       <section className={styles.intro}>
-        <FadeUp className={styles.introGrid}>
+        <div className={styles.introGrid} data-partner-reveal>
           <div className={styles.introCopy}>
             <p className={styles.sectionLabel}>The property</p>
             {paragraphs.map((p) => (
@@ -116,7 +100,7 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
             ) : null}
           </div>
           {introStill ? (
-            <figure className={styles.introStill}>
+            <figure className={styles.introStill} data-partner-image-reveal>
               <div className={styles.introStillFrame}>
                 <Image
                   src={introStill.src}
@@ -128,12 +112,12 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
               </div>
             </figure>
           ) : null}
-        </FadeUp>
+        </div>
       </section>
 
       {partner.sellingPoints.length > 0 ? (
         <section className={styles.highlights} aria-label="Why visit">
-          <FadeUp className={styles.highlightsInner}>
+          <div className={styles.highlightsInner} data-partner-reveal>
             <p className={styles.sectionLabel}>Why visit</p>
             <h2 className={styles.sectionTitle}>What makes {partner.name} distinctive</h2>
             <ul className={styles.highlightList}>
@@ -143,27 +127,30 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
                 </li>
               ))}
             </ul>
-          </FadeUp>
+          </div>
         </section>
       ) : null}
 
       <PartnerPhotoCollage
         shots={partner.gallery}
+        heroSrc={partner.heroImage}
+        excludeSrcs={introStill ? [introStill.src] : []}
         photoCredit={partner.photoCredit}
         propertyName={partner.name}
+        bookHref={bookHref}
       />
 
       <section className={styles.experiences}>
-        <FadeUp className={styles.experiencesHead}>
+        <div className={styles.experiencesHead} data-partner-reveal>
           <p className={styles.sectionLabel}>Experiences</p>
           <h2 className={styles.sectionTitle}>Tastings &amp; tours</h2>
           <p className={styles.experiencesDeck}>
             Reserve the experience that fits your visit — from relaxed bar tastings to private cave tours.
           </p>
-        </FadeUp>
+        </div>
         <ul className={styles.experienceList}>
           {partner.experiences.map((exp) => (
-            <li key={exp.title} className={styles.experience}>
+            <li key={exp.title} className={styles.experience} data-partner-experience>
               <div className={styles.experienceTop}>
                 <h3 className={styles.experienceTitle}>{exp.title}</h3>
                 {exp.price ? <p className={styles.experiencePrice}>{exp.price}</p> : null}
@@ -172,13 +159,29 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
               {exp.details && exp.details.length > 0 ? (
                 <p className={styles.experienceMeta}>{exp.details.join(' · ')}</p>
               ) : null}
+              <a href={bookHref} className={styles.experienceBook} target="_blank" rel="noopener noreferrer">
+                Reserve this experience
+              </a>
             </li>
           ))}
         </ul>
       </section>
 
+      <section className={styles.bookBand} data-partner-book-band aria-label="Book your visit">
+        <div className={styles.bookBandInner}>
+          <p className={styles.bookBandEyebrow}>Ready when you are</p>
+          <h2 className={styles.bookBandTitle}>Your table at {partner.name} awaits</h2>
+          <p className={styles.bookBandCopy}>
+            Tastings fill quickly in Napa — reserve now and lock in the experience that fits your trip.
+          </p>
+          <a href={bookHref} className={styles.bookBandCta} target="_blank" rel="noopener noreferrer">
+            Book a tasting
+          </a>
+        </div>
+      </section>
+
       <section className={styles.visit}>
-        <FadeUp className={styles.visitInner}>
+        <div className={styles.visitInner} data-partner-reveal>
           <p className={styles.sectionLabel}>Visit</p>
           <h2 className={styles.visitTitle}>Plan your visit to {partner.name}</h2>
           <p className={styles.visitAddress}>{partner.addressLines.join(', ')}</p>
@@ -204,7 +207,7 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
             </a>
             <Link href={`/regions/${partner.regionSlug}`}>Explore {partner.regionName}</Link>
           </div>
-        </FadeUp>
+        </div>
       </section>
     </article>
   )

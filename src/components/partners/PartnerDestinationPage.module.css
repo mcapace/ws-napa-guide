@@ -7,11 +7,17 @@
 /* ── Hero (only dark full-bleed) ── */
 .hero {
   position: relative;
-  min-height: min(88svh, 820px);
+  min-height: min(92svh, 860px);
   display: grid;
   align-items: end;
   overflow: hidden;
   color: var(--cream);
+}
+
+.heroMedia {
+  position: absolute;
+  inset: -8% 0 0;
+  will-change: transform;
 }
 
 .heroImage {
@@ -90,33 +96,94 @@
   color: rgba(247, 243, 236, 0.86);
 }
 
-.ctaUnderlineLight {
+.ctaSolidLight {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
+  min-height: 2.85rem;
+  padding: 0.85rem 1.85rem;
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
+  font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--cream);
   text-decoration: none;
-  border-bottom: 1px solid rgba(247, 243, 236, 0.5);
-  padding-bottom: 0.25rem;
-  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+  color: var(--ink);
+  background: var(--cream);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+  transition:
+    background 0.25s var(--ease-out),
+    transform 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out);
 }
 
-.ctaUnderlineLight::after {
-  content: '→';
-  transition: transform 0.2s var(--ease-out);
+.ctaSolidLight:hover {
+  background: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.32);
 }
 
-.ctaUnderlineLight:hover {
-  color: var(--gold);
-  border-color: var(--gold);
+/* ── Sticky book bar ── */
+.stickyBook {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: min(520px, calc(100% - 2rem));
+  padding: 0.75rem 0.85rem 0.75rem 1.1rem;
+  background: rgba(13, 11, 9, 0.92);
+  color: var(--cream);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(247, 243, 236, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, 120%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s var(--ease-out);
 }
 
-.ctaUnderlineLight:hover::after {
-  transform: translateX(3px);
+.stickyBook[data-visible='true'] {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.stickyBookLabel {
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.05rem;
+  line-height: 1.1;
+  color: rgba(247, 243, 236, 0.92);
+}
+
+.stickyBookCta {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: 0.55rem 1.1rem;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--gold);
+  transition: background 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+}
+
+.stickyBookCta:hover {
+  background: color-mix(in srgb, var(--gold) 88%, var(--cream));
+  transform: translateY(-1px);
 }
 
 /* ── Shared section chrome (light) ── */
@@ -195,6 +262,7 @@
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background: color-mix(in srgb, var(--cream) 88%, var(--ink));
+  will-change: clip-path, transform;
 }
 
 .introStillImage {
@@ -292,6 +360,30 @@
 .experience {
   padding: 1.45rem 0;
   border-bottom: 1px solid rgba(13, 11, 9, 0.1);
+  transition: transform 0.3s var(--ease-out), background 0.3s var(--ease-out);
+}
+
+.experience:hover {
+  transform: translateX(4px);
+}
+
+.experienceBook {
+  display: inline-flex;
+  margin-top: 0.65rem;
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--gold);
+  border-bottom: 1px solid rgba(196, 148, 58, 0.45);
+  padding-bottom: 0.15rem;
+  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+}
+
+.experienceBook:hover {
+  color: var(--ink);
+  border-color: var(--ink);
 }
 
 .experienceTop {
@@ -341,6 +433,82 @@
   font-size: 0.78rem;
   line-height: 1.45;
   color: var(--mist);
+}
+
+/* ── Book band ── */
+.bookBand {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.bookBand::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 120% at 15% 50%, rgba(196, 148, 58, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 80% at 85% 30%, rgba(247, 243, 236, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.bookBandInner {
+  position: relative;
+  z-index: 1;
+  width: min(640px, 100%);
+  margin: 0 auto;
+  padding: clamp(3.5rem, 8vw, 5.5rem) clamp(1.25rem, 4vw, 2.5rem);
+  text-align: center;
+}
+
+.bookBandEyebrow {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.bookBandTitle {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.bookBandCopy {
+  margin: 0 0 1.65rem;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: rgba(247, 243, 236, 0.78);
+}
+
+.bookBandCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.85rem;
+  padding: 0.85rem 2rem;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--gold);
+  transition: background 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+}
+
+.bookBandCta:hover {
+  background: color-mix(in srgb, var(--gold) 90%, var(--cream));
+  transform: translateY(-2px);
 }
 
 /* ── Visit close ── */
@@ -462,7 +630,17 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ctaSolid,
-  .ctaUnderlineLight::after {
+  .ctaSolidLight,
+  .stickyBook,
+  .experience {
     transition: none;
+  }
+
+  .heroMedia {
+    inset: 0;
+  }
+
+  .experience:hover {
+    transform: none;
   }
 }

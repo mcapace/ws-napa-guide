@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   PARTNER_GALLERY_LABELS,
+  bentoPreviewIndices,
   type PartnerGalleryCategory,
   type PartnerGalleryShot,
   partnerGalleryCategories,
@@ -12,9 +13,6 @@ import {
 import styles from './PartnerPhotoCollage.module.css'
 
 type FilterKey = 'all' | PartnerGalleryCategory
-
-/** Five preview tiles for the collapsed bento collage. */
-const BENTO_INDICES = [0, 1, 2, 3, 4]
 
 function GalleryLightbox({
   shots,
@@ -120,12 +118,18 @@ function GalleryTile({
 
 export function PartnerPhotoCollage({
   shots,
+  heroSrc,
+  excludeSrcs = [],
   photoCredit,
   propertyName,
+  bookHref,
 }: {
   shots: PartnerGalleryShot[]
+  heroSrc?: string
+  excludeSrcs?: string[]
   photoCredit: string
   propertyName: string
+  bookHref: string
 }) {
   const reduceMotion = useReducedMotion()
   const [expanded, setExpanded] = useState(false)
@@ -139,7 +143,11 @@ export function PartnerPhotoCollage({
     return shots.filter((shot) => shot.category === filter)
   }, [filter, shots])
 
-  const bentoShots = BENTO_INDICES.filter((i) => i < shots.length).map((i) => shots[i])
+  const bentoIndices = useMemo(
+    () => bentoPreviewIndices(shots, heroSrc, excludeSrcs),
+    [excludeSrcs, heroSrc, shots],
+  )
+  const bentoShots = bentoIndices.map((i) => shots[i]).filter(Boolean)
 
   const groupedShots = useMemo(() => {
     if (filter !== 'all') {
@@ -165,11 +173,11 @@ export function PartnerPhotoCollage({
 
   return (
     <section className={styles.section} aria-label="Photo gallery">
-      <div className={styles.head}>
+      <div className={styles.head} data-partner-reveal>
         <p className={styles.label}>Gallery</p>
         <h2 className={styles.title}>A look inside {propertyName}</h2>
         <p className={styles.deck}>
-          {shots.length} photographs across tastings, vineyards, and the estate.
+          {shots.length} photographs across tastings, vineyards, and the estate — then book the experience in person.
         </p>
       </div>
 
@@ -180,9 +188,13 @@ export function PartnerPhotoCollage({
           onClick={() => setExpanded(true)}
           aria-label={`Open full gallery of ${shots.length} photos`}
         >
-          <div className={styles.bento}>
+          <div className={styles.bento} data-partner-bento>
             {bentoShots.map((shot, index) => (
-              <div key={shot.src} className={`${styles.bentoCell} ${styles[`bentoCell${index + 1}`] ?? ''}`}>
+              <div
+                key={shot.src}
+                className={`${styles.bentoCell} ${styles[`bentoCell${index + 1}`] ?? ''}`}
+                data-partner-bento-cell
+              >
                 <Image
                   src={shot.src}
                   alt=""
@@ -255,6 +267,13 @@ export function PartnerPhotoCollage({
           </motion.div>
         </AnimatePresence>
       )}
+
+      <div className={styles.galleryBookRow} data-partner-reveal>
+        <p className={styles.galleryBookCopy}>See it in person — reserve your tasting before you go.</p>
+        <a href={bookHref} className={styles.galleryBookCta} target="_blank" rel="noopener noreferrer">
+          Book a tasting
+        </a>
+      </div>
 
       <p className={styles.credit}>Photography · {photoCredit}</p>
 
