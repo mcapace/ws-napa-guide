@@ -132,21 +132,6 @@ export function PartnerScrollEnhancements({ bookHref }: PartnerScrollEnhancement
       triggers.push(st)
     })
 
-    const bookBand = root.querySelector<HTMLElement>('[data-partner-book-band]')
-    if (bookBand) {
-      const st = ScrollTrigger.create({
-        trigger: bookBand,
-        start: 'top 88%',
-        once: true,
-      })
-      gsap.fromTo(
-        bookBand,
-        { y: 16 },
-        { y: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: st },
-      )
-      triggers.push(st)
-    }
-
     requestAnimationFrame(() => ScrollTrigger.refresh())
 
     return () => {

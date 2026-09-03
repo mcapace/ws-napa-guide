@@ -167,19 +167,6 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
         </ul>
       </section>
 
-      <section className={styles.bookBand} data-partner-book-band aria-label="Book your visit">
-        <div className={styles.bookBandInner}>
-          <p className={styles.bookBandEyebrow}>Ready when you are</p>
-          <h2 className={styles.bookBandTitle}>Your table at {partner.name} awaits</h2>
-          <p className={styles.bookBandCopy}>
-            Tastings fill quickly in Napa — reserve now and lock in the experience that fits your trip.
-          </p>
-          <a href={bookHref} className={styles.bookBandCta} target="_blank" rel="noopener noreferrer">
-            Book a tasting
-          </a>
-        </div>
-      </section>
-
       <section className={styles.visit}>
         <div className={styles.visitInner} data-partner-reveal>
           <p className={styles.sectionLabel}>Visit</p>
