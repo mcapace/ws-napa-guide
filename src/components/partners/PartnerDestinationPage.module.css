@@ -210,79 +210,103 @@
 
 /* ── Intro ── */
 .intro {
-  width: min(1120px, 100%);
+  width: min(1240px, 100%);
   margin: 0 auto;
-  padding: clamp(3.25rem, 7vw, 5.5rem) clamp(1.25rem, 4vw, 2.5rem);
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2.5rem);
 }
 
 .introGrid {
   display: grid;
-  gap: clamp(2rem, 4vw, 3.25rem);
-  align-items: start;
+  gap: clamp(2rem, 4vw, 3rem);
+  align-items: center;
 }
 
 @media (min-width: 900px) {
   .introGrid {
-    grid-template-columns: 1fr 1.05fr;
-    gap: clamp(2.5rem, 5vw, 4rem);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: clamp(2.5rem, 5vw, 4.5rem);
   }
-}
-
-.introCopy {
-  max-width: 36rem;
-}
-
-.introBody {
-  margin: 0 0 1.15rem;
-  font-family: var(--font-body);
-  font-size: clamp(1.02rem, 1.5vw, 1.12rem);
-  line-height: 1.7;
-  color: rgba(13, 11, 9, 0.82);
-}
-
-.introBody:last-child {
-  margin-bottom: 0;
 }
 
 .introStill {
   margin: 0;
-}
-
-.introStillButton {
-  display: block;
   width: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: zoom-in;
-  text-align: left;
 }
 
 .introStillFrame {
   position: relative;
-  aspect-ratio: 4 / 5;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: clamp(240px, 42vw, 520px);
   overflow: hidden;
   background: color-mix(in srgb, var(--cream) 88%, var(--ink));
 }
 
 .introStillImage {
   object-fit: cover;
+  object-position: center center;
+}
+
+.introCopy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 34rem;
+}
+
+@media (min-width: 900px) {
+  .introCopy {
+    padding: 0.5rem 0;
+  }
+}
+
+.introTitle {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.introBody {
+  margin: 0 0 1rem;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.45vw, 1.08rem);
+  line-height: 1.72;
+  color: rgba(13, 11, 9, 0.82);
+  text-wrap: pretty;
+}
+
+.introBody:last-of-type {
+  margin-bottom: 0;
 }
 
 .winesLine {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin: 1.25rem 0 0;
-  font-size: 0.95rem;
-  color: var(--ink);
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(13, 11, 9, 0.1);
 }
 
-.winesLine span {
+.winesLabel {
   font-size: 0.6rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--mist);
+  color: var(--gold);
+}
+
+.winesValue {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+  line-height: 1.35;
+  color: var(--ink);
 }
 
 /* ── Highlights ── */
