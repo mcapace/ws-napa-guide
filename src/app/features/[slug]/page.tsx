@@ -16,7 +16,6 @@ import type { HorizontalStripItem } from '@/components/ui/HorizontalStrip'
 
 type Props = { params: Promise<{ slug: string }> }
 
-/** Partner listicle lead order expires with the 90-day campaign window. */
 export const revalidate = 86400
 
 const featureSlugs: string[] = [...STORY_SLUGS]
@@ -128,10 +127,10 @@ export default async function FeatureArticlePage({ params }: Props) {
       )}
 
       <div data-site-surface="dark" style={{ background: '#0D0B09', color: '#F7F3EC' }}>
-        {slug !== 'judgment-of-paris' && slug !== 'napa-taco-tour' && slug !== 'napa-landmarks' && slug !== 'essential-st-helena-tastings' && (
+        {slug !== 'judgment-of-paris' && slug !== 'napa-taco-tour' && slug !== 'napa-landmarks' && (
           <RelatedListings article={article} />
         )}
-        {slug !== 'judgment-of-paris' && slug !== 'napa-taco-tour' && slug !== 'napa-landmarks' && slug !== 'essential-st-helena-tastings' && (
+        {slug !== 'judgment-of-paris' && slug !== 'napa-taco-tour' && slug !== 'napa-landmarks' && (
           <ReadNextSection slug={slug} />
         )}
         <Newsletter />

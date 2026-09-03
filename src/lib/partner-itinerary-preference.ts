@@ -6,7 +6,7 @@ import type { Itinerary, ItineraryStop } from '@/lib/types'
  * in a partner's region, prefer that partner for ~90 days from go-live.
  *
  * The same window also drives sponsor-first featured showcase order,
- * itinerary tab / stop order, and listicle lead placement. After `endsOn`,
+ * itinerary tab / stop order, and featured showcase order. After `endsOn`,
  * every helper below returns a no-op / false / 0 / editorial order — ranking,
  * concierge prompt, and region placements go back to default with no redeploy.
  */
