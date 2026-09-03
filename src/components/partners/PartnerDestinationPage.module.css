@@ -16,11 +16,12 @@
 
 .heroMedia {
   position: absolute;
-  inset: -8% 0 0;
+  inset: 0;
+  overflow: hidden;
   will-change: transform;
 }
 
-.heroImage {
+.heroMedia .heroImage {
   object-fit: cover;
   object-position: center 40%;
 }
@@ -262,7 +263,6 @@
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background: color-mix(in srgb, var(--cream) 88%, var(--ink));
-  will-change: clip-path, transform;
 }
 
 .introStillImage {

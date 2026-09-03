@@ -68,7 +68,8 @@ def process_gallery(slug: str, items: list[dict], hero_src: Path | None = None) 
             print(f'    skip hero duplicate: {src.name}')
             continue
 
-        dest = out_dir / f'gallery-{len(manifest_items) + 1:02d}.jpg'
+        index = len(manifest_items) + 1
+        dest = out_dir / f'gallery-{index:02d}.jpg'
         out_bytes = to_jpg(src, dest)
         out_hash = hashlib.md5(out_bytes).hexdigest()
         if out_hash in seen_out:
@@ -79,12 +80,12 @@ def process_gallery(slug: str, items: list[dict], hero_src: Path | None = None) 
 
         manifest_items.append(
             {
-                'src': f'/images/partners/{slug}/gallery-{len(manifest_items):02d}.jpg',
+                'src': f'/images/partners/{slug}/gallery-{index:02d}.jpg',
                 'alt': item['alt'],
                 'category': item['category'],
             }
         )
-        print(f'  {slug} gallery-{len(manifest_items):02d} <- {src.name}')
+        print(f'  {slug} gallery-{index:02d} <- {src.name}')
 
     return manifest_items
 

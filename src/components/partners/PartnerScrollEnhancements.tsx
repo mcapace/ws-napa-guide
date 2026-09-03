@@ -28,6 +28,7 @@ export function PartnerScrollEnhancements({ bookHref }: PartnerScrollEnhancement
     const stickyBar = root.querySelector<HTMLElement>('[data-partner-sticky-book]')
 
     if (hero && heroMedia) {
+      const heroImage = heroMedia.querySelector('img')
       const st = ScrollTrigger.create({
         trigger: hero,
         start: 'top top',
@@ -35,9 +36,9 @@ export function PartnerScrollEnhancements({ bookHref }: PartnerScrollEnhancement
         scrub: 0.85,
       })
       gsap.fromTo(
-        heroMedia,
-        { yPercent: 0, scale: 1.06 },
-        { yPercent: 10, scale: 1, ease: 'none', scrollTrigger: st },
+        heroImage ?? heroMedia,
+        { yPercent: -4, scale: 1.08 },
+        { yPercent: 4, scale: 1, ease: 'none', scrollTrigger: st },
       )
       triggers.push(st)
     }
@@ -66,32 +67,32 @@ export function PartnerScrollEnhancements({ bookHref }: PartnerScrollEnhancement
     root.querySelectorAll<HTMLElement>('[data-partner-reveal]').forEach((el) => {
       const st = ScrollTrigger.create({
         trigger: el,
-        start: 'top 88%',
+        start: 'top 92%',
         once: true,
       })
       gsap.fromTo(
         el,
-        { opacity: 0, y: 32 },
-        { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out', scrollTrigger: st },
+        { y: 24 },
+        { y: 0, duration: 0.75, ease: 'power2.out', scrollTrigger: st },
       )
       triggers.push(st)
     })
 
     root.querySelectorAll<HTMLElement>('[data-partner-image-reveal]').forEach((el) => {
+      const frame = el.querySelector<HTMLElement>('[data-partner-image-frame]') ?? el
       const img = el.querySelector('img')
       const st = ScrollTrigger.create({
         trigger: el,
-        start: 'top 85%',
+        start: 'top 88%',
         once: true,
       })
-      gsap.fromTo(el, { clipPath: 'inset(100% 0% 0% 0%)' }, {
-        clipPath: 'inset(0% 0% 0% 0%)',
-        duration: 1,
-        ease: 'power2.out',
-        scrollTrigger: st,
-      })
+      gsap.fromTo(
+        frame,
+        { y: 20 },
+        { y: 0, duration: 0.9, ease: 'power2.out', scrollTrigger: st },
+      )
       if (img) {
-        gsap.fromTo(img, { scale: 1.12 }, { scale: 1, duration: 1.2, ease: 'power2.out', scrollTrigger: st })
+        gsap.fromTo(img, { scale: 1.06 }, { scale: 1, duration: 1.1, ease: 'power2.out', scrollTrigger: st })
       }
       triggers.push(st)
     })
@@ -99,18 +100,17 @@ export function PartnerScrollEnhancements({ bookHref }: PartnerScrollEnhancement
     root.querySelectorAll<HTMLElement>('[data-partner-bento-cell]').forEach((el, i) => {
       const st = ScrollTrigger.create({
         trigger: el.closest('[data-partner-bento]') ?? el,
-        start: 'top 82%',
+        start: 'top 90%',
         once: true,
       })
       gsap.fromTo(
         el,
-        { opacity: 0, y: 24, scale: 0.96 },
+        { y: 18, scale: 0.98 },
         {
-          opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.65,
-          delay: i * 0.08,
+          duration: 0.6,
+          delay: i * 0.06,
           ease: 'power2.out',
           scrollTrigger: st,
         },
@@ -121,13 +121,13 @@ export function PartnerScrollEnhancements({ bookHref }: PartnerScrollEnhancement
     root.querySelectorAll<HTMLElement>('[data-partner-experience]').forEach((el, i) => {
       const st = ScrollTrigger.create({
         trigger: el,
-        start: 'top 92%',
+        start: 'top 94%',
         once: true,
       })
       gsap.fromTo(
         el,
-        { opacity: 0, x: -12 },
-        { opacity: 1, x: 0, duration: 0.55, delay: (i % 4) * 0.06, ease: 'power2.out', scrollTrigger: st },
+        { x: -8 },
+        { x: 0, duration: 0.55, delay: (i % 4) * 0.05, ease: 'power2.out', scrollTrigger: st },
       )
       triggers.push(st)
     })
@@ -136,13 +136,13 @@ export function PartnerScrollEnhancements({ bookHref }: PartnerScrollEnhancement
     if (bookBand) {
       const st = ScrollTrigger.create({
         trigger: bookBand,
-        start: 'top 85%',
+        start: 'top 88%',
         once: true,
       })
       gsap.fromTo(
         bookBand,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: st },
+        { y: 16 },
+        { y: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: st },
       )
       triggers.push(st)
     }
