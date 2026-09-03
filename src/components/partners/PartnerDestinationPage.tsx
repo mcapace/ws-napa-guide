@@ -118,8 +118,10 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
       {partner.sellingPoints.length > 0 ? (
         <section className={styles.highlights} aria-label="Why visit">
           <div className={styles.highlightsInner} data-partner-reveal>
-            <p className={styles.sectionLabel}>Why visit</p>
-            <h2 className={styles.sectionTitle}>What makes {partner.name} distinctive</h2>
+            <div className={styles.highlightsHead}>
+              <p className={styles.sectionLabel}>Why visit</p>
+              <h2 className={styles.sectionTitle}>What makes {partner.name} distinctive</h2>
+            </div>
             <ul className={styles.highlightList}>
               {partner.sellingPoints.map((point) => (
                 <li key={point.slice(0, 48)} className={styles.highlightItem}>
