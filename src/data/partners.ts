@@ -1,4 +1,5 @@
 import type { Region } from '@/lib/types'
+import { getPartnerGallery, type PartnerGalleryShot } from '@/data/partner-galleries'
 
 export type PartnerExperience = {
   title: string
@@ -31,19 +32,12 @@ export type PartnerDestination = {
   /** Optional brand mark for the destination hero (transparent PNG preferred). */
   logoSrc?: string
   logoAlt?: string
-  gallery: Array<{ src: string; alt: string }>
+  gallery: PartnerGalleryShot[]
   coords: [number, number] // [lng, lat]
 }
 
 const HALL_WINE_CLUB = 'https://hallwines.com/pages/join-membership/membership-with-hall'
 const WALT_WINE_CLUB = 'https://waltwines.com/pages/join-membership/membership-with-walt'
-
-function gallery(slug: string, alts: string[]) {
-  return alts.map((alt, i) => ({
-    src: `/images/partners/${slug}/gallery-${String(i + 1).padStart(2, '0')}.jpg`,
-    alt,
-  }))
-}
 
 export const partners: PartnerDestination[] = [
   {
@@ -111,22 +105,7 @@ export const partners: PartnerDestination[] = [
     heroImage: '/images/partners/hall-st-helena/hero.jpg',
     logoSrc: '/images/partners/hall-st-helena/logo.png',
     logoAlt: 'HALL Napa Valley',
-    gallery: gallery('hall-st-helena', [
-      'Guests with Cabernet beside contemporary art at HALL St. Helena',
-      'The modern tasting bar and gallery at HALL St. Helena',
-      'Outdoor tasting with vineyard views at HALL St. Helena',
-      'Private seated tasting in the HALL St. Helena lounge',
-      'Aerial view of the HALL St. Helena estate and vineyards',
-      'Contemporary sculpture on the HALL St. Helena grounds',
-      'Garden sculpture path at HALL St. Helena',
-      'The historic stone winery building at HALL St. Helena',
-      'Cabernet Sauvignon bottles in the HALL St. Helena tasting room',
-      'A flight of HALL wines poured at the gallery bar',
-      'Seasonal culinary bites paired with estate Cabernet',
-      'Guests toasting with HALL wines on the estate lawn',
-      'Aerial perspective of the Bergfeld Vineyard estate',
-      'Contemporary art installation among the HALL vineyards',
-    ]),
+    gallery: getPartnerGallery('hall-st-helena'),
     coords: [-122.453057, 38.488972],
   },
   {
@@ -186,22 +165,7 @@ export const partners: PartnerDestination[] = [
     heroImage: '/images/partners/hall-rutherford/hero.jpg',
     logoSrc: '/images/partners/hall-rutherford/logo.png',
     logoAlt: 'HALL Napa Valley',
-    gallery: gallery('hall-rutherford', [
-      'Sunset terrace tasting with Sacrashe Vineyard views',
-      'Private tasting salon upstairs at HALL Rutherford',
-      'Rows of barrels under the vaulted cave ceiling',
-      'Barrel aging caves at HALL Rutherford',
-      'The Chandelier Room through the barrel caves',
-      'Valley views from the HALL Rutherford terrace',
-      'Production tanks opening into the wine caves',
-      'Crystal detail of the Chilean Red chandelier',
-      'Sacrashe Vineyard vines at HALL Rutherford',
-      'The Chandelier Room set for a private cave tasting',
-      'Guests enjoying wine in the upstairs salon',
-      'Estate Cabernet aging in French oak barrels',
-      'Vineyard rows on the Rutherford estate at dusk',
-      'Panoramic Napa Valley views from the terrace',
-    ]),
+    gallery: getPartnerGallery('hall-rutherford'),
     coords: [-122.40149, 38.49714],
   },
   {
@@ -269,22 +233,7 @@ export const partners: PartnerDestination[] = [
     heroImage: '/images/partners/walt-napa-oxbow/hero.jpg',
     logoSrc: '/images/partners/walt-napa-oxbow/logo.png',
     logoAlt: 'WALT Wines',
-    gallery: gallery('walt-napa-oxbow', [
-      'A lineup of single-vineyard WALT Pinot Noir and Chardonnay bottles',
-      'Pinot Noir poured on the Oxbow terrace at golden hour',
-      'WALT Pinot Noir bottles on the lounge tasting table',
-      'Intimate seated tasting with WALT wines in the Oxbow lounge',
-      'Couple enjoying Pinot Noir amid the Hall collection at WALT Napa Oxbow',
-      'Close-up of WALT Pinot Noir bottles at the tasting bar',
-      'Evening tasting on the WALT Oxbow terrace with Oxbow Public Market beyond',
-      'The WALT Napa Oxbow tasting room with gold pendant lights and art',
-      'WALT Napa Oxbow exterior on First Street in the Oxbow district',
-      'Outdoor patio with WALT umbrellas steps from Oxbow Public Market',
-      'Private lounge seating with tasting glasses at WALT Napa Oxbow',
-      'WALT Pinot Noir bottles on the terrace at sunset',
-      'The WALT tasting cottage on the corner of First Street',
-      'Couple sharing wine on the Oxbow terrace at dusk',
-    ]),
+    gallery: getPartnerGallery('walt-napa-oxbow'),
     coords: [-122.28105, 38.30116],
   },
 ]
