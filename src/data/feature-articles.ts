@@ -1,8 +1,4 @@
 import type { FeatureArticleContent } from '@/lib/types'
-import {
-  isPartnerItineraryPreferenceActive,
-  prioritizePreferredPartners,
-} from '@/lib/partner-itinerary-preference'
 
 const JUDGMENT = '/images/features/judgment-of-paris'
 const TACO = '/images/features/napa-taco-tour'
@@ -238,101 +234,9 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
       },
     ],
   },
-
-  'essential-st-helena-tastings': {
-    kicker: 'Where to Taste',
-    heroImage: '/images/features/essential-st-helena-tastings/hero.jpg',
-    heroObjectPosition: 'center 42%',
-    venueSectionLabel: 'Where to taste',
-    venueSectionTitle: 'Six essential stops',
-    venueMapHint: 'Six tasting rooms along the St. Helena corridor · tap a number for details',
-    venuePhotoCredit: 'Venue photography courtesy of the wineries and Wine Spectator',
-    introParagraphs: [
-      'St. Helena packs more tasting personality into a few miles of Highway 29 than almost anywhere else in the valley: LEED Gold estates with contemporary art, stone cellars that still feel like 1886, and hillside salons perched over the vines. This short list is built for a real day of planning—places that take reservations seriously, pour distinctive Cabernet (and more), and reward lingering.',
-      'Work north and south for contrast: Freemark Abbey’s Judgment of Paris lineage, Ehlers’ low-key stone winery, Faust Haus’ eclectic terrace, Corison’s bright classic Cabernet, Whitehall Lane’s walk-up bar overlooking the Leonardini vineyard, and HALL St. Helena for Cabernet, culinary pairings, and grounds that invite you to stay after the flight.',
-    ],
-    venues: [
-      {
-        name: 'Freemark Abbey',
-        addressLines: ['3022 St. Helena Highway N.', 'St. Helena'],
-        website: 'freemarkabbey.com',
-        coords: [-122.49643, 38.525635],
-        image: '/images/st-helena/wineries/st-helena-winery-freemark-abbey-directory.jpg',
-        description:
-          'The only winery with both a red and a white in the 1976 Judgment of Paris tasting. Kristy Melton’s Bosché, Sycamore, and Colline Cabernets headline a deep portfolio poured in a renovated stone winery with library vintages on offer.',
-      },
-      {
-        name: 'Ehlers Estate',
-        addressLines: ['3222 Ehlers Lane', 'St. Helena'],
-        website: 'ehlersestate.com',
-        coords: [-122.498312, 38.532002],
-        image: '/images/st-helena/wineries/st-helena-winery-ehlers-estate-landscape.jpg',
-        description:
-          'An 1886 stone winery tasting room staffed by hosts with decades of experience—and winemaker Adam Casto often stops by. Pair with Alila next door when you want a longer afternoon.',
-      },
-      {
-        name: 'Faust Haus',
-        addressLines: ['2867 St. Helena Highway N.', 'St. Helena'],
-        website: 'faustwines.com',
-        coords: [-122.492664, 38.518328],
-        image: '/images/st-helena/wineries/st-helena-winery-faust-haus-landscape.jpg',
-        description:
-          'An 1878 hillside haus renovated by the Huneeus family: artisanal wares upstairs, a basement speakeasy for library vintages, and a terrace looking east over the valley. Small bites come with the tasting.',
-      },
-      {
-        name: 'Corison Winery',
-        addressLines: ['987 St. Helena Highway S.', 'St. Helena'],
-        website: 'corison.com',
-        coords: [-122.447409, 38.484996],
-        image: '/images/st-helena/wineries/st-helena-winery-corison-winery-directory.jpg',
-        description:
-          'Cathy Corison’s nearly 50 vintages of bright, high-toned Cabernet—often under 14% alcohol—poured in a Victorian-style barn winery marked by twin palms at the driveway.',
-      },
-      {
-        name: 'Whitehall Lane Winery',
-        addressLines: ['1563 St. Helena Highway S.', 'St. Helena'],
-        website: 'whitehalllane.com',
-        coords: [-122.438331, 38.477709],
-        image: '/images/st-helena/wineries/st-helena-winery-whitehall-lane-landscape.jpg',
-        description:
-          'Classic Napa walk-up bar energy from the Leonardini family since 1993: Cabernet overlooking the vineyard, or Sauvignon Blanc in the garden pavilion. Tours of the winery and grounds come with every tasting.',
-      },
-      {
-        name: 'HALL St. Helena',
-        addressLines: ['401 St. Helena Hwy. South', 'St. Helena, CA 94574'],
-        website: 'hallwines.com',
-        href: '/partners/hall-st-helena',
-        phone: '(707) 967-2626',
-        coords: [-122.453057, 38.488972],
-        image: '/images/st-helena/wineries/st-helena-winery-hall-napa-valley-directory.jpg',
-        description:
-          'Historic Bergfeld Vineyard at the base of the Mayacamas—award-winning Cabernets, seasonal culinary bites, contemporary art, and outdoor games on a LEED Gold–certified estate. Book Signature Tours, bar tastings, or Platinum experiences; Bunny Foo-Foo handles the welcome.',
-      },
-    ],
-  },
 }
-
-const LISTICLE_CAMPAIGN_INTRO =
-  'Start with HALL St. Helena for Cabernet, culinary pairings, and grounds that invite you to stay after the flight. Then work north and south for contrast: Freemark Abbey’s Judgment of Paris lineage, Ehlers’ low-key stone winery, Faust Haus’ eclectic terrace, Corison’s bright classic Cabernet, and Whitehall Lane’s walk-up bar overlooking the Leonardini vineyard.'
 
 export function getFeatureArticleContent(slug: string): FeatureArticleContent | undefined {
   if (slug === 'taco-truck-tour') return FEATURE_ARTICLE_CONTENT['napa-taco-tour']
-  const content = FEATURE_ARTICLE_CONTENT[slug]
-  if (!content) return undefined
-
-  if (slug !== 'essential-st-helena-tastings' || !content.venues?.length) {
-    return content
-  }
-
-  if (!isPartnerItineraryPreferenceActive()) {
-    return content
-  }
-
-  return {
-    ...content,
-    introParagraphs: content.introParagraphs
-      ? [content.introParagraphs[0], LISTICLE_CAMPAIGN_INTRO]
-      : content.introParagraphs,
-    venues: prioritizePreferredPartners(content.venues, 'st-helena'),
-  }
+  return FEATURE_ARTICLE_CONTENT[slug]
 }
