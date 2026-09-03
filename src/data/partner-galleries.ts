@@ -28,12 +28,34 @@ export function partnerGalleryCategories(shots: PartnerGalleryShot[]): PartnerGa
   return order.filter((category) => present.has(category))
 }
 
-/** Intro still: first estate or vineyard image (not the hero duplicate). */
+/** Intro still: curated partner image or first estate / vineyard shot. */
 export function introGalleryShot(
   shots: PartnerGalleryShot[],
   heroSrc?: string,
+  preferredSrc?: string,
 ): PartnerGalleryShot | undefined {
   const skip = new Set(heroSrc ? [heroSrc] : [])
+
+  if (preferredSrc) {
+    const preferred = shots.find((shot) => shot.src === preferredSrc && !skip.has(shot.src))
+    if (preferred) return preferred
+    if (!skip.has(preferredSrc)) {
+      return {
+        src: preferredSrc,
+        alt: 'The estate',
+        category: 'estate',
+      }
+    }
+  }
+
+  const aerial = shots.find(
+    (shot) =>
+      !skip.has(shot.src) &&
+      (shot.category === 'estate' || shot.category === 'vineyard') &&
+      /aerial|panoram|estate|vineyard|cave|tasting room|exterior/i.test(shot.alt),
+  )
+  if (aerial) return aerial
+
   return (
     shots.find((shot) => !skip.has(shot.src) && (shot.category === 'estate' || shot.category === 'vineyard')) ??
     shots.find((shot) => !skip.has(shot.src)) ??

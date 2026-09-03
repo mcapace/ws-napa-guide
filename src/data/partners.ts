@@ -29,6 +29,10 @@ export type PartnerDestination = {
   wineClubUrl: string
   photoCredit: string
   heroImage: string
+  /** Strong editorial image for the property intro (defaults to first estate shot). */
+  introImage?: string
+  /** Short headline above the property description. */
+  introHeadline?: string
   /** Optional brand mark for the destination hero (transparent PNG preferred). */
   logoSrc?: string
   logoAlt?: string
@@ -48,7 +52,9 @@ export const partners: PartnerDestination[] = [
     regionName: 'St. Helena',
     matchNames: ['HALL Napa Valley', 'HALL St. Helena', 'HALL Wines'],
     description:
-      'Located at the historic Bergfeld Vineyard at the base of the Mayacamas Mountains, HALL St. Helena is a vibrant, 33-acre property off of Highway 29 in the charming town of St. Helena. Guests arrive with an official welcome from (not so little) Bunny Foo-Foo and instantly experience a one-of-a-kind destination.',
+      'Located at the historic Bergfeld Vineyard at the base of the Mayacamas Mountains, HALL St.\u00a0Helena is a vibrant, 33-acre property off of Highway 29 in the charming town of St.\u00a0Helena. Guests arrive with an official welcome from (not so little) Bunny Foo-Foo and instantly experience a one-of-a-kind destination.',
+    introHeadline: 'Art, architecture, and Cabernet at Bergfeld Vineyard',
+    introImage: '/images/partners/hall-st-helena/gallery-18.jpg',
     featuredWines: 'Cabernet Sauvignon, Sauvignon Blanc',
     sellingPoints: [
       'HALL produces some of the most distinctive wines from Napa Valley—best known for highly awarded Cabernet Sauvignons that are pure expressions of place.',
@@ -117,6 +123,8 @@ export const partners: PartnerDestination[] = [
     matchNames: ['HALL Rutherford'],
     description:
       'Tucked into the mountainside of the Vaca Mountain Range lies the HALL Rutherford Estate and Caves. Based on limited availability, you can enjoy a tour of the estate, world-class production facility, and bask in the beauty and allure of the famous Chandelier Room. Reservations are necessary, and all experiences are hosted privately.',
+    introHeadline: 'Caves, chandeliers, and Sacrashe Vineyard',
+    introImage: '/images/partners/hall-rutherford/gallery-01.jpg',
     featuredWines: 'Cabernet Sauvignon, Sauvignon Blanc',
     sellingPoints: [
       'The wine cave spans 14,000 square feet of repurposed Austrian bricks, centered on Donald Lipski\'s chandelier "Chilean Red"—designed to resemble the root system of an ancient vine.',
@@ -177,6 +185,8 @@ export const partners: PartnerDestination[] = [
     matchNames: ['WALT Napa Oxbow', 'WALT Wines'],
     description:
       "Our WALT Napa Oxbow tasting room features a beautiful bar, lovely private spaces, and modern works of art from the Hall's personal collection. This intimate venue is located in the historic Oxbow district just across the street from the Oxbow Public Market. While here, our passionate tasting room staff will guide your journey of Pinot Noir and Chardonnay wines crafted from the most expressive vineyards along the Pacific Coast.",
+    introHeadline: 'Single-vineyard Pinot in the heart of the Oxbow',
+    introImage: '/images/partners/walt-napa-oxbow/gallery-10.jpg',
     featuredWines: 'Pinot Noir, Chardonnay, Champagne',
     sellingPoints: [
       'An intimate Oxbow tasting room with a beautiful bar, private spaces, and contemporary art from the Hall collection—steps from Oxbow Public Market.',

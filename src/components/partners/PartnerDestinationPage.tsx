@@ -32,7 +32,7 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
   )}`
 
   const paragraphs = introParagraphs(partner.description)
-  const introStill = introGalleryShot(partner.gallery, partner.heroImage)
+  const introStill = introGalleryShot(partner.gallery, partner.heroImage, partner.introImage)
 
   return (
     <article className={styles.page} data-partner-page>
@@ -85,20 +85,6 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
 
       <section className={styles.intro}>
         <div className={styles.introGrid} data-partner-reveal>
-          <div className={styles.introCopy}>
-            <p className={styles.sectionLabel}>The property</p>
-            {paragraphs.map((p) => (
-              <p key={p.slice(0, 48)} className={styles.introBody}>
-                {p}
-              </p>
-            ))}
-            {partner.featuredWines ? (
-              <p className={styles.winesLine}>
-                <span>Featured wines</span>
-                {partner.featuredWines}
-              </p>
-            ) : null}
-          </div>
           {introStill ? (
             <figure className={styles.introStill} data-partner-image-reveal>
               <div className={styles.introStillFrame} data-partner-image-frame>
@@ -106,12 +92,29 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
                   src={introStill.src}
                   alt={introStill.alt}
                   fill
-                  sizes="(max-width: 900px) 100vw, 48vw"
+                  sizes="(max-width: 900px) 100vw, 58vw"
                   className={styles.introStillImage}
                 />
               </div>
             </figure>
           ) : null}
+          <div className={styles.introCopy}>
+            <p className={styles.sectionLabel}>The property</p>
+            {partner.introHeadline ? (
+              <h2 className={styles.introTitle}>{partner.introHeadline}</h2>
+            ) : null}
+            {paragraphs.map((p) => (
+              <p key={p.slice(0, 48)} className={styles.introBody}>
+                {p}
+              </p>
+            ))}
+            {partner.featuredWines ? (
+              <div className={styles.winesLine}>
+                <span className={styles.winesLabel}>Featured wines</span>
+                <p className={styles.winesValue}>{partner.featuredWines}</p>
+              </div>
+            ) : null}
+          </div>
         </div>
       </section>
 
