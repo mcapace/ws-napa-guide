@@ -62,11 +62,10 @@ export const articles: Article[] = [
     slug: 'essential-st-helena-tastings',
     title: 'Essential St. Helena Tastings',
     section: 'feature',
-    author: 'MaryAnn Worobiec',
     excerpt:
       'Six stops that define a St. Helena tasting day—from LEED Gold Cabernet and contemporary art at HALL to stone-cellar classics and valley-view salons.',
     sponsorTier: null,
-    featured: true,
+    featured: false,
     images: [
       '/images/features/essential-st-helena-tastings/hero.jpg',
       '/images/st-helena/wineries/st-helena-winery-hall-napa-valley-directory.jpg',

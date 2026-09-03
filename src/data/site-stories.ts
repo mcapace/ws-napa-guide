@@ -7,7 +7,6 @@ export const STORY_SLUGS = [
   'judgment-of-paris',
   'napa-taco-tour',
   'napa-landmarks',
-  'essential-st-helena-tastings',
 ] as const
 
 /**
