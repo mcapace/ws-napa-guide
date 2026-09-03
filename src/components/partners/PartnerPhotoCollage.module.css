@@ -57,15 +57,20 @@
   display: grid;
   gap: 0.5rem;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(140px, 1fr));
-  min-height: clamp(280px, 42vw, 480px);
+  grid-template-rows: repeat(2, minmax(160px, 1fr));
+  min-height: clamp(320px, 42vw, 500px);
   overflow: hidden;
 }
 
 .bentoCell {
   position: relative;
   overflow: hidden;
+  min-height: 0;
   background: color-mix(in srgb, var(--cream) 80%, var(--ink));
+}
+
+.bentoCell :global(img) {
+  object-fit: cover;
 }
 
 .bentoImage {

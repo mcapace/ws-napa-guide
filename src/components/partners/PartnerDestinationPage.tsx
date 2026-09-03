@@ -101,7 +101,7 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
           </div>
           {introStill ? (
             <figure className={styles.introStill} data-partner-image-reveal>
-              <div className={styles.introStillFrame}>
+              <div className={styles.introStillFrame} data-partner-image-frame>
                 <Image
                   src={introStill.src}
                   alt={introStill.alt}
