@@ -61,7 +61,7 @@ export const partners: PartnerDestination[] = [
       'Avid lifelong art collectors Craig and Kathryn Hall invite guests to enjoy expressive contemporary art alongside world-class wines.',
       'Complete your tasting journey with seasonal culinary bites crafted to complement every sip.',
       "HALL's estate vineyards span more than 500 acres planted to classic Bordeaux varietals, farmed with sustainable practices and advanced vineyard technology.",
-      'The HALL St. Helena winery was the first in California to achieve LEED® Gold Certification (2009), with another gold certification for its gravity-flow facility and tasting room in 2014.',
+      'The HALL St. Helena winery was the first in California to achieve LEED® Gold Certification (2009), with another gold certification for its gravity-flow facility and tasting room in 2014. Estate vineyards are certified sustainable (CSWA and Fish Friendly Farming), with 1.5 acres of rooftop solar.',
     ],
     experiences: [
       {
@@ -122,7 +122,7 @@ export const partners: PartnerDestination[] = [
     regionName: 'Rutherford',
     matchNames: ['HALL Rutherford'],
     description:
-      'Tucked into the mountainside of the Vaca Mountain Range lies the HALL Rutherford Estate and Caves. Based on limited availability, you can enjoy a tour of the estate, world-class production facility, and bask in the beauty and allure of the famous Chandelier Room. Reservations are necessary, and all experiences are hosted privately.',
+      'Tucked into the mountainside of the Vaca Mountain Range lies the HALL Rutherford Estate and Caves. Based on limited availability, you can enjoy a tour of the estate, world-class production facility, and bask in the beauty and allure of the famous Chandelier Room. Reservations are necessary, and all experiences are hosted privately. We look forward to sharing this hidden Napa Valley gem with you.',
     introHeadline: 'Caves, chandeliers, and Sacrashe Vineyard',
     introImage: '/images/partners/hall-rutherford/gallery-01.jpg',
     featuredWines: 'Cabernet Sauvignon, Sauvignon Blanc',
@@ -152,14 +152,19 @@ export const partners: PartnerDestination[] = [
         description:
           "A 90-minute shared tour including Sacrashe Vineyard, concluding with a seated tasting in the Chandelier Room accompanied by artisan cheeses and charcuterie—discovering Napa's diverse appellations through limited-production wines.",
         price: '$150 per guest',
-        details: ['Daily at 12:30pm with advance reservation', 'Shared with other guests'],
+        details: [
+          'Daily at 12:30pm with advance reservation',
+          'Shared with other guests',
+          '20% off for Members (up to 4)',
+          'Complimentary for Partners (up to 2)',
+        ],
       },
       {
         title: 'Private Appellation Exploration',
         description:
           'The flagship private tour and tasting: estate and Sacrashe Vineyard, then a seated Chandelier Room tasting with cheese and charcuterie.',
         price: '$175 per guest',
-        details: ['90 minutes', 'By appointment', '20% off for Members (up to 4)'],
+        details: ['90 minutes', 'By appointment', '20% off for Members (up to 4)', '$100 for Partners (up to 4)'],
       },
     ],
     addressLines: ['56 Auberge Road', 'Rutherford, CA 94573'],
@@ -215,7 +220,7 @@ export const partners: PartnerDestination[] = [
         description:
           'A flight of single-vineyard Pinot Noirs paired with seasonal bites from Michelin-rated La Toque.',
         price: '$85 per guest',
-        details: ['Thursday–Sunday at 11:30am & 2:30pm', 'Advance reservations required'],
+        details: ['Thursday–Sunday at 11:30am & 2:30pm', 'Advance reservations required', '20% off for Members (up to four)'],
       },
       {
         title: 'Wine & Chocolate Pairing',
@@ -233,7 +238,7 @@ export const partners: PartnerDestination[] = [
       },
     ],
     addressLines: ['605 First Street', 'Napa, CA'],
-    hours: '11am–5:30pm · Walk-ins welcome; reservations recommended',
+    hours: '11am–5:30pm · Walk-ins welcome; reservations recommended. Call for groups larger than four or same-day reservations.',
     phone: '(707) 721-8620',
     email: 'info@waltwines.com',
     website: 'https://waltwines.com/',
