@@ -13,18 +13,8 @@ import styles from './PartnerPhotoCollage.module.css'
 
 type FilterKey = 'all' | PartnerGalleryCategory
 
-const COLLAGE_INDICES = [0, 3, 5, 8, 11, 14, 17, 20]
-
-const COLLAGE_PLACEMENTS = [
-  { left: '2%', top: '6%', width: '36%', rotate: -5, z: 2 },
-  { left: '46%', top: '0%', width: '32%', rotate: 4, z: 4 },
-  { left: '64%', top: '34%', width: '28%', rotate: -2.5, z: 3 },
-  { left: '6%', top: '44%', width: '28%', rotate: 3, z: 5 },
-  { left: '36%', top: '40%', width: '24%', rotate: -1.5, z: 1 },
-  { left: '30%', top: '10%', width: '26%', rotate: 4.5, z: 2 },
-  { left: '54%', top: '54%', width: '34%', rotate: -3.5, z: 6 },
-  { left: '12%', top: '68%', width: '30%', rotate: 2, z: 4 },
-]
+/** Five preview tiles for the collapsed bento collage. */
+const BENTO_INDICES = [0, 1, 2, 3, 4]
 
 function GalleryLightbox({
   shots,
@@ -108,6 +98,26 @@ function GalleryLightbox({
   )
 }
 
+function GalleryTile({
+  shot,
+  onOpen,
+}: {
+  shot: PartnerGalleryShot
+  onOpen: () => void
+}) {
+  return (
+    <button type="button" className={styles.tile} onClick={onOpen} aria-label={`View larger: ${shot.alt}`}>
+      <div className={styles.tileFrame}>
+        <Image src={shot.src} alt={shot.alt} fill sizes="(max-width: 700px) 50vw, 25vw" className={styles.tileImage} />
+        <span className={styles.tileOverlay}>
+          <span className={styles.tileCategory}>{PARTNER_GALLERY_LABELS[shot.category]}</span>
+          <span className={styles.tileCaption}>{shot.alt}</span>
+        </span>
+      </div>
+    </button>
+  )
+}
+
 export function PartnerPhotoCollage({
   shots,
   photoCredit,
@@ -129,10 +139,7 @@ export function PartnerPhotoCollage({
     return shots.filter((shot) => shot.category === filter)
   }, [filter, shots])
 
-  const collageShots = COLLAGE_INDICES.filter((i) => i < shots.length).map((i) => ({
-    shot: shots[i],
-    index: i,
-  }))
+  const bentoShots = BENTO_INDICES.filter((i) => i < shots.length).map((i) => shots[i])
 
   const groupedShots = useMemo(() => {
     if (filter !== 'all') {
@@ -162,62 +169,42 @@ export function PartnerPhotoCollage({
         <p className={styles.label}>Gallery</p>
         <h2 className={styles.title}>A look inside {propertyName}</h2>
         <p className={styles.deck}>
-          {shots.length} photographs across tastings, vineyards, and the estate. Open the collage to browse
-          everything — or filter by theme once expanded.
+          {shots.length} photographs across tastings, vineyards, and the estate.
         </p>
       </div>
 
       {!expanded ? (
-        <div className={styles.collageStage}>
-          <button
-            type="button"
-            className={styles.collageButton}
-            onClick={() => setExpanded(true)}
-            aria-label={`Open full gallery of ${shots.length} photos`}
-          >
-            <div className={styles.collagePile}>
-              {collageShots.map(({ shot }, placementIndex) => {
-                const placement = COLLAGE_PLACEMENTS[placementIndex % COLLAGE_PLACEMENTS.length]
-                return (
-                  <motion.div
-                    key={shot.src}
-                    className={styles.collagePrint}
-                    style={{
-                      left: placement.left,
-                      top: placement.top,
-                      width: placement.width,
-                      zIndex: placement.z,
-                      rotate: reduceMotion ? 0 : `${placement.rotate}deg`,
-                    }}
-                    whileHover={reduceMotion ? undefined : { scale: 1.04, zIndex: 12 }}
-                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <div className={styles.collagePrintFrame}>
-                      <Image
-                        src={shot.src}
-                        alt=""
-                        fill
-                        sizes="(max-width: 700px) 40vw, 22vw"
-                        className={styles.collagePrintImage}
-                      />
-                    </div>
-                  </motion.div>
-                )
-              })}
-            </div>
-            <span className={styles.collageOverlay}>
-              <span className={styles.collageOverlayTitle}>Open gallery</span>
-              <span className={styles.collageOverlayCount}>{shots.length} photos</span>
+        <button
+          type="button"
+          className={styles.bentoButton}
+          onClick={() => setExpanded(true)}
+          aria-label={`Open full gallery of ${shots.length} photos`}
+        >
+          <div className={styles.bento}>
+            {bentoShots.map((shot, index) => (
+              <div key={shot.src} className={`${styles.bentoCell} ${styles[`bentoCell${index + 1}`] ?? ''}`}>
+                <Image
+                  src={shot.src}
+                  alt=""
+                  fill
+                  sizes="(max-width: 700px) 50vw, 30vw"
+                  className={styles.bentoImage}
+                />
+              </div>
+            ))}
+            <span className={styles.bentoCta}>
+              <span className={styles.bentoCtaLabel}>View all photos</span>
+              <span className={styles.bentoCtaCount}>{shots.length}</span>
             </span>
-          </button>
-        </div>
+          </div>
+        </button>
       ) : (
         <AnimatePresence>
           <motion.div
             className={styles.expandedWrap}
-            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className={styles.expandedToolbar}>
               <div className={styles.filterRow} role="tablist" aria-label="Gallery filters">
@@ -228,7 +215,7 @@ export function PartnerPhotoCollage({
                   className={`${styles.filterChip} ${filter === 'all' ? styles.filterChipActive : ''}`}
                   onClick={() => setFilter('all')}
                 >
-                  {PARTNER_GALLERY_LABELS.all} ({shots.length})
+                  All ({shots.length})
                 </button>
                 {categories.map((category) => {
                   const count = shots.filter((shot) => shot.category === category).length
@@ -247,7 +234,7 @@ export function PartnerPhotoCollage({
                 })}
               </div>
               <button type="button" className={styles.expandedClose} onClick={() => setExpanded(false)}>
-                Collapse
+                Close gallery
               </button>
             </div>
 
@@ -259,24 +246,7 @@ export function PartnerPhotoCollage({
                   ) : null}
                   <div className={styles.expandedGrid}>
                     {group.items.map((shot) => (
-                      <button
-                        key={shot.src}
-                        type="button"
-                        className={styles.expandedTile}
-                        onClick={() => openLightbox(shot)}
-                        aria-label={`View larger: ${shot.alt}`}
-                      >
-                        <div className={styles.expandedTileFrame}>
-                          <Image
-                            src={shot.src}
-                            alt={shot.alt}
-                            fill
-                            sizes="(max-width: 700px) 50vw, 25vw"
-                            className={styles.expandedTileImage}
-                          />
-                        </div>
-                        <span className={styles.expandedTileCaption}>{shot.alt}</span>
-                      </button>
+                      <GalleryTile key={shot.src} shot={shot} onOpen={() => openLightbox(shot)} />
                     ))}
                   </div>
                 </section>
