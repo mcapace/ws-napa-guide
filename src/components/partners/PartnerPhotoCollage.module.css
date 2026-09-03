@@ -1,0 +1,356 @@
+.section {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 2.5rem) clamp(3.5rem, 8vw, 5.5rem);
+}
+
+.head {
+  max-width: 40rem;
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(2rem, 4vw, 2.85rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.deck {
+  margin: 0.85rem 0 0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: rgba(13, 11, 9, 0.68);
+}
+
+.collageStage {
+  position: relative;
+}
+
+.collageButton {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: color-mix(in srgb, var(--cream) 92%, var(--ink));
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left;
+}
+
+.collagePile {
+  position: relative;
+  min-height: clamp(320px, 52vw, 520px);
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.collagePrint {
+  position: absolute;
+  aspect-ratio: 4 / 5;
+  box-shadow:
+    0 18px 40px rgba(13, 11, 9, 0.16),
+    0 4px 12px rgba(13, 11, 9, 0.08);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+}
+
+.collagePrintFrame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 6px solid #fff;
+  background: #fff;
+}
+
+.collagePrintImage {
+  object-fit: cover;
+}
+
+.collageOverlay {
+  position: absolute;
+  inset: auto 1.25rem 1.25rem auto;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  background: rgba(13, 11, 9, 0.82);
+  color: var(--cream);
+  backdrop-filter: blur(8px);
+}
+
+.collageOverlayTitle {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.collageOverlayCount {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.expandedWrap {
+  border: 1px solid rgba(13, 11, 9, 0.1);
+  background: color-mix(in srgb, var(--cream) 96%, var(--ink));
+  padding: clamp(1rem, 2.5vw, 1.35rem);
+}
+
+.expandedToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(13, 11, 9, 0.1);
+}
+
+.expandedCount {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+
+.expandedClose {
+  border: 0;
+  background: none;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(13, 11, 9, 0.28);
+  padding-bottom: 0.15rem;
+}
+
+.expandedClose:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.expandedGrid {
+  columns: 1;
+  column-gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .expandedGrid {
+    columns: 2;
+  }
+}
+
+@media (min-width: 980px) {
+  .expandedGrid {
+    columns: 3;
+  }
+}
+
+.expandedTile {
+  break-inside: avoid;
+  display: block;
+  width: 100%;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  text-align: left;
+}
+
+.expandedTileFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--cream) 88%, var(--ink));
+}
+
+.expandedTile:nth-child(3n + 1) .expandedTileFrame {
+  aspect-ratio: 5 / 4;
+}
+
+.expandedTile:nth-child(5n) .expandedTileFrame {
+  aspect-ratio: 16 / 11;
+}
+
+.expandedTileImage {
+  object-fit: cover;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.expandedTile:hover .expandedTileImage,
+.expandedTile:focus-visible .expandedTileImage {
+  transform: scale(1.03);
+}
+
+.expandedTileCaption {
+  display: block;
+  margin-top: 0.55rem;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: rgba(13, 11, 9, 0.58);
+}
+
+.credit {
+  margin: 0.85rem 0 0;
+  font-size: 0.7rem;
+  color: var(--mist);
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.lightboxBackdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(8, 7, 6, 0.94);
+  cursor: pointer;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  z-index: 2;
+  border: 0;
+  background: none;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.lightboxStage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  width: min(1180px, 100%);
+}
+
+.lightboxFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: rgba(247, 243, 236, 0.04);
+}
+
+.lightboxImage {
+  object-fit: contain;
+}
+
+.lightboxNav {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgba(247, 243, 236, 0.28);
+  background: rgba(13, 11, 9, 0.35);
+  color: var(--cream);
+  cursor: pointer;
+}
+
+.lightboxCaption {
+  position: relative;
+  z-index: 1;
+  width: min(760px, 100%);
+  margin: 0.85rem 0 0;
+  text-align: center;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(247, 243, 236, 0.78);
+}
+
+.lightboxCount {
+  position: relative;
+  z-index: 1;
+  margin: 0.35rem 0 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.55);
+}
+
+.lightboxThumbs {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 0.45rem;
+  max-width: min(920px, 100%);
+  margin-top: 0.85rem;
+  padding: 0.35rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.lightboxThumb {
+  position: relative;
+  flex: 0 0 3.4rem;
+  width: 3.4rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  opacity: 0.62;
+}
+
+.lightboxThumbActive {
+  border-color: var(--gold);
+  opacity: 1;
+}
+
+.lightboxThumbImage {
+  object-fit: cover;
+}
+
+@media (max-width: 700px) {
+  .lightboxStage {
+    grid-template-columns: 1fr;
+  }
+
+  .lightboxNav {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collagePrint,
+  .expandedTileImage {
+    transition: none;
+  }
+}
