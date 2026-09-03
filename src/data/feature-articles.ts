@@ -240,7 +240,7 @@ export const FEATURE_ARTICLE_CONTENT: Record<string, FeatureArticleContent> = {
   },
 
   'essential-st-helena-tastings': {
-    kicker: 'Essential St. Helena Tastings',
+    kicker: 'Where to Taste',
     heroImage: '/images/features/essential-st-helena-tastings/hero.jpg',
     heroObjectPosition: 'center 42%',
     venueSectionLabel: 'Where to taste',

@@ -60,7 +60,7 @@ export default function FeatureArticleLayout({
         <div className={styles.heroGradient} />
         <div className={styles.heroContent}>
           <p className={styles.kicker}>
-            {content.kicker ?? sectionLabel} &middot; June 2026
+            {content.kicker ?? (article.author ? `${sectionLabel} · June 2026` : sectionLabel)}
           </p>
           <h1 className={styles.title}>{article.title}</h1>
           {article.author && <p className={styles.author}>By {article.author}</p>}
