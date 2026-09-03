@@ -1,25 +1,29 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import {
+  PARTNER_GALLERY_LABELS,
+  type PartnerGalleryCategory,
+  type PartnerGalleryShot,
+  partnerGalleryCategories,
+} from '@/data/partner-galleries'
 import styles from './PartnerPhotoCollage.module.css'
 
-export type CollageShot = {
-  src: string
-  alt: string
-}
+type FilterKey = 'all' | PartnerGalleryCategory
 
-const COLLAGE_INDICES = [0, 2, 4, 6, 8, 10, 12]
+const COLLAGE_INDICES = [0, 3, 5, 8, 11, 14, 17, 20]
 
 const COLLAGE_PLACEMENTS = [
-  { left: '4%', top: '8%', width: '38%', rotate: -4.5, z: 3 },
-  { left: '52%', top: '2%', width: '34%', rotate: 3.5, z: 4 },
-  { left: '68%', top: '38%', width: '26%', rotate: -2, z: 2 },
-  { left: '8%', top: '48%', width: '30%', rotate: 2.5, z: 5 },
-  { left: '42%', top: '44%', width: '24%', rotate: -1.5, z: 1 },
-  { left: '34%', top: '12%', width: '28%', rotate: 4, z: 2 },
-  { left: '58%', top: '58%', width: '36%', rotate: -3, z: 6 },
+  { left: '2%', top: '6%', width: '36%', rotate: -5, z: 2 },
+  { left: '46%', top: '0%', width: '32%', rotate: 4, z: 4 },
+  { left: '64%', top: '34%', width: '28%', rotate: -2.5, z: 3 },
+  { left: '6%', top: '44%', width: '28%', rotate: 3, z: 5 },
+  { left: '36%', top: '40%', width: '24%', rotate: -1.5, z: 1 },
+  { left: '30%', top: '10%', width: '26%', rotate: 4.5, z: 2 },
+  { left: '54%', top: '54%', width: '34%', rotate: -3.5, z: 6 },
+  { left: '12%', top: '68%', width: '30%', rotate: 2, z: 4 },
 ]
 
 function GalleryLightbox({
@@ -28,7 +32,7 @@ function GalleryLightbox({
   onClose,
   onSelect,
 }: {
-  shots: CollageShot[]
+  shots: PartnerGalleryShot[]
   index: number
   onClose: () => void
   onSelect: (index: number) => void
@@ -81,6 +85,7 @@ function GalleryLightbox({
           →
         </button>
       </div>
+      <p className={styles.lightboxCategory}>{PARTNER_GALLERY_LABELS[shot.category]}</p>
       <p className={styles.lightboxCaption}>{shot.alt}</p>
       <p className={styles.lightboxCount}>
         {index + 1} of {shots.length}
@@ -108,20 +113,45 @@ export function PartnerPhotoCollage({
   photoCredit,
   propertyName,
 }: {
-  shots: CollageShot[]
+  shots: PartnerGalleryShot[]
   photoCredit: string
   propertyName: string
 }) {
   const reduceMotion = useReducedMotion()
   const [expanded, setExpanded] = useState(false)
+  const [filter, setFilter] = useState<FilterKey>('all')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+  const categories = useMemo(() => partnerGalleryCategories(shots), [shots])
+
+  const filteredShots = useMemo(() => {
+    if (filter === 'all') return shots
+    return shots.filter((shot) => shot.category === filter)
+  }, [filter, shots])
 
   const collageShots = COLLAGE_INDICES.filter((i) => i < shots.length).map((i) => ({
     shot: shots[i],
     index: i,
   }))
 
-  const openLightbox = useCallback((index: number) => setLightboxIndex(index), [])
+  const groupedShots = useMemo(() => {
+    if (filter !== 'all') {
+      return [{ category: filter, items: filteredShots }]
+    }
+    return categories.map((category) => ({
+      category,
+      items: shots.filter((shot) => shot.category === category),
+    }))
+  }, [categories, filter, filteredShots, shots])
+
+  const openLightbox = useCallback(
+    (shot: PartnerGalleryShot) => {
+      const index = shots.findIndex((item) => item.src === shot.src)
+      if (index >= 0) setLightboxIndex(index)
+    },
+    [shots],
+  )
+
   const closeLightbox = useCallback(() => setLightboxIndex(null), [])
 
   if (shots.length === 0) return null
@@ -132,8 +162,8 @@ export function PartnerPhotoCollage({
         <p className={styles.label}>Gallery</p>
         <h2 className={styles.title}>A look inside {propertyName}</h2>
         <p className={styles.deck}>
-          {shots.length} photographs from tastings, vineyards, and the estate — tap the collage to explore every
-          image.
+          {shots.length} photographs across tastings, vineyards, and the estate. Open the collage to browse
+          everything — or filter by theme once expanded.
         </p>
       </div>
 
@@ -146,7 +176,7 @@ export function PartnerPhotoCollage({
             aria-label={`Open full gallery of ${shots.length} photos`}
           >
             <div className={styles.collagePile}>
-              {collageShots.map(({ shot, index }, placementIndex) => {
+              {collageShots.map(({ shot }, placementIndex) => {
                 const placement = COLLAGE_PLACEMENTS[placementIndex % COLLAGE_PLACEMENTS.length]
                 return (
                   <motion.div
@@ -159,7 +189,7 @@ export function PartnerPhotoCollage({
                       zIndex: placement.z,
                       rotate: reduceMotion ? 0 : `${placement.rotate}deg`,
                     }}
-                    whileHover={reduceMotion ? undefined : { scale: 1.03, zIndex: 10 }}
+                    whileHover={reduceMotion ? undefined : { scale: 1.04, zIndex: 12 }}
                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <div className={styles.collagePrintFrame}>
@@ -176,7 +206,7 @@ export function PartnerPhotoCollage({
               })}
             </div>
             <span className={styles.collageOverlay}>
-              <span className={styles.collageOverlayTitle}>View gallery</span>
+              <span className={styles.collageOverlayTitle}>Open gallery</span>
               <span className={styles.collageOverlayCount}>{shots.length} photos</span>
             </span>
           </button>
@@ -190,31 +220,66 @@ export function PartnerPhotoCollage({
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className={styles.expandedToolbar}>
-              <p className={styles.expandedCount}>{shots.length} photos</p>
+              <div className={styles.filterRow} role="tablist" aria-label="Gallery filters">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={filter === 'all'}
+                  className={`${styles.filterChip} ${filter === 'all' ? styles.filterChipActive : ''}`}
+                  onClick={() => setFilter('all')}
+                >
+                  {PARTNER_GALLERY_LABELS.all} ({shots.length})
+                </button>
+                {categories.map((category) => {
+                  const count = shots.filter((shot) => shot.category === category).length
+                  return (
+                    <button
+                      key={category}
+                      type="button"
+                      role="tab"
+                      aria-selected={filter === category}
+                      className={`${styles.filterChip} ${filter === category ? styles.filterChipActive : ''}`}
+                      onClick={() => setFilter(category)}
+                    >
+                      {PARTNER_GALLERY_LABELS[category]} ({count})
+                    </button>
+                  )
+                })}
+              </div>
               <button type="button" className={styles.expandedClose} onClick={() => setExpanded(false)}>
-                Collapse gallery
+                Collapse
               </button>
             </div>
-            <div className={styles.expandedGrid}>
-              {shots.map((shot, index) => (
-                <button
-                  key={shot.src}
-                  type="button"
-                  className={styles.expandedTile}
-                  onClick={() => openLightbox(index)}
-                  aria-label={`View larger: ${shot.alt}`}
-                >
-                  <div className={styles.expandedTileFrame}>
-                    <Image
-                      src={shot.src}
-                      alt={shot.alt}
-                      fill
-                      sizes="(max-width: 700px) 50vw, 25vw"
-                      className={styles.expandedTileImage}
-                    />
+
+            <div className={styles.expandedBody}>
+              {groupedShots.map((group) => (
+                <section key={group.category} className={styles.groupSection}>
+                  {filter === 'all' ? (
+                    <h3 className={styles.groupTitle}>{PARTNER_GALLERY_LABELS[group.category]}</h3>
+                  ) : null}
+                  <div className={styles.expandedGrid}>
+                    {group.items.map((shot) => (
+                      <button
+                        key={shot.src}
+                        type="button"
+                        className={styles.expandedTile}
+                        onClick={() => openLightbox(shot)}
+                        aria-label={`View larger: ${shot.alt}`}
+                      >
+                        <div className={styles.expandedTileFrame}>
+                          <Image
+                            src={shot.src}
+                            alt={shot.alt}
+                            fill
+                            sizes="(max-width: 700px) 50vw, 25vw"
+                            className={styles.expandedTileImage}
+                          />
+                        </div>
+                        <span className={styles.expandedTileCaption}>{shot.alt}</span>
+                      </button>
+                    ))}
                   </div>
-                  <span className={styles.expandedTileCaption}>{shot.alt}</span>
-                </button>
+                </section>
               ))}
             </div>
           </motion.div>
