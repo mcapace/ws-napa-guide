@@ -1,0 +1,130 @@
+.spread {
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.label {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.grid {
+  display: grid;
+  gap: 0.45rem;
+}
+
+/* Trio: one tall hero + two stacked */
+.gridTrio {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(140px, 1fr));
+  min-height: clamp(300px, 44vw, 580px);
+}
+
+.gridTrio .cell1 {
+  grid-row: 1 / 3;
+}
+
+/* Quad: asymmetric editorial mosaic */
+.gridQuad {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(150px, 1fr));
+  min-height: clamp(280px, 36vw, 500px);
+}
+
+.gridQuad .cell1 {
+  grid-column: 1 / 6;
+  grid-row: 1 / 3;
+}
+
+.gridQuad .cell2 {
+  grid-column: 6 / 9;
+  grid-row: 1 / 2;
+}
+
+.gridQuad .cell3 {
+  grid-column: 9 / 13;
+  grid-row: 1 / 2;
+}
+
+.gridQuad .cell4 {
+  grid-column: 6 / 13;
+  grid-row: 2 / 3;
+}
+
+.cell {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  min-height: 0;
+  height: 100%;
+  background: color-mix(in srgb, var(--cream) 82%, var(--ink));
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.cell:hover .image {
+  transform: scale(1.03);
+}
+
+.caption {
+  position: absolute;
+  left: 0.65rem;
+  bottom: 0.65rem;
+  z-index: 1;
+  margin: 0;
+  padding: 0.35rem 0.55rem;
+  background: rgba(13, 11, 9, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.captionCategory {
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+@media (max-width: 700px) {
+  .gridTrio,
+  .gridQuad {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    min-height: 0;
+  }
+
+  .gridTrio .cell1,
+  .gridQuad .cell1 {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  .gridTrio .cell2,
+  .gridTrio .cell3,
+  .gridQuad .cell2,
+  .gridQuad .cell3,
+  .gridQuad .cell4 {
+    grid-column: auto;
+    grid-row: auto;
+    aspect-ratio: 1 / 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image {
+    transition: none;
+  }
+}

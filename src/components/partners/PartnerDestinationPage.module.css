@@ -311,53 +311,79 @@
 
 /* ── Highlights ── */
 .highlights {
-  width: min(1120px, 100%);
+  width: min(1240px, 100%);
   margin: 0 auto;
-  padding: clamp(3rem, 7vw, 4.5rem) clamp(1.25rem, 4vw, 2.5rem);
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2.5rem);
 }
 
 .highlightsInner {
   display: grid;
-  gap: clamp(1.75rem, 4vw, 2.5rem);
-  align-items: start;
-}
-
-@media (min-width: 900px) {
-  .highlightsInner {
-    grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.15fr);
-    gap: clamp(2.5rem, 5vw, 4rem);
-  }
+  gap: clamp(2rem, 4vw, 3rem);
 }
 
 .highlightsHead {
-  max-width: 22rem;
+  max-width: 36rem;
 }
 
-.highlightList {
+.highlightRows {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: clamp(2.25rem, 5vw, 3.5rem);
 }
 
-.highlightItem {
+.highlightRow {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2rem);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .highlightRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .highlightRowReverse .highlightFigure {
+    order: 2;
+  }
+
+  .highlightRowReverse .highlightCopy {
+    order: 1;
+  }
+}
+
+.highlightFigure {
+  margin: 0;
+}
+
+.highlightFrame {
   position: relative;
-  padding-left: 1.15rem;
-  font-size: 0.96rem;
-  line-height: 1.65;
-  color: rgba(13, 11, 9, 0.8);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--cream) 88%, var(--ink));
 }
 
-.highlightItem::before {
+.highlightImage {
+  object-fit: cover;
+}
+
+.highlightCopy {
+  margin: 0;
+  font-size: clamp(1rem, 1.5vw, 1.08rem);
+  line-height: 1.72;
+  color: rgba(13, 11, 9, 0.84);
+  text-wrap: pretty;
+}
+
+.highlightCopy::before {
   content: '';
-  position: absolute;
-  left: 0;
-  top: 0.62em;
-  width: 0.35rem;
-  height: 0.35rem;
-  border-radius: 50%;
+  display: block;
+  width: 1.75rem;
+  height: 1px;
+  margin-bottom: 0.85rem;
   background: var(--gold);
 }
 

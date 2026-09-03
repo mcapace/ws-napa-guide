@@ -90,3 +90,57 @@ export function bentoPreviewIndices(
 
   return picks.slice(0, 5)
 }
+
+/** Pick shots for an editorial collage spread. */
+export function editorialSpreadShots(
+  shots: PartnerGalleryShot[],
+  excludeSrcs: string[],
+  categories: PartnerGalleryCategory[],
+  count: number,
+): PartnerGalleryShot[] {
+  const used = new Set(excludeSrcs)
+  const picks: PartnerGalleryShot[] = []
+
+  for (const category of categories) {
+    for (const shot of shots) {
+      if (picks.length >= count) break
+      if (shot.category === category && !used.has(shot.src)) {
+        picks.push(shot)
+        used.add(shot.src)
+      }
+    }
+  }
+
+  for (const shot of shots) {
+    if (picks.length >= count) break
+    if (!used.has(shot.src)) {
+      picks.push(shot)
+      used.add(shot.src)
+    }
+  }
+
+  return picks
+}
+
+/** One image per selling point for editorial highlight rows. */
+export function highlightGalleryShots(
+  shots: PartnerGalleryShot[],
+  excludeSrcs: string[],
+  count: number,
+): PartnerGalleryShot[] {
+  const order: PartnerGalleryCategory[] = ['tasting', 'estate', 'vineyard', 'art', 'tasting']
+  const used = new Set(excludeSrcs)
+  const picks: PartnerGalleryShot[] = []
+
+  for (let i = 0; i < count; i += 1) {
+    const category = order[i % order.length]
+    const match =
+      shots.find((shot) => shot.category === category && !used.has(shot.src)) ??
+      shots.find((shot) => !used.has(shot.src))
+    if (!match) break
+    picks.push(match)
+    used.add(match.src)
+  }
+
+  return picks
+}

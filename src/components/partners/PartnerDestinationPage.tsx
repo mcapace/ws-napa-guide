@@ -1,11 +1,18 @@
 'use client'
 
+import { useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { PartnerDestination } from '@/data/partners'
-import { introGalleryShot } from '@/data/partner-galleries'
+import {
+  editorialSpreadShots,
+  highlightGalleryShots,
+  introGalleryShot,
+} from '@/data/partner-galleries'
 import { withNapaGuideUtm } from '@/lib/outbound-utm'
+import { PartnerImageSpread } from '@/components/partners/PartnerImageSpread'
 import { PartnerPhotoCollage } from '@/components/partners/PartnerPhotoCollage'
+import { PartnerPullQuote } from '@/components/partners/PartnerPullQuote'
 import { PartnerScrollEnhancements } from '@/components/partners/PartnerScrollEnhancements'
 import styles from './PartnerDestinationPage.module.css'
 
@@ -33,6 +40,30 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
 
   const paragraphs = introParagraphs(partner.description)
   const introStill = introGalleryShot(partner.gallery, partner.heroImage, partner.introImage)
+
+  const { tastingSpread, estateSpread, highlightShots, galleryExclude } = useMemo(() => {
+    const exclude = new Set(
+      [partner.heroImage, partner.introImage, introStill?.src].filter((src): src is string => Boolean(src)),
+    )
+
+    const tasting = editorialSpreadShots(partner.gallery, [...exclude], ['tasting'], 3)
+    tasting.forEach((shot) => exclude.add(shot.src))
+
+    const highlights = highlightGalleryShots(partner.gallery, [...exclude], partner.sellingPoints.length)
+    highlights.forEach((shot) => exclude.add(shot.src))
+
+    const estate = editorialSpreadShots(partner.gallery, [...exclude], ['estate', 'vineyard', 'art'], 4)
+    estate.forEach((shot) => exclude.add(shot.src))
+
+    return {
+      tastingSpread: tasting,
+      estateSpread: estate,
+      highlightShots: highlights,
+      galleryExclude: [...exclude],
+    }
+  }, [introStill?.src, partner.gallery, partner.heroImage, partner.introImage, partner.sellingPoints.length])
+
+  const pullQuote = partner.sellingPoints[0]
 
   return (
     <article className={styles.page} data-partner-page>
@@ -118,6 +149,10 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
         </div>
       </section>
 
+      <PartnerImageSpread shots={tastingSpread} label="In the glass" layout="trio" />
+
+      {pullQuote ? <PartnerPullQuote quote={pullQuote} /> : null}
+
       {partner.sellingPoints.length > 0 ? (
         <section className={styles.highlights} aria-label="Why visit">
           <div className={styles.highlightsInner} data-partner-reveal>
@@ -125,21 +160,44 @@ export function PartnerDestinationPage({ partner }: { partner: PartnerDestinatio
               <p className={styles.sectionLabel}>Why visit</p>
               <h2 className={styles.sectionTitle}>What makes {partner.name} distinctive</h2>
             </div>
-            <ul className={styles.highlightList}>
-              {partner.sellingPoints.map((point) => (
-                <li key={point.slice(0, 48)} className={styles.highlightItem}>
-                  {point}
-                </li>
-              ))}
+            <ul className={styles.highlightRows}>
+              {partner.sellingPoints.map((point, index) => {
+                const shot = highlightShots[index]
+                const reverse = index % 2 === 1
+                return (
+                  <li
+                    key={point.slice(0, 48)}
+                    className={`${styles.highlightRow} ${reverse ? styles.highlightRowReverse : ''}`}
+                    data-partner-highlight-row
+                  >
+                    {shot ? (
+                      <figure className={styles.highlightFigure}>
+                        <div className={styles.highlightFrame}>
+                          <Image
+                            src={shot.src}
+                            alt={shot.alt}
+                            fill
+                            sizes="(max-width: 900px) 100vw, 42vw"
+                            className={styles.highlightImage}
+                          />
+                        </div>
+                      </figure>
+                    ) : null}
+                    <p className={styles.highlightCopy}>{point}</p>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         </section>
       ) : null}
 
+      <PartnerImageSpread shots={estateSpread} label="On the estate" layout="quad" />
+
       <PartnerPhotoCollage
         shots={partner.gallery}
         heroSrc={partner.heroImage}
-        excludeSrcs={introStill ? [introStill.src] : []}
+        excludeSrcs={galleryExclude}
         photoCredit={partner.photoCredit}
         propertyName={partner.name}
         bookHref={bookHref}

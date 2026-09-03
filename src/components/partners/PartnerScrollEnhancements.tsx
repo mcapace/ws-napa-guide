@@ -132,6 +132,41 @@ export function PartnerScrollEnhancements({ bookHref }: PartnerScrollEnhancement
       triggers.push(st)
     })
 
+    root.querySelectorAll<HTMLElement>('[data-partner-spread-cell]').forEach((el, i) => {
+      const st = ScrollTrigger.create({
+        trigger: el.closest('[data-partner-spread]') ?? el,
+        start: 'top 90%',
+        once: true,
+      })
+      gsap.fromTo(
+        el,
+        { y: 20, scale: 0.98 },
+        {
+          y: 0,
+          scale: 1,
+          duration: 0.65,
+          delay: i * 0.07,
+          ease: 'power2.out',
+          scrollTrigger: st,
+        },
+      )
+      triggers.push(st)
+    })
+
+    root.querySelectorAll<HTMLElement>('[data-partner-highlight-row]').forEach((el, i) => {
+      const st = ScrollTrigger.create({
+        trigger: el,
+        start: 'top 88%',
+        once: true,
+      })
+      gsap.fromTo(
+        el,
+        { y: 18 },
+        { y: 0, duration: 0.7, delay: (i % 3) * 0.05, ease: 'power2.out', scrollTrigger: st },
+      )
+      triggers.push(st)
+    })
+
     requestAnimationFrame(() => ScrollTrigger.refresh())
 
     return () => {
