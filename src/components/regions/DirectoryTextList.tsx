@@ -54,7 +54,7 @@ export function DirectoryTextList({
               >
                 <p className="tasting-directory-name">{row.name}</p>
                 <p className="tasting-directory-address">{row.address}</p>
-                {href && (
+                {href ? (
                   <a
                     href={href}
                     target="_blank"
@@ -63,7 +63,10 @@ export function DirectoryTextList({
                   >
                     {row.website.replace(/^https?:\/\//i, '')}
                   </a>
-                )}
+                ) : row.website.trim() ? (
+                  // Print lists a phone number for some cafés instead of a site.
+                  <p className="tasting-directory-address">{row.website.trim()}</p>
+                ) : null}
               </li>
             )
           })}

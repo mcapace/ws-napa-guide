@@ -204,6 +204,9 @@ export function normalizeWebsiteUrl(website: string | undefined): string | undef
   const trimmed = website.trim().split(/[;\s]+/)[0].replace(/[,;]+$/, '')
   if (!trimmed) return undefined
   if (/^https?:\/\//i.test(trimmed)) return trimmed
+  // Some print directories put a phone number in the website column
+  // ("(707) 942-4200") — only a domain-looking value becomes a link.
+  if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+(\/|$)/i.test(trimmed)) return undefined
   return `https://${trimmed}`
 }
 
