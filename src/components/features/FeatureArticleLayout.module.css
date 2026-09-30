@@ -70,6 +70,15 @@
   margin: 0 0 20px;
 }
 
+.sponsorDisclosure {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.7);
+  margin: 0 0 20px;
+}
+
 .heroDeck {
   font-family: var(--font-display);
   font-style: italic;

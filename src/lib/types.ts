@@ -134,6 +134,8 @@ export interface FeatureTermGroup {
 
 export interface FeatureArticleContent {
   kicker?: string
+  /** Paid-placement disclosure shown under the headline, e.g. "Presented by HALL St. Helena". */
+  sponsorDisclosure?: string
   pullQuote?: string
   pullQuoteLines?: string[]
   introParagraphs: string[]

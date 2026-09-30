@@ -64,6 +64,9 @@ export default function FeatureArticleLayout({
           </p>
           <h1 className={styles.title}>{article.title}</h1>
           {article.author && <p className={styles.author}>By {article.author}</p>}
+          {content.sponsorDisclosure && (
+            <p className={styles.sponsorDisclosure}>{content.sponsorDisclosure}</p>
+          )}
           {showDeckOnHero && <p className={styles.heroDeck}>{article.excerpt}</p>}
         </div>
       </section>
