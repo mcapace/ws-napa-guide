@@ -88,6 +88,18 @@ export function bentoPreviewIndices(
     }
   }
 
+  // Backfill from the full library (hero excluded) so the preview still shows
+  // five tiles when section/category exclusions would otherwise leave it sparse
+  // for partners with smaller photo libraries. Partners with ample unused shots
+  // fill from the loops above and never reach this.
+  if (picks.length < 5) {
+    for (let i = 0; picks.length < 5 && i < shots.length; i += 1) {
+      if (picks.includes(i)) continue
+      if (heroSrc && shots[i].src === heroSrc) continue
+      picks.push(i)
+    }
+  }
+
   return picks.slice(0, 5)
 }
 
