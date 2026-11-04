@@ -251,6 +251,132 @@ export const partners: PartnerDestination[] = [
     gallery: getPartnerGallery('walt-napa-oxbow'),
     coords: [-122.28105, 38.30116],
   },
+  {
+    slug: 'groth',
+    name: 'Groth Vineyards & Winery',
+    brandLabel: 'Groth Vineyards',
+    regionSlug: 'oakville',
+    regionName: 'Oakville',
+    matchNames: ['Groth Vineyards & Winery', 'Groth Vineyards', 'Groth'],
+    description:
+      'Set among majestic oaks on Oakville Cross Road, Groth Vineyards & Winery is a family-owned and operated estate in the heart of Napa Valley’s most celebrated Cabernet country. Guests are welcomed into a landmark California Mission–style winery to taste the wines that put Oakville—and the Groth family—on the map.',
+    introHeadline: 'Family-owned Cabernet country since 1981',
+    introImage: '/images/partners/groth/gallery-09.jpg',
+    featuredWines: 'Reserve Cabernet Sauvignon, Oakville Cabernet Sauvignon, Sauvignon Blanc, Chardonnay',
+    sellingPoints: [
+      'Family-owned and operated for more than four decades, with the founding Groth family still living on its Oakville estate.',
+      'Oakville’s pink California Mission–style winery—a Napa Valley landmark since 1990—set among majestic oaks and estate vines.',
+      'Two sustainably farmed estates totaling 165 acres in Oakville and the Oak Knoll District, producing Cabernet Sauvignon, Sauvignon Blanc and Chardonnay.',
+      'The 1985 Groth Reserve Cabernet Sauvignon earned a perfect 100-point score—the first ever awarded to an American wine—and the Reserve remains the defining expression of the estate.',
+      'Experiences for every kind of visitor, from a 45-minute introduction to library tastings, vineyard ATV tours, and a family-friendly tasting where kids get their own seat at the table.',
+    ],
+    experiences: [
+      {
+        title: 'A Taste of Groth',
+        description:
+          'The perfect introduction to the estate—a guided flight of winery-exclusive and limited-production wines that traces the Groth family’s four-decade dedication to Cabernet Sauvignon, Sauvignon Blanc and Chardonnay.',
+        price: '$50 per person',
+        details: ['45 minutes', 'Up to six guests', 'By reservation'],
+      },
+      {
+        title: 'Family Table at Groth',
+        description:
+          'A family-friendly tasting that welcomes guests of all ages. Adults are guided through a selection of estate wines while younger guests enjoy their own place at the table with a seasonal snack and grape juice—set on the patio or overlooking the vines.',
+        price: '$50 per adult · Children complimentary',
+        details: ['Up to six guests, adults and children included', 'By reservation'],
+      },
+      {
+        title: 'Oakville Roots',
+        description:
+          'A deeper look at the estate’s origins, centered on Oakcross, a small-production Bordeaux-style red blend tied to the family’s earliest chapter in Oakville. Taste multiple vintages of Oakcross alongside the Oakville Cabernet Sauvignon, plus a single varietal component of the blend.',
+        price: '$75 per person',
+        details: ['60 minutes', 'Up to six guests', 'By reservation'],
+      },
+      {
+        title: 'Cabernet for the Ages — Library Tasting',
+        description:
+          'Experience more than 40 years of winemaking through a selection of library Cabernets pulled from the Groth family cellar, and discover how each vintage evolves to reveal the balance, complexity and ageability of Oakville Cabernet Sauvignon.',
+        price: '$100 per person',
+        details: ['90 minutes', 'Up to six guests', 'By reservation'],
+      },
+    ],
+    addressLines: ['750 Oakville Cross Road', 'Oakville, CA 94562'],
+    hours: 'Open daily by appointment',
+    phone: '(707) 754-4254',
+    email: 'concierge@grothwines.com',
+    website: 'https://grothwines.com/',
+    bookUrl: 'https://grothwines.com/visit',
+    wineClubUrl: 'https://grothwines.com/club',
+    photoCredit: 'Groth Vineyards & Winery',
+    heroImage: '/images/partners/groth/hero.jpg',
+    logoSrc: '/images/partners/groth/logo.png',
+    logoAlt: 'Groth Vineyards & Winery',
+    gallery: getPartnerGallery('groth'),
+    coords: [-122.40182, 38.43488],
+  },
+  {
+    slug: 'silverado',
+    name: 'Silverado Vineyards',
+    brandLabel: 'Silverado Vineyards',
+    regionSlug: 'yountville',
+    regionName: 'Stags Leap District',
+    matchNames: ['Silverado Vineyards'],
+    description:
+      'Silverado Vineyards is a historic Napa Valley estate rooted in the Stags Leap District, where its namesake vineyard was among the first to plant Cabernet Sauvignon in the 1960s. Founded in 1981 by Ron and Diane Miller and Lillian Disney, Silverado built its reputation on estate-grown wines that express some of Napa Valley’s most celebrated vineyard sites.',
+    introHeadline: 'A founding estate of the Stags Leap District',
+    introImage: '/images/partners/silverado/gallery-08.jpg',
+    featuredWines: 'Estate Cabernet Sauvignon, SOLO, GEO, Sauvignon Blanc, Chardonnay',
+    sellingPoints: [
+      'A historic Stags Leap District estate, founded in 1981 by Ron and Diane Miller and Lillian Disney, built on estate-grown wines from some of Napa Valley’s most celebrated sites.',
+      'Home to the rare Disney-Silverado Heritage clone—one of only three Cabernet Sauvignon selections granted Heritage status by UC Davis, and the only one from the Stags Leap District.',
+      'More than 300 acres farmed across the Stags Leap District, Yountville, Coombsville, Carneros and Napa Valley, expressed in iconic wines including SOLO and GEO.',
+      'Hosted, seated tastings framed by sweeping Stags Leap District vineyard views—from an approachable Discovery flight to library Cabernets and a white-wine-and-caviar experience.',
+      'A new chapter under Foley Family Wines & Spirits since 2022, with winemaker Alison Rodriguez carrying forward more than four decades of craftsmanship and vineyard stewardship.',
+    ],
+    experiences: [
+      {
+        title: 'Silverado Discovery Tasting',
+        description:
+          'A relaxed introduction to Silverado Vineyards in the heart of the Stags Leap District. Three estate-grown wines offer a welcoming snapshot of the historic property and its vineyard-driven winemaking, enjoyed in the salon amid sweeping vineyard views with an estate wine educator.',
+        price: '$50 per guest',
+        details: ['45–60 minutes', 'Walk-ins welcome'],
+      },
+      {
+        title: 'The Estate Collection Experience',
+        description:
+          'A hosted, seated tasting designed to showcase the depth and character of Silverado Vineyards. Framed by sweeping views of the Stags Leap District, it features small-production, estate-grown wines that highlight the winemaking style, estate history and the distinctive qualities of each vineyard-driven bottling.',
+        price: '$85 per guest',
+        details: ['90 minutes', 'For parties of up to six guests'],
+      },
+      {
+        title: 'White Wine and Caviar Experience',
+        description:
+          'A hosted white-wine and caviar tasting—an exquisite way to experience the portfolio of white wines alongside chef-selected caviar with house-made potato chips and indulgent crème fraîche.',
+        price: '$115 per guest',
+        details: ['90 minutes', 'For parties of two (up to six by request)'],
+      },
+      {
+        title: 'Legacy Cabernet Experience',
+        description:
+          'Explore the top Cabernet expressions from the renowned Stags Leap District and Coombsville. Savor library estate Cabernets crafted from the Disney-Silverado Heritage clone, with a guided tour and an artisan cheese and charcuterie board.',
+        price: '$145 per guest',
+        details: ['90 minutes', 'Daily at 10am and 1:30pm', 'Up to six guests'],
+      },
+    ],
+    addressLines: ['6121 Silverado Trail', 'Napa, CA 94558'],
+    hours: 'Open daily 10am–3:30pm',
+    phone: '(707) 257-1770',
+    email: 'concierge@silveradovineyards.com',
+    website: 'https://www.silveradovineyards.com/',
+    bookUrl: 'https://www.silveradovineyards.com/experiences',
+    wineClubUrl: 'https://www.silveradovineyards.com/membership/',
+    photoCredit: 'Silverado Vineyards',
+    heroImage: '/images/partners/silverado/hero.jpg',
+    logoSrc: '/images/partners/silverado/logo.png',
+    logoAlt: 'Silverado Vineyards',
+    gallery: getPartnerGallery('silverado'),
+    coords: [-122.33389, 38.39664],
+  },
 ]
 
 export function getPartner(slug: string): PartnerDestination | undefined {

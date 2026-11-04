@@ -140,6 +140,14 @@ const YOUNTVILLE_STAGS_LEAP: Itinerary = {
   stops: [
     {
       order: 1,
+      name: 'Silverado Vineyards',
+      category: 'winery',
+      coords: [-122.33389, 38.39664],
+      blurb:
+        'Begin at Silverado Vineyards, a founding estate of the Stags Leap District established in 1981 by the Miller family and Lillian Disney. From the hilltop salon—with sweeping views across the district—taste estate-grown Cabernets including SOLO, made from the rare Disney-Silverado Heritage clone, the only UC Davis Heritage selection from the Stags Leap District.',
+    },
+    {
+      order: 2,
       name: 'Cliff Lede Vineyards',
       category: 'winery',
       coords: [-122.344634, 38.42402],
@@ -147,7 +155,7 @@ const YOUNTVILLE_STAGS_LEAP: Itinerary = {
         'At the Yountville Crossroad and Silverado Trail intersection sits Cliff Lede, a relatively newer estate among its more historic neighbors. The “Morning Walk in the Vineyard” covers a mile through estate vineyards, sustainable farming practices, and pours of wine along the way—including wines made from the same vineyards you’re traversing.',
     },
     {
-      order: 2,
+      order: 3,
       name: 'Shafer Vineyards',
       category: 'winery',
       coords: [-122.32665, 38.42042],
