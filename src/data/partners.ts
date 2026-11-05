@@ -324,7 +324,7 @@ export const partners: PartnerDestination[] = [
     description:
       'Silverado Vineyards is a historic Napa Valley estate rooted in the Stags Leap District, where its namesake vineyard was among the first to plant Cabernet Sauvignon in the 1960s. Founded in 1981 by Ron and Diane Miller and Lillian Disney, Silverado built its reputation on estate-grown wines that express some of Napa Valley’s most celebrated vineyard sites.',
     introHeadline: 'A founding estate of the Stags Leap District',
-    introImage: '/images/partners/silverado/gallery-08.jpg',
+    introImage: '/images/partners/silverado/gallery-07.jpg',
     featuredWines: 'Estate Cabernet Sauvignon, SOLO, GEO, Sauvignon Blanc, Chardonnay',
     sellingPoints: [
       'A historic Stags Leap District estate, founded in 1981 by Ron and Diane Miller and Lillian Disney, built on estate-grown wines from some of Napa Valley’s most celebrated sites.',

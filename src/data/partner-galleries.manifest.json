@@ -430,58 +430,58 @@
   },
   {
    "src": "/images/partners/silverado/gallery-02.jpg",
-   "alt": "Guests enjoying a tasting on the Silverado terrace",
-   "category": "art"
-  },
-  {
-   "src": "/images/partners/silverado/gallery-03.jpg",
-   "alt": "Estate white wines with caviar and house-made chips",
-   "category": "tasting"
-  },
-  {
-   "src": "/images/partners/silverado/gallery-04.jpg",
    "alt": "Silverado's estate wines poured among the vines",
    "category": "tasting"
   },
   {
-   "src": "/images/partners/silverado/gallery-05.jpg",
+   "src": "/images/partners/silverado/gallery-03.jpg",
    "alt": "GEO Cabernet Sauvignon from Coombsville's Mt. George Vineyard",
    "category": "tasting"
   },
   {
-   "src": "/images/partners/silverado/gallery-06.jpg",
-   "alt": "An estate wine dinner set by candlelight",
-   "category": "art"
-  },
-  {
-   "src": "/images/partners/silverado/gallery-07.jpg",
+   "src": "/images/partners/silverado/gallery-04.jpg",
    "alt": "The Silverado Vineyards estate lineup",
    "category": "tasting"
   },
   {
+   "src": "/images/partners/silverado/gallery-05.jpg",
+   "alt": "Estate white wines with caviar and house-made chips",
+   "category": "tasting"
+  },
+  {
+   "src": "/images/partners/silverado/gallery-06.jpg",
+   "alt": "Silverado's SOLO and GEO single-vineyard Cabernets",
+   "category": "tasting"
+  },
+  {
+   "src": "/images/partners/silverado/gallery-07.jpg",
+   "alt": "Aerial view of Silverado's Stags Leap District estate vineyards",
+   "category": "vineyard"
+  },
+  {
    "src": "/images/partners/silverado/gallery-08.jpg",
-   "alt": "Sweeping Stags Leap District vineyard views from the estate terrace",
+   "alt": "Aerial pruning in the Mt. George Vineyard in Coombsville",
    "category": "vineyard"
   },
   {
    "src": "/images/partners/silverado/gallery-09.jpg",
-   "alt": "The estate terrace overlooking the valley's vineyards at golden hour",
+   "alt": "The historic Mt. George Vineyard hillside in Coombsville",
    "category": "vineyard"
   },
   {
    "src": "/images/partners/silverado/gallery-10.jpg",
-   "alt": "Aerial view of the hilltop Silverado winery and its estate",
-   "category": "estate"
+   "alt": "The Miller Ranch Vineyard in Yountville",
+   "category": "vineyard"
   },
   {
    "src": "/images/partners/silverado/gallery-11.jpg",
-   "alt": "Estate Cabernet aging in the Silverado barrel cellar",
-   "category": "art"
+   "alt": "Aerial view of the Miller Ranch estate vineyards",
+   "category": "vineyard"
   },
   {
    "src": "/images/partners/silverado/gallery-12.jpg",
-   "alt": "Silverado's SOLO and GEO single-vineyard Cabernets",
-   "category": "tasting"
+   "alt": "Estate Chardonnay vines at sunset",
+   "category": "vineyard"
   },
   {
    "src": "/images/partners/silverado/gallery-13.jpg",
@@ -490,12 +490,47 @@
   },
   {
    "src": "/images/partners/silverado/gallery-14.jpg",
-   "alt": "Aerial view of the Silverado estate vineyards and rolling hills",
-   "category": "vineyard"
+   "alt": "Aerial view of the hilltop Silverado winery and estate",
+   "category": "estate"
   },
   {
    "src": "/images/partners/silverado/gallery-15.jpg",
-   "alt": "Pouring estate wines at a Silverado tasting",
+   "alt": "Sweeping Stags Leap District views from the estate terrace",
+   "category": "estate"
+  },
+  {
+   "src": "/images/partners/silverado/gallery-16.jpg",
+   "alt": "A terrace tasting at sunset overlooking the Stags Leap District",
+   "category": "art"
+  },
+  {
+   "src": "/images/partners/silverado/gallery-17.jpg",
+   "alt": "Guests tasting estate wines at the Silverado bar",
+   "category": "art"
+  },
+  {
+   "src": "/images/partners/silverado/gallery-18.jpg",
+   "alt": "A flight of estate wines in the Silverado tasting room",
+   "category": "art"
+  },
+  {
+   "src": "/images/partners/silverado/gallery-19.jpg",
+   "alt": "Pouring an estate white wine in the salon",
+   "category": "art"
+  },
+  {
+   "src": "/images/partners/silverado/gallery-20.jpg",
+   "alt": "Estate wines and glasses set in the Silverado salon",
+   "category": "art"
+  },
+  {
+   "src": "/images/partners/silverado/gallery-21.jpg",
+   "alt": "An intimate estate wine experience at Silverado",
+   "category": "art"
+  },
+  {
+   "src": "/images/partners/silverado/gallery-22.jpg",
+   "alt": "The Silverado estate grounds and terrace at golden hour",
    "category": "art"
   }
  ]
