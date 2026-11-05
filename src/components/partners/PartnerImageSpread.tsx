@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { PARTNER_GALLERY_LABELS, type PartnerGalleryShot } from '@/data/partner-galleries'
+import { type PartnerGalleryShot } from '@/data/partner-galleries'
 import styles from './PartnerImageSpread.module.css'
 
 type SpreadLayout = 'trio' | 'quad'
@@ -48,9 +48,6 @@ export function PartnerImageSpread({
                 className={styles.image}
               />
             </div>
-            <figcaption className={styles.caption}>
-              <span className={styles.captionCategory}>{PARTNER_GALLERY_LABELS[shot.category]}</span>
-            </figcaption>
           </figure>
         ))}
       </div>
