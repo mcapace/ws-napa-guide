@@ -1,5 +1,6 @@
 import type { MapPin, MapPinCategory } from '@/data/map-pins'
 import { pinsByRegion } from '@/data/map-pins'
+import { partnerPathForName } from '@/data/partners'
 import regionDirectoryImages from '@/data/region-directory-images.json'
 import type { DirectoryCategory, EditorialFeature, LoadedRegionMdx, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
@@ -157,6 +158,7 @@ function directoryRowToMapPin(row: TastingDirectoryRow, regionSlug: string): Map
   const lng = row.coordinates.lng
   const lat = row.coordinates.lat
   const website = normalizeWebsiteUrl(row.website)
+  const partnerPath = partnerPathForName(row.name, regionSlug)
   const excerpt = pinExcerpt(row.address)
 
   // Legacy PinType has no "do" — Explore uses `category`; type is NapaMap compat only.
@@ -171,7 +173,7 @@ function directoryRowToMapPin(row: TastingDirectoryRow, regionSlug: string): Map
     region: regionSlug,
     coords: [lng, lat],
     excerpt,
-    href: website ?? `/explore?ava=${regionSlug}&place=${slug}`,
+    href: partnerPath ?? website ?? `/explore?ava=${regionSlug}&place=${slug}`,
     id: slug,
     type,
     images: [],
@@ -209,14 +211,16 @@ function buildPinsFromRows(
     if (!pin) continue
 
     if (staticMatch) {
-      // Venue links target the venue's own website; the print directory
-      // row's URL wins, then the curated dataset's, never a microsite page.
+      // Partner (Presence) wineries deep-link to their guide page; otherwise
+      // venue links target the venue's own website — the print directory row's
+      // URL wins, then the curated dataset's, never a microsite page.
+      const partnerPath = partnerPathForName(row.name, regionSlug)
       const site = normalizeWebsiteUrl(row.website) ?? venueWebsiteForDetailPath(staticMatch.href)
       pin = {
         ...pin,
-        href: site
-          ? absoluteWebsiteUrl(site)
-          : `/explore?ava=${regionSlug}&place=${staticMatch.slug}`,
+        href:
+          partnerPath ??
+          (site ? absoluteWebsiteUrl(site) : `/explore?ava=${regionSlug}&place=${staticMatch.slug}`),
       }
     }
     addPin(pin)

@@ -1,5 +1,6 @@
 import type { RegionCoordinates, TastingDirectoryRow } from '@/lib/content/types'
 import { normalizeWebsiteUrl } from '@/lib/content/parseRegionMdxBody'
+import { partnerPathForName } from '@/data/partners'
 import { TastingMapLazy } from './TastingMapLazy'
 
 export function TastingDirectoryWithMap({
@@ -70,6 +71,7 @@ export function TastingDirectoryWithMap({
             >
               {rows.map((row) => {
                 const href = normalizeWebsiteUrl(row.website)
+                const partnerPath = partnerPathForName(row.name)
                 return (
                   <li
                     key={`${row.name}-${row.address}`}
@@ -80,12 +82,18 @@ export function TastingDirectoryWithMap({
                   >
                     <p className="tasting-directory-name">{row.name}</p>
                     <p className="tasting-directory-address">{row.address}</p>
+                    {partnerPath && (
+                      <a href={partnerPath} className="tasting-directory-url" style={{ display: 'block' }}>
+                        View guide page &rarr;
+                      </a>
+                    )}
                     {href && (
                       <a
                         href={href}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="tasting-directory-url"
+                        style={partnerPath ? { display: 'block', marginTop: 4 } : undefined}
                       >
                         {row.website.replace(/^https?:\/\//i, '')}
                       </a>
