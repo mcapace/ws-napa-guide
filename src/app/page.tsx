@@ -242,10 +242,12 @@ export default function HomePage() {
       heroTl.to(heroDisplay, { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0.15)
     }
 
-    // Scroll cue: fades out the instant the viewer starts scrolling (its job is
-    // done once the video begins to emerge)
+    // Scroll cue: hidden until the video fills the screen, then fades in during
+    // the dead-air beat so viewers know to keep scrolling, and fades back out
+    // just before the editorial overlay arrives.
     if (scrollCue) {
-      heroTl.to(scrollCue, { opacity: 0, duration: 0.08, ease: 'power2.out' }, 0.02)
+      heroTl.to(scrollCue, { opacity: 1, duration: 0.05, ease: 'power2.out' }, 0.6)
+      heroTl.to(scrollCue, { opacity: 0, duration: 0.05, ease: 'power2.out' }, 0.8)
     }
 
     // Hide fixed nav + top scrim during fullscreen video (avoids double-nav with overlay logo)
@@ -512,11 +514,23 @@ export default function HomePage() {
             <span className="home-hero-display__title">Napa Valley</span>
           </div>
 
-          {/* Subtle scroll cue — tells first-time visitors the hero responds to
-              scroll (the video emerges as they go). Fades the moment they do. */}
+          {/* Scroll cue — appears during the fullscreen-video dead air so
+              viewers know to keep scrolling; fades as the overlay arrives. */}
           <div ref={scrollCueRef} className="home-hero-scroll-cue" aria-hidden>
-            <span>Scroll to explore</span>
-            <span className="home-hero-scroll-cue__chevron" />
+            <span>Scroll to continue</span>
+            <svg
+              className="home-hero-scroll-cue__arrow"
+              width="22"
+              height="13"
+              viewBox="0 0 22 13"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M1 1l10 10L21 1" />
+            </svg>
           </div>
 
           <div
