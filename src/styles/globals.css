@@ -865,7 +865,7 @@ body:has([data-page="home-hero"]) {
 /* Homepage hero scroll cue — subtle gold hint at the very bottom center */
 .home-hero-scroll-cue {
   position: absolute;
-  bottom: clamp(22px, 4vh, 44px);
+  bottom: clamp(26px, 4.5vh, 52px);
   left: 50%;
   transform: translateX(-50%);
   /* Above the fullscreen video panel (z-index 20); the editorial overlay
@@ -874,7 +874,13 @@ body:has([data-page="home-hero"]) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.7rem;
+  padding: 0.85rem 1.4rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(13, 11, 9, 0.34);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: inset 0 0 0 1px rgba(196, 148, 58, 0.28);
   pointer-events: none;
   opacity: 0;
   will-change: opacity;
@@ -882,29 +888,31 @@ body:has([data-page="home-hero"]) {
 
 .home-hero-scroll-cue > span:first-child {
   font-family: var(--font-body, 'DM Sans', sans-serif);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.26em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(247, 243, 236, 0.72);
-  text-shadow: 0 1px 8px rgba(13, 11, 9, 0.6);
+  color: rgba(247, 243, 236, 0.95);
+  text-shadow: 0 1px 10px rgba(13, 11, 9, 0.8);
 }
 
 .home-hero-scroll-cue__arrow {
-  color: #c4943a;
-  filter: drop-shadow(0 1px 6px rgba(13, 11, 9, 0.55));
-  animation: homeHeroScrollCue 1.9s ease-in-out infinite;
+  width: 30px;
+  height: 18px;
+  color: #d8a94a;
+  filter: drop-shadow(0 1px 7px rgba(13, 11, 9, 0.75));
+  animation: homeHeroScrollCue 1.7s ease-in-out infinite;
 }
 
 @keyframes homeHeroScrollCue {
   0%,
   100% {
-    opacity: 0.55;
-    transform: translateY(-2px);
+    opacity: 0.72;
+    transform: translateY(-3px);
   }
   50% {
     opacity: 1;
-    transform: translateY(4px);
+    transform: translateY(5px);
   }
 }
 
