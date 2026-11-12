@@ -85,6 +85,7 @@ export default function HomePage() {
   const centerPanelRef = useRef<HTMLDivElement>(null)
   const heroCopyRef = useRef<HTMLDivElement>(null)
   const heroDisplayRef = useRef<HTMLDivElement>(null)
+  const scrollCueRef = useRef<HTMLDivElement>(null)
   const fullscreenOverlayRef = useRef<HTMLDivElement>(null)
   const homeNavRef = useRef<HTMLElement>(null)
   const heroTopScrimRef = useRef<HTMLDivElement>(null)
@@ -177,6 +178,7 @@ export default function HomePage() {
     const mosaic = mosaicRef.current
     const heroCopy = heroCopyRef.current
     const heroDisplay = heroDisplayRef.current
+    const scrollCue = scrollCueRef.current
     const fullscreenOverlay = fullscreenOverlayRef.current
     const homeNav = homeNavRef.current
     const heroTopScrim = heroTopScrimRef.current
@@ -238,6 +240,12 @@ export default function HomePage() {
     // Hero display text fade out
     if (heroDisplay) {
       heroTl.to(heroDisplay, { opacity: 0, duration: 0.2, ease: 'power2.out' }, 0.15)
+    }
+
+    // Scroll cue: fades out the instant the viewer starts scrolling (its job is
+    // done once the video begins to emerge)
+    if (scrollCue) {
+      heroTl.to(scrollCue, { opacity: 0, duration: 0.08, ease: 'power2.out' }, 0.02)
     }
 
     // Hide fixed nav + top scrim during fullscreen video (avoids double-nav with overlay logo)
@@ -502,6 +510,13 @@ export default function HomePage() {
 
           <div ref={heroDisplayRef} className="home-hero-display">
             <span className="home-hero-display__title">Napa Valley</span>
+          </div>
+
+          {/* Subtle scroll cue — tells first-time visitors the hero responds to
+              scroll (the video emerges as they go). Fades the moment they do. */}
+          <div ref={scrollCueRef} className="home-hero-scroll-cue" aria-hidden>
+            <span>Scroll to explore</span>
+            <span className="home-hero-scroll-cue__chevron" />
           </div>
 
           <div

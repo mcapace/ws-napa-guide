@@ -862,6 +862,56 @@ body:has([data-page="home-hero"]) {
   padding-bottom: 0.02em;
 }
 
+/* Homepage hero scroll cue — subtle gold hint at the very bottom center */
+.home-hero-scroll-cue {
+  position: absolute;
+  bottom: clamp(16px, 2.6vh, 28px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 13;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.home-hero-scroll-cue > span:first-child {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(247, 243, 236, 0.5);
+  text-shadow: 0 1px 6px rgba(13, 11, 9, 0.5);
+}
+
+.home-hero-scroll-cue__chevron {
+  width: 1px;
+  height: 38px;
+  background: linear-gradient(to bottom, transparent, rgba(196, 148, 58, 0.75));
+  animation: homeHeroScrollCue 2.2s ease-in-out infinite;
+}
+
+@keyframes homeHeroScrollCue {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scaleY(0.82) translateY(-3px);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1) translateY(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-scroll-cue__chevron {
+    animation: none;
+  }
+}
+
 /* Homepage + pinned region cards: eyebrow / taglines legible on warm, bright imagery */
 .home-region-pin-label p,
 .home-region-pin-copy > p {
