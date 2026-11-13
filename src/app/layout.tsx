@@ -9,6 +9,8 @@ import { PlanTripFab } from '@/components/ui/PlanTripFab'
 import { StagingBanner } from '@/components/ui/StagingBanner'
 import { getSiteUrl } from '@/lib/site-url'
 import { Analytics } from '@vercel/analytics/next'
+import { ConsentGatedAnalytics } from '@/components/consent/ConsentGatedAnalytics'
+import { COOKIEBOT_CBID, COOKIEBOT_GEOREGIONS } from '@/components/consent/cookiebot'
 
 const siteUrl = getSiteUrl()
 
@@ -60,25 +62,21 @@ export default function RootLayout({
   return (
     <html lang="en" className="grain">
       <body>
+        {/* Cookie consent banner (same Cookiebot setup as winespectator.com).
+            Next.js docs: consent managers use beforeInteractive in the root layout. */}
+        <Script
+          id="Cookiebot"
+          src="https://consent.cookiebot.com/uc.js"
+          strategy="beforeInteractive"
+          data-cbid={COOKIEBOT_CBID}
+          data-blockingmode="manual"
+          data-georegions={COOKIEBOT_GEOREGIONS}
+        />
         <AnimationProvider>
           <StagingBanner />
           <Nav />
-          {shouldLoadGA ? (
-            <>
-              <Script
-                src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
-                strategy="afterInteractive"
-              />
-              <Script id="ga-init" strategy="afterInteractive">
-                {`
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', '${gaMeasurementId}');
-      `}
-              </Script>
-            </>
-          ) : null}
+          {/* Google Analytics loads only after statistics consent. */}
+          {shouldLoadGA ? <ConsentGatedAnalytics measurementId={gaMeasurementId} /> : null}
           {children}
           <PlanTripFab />
           <BottomTabBar />
