@@ -2,6 +2,7 @@
 
 import { Podcast, type LucideIcon } from 'lucide-react'
 import styles from './Footer.module.css'
+import { PrivacyChoicesLink } from '@/components/consent/PrivacyChoicesLink'
 import {
   FooterFacebookIcon,
   FooterInstagramIcon,
@@ -15,7 +16,8 @@ const external = {
   rel: 'noopener noreferrer' as const,
 }
 
-type FooterLink = { label: string; href: string }
+/** `privacyChoices` links reopen the Cookiebot banner; `href` is the fallback page. */
+type FooterLink = { label: string; href: string; privacyChoices?: boolean }
 
 type Column =
   | { title: string; links: FooterLink[] }
@@ -78,6 +80,11 @@ const columns: Column[] = [
           { label: 'Job Opportunities', href: 'https://www.winespectator.com/pages/job-opportunities' },
           { label: 'Terms of Service', href: 'https://www.winespectator.com/pages/terms-of-service' },
           { label: 'Privacy Policy', href: 'https://www.winespectator.com/pages/privacy-policy' },
+          {
+            label: 'Your Privacy Choices',
+            href: 'https://www.winespectator.com/pages/privacy-policy',
+            privacyChoices: true,
+          },
         ],
       },
       {
@@ -152,9 +159,15 @@ function LinkList({ links }: { links: FooterLink[] }) {
     <ul className={styles.linkList}>
       {links.map((l) => (
         <li key={l.href + l.label}>
-          <a href={l.href} className={styles.link} {...external}>
-            {l.label}
-          </a>
+          {l.privacyChoices ? (
+            <PrivacyChoicesLink className={styles.link} fallbackHref={l.href}>
+              {l.label}
+            </PrivacyChoicesLink>
+          ) : (
+            <a href={l.href} className={styles.link} {...external}>
+              {l.label}
+            </a>
+          )}
         </li>
       ))}
     </ul>
