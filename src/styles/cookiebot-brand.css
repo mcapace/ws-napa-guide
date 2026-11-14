@@ -9,7 +9,8 @@
    weight for both choices. Keep it that way.
 
    A site can set --ws-cb-serif and --ws-cb-sans on :root to use its own
-   loaded fonts; the defaults fall back to Georgia and Helvetica. */
+   loaded fonts. The defaults pick up the Napa guide's fonts (Cormorant
+   Garamond, DM Sans) or winespectator.com's (Lora, Open Sans). */
 
 #CybotCookiebotDialog {
   --ws-cb-red: #81191c;        /* the Wine Spectator logo red */
@@ -20,8 +21,8 @@
   --ws-cb-muted: #8a7f76;
   --ws-cb-line: rgba(26, 20, 16, 0.12);
   --ws-cb-line-strong: rgba(26, 20, 16, 0.35);
-  --ws-cb-serif-stack: var(--ws-cb-serif, "Cormorant Garamond"), Georgia, "Times New Roman", serif;
-  --ws-cb-sans-stack: var(--ws-cb-sans, "DM Sans"), "Helvetica Neue", Arial, sans-serif;
+  --ws-cb-serif-stack: var(--ws-cb-serif, "Cormorant Garamond"), Lora, Georgia, "Times New Roman", serif;
+  --ws-cb-sans-stack: var(--ws-cb-sans, "DM Sans"), "Open Sans", "Helvetica Neue", Arial, sans-serif;
   --cybot-fader-color: #faf7f2 !important;
 
   background: var(--ws-cb-paper) !important;
@@ -83,7 +84,7 @@
   font-family: var(--ws-cb-serif-stack) !important;
   font-style: italic !important;
   font-weight: 500 !important;
-  font-size: 1.85rem !important;
+  font-size: 29.6px !important;
   line-height: 1.1 !important;
   letter-spacing: 0 !important;
   color: var(--ws-cb-ink) !important;
@@ -91,7 +92,7 @@
 }
 #CybotCookiebotDialog #CybotCookiebotDialogBodyContentText {
   color: var(--ws-cb-body) !important;
-  font-size: 0.95rem !important;
+  font-size: 15.2px !important;
   line-height: 1.6 !important;
   letter-spacing: 0 !important;
 }
@@ -106,7 +107,7 @@
   text-underline-offset: 3px !important;
 }
 #CybotCookiebotDialog #CybotCookiebotDialogBodyEdgeMoreDetailsLink {
-  font-size: 0.8rem !important;
+  font-size: 12.8px !important;
   letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
 }
@@ -144,7 +145,7 @@
   border-radius: 2px !important;
   background: var(--ws-cb-red) !important;
   color: var(--ws-cb-paper) !important;
-  font-size: 0.78rem !important;
+  font-size: 12.48px !important;
   font-weight: 500 !important;
   letter-spacing: 0.16em !important;
   line-height: 1.35 !important;
@@ -186,6 +187,13 @@
   border-color: var(--ws-cb-ink) !important;
 }
 
+/* Close (X) button, where the domain group shows one */
+#CybotCookiebotDialog .CybotCookiebotBannerCloseButton,
+#CybotCookiebotDialog #CybotCookiebotBannerCloseButtonE2E {
+  fill: var(--ws-cb-ink) !important;
+  opacity: 0.55 !important;
+}
+
 /* Switches */
 #CybotCookiebotDialog .CybotCookiebotDialogBodyLevelButtonSlider {
   background-color: #c9bfb6 !important;
@@ -205,7 +213,7 @@
 /* Details view */
 #CybotCookiebotDialog #CybotCookiebotDialogNav .CybotCookiebotDialogNavItemLink {
   color: var(--ws-cb-muted) !important;
-  font-size: 0.78rem !important;
+  font-size: 12.48px !important;
   font-weight: 500 !important;
   letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
@@ -280,7 +288,7 @@
     height: 32px !important;
   }
   #CybotCookiebotDialog #CybotCookiebotDialogBodyContentTitle {
-    font-size: 1.6rem !important;
+    font-size: 25.6px !important;
   }
   #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogBodyEdgeMoreDetails {
     margin: 0.5em 0 0 1.5em !important;
