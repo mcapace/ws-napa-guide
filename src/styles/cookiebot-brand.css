@@ -67,9 +67,10 @@
 /* Logo (the one uploaded in Cookiebot) and Cookiebot's own mark */
 #CybotCookiebotDialog #CybotCookiebotDialogPoweredbyImage {
   width: auto !important;
-  height: 40px !important;
+  height: auto !important;
   max-width: 100% !important;
-  max-height: none !important;
+  max-height: 40px !important;
+  object-fit: contain !important; /* never stretch or squeeze the logo */
 }
 #CybotCookiebotDialog #CybotCookiebotDialogPoweredbyCybot {
   opacity: 0.35 !important;
@@ -253,7 +254,11 @@
     border: 0 !important;
   }
   #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogPoweredbyImage {
-    height: 44px !important;
+    max-height: 44px !important;
+  }
+  #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogPoweredbyLink {
+    width: 100% !important;
+    max-width: none !important;
   }
   #CybotCookiebotDialog.CybotEdge #CybotCookiebotDialogPoweredbyCybot {
     margin-top: 1em !important;
@@ -285,7 +290,7 @@
     padding: 14px 20px !important;
   }
   #CybotCookiebotDialog #CybotCookiebotDialogPoweredbyImage {
-    height: 32px !important;
+    max-height: 32px !important;
   }
   #CybotCookiebotDialog #CybotCookiebotDialogBodyContentTitle {
     font-size: 25.6px !important;
