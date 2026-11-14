@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
 import '@/styles/globals.css'
+import '@/styles/cookiebot-brand.css'
 import { WS_LOGO_OG_STROKE_ONLY_SRC } from '@/lib/ws-logo'
 import AnimationProvider from '@/components/ui/AnimationProvider'
 import Nav from '@/components/ui/Nav'
